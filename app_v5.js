@@ -104,7 +104,8 @@ const tg = window.Telegram.WebApp;
         // --- INSTANT CACHE & BACKGROUND SYNC LOGIC ---
         function renderLeaderboardData(data) {
             document.getElementById('weekNumber').innerText = data.current_week;
-            document.getElementById('activeCount').innerText = data.leaderboard.length;
+            // ✨ FIX: Use the true total active count from Python!
+            document.getElementById('activeCount').innerText = data.total_active || data.leaderboard.length;
 
             window.totalQuizzesAvailable = data.total_quizzes || 0;
             window.topperHistory = data.topper_history;
