@@ -107,7 +107,6 @@ const tg = window.Telegram.WebApp;
             document.getElementById('activeCount').innerText = data.leaderboard.length;
 
             window.totalQuizzesAvailable = data.total_quizzes || 0;
-
             window.topperHistory = data.topper_history;
             window.classAvgHistory = data.class_avg_history;
             window.currentUserData = data.current_user;
@@ -116,23 +115,17 @@ const tg = window.Telegram.WebApp;
             listDiv.innerHTML = '';
             globalData = data.leaderboard;
 
-            let sumWeightedPoints = 0;
-            let sumWeights = 0;
-
-            globalData.forEach(u => {
-                if (u.attempts === 0) return;
-                let correct = u.history.correct;
-                let accuracy = u.attempts > 0 ? (correct / u.attempts) : 0;
-                let volumeWeight = u.attempts / (u.attempts + 10);
-                let finalWeight = volumeWeight * accuracy;
-                if (u.score < 0) { finalWeight = 0; }
-                sumWeightedPoints += (u.score * finalWeight);
-                sumWeights += finalWeight;
-            });
-
-            let targetAverage = sumWeights > 0 ? Math.round(sumWeightedPoints / sumWeights) : 0;
+            // ✨ FIXED: Use the exact average calculated by the Python Backend!
+            let targetAverage = data.target_average || 0;
             let insertedPromoDivider = false;
             let insertedDemoDivider = false;
+            
+            let htmlBuffer = "";
+
+            data.leaderboard.forEach((user, index) => {
+                let isDemotion = user.score < targetAverage;
+
+                let cascadeDelay = index * 0.04;
             
             // ⚡ THE GPU TURBOCHARGER: Build HTML in background memory
             let htmlBuffer = "";
