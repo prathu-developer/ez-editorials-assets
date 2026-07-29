@@ -115,21 +115,12 @@ const tg = window.Telegram.WebApp;
             listDiv.innerHTML = '';
             globalData = data.leaderboard;
 
-            // ✨ FIXED: Use the exact average calculated by the Python Backend!
             let targetAverage = data.target_average || 0;
             let insertedPromoDivider = false;
             let insertedDemoDivider = false;
             
             let htmlBuffer = "";
-
-            data.leaderboard.forEach((user, index) => {
-                let isDemotion = user.score < targetAverage;
-
-                let cascadeDelay = index * 0.04;
-            
-            // ⚡ THE GPU TURBOCHARGER: Build HTML in background memory
-            let htmlBuffer = "";
-            let demotionRenderCount = 0; // ✨ Track demotion rows
+            let demotionRenderCount = 0;
 
             data.leaderboard.forEach((user, index) => {
                 let isDemotion = user.score < targetAverage;
@@ -137,9 +128,8 @@ const tg = window.Telegram.WebApp;
                     demotionRenderCount++;
                 }
 
-                // ✨ HIDE DEMOTION OVERFLOW (Only Admins see past top 10)
                 if (!window.currentUserData.is_admin && isDemotion && demotionRenderCount > 10) {
-                    return; // Skip rendering this row entirely
+                    return; 
                 }
 
                 let cascadeDelay = index * 0.04;
@@ -187,7 +177,6 @@ const tg = window.Telegram.WebApp;
                 let cursorStyle = `cursor: pointer;`;
                 let rowBgClass = getLeagueBgClass(user.league, 'row');
 
-                // Append to the background buffer, NOT the live screen!
                 htmlBuffer += `
                     <div class="rank-row ${rowBgClass}" ${clickAction} style="${cursorStyle} animation-delay: ${cascadeDelay}s;">
                         <div class="rank-left">
@@ -205,7 +194,6 @@ const tg = window.Telegram.WebApp;
                 `;
             });
 
-            // ⚡ Inject the massive string instantly
             listDiv.innerHTML = htmlBuffer;
 
             const footerDiv = document.getElementById('footer');
