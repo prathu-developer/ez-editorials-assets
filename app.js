@@ -704,24 +704,7 @@ const tg = window.Telegram.WebApp;
                 }]
             });
         }
-    </script>
-    <div class="modal-overlay" id="eloModalOverlay" onclick="closeEloModal(event)" style="z-index: 300;">
-        <div class="modal-content" id="eloModalContent" onclick="event.stopPropagation()" style="height: 80vh; background: #f8fafc; padding: 0; display: flex; flex-direction: column;">
-            <div style="padding: 20px; text-align: center; border-bottom: 1px solid #e2e8f0; background: white; border-radius: 32px 32px 0 0;">
-                <div class="close-indicator" onclick="closeEloModal(null, true)"></div>
-                <h2 style="margin: 0; color: #0f172a; font-size: 1.3em;">🌍 Global Intelligence</h2>
-                <p style="margin: 4px 0 0 0; font-size: 0.8em; color: #64748b;">Top 50 Lifetime Elo Ratings (Active Only)</p>
-            </div>
 
-            <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;">
-                </div>
-
-            <div class="user-footer" id="eloFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">
-                Loading your Elo status...
-            </div>
-        </div>
-    </div>
-    <script>
         // Attach the new global data to window for easy access
         let globalEloData = [];
 
