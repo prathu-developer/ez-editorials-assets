@@ -129,7 +129,9 @@ const tg = window.Telegram.WebApp;
                     demotionRenderCount++;
                 }
 
-                if (!window.currentUserData.is_admin && isDemotion && demotionRenderCount > 10) {
+                // ✨ STRICT 10 DEMOTION RULE: Applies to both Members AND Admins!
+                // We exclude the current user so they always see themselves if they are ranked #150
+                if (isDemotion && demotionRenderCount > 10 && user.id !== window.currentUserData.id) {
                     return; 
                 }
 
