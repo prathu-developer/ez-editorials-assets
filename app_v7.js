@@ -236,7 +236,7 @@ if (cachedString) {
     } catch (e) { console.error("Cache read error", e); }
 }
 
-fetch(`/api/leaderboard?user_id=${userId}`)
+fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`)
     .then(response => response.json())
     .then(data => {
         if (data.locked || data.error) {
