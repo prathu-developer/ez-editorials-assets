@@ -554,13 +554,19 @@
             
             if(viewId === 'view-cup') { 
                 navId = 'nav-cup'; 
-                // CALL EXISTING APP_V8.JS FUNCTION (DO NOT REINVENT)
-                fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`)
-                    .then(res => res.json())
-                    .then(data => renderLeaderboardData(data));
+                loadRealCupData();
             }
-            if(viewId === 'view-progress') navId = 'nav-progress';
-            if(viewId === 'view-profile') navId = 'nav-profile';
+            if(viewId === 'view-progress') {
+                navId = 'nav-progress';
+                loadProgressHistory(); // Fetch real history on tab open
+            }
+            if(viewId === 'view-profile') {
+                navId = 'nav-profile';
+                // Attach click handler to "Performance" menu item to open the real modal
+                const perfMenu = document.getElementById('menu-performance');
+                if(perfMenu) perfMenu.onclick = () => openProfile(userId);
+            }
+            
             document.getElementById(navId).classList.add('active');
         }
 
