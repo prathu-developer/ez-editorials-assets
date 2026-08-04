@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quiz Results</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; color: #1a1a1a; }
+        
+        .header { text-align: center; margin-bottom: 24px; }
+        .header h2 { margin: 0 0 4px 0; font-size: 24px; color: #1a1a1a; }
+        .header p { margin: 0; color: #666; font-size: 14px; }
+        
+        /* Scorecard Grid */
+        .scorecard { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+        .stat-box { background: #fff; padding: 16px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; }
+        .stat-value { font-size: 22px; font-weight: 700; color: #5c3bfe; margin-bottom: 4px; }
+        .stat-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .stat-box.highlight { background: #5c3bfe; color: #fff; border: none; }
+        .stat-box.highlight .stat-value { color: #fff; }
+        .stat-box.highlight .stat-label { color: #e0e0e0; }
+
+        /* Solutions Section */
+        h3 { font-size: 18px; margin-bottom: 16px; }
+        .solution-card { background: #fff; padding: 16px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; }
+        .question-text { font-size: 15px; font-weight: 600; margin-bottom: 16px; line-height: 1.5; white-space: pre-wrap; }
+        
+        .option { padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; font-size: 14px; background: #f8f9fa; border: 1px solid #eee; }
+        .option.correct { background: #d4edda; border-color: #c3e6cb; color: #155724; font-weight: 600; }
+        .option.wrong { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        
+        .explanation { margin-top: 16px; padding: 12px; background: #fff3cd; border-radius: 8px; font-size: 13px; line-height: 1.5; color: #856404; }
+        
+        .btn-home { display: block; width: 100%; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; text-align: center; background: #1a1a1a; color: #fff; text-decoration: none; margin-top: 24px; box-sizing: border-box; }
+        
+        #loading { text-align: center; margin-top: 50px; color: #666; }
+    </style>
+</head>
+<body>
+
+    <div id="loading">Calculating Results...</div>
+
+    <div id="result-content" style="display: none;">
+        <div class="header">
+            <h2>Quiz Complete!</h2>
+            <p>Here is how you performed.</p>
+        </div>
+
+        <div class="scorecard" id="scorecard">
+            <!-- Stats injected here -->
+        </div>
+
+        <h3>Detailed Solutions</h3>
+        <div id="solutions-container">
+            <!-- Solutions injected here -->
+        </div>
+
+        <a href="quiz-home.html" class="btn-home">Return to Home</a>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const attemptId = urlParams.get('attempt_id');
+
+        async function loadResults() {
+            if (!attemptId) {
+                document.getElementById('loading').innerText = "Error: No attempt ID found.";
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://ez-quiz-bot.onrender.com/api/quiz/result/${attemptId}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    document.getElementById('loading').innerText = data.error;
+                    return;
+                }
+
+                // 1. Build the Scorecard
+                const s = data.summary;
+                document.getElementById('scorecard').innerHTML = `
+                    <div class="stat-box highlight">
+                        <div class="stat-value">${s.score}</div>
+                        <div class="stat-label">Total Score</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">${s.rank} / ${s.total_participants}</div>
+                        <div class="stat-label">Your Rank</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">${s.percentile}%</div>
+                        <div class="stat-label">Percentile</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">${s.accuracy}%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                `;
+
+                // 2. Build the Solutions List
+                const container = document.getElementById('solutions-container');
+                data.solutions.forEach((q, index) => {
+                    let optionsHtml = '';
+                    
+                    q.options.forEach((opt, optIndex) => {
+                        let className = 'option';
+                        let label = '';
+                        
+                        if (optIndex === q.correct_index) {
+                            className += ' correct';
+                            label = ' ✓ Correct';
+                        } else if (optIndex === q.user_selected_index) {
+                            className += ' wrong';
+                            label = ' ✗ Your Answer';
+                        }
+
+                        optionsHtml += `<div class="${className}">${opt}${label}</div>`;
+                    });
+
+                    // Only show explanation if it exists
+                    const expHtml = q.explanation ? `<div class="explanation"><strong>Explanation:</strong> ${q.explanation}</div>` : '';
+
+                    container.innerHTML += `
+                        <div class="solution-card">
+                            <div class="question-text">Q${index + 1}. ${q.text}</div>
+                            ${optionsHtml}
+                            ${expHtml}
+                        </div>
+                    `;
+                });
+
+                // Show Content
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('result-content').style.display = 'block';
+
+            } catch (err) {
+                document.getElementById('loading').innerText = "Failed to load results. Please check your connection.";
+            }
+        }
+
+        loadResults();
+    </script>
+</body>
+</html>
