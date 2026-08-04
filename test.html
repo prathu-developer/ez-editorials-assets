@@ -300,10 +300,7 @@
                 const currentQuizMeta = homeData.quizzes.find(q => q.id == quizId);
                 
                 if(currentQuizMeta) {
-                    timeRemaining = currentQuizMeta.duration_seconds;
                     topicName = currentQuizMeta.topic;
-                } else {
-                    timeRemaining = 600; // Fallback 10 mins
                 }
 
                 document.getElementById('display-title').innerText = topicName;
@@ -325,6 +322,9 @@
 
                 attemptId = data.attempt_id;
                 questions = data.questions;
+                
+                // ✅ FIX BUG #2: Strictly enforce the server's exact duration limit
+                timeRemaining = data.duration_seconds;
                 document.getElementById('pal-total').innerText = questions.length;
                 
                 buildPalette();
