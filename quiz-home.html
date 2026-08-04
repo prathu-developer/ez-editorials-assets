@@ -331,29 +331,39 @@
     <!-- ==========================================
          MASTER SPEC JAVASCRIPT
          ========================================== -->
+    <!-- Load app_v8.js here so it executes first! -->
+    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js"></script>
+
     <script>
-        // 1. Prevent app_v8.js from hijacking the list, but let it parse logic
+        // 1. Intercept the leaderboard render safely
         const originalRender = renderLeaderboardData;
         renderLeaderboardData = function(data) {
-            originalRender(data); // Silently sets up currentUserData
-            drawHybridCup(data);  // Draws our combined beautiful UI
+            originalRender(data); 
+            drawHybridCup(data);  
         };
 
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        const tgUserId = tg.initDataUnsafe?.user?.id || 123456789;
-        const firstName = tg.initDataUnsafe?.user?.first_name || 'Student';
+        // 2. Safely get user data without crashing existing variables
+        const appTg = window.Telegram.WebApp;
+        const appUserId = appTg.initDataUnsafe?.user?.id || 123456789;
+        const firstName = appTg.initDataUnsafe?.user?.first_name || 'Student';
         
-        document.getElementById('user-name').innerText = firstName;
-        
-        // 2. 🟢 BULLETPROOF IST TIME FUNCTION 🟢
+        // Update all UI elements with the user's name
+        const userNameEl = document.getElementById('user-name');
+        if (userNameEl) userNameEl.innerText = firstName;
+        const profileNameEl = document.getElementById('profile-name');
+        if (profileNameEl) profileNameEl.innerText = firstName;
+        const avatarEl = document.getElementById('avatar-initial');
+        if (avatarEl) avatarEl.innerText = firstName.charAt(0).toUpperCase();
+
+        // 3. 🟢 BULLETPROOF IST TIME FUNCTION 🟢
         function getIST() {
             return new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
         }
 
         const istNow = getIST();
         const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
-        document.getElementById('current-date').innerText = istNow.toLocaleDateString('en-GB', options);
+        const dateEl = document.getElementById('current-date');
+        if (dateEl) dateEl.innerText = istNow.toLocaleDateString('en-GB', options);
 
         function updateDayTracker() {
             const ist = getIST();
@@ -380,7 +390,7 @@
         }
         updateDayTracker();
 
-        // 3. DRAW HYBRID CUP (Combines CSS Rows with Mini App Cards)
+        // 4. DRAW HYBRID CUP
         function drawHybridCup(data) {
             const lbList = document.getElementById('hybrid-leaderboard');
             if(!lbList || !data.leaderboard) return;
@@ -413,7 +423,7 @@
             data.leaderboard.forEach(user => {
                 let isDemotion = user.score < targetAverage;
                 if (isDemotion) demoCount++;
-                if (isDemotion && demoCount > 10 && user.id != tgUserId) return;
+                if (isDemotion && demoCount > 10 && user.id != appUserId) return;
 
                 // INJECT DIVIDERS
                 if (!insertedPromo && !isDemotion) {
@@ -438,7 +448,7 @@
                 }
 
                 // BUILD ROW
-                const isMe = user.id == tgUserId;
+                const isMe = user.id == appUserId;
                 let l = LEAGUES[user.league] || LEAGUES[0];
                 if (user.league >= 16) l = { name: 'Genesis', class: 'bg-genesis', icon: '✨', row: 'row-bg-genesis' };
 
@@ -473,28 +483,29 @@
                 `;
             });
 
-            // Populate all stat cards
             if (data.current_user) {
                 const cu = data.current_user;
-                document.getElementById('home-rank').innerText = `#${cu.rank || 'N/A'}`;
-                document.getElementById('home-score').innerText = cu.score || 0;
-                document.getElementById('cup-tab-rank').innerText = `#${cu.rank || 'N/A'}`;
-                document.getElementById('cup-tab-score').innerText = cu.score || 0;
-                const pRank = document.getElementById('prog-rank'); if (pRank) pRank.innerText = `#${cu.rank || 'N/A'}`;
-                const pScore = document.getElementById('prog-score'); if (pScore) pScore.innerText = cu.score || 0;
-                const pAcc = document.getElementById('prog-acc'); if (pAcc) pAcc.innerText = (cu.history?.accuracy || 0) + '%';
+                const hRank = document.getElementById('home-rank'); if(hRank) hRank.innerText = `#${cu.rank || 'N/A'}`;
+                const hScore = document.getElementById('home-score'); if(hScore) hScore.innerText = cu.score || 0;
+                const cRank = document.getElementById('cup-tab-rank'); if(cRank) cRank.innerText = `#${cu.rank || 'N/A'}`;
+                const cScore = document.getElementById('cup-tab-score'); if(cScore) cScore.innerText = cu.score || 0;
+                const pRank = document.getElementById('prog-rank'); if(pRank) pRank.innerText = `#${cu.rank || 'N/A'}`;
+                const pScore = document.getElementById('prog-score'); if(pScore) pScore.innerText = cu.score || 0;
+                const pAcc = document.getElementById('prog-acc'); if(pAcc) pAcc.innerText = (cu.history?.accuracy || 0) + '%';
             }
         }
 
-        // 4. FETCH GROUPED QUIZZES
+        // 5. FETCH GROUPED QUIZZES
         async function loadQuizzes() {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${tgUserId}`);
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`);
                 const data = await response.json();
                 const container = document.getElementById('api-quiz-container');
+                if(!container) return;
                 container.innerHTML = ''; 
 
-                let completedCount = 0; let totalCount = 0;
+                let completedCount = 0;
+                let totalCount = 0;
 
                 const renderCard = (quiz) => {
                     totalCount++;
@@ -512,7 +523,7 @@
 
                     container.innerHTML += `
                         <${wrapperTag} ${wrapperHref} class="quiz-item">
-                            <div><h3>${quiz.topic}</h3><p>${quiz.question_count} Questions • ${quiz.duration_seconds / 60} mins</p></div>
+                            <div><h3 style="color:var(--text-main);">${quiz.topic}</h3><p>${quiz.question_count} Questions • ${quiz.duration_seconds / 60} mins</p></div>
                             ${statusHtml}
                         </${wrapperTag}>
                     `;
@@ -528,22 +539,25 @@
                     data.quizzes.Yesterday.forEach(renderCard);
                 }
 
-                document.getElementById('progress-text').innerText = `${completedCount} / ${totalCount} Completed`;
-                const fillPercentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
-                document.getElementById('progress-fill').style.width = `${fillPercentage}%`;
+                const pText = document.getElementById('progress-text');
+                if(pText) pText.innerText = `${completedCount} / ${totalCount} Completed`;
+                const pFill = document.getElementById('progress-fill');
+                if(pFill) pFill.style.width = totalCount > 0 ? `${(completedCount / totalCount) * 100}%` : '0%';
 
             } catch (error) {
-                document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
+                const container = document.getElementById('api-quiz-container');
+                if(container) container.innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
         }
 
-        // 5. FETCH PROGRESS TAB REAL HISTORY
+        // 6. FETCH PROGRESS TAB REAL HISTORY
         async function loadProgressHistory() {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${tgUserId}`);
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${appUserId}`);
                 const data = await response.json();
                 const container = document.getElementById('progress-history-container');
-                
+                if(!container) return;
+
                 if (data.history && data.history.length > 0) {
                     container.innerHTML = data.history.map(item => `
                         <div class="quiz-item" style="margin-bottom: 12px; background: white;">
@@ -560,13 +574,14 @@
             } catch(e) { console.error("History load failed"); }
         }
 
-        // 6. FETCH HOME CONTENT (WOTD & EXAMS)
+        // 7. FETCH HOME CONTENT (WOTD & EXAMS)
         async function loadHomeContent() {
             try {
                 fetch('https://ez-editorials-bot.onrender.com/api/word-of-day')
                     .then(r => r.json())
                     .then(data => {
-                        if(data.word_of_the_day) document.getElementById('home-wotd').innerText = data.word_of_the_day;
+                        const wotdEl = document.getElementById('home-wotd');
+                        if(data.word_of_the_day && wotdEl) wotdEl.innerText = data.word_of_the_day;
                     });
                 
                 fetch('https://ez-editorials-bot.onrender.com/api/upcoming-exams')
@@ -580,7 +595,7 @@
             } catch(e) { console.error("Content load failed"); }
         }
 
-        // 7. UNIFIED NAVIGATION & MODAL HANDLING
+        // 8. UNIFIED NAVIGATION & MODAL HANDLING
         function switchView(viewId) {
             if (viewId === 'view-profile') {
                 if (typeof openProfile === 'function' && window.currentUserData) {
@@ -592,17 +607,19 @@
             }
 
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
+            const targetView = document.getElementById(viewId);
+            if(targetView) targetView.classList.add('active');
             window.scrollTo(0, 0);
 
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('nav-' + viewId.replace('view-', '')).classList.add('active');
+            const navItem = document.getElementById('nav-' + viewId.replace('view-', ''));
+            if(navItem) navItem.classList.add('active');
             
             const scrollBtn = document.getElementById('scrollBtn');
             if (scrollBtn) scrollBtn.style.display = (viewId === 'view-cup') ? 'flex' : 'none';
         }
 
-        // 8. IST MIDNIGHT COUNTDOWN
+        // 9. IST MIDNIGHT COUNTDOWN
         setInterval(() => {
             const ist = getIST();
             const endOfDay = new Date(ist);
@@ -613,7 +630,8 @@
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
             const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
             
-            document.getElementById('home-timer').innerText = `${h} : ${m} : ${s}`;
+            const homeTimer = document.getElementById('home-timer');
+            if(homeTimer) homeTimer.innerText = `${h} : ${m} : ${s}`;
             const detailTimer = document.getElementById('detail-timer');
             if(detailTimer) detailTimer.innerText = `${h} : ${m} : ${s}`;
         }, 1000);
