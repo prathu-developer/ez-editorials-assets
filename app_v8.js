@@ -130,6 +130,9 @@ function renderLeaderboardData(data) {
             return; 
         }
 
+        // --- MASTER SPEC: CHECK IF THIS ROW BELONGS TO THE VIEWER ---
+        let isMe = (user.id === window.currentUserData.id);
+
         let cascadeDelay = index * 0.04;
 
         let rankDisplay = `#${user.rank}`;
@@ -174,13 +177,17 @@ function renderLeaderboardData(data) {
         let clickAction = `onclick="openProfile(${user.id})"`;
         let cursorStyle = `cursor: pointer;`;
         let rowBgClass = getLeagueBgClass(user.league, 'row');
+        
+        // --- MASTER SPEC: VISUALLY HIGHLIGHT "YOU" IN THE MAIN LIST ---
+        let displayName = isMe ? `<span style="font-weight: 900; color: #3b82f6;">You</span>` : user.name;
+        let meHighlightStyle = isMe ? `border: 1px solid #bfdbfe; box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);` : ``;
 
         htmlBuffer += `
-            <div class="rank-row ${rowBgClass}" ${clickAction} style="${cursorStyle} animation-delay: ${cascadeDelay}s;">
+            <div class="rank-row ${rowBgClass}" ${clickAction} style="${cursorStyle} ${meHighlightStyle} animation-delay: ${cascadeDelay}s;">
                 <div class="rank-left">
                     <div class="rank-number">${rankDisplay}</div>
                     <div class="user-details">
-                        <div class="user-name">${user.name} ${captainTag}</div>
+                        <div class="user-name">${displayName} ${captainTag}</div>
                         <div class="user-sub-details">
                             <div class="user-house">${singleHouseEmoji}</div>
                             ${userLeagueBadge}
