@@ -502,7 +502,7 @@
                 if (response.status !== 200) {
                     document.getElementById('loading-screen').style.display = 'none';
                     alert(`Submission Rejected: ${data.error}`);
-                    return; // DO NOT REDIRECT
+                    return; // Stop the redirect
                 }
                 
                 window.location.href = `result.html?attempt_id=${attemptId}`;
