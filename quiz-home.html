@@ -333,6 +333,20 @@
     <!-- Load app_v8.js here so it executes first! -->
     <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js"></script>
 
+    <!-- ==========================================
+         HIDDEN APP_V8 COMPATIBILITY ANCHORS
+         (Prevents background crashes!)
+         ========================================== -->
+    <div style="display: none;">
+        <span id="weekNumber"></span>
+        <span id="activeCount"></span>
+        <div id="list"></div>
+        <div id="footer"></div>
+    </div>
+
+    <!-- ==========================================
+         MASTER SPEC JAVASCRIPT
+         ========================================== -->
     <script>
         // 1. Intercept the leaderboard render safely
         const originalRender = renderLeaderboardData;
