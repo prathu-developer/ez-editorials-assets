@@ -283,7 +283,7 @@
     </div>
 
     <!-- ==========================================
-         VIEW 5: PROFILE (Mockup Replica)
+         VIEW 5: PROFILE (Master Spec: History & Elo)
          ========================================== -->
     <div id="view-profile" class="view-container">
         <div class="top-header">
@@ -292,23 +292,30 @@
             <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         </div>
 
-        <div class="profile-card">
+        <div class="profile-card" style="padding-bottom:0;">
             <div class="avatar" id="avatar-initial">P</div>
             <h2 id="profile-name">Prathamesh</h2>
         </div>
         
-        <div class="cup-stats" style="justify-content:center; gap:60px;">
+        <div class="cup-stats" style="justify-content:center; gap:60px; margin-bottom: 24px;">
             <div class="stat-col" style="text-align:center;"><p>Rank</p><h3 class="text-brand">#24</h3></div>
             <div class="stat-col" style="text-align:center;"><p>Score</p><h3>184</h3></div>
         </div>
 
-        <div class="profile-menu">
-            <div class="menu-item"><span>📊 Performance</span><span>〉</span></div>
-            <div class="menu-item"><span>📝 Quiz History</span><span>〉</span></div>
-            <div class="menu-item"><span>🔖 Bookmarks</span><span>〉</span></div>
-            <div class="menu-item"><span>⚙️ Settings</span><span>〉</span></div>
-            <div class="menu-item"><span>❓ Help & Support</span><span>〉</span></div>
+        <h3 style="margin: 0 20px 10px 20px; font-size: 15px;">Live Global Elo</h3>
+        <div id="eloListContainer" style="padding: 0 20px; max-height: 280px; overflow-y: auto;">
+            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading Elo Rankings...</p>
         </div>
+        <!-- Note: We are using the exact IDs from app_v8.js to automatically inherit functionality! -->
+        <div id="eloFooter" style="margin: 10px 20px; padding: 15px; border-radius: 12px; background: var(--text-main); color: white;"></div>
+        
+        <h3 style="margin: 24px 20px 10px 20px; font-size: 15px;">Weekly Cup Archive</h3>
+        <div id="weekly-history-container" style="padding: 0 20px;">
+            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading past results...</p>
+        </div>
+
+        <!-- Dummy overlay to safely absorb the app_v8.js modal trigger without popping up a black screen -->
+        <div id="eloModalOverlay" style="display: none;"></div>
     </div>
 
 
