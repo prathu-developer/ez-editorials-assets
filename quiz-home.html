@@ -266,30 +266,22 @@
     </div>
 
     <!-- ==========================================
-         VIEW 4: PROGRESS (Day 2 Mockup Replica)
+         VIEW 4: PROGRESS (Master Spec: Real Data)
          ========================================== -->
     <div id="view-progress" class="view-container">
         <div class="top-header">
             <span class="back-btn" onclick="switchView('view-home')">〈</span>
-            <span class="font-bold">Day 2</span>
+            <span class="font-bold">Your Progress</span>
             <span></span>
         </div>
         
-        <div style="padding: 0 20px;">
-            <p class="text-success font-semibold text-sm" style="margin-bottom: 16px;">Completed ✓</p>
-            <div class="quiz-item" style="margin-bottom: 12px;"><h3>English</h3><span class="font-bold">95% 〉</span></div>
-            <div class="quiz-item" style="margin-bottom: 12px;"><h3>Reasoning</h3><span class="font-bold">80% 〉</span></div>
-            <div class="quiz-item" style="margin-bottom: 12px;"><h3>Quant</h3><span class="font-bold">100% 〉</span></div>
-            <div class="quiz-item" style="margin-bottom: 12px;"><h3>Current Affairs</h3><span class="font-bold">90% 〉</span></div>
-            <div class="quiz-item" style="margin-bottom: 12px;"><h3>Banking Awareness</h3><span class="font-bold">85% 〉</span></div>
+        <div class="card-main" id="progress-stats-container">
+            <!-- Dynamic Accuracy Stats injected here -->
         </div>
 
-        <div class="card-main" style="margin-top: 24px;">
-            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
-                <div class="stat-col"><p>Score</p><h3>18 / 20</h3></div>
-                <div class="stat-col"><p>Rank</p><h3>#31</h3></div>
-            </div>
-            <div class="stat-col" style="margin-top: 24px;"><p>Accuracy</p><h3>91%</h3></div>
+        <h3 style="margin: 0 20px 12px 20px; font-size: 15px;">Recent Attempts</h3>
+        <div id="progress-history-container" style="padding: 0 20px;">
+            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading history...</p>
         </div>
     </div>
 
@@ -478,6 +470,57 @@
                 document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
         }
+
+        // --- MASTER SPEC: LOAD HOME TAB READ-ONLY CONTENT ---
+        async function loadHomeContent() {
+            try {
+                // Word of the Day
+                fetch('https://ez-editorials-bot.onrender.com/api/word-of-day')
+                    .then(r => r.json())
+                    .then(data => {
+                        if(data.word_of_the_day && document.getElementById('home-wotd')) {
+                            document.getElementById('home-wotd').innerText = data.word_of_the_day;
+                        }
+                    });
+                
+                // Upcoming Exams
+                fetch('https://ez-editorials-bot.onrender.com/api/upcoming-exams')
+                    .then(r => r.json())
+                    .then(data => {
+                        const examList = document.getElementById('home-exams-list');
+                        if(data.exams && examList) {
+                            examList.innerHTML = data.exams.map(e => `<li>${e.name} - ${e.date}</li>`).join('');
+                        }
+                    });
+            } catch(e) { console.error("Content load failed"); }
+        }
+
+        // --- MASTER SPEC: LOAD PROGRESS TAB REAL HISTORY ---
+        async function loadProgressHistory() {
+            try {
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${userId}`);
+                const data = await response.json();
+                const container = document.getElementById('progress-history-container');
+                
+                if (data.history && data.history.length > 0) {
+                    container.innerHTML = data.history.map(item => `
+                        <div class="quiz-item" style="margin-bottom: 12px;">
+                            <div>
+                                <h3 style="margin-bottom:2px;">${item.topic}</h3>
+                                <p style="font-size:11px;">${item.date}</p>
+                            </div>
+                            <span class="font-bold text-brand">${item.score} pts</span>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">No completed quizzes yet.</p>`;
+                }
+            } catch(e) { console.error("History load failed"); }
+        }
+
+        // Call these alongside loadQuizzes()
+        loadHomeContent();
+        loadProgressHistory();
 
         function renderQuizCard(quiz, container) {
             let statusHtml = ''; let wrapperTag = 'div'; let wrapperHref = '';
