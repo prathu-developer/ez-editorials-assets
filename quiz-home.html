@@ -347,60 +347,104 @@
          APPLICATION LOGIC
          ========================================== -->
     <script>
-        // 1. Initialize Telegram
+        // 1. Initialize Telegram & User
         const tg = window.Telegram.WebApp;
         tg.expand();
         const userId = tg.initDataUnsafe?.user?.id || 123456789;
+        const firstName = tg.initDataUnsafe?.user?.first_name || 'Student';
         
-        // Dynamically pull their actual first name (Falls back to Prathamesh for the mockup look)
-        const firstName = tg.initDataUnsafe?.user?.first_name || 'Prathamesh';
         document.getElementById('user-name').innerText = firstName;
         document.getElementById('profile-name').innerText = firstName;
         document.getElementById('avatar-initial').innerText = firstName.charAt(0).toUpperCase();
 
-        // Dynamically set today's date formatted like the mockup
         const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
         document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-GB', options);
 
-        // 2. Navigation Logic
-        function switchView(viewId) {
-            // Hide all views
-            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
-            // Show target view
-            document.getElementById(viewId).classList.add('active');
-            window.scrollTo(0, 0);
-
-            // Update bottom nav active states
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            
-            // Map views to nav icons
-            let navId = 'nav-home';
-            if(viewId === 'view-cup') navId = 'nav-cup';
-            if(viewId === 'view-progress') navId = 'nav-progress';
-            if(viewId === 'view-profile') navId = 'nav-profile';
-            
-            document.getElementById(navId).classList.add('active');
-        }
-
-        // 3. Live Timer Logic
-        function updateCountdown() {
+        // 2. DYNAMIC DAY TRACKER (Fixes the Day 2 / Day 3 issue)
+        function updateDayTracker() {
             const now = new Date();
-            const endOfDay = new Date();
-            endOfDay.setHours(23, 59, 59, 999);
-            const diff = endOfDay - now;
-            
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-            const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
-            
-            const timeString = `${h} : ${m} : ${s}`;
-            document.getElementById('home-timer').innerText = timeString;
-            document.getElementById('detail-timer').innerText = timeString;
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const ist = new Date(utc + (3600000 * 5.5));
+            let dayNum = ist.getDay() === 0 ? 7 : ist.getDay(); // 1=Mon, 7=Sun
 
-        // 4. API Fetching for Day 3 List
+            document.querySelectorAll('.badge-day').forEach(el => el.innerText = `Day ${dayNum}`);
+            const btn = document.querySelector('.btn-massive');
+            if(btn && dayNum <= 6) btn.innerText = `Start Day ${dayNum} 〉`;
+            else if(btn) { btn.innerText = `Sunday Wrap-Up 〉`; btn.style.background = 'var(--text-muted)'; }
+
+            const daysRow = document.querySelector('.days-row');
+            if(daysRow) {
+                daysRow.innerHTML = '';
+                for(let i=1; i<=6; i++) {
+                    let cls = i < dayNum ? 'done' : (i === dayNum ? 'active' : '');
+                    let chk = i < dayNum ? '✓' : (i === dayNum ? '' : '🔒');
+                    daysRow.innerHTML += `<div style="text-align:center"><div class="day-circle ${cls}">${i}</div><div class="day-check">${chk}</div></div>`;
+                }
+            }
+        }
+        updateDayTracker();
+
+        // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
+        async function loadRealCupData() {
+            try {
+                // Fetching from your EXISTING live Weekly Cup endpoint
+                const response = await fetch(`https://ez-quiz-bot.onrender.com/api/leaderboard?user_id=${userId}`);
+                const data = await response.json();
+
+                // --- INJECT REAL CUP LEADERBOARD ---
+                const lbList = document.querySelector('.leaderboard-list');
+                if(lbList && data.leaderboard) {
+                    lbList.innerHTML = '';
+                    const LEAGUE_ICONS = ["🛡️", "🥉", "🥈", "🥇", "💠", "💎", "👑", "🎖️", "⚡", "🌟", "🔮", "⚛️", "☄️", "🧿", "🌌", "👁️‍🗨️"];
+                    
+                    data.leaderboard.slice(0, 20).forEach(user => {
+                        const isMe = user.id == userId;
+                        const bg = isMe ? 'background:var(--brand-light); border:none; padding:16px; border-radius:12px; margin-top:8px;' : 'padding:16px 0; border-bottom:1px solid var(--border-light);';
+                        const icon = LEAGUE_ICONS[user.league] || "✨";
+                        
+                        lbList.innerHTML += `
+                            <div class="lb-item" style="${bg}">
+                                <div class="lb-left">
+                                    <span class="lb-rank" style="${isMe ? 'font-weight:bold;color:var(--brand);' : ''}">${user.rank}</span>
+                                    <div style="display:flex; flex-direction:column; gap:2px;">
+                                        <span class="${isMe ? 'font-bold' : ''}">${isMe ? 'You' : user.name}</span>
+                                        <span style="font-size:11px; color:var(--text-muted);">${icon} ${Math.round(user.elo)} Elo</span>
+                                    </div>
+                                </div>
+                                <span class="${isMe ? 'text-brand font-bold' : ''}">${user.score}</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                // --- INJECT REAL PERSONAL PROGRESS ---
+                if (data.current_user) {
+                    const cu = data.current_user;
+                    
+                    // Update Home & Cup Screen Mini-Cards
+                    document.querySelectorAll('.cup-stats').forEach(el => {
+                        el.innerHTML = `
+                            <div class="stat-col"><p>Rank</p><h3 class="text-brand">#${cu.rank || 'N/A'}</h3></div>
+                            <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
+                        `;
+                    });
+                    
+                    // Update Progress Screen Accuracy
+                    const progressStats = document.querySelector('#view-progress .card-main');
+                    if(progressStats) {
+                        progressStats.innerHTML = `
+                            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
+                                <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
+                                <div class="stat-col"><p>Rank</p><h3>#${cu.rank || 'N/A'}</h3></div>
+                            </div>
+                            <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success">${cu.history?.accuracy || 0}%</h3></div>
+                        `;
+                    }
+                }
+            } catch (err) { console.error("Failed to load Cup data"); }
+        }
+
+        // 4. FETCH TODAY'S QUIZZES
         async function loadQuizzes() {
             try {
                 const response = await fetch(`https://ez-quiz-bot.onrender.com/api/quiz/today?user_id=${userId}`);
@@ -415,48 +459,60 @@
                     const dropDate = new Date(quiz.drop_time);
                     const timeString = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
-                    let statusHtml = '';
-                    let wrapperTag = 'div';
-                    let wrapperHref = '';
+                    let statusHtml = ''; let wrapperTag = 'div'; let wrapperHref = '';
 
-                    if (quiz.status === 'locked') {
-                        statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
-                    } else if (quiz.status === 'completed') {
-                        statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
-                        completedCount++;
-                    } else if (quiz.status === 'closed') {
-                        statusHtml = `<div class="status-badge status-locked">Closed</div>`;
-                    } else {
+                    if (quiz.status === 'locked') statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
+                    else if (quiz.status === 'completed') { statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`; completedCount++; }
+                    else if (quiz.status === 'closed') statusHtml = `<div class="status-badge status-locked">Closed</div>`;
+                    else {
                         statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
-                        wrapperTag = 'a';
-                        wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
+                        wrapperTag = 'a'; wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
                     }
 
-                    // Render the exact card style from "Home page_2.png" Top-Right screen
-                    const cardHtml = `
+                    container.innerHTML += `
                         <${wrapperTag} ${wrapperHref} class="quiz-item">
-                            <div>
-                                <h3>${quiz.topic}</h3>
-                                <p>${quiz.question_count} Questions</p>
-                            </div>
+                            <div><h3>${quiz.topic}</h3><p>${quiz.question_count} Questions</p></div>
                             ${statusHtml}
                         </${wrapperTag}>
                     `;
-                    container.innerHTML += cardHtml;
                 });
 
-                // Update Progress Bar
                 document.getElementById('progress-text').innerText = `${completedCount} / ${totalCount} Completed`;
                 const fillPercentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
                 document.getElementById('progress-fill').style.width = `${fillPercentage}%`;
-
             } catch (error) {
-                document.getElementById('api-quiz-container').innerHTML = 
-                    '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
+                document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
         }
 
+        // 5. APP NAVIGATION
+        function switchView(viewId) {
+            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo(0, 0);
+
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            let navId = 'nav-home';
+            if(viewId === 'view-cup') { navId = 'nav-cup'; loadRealCupData(); }
+            if(viewId === 'view-progress') { navId = 'nav-progress'; loadRealCupData(); }
+            if(viewId === 'view-profile') navId = 'nav-profile';
+            document.getElementById(navId).classList.add('active');
+        }
+
+        // 6. TOP TIMER
+        setInterval(() => {
+            const now = new Date(), endOfDay = new Date();
+            endOfDay.setHours(23, 59, 59, 999);
+            const diff = endOfDay - now;
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+            const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            document.getElementById('home-timer').innerText = `${h} : ${m} : ${s}`;
+            document.getElementById('detail-timer').innerText = `${h} : ${m} : ${s}`;
+        }, 1000);
+
         loadQuizzes();
+        loadRealCupData(); // Load background stats immediately
     </script>
 </body>
 </html>
