@@ -380,11 +380,11 @@
          APPLICATION LOGIC
          ========================================== -->
     <script>
-        // 1. Initialize Telegram & User
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        const userId = tg.initDataUnsafe?.user?.id || 123456789;
-        const firstName = tg.initDataUnsafe?.user?.first_name || 'Student';
+        // 1. Initialize Telegram & User (Renamed to avoid colliding with app_v8.js)
+        const tgApp = window.Telegram.WebApp;
+        tgApp.expand();
+        const appUserId = tgApp.initDataUnsafe?.user?.id || 123456789;
+        const firstName = tgApp.initDataUnsafe?.user?.first_name || 'Student';
         
         document.getElementById('user-name').innerText = firstName;
         document.getElementById('profile-name').innerText = firstName;
@@ -406,7 +406,6 @@
 
             document.querySelectorAll('.badge-day').forEach(el => el.innerText = `Day ${dayNum}`);
             
-            // ✅ ADD THIS NEW LINE: Instantly updates the header inside the active tests view!
             const detailHeader = document.getElementById('day-detail-header');
             if (detailHeader) detailHeader.innerText = `Day ${dayNum}`;
 
@@ -427,13 +426,11 @@
         updateDayTracker();
 
         // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
-        // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
         async function loadRealCupData() {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`);
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${appUserId}`);
                 const data = await response.json();
 
-                // --- BUG DIAGNOSIS LOG (Section 1) ---
                 console.log("LEADERBOARD API RESPONSE:", data);
 
                 if (typeof renderLeaderboardData === 'function') {
@@ -445,7 +442,6 @@
                 if (data.current_user) {
                     const cu = data.current_user;
                     
-                    // --- MASTER SPEC: SECTIONS 2 & 3 (Add Badges and Elo) ---
                     const leagueBadge = getLeagueBadgeHTML(cu.league);
                     const houseEmoji = getSingleHouseEmoji(cu.house);
                     
@@ -479,23 +475,20 @@
         // --- MASTER SPEC: LOAD GROUPED QUIZZES ---
         async function loadQuizzes() {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`);
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`);
                 const data = await response.json();
                 const container = document.getElementById('api-quiz-container');
                 container.innerHTML = ''; 
 
-                // Render "Today" Section
                 if (data.quizzes.Today && data.quizzes.Today.length > 0) {
                     container.innerHTML += `<h3 style="margin-top:16px;">Today</h3>`;
                     data.quizzes.Today.forEach(quiz => renderQuizCard(quiz, container));
                 }
 
-                // Render "Yesterday" Section
                 if (data.quizzes.Yesterday && data.quizzes.Yesterday.length > 0) {
                     container.innerHTML += `<h3 style="margin-top:16px; color:var(--brand-red);">Yesterday (Closes Tonight)</h3>`;
                     data.quizzes.Yesterday.forEach(quiz => renderQuizCard(quiz, container));
                 }
-
             } catch (error) {
                 document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
@@ -504,7 +497,6 @@
         // --- MASTER SPEC: LOAD HOME TAB READ-ONLY CONTENT ---
         async function loadHomeContent() {
             try {
-                // Word of the Day
                 fetch('https://ez-editorials-bot.onrender.com/api/word-of-day')
                     .then(r => r.json())
                     .then(data => {
@@ -513,7 +505,6 @@
                         }
                     });
                 
-                // Upcoming Exams
                 fetch('https://ez-editorials-bot.onrender.com/api/upcoming-exams')
                     .then(r => r.json())
                     .then(data => {
@@ -528,7 +519,7 @@
         // --- MASTER SPEC: LOAD PROGRESS TAB REAL HISTORY ---
         async function loadProgressHistory() {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${userId}`);
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${appUserId}`);
                 const data = await response.json();
                 const container = document.getElementById('progress-history-container');
                 
@@ -548,7 +539,6 @@
             } catch(e) { console.error("History load failed"); }
         }
 
-        // Call these alongside loadQuizzes()
         loadHomeContent();
         loadProgressHistory();
 
@@ -562,7 +552,7 @@
                 if (data.results && data.results.length > 0) {
                     container.innerHTML = `<p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Season ${data.week_num} Top 10</p>`;
                     data.results.forEach(user => {
-                        const isMe = user.id == userId;
+                        const isMe = user.id == appUserId;
                         const bg = isMe ? 'background:var(--brand-light); border:none; padding:12px; border-radius:12px; margin-bottom:8px;' : 'padding:12px 0; border-bottom:1px solid var(--border-light);';
                         const leagueBadge = getLeagueBadgeHTML(user.league || 0);
                         const houseEmoji = getSingleHouseEmoji(user.house);
@@ -594,7 +584,7 @@
         }
 
         // --- MASTER SPEC: SECTION 4 (Upcoming Exams & Timers) ---
-        let examTimers = []; // Global array to hold countdown targets
+        let examTimers = [];
 
         async function loadUpcomingExams() {
             try {
@@ -604,10 +594,9 @@
                 
                 if (data.exams && data.exams.length > 0) {
                     container.innerHTML = '';
-                    examTimers = []; // Reset timers array
+                    examTimers = []; 
                     
                     data.exams.forEach((exam, index) => {
-                        // Handle unannounced exams without exact dates
                         if (exam.display_date.toLowerCase().includes('to be announced')) {
                              container.innerHTML += `
                                 <div class="card-main" style="margin: 0 0 12px 0; padding: 15px;">
@@ -638,10 +627,9 @@
                             </div>
                         `;
                         
-                        // Push to array so the global clock can tick it down
                         examTimers.push({
                             elementId: examId,
-                            targetDate: new Date(exam.exam_date + 'T00:00:00+05:30'), // Set to Midnight IST
+                            targetDate: new Date(exam.exam_date + 'T00:00:00+05:30'), 
                             isExact: exam.is_exact
                         });
                     });
@@ -658,7 +646,7 @@
 
         async function loadDailyDigest() {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/digest/today?user_id=${userId}`);
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/digest/today?user_id=${appUserId}`);
                 const data = await response.json();
                 const container = document.getElementById('digest-tiles-container');
                 
@@ -692,7 +680,6 @@
                         `;
                     });
                     
-                    // Update master nav badge
                     const navBadge = document.getElementById('digest-badge');
                     if(navBadge) navBadge.style.display = hasUnread ? 'block' : 'none';
                 }
@@ -711,13 +698,11 @@
             
             if (!item.is_read) {
                 item.is_read = true;
-                // Mark Read in DB silently
                 fetch(`https://ez-editorials-bot.onrender.com/api/digest/mark-read`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: userId, content_type: id })
+                    body: JSON.stringify({ user_id: appUserId, content_type: id })
                 });
-                // Re-render tiles to clear red dots
                 loadDailyDigest(); 
             }
         }
@@ -764,21 +749,26 @@
             }
             if(viewId === 'view-progress') {
                 navId = 'nav-progress';
-                loadProgressHistory(); // Fetch real history on tab open
+                loadProgressHistory();
             }
             if(viewId === 'view-profile') {
                 navId = 'nav-profile';
                 
                 if (typeof openEloLeaderboard === 'function') openEloLeaderboard();
                 loadWeeklyResults();
-                loadUpcomingExams(); // ADD THIS LINE HERE!
+                loadUpcomingExams(); 
+                
+                const perfMenu = document.getElementById('menu-performance');
+                if(perfMenu) perfMenu.onclick = () => openProfile(appUserId);
             }
             if(viewId === 'view-digest') {
                 navId = 'nav-digest';
-                // Trigger refresh in case date rolled over
                 loadDailyDigest();
             }
             
+            document.getElementById(navId).classList.add('active');
+        }
+
         // 6. TOP TIMER (IST BOUND)
         setInterval(() => {
             const ist = getIST();
@@ -794,7 +784,6 @@
             const detailTimer = document.getElementById('detail-timer');
             if(detailTimer) detailTimer.innerText = `${h} : ${m} : ${s}`;
             
-            // --- NEW: Live Exam Countdown Ticker ---
             if (typeof examTimers !== 'undefined') {
                 examTimers.forEach(timer => {
                     const el = document.getElementById(timer.elementId);
@@ -812,7 +801,6 @@
                     const eM = Math.floor((eDiff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
                     const eS = Math.floor((eDiff % (1000 * 60)) / 1000).toString().padStart(2, '0');
                     
-                    // Show full days if > 0, else just show Hours:Mins:Secs
                     if (eD > 0) {
                         el.innerText = timer.isExact ? `${eD}d : ${eH}h : ${eM}m : ${eS}s` : `~ ${eD} Days Left`;
                     } else {
@@ -822,9 +810,12 @@
             }
         }, 1000);
 
-        loadQuizzes();
-        loadRealCupData();
-        loadDailyDigest();
+        // Wait for app_v8.js to fully load before initializing to prevent render failures
+        window.addEventListener('DOMContentLoaded', () => {
+            loadQuizzes();
+            loadRealCupData();
+            loadDailyDigest();
+        });
     </script>
 </body>
 </html>
