@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ez Editorials Quizzes</title>
+    
+    <!-- 1. Import Telegram Mini App Library -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- Link to your existing styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* Temporary layout styles to match the mockup structure */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: #f8f9fa; 
+            margin: 0; 
+            padding: 20px; 
+            color: #1a1a1a; 
+        }
+        .header { margin-bottom: 24px; }
+        .header h2 { margin: 0; font-size: 22px; font-weight: 700; }
+        .header p { margin: 4px 0 0 0; color: #666; font-size: 14px; }
+        
+        .quiz-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        .quiz-card { 
+            background: #ffffff; 
+            border-radius: 16px; 
+            padding: 16px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+            border: 1px solid #f0f0f0;
+        }
+        
+        .quiz-info h3 { margin: 0 0 4px 0; font-size: 16px; font-weight: 600; }
+        .quiz-info p { margin: 0; font-size: 13px; color: #888; }
+        
+        .status-container { font-size: 14px; font-weight: 600; }
+        .status-start { color: #5c3bfe; cursor: pointer; text-decoration: none; }
+        .status-locked { color: #999; display: flex; align-items: center; gap: 4px; }
+        .status-completed { color: #28a745; display: flex; align-items: center; gap: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2 id="greeting">Good Evening, Student</h2>
+        <p>Today's Quizzes</p>
+    </div>
+
+    <!-- The API will inject the quiz cards here -->
+    <div id="quiz-container" class="quiz-list">
+        <p style="color: #666; text-align: center; margin-top: 40px;">Loading quizzes...</p>
+    </div>
+
+    <script>
+        // 2. Initialize the Telegram App connection
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Forces the Mini App to open full-screen
+
+        // Safely extract the user's Telegram ID and Name
+        // (If opened in a normal browser for testing, it defaults to a dummy ID)
+        const userId = tg.initDataUnsafe?.user?.id || 123456789;
+        const firstName = tg.initDataUnsafe?.user?.first_name || "Student";
+        
+        document.getElementById('greeting').innerText = `Good Evening, ${firstName}`;
+
+        // 3. Fetch the data from your Dev Backend
+        async function loadQuizzes() {
+            try {
+                const response = await fetch(`https://ez-quiz-bot.onrender.com/api/quiz/today?user_id=${userId}`);
+                const data = await response.json();
+                
+                const container = document.getElementById('quiz-container');
+                container.innerHTML = ''; 
+
+                if (!data.quizzes || data.quizzes.length === 0) {
+                    container.innerHTML = '<p style="text-align:center;">No quizzes scheduled for today.</p>';
+                    return;
+                }
+
+                // 4. Build the UI Cards
+                data.quizzes.forEach(quiz => {
+                    const card = document.createElement('div');
+                    card.className = 'quiz-card';
+
+                    // Convert database UTC time to readable local format (e.g., "7:00 PM")
+                    const dropDate = new Date(quiz.drop_time);
+                    const timeString = dropDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    // Determine what the button should look like based on API status
+                    let statusHtml = '';
+                    if (quiz.status === 'locked') {
+                        statusHtml = `<span class="status-locked">🔒 ${timeString}</span>`;
+                    } else if (quiz.status === 'completed') {
+                        statusHtml = `<span class="status-completed">✅ Attempted ></span>`;
+                    } else if (quiz.status === 'closed') {
+                        statusHtml = `<span class="status-locked">Closed</span>`;
+                    } else {
+                        // If unlocked, link to the Test taking screen (which we will build next)
+                        statusHtml = `<a href="test.html?quiz_id=${quiz.id}" class="status-start">Start ></a>`;
+                    }
+
+                    card.innerHTML = `
+                        <div class="quiz-info">
+                            <h3>${quiz.topic}</h3>
+                            <p>${quiz.question_count} Questions</p>
+                        </div>
+                        <div class="status-container">
+                            ${statusHtml}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                document.getElementById('quiz-container').innerHTML = 
+                    '<p style="color:red; text-align:center;">Failed to connect to the server.</p>';
+            }
+        }
+
+        // Run the function as soon as the page loads
+        loadQuizzes();
+    </script>
+</body>
+</html>
