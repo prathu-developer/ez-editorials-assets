@@ -6,6 +6,9 @@
     <title>Ez Editorials App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- ⚡ INJECT EXISTING ASSETS (MASTER SPEC) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/style.css">
+    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js" defer></script>
     
     <style>
         :root {
@@ -446,7 +449,7 @@
             } catch (err) { console.error("Failed to load Cup data"); }
         }
 
-        // 4. FETCH TODAY'S QUIZZES (LIVE URL)
+        // --- MASTER SPEC: LOAD GROUPED QUIZZES ---
         async function loadQuizzes() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`);
@@ -454,40 +457,45 @@
                 const container = document.getElementById('api-quiz-container');
                 container.innerHTML = ''; 
 
-                let completedCount = 0;
-                let totalCount = data.quizzes.length;
+                // Render "Today" Section
+                if (data.quizzes.Today && data.quizzes.Today.length > 0) {
+                    container.innerHTML += `<h3 style="margin-top:16px;">Today</h3>`;
+                    data.quizzes.Today.forEach(quiz => renderQuizCard(quiz, container));
+                }
 
-                data.quizzes.forEach(quiz => {
-                    const dropDate = new Date(quiz.drop_time);
-                    const timeString = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                // Render "Yesterday" Section
+                if (data.quizzes.Yesterday && data.quizzes.Yesterday.length > 0) {
+                    container.innerHTML += `<h3 style="margin-top:16px; color:var(--brand-red);">Yesterday (Closes Tonight)</h3>`;
+                    data.quizzes.Yesterday.forEach(quiz => renderQuizCard(quiz, container));
+                }
 
-                    let statusHtml = ''; let wrapperTag = 'div'; let wrapperHref = '';
-
-                    if (quiz.status === 'locked') statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
-                    else if (quiz.status === 'completed') { statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`; completedCount++; }
-                    else if (quiz.status === 'closed') statusHtml = `<div class="status-badge status-locked">Closed</div>`;
-                    else {
-                        statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
-                        wrapperTag = 'a'; wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
-                    }
-
-                    container.innerHTML += `
-                        <${wrapperTag} ${wrapperHref} class="quiz-item">
-                            <div><h3>${quiz.topic}</h3><p>${quiz.question_count} Questions</p></div>
-                            ${statusHtml}
-                        </${wrapperTag}>
-                    `;
-                });
-
-                document.getElementById('progress-text').innerText = `${completedCount} / ${totalCount} Completed`;
-                const fillPercentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
-                document.getElementById('progress-fill').style.width = `${fillPercentage}%`;
             } catch (error) {
                 document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
         }
 
-        // 5. APP NAVIGATION
+        function renderQuizCard(quiz, container) {
+            let statusHtml = ''; let wrapperTag = 'div'; let wrapperHref = '';
+            const dropDate = new Date(quiz.drop_time);
+            const timeString = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+            if (quiz.status === 'locked') statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
+            else if (quiz.status === 'completed') statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
+            else if (quiz.status === 'closed') statusHtml = `<div class="status-badge status-locked">Closed</div>`;
+            else {
+                statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
+                wrapperTag = 'a'; wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
+            }
+
+            container.innerHTML += `
+                <${wrapperTag} ${wrapperHref} class="quiz-item">
+                    <div><h3>${quiz.topic}</h3><p>${quiz.question_count} Questions • ${quiz.duration_seconds / 60} mins</p></div>
+                    ${statusHtml}
+                </${wrapperTag}>
+            `;
+        }
+
+        // --- MASTER SPEC: TAB SWITCHER ---
         function switchView(viewId) {
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
@@ -495,8 +503,15 @@
 
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             let navId = 'nav-home';
-            if(viewId === 'view-cup') { navId = 'nav-cup'; loadRealCupData(); }
-            if(viewId === 'view-progress') { navId = 'nav-progress'; loadRealCupData(); }
+            
+            if(viewId === 'view-cup') { 
+                navId = 'nav-cup'; 
+                // CALL EXISTING APP_V8.JS FUNCTION (DO NOT REINVENT)
+                fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`)
+                    .then(res => res.json())
+                    .then(data => renderLeaderboardData(data));
+            }
+            if(viewId === 'view-progress') navId = 'nav-progress';
             if(viewId === 'view-profile') navId = 'nav-profile';
             document.getElementById(navId).classList.add('active');
         }
