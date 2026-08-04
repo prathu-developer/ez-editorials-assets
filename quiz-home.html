@@ -447,7 +447,7 @@
         // 4. FETCH TODAY'S QUIZZES
         async function loadQuizzes() {
             try {
-                const response = await fetch(`https://ez-quiz-bot.onrender.com/api/quiz/today?user_id=${userId}`);
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`);
                 const data = await response.json();
                 const container = document.getElementById('api-quiz-container');
                 container.innerHTML = ''; 
