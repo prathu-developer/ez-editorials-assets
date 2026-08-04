@@ -314,6 +314,11 @@
             <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading past results...</p>
         </div>
 
+        <h3 style="margin: 24px 20px 10px 20px; font-size: 15px;">Upcoming Exams</h3>
+        <div id="profile-exams-container" style="padding: 0 20px; padding-bottom: 20px;">
+            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading exams...</p>
+        </div>
+
         <!-- Dummy overlay to safely absorb the app_v8.js modal trigger without popping up a black screen -->
         <div id="eloModalOverlay" style="display: none;"></div>
     </div>
@@ -559,6 +564,66 @@
             }
         }
 
+        // --- MASTER SPEC: SECTION 4 (Upcoming Exams & Timers) ---
+        let examTimers = []; // Global array to hold countdown targets
+
+        async function loadUpcomingExams() {
+            try {
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/upcoming-exams`);
+                const data = await response.json();
+                const container = document.getElementById('profile-exams-container');
+                
+                if (data.exams && data.exams.length > 0) {
+                    container.innerHTML = '';
+                    examTimers = []; // Reset timers array
+                    
+                    data.exams.forEach((exam, index) => {
+                        // Handle unannounced exams without exact dates
+                        if (exam.display_date.toLowerCase().includes('to be announced')) {
+                             container.innerHTML += `
+                                <div class="card-main" style="margin: 0 0 12px 0; padding: 15px;">
+                                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                        <h3 style="font-size:15px; margin-bottom:4px;">${exam.name}</h3>
+                                        <span style="font-size:11px; background:var(--border-light); color:var(--text-muted); padding:2px 8px; border-radius:10px; font-weight:600;">${exam.status}</span>
+                                    </div>
+                                    <p style="font-size:13px; color:var(--text-muted);">To Be Announced</p>
+                                </div>
+                            `;
+                            return;
+                        }
+                        
+                        const examId = `exam-timer-${index}`;
+                        container.innerHTML += `
+                            <div class="card-main" style="margin: 0 0 12px 0; padding: 15px;">
+                                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                    <div>
+                                        <h3 style="font-size:15px; margin-bottom:4px;">${exam.name}</h3>
+                                        <p style="font-size:12px; color:var(--text-muted); font-weight:600;">🗓 ${exam.display_date}</p>
+                                    </div>
+                                    <span style="font-size:11px; background:var(--brand-light); color:var(--brand); padding:2px 8px; border-radius:10px; font-weight:600;">${exam.status}</span>
+                                </div>
+                                <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center;">
+                                    <span style="font-size:12px; color:var(--text-muted);">Countdown</span>
+                                    <span id="${examId}" style="font-size:13px; font-weight:700; color:var(--brand); font-variant-numeric: tabular-nums;">-- : -- : --</span>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Push to array so the global clock can tick it down
+                        examTimers.push({
+                            elementId: examId,
+                            targetDate: new Date(exam.exam_date + 'T00:00:00+05:30'), // Set to Midnight IST
+                            isExact: exam.is_exact
+                        });
+                    });
+                } else {
+                    container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">No upcoming exams scheduled.</p>`;
+                }
+            } catch (err) {
+                console.error("Failed to load exams", err);
+            }
+        }
+
         function renderQuizCard(quiz, container) {
             let statusHtml = ''; let wrapperTag = 'div'; let wrapperHref = '';
             const dropDate = new Date(quiz.drop_time);
@@ -600,15 +665,11 @@
             if(viewId === 'view-profile') {
                 navId = 'nav-profile';
                 
-                // Re-use existing app_v8.js logic for Live Elo
-                if (typeof openEloLeaderboard === 'function') {
-                    openEloLeaderboard();
-                }
-                
-                // Fetch Weekly Cup Archive
+                if (typeof openEloLeaderboard === 'function') openEloLeaderboard();
                 loadWeeklyResults();
+                loadUpcomingExams(); // ADD THIS LINE HERE!
             }
-
+            
         // 6. TOP TIMER (IST BOUND)
         setInterval(() => {
             const ist = getIST();
@@ -623,6 +684,33 @@
             document.getElementById('home-timer').innerText = `${h} : ${m} : ${s}`;
             const detailTimer = document.getElementById('detail-timer');
             if(detailTimer) detailTimer.innerText = `${h} : ${m} : ${s}`;
+            
+            // --- NEW: Live Exam Countdown Ticker ---
+            if (typeof examTimers !== 'undefined') {
+                examTimers.forEach(timer => {
+                    const el = document.getElementById(timer.elementId);
+                    if (!el) return;
+                    
+                    const eDiff = timer.targetDate - ist;
+                    if (eDiff <= 0) {
+                        el.innerText = "TODAY IS THE EXAM!";
+                        el.style.color = "var(--success)";
+                        return;
+                    }
+                    
+                    const eD = Math.floor(eDiff / (1000 * 60 * 60 * 24));
+                    const eH = Math.floor((eDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                    const eM = Math.floor((eDiff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                    const eS = Math.floor((eDiff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                    
+                    // Show full days if > 0, else just show Hours:Mins:Secs
+                    if (eD > 0) {
+                        el.innerText = timer.isExact ? `${eD}d : ${eH}h : ${eM}m : ${eS}s` : `~ ${eD} Days Left`;
+                    } else {
+                        el.innerText = `${eH}h : ${eM}m : ${eS}s`;
+                    }
+                });
+            }
         }, 1000);
 
         loadQuizzes();
