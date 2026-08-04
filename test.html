@@ -295,7 +295,7 @@
         async function startQuiz() {
             try {
                 // Fetch the specific quiz duration from the API to set the timer accurately
-                const homeRes = await fetch(`https://ez-quiz-bot.onrender.com/api/quiz/today?user_id=${userId}`);
+                const homeRes = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`);
                 const homeData = await homeRes.json();
                 const currentQuizMeta = homeData.quizzes.find(q => q.id == quizId);
                 
@@ -307,7 +307,7 @@
                 document.getElementById('palette-topic').innerText = topicName;
                 document.getElementById('summary-topic').innerText = topicName;
 
-                const res = await fetch(`https://ez-quiz-bot.onrender.com/api/quiz/start`, {
+                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/start`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: userId, quiz_set_id: quizId })
@@ -490,7 +490,7 @@
             }));
 
             try {
-                await fetch(`https://ez-quiz-bot.onrender.com/api/quiz/submit`, {
+                await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/submit`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ attempt_id: attemptId, responses: formattedResponses })
