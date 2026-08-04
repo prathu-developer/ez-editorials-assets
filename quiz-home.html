@@ -4,41 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ez Editorials App</title>
-    
-    <!-- MASTER SPEC: INJECT EXISTING ASSETS -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- ⚡ INJECT EXISTING ASSETS (MASTER SPEC) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/style.css">
+    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js" defer></script>
     
     <style>
-        /* SPA Layout Styles */
         :root {
             --brand: #5a32fa;
             --brand-light: #ece9ff;
             --bg-body: #ffffff;
+            --bg-card: #ffffff;
             --text-main: #111827;
             --text-muted: #6b7280;
             --border-light: #f3f4f6;
             --success: #10b981;
         }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); margin: 0; padding: 0; color: var(--text-main); overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-        .view-container { display: none; padding-bottom: 120px; animation: fadeIn 0.2s ease-in-out; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* SPA View Management */
+        .view-container {
+            display: none;
+            padding-bottom: 90px; /* Space for bottom nav */
+            animation: fadeIn 0.2s ease-in-out;
+        }
         .view-container.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Typography & Utilities */
         h1, h2, h3, p { margin: 0; }
+        .flex-row { display: flex; align-items: center; justify-content: space-between; }
         .text-brand { color: var(--brand); }
         .text-success { color: var(--success); }
         .font-bold { font-weight: 700; }
-        
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        .text-sm { font-size: 13px; }
+        .text-xs { font-size: 12px; }
+
+        /* Global Header */
         .top-header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
         .icon-btn { width: 24px; height: 24px; cursor: pointer; color: var(--text-main); }
+        
+        /* -------------------------------------
+           VIEW 1: HOME SCREEN
+           ------------------------------------- */
         .greeting-section { padding: 0 20px 20px 20px; }
         .greeting-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
         .date-badge { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-muted); }
         .badge-day { background: var(--brand-light); color: var(--brand); padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; }
-        
-        .card-main { margin: 0 20px 20px 20px; padding: 20px; border-radius: 20px; border: 1px solid var(--border-light); box-shadow: 0 4px 20px rgba(0,0,0,0.03); background: white;}
+
+        .card-main { margin: 0 20px 20px 20px; padding: 20px; border-radius: 20px; border: 1px solid var(--border-light); box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
         .timer-label { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 8px; display: flex; justify-content: space-between;}
         .timer-value { font-size: 32px; font-weight: 700; color: var(--brand); letter-spacing: 2px; margin-bottom: 4px; }
         .timer-subs { display: flex; gap: 32px; font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; margin-left: 4px;}
@@ -53,19 +79,27 @@
         .days-tracker { margin: 0 20px 24px 20px; }
         .days-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
         .days-row { display: flex; justify-content: space-between; align-items: center; }
-        .day-circle { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--text-muted); border: 1px solid var(--border-light); background: white;}
+        .day-circle { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--text-muted); border: 1px solid var(--border-light); }
         .day-circle.done { border-color: transparent; color: var(--text-main); }
         .day-circle.active { background: var(--brand); color: white; border-color: var(--brand); }
         .day-check { width: 12px; height: 12px; margin-top: 6px; }
 
+        .coming-soon { margin: 0 20px; padding: 20px; border-radius: 16px; background: #fafafa; border: 1px solid var(--border-light); }
+        .coming-soon h3 { font-size: 15px; margin-bottom: 12px; }
+        .coming-soon ul { margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 13px; line-height: 1.8; }
+
+        /* -------------------------------------
+           VIEW 2: DAY DETAILS (QUIZ LIST)
+           ------------------------------------- */
+        .day-header { padding: 10px 20px 20px 20px; display: flex; justify-content: space-between; align-items: center; }
         .back-btn { font-size: 20px; font-weight: bold; cursor: pointer; }
         .time-left-sm { padding: 0 20px 20px 20px; }
         .time-left-sm p { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; }
         .time-left-sm h2 { font-size: 20px; font-weight: 700; color: var(--brand); }
         
         .quiz-list { padding: 0 20px; display: flex; flex-direction: column; gap: 12px; }
-        .quiz-item { padding: 16px; border: 1px solid var(--border-light); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: inherit; background: white;}
-        .quiz-item h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--text-main); }
+        .quiz-item { padding: 16px; border: 1px solid var(--border-light); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: inherit; }
+        .quiz-item h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
         .quiz-item p { font-size: 13px; color: var(--text-muted); }
         
         .status-badge { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
@@ -78,15 +112,30 @@
         .track { height: 6px; background: var(--border-light); border-radius: 4px; overflow: hidden; }
         .fill { height: 100%; background: var(--brand); border-radius: 4px; width: 0%; transition: 0.5s; }
 
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); display: flex; justify-content: space-around; padding: 12px 0 24px 0; z-index: 999; }
+        /* -------------------------------------
+           MOCKUP VIEWS (Cup, Progress, Profile)
+           ------------------------------------- */
+        .leaderboard-list { padding: 0 20px; margin-top: 20px; }
+        .lb-item { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border-light); font-size: 14px; font-weight: 500; }
+        .lb-left { display: flex; gap: 20px; }
+        .lb-rank { width: 20px; color: var(--text-muted); }
+        
+        .profile-card { text-align: center; padding: 20px; }
+        .avatar { width: 80px; height: 80px; background: var(--brand-light); color: var(--brand); font-size: 32px; font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 50%; margin: 0 auto 16px auto; }
+        .profile-menu { padding: 0 20px; margin-top: 24px; }
+        .menu-item { display: flex; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border-light); font-size: 14px; font-weight: 500; }
+
+        /* -------------------------------------
+           BOTTOM NAVIGATION
+           ------------------------------------- */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-light); display: flex; justify-content: space-around; padding: 12px 0 24px 0; z-index: 100; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 11px; font-weight: 600; cursor: pointer; width: 60px; }
         .nav-item.active { color: var(--brand); }
         .nav-icon { width: 24px; height: 24px; fill: currentColor; }
-
-        .leaderboard-list { padding: 0 20px; margin-top: 12px; }
     </style>
 </head>
 <body>
+
     <!-- ==========================================
          VIEW 1: HOME SCREEN
          ========================================== -->
@@ -95,57 +144,68 @@
             <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
             <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
         </div>
-        
+
         <div class="greeting-section">
-            <h1 class="greeting-title">Good Evening, <span class="text-brand" id="user-name">Student</span></h1>
-            <div class="date-badge"><span id="current-date">--</span><span class="badge-day">Day -</span></div>
-        </div>
-
-        <!-- Master Spec: Content Cards -->
-        <div style="display:flex; gap:12px; padding: 0 20px 20px 20px;">
-            <div class="card-main" style="flex:1; margin:0; padding:16px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-                    <h3 style="font-size: 12px; font-weight:700; text-transform:uppercase; color: var(--text-muted);">Word of the Day</h3>
-                    <span style="font-size: 14px;">📖</span>
-                </div>
-                <h2 id="home-wotd" class="text-brand" style="font-size: 16px; font-weight:800;">Loading...</h2>
-            </div>
-            
-            <div class="card-main" style="flex:1; margin:0; padding:16px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
-                    <h3 style="font-size: 12px; font-weight:700; text-transform:uppercase; color: var(--text-muted);">Next Exam</h3>
-                    <span style="font-size: 14px;">📅</span>
-                </div>
-                <ul id="home-exams-list" style="margin: 0; padding-left: 16px; font-size: 12px; color: var(--text-main); font-weight:600; line-height: 1.4;">
-                    <li>Loading...</li>
-                </ul>
+            <h1 class="greeting-title">Good Evening, <span class="text-brand" id="user-name">Prathamesh</span></h1>
+            <div class="date-badge">
+                <span id="current-date">Monday, 3 Aug 2026</span>
+                <span class="badge-day">Day 3</span>
             </div>
         </div>
 
+        <!-- Timer Card -->
         <div class="card-main">
-            <div class="timer-label"><span>Time Left Today</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
-            <div class="timer-value" id="home-timer">00 : 00 : 00</div>
+            <div class="timer-label">
+                <span>Time Left Today</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="timer-value" id="home-timer">06 : 42 : 18</div>
             <div class="timer-subs"><span>HRS</span><span>MIN</span><span>SEC</span></div>
-            <button class="btn-massive" onclick="switchView('view-day')">Start 〉</button>
+            <button class="btn-massive" onclick="switchView('view-day')">Start Day 3 〉</button>
         </div>
-        
+
+        <!-- Weekly Cup Card -->
         <div class="card-main">
-            <div class="cup-card"><div style="display:flex; gap:8px; align-items:center; font-weight:600;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10M5 4h14a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8V6a2 2 0 0 1 2-2z"></path></svg>Weekly Cup</div></div>
+            <div class="cup-card">
+                <div style="display:flex; gap:8px; align-items:center; font-weight:600;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10M5 4h14a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8V6a2 2 0 0 1 2-2z"></path></svg>
+                    Weekly Cup
+                </div>
+            </div>
             <div class="cup-stats">
-                <div class="stat-col"><p>Rank</p><h3 class="text-brand" id="home-rank">--</h3></div>
-                <div class="stat-col"><p>Score</p><h3 id="home-score">--</h3></div>
+                <div class="stat-col"><p>Rank</p><h3 class="text-brand">#24</h3></div>
+                <div class="stat-col"><p>Score</p><h3>184</h3></div>
             </div>
             <div class="link-view" onclick="switchView('view-cup')">View Leaderboard 〉</div>
         </div>
-        
+
+        <!-- Days Tracker -->
         <div class="days-tracker">
             <h3 class="days-title">Days</h3>
-            <div class="days-row"></div>
+            <div class="days-row">
+                <div style="text-align:center"><div class="day-circle done">1</div><div class="day-check">✓</div></div>
+                <div style="text-align:center"><div class="day-circle done">2</div><div class="day-check">✓</div></div>
+                <div style="text-align:center"><div class="day-circle active">3</div><div class="day-check"></div></div>
+                <div style="text-align:center"><div class="day-circle">4</div><div class="day-check">🔒</div></div>
+                <div style="text-align:center"><div class="day-circle">5</div><div class="day-check">🔒</div></div>
+                <div style="text-align:center"><div class="day-circle">6</div><div class="day-check">🔒</div></div>
+            </div>
+        </div>
+
+        <!-- Coming Soon -->
+        <div class="coming-soon">
+            <h3>Coming Soon</h3>
+            <ul>
+                <li>Mock Exams</li>
+                <li>AI Analysis</li>
+                <li>Daily Streaks</li>
+            </ul>
         </div>
     </div>
 
+
     <!-- ==========================================
-         VIEW 2: DAY DETAILS (Active Quizzes)
+         VIEW 2: DAY DETAILS (Topic List)
          ========================================== -->
     <div id="view-day" class="view-container">
         <div class="top-header">
@@ -153,20 +213,28 @@
             <span class="font-bold" id="day-detail-header">Day</span>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         </div>
-        <div class="time-left-sm"><p>Time Left</p><h2 id="detail-timer">00 : 00 : 00</h2></div>
-        
+
+        <div class="time-left-sm">
+            <p>Time Left</p>
+            <h2 id="detail-timer">06 : 42 : 18</h2>
+        </div>
+
         <div class="quiz-list" id="api-quiz-container">
             <p style="text-align:center; color:var(--text-muted); font-size: 14px;">Loading tests...</p>
         </div>
-        
+
         <div class="progress-bar-container">
-            <div class="progress-text"><span>Progress</span><span id="progress-text">0 / 0 Completed</span></div>
+            <div class="progress-text">
+                <span>Progress</span>
+                <span id="progress-text">0 / 0 Completed</span>
+            </div>
             <div class="track"><div class="fill" id="progress-fill"></div></div>
         </div>
     </div>
 
+
     <!-- ==========================================
-         VIEW 3: THE HYBRID WEEKLY CUP
+         VIEW 3: WEEKLY CUP (Mockup Replica)
          ========================================== -->
     <div id="view-cup" class="view-container">
         <div class="top-header">
@@ -178,23 +246,27 @@
         <div class="card-main">
             <p class="text-xs text-muted" style="margin-bottom: 12px;">Your Status</p>
             <div class="cup-stats" style="margin-top:0;">
-                <div class="stat-col"><p>Rank</p><h3 class="text-brand" id="cup-tab-rank">--</h3></div>
-                <div class="stat-col"><p>Score</p><h3 id="cup-tab-score">--</h3></div>
+                <div class="stat-col"><p>Rank</p><h3 class="text-brand">#24</h3></div>
+                <div class="stat-col"><p>Score</p><h3>184</h3></div>
             </div>
         </div>
 
-        <h3 style="margin: 0 20px; font-size: 15px; display:flex; justify-content:space-between; align-items:center;">
-            Top Class Standings
-            <span style="font-size:11px; font-weight:500; color:var(--text-muted);">Tap for analysis</span>
-        </h3>
-        
-        <div class="leaderboard-list" id="hybrid-leaderboard">
-            <div style="text-align: center; color: #8c939d; margin-top: 30px;">Fetching magical records...</div>
+        <h3 style="margin: 0 20px; font-size: 15px;">Top 20</h3>
+        <div class="leaderboard-list">
+            <div class="lb-item"><div class="lb-left"><span class="lb-rank">1</span><span>Arjun</span></div><span>284</span></div>
+            <div class="lb-item"><div class="lb-left"><span class="lb-rank">2</span><span>Riya</span></div><span>261</span></div>
+            <div class="lb-item"><div class="lb-left"><span class="lb-rank">3</span><span>Kabir</span></div><span>243</span></div>
+            <div class="lb-item"><div class="lb-left"><span class="lb-rank">4</span><span>Siya</span></div><span>231</span></div>
+            <div class="lb-item"><div class="lb-left"><span class="lb-rank">5</span><span>Aditya</span></div><span>222</span></div>
+            <div style="text-align:center; color:var(--text-muted); padding:16px;">...</div>
+            <div class="lb-item" style="background:var(--brand-light); padding:16px; border-radius:12px; border:none; margin-top:8px;">
+                <div class="lb-left"><span class="lb-rank">24</span><span class="font-bold">You</span></div><span class="text-brand font-bold">184</span>
+            </div>
         </div>
     </div>
 
     <!-- ==========================================
-         VIEW 4: PROGRESS
+         VIEW 4: PROGRESS (Master Spec: Real Data)
          ========================================== -->
     <div id="view-progress" class="view-container">
         <div class="top-header">
@@ -203,12 +275,8 @@
             <span></span>
         </div>
         
-        <div class="card-main">
-            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
-                <div class="stat-col"><p>Score</p><h3 id="prog-score">--</h3></div>
-                <div class="stat-col"><p>Rank</p><h3 id="prog-rank" class="text-brand">--</h3></div>
-            </div>
-            <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success" id="prog-acc">--%</h3></div>
+        <div class="card-main" id="progress-stats-container">
+            <!-- Dynamic Accuracy Stats injected here -->
         </div>
 
         <h3 style="margin: 0 20px 12px 20px; font-size: 15px;">Recent Attempts</h3>
@@ -218,163 +286,89 @@
     </div>
 
     <!-- ==========================================
-         APP_V8 MODALS (Hidden in background)
+         VIEW 5: PROFILE (Mockup Replica)
          ========================================== -->
-    <div class="floating-scroll-btn" id="scrollBtn" onclick="scrollToDemotionZone()" title="Scroll to Demotion Zone" style="bottom: 160px; display: none;">🔻</div>
-
-    <div class="modal-overlay" id="analysisModal" onclick="closeModal(event)">
-        <div class="modal-content" id="modalContentBg" onclick="event.stopPropagation()">
-            <div class="close-indicator" onclick="closeModal(null, true)"></div>
-            <div class="profile-header" style="align-items: flex-start;">
-                <div class="profile-info" style="flex: 1;">
-                    <h2 id="modalStudentName" style="font-size: 1.3em;">Student Name</h2>
-                    <p id="modalStudentHouse" style="font-size: 0.9em; margin-top: 8px;">House</p>
-                </div>
-                <div style="text-align: right; flex-shrink: 0; padding-left: 10px;">
-                    <h2 id="modalStudentElo" style="margin: 0; font-size: 1.4em; color: #1e3a8a; font-weight: 900;">🧠 1000</h2>
-                    <p id="modalStudentTitle" style="margin: 5px 0 0 0; color: #64748b; font-size: 0.85em; font-weight: 700;">🎓 Scholar</p>
-                </div>
-            </div>
-            <div class="how-wrapper" style="display: flex; gap: 10px;">
-                <div class="how-btn" style="flex: 1; padding: 10px; font-size: 0.85em;" onclick="document.getElementById('howItWorksBox').classList.toggle('active')">📜 Guide: Quiz Cup ▾</div>
-                <div class="how-btn" style="flex: 1; padding: 10px; font-size: 0.85em; background: #f0fdf4; color: #166534; border-color: #bbf7d0;" onclick="openEloLeaderboard()">🌍 View Global Elo ▾</div>
-            </div>
-            <div class="how-box" id="howItWorksBox"><div class="how-inner"><p style="font-size:12px;color:#666;">Read the guidelines carefully...</p></div></div>
-            <div class="stats-grid-4">
-                <div class="mini-stat"><div class="mini-stat-val val-blue" id="statScore">0</div><div class="mini-stat-label">Total Points</div></div>
-                <div class="mini-stat"><div class="mini-stat-val val-green" id="statAccuracy">0%</div><div class="mini-stat-label">Weekly Accuracy</div></div>
-                <div class="mini-stat"><div class="mini-stat-val val-purple" id="statAttempts">0</div><div class="mini-stat-label">Quizzes Attempted</div></div>
-                <div class="mini-stat"><div class="mini-stat-val val-amber" id="statGrowth" style="font-size: 1.5em;">Calibrating...</div><div class="mini-stat-label">Lifetime Growth 📈</div></div>
-            </div>
-            <div class="dash-card"><div class="section-title">📜 Previous Rank History</div><div id="rankHistorySection"></div></div>
-            <div class="dash-card">
-                <div class="section-title"><div>📊 Weekly Progress</div></div>
-                <div class="chart-container"><canvas id="dailyChart"></canvas></div>
-                <div class="chart-summary">
-                    <div class="cs-item"><div class="cs-label">Σ Total Points</div><div class="cs-val" id="csTotal">0</div></div>
-                    <div class="cs-item"><div class="cs-label">✅ Correct</div><div class="cs-val" id="csCorrect">0</div></div>
-                    <div class="cs-item"><div class="cs-label">❌ Wrong</div><div class="cs-val" id="csWrong">0</div></div>
-                    <div class="cs-item"><div class="cs-label">🎯 Accuracy</div><div class="cs-val" id="csAcc">0%</div></div>
-                </div>
-            </div>
-            <div class="dash-card">
-                <div class="section-title">🎯 Performance Overview</div>
-                <div class="doughnut-layout">
-                    <div class="doughnut-wrap"><canvas id="pieChart"></canvas></div>
-                    <div class="performance-table">
-                        <table class="perf-table">
-                            <tr><th></th><th id="tblStudentHeader">Student</th><th>Topper</th><th>Class Avg.</th></tr>
-                            <tr><td class="tbl-label"><span class="text-green">●</span> Correct</td><td id="tblYouCor">0</td><td id="tblTopCor">0</td><td id="tblAvgCor">0</td></tr>
-                            <tr><td class="tbl-label"><span class="text-red">●</span> Wrong</td><td id="tblYouWro">0</td><td id="tblTopWro">0</td><td id="tblAvgWro">0</td></tr>
-                            <tr><td class="tbl-label" style="color: #64748b;">Total</td><td id="tblYouAtt">0</td><td id="tblTopAtt">0</td><td id="tblAvgAtt">0</td></tr>
-                            <tr><td class="tbl-label" style="color: #64748b;">Accuracy</td><td id="tblYouAcc">0%</td><td id="tblTopAcc">0%</td><td id="tblAvgAcc">0%</td></tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="topper-banner">
-                    <div class="topper-banner-title">🏆 Topper This Week</div>
-                    <div style="display:flex; align-items:center; gap: 8px;"><span id="bannerTopperName" style="font-weight: bold; color: #1c1e21;">Name (House)</span></div>
-                    <div class="topper-banner-info" id="bannerTopperInfo">0 pts • 0% Accuracy</div>
-                </div>
-            </div>
-            <div class="dash-card"><div class="section-title">🕒 Recent Activity</div><div id="activityList"></div></div>
+    <div id="view-profile" class="view-container">
+        <div class="top-header">
+            <span></span>
+            <span class="font-bold">Profile</span>
+            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         </div>
-    </div>
-    
-    <div class="modal-overlay" id="historyModalOverlay" onclick="closeHistoryModal(event)" style="z-index: 200;">
-        <div class="modal-content" id="historyModalContent" onclick="event.stopPropagation()" style="height: auto; padding-bottom: 40px; background: #f8fafc;">
-            <div class="close-indicator" onclick="closeHistoryModal(null, true)"></div>
-            <div class="profile-header" style="justify-content: center; margin-bottom: 25px;">
-                <div class="profile-info" style="text-align: center;"><h2 style="justify-content: center; font-size: 1.4em;">📜 Season <span id="histWeek">--</span> Archive</h2><p style="justify-content: center; color: #64748b; margin-top: 5px;">Final Locked Standings</p></div>
-            </div>
-            <div class="stats-grid-4">
-                <div class="mini-stat"><div class="mini-stat-val val-blue" id="histScore">0</div><div class="mini-stat-label">Final Score</div></div>
-                <div class="mini-stat"><div class="mini-stat-val val-amber" id="histRank">#0</div><div class="mini-stat-label">Final Rank</div></div>
-                <div class="mini-stat"><div class="mini-stat-val val-green" id="histCorrect">0</div><div class="mini-stat-label">Total Correct</div></div>
-                <div class="mini-stat"><div class="mini-stat-val val-purple" id="histAcc">0%</div><div class="mini-stat-label">Accuracy</div></div>
-            </div>
+
+        <div class="profile-card">
+            <div class="avatar" id="avatar-initial">P</div>
+            <h2 id="profile-name">Prathamesh</h2>
+        </div>
+        
+        <div class="cup-stats" style="justify-content:center; gap:60px;">
+            <div class="stat-col" style="text-align:center;"><p>Rank</p><h3 class="text-brand">#24</h3></div>
+            <div class="stat-col" style="text-align:center;"><p>Score</p><h3>184</h3></div>
+        </div>
+
+        <div class="profile-menu">
+            <div class="menu-item"><span>📊 Performance</span><span>〉</span></div>
+            <div class="menu-item"><span>📝 Quiz History</span><span>〉</span></div>
+            <div class="menu-item"><span>🔖 Bookmarks</span><span>〉</span></div>
+            <div class="menu-item"><span>⚙️ Settings</span><span>〉</span></div>
+            <div class="menu-item"><span>❓ Help & Support</span><span>〉</span></div>
         </div>
     </div>
 
-    <div class="modal-overlay" id="eloModalOverlay" onclick="closeEloModal(event)" style="z-index: 300;">
-        <div class="modal-content" id="eloModalContent" onclick="event.stopPropagation()" style="height: 80vh; background: #f8fafc; padding: 0; display: flex; flex-direction: column;">
-            <div style="padding: 20px; text-align: center; border-bottom: 1px solid #e2e8f0; background: white; border-radius: 32px 32px 0 0;">
-                <div class="close-indicator" onclick="closeEloModal(null, true)"></div><h2 style="margin: 0; color: #0f172a; font-size: 1.3em;">🌍 Global Intelligence</h2><p style="margin: 4px 0 0 0; font-size: 0.8em; color: #64748b;">Top 50 Lifetime Elo Ratings (Active Only)</p>
-            </div>
-            <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
-            <div class="user-footer" id="eloFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">Loading your Elo status...</div>
-        </div>
-    </div>
 
     <!-- ==========================================
-         BOTTOM NAVIGATION
+         BOTTOM NAVIGATION BAR
          ========================================== -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchView('view-home')" id="nav-home">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>Home</span>
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>Home</span>
         </div>
         <div class="nav-item" onclick="switchView('view-cup')" id="nav-cup">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5v2h14V3zm-2 4H7v7c0 2.76 2.24 5 5 5s5-2.24 5-5V7zM7 7H5c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2h2V7zm14 0h-2v6h2c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z"/></svg><span>Cup</span>
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5v2h14V3zm-2 4H7v7c0 2.76 2.24 5 5 5s5-2.24 5-5V7zM7 7H5c-1.1 0-2 .9-2 2v2c0 1.1.9 2 2 2h2V7zm14 0h-2v6h2c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z"/></svg>
+            <span>Cup</span>
         </div>
         <div class="nav-item" onclick="switchView('view-progress')" id="nav-progress">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg><span>Progress</span>
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+            <span>Progress</span>
         </div>
         <div class="nav-item" onclick="switchView('view-profile')" id="nav-profile">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg><span>Profile</span>
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>Profile</span>
         </div>
     </div>
 
 
     <!-- ==========================================
-         HIDDEN APP_V8 COMPATIBILITY ANCHORS
-         (Prevents app_v8.js background crashes!)
+         APPLICATION LOGIC
          ========================================== -->
-    <div style="display: none;">
-        <span id="weekNumber"></span>
-        <span id="activeCount"></span>
-        <span id="timeRemainingHead"></span>
-        <div id="list"></div>
-        <div id="footer"></div>
-    </div>
-
-    <!-- ==========================================
-         MASTER SPEC JAVASCRIPT
-         ========================================== -->
-    <!-- We load app_v8.js AFTER the anchors so the DOM elements exist when it searches for them -->
-    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js"></script>
-
     <script>
-        // 1. Intercept the leaderboard render safely
-        const originalRender = renderLeaderboardData;
-        renderLeaderboardData = function(data) {
-            originalRender(data); 
-            drawHybridCup(data);  
-        };
-
-        // 2. We do NOT redeclare `const tg` or `const userId` here. 
-        // We use the ones that app_v8.js already created in the global scope!
+        // 1. Initialize Telegram & User
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        const userId = tg.initDataUnsafe?.user?.id || 123456789;
         const firstName = tg.initDataUnsafe?.user?.first_name || 'Student';
-        const userNameEl = document.getElementById('user-name');
-        if (userNameEl) userNameEl.innerText = firstName;
-        const avatarEl = document.getElementById('avatar-initial');
-        if (avatarEl) avatarEl.innerText = firstName.charAt(0).toUpperCase();
+        
+        document.getElementById('user-name').innerText = firstName;
+        document.getElementById('profile-name').innerText = firstName;
+        document.getElementById('avatar-initial').innerText = firstName.charAt(0).toUpperCase();
 
-        // 3. 🟢 BULLETPROOF IST TIME FUNCTION 🟢
+        // 🟢 BULLETPROOF IST TIME FUNCTION 🟢
         function getIST() {
             return new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
         }
 
         const istNow = getIST();
         const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
-        const dateEl = document.getElementById('current-date');
-        if (dateEl) dateEl.innerText = istNow.toLocaleDateString('en-GB', options);
+        document.getElementById('current-date').innerText = istNow.toLocaleDateString('en-GB', options);
 
+        // 2. DYNAMIC DAY TRACKER
         function updateDayTracker() {
             const ist = getIST();
             let dayNum = ist.getDay() === 0 ? 7 : ist.getDay(); 
 
             document.querySelectorAll('.badge-day').forEach(el => el.innerText = `Day ${dayNum}`);
             
+            // ✅ ADD THIS NEW LINE: Instantly updates the header inside the active tests view!
             const detailHeader = document.getElementById('day-detail-header');
             if (detailHeader) detailHeader.innerText = `Day ${dayNum}`;
 
@@ -394,180 +388,126 @@
         }
         updateDayTracker();
 
-        // 4. DRAW HYBRID CUP
-        function drawHybridCup(data) {
-            const lbList = document.getElementById('hybrid-leaderboard');
-            if(!lbList || !data.leaderboard) return;
-            
-            lbList.innerHTML = '';
-            let targetAverage = data.target_average || 0;
-            let insertedPromo = false;
-            let insertedDemo = false;
-            let demoCount = 0;
+        // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
+        async function loadRealCupData() {
+            try {
+                // Fetching from your LIVE Weekly Cup endpoint
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`);
+                const data = await response.json();
 
-            const LEAGUES = [
-                { name: 'Unranked', class: 'bg-unranked', icon: '🛡️', row: '' }, 
-                { name: 'Bronze', class: 'bg-bronze', icon: '🥉', row: 'row-bg-bronze' },      
-                { name: 'Silver', class: 'bg-silver', icon: '🥈', row: 'row-bg-silver' },      
-                { name: 'Gold', class: 'bg-gold', icon: '🥇', row: 'row-bg-gold' },          
-                { name: 'Platinum', class: 'bg-plat', icon: '💠', row: 'row-bg-plat' },      
-                { name: 'Diamond', class: 'bg-dia', icon: '💎', row: 'row-bg-dia' },        
-                { name: 'Champion', class: 'bg-champ', icon: '👑', row: 'row-bg-champ' },     
-                { name: 'Master', class: 'bg-master', icon: '🎖️', row: 'row-bg-master' },      
-                { name: 'Elite', class: 'bg-elite', icon: '⚡', row: 'row-bg-elite' },        
-                { name: 'Legend', class: 'bg-legend', icon: '🌟', row: 'row-bg-legend' },      
-                { name: 'Mythic', class: 'bg-mythic', icon: '🔮', row: 'row-bg-mythic' },      
-                { name: 'Prodigy', class: 'bg-prodigy', icon: '⚛️', row: 'row-bg-prodigy' },    
-                { name: 'Celestial', class: 'bg-celestial', icon: '☄️', row: 'row-bg-celestial' },
-                { name: 'Zenith', class: 'bg-zenith', icon: '🧿', row: 'row-bg-zenith' },      
-                { name: 'Ascendant', class: 'bg-ascendant', icon: '🌌', row: 'row-bg-ascendant' }, 
-                { name: 'Omniscient', class: 'bg-omniscient', icon: '👁️‍🗨️', row: 'row-bg-omniscient' }
-            ];
-            
-            data.leaderboard.forEach(user => {
-                let isDemotion = user.score < targetAverage;
-                if (isDemotion) demoCount++;
-                if (isDemotion && demoCount > 10 && user.id != userId) return;
-
-                // INJECT DIVIDERS
-                if (!insertedPromo && !isDemotion) {
-                    lbList.innerHTML += `
-                        <div style="display: flex; align-items: center; margin: 10px 0 15px 0;">
-                            <div style="flex: 1; height: 1px; background: #10b981;"></div>
-                            <div style="padding: 4px 12px; font-size: 11px; font-weight: 800; color: #10b981; background: #d1fae5; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; margin: 0 10px;">▲ Promotion Zone ▲</div>
-                            <div style="flex: 1; height: 1px; background: #10b981;"></div>
-                        </div>
-                    `;
-                    insertedPromo = true;
-                }
-                if (!insertedDemo && isDemotion) {
-                    lbList.innerHTML += `
-                        <div id="demotionZoneLine" style="display: flex; align-items: center; margin: 24px 0 15px 0;">
-                            <div style="flex: 1; height: 1px; background: #ef4444;"></div>
-                            <div style="padding: 4px 12px; font-size: 11px; font-weight: 800; color: #ef4444; background: #fee2e2; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; margin: 0 10px;">▼ Demotion Zone ▼</div>
-                            <div style="flex: 1; height: 1px; background: #ef4444;"></div>
-                        </div>
-                    `;
-                    insertedDemo = true;
-                }
-
-                // BUILD ROW
-                const isMe = user.id == userId;
-                let l = LEAGUES[user.league] || LEAGUES[0];
-                if (user.league >= 16) l = { name: 'Genesis', class: 'bg-genesis', icon: '✨', row: 'row-bg-genesis' };
-
-                let baseStyle = 'display:flex; justify-content:space-between; align-items:center; padding:16px 14px; border-radius:12px; margin-bottom:8px; cursor:pointer;';
-                let highlightStyle = isMe ? 'border: 2px solid var(--brand); box-shadow: 0 4px 12px rgba(90,50,250,0.15);' : 'border: 1px solid var(--border-light); background: white;';
-                let bgClass = (l.row && l.row !== '') ? l.row : '';
-
-                let houseIcon = '🏳️';
-                if(user.house && user.house.includes('Gryffindor')) houseIcon = '🦁';
-                else if(user.house && user.house.includes('Slytherin')) houseIcon = '🐍';
-                else if(user.house && user.house.includes('Ravenclaw')) houseIcon = '🦅';
-                else if(user.house && user.house.includes('Hufflepuff')) houseIcon = '🦡';
-
-                let trendIcon = user.score >= targetAverage 
-                    ? `<span style="color: #10b981; font-size: 11px; margin-left: 4px;">▲</span>` 
-                    : `<span style="color: #ef4444; font-size: 11px; margin-left: 4px;">▼</span>`;
-
-                lbList.innerHTML += `
-                    <div class="${bgClass}" style="${baseStyle} ${highlightStyle}" onclick="if(typeof openProfile === 'function') openProfile(${user.id})">
-                        <div style="display:flex; gap:14px; align-items:center;">
-                            <span style="font-weight:900; font-size:16px; color:var(--text-muted); width:26px; text-align:center;">${user.rank}</span>
-                            <div style="display:flex; flex-direction:column; gap:6px;">
-                                <span style="font-weight:700; font-size:15px; color:var(--text-main);">${isMe ? 'You' : user.name} ${user.is_captain ? '🪄' : ''}</span>
-                                <div style="display:flex; gap:8px; align-items:center;">
-                                    <span style="font-size:14px;">${houseIcon}</span>
-                                    <span class="league-badge ${l.class}" style="font-size:10px; padding:3px 6px;">${l.icon} ${Math.round(user.elo)} Elo</span>
+                // --- INJECT REAL CUP LEADERBOARD ---
+                const lbList = document.querySelector('.leaderboard-list');
+                if(lbList && data.leaderboard) {
+                    lbList.innerHTML = '';
+                    const LEAGUE_ICONS = ["🛡️", "🥉", "🥈", "🥇", "💠", "💎", "👑", "🎖️", "⚡", "🌟", "🔮", "⚛️", "☄️", "🧿", "🌌", "👁️‍🗨️"];
+                    
+                    data.leaderboard.slice(0, 20).forEach(user => {
+                        const isMe = user.id == userId;
+                        const bg = isMe ? 'background:var(--brand-light); border:none; padding:16px; border-radius:12px; margin-top:8px;' : 'padding:16px 0; border-bottom:1px solid var(--border-light);';
+                        const icon = LEAGUE_ICONS[user.league] || "✨";
+                        
+                        lbList.innerHTML += `
+                            <div class="lb-item" style="${bg}">
+                                <div class="lb-left">
+                                    <span class="lb-rank" style="${isMe ? 'font-weight:bold;color:var(--brand);' : ''}">${user.rank}</span>
+                                    <div style="display:flex; flex-direction:column; gap:2px;">
+                                        <span class="${isMe ? 'font-bold' : ''}">${isMe ? 'You' : user.name}</span>
+                                        <span style="font-size:11px; color:var(--text-muted);">${icon} ${Math.round(user.elo)} Elo</span>
+                                    </div>
                                 </div>
+                                <span class="${isMe ? 'text-brand font-bold' : ''}">${user.score}</span>
                             </div>
-                        </div>
-                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">${user.score % 1 !== 0 ? user.score.toFixed(2) : user.score} ${trendIcon}</span>
-                    </div>
-                `;
-            });
+                        `;
+                    });
+                }
 
-            if (data.current_user) {
-                const cu = data.current_user;
-                const hRank = document.getElementById('home-rank'); if(hRank) hRank.innerText = `#${cu.rank || 'N/A'}`;
-                const hScore = document.getElementById('home-score'); if(hScore) hScore.innerText = cu.score || 0;
-                const cRank = document.getElementById('cup-tab-rank'); if(cRank) cRank.innerText = `#${cu.rank || 'N/A'}`;
-                const cScore = document.getElementById('cup-tab-score'); if(cScore) cScore.innerText = cu.score || 0;
-                const pRank = document.getElementById('prog-rank'); if(pRank) pRank.innerText = `#${cu.rank || 'N/A'}`;
-                const pScore = document.getElementById('prog-score'); if(pScore) pScore.innerText = cu.score || 0;
-                const pAcc = document.getElementById('prog-acc'); if(pAcc) pAcc.innerText = (cu.history?.accuracy || 0) + '%';
-            }
+                // --- INJECT REAL PERSONAL PROGRESS ---
+                if (data.current_user) {
+                    const cu = data.current_user;
+                    
+                    document.querySelectorAll('.cup-stats').forEach(el => {
+                        el.innerHTML = `
+                            <div class="stat-col"><p>Rank</p><h3 class="text-brand">#${cu.rank || 'N/A'}</h3></div>
+                            <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
+                        `;
+                    });
+                    
+                    const progressStats = document.querySelector('#view-progress .card-main');
+                    if(progressStats) {
+                        progressStats.innerHTML = `
+                            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
+                                <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
+                                <div class="stat-col"><p>Rank</p><h3>#${cu.rank || 'N/A'}</h3></div>
+                            </div>
+                            <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success">${cu.history?.accuracy || 0}%</h3></div>
+                        `;
+                    }
+                }
+            } catch (err) { console.error("Failed to load Cup data"); }
         }
 
-        // 5. FETCH GROUPED QUIZZES
+        // --- MASTER SPEC: LOAD GROUPED QUIZZES ---
         async function loadQuizzes() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`);
                 const data = await response.json();
                 const container = document.getElementById('api-quiz-container');
-                if(!container) return;
                 container.innerHTML = ''; 
 
-                let completedCount = 0;
-                let totalCount = 0;
-
-                const renderCard = (quiz) => {
-                    totalCount++;
-                    let statusHtml = ''; let wrapperTag = 'div'; let wrapperHref = '';
-                    const dropDate = new Date(quiz.drop_time);
-                    const timeString = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-
-                    if (quiz.status === 'locked') statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
-                    else if (quiz.status === 'completed') { statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`; completedCount++; }
-                    else if (quiz.status === 'closed') statusHtml = `<div class="status-badge status-locked">Closed</div>`;
-                    else {
-                        statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
-                        wrapperTag = 'a'; wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
-                    }
-
-                    container.innerHTML += `
-                        <${wrapperTag} ${wrapperHref} class="quiz-item">
-                            <div><h3 style="color:var(--text-main);">${quiz.topic}</h3><p>${quiz.question_count} Questions • ${quiz.duration_seconds / 60} mins</p></div>
-                            ${statusHtml}
-                        </${wrapperTag}>
-                    `;
-                };
-
-                if (data.quizzes && data.quizzes.Today && data.quizzes.Today.length > 0) {
-                    container.innerHTML += `<p style="font-size:13px; font-weight:700; color:var(--text-muted); margin: 16px 0 8px 0;">TODAY</p>`;
-                    data.quizzes.Today.forEach(renderCard);
-                }
-                
-                if (data.quizzes && data.quizzes.Yesterday && data.quizzes.Yesterday.length > 0) {
-                    container.innerHTML += `<p style="font-size:13px; font-weight:700; color:#e73b50; margin: 24px 0 8px 0;">YESTERDAY (CLOSES TONIGHT)</p>`;
-                    data.quizzes.Yesterday.forEach(renderCard);
+                // Render "Today" Section
+                if (data.quizzes.Today && data.quizzes.Today.length > 0) {
+                    container.innerHTML += `<h3 style="margin-top:16px;">Today</h3>`;
+                    data.quizzes.Today.forEach(quiz => renderQuizCard(quiz, container));
                 }
 
-                const pText = document.getElementById('progress-text');
-                if(pText) pText.innerText = `${completedCount} / ${totalCount} Completed`;
-                const pFill = document.getElementById('progress-fill');
-                if(pFill) pFill.style.width = totalCount > 0 ? `${(completedCount / totalCount) * 100}%` : '0%';
+                // Render "Yesterday" Section
+                if (data.quizzes.Yesterday && data.quizzes.Yesterday.length > 0) {
+                    container.innerHTML += `<h3 style="margin-top:16px; color:var(--brand-red);">Yesterday (Closes Tonight)</h3>`;
+                    data.quizzes.Yesterday.forEach(quiz => renderQuizCard(quiz, container));
+                }
 
             } catch (error) {
-                const container = document.getElementById('api-quiz-container');
-                if(container) container.innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
+                document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
         }
 
-        // 6. FETCH PROGRESS TAB REAL HISTORY
+        // --- MASTER SPEC: LOAD HOME TAB READ-ONLY CONTENT ---
+        async function loadHomeContent() {
+            try {
+                // Word of the Day
+                fetch('https://ez-editorials-bot.onrender.com/api/word-of-day')
+                    .then(r => r.json())
+                    .then(data => {
+                        if(data.word_of_the_day && document.getElementById('home-wotd')) {
+                            document.getElementById('home-wotd').innerText = data.word_of_the_day;
+                        }
+                    });
+                
+                // Upcoming Exams
+                fetch('https://ez-editorials-bot.onrender.com/api/upcoming-exams')
+                    .then(r => r.json())
+                    .then(data => {
+                        const examList = document.getElementById('home-exams-list');
+                        if(data.exams && examList) {
+                            examList.innerHTML = data.exams.map(e => `<li>${e.name} - ${e.date}</li>`).join('');
+                        }
+                    });
+            } catch(e) { console.error("Content load failed"); }
+        }
+
+        // --- MASTER SPEC: LOAD PROGRESS TAB REAL HISTORY ---
         async function loadProgressHistory() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${userId}`);
                 const data = await response.json();
                 const container = document.getElementById('progress-history-container');
-                if(!container) return;
-
+                
                 if (data.history && data.history.length > 0) {
                     container.innerHTML = data.history.map(item => `
-                        <div class="quiz-item" style="margin-bottom: 12px; background: white;">
+                        <div class="quiz-item" style="margin-bottom: 12px;">
                             <div>
-                                <h3 style="margin-bottom:2px; font-size:14px; font-weight:600; color:var(--text-main);">${item.topic}</h3>
-                                <p style="font-size:11px; color:var(--text-muted);">${item.date}</p>
+                                <h3 style="margin-bottom:2px;">${item.topic}</h3>
+                                <p style="font-size:11px;">${item.date}</p>
                             </div>
                             <span class="font-bold text-brand">${item.score} pts</span>
                         </div>
@@ -578,52 +518,59 @@
             } catch(e) { console.error("History load failed"); }
         }
 
-        // 7. FETCH HOME CONTENT (WOTD & EXAMS)
-        async function loadHomeContent() {
-            try {
-                fetch('https://ez-editorials-bot.onrender.com/api/word-of-day')
-                    .then(r => r.json())
-                    .then(data => {
-                        const wotdEl = document.getElementById('home-wotd');
-                        if(data.word_of_the_day && wotdEl) wotdEl.innerText = data.word_of_the_day;
-                    });
-                
-                fetch('https://ez-editorials-bot.onrender.com/api/upcoming-exams')
-                    .then(r => r.json())
-                    .then(data => {
-                        const examList = document.getElementById('home-exams-list');
-                        if(data.exams && examList) {
-                            examList.innerHTML = data.exams.map(e => `<li><b>${e.name}</b> <span style="color:var(--text-muted); font-size:11px;">(${e.date})</span></li>`).join('');
-                        }
-                    });
-            } catch(e) { console.error("Content load failed"); }
-        }
+        // Call these alongside loadQuizzes()
+        loadHomeContent();
+        loadProgressHistory();
 
-        // 8. UNIFIED NAVIGATION & MODAL HANDLING
-        function switchView(viewId) {
-            if (viewId === 'view-profile') {
-                if (typeof openProfile === 'function' && window.currentUserData) {
-                    openProfile(window.currentUserData.id);
-                } else {
-                    alert("Profile data is still syncing...");
-                }
-                return; 
+        function renderQuizCard(quiz, container) {
+            let statusHtml = ''; let wrapperTag = 'div'; let wrapperHref = '';
+            const dropDate = new Date(quiz.drop_time);
+            const timeString = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+            if (quiz.status === 'locked') statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
+            else if (quiz.status === 'completed') statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
+            else if (quiz.status === 'closed') statusHtml = `<div class="status-badge status-locked">Closed</div>`;
+            else {
+                statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
+                wrapperTag = 'a'; wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
             }
 
+            container.innerHTML += `
+                <${wrapperTag} ${wrapperHref} class="quiz-item">
+                    <div><h3>${quiz.topic}</h3><p>${quiz.question_count} Questions • ${quiz.duration_seconds / 60} mins</p></div>
+                    ${statusHtml}
+                </${wrapperTag}>
+            `;
+        }
+
+        // --- MASTER SPEC: TAB SWITCHER ---
+        function switchView(viewId) {
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
-            const targetView = document.getElementById(viewId);
-            if(targetView) targetView.classList.add('active');
+            document.getElementById(viewId).classList.add('active');
             window.scrollTo(0, 0);
 
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            const navItem = document.getElementById('nav-' + viewId.replace('view-', ''));
-            if(navItem) navItem.classList.add('active');
+            let navId = 'nav-home';
             
-            const scrollBtn = document.getElementById('scrollBtn');
-            if (scrollBtn) scrollBtn.style.display = (viewId === 'view-cup') ? 'flex' : 'none';
+            if(viewId === 'view-cup') { 
+                navId = 'nav-cup'; 
+                loadRealCupData();
+            }
+            if(viewId === 'view-progress') {
+                navId = 'nav-progress';
+                loadProgressHistory(); // Fetch real history on tab open
+            }
+            if(viewId === 'view-profile') {
+                navId = 'nav-profile';
+                // Attach click handler to "Performance" menu item to open the real modal
+                const perfMenu = document.getElementById('menu-performance');
+                if(perfMenu) perfMenu.onclick = () => openProfile(userId);
+            }
+            
+            document.getElementById(navId).classList.add('active');
         }
 
-        // 9. IST MIDNIGHT COUNTDOWN
+        // 6. TOP TIMER (IST BOUND)
         setInterval(() => {
             const ist = getIST();
             const endOfDay = new Date(ist);
@@ -634,16 +581,13 @@
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
             const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
             
-            const homeTimer = document.getElementById('home-timer');
-            if(homeTimer) homeTimer.innerText = `${h} : ${m} : ${s}`;
+            document.getElementById('home-timer').innerText = `${h} : ${m} : ${s}`;
             const detailTimer = document.getElementById('detail-timer');
             if(detailTimer) detailTimer.innerText = `${h} : ${m} : ${s}`;
         }, 1000);
 
-        // INITIALIZE APP
         loadQuizzes();
-        loadProgressHistory();
-        loadHomeContent();
+        loadRealCupData();
     </script>
 </body>
 </html>
