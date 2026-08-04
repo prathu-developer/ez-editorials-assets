@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quiz Active</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f8f9fa; margin: 0; padding: 0; color: #1a1a1a; display: flex; flex-direction: column; height: 100vh; }
+        
+        /* Header & Timer */
+        .header { background: #fff; padding: 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+        .header h3 { margin: 0; font-size: 16px; font-weight: 600; }
+        .timer { color: #dc3545; font-weight: 700; font-size: 16px; background: #ffebee; padding: 4px 12px; border-radius: 20px; }
+        
+        /* Question Palette */
+        .palette { display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px; background: #fff; border-bottom: 1px solid #eee; }
+        .palette-btn { width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; border: 1px solid #ddd; background: #fff; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .palette-btn.active { border: 2px solid #5c3bfe; }
+        .palette-btn.answered { background: #e0f2f1; border-color: #26a69a; color: #00695c; }
+        
+        /* Question Area */
+        .question-container { padding: 20px 16px; flex-grow: 1; overflow-y: auto; }
+        .question-meta { display: flex; justify-content: space-between; font-size: 13px; color: #666; margin-bottom: 12px; font-weight: 600; }
+        .marks { display: flex; gap: 8px; }
+        .marks span:first-child { color: #28a745; background: #e8f5e9; padding: 2px 6px; border-radius: 4px;}
+        .marks span:last-child { color: #dc3545; background: #ffebee; padding: 2px 6px; border-radius: 4px;}
+        .question-text { font-size: 16px; line-height: 1.5; margin-bottom: 24px; font-weight: 500; white-space: pre-wrap; }
+        
+        /* Options */
+        .option { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s; }
+        .option.selected { border-color: #5c3bfe; background: #f0ebff; }
+        .option-letter { background: #f0f0f0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #555; }
+        .option.selected .option-letter { background: #5c3bfe; color: #fff; }
+        .option-text { font-size: 15px; flex-grow: 1; }
+
+        /* Bottom Actions */
+        .bottom-bar { background: #fff; padding: 16px; border-top: 1px solid #eee; display: flex; gap: 12px; }
+        .btn { flex: 1; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; text-align: center; }
+        .btn-clear { background: #f8f9fa; border: 1px solid #ddd; color: #555; }
+        .btn-next { background: #ef4444; color: #fff; }
+        
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 100; }
+        .modal { background: #fff; width: 90%; max-width: 340px; border-radius: 16px; padding: 24px; text-align: center; }
+        .modal h2 { margin: 0 0 16px 0; font-size: 18px; }
+        .modal p { color: #666; font-size: 14px; margin-bottom: 24px; }
+        .modal-actions { display: flex; gap: 12px; }
+        
+        #loading-screen { position: absolute; inset: 0; background: #fff; display: flex; align-items: center; justify-content: center; z-index: 50; }
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen">Starting Quiz...</div>
+
+    <div class="header">
+        <h3 id="quiz-title">Loading...</h3>
+        <div class="timer" id="timer-display">00:00</div>
+    </div>
+
+    <div class="palette" id="palette-container"></div>
+
+    <div class="question-container">
+        <div class="question-meta">
+            <span id="q-number">Question 1</span>
+            <div class="marks"><span>+1.0</span><span>-0.25</span></div>
+        </div>
+        <div class="question-text" id="q-text"></div>
+        <div id="options-container"></div>
+    </div>
+
+    <div class="bottom-bar">
+        <button class="btn btn-clear" onclick="clearResponse()">Clear</button>
+        <button class="btn btn-next" id="next-btn" onclick="nextQuestion()">Save & Next</button>
+    </div>
+
+    <!-- Submit Confirmation Modal -->
+    <div class="modal-overlay" id="submit-modal">
+        <div class="modal">
+            <h2>Submit Test?</h2>
+            <p id="attempt-summary">You have answered 0 out of X questions.</p>
+            <div class="modal-actions">
+                <button class="btn btn-clear" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-next" onclick="submitQuiz()">Confirm Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        const userId = tg.initDataUnsafe?.user?.id || 123456789;
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const quizId = urlParams.get('quiz_id');
+
+        let attemptId = null;
+        let questions = [];
+        let currentIndex = 0;
+        let responses = {}; // Stores { question_id: selected_index }
+        let timerInterval = null;
+        let timeRemaining = 0;
+
+        async function startQuiz() {
+            try {
+                const res = await fetch(`https://ez-quiz-bot.onrender.com/api/quiz/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, quiz_set_id: quizId })
+                });
+                
+                const data = await res.json();
+                if (data.error) {
+                    alert(data.error);
+                    window.location.href = 'quiz-home.html';
+                    return;
+                }
+
+                attemptId = data.attempt_id;
+                questions = data.questions;
+                document.getElementById('quiz-title').innerText = "Quiz Active";
+                
+                // For safety, request duration again or assume a default based on array length. 
+                // Let's grab it from local storage or assume 15 mins (900s) for fallback
+                timeRemaining = 900; // Will add a proper duration fetch later, hardcoded to 15m for testing
+                
+                buildPalette();
+                loadQuestion(0);
+                document.getElementById('loading-screen').style.display = 'none';
+                
+                startTimer();
+            } catch (err) {
+                alert("Failed to start quiz.");
+                window.location.href = 'quiz-home.html';
+            }
+        }
+
+        function buildPalette() {
+            const container = document.getElementById('palette-container');
+            container.innerHTML = '';
+            questions.forEach((q, index) => {
+                const btn = document.createElement('button');
+                btn.className = `palette-btn ${index === 0 ? 'active' : ''}`;
+                btn.id = `pal-${index}`;
+                btn.innerText = index + 1;
+                btn.onclick = () => loadQuestion(index);
+                container.appendChild(btn);
+            });
+        }
+
+        function loadQuestion(index) {
+            currentIndex = index;
+            const q = questions[index];
+            
+            // Update Palette UI
+            document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`pal-${index}`).classList.add('active');
+
+            document.getElementById('q-number').innerText = `Question ${index + 1} of ${questions.length}`;
+            document.getElementById('q-text').innerText = q.text;
+
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = '';
+            
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+            const savedAnswer = responses[q.question_id];
+
+            q.options.forEach((optText, i) => {
+                const optDiv = document.createElement('div');
+                optDiv.className = `option ${savedAnswer === i ? 'selected' : ''}`;
+                optDiv.onclick = () => selectOption(i, optDiv);
+                
+                optDiv.innerHTML = `
+                    <div class="option-letter">${letters[i]}</div>
+                    <div class="option-text">${optText}</div>
+                `;
+                optsContainer.appendChild(optDiv);
+            });
+
+            const nextBtn = document.getElementById('next-btn');
+            if (index === questions.length - 1) {
+                nextBtn.innerText = "Submit Test";
+                nextBtn.onclick = openModal;
+            } else {
+                nextBtn.innerText = "Save & Next";
+                nextBtn.onclick = () => { loadQuestion(index + 1); };
+            }
+        }
+
+        function selectOption(optIndex, element) {
+            const qId = questions[currentIndex].question_id;
+            responses[qId] = optIndex;
+            
+            // UI updates
+            document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById(`pal-${currentIndex}`).classList.add('answered');
+        }
+
+        function clearResponse() {
+            const qId = questions[currentIndex].question_id;
+            delete responses[qId];
+            document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+            document.getElementById(`pal-${currentIndex}`).classList.remove('answered');
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                let m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                let s = (timeRemaining % 60).toString().padStart(2, '0');
+                document.getElementById('timer-display').innerText = `${m}:${s}`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        function openModal() {
+            const answeredCount = Object.keys(responses).length;
+            document.getElementById('attempt-summary').innerText = `You have answered ${answeredCount} out of ${questions.length} questions.`;
+            document.getElementById('submit-modal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('submit-modal').style.display = 'none';
+        }
+
+        async function submitQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('loading-screen').innerText = 'Submitting...';
+            document.getElementById('loading-screen').style.display = 'flex';
+            
+            // Format answers for API
+            const formattedResponses = questions.map(q => ({
+                question_id: q.question_id,
+                selected_index: responses[q.question_id] !== undefined ? responses[q.question_id] : null
+            }));
+
+            try {
+                await fetch(`https://ez-quiz-bot.onrender.com/api/quiz/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ attempt_id: attemptId, responses: formattedResponses })
+                });
+                
+                // Redirect to Results screen (We will build this next)
+                window.location.href = `result.html?attempt_id=${attemptId}`;
+            } catch (err) {
+                alert("Submission failed. Please check connection.");
+                document.getElementById('loading-screen').style.display = 'none';
+            }
+        }
+
+        startQuiz();
+    </script>
+</body>
+</html>
