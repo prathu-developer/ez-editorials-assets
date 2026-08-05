@@ -654,6 +654,8 @@
                 if (data.current_user) {
                     const cu = data.current_user;
                     
+                    const leagueBadge = getLeagueBadgeHTML(cu.league);
+                    
                     // 1. Safely inject into Home Tab
                     const homeRank = document.getElementById('home-rank');
                     if (homeRank) homeRank.innerText = `#${cu.rank || 'N/A'}`;
