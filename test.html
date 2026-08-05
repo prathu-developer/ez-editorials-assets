@@ -291,6 +291,8 @@
         let timerInterval = null;
         let timeRemaining = 0;
         let topicName = "Test";
+        
+        let isSubmitting = false;
 
         async function startQuiz() {
             try {
@@ -387,6 +389,10 @@
         }
 
         function selectOption(optIndex, element) {
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.selectionChanged();
+            }
+            
             const qId = questions[currentIndex].question_id;
             responses[qId] = optIndex;
             document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
@@ -404,10 +410,14 @@
         function toggleReview() {
             const qId = questions[currentIndex].question_id;
             reviewStatus[qId] = !reviewStatus[qId];
-            loadQuestion(currentIndex); // Reload to update button UI
+            loadQuestion(currentIndex); 
         }
 
         function saveAndNext() {
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.selectionChanged();
+            }
+            
             if (currentIndex < questions.length - 1) {
                 loadQuestion(currentIndex + 1);
             }
@@ -481,6 +491,9 @@
         }
 
         async function submitQuiz() {
+            if (isSubmitting) return; // Prevent double taps
+            isSubmitting = true;
+            
             clearInterval(timerInterval);
             document.getElementById('submit-modal').style.display = 'none';
             document.getElementById('loading-screen').innerText = 'Submitting Test...';
