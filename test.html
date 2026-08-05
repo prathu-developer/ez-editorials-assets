@@ -316,7 +316,7 @@
                 const data = await res.json();
                 if (data.error) {
                     alert(data.error);
-                    window.location.href = 'quiz-home.html';
+                    window.location.href = 'index.html';
                     return;
                 }
 
@@ -334,7 +334,7 @@
                 
             } catch (err) {
                 alert("Failed to start quiz.");
-                window.location.href = 'quiz-home.html';
+                window.location.href = 'index.html';
             }
         }
 
