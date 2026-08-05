@@ -230,6 +230,8 @@ function renderLeaderboardData(data) {
     footerDiv.onclick = () => openProfile(me.id);
     footerDiv.style.background = getLeagueFooterColor(me.league);
 
+    footerDiv.style.display = 'flex'; // Unhide the footer in the SPA!
+
     footerDiv.innerHTML = `
         <div style="display:flex; flex-direction:column; width:100%;">
             <div style="display:flex; justify-content:space-between; align-items:center;">
