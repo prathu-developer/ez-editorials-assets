@@ -167,8 +167,14 @@
          ========================================== -->
     <div id="view-home" class="view-container active">
         <div class="top-header">
-            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <!-- Left icon hooked to Performance Modal -->
+            <svg class="icon-btn" onclick="openProfile(appUserId)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            
+            <!-- Right Bell icon with the ID wrapper for notifications -->
+            <div style="position: relative;">
+                <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                <div id="header-bell-badge" style="display:none; position:absolute; top:-2px; right:2px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
+            </div>
         </div>
 
         <div class="greeting-section">
@@ -626,35 +632,53 @@
         // --- NEW: ACTUAL HISTORY-BASED TRACKER ---
         function updateDynamicTracker() {
             const ist = getIST();
-            let currentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; // 0=Mon, 6=Sun
+            // 0=Mon, 1=Tue ... 5=Sat. Sunday (6) defaults to the end of the week.
+            let currentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
             
             const daysRow = document.querySelector('.days-row');
             if(!daysRow) return;
             daysRow.innerHTML = '';
             
-            // Pull actual attempt history from the database
+            // 1. Pull exact history labels and attempt arrays
             let userHistory = window.currentUserData?.history || {};
-            let attempts = userHistory.daily_attempts || [0,0,0,0,0,0,0];
+            let labels = userHistory.labels || [];
+            let attempts = userHistory.daily_attempts || [];
+            
+            const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
             for(let i = 0; i < 6; i++) {
                 let dayNum = i + 1;
                 let cls = ''; let chk = '';
                 
+                // 2. Find if this specific day exists in the user's history
+                let dayName = weekDays[i];
+                let histIdx = labels.indexOf(dayName);
+                let attemptsThisDay = histIdx !== -1 ? attempts[histIdx] : 0;
+                
+                // 3. Assign correct checkmarks based on the timeline
                 if (i < currentDayIndex) {
-                    if (attempts[i] > 0) {
-                        cls = 'done'; chk = '✓'; // Completed in the past
+                    // Past Days
+                    if (attemptsThisDay > 0) {
+                        cls = 'done'; chk = '✓'; // Played
                     } else {
-                        cls = ''; chk = '❌'; // Missed
+                        cls = ''; chk = '❌';    // Missed
                     }
                 } else if (i === currentDayIndex) {
-                    cls = 'active'; // Today
-                    chk = attempts[i] > 0 ? '✓' : '';
+                    // Today
+                    cls = 'active'; 
+                    chk = attemptsThisDay > 0 ? '✓' : '';
                 } else {
-                    cls = ''; chk = '🔒'; // Future
+                    // Future Days
+                    cls = ''; chk = '🔒';
                 }
                 
                 let colorStyle = chk === '❌' ? 'color: #ef4444; font-size: 10px;' : '';
-                daysRow.innerHTML += `<div style="text-align:center"><div class="day-circle ${cls}">${dayNum}</div><div class="day-check" style="${colorStyle}">${chk}</div></div>`;
+                daysRow.innerHTML += `
+                    <div style="text-align:center">
+                        <div class="day-circle ${cls}">${dayNum}</div>
+                        <div class="day-check" style="${colorStyle}">${chk}</div>
+                    </div>
+                `;
             }
         }
 
@@ -735,12 +759,17 @@
                 // 🟢 NEW: DYNAMIC PROGRESS BAR CALCULATION
                 let totalActiveQuizzes = 0;
                 let completedQuizzes = 0;
+                let hasUnattemptedQuizzes = false; // 🟢 Track if any quizzes need attention
 
                 ['Today', 'Pending'].forEach(day => {
                     if (data.quizzes[day]) {
                         data.quizzes[day].forEach(q => {
                             totalActiveQuizzes++;
-                            if (q.status === 'completed') completedQuizzes++;
+                            if (q.status === 'completed') {
+                                completedQuizzes++;
+                            } else if (q.status === 'unlocked' || q.status === 'start') {
+                                hasUnattemptedQuizzes = true; // 🟢 Found an active, unfinished quiz!
+                            }
                         });
                     }
                 });
@@ -752,6 +781,12 @@
                     progressText.innerText = `${completedQuizzes} / ${totalActiveQuizzes} Completed`;
                     let percentage = totalActiveQuizzes > 0 ? (completedQuizzes / totalActiveQuizzes) * 100 : 0;
                     progressFill.style.width = `${percentage}%`;
+                }
+
+                // 🟢 NEW: Trigger the Top Header Notification Bell for Quizzes
+                const headerBell = document.getElementById('header-bell-badge');
+                if(hasUnattemptedQuizzes && headerBell) {
+                    headerBell.style.display = 'block';
                 }
 
                 // --- MASTER SPEC: Empty state fallback ---
