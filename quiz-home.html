@@ -170,13 +170,13 @@
         <div class="card-main">
             <div class="cup-card">
                 <div style="display:flex; gap:8px; align-items:center; font-weight:600;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10M5 4h14a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8V6a2 2 0 0 1 2-2z"></path></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10M5 4h14a2 2 0 0 1 2 2v2a8 8 0 0 1-8-8V6a2 2 0 0 1 2-2z"></path></svg>
                     Weekly Cup
                 </div>
             </div>
             <div class="cup-stats">
-                <div class="stat-col"><p>Rank</p><h3 class="text-brand">#24</h3></div>
-                <div class="stat-col"><p>Score</p><h3>184</h3></div>
+                <div class="stat-col"><p>Rank</p><h3 class="text-brand" id="home-rank">--</h3></div>
+                <div class="stat-col"><p>Score</p><h3 id="home-score">--</h3></div>
             </div>
             <div class="link-view" onclick="switchView('view-cup')">View Leaderboard 〉</div>
         </div>
@@ -303,16 +303,14 @@
         </div>
         
         <div class="cup-stats" style="justify-content:center; gap:60px; margin-bottom: 24px;">
-            <div class="stat-col" style="text-align:center;"><p>Rank</p><h3 class="text-brand">#24</h3></div>
-            <div class="stat-col" style="text-align:center;"><p>Score</p><h3>184</h3></div>
+            <div class="stat-col" style="text-align:center;"><p>Rank</p><h3 class="text-brand" id="profile-rank">--</h3></div>
+            <div class="stat-col" style="text-align:center;"><p>Score</p><h3 id="profile-score">--</h3></div>
         </div>
-
-        <h3 style="margin: 0 20px 10px 20px; font-size: 15px;">Live Global Elo</h3>
-        <div id="eloListContainer" style="padding: 0 20px; max-height: 280px; overflow-y: auto;">
-            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading Elo Rankings...</p>
+        
+        <div style="padding: 0 20px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+            <button class="btn-massive" onclick="openProfile(appUserId)" style="background: var(--text-main);">📊 Detailed Performance Analysis</button>
+            <button class="btn-massive" onclick="openEloLeaderboard()" style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;">🌍 Live Global Elo</button>
         </div>
-        <!-- Note: We are using the exact IDs from app_v8.js to automatically inherit functionality! -->
-        <div id="eloFooter" style="margin: 10px 20px; padding: 15px; border-radius: 12px; background: var(--text-main); color: white;"></div>
         
         <h3 style="margin: 24px 20px 10px 20px; font-size: 15px;">Weekly Cup Archive</h3>
         <div id="weekly-history-container" style="padding: 0 20px;">
@@ -332,9 +330,8 @@
                     <h2 style="margin: 0; color: #0f172a; font-size: 1.3em;">🌍 Global Intelligence</h2>
                     <p style="margin: 4px 0 0 0; font-size: 0.8em; color: #64748b;">Top 50 Lifetime Elo Ratings (Active Only)</p>
                 </div>
-                <!-- Removed duplicate IDs here to prevent DOM conflicts with your inline profile tabs -->
-                <div id="eloModalListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
-                <div class="user-footer" id="eloModalFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">Loading your Elo status...</div>
+                <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
+                <div class="user-footer" id="eloFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">Loading your Elo status...</div>
             </div>
         </div>
     </div>
@@ -474,19 +471,25 @@
                 if (data.current_user) {
                     const cu = data.current_user;
                     
+                    
                     const leagueBadge = getLeagueBadgeHTML(cu.league);
                     const houseEmoji = getSingleHouseEmoji(cu.house);
                     
-                    document.querySelectorAll('.cup-stats').forEach(el => {
-                        el.innerHTML = `
-                            <div class="stat-col"><p>Rank</p><h3 class="text-brand">#${cu.rank || 'N/A'}</h3></div>
-                            <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
-                            <div class="stat-col"><p>Elo</p><h3>${Math.round(cu.elo || 1000)}</h3></div>
-                            <div class="stat-col" style="display:flex; align-items:center; gap:6px;">${houseEmoji} ${leagueBadge}</div>
-                        `;
-                    });
+                    // 1. Safely inject into Home Tab
+                    const homeRank = document.getElementById('home-rank');
+                    if (homeRank) homeRank.innerText = `#${cu.rank || 'N/A'}`;
+                    const homeScore = document.getElementById('home-score');
+                    if (homeScore) homeScore.innerText = cu.score || 0;
+
+                    // 2. Safely inject into Profile Tab
+                    const profileRank = document.getElementById('profile-rank');
+                    if (profileRank) profileRank.innerText = `#${cu.rank || 'N/A'}`;
+                    const profileScore = document.getElementById('profile-score');
+                    if (profileScore) profileScore.innerText = cu.score || 0;
                     
+                    // 3. Update Progress Tab (Leave this existing code intact)
                     const progressStats = document.querySelector('#view-progress .card-main');
+                    
                     if(progressStats) {
                         progressStats.innerHTML = `
                             <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
@@ -863,12 +866,10 @@
             if(viewId === 'view-profile') {
                 navId = 'nav-profile';
                 
-                if (typeof openEloLeaderboard === 'function') openEloLeaderboard();
+                // Remove the openEloLeaderboard() and menu-performance lines.
+                // Only keep these two:
                 loadWeeklyResults();
                 loadUpcomingExams(); 
-                
-                const perfMenu = document.getElementById('menu-performance');
-                if(perfMenu) perfMenu.onclick = () => openProfile(appUserId);
             }
             if(viewId === 'view-digest') {
                 navId = 'nav-digest';
