@@ -85,7 +85,7 @@
         .day-circle { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--text-muted); border: 1px solid var(--border-light); }
         .day-circle.done { border-color: transparent; color: var(--text-main); }
         .day-circle.active { background: var(--brand); color: white; border-color: var(--brand); }
-        .day-check { width: 12px; height: 12px; margin-top: 6px; }
+        .day-check { width: auto; height: auto; margin-top: 6px; display: flex; justify-content: center; align-items: center; }
 
         .coming-soon { margin: 0 20px; padding: 20px; border-radius: 16px; background: #fafafa; border: 1px solid var(--border-light); }
         .coming-soon h3 { font-size: 15px; margin-bottom: 12px; }
@@ -601,6 +601,11 @@
             
             const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+            // 🟢 Crisp SVG Icons for perfect shaping on all devices
+            const svgCheck = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+            const svgCross = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--brand-red)" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+            const svgLock = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
+
             for(let i = 0; i < 6; i++) {
                 let dayNum = i + 1;
                 let cls = ''; let chk = '';
@@ -612,26 +617,22 @@
                 
                 // 3. Assign correct checkmarks based on the timeline
                 if (i < currentDayIndex) {
-                    // Past Days
                     if (attemptsThisDay > 0) {
-                        cls = 'done'; chk = '✓'; // Played
+                        cls = 'done'; chk = svgCheck; 
                     } else {
-                        cls = ''; chk = '❌';    // Missed
+                        cls = ''; chk = svgCross;    
                     }
                 } else if (i === currentDayIndex) {
-                    // Today
                     cls = 'active'; 
-                    chk = attemptsThisDay > 0 ? '✓' : '';
+                    chk = attemptsThisDay > 0 ? svgCheck : '';
                 } else {
-                    // Future Days
-                    cls = ''; chk = '🔒';
+                    cls = ''; chk = svgLock;
                 }
                 
-                let colorStyle = chk === '❌' ? 'color: #ef4444; font-size: 10px;' : '';
                 daysRow.innerHTML += `
                     <div style="text-align:center">
                         <div class="day-circle ${cls}">${dayNum}</div>
-                        <div class="day-check" style="${colorStyle}">${chk}</div>
+                        <div class="day-check" style="color: var(--text-main);">${chk}</div>
                     </div>
                 `;
             }
@@ -1120,9 +1121,9 @@
 
         // Wait for app_v8.js to fully load before initializing to prevent render failures
         window.addEventListener('DOMContentLoaded', () => {
-            loadQuizzes();
-            // loadRealCupData(); <-- 🟢 DELETED to prevent Double-Fetch Network Waste
-            loadDailyDigest();
+            try { loadQuizzes(); } catch(e) { console.error(e); }
+            // try { loadRealCupData(); } catch(e) { console.error(e); } <-- 🟢 Kept disabled to prevent Double-Fetch
+            try { loadDailyDigest(); } catch(e) { console.error(e); }
         });
     </script>
 </body>
