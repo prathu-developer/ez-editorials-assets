@@ -345,7 +345,16 @@
                 <h3 id="digestModalTitle" style="margin: 0; font-size: 16px; color: var(--text-main);">Title</h3>
                 <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeDigestModal(null, true)">×</span>
             </div>
-            <div id="digestModalBody" style="font-size: 14px; line-height: 1.6; white-space: pre-wrap; font-family: 'Segoe UI', sans-serif;"></div>
+            <div id="digestModalBody" style="
+                font-size: 15px; 
+                line-height: 1.8; 
+                color: #374151; 
+                font-family: 'Inter', sans-serif; 
+                background: #f8fafc; 
+                padding: 16px; 
+                border-radius: 12px; 
+                border: 1px solid #e2e8f0;
+            "></div>
         </div>
     </div>
 
@@ -693,7 +702,20 @@
             if (!item) return;
             
             document.getElementById('digestModalTitle').innerText = item.title;
-            document.getElementById('digestModalBody').innerText = item.content;
+            
+            // Parse Gemini's Markdown into HTML
+            let formattedContent = item.content
+                .replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--brand);">$1</strong>') // Make bold text brand-colored
+                .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italics
+                .replace(/^[•\-]\s+(.*)$/gm, '<li style="margin-bottom: 6px;">$1</li>') // Bullet points
+                .replace(/\n/g, '<br/>'); // Preserve line breaks
+                
+            // Wrap loose list items in a <ul>
+            if (formattedContent.includes('<li>')) {
+                formattedContent = formattedContent.replace(/(<li>.*<\/li>)/s, '<ul style="padding-left: 20px; margin: 10px 0;">$1</ul>');
+            }
+
+            document.getElementById('digestModalBody').innerHTML = formattedContent;
             document.getElementById('digestModalOverlay').style.display = 'flex';
             
             if (!item.is_read) {
