@@ -7,8 +7,8 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- ⚡ FREE ZERO-BANDWIDTH CDN DELIVERY -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/style.css?v=1.0">
-    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js?v=1.0" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/style.css?v=2.0">
+    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js?v=2.0" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -654,10 +654,6 @@
                 if (data.current_user) {
                     const cu = data.current_user;
                     
-                    
-                    const leagueBadge = getLeagueBadgeHTML(cu.league);
-                    const houseEmoji = getSingleHouseEmoji(cu.house);
-                    
                     // 1. Safely inject into Home Tab
                     const homeRank = document.getElementById('home-rank');
                     if (homeRank) homeRank.innerText = `#${cu.rank || 'N/A'}`;
@@ -821,7 +817,6 @@
                         const isMe = user.id == appUserId;
                         const bg = isMe ? 'background:var(--brand-light); border:none; padding:12px; border-radius:12px; margin-bottom:8px;' : 'padding:12px 0; border-bottom:1px solid var(--border-light);';
                         const leagueBadge = getLeagueBadgeHTML(user.league || 0);
-                        const houseEmoji = getSingleHouseEmoji(user.house);
                         
                         let rankDisplay = `#${user.rank}`;
                         if (user.rank === 1) rankDisplay = '🥇';
@@ -834,7 +829,7 @@
                                     <span class="lb-rank" style="${isMe ? 'font-weight:bold;color:var(--brand);' : ''}">${rankDisplay}</span>
                                     <div style="display:flex; flex-direction:column; gap:2px;">
                                         <span class="${isMe ? 'font-bold' : ''}">${isMe ? 'You' : user.name}</span>
-                                        <span style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:4px;">${houseEmoji} ${leagueBadge}</span>
+                                        <span style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:4px;">${leagueBadge}</span>
                                     </div>
                                 </div>
                                 <span class="${isMe ? 'text-brand font-bold' : ''}">${user.score} pts</span>
