@@ -318,14 +318,13 @@
         <div class="top-header">
             <span></span>
             <span class="font-bold">Profile</span>
-            <!-- Settings Gear Icon -->
             <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         </div>
 
         <!-- Avatar & Name -->
         <div class="profile-card" style="padding-bottom: 24px;">
             <div class="avatar" id="avatar-initial" style="width: 86px; height: 86px; font-size: 36px;">P</div>
-            <h2 id="profile-name" style="font-size: 20px;">Prathamesh</h2>
+            <h2 id="profile-name" style="font-size: 20px;">Student</h2>
         </div>
         
         <!-- Clean Stats Row -->
@@ -369,63 +368,62 @@
                 <div class="p-menu-right">›</div>
             </div>
         </div>
+    </div> <!-- /End of view-profile -->
 
-        <!-- Modals tucked away cleanly out of sight -->
+
+    <!-- ==========================================
+         GLOBAL MODALS (Safely Outside View Containers)
+         ========================================== -->
         
-        <!-- Weekly Archive Modal -->
-        <div class="modal-overlay" id="archiveModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'archiveModalOverlay')">
-            <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
-                    <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">Weekly Cup Archive</h3>
-                    <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeSubModal(null, 'archiveModalOverlay', true)">×</span>
-                </div>
-                <div id="weekly-history-container">
-                    <div style="text-align:center; padding: 40px 20px;">
-                        <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
-                        <p style="color:var(--text-muted); font-size: 13px; font-weight: 500;">Fetching data...</p>
-                    </div>
-                </div>
+    <!-- Weekly Archive Modal -->
+    <div class="modal-overlay" id="archiveModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'archiveModalOverlay')">
+        <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
+                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">Weekly Cup Archive</h3>
+                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeSubModal(null, 'archiveModalOverlay', true)">×</span>
             </div>
-        </div>
-
-        <!-- Exams Modal -->
-        <div class="modal-overlay" id="examsModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'examsModalOverlay')">
-            <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
-                    <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">Upcoming Exams</h3>
-                    <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeSubModal(null, 'examsModalOverlay', true)">×</span>
+            <div id="weekly-history-container">
+                <div style="text-align:center; padding: 40px 20px;">
+                    <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
+                    <p style="color:var(--text-muted); font-size: 13px; font-weight: 500;">Fetching data...</p>
                 </div>
-                <div id="profile-exams-container">
-                    <div style="text-align:center; padding: 40px 20px;">
-                        <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
-                        <p style="color:var(--text-muted); font-size: 13px; font-weight: 500;">Fetching data...</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ELO LEADERBOARD MODAL -->
-        <div class="modal-overlay" id="eloModalOverlay" onclick="closeEloModal(event)" style="z-index: 300;">
-            <div class="modal-content" id="eloModalContent" onclick="event.stopPropagation()" style="height: 80vh; background: #f8fafc; padding: 0; display: flex; flex-direction: column;">
-                <div style="padding: 20px; text-align: center; border-bottom: 1px solid #e2e8f0; background: white; border-radius: 32px 32px 0 0;">
-                    <div class="close-indicator" onclick="closeEloModal(null, true)"></div>
-                    <h2 style="margin: 0; color: #0f172a; font-size: 1.3em;">🌍 Global Intelligence</h2>
-                    <p style="margin: 4px 0 0 0; font-size: 0.8em; color: #64748b;">Top 50 Lifetime Elo Ratings (Active Only)</p>
-                </div>
-                <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
-                <div class="user-footer" id="eloFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">Loading your Elo status...</div>
             </div>
         </div>
     </div>
 
-    <!-- ==========================================
-         MISSING NATIVE MODALS (For app_v8.js)
-         ========================================== -->
+    <!-- Exams Modal -->
+    <div class="modal-overlay" id="examsModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'examsModalOverlay')">
+        <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
+                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">Upcoming Exams</h3>
+                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeSubModal(null, 'examsModalOverlay', true)">×</span>
+            </div>
+            <div id="profile-exams-container">
+                <div style="text-align:center; padding: 40px 20px;">
+                    <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
+                    <p style="color:var(--text-muted); font-size: 13px; font-weight: 500;">Fetching data...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ELO LEADERBOARD MODAL -->
+    <div class="modal-overlay" id="eloModalOverlay" onclick="closeEloModal(event)" style="z-index: 300;">
+        <div class="modal-content" id="eloModalContent" onclick="event.stopPropagation()" style="height: 80vh; background: #f8fafc; padding: 0; display: flex; flex-direction: column;">
+            <div style="padding: 20px; text-align: center; border-bottom: 1px solid #e2e8f0; background: white; border-radius: 32px 32px 0 0;">
+                <div class="close-indicator" onclick="closeEloModal(null, true)"></div>
+                <h2 style="margin: 0; color: #0f172a; font-size: 1.3em;">🌍 Global Intelligence</h2>
+                <p style="margin: 4px 0 0 0; font-size: 0.8em; color: #64748b;">Top 50 Lifetime Elo Ratings (Active Only)</p>
+            </div>
+            <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
+            <div class="user-footer" id="eloFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">Loading your Elo status...</div>
+        </div>
+    </div>
+
     <!-- PERFORMANCE ANALYSIS MODAL -->
     <div class="modal-overlay" id="analysisModal" onclick="closeModal(event)" style="z-index: 400;">
         <div class="modal-content" id="modalContentBg" onclick="event.stopPropagation()">
             <div class="close-indicator" onclick="closeModal(null, true)"></div>
-            
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 id="modalStudentName" style="margin: 0; font-size: 1.5em; color: #0f172a;"></h2>
                 <p id="modalStudentHouse" style="font-size: 0.9em; margin-top: 8px;"></p>
@@ -433,7 +431,6 @@
                     <span id="modalStudentElo"></span> • <span id="modalStudentTitle" style="color: #64748b;"></span>
                 </div>
             </div>
-
             <!-- Top 4 Stats -->
             <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                 <div class="stat-box" style="flex:1; background:white; padding:15px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:var(--text-muted);">Score</div><div style="font-size:20px; font-weight:bold; color:#3b82f6;" id="statScore"></div></div>
@@ -443,18 +440,10 @@
                 <div class="stat-box" style="flex:1; background:white; padding:15px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:var(--text-muted);">Attempts</div><div style="font-size:20px; font-weight:bold; color:#8b5cf6;" id="statAttempts"></div></div>
                 <div class="stat-box" style="flex:1; background:white; padding:15px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:var(--text-muted);">Growth</div><div style="font-size:20px; font-weight:bold; color:#f97316;" id="statGrowth"></div></div>
             </div>
-
-            <!-- The Big Comparison Table -->
+            <!-- Comparison Table -->
             <div style="background: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; overflow-x: auto;">
                 <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-                    <thead>
-                        <tr style="border-bottom: 1px solid var(--border-light);">
-                            <th style="text-align: left; padding-bottom: 8px;">Metric</th>
-                            <th id="tblStudentHeader" style="padding-bottom: 8px;">You</th>
-                            <th style="padding-bottom: 8px;">Topper</th>
-                            <th style="padding-bottom: 8px;">Avg</th>
-                        </tr>
-                    </thead>
+                    <thead><tr style="border-bottom: 1px solid var(--border-light);"><th style="text-align: left; padding-bottom: 8px;">Metric</th><th id="tblStudentHeader" style="padding-bottom: 8px;">You</th><th style="padding-bottom: 8px;">Topper</th><th style="padding-bottom: 8px;">Avg</th></tr></thead>
                     <tbody>
                         <tr style="border-bottom: 1px solid var(--border-light);"><td style="text-align: left; padding: 8px 0; font-weight: 600; color: #10b981;">Correct</td><td style="text-align:center;" id="tblYouCor"></td><td style="text-align:center;" id="tblTopCor"></td><td style="text-align:center;" id="tblAvgCor"></td></tr>
                         <tr style="border-bottom: 1px solid var(--border-light);"><td style="text-align: left; padding: 8px 0; font-weight: 600; color: #ef4444;">Wrong</td><td style="text-align:center;" id="tblYouWro"></td><td style="text-align:center;" id="tblTopWro"></td><td style="text-align:center;" id="tblAvgWro"></td></tr>
@@ -463,64 +452,31 @@
                     </tbody>
                 </table>
             </div>
-
             <!-- Topper Banner -->
             <div style="background: linear-gradient(135deg, #fef08a, #fde047); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(250, 204, 21, 0.2);">
                 <div style="font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; opacity: 0.9; color: #854d0e; font-weight:bold;">Current Rank #1</div>
-                <span id="bannerTopperName" style="font-weight: bold; color: #1c1e21; font-size: 16px;"></span><br>
-                <span id="bannerTopperInfo" style="font-size: 0.9em; opacity: 0.9; color: #422006;"></span>
+                <span id="bannerTopperName" style="font-weight: bold; color: #1c1e21; font-size: 16px;"></span><br><span id="bannerTopperInfo" style="font-size: 0.9em; opacity: 0.9; color: #422006;"></span>
             </div>
-
             <!-- Charts -->
-            <div style="margin-bottom: 25px;">
-                <h3 style="font-size: 14px; margin-bottom: 12px;">Weekly Score Trend</h3>
-                <div style="background: white; border-radius: 12px; padding: 10px; height: 200px;"><canvas id="dailyChart"></canvas></div>
-            </div>
-            
-            <div style="margin-bottom: 25px;">
-                <h3 style="font-size: 14px; margin-bottom: 12px;">Accuracy Ratio</h3>
-                <div style="background: white; border-radius: 12px; padding: 10px; height: 200px;"><canvas id="pieChart"></canvas></div>
-            </div>
-
-            <div style="margin-bottom: 25px;">
-                <h3 style="font-size: 14px; margin-bottom: 12px;">Lifetime History Tracker</h3>
-                <div id="rankHistorySection"></div>
-            </div>
-
-            <div style="padding-bottom: 50px;">
-                <h3 style="font-size: 14px; margin-bottom: 12px;">Activity Log</h3>
-                <div id="activityList"></div>
-            </div>
-            
-            <!-- Hidden fallback elements required by app_v8.js to prevent crashes -->
+            <div style="margin-bottom: 25px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Weekly Score Trend</h3><div style="background: white; border-radius: 12px; padding: 10px; height: 200px;"><canvas id="dailyChart"></canvas></div></div>
+            <div style="margin-bottom: 25px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Accuracy Ratio</h3><div style="background: white; border-radius: 12px; padding: 10px; height: 200px;"><canvas id="pieChart"></canvas></div></div>
+            <div style="margin-bottom: 25px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Lifetime History Tracker</h3><div id="rankHistorySection"></div></div>
+            <div style="padding-bottom: 50px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Activity Log</h3><div id="activityList"></div></div>
             <div style="display:none;"><span id="csTotal"></span><span id="csCorrect"></span><span id="csWrong"></span><span id="csAcc"></span></div>
         </div>
     </div>
-
+    
     <!-- History Sub-Modal -->
     <div class="modal-overlay" id="historyModalOverlay" onclick="closeHistoryModal(event)" style="z-index: 500;">
         <div class="modal-content" onclick="event.stopPropagation()" style="margin: 20px; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
             <div style="text-align: center; margin-bottom: 15px;">
-                <div style="font-size: 2.5em; margin-bottom: 10px;">📜</div>
-                <h3 style="margin: 0; color: #0f172a; font-size: 1.3em;">Week <span id="histWeek"></span> Archive</h3>
+                <div style="font-size: 2.5em; margin-bottom: 10px;">📜</div><h3 style="margin: 0; color: #0f172a; font-size: 1.3em;">Week <span id="histWeek"></span> Archive</h3>
             </div>
             <div style="background: #f8fafc; border-radius: 12px; padding: 15px; margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="color: #64748b; font-weight: 500;">Rank</span>
-                    <span style="font-weight: 700; color: #3b82f6; font-size: 1.1em;" id="histRank"></span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="color: #64748b; font-weight: 500;">Score</span>
-                    <span style="font-weight: 700; color: #0f172a;" id="histScore"></span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                    <span style="color: #64748b; font-weight: 500;">Accuracy</span>
-                    <span style="font-weight: 700; color: #10b981;" id="histAcc"></span>
-                </div>
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="color: #64748b; font-weight: 500;">Correct Answers</span>
-                    <span style="font-weight: 700; color: #0f172a;" id="histCorrect"></span>
-                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: #64748b; font-weight: 500;">Rank</span><span style="font-weight: 700; color: #3b82f6; font-size: 1.1em;" id="histRank"></span></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: #64748b; font-weight: 500;">Score</span><span style="font-weight: 700; color: #0f172a;" id="histScore"></span></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: #64748b; font-weight: 500;">Accuracy</span><span style="font-weight: 700; color: #10b981;" id="histAcc"></span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="color: #64748b; font-weight: 500;">Correct Answers</span><span style="font-weight: 700; color: #0f172a;" id="histCorrect"></span></div>
             </div>
             <button class="btn-massive" onclick="closeHistoryModal(null, true)" style="background: #e2e8f0; color: #0f172a; font-weight: 700;">Close Archive</button>
         </div>
