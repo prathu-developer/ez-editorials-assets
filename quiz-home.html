@@ -32,6 +32,8 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
         /* SPA View Management */
         .view-container {
             display: none;
@@ -220,9 +222,12 @@
         </div>
 
         <div class="quiz-list" id="api-quiz-container">
-            <p style="text-align:center; color:var(--text-muted); font-size: 14px;">Loading tests...</p>
+            <div style="text-align:center; padding: 40px 20px;">
+                <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
+                <p style="color:var(--text-muted); font-size: 13px; font-weight: 500;">Fetching data...</p>
+            </div>
         </div>
-
+        
         <div class="progress-bar-container">
             <div class="progress-text">
                 <span>Progress</span>
@@ -319,8 +324,19 @@
             <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading exams...</p>
         </div>
 
-        <!-- Dummy overlay to safely absorb the app_v8.js modal trigger without popping up a black screen -->
-        <div id="eloModalOverlay" style="display: none;"></div>
+        <!-- ELO LEADERBOARD MODAL -->
+        <div class="modal-overlay" id="eloModalOverlay" onclick="closeEloModal(event)" style="z-index: 300;">
+            <div class="modal-content" id="eloModalContent" onclick="event.stopPropagation()" style="height: 80vh; background: #f8fafc; padding: 0; display: flex; flex-direction: column;">
+                <div style="padding: 20px; text-align: center; border-bottom: 1px solid #e2e8f0; background: white; border-radius: 32px 32px 0 0;">
+                    <div class="close-indicator" onclick="closeEloModal(null, true)"></div>
+                    <h2 style="margin: 0; color: #0f172a; font-size: 1.3em;">🌍 Global Intelligence</h2>
+                    <p style="margin: 4px 0 0 0; font-size: 0.8em; color: #64748b;">Top 50 Lifetime Elo Ratings (Active Only)</p>
+                </div>
+                <!-- Removed duplicate IDs here to prevent DOM conflicts with your inline profile tabs -->
+                <div id="eloModalListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
+                <div class="user-footer" id="eloModalFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">Loading your Elo status...</div>
+            </div>
+        </div>
     </div>
 
     <!-- ==========================================
@@ -498,6 +514,18 @@
                     container.innerHTML += `<h3 style="margin-top:16px; color:var(--brand-red);">Yesterday (Closes Tonight)</h3>`;
                     data.quizzes.Yesterday.forEach(quiz => renderQuizCard(quiz, container));
                 }
+
+                // --- MASTER SPEC: Empty state fallback ---
+                if ((!data.quizzes.Today || data.quizzes.Today.length === 0) && (!data.quizzes.Yesterday || data.quizzes.Yesterday.length === 0)) {
+                    container.innerHTML = `
+                        <div class="card-main" style="text-align: center; padding: 30px 20px;">
+                            <span style="font-size: 32px;">🧘</span>
+                            <h3 style="margin: 12px 0 4px 0; font-size: 16px;">Rest Day</h3>
+                            <p style="font-size: 13px; color: var(--text-muted);">No active trials</p>
+                        </div>
+                    `;
+                }
+
             } catch (error) {
                 document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
