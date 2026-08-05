@@ -405,6 +405,8 @@
          APPLICATION LOGIC
          ========================================== -->
     <script>
+        let lastFetchTimes = { cup: 0, progress: 0, digest: 0 };
+
         // 1. Initialize Telegram & User (Renamed to avoid colliding with app_v8.js)
         const tgApp = window.Telegram.WebApp;
         tgApp.expand();
@@ -795,11 +797,17 @@
             
             if(viewId === 'view-cup') { 
                 navId = 'nav-cup'; 
-                loadRealCupData();
+                if (Date.now() - lastFetchTimes.cup > 30000) {
+                    loadRealCupData();
+                    lastFetchTimes.cup = Date.now();
+                }
             }
             if(viewId === 'view-progress') {
                 navId = 'nav-progress';
-                loadProgressHistory();
+                if (Date.now() - lastFetchTimes.progress > 30000) {
+                    loadProgressHistory();
+                    lastFetchTimes.progress = Date.now();
+                }
             }
             if(viewId === 'view-profile') {
                 navId = 'nav-profile';
@@ -813,7 +821,10 @@
             }
             if(viewId === 'view-digest') {
                 navId = 'nav-digest';
-                loadDailyDigest();
+                if (Date.now() - lastFetchTimes.digest > 30000) {
+                    loadDailyDigest();
+                    lastFetchTimes.digest = Date.now();
+                }
             }
             
             document.getElementById(navId).classList.add('active');
