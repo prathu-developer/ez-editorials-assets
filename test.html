@@ -521,6 +521,7 @@
                 if (response.status !== 200) {
                     document.getElementById('loading-screen').style.display = 'none';
                     alert(`Submission Rejected: ${data.error}`);
+                    isSubmitting = false; // 🟢 ADDED: Unlock the button!
                     return; // Stop the redirect
                 }
                 
@@ -528,6 +529,7 @@
             } catch (err) {
                 alert("Submission failed. Please check connection.");
                 document.getElementById('loading-screen').style.display = 'none';
+                isSubmitting = false; // 🟢 ADDED: Unlock the button!
             }
         }
 
