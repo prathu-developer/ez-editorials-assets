@@ -67,15 +67,6 @@ function getLeagueFooterColor(tier) {
     return colors[tier] || colors[0];
 }
 
-function getSingleHouseEmoji(houseStr) {
-    if (!houseStr) return '🏳️';
-    if (houseStr.includes('Gryffindor')) return '🦁';
-    if (houseStr.includes('Slytherin')) return '🐍';
-    if (houseStr.includes('Ravenclaw')) return '🦅';
-    if (houseStr.includes('Hufflepuff')) return '🦡';
-    return '🏳️';
-}
-
 function getAcademicTitle(elo) {
     if (elo >= 2000) return '🎓 Valedictorian';
     if (elo >= 1800) return '🏅 Laureate';
@@ -155,9 +146,7 @@ function renderLeaderboardData(data) {
         else if (user.rank === 2) rankDisplay = '🥈';
         else if (user.rank === 3) rankDisplay = '🥉';
 
-        let captainTag = user.is_captain ? `<span style="font-size: 0.75em; color: #f59e0b; margin-left: 5px; font-weight: 700; font-style: italic;">Captain 🪄</span>` : '';
         let userLeagueBadge = getLeagueBadgeHTML(user.league);
-        let singleHouseEmoji = getSingleHouseEmoji(user.house);
 
         let trendIcon = user.score >= targetAverage
             ? `<span style="color: #10b981; font-size: 0.8em; margin-left: 6px;" title="Promotion Zone">▲</span>`
@@ -202,9 +191,8 @@ function renderLeaderboardData(data) {
                 <div class="rank-left">
                     <div class="rank-number">${rankDisplay}</div>
                     <div class="user-details">
-                        <div class="user-name">${displayName} ${captainTag}</div>
+                        <div class="user-name">${displayName}</div>
                         <div class="user-sub-details">
-                            <div class="user-house">${singleHouseEmoji}</div>
                             ${userLeagueBadge}
                         </div>
                     </div>
@@ -219,10 +207,8 @@ function renderLeaderboardData(data) {
     const footerDiv = document.getElementById('footer');
     const me = window.currentUserData;
 
-    let myCaptainTag = me.is_captain ? `<span style="font-size: 0.75em; color: #f59e0b; margin-left: 5px; font-weight: 700; font-style: italic;">Captain 🪄</span>` : '';
     let myLeagueBadge = getLeagueBadgeHTML(me.league);
-    let mySingleHouseEmoji = getSingleHouseEmoji(me.house);
-
+    
     let myTrendIcon = me.score >= targetAverage
         ? `<span style="color: #10b981; font-size: 0.8em; margin-left: 6px;" title="Promotion Zone">▲</span>`
         : `<span style="color: #ff6b6b; font-size: 0.8em; margin-left: 6px;" title="Demotion Zone">▼</span>`;
@@ -238,9 +224,8 @@ function renderLeaderboardData(data) {
                 <div class="rank-left">
                     <div class="rank-number" style="color: #2a5298;">#${me.rank}</div>
                     <div class="user-details">
-                        <div class="user-name">You ${myCaptainTag}</div>
+                        <div class="user-name">You</div>
                         <div class="user-sub-details">
-                            <div class="user-house" style="color: #1e3c72; font-size: 1.15em;">${mySingleHouseEmoji}</div>
                             ${myLeagueBadge}
                         </div>
                     </div>
@@ -397,12 +382,10 @@ function openProfile(targetId) {
     modalContent.className = 'modal-content';
     modalContent.classList.add(getLeagueBgClass(targetUser.league, 'mod'));
 
-    let modalCaptainTag = targetUser.is_captain ? `<span style="font-size: 0.6em; color: #f59e0b; margin-left: 5px;">Captain 🪄</span>` : '';
-    document.getElementById('modalStudentName').innerHTML = targetUser.name + modalCaptainTag;
+    document.getElementById('modalStudentName').innerHTML = targetUser.name;
 
     let leagueBadge = getLeagueBadgeHTML(targetUser.league);
-    let singleHouseEmoji = getSingleHouseEmoji(targetUser.house);
-    document.getElementById('modalStudentHouse').innerHTML = `<span style="font-size: 1.15em;">${singleHouseEmoji}</span> <span style="margin-left: 8px;">${leagueBadge}</span>`;
+    document.getElementById('modalStudentHouse').innerHTML = `${leagueBadge}`;
     document.getElementById('modalStudentElo').innerText = `🧠 ${targetUser.elo ? Math.round(targetUser.elo) : 1000}`;
     document.getElementById('modalStudentTitle').innerText = getAcademicTitle(targetUser.elo || 1000);
 
@@ -478,8 +461,7 @@ function openProfile(targetId) {
     document.getElementById('tblAvgAtt').innerText = avgStat.attempts;
     document.getElementById('tblAvgAcc').innerText = avgStat.accuracy + '%';
 
-    let topperSingleEmoji = getSingleHouseEmoji(topper.house);
-    document.getElementById('bannerTopperName').innerHTML = `${topper.name} <span style="font-weight:normal; font-size:1.15em; margin-left: 6px;">${topperSingleEmoji}</span>`;
+    document.getElementById('bannerTopperName').innerHTML = topper.name;
     document.getElementById('bannerTopperInfo').innerText = `${topper.score % 1 !== 0 ? topper.score.toFixed(2) : topper.score} pts • ${topStat.accuracy}% Accuracy`;
 
     document.getElementById('csTotal').innerText = targetUser.score % 1 !== 0 ? targetUser.score.toFixed(2) : targetUser.score;
