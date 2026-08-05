@@ -1122,8 +1122,33 @@
         // Wait for app_v8.js to fully load before initializing to prevent render failures
         window.addEventListener('DOMContentLoaded', () => {
             try { loadQuizzes(); } catch(e) { console.error(e); }
-            // try { loadRealCupData(); } catch(e) { console.error(e); } <-- 🟢 Kept disabled to prevent Double-Fetch
             try { loadDailyDigest(); } catch(e) { console.error(e); }
+            
+            // 🟢 NEW: Read the cache left by app_v8.js to populate Home Stats instantly (No Double Fetch!)
+            try {
+                const cachedData = JSON.parse(localStorage.getItem('quizCupData_' + appUserId));
+                if (cachedData && cachedData.current_user) {
+                    const cu = cachedData.current_user;
+                    
+                    const homeRank = document.getElementById('home-rank');
+                    if (homeRank) homeRank.innerText = `#${cu.rank || 'N/A'}`;
+                    const homeScore = document.getElementById('home-score');
+                    if (homeScore) homeScore.innerText = cu.score || 0;
+                    
+                    const progressStats = document.querySelector('#view-progress .card-main');
+                    if(progressStats) {
+                        progressStats.innerHTML = `
+                            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
+                                <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
+                                <div class="stat-col"><p>Rank</p><h3>#${cu.rank || 'N/A'}</h3></div>
+                            </div>
+                            <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success">${cu.history?.accuracy || 0}%</h3></div>
+                        `;
+                    }
+                    window.currentUserData = cu; // Sync tracker
+                    updateDynamicTracker();
+                }
+            } catch(e) {}
         });
     </script>
 </body>
