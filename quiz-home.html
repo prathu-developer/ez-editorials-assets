@@ -134,6 +134,29 @@
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 11px; font-weight: 600; cursor: pointer; width: 60px; }
         .nav-item.active { color: var(--brand); }
         .nav-icon { width: 24px; height: 24px; fill: currentColor; }
+
+        /* --- NEW PROFILE UI STYLES --- */
+        .profile-stats-row { 
+            display: flex; justify-content: center; align-items: center; 
+            border-bottom: 1px solid var(--border-light); 
+            padding-bottom: 24px; margin: 0 20px 10px 20px; 
+        }
+        .profile-stat-box { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .profile-stat-div { width: 1px; height: 40px; background: var(--border-light); }
+        .p-stat-label { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: capitalize; }
+        .p-stat-value { font-size: 20px; font-weight: 700; color: var(--text-main); }
+
+        .profile-menu { padding: 0 20px; }
+        .p-menu-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 18px 0; border-bottom: 1px solid var(--border-light); 
+            cursor: pointer; transition: background 0.2s;
+        }
+        .p-menu-item:last-child { border-bottom: none; }
+        .p-menu-item:active { opacity: 0.6; }
+        .p-menu-left { display: flex; align-items: center; gap: 16px; font-size: 15px; font-weight: 600; color: var(--text-main); }
+        .p-menu-left svg { width: 22px; height: 22px; stroke: var(--text-muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .p-menu-right { color: var(--text-muted); font-size: 20px; font-weight: 400; }
     </style>
 </head>
 <body>
@@ -288,15 +311,111 @@
     </div>
 
     <!-- ==========================================
-         VIEW 5: PROFILE (Master Spec: History & Elo)
+         VIEW 5: PROFILE (Compact Menu UI)
          ========================================== -->
     <div id="view-profile" class="view-container">
         <div class="top-header">
             <span></span>
             <span class="font-bold">Profile</span>
+            <!-- Settings Gear Icon -->
             <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         </div>
 
+        <!-- Avatar & Name -->
+        <div class="profile-card" style="padding-bottom: 24px;">
+            <div class="avatar" id="avatar-initial" style="width: 86px; height: 86px; font-size: 36px;">P</div>
+            <h2 id="profile-name" style="font-size: 20px;">Prathamesh</h2>
+        </div>
+        
+        <!-- Clean Stats Row (Like Mockup) -->
+        <div class="profile-stats-row">
+            <div class="profile-stat-box"><span class="p-stat-label">Rank</span><span class="p-stat-value text-brand" id="profile-rank">#--</span></div>
+            <div class="profile-stat-div"></div>
+            <div class="profile-stat-box"><span class="p-stat-label">Score</span><span class="p-stat-value" id="profile-score">--</span></div>
+        </div>
+        
+        <!-- The Sleek List Menu -->
+        <div class="profile-menu">
+            <div class="p-menu-item" onclick="openProfile(appUserId)">
+                <div class="p-menu-left">
+                    <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                    <span>Detailed Performance</span>
+                </div>
+                <div class="p-menu-right">›</div>
+            </div>
+            
+            <div class="p-menu-item" onclick="openEloLeaderboard()">
+                <div class="p-menu-left">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+                    <span>Global Elo Rankings</span>
+                </div>
+                <div class="p-menu-right">›</div>
+            </div>
+
+            <div class="p-menu-item" onclick="openSubModal('archiveModalOverlay')">
+                <div class="p-menu-left">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <span>Weekly Cup Archive</span>
+                </div>
+                <div class="p-menu-right">›</div>
+            </div>
+
+            <div class="p-menu-item" onclick="openSubModal('examsModalOverlay')">
+                <div class="p-menu-left">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    <span>Upcoming Exams</span>
+                </div>
+                <div class="p-menu-right">›</div>
+            </div>
+        </div>
+
+        <!-- Modals tucked away cleanly out of sight -->
+        
+        <!-- Weekly Archive Modal -->
+        <div class="modal-overlay" id="archiveModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'archiveModalOverlay')">
+            <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
+                    <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">Weekly Cup Archive</h3>
+                    <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeSubModal(null, 'archiveModalOverlay', true)">×</span>
+                </div>
+                <div id="weekly-history-container">
+                    <div style="text-align:center; padding: 40px 20px;">
+                        <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
+                        <p style="color:var(--text-muted); font-size: 13px; font-weight: 500;">Fetching data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exams Modal -->
+        <div class="modal-overlay" id="examsModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'examsModalOverlay')">
+            <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
+                    <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">Upcoming Exams</h3>
+                    <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeSubModal(null, 'examsModalOverlay', true)">×</span>
+                </div>
+                <div id="profile-exams-container">
+                    <div style="text-align:center; padding: 40px 20px;">
+                        <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
+                        <p style="color:var(--text-muted); font-size: 13px; font-weight: 500;">Fetching data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ELO LEADERBOARD MODAL -->
+        <div class="modal-overlay" id="eloModalOverlay" onclick="closeEloModal(event)" style="z-index: 300;">
+            <div class="modal-content" id="eloModalContent" onclick="event.stopPropagation()" style="height: 80vh; background: #f8fafc; padding: 0; display: flex; flex-direction: column;">
+                <div style="padding: 20px; text-align: center; border-bottom: 1px solid #e2e8f0; background: white; border-radius: 32px 32px 0 0;">
+                    <div class="close-indicator" onclick="closeEloModal(null, true)"></div>
+                    <h2 style="margin: 0; color: #0f172a; font-size: 1.3em;">🌍 Global Intelligence</h2>
+                    <p style="margin: 4px 0 0 0; font-size: 0.8em; color: #64748b;">Top 50 Lifetime Elo Ratings (Active Only)</p>
+                </div>
+                <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
+                <div class="user-footer" id="eloFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">Loading your Elo status...</div>
+            </div>
+        </div>
+        
         <div class="profile-card" style="padding-bottom:0;">
             <div class="avatar" id="avatar-initial">P</div>
             <h2 id="profile-name">Prathamesh</h2>
@@ -808,6 +927,20 @@
         function closeDigestModal(e, force=false) {
             if (force || e.target.id === 'digestModalOverlay') {
                 document.getElementById('digestModalOverlay').style.display = 'none';
+                document.body.style.overflow = ''; // Unlock scrolling
+            }
+        }
+
+        // Function to open the hidden sub-menus (Archive & Exams)
+        function openSubModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Lock background scrolling
+        }
+
+        // Function to close the hidden sub-menus
+        function closeSubModal(event, modalId, force=false) {
+            if (force || event.target.id === modalId) {
+                document.getElementById(modalId).style.display = 'none';
                 document.body.style.overflow = ''; // Unlock scrolling
             }
         }
