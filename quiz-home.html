@@ -327,7 +327,7 @@
             <h2 id="profile-name" style="font-size: 20px;">Prathamesh</h2>
         </div>
         
-        <!-- Clean Stats Row (Like Mockup) -->
+        <!-- Clean Stats Row -->
         <div class="profile-stats-row">
             <div class="profile-stat-box"><span class="p-stat-label">Rank</span><span class="p-stat-value text-brand" id="profile-rank">#--</span></div>
             <div class="profile-stat-div"></div>
@@ -401,44 +401,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- ELO LEADERBOARD MODAL -->
-        <div class="modal-overlay" id="eloModalOverlay" onclick="closeEloModal(event)" style="z-index: 300;">
-            <div class="modal-content" id="eloModalContent" onclick="event.stopPropagation()" style="height: 80vh; background: #f8fafc; padding: 0; display: flex; flex-direction: column;">
-                <div style="padding: 20px; text-align: center; border-bottom: 1px solid #e2e8f0; background: white; border-radius: 32px 32px 0 0;">
-                    <div class="close-indicator" onclick="closeEloModal(null, true)"></div>
-                    <h2 style="margin: 0; color: #0f172a; font-size: 1.3em;">🌍 Global Intelligence</h2>
-                    <p style="margin: 4px 0 0 0; font-size: 0.8em; color: #64748b;">Top 50 Lifetime Elo Ratings (Active Only)</p>
-                </div>
-                <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
-                <div class="user-footer" id="eloFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">Loading your Elo status...</div>
-            </div>
-        </div>
-        
-        <div class="profile-card" style="padding-bottom:0;">
-            <div class="avatar" id="avatar-initial">P</div>
-            <h2 id="profile-name">Prathamesh</h2>
-        </div>
-        
-        <div class="cup-stats" style="justify-content:center; gap:60px; margin-bottom: 24px;">
-            <div class="stat-col" style="text-align:center;"><p>Rank</p><h3 class="text-brand" id="profile-rank">--</h3></div>
-            <div class="stat-col" style="text-align:center;"><p>Score</p><h3 id="profile-score">--</h3></div>
-        </div>
-        
-        <div style="padding: 0 20px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
-            <button class="btn-massive" onclick="openProfile(appUserId)" style="background: var(--text-main);">📊 Detailed Performance Analysis</button>
-            <button class="btn-massive" onclick="openEloLeaderboard()" style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;">🌍 Live Global Elo</button>
-        </div>
-        
-        <h3 style="margin: 24px 20px 10px 20px; font-size: 15px;">Weekly Cup Archive</h3>
-        <div id="weekly-history-container" style="padding: 0 20px;">
-            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading past results...</p>
-        </div>
-
-        <h3 style="margin: 24px 20px 10px 20px; font-size: 15px;">Upcoming Exams</h3>
-        <div id="profile-exams-container" style="padding: 0 20px; padding-bottom: 20px;">
-            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading exams...</p>
         </div>
 
         <!-- ELO LEADERBOARD MODAL -->
