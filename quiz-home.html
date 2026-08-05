@@ -411,6 +411,11 @@
         const tgApp = window.Telegram.WebApp;
         tgApp.expand();
         const appUserId = tgApp.initDataUnsafe?.user?.id || 123456789;
+        
+        // 🟢 Bind the native back button
+        tgApp.BackButton.onClick(() => {
+            switchView('view-home');
+        });
         const firstName = tgApp.initDataUnsafe?.user?.first_name || 'Student';
         
         document.getElementById('user-name').innerText = firstName;
@@ -517,7 +522,38 @@
                     data.quizzes.Yesterday.forEach(quiz => renderQuizCard(quiz, container));
                 }
 
+                // 🟢 NEW: DYNAMIC PROGRESS BAR CALCULATION
+                let totalActiveQuizzes = 0;
+                let completedQuizzes = 0;
+
+                ['Today', 'Yesterday'].forEach(day => {
+                    if (data.quizzes[day]) {
+                        data.quizzes[day].forEach(q => {
+                            totalActiveQuizzes++;
+                            if (q.status === 'completed') completedQuizzes++;
+                        });
+                    }
+                });
+
+                const progressText = document.getElementById('progress-text');
+                const progressFill = document.getElementById('progress-fill');
+
+                if (progressText && progressFill) {
+                    progressText.innerText = `${completedQuizzes} / ${totalActiveQuizzes} Completed`;
+                    let percentage = totalActiveQuizzes > 0 ? (completedQuizzes / totalActiveQuizzes) * 100 : 0;
+                    progressFill.style.width = `${percentage}%`;
+                }
+
                 // --- MASTER SPEC: Empty state fallback ---
+                if ((!data.quizzes.Today || data.quizzes.Today.length === 0) && (!data.quizzes.Yesterday || data.quizzes.Yesterday.length === 0)) {
+                    container.innerHTML = `
+                        <div class="card-main" style="text-align: center; padding: 30px 20px;">
+                            <span style="font-size: 32px;">🧘</span>
+                            <h3 style="margin: 12px 0 4px 0; font-size: 16px;">Rest Day</h3>
+                            <p style="font-size: 13px; color: var(--text-muted);">No active trials</p>
+                        </div>
+                    `;
+                }
                 if ((!data.quizzes.Today || data.quizzes.Today.length === 0) && (!data.quizzes.Yesterday || data.quizzes.Yesterday.length === 0)) {
                     container.innerHTML = `
                         <div class="card-main" style="text-align: center; padding: 30px 20px;">
@@ -733,20 +769,26 @@
             
             document.getElementById('digestModalTitle').innerText = item.title;
             
-            // Parse Gemini's Markdown into HTML
-            let formattedContent = item.content
-                .replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--brand);">$1</strong>') // Make bold text brand-colored
+            // 1. ADD NULL SAFETY
+            let safeContent = item.content || "Content is currently unavailable.";
+            
+            // 2. UNIVERSAL REGEX PARSING
+            let formattedContent = safeContent
+                .replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--brand);">$1</strong>') // Bold
                 .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italics
-                .replace(/^[•\-]\s+(.*)$/gm, '<li style="margin-bottom: 6px;">$1</li>') // Bullet points
-                .replace(/\n/g, '<br/>'); // Preserve line breaks
+                .replace(/^[•\-]\s+(.*)$/gm, '<li style="margin-bottom: 6px;">$1</li>') // Bullets
+                .replace(/\n/g, '<br/>'); // Line breaks
                 
-            // Wrap loose list items in a <ul>
+            // 3. REMOVED THE 's' FLAG CRASH RISK
             if (formattedContent.includes('<li>')) {
-                formattedContent = formattedContent.replace(/(<li>.*<\/li>)/s, '<ul style="padding-left: 20px; margin: 10px 0;">$1</ul>');
+                formattedContent = formattedContent.replace(/(<li>[\s\S]*<\/li>)/, '<ul style="padding-left: 20px; margin: 10px 0;">$1</ul>');
             }
 
             document.getElementById('digestModalBody').innerHTML = formattedContent;
             document.getElementById('digestModalOverlay').style.display = 'flex';
+            
+            // Lock background scrolling while modal is open
+            document.body.style.overflow = 'hidden'; 
             
             if (!item.is_read) {
                 item.is_read = true;
@@ -759,9 +801,11 @@
             }
         }
 
+        // Don't forget to unlock scrolling when closed!
         function closeDigestModal(e, force=false) {
             if (force || e.target.id === 'digestModalOverlay') {
                 document.getElementById('digestModalOverlay').style.display = 'none';
+                document.body.style.overflow = ''; // Unlock scrolling
             }
         }
 
@@ -791,6 +835,13 @@
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             window.scrollTo(0, 0);
+
+            // 🟢 Toggle Native Telegram Back Button
+            if (viewId === 'view-home') {
+                tgApp.BackButton.hide();
+            } else {
+                tgApp.BackButton.show();
+            }
 
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             let navId = 'nav-home';
