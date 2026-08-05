@@ -6,9 +6,9 @@
     <title>Ez Editorials App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- ⚡ FREE ZERO-BANDWIDTH CDN DELIVERY -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/style.css?v=2.0">
-    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js?v=2.0" defer></script>
+    <!-- ⚡ INJECT EXISTING ASSETS (MASTER SPEC) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/style.css">
+    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -85,7 +85,7 @@
         .day-circle { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--text-muted); border: 1px solid var(--border-light); }
         .day-circle.done { border-color: transparent; color: var(--text-main); }
         .day-circle.active { background: var(--brand); color: white; border-color: var(--brand); }
-        .day-check { width: auto; height: auto; margin-top: 6px; display: flex; justify-content: center; align-items: center; }
+        .day-check { width: 12px; height: 12px; margin-top: 6px; }
 
         .coming-soon { margin: 0 20px; padding: 20px; border-radius: 16px; background: #fafafa; border: 1px solid var(--border-light); }
         .coming-soon h3 { font-size: 15px; margin-bottom: 12px; }
@@ -171,17 +171,17 @@
             <svg class="icon-btn" onclick="openProfile(appUserId)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
             
             <!-- Right Bell icon with the ID wrapper for notifications -->
-            <div style="position: relative;">
+            <div style="position: relative;" onclick="switchView('view-digest')">
                 <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                 <div id="header-bell-badge" style="display:none; position:absolute; top:-2px; right:2px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
             </div>
         </div>
 
         <div class="greeting-section">
-            <h1 class="greeting-title">Good Evening, <span class="text-brand" id="user-name">Prathamesh</span></h1>
+            <h1 class="greeting-title">Good Evening, <span class="text-brand" id="user-name">Student</span></h1>
             <div class="date-badge">
-                <span id="current-date">Monday, 3 Aug 2026</span>
-                <span class="badge-day">Day 3</span>
+                <span id="current-date">--</span>
+                <span class="badge-day">Day -</span>
             </div>
         </div>
 
@@ -191,9 +191,9 @@
                 <span>Time Left Today</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </div>
-            <div class="timer-value" id="home-timer">06 : 42 : 18</div>
+            <div class="timer-value" id="home-timer">00 : 00 : 00</div>
             <div class="timer-subs"><span>HRS</span><span>MIN</span><span>SEC</span></div>
-            <button class="btn-massive" onclick="switchView('view-day')">Start Day 3 〉</button>
+            <button class="btn-massive" onclick="switchView('view-day')">Start 〉</button>
         </div>
 
         <!-- Weekly Cup Card -->
@@ -214,24 +214,7 @@
         <!-- Days Tracker -->
         <div class="days-tracker">
             <h3 class="days-title">Days</h3>
-            <div class="days-row">
-                <div style="text-align:center"><div class="day-circle done">1</div><div class="day-check">✓</div></div>
-                <div style="text-align:center"><div class="day-circle done">2</div><div class="day-check">✓</div></div>
-                <div style="text-align:center"><div class="day-circle active">3</div><div class="day-check"></div></div>
-                <div style="text-align:center"><div class="day-circle">4</div><div class="day-check">🔒</div></div>
-                <div style="text-align:center"><div class="day-circle">5</div><div class="day-check">🔒</div></div>
-                <div style="text-align:center"><div class="day-circle">6</div><div class="day-check">🔒</div></div>
-            </div>
-        </div>
-
-        <!-- Coming Soon -->
-        <div class="coming-soon">
-            <h3>Coming Soon</h3>
-            <ul>
-                <li>Mock Exams</li>
-                <li>AI Analysis</li>
-                <li>Daily Streaks</li>
-            </ul>
+            <div class="days-row"></div>
         </div>
     </div>
 
@@ -248,7 +231,7 @@
 
         <div class="time-left-sm">
             <p>Time Left</p>
-            <h2 id="detail-timer">06 : 42 : 18</h2>
+            <h2 id="detail-timer">00 : 00 : 00</h2>
         </div>
 
         <div class="quiz-list" id="api-quiz-container">
@@ -269,7 +252,7 @@
 
 
     <!-- ==========================================
-         VIEW 3: WEEKLY CUP (Mockup Replica)
+         VIEW 3: WEEKLY CUP (Hybrid)
          ========================================== -->
     <div id="view-cup" class="view-container">
         <div class="top-header">
@@ -281,7 +264,6 @@
         <div class="card-main">
             <p class="text-xs text-muted" style="margin-bottom: 12px;">Your Status</p>
             <div class="cup-stats" style="margin-top:0;">
-                <!-- Fix: Added IDs so JavaScript can target them -->
                 <div class="stat-col"><p>Rank</p><h3 class="text-brand" id="cup-tab-rank">--</h3></div>
                 <div class="stat-col"><p>Score</p><h3 id="cup-tab-score">--</h3></div>
             </div>
@@ -289,17 +271,14 @@
 
         <h3 style="margin: 0 20px; font-size: 15px;">Top 20</h3>
         
-        <span id="weekNumber" style="display: none;"></span>
-        <span id="activeCount" style="display: none;"></span>
-        <div id="footer" style="display: none;"></div>
-        
-        <div id="list" style="padding: 0 15px; margin-top: 15px;">
+        <div id="hybrid-leaderboard" style="padding: 0 15px; margin-top: 15px;">
             <p style="text-align:center; color:var(--text-muted); font-size: 14px;">Loading leaderboard...</p>
         </div>
     </div>
 
+
     <!-- ==========================================
-         VIEW 4: PROGRESS (Master Spec: Real Data)
+         VIEW 4: PROGRESS
          ========================================== -->
     <div id="view-progress" class="view-container">
         <div class="top-header">
@@ -309,7 +288,11 @@
         </div>
         
         <div class="card-main" id="progress-stats-container">
-            <!-- Dynamic Accuracy Stats injected here -->
+            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
+                <div class="stat-col"><p>Score</p><h3 id="prog-score">--</h3></div>
+                <div class="stat-col"><p>Rank</p><h3 id="prog-rank" class="text-brand">--</h3></div>
+            </div>
+            <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success" id="prog-acc">--%</h3></div>
         </div>
 
         <h3 style="margin: 0 20px 12px 20px; font-size: 15px;">Recent Attempts</h3>
@@ -318,32 +301,30 @@
         </div>
     </div>
 
+
     <!-- ==========================================
-         VIEW 5: PROFILE (Compact Menu UI)
+         VIEW 5: PROFILE
          ========================================== -->
     <div id="view-profile" class="view-container">
         <div class="top-header">
             <span></span>
             <span class="font-bold">Profile</span>
-            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         </div>
 
-        <!-- Avatar & Name -->
         <div class="profile-card" style="padding-bottom: 24px;">
             <div class="avatar" id="avatar-initial" style="width: 86px; height: 86px; font-size: 36px;">P</div>
             <h2 id="profile-name" style="font-size: 20px;">Student</h2>
         </div>
         
-        <!-- Clean Stats Row -->
         <div class="profile-stats-row">
             <div class="profile-stat-box"><span class="p-stat-label">Rank</span><span class="p-stat-value text-brand" id="profile-rank">#--</span></div>
             <div class="profile-stat-div"></div>
             <div class="profile-stat-box"><span class="p-stat-label">Score</span><span class="p-stat-value" id="profile-score">--</span></div>
         </div>
         
-        <!-- The Sleek List Menu -->
         <div class="profile-menu">
-            <!-- 1. Detailed Performance (Original - Working) -->
+            <!-- THESE BUTTONS NOW WORK PERFECTLY BECAUSE FUNCTIONS ARE GLOBAL -->
             <div class="p-menu-item" onclick="openProfile(appUserId)">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
@@ -352,7 +333,6 @@
                 <div class="p-menu-right">›</div>
             </div>
             
-            <!-- 2. Global Elo Rankings (Original - Working) -->
             <div class="p-menu-item" onclick="openEloLeaderboard()">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
@@ -361,16 +341,14 @@
                 <div class="p-menu-right">›</div>
             </div>
 
-            <!-- 3. Quiz History / Archive (Original - Working via Modal) -->
             <div class="p-menu-item" onclick="openSubModal('archiveModalOverlay')">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    <span>Quiz History (Weekly Archive)</span>
+                    <span>Weekly Cup Archive</span>
                 </div>
                 <div class="p-menu-right">›</div>
             </div>
 
-            <!-- 4. Upcoming Exams (Original - Working via Modal) -->
             <div class="p-menu-item" onclick="openSubModal('examsModalOverlay')">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -379,7 +357,6 @@
                 <div class="p-menu-right">›</div>
             </div>
 
-            <!-- 5. Bookmarks (From Mockup Image) -->
             <div class="p-menu-item" onclick="alert('Bookmarks feature coming soon!')">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
@@ -388,7 +365,6 @@
                 <div class="p-menu-right">›</div>
             </div>
 
-            <!-- 6. Settings (From Mockup Image) -->
             <div class="p-menu-item" onclick="alert('Settings feature coming soon!')">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
@@ -397,7 +373,6 @@
                 <div class="p-menu-right">›</div>
             </div>
 
-            <!-- 7. Help & Support (From Mockup Image) -->
             <div class="p-menu-item" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/Ez_vocab_bot')">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -406,16 +381,75 @@
                 <div class="p-menu-right">›</div>
             </div>
         </div>
-    </div> <!-- /End of view-profile -->
+    </div>
+
+    <!-- ==========================================
+         VIEW 6: DAILY DIGEST
+         ========================================== -->
+    <div id="view-digest" class="view-container">
+        <div class="top-header">
+            <span></span>
+            <span class="font-bold">Daily Digest</span>
+            <span></span>
+        </div>
+        
+        <div id="digest-tiles-container" style="padding: 10px 20px;">
+            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading digest...</p>
+        </div>
+    </div>
 
 
     <!-- ==========================================
          GLOBAL MODALS (Safely Outside View Containers)
          ========================================== -->
-        
+    <div class="floating-scroll-btn" id="scrollBtn" onclick="scrollToDemotionZone()" title="Scroll to Demotion Zone" style="bottom: 160px; display: none;">🔻</div>
+    
+    <!-- Weekly Archive Modal -->
+    <div class="modal-overlay" id="archiveModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'archiveModalOverlay')">
+        <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
+                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">Weekly Cup Archive</h3>
+                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeSubModal(null, 'archiveModalOverlay', true)">×</span>
+            </div>
+            <div id="weekly-history-container">
+                <div style="text-align:center; padding: 40px 20px;">
+                    <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
+                    <p style="color:var(--text-muted); font-size: 13px; font-weight: 500;">Fetching data...</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- PERFORMANCE ANALYSIS MODAL -->
+    <!-- Exams Modal -->
+    <div class="modal-overlay" id="examsModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'examsModalOverlay')">
+        <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
+                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">Upcoming Exams</h3>
+                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeSubModal(null, 'examsModalOverlay', true)">×</span>
+            </div>
+            <div id="profile-exams-container">
+                <div style="text-align:center; padding: 40px 20px;">
+                    <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
+                    <p style="color:var(--text-muted); font-size: 13px; font-weight: 500;">Fetching data...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ELO LEADERBOARD MODAL (Matches original app_v8.js requirements) -->
+    <div class="modal-overlay" id="eloModalOverlay" onclick="closeEloModal(event)" style="z-index: 300;">
+        <div class="modal-content" id="eloModalContent" onclick="event.stopPropagation()" style="height: 80vh; background: #f8fafc; padding: 0; display: flex; flex-direction: column;">
+            <div style="padding: 20px; text-align: center; border-bottom: 1px solid #e2e8f0; background: white; border-radius: 32px 32px 0 0;">
+                <div class="close-indicator" onclick="closeEloModal(null, true)"></div>
+                <h2 style="margin: 0; color: #0f172a; font-size: 1.3em;">🌍 Global Intelligence</h2>
+                <p style="margin: 4px 0 0 0; font-size: 0.8em; color: #64748b;">Top 50 Lifetime Elo Ratings (Active Only)</p>
+            </div>
+            <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
+            <div class="user-footer" id="eloFooter" style="bottom: 20px; background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; color: white;">Loading your Elo status...</div>
+        </div>
+    </div>
+
+    <!-- PERFORMANCE ANALYSIS MODAL (Matches original app_v8.js requirements) -->
     <div class="modal-overlay" id="analysisModal" onclick="closeModal(event)" style="z-index: 400;">
         <div class="modal-content" id="modalContentBg" onclick="event.stopPropagation()">
             <div class="close-indicator" onclick="closeModal(null, true)"></div>
@@ -426,7 +460,6 @@
                     <span id="modalStudentElo"></span> • <span id="modalStudentTitle" style="color: #64748b;"></span>
                 </div>
             </div>
-            <!-- Top 4 Stats -->
             <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                 <div class="stat-box" style="flex:1; background:white; padding:15px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:var(--text-muted);">Score</div><div style="font-size:20px; font-weight:bold; color:#3b82f6;" id="statScore"></div></div>
                 <div class="stat-box" style="flex:1; background:white; padding:15px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:var(--text-muted);">Accuracy</div><div style="font-size:20px; font-weight:bold; color:#10b981;" id="statAccuracy"></div></div>
@@ -435,7 +468,6 @@
                 <div class="stat-box" style="flex:1; background:white; padding:15px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:var(--text-muted);">Attempts</div><div style="font-size:20px; font-weight:bold; color:#8b5cf6;" id="statAttempts"></div></div>
                 <div class="stat-box" style="flex:1; background:white; padding:15px; border-radius:12px; text-align:center;"><div style="font-size:11px; color:var(--text-muted);">Growth</div><div style="font-size:20px; font-weight:bold; color:#f97316;" id="statGrowth"></div></div>
             </div>
-            <!-- Comparison Table -->
             <div style="background: white; border-radius: 12px; padding: 15px; margin-bottom: 20px; overflow-x: auto;">
                 <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
                     <thead><tr style="border-bottom: 1px solid var(--border-light);"><th style="text-align: left; padding-bottom: 8px;">Metric</th><th id="tblStudentHeader" style="padding-bottom: 8px;">You</th><th style="padding-bottom: 8px;">Topper</th><th style="padding-bottom: 8px;">Avg</th></tr></thead>
@@ -447,12 +479,10 @@
                     </tbody>
                 </table>
             </div>
-            <!-- Topper Banner -->
             <div style="background: linear-gradient(135deg, #fef08a, #fde047); padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(250, 204, 21, 0.2);">
                 <div style="font-size: 0.7em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; opacity: 0.9; color: #854d0e; font-weight:bold;">Current Rank #1</div>
                 <span id="bannerTopperName" style="font-weight: bold; color: #1c1e21; font-size: 16px;"></span><br><span id="bannerTopperInfo" style="font-size: 0.9em; opacity: 0.9; color: #422006;"></span>
             </div>
-            <!-- Charts -->
             <div style="margin-bottom: 25px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Weekly Score Trend</h3><div style="background: white; border-radius: 12px; padding: 10px; height: 200px;"><canvas id="dailyChart"></canvas></div></div>
             <div style="margin-bottom: 25px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Accuracy Ratio</h3><div style="background: white; border-radius: 12px; padding: 10px; height: 200px;"><canvas id="pieChart"></canvas></div></div>
             <div style="margin-bottom: 25px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Lifetime History Tracker</h3><div id="rankHistorySection"></div></div>
@@ -461,7 +491,7 @@
         </div>
     </div>
     
-    <!-- History Sub-Modal -->
+    <!-- History Sub-Modal (Matches original app_v8.js requirements) -->
     <div class="modal-overlay" id="historyModalOverlay" onclick="closeHistoryModal(event)" style="z-index: 500;">
         <div class="modal-content" onclick="event.stopPropagation()" style="margin: 20px; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
             <div style="text-align: center; margin-bottom: 15px;">
@@ -477,21 +507,6 @@
         </div>
     </div>
 
-    <!-- ==========================================
-         VIEW 6: DAILY DIGEST (Section 5)
-         ========================================== -->
-    <div id="view-digest" class="view-container">
-        <div class="top-header">
-            <span></span>
-            <span class="font-bold">Daily Digest</span>
-            <span></span>
-        </div>
-        
-        <div id="digest-tiles-container" style="padding: 10px 20px;">
-            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading digest...</p>
-        </div>
-    </div>
-    
     <!-- Digest Reading Modal -->
     <div class="modal-overlay" id="digestModalOverlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeDigestModal(event)">
         <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
@@ -511,6 +526,7 @@
             "></div>
         </div>
     </div>
+
 
     <!-- ==========================================
          BOTTOM NAVIGATION BAR (Master Spec: 5 Tabs)
@@ -539,70 +555,148 @@
         </div>
     </div>
 
+
     <!-- ==========================================
-         APPLICATION LOGIC
+         HIDDEN APP_V8 COMPATIBILITY ANCHORS
+         ========================================== -->
+    <div style="display: none;">
+        <span id="weekNumber"></span>
+        <span id="activeCount"></span>
+        <span id="timeRemainingHead"></span>
+        <div id="list"></div>
+        <div id="footer"></div>
+    </div>
+
+
+    <!-- ==========================================
+         MASTER SPEC JAVASCRIPT
          ========================================== -->
     <script>
-        let lastFetchTimes = { cup: 0, progress: 0, digest: 0 };
-
-        // 1. Initialize Telegram & User (Renamed to avoid colliding with app_v8.js)
+        // --- 1. GLOBAL VARIABLES & INIT ---
         const tgApp = window.Telegram.WebApp;
         tgApp.expand();
         const appUserId = tgApp.initDataUnsafe?.user?.id || 123456789;
         
-        // 🟢 Bind the native back button
+        let digestItems = [];
+        let examTimers = [];
+        let lastFetchTimes = { cup: 0, progress: 0, digest: 0 };
+
+        // Bind the native back button
         tgApp.BackButton.onClick(() => {
             switchView('view-home');
         });
-        const firstName = tgApp.initDataUnsafe?.user?.first_name || 'Student';
-        
-        document.getElementById('user-name').innerText = firstName;
-        document.getElementById('profile-name').innerText = firstName;
-        document.getElementById('avatar-initial').innerText = firstName.charAt(0).toUpperCase();
 
-        // 🟢 BULLETPROOF IST TIME FUNCTION 🟢
+        // --- 2. GLOBAL FUNCTIONS (Accessible to HTML onclick handlers) ---
         function getIST() {
             return new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
         }
 
-        const istNow = getIST();
-        const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
-        document.getElementById('current-date').innerText = istNow.toLocaleDateString('en-GB', options);
+        function switchView(viewId) {
+            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+            const targetView = document.getElementById(viewId);
+            if(targetView) targetView.classList.add('active');
+            window.scrollTo(0, 0);
 
-        // 2. DYNAMIC DAY TRACKER (Header elements only)
+            if (viewId === 'view-home') {
+                tgApp.BackButton.hide();
+            } else {
+                tgApp.BackButton.show();
+            }
+
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            const navItem = document.getElementById('nav-' + viewId.replace('view-', ''));
+            if(navItem) navItem.classList.add('active');
+            
+            const scrollBtn = document.getElementById('scrollBtn');
+            if (scrollBtn) scrollBtn.style.display = (viewId === 'view-cup') ? 'flex' : 'none';
+
+            // Lazy Loading Logic
+            if(viewId === 'view-cup' && (Date.now() - lastFetchTimes.cup > 30000)) { 
+                loadRealCupData(); lastFetchTimes.cup = Date.now(); 
+            }
+            if(viewId === 'view-progress' && (Date.now() - lastFetchTimes.progress > 30000)) { 
+                loadProgressHistory(); lastFetchTimes.progress = Date.now(); 
+            }
+            if(viewId === 'view-profile') { 
+                loadWeeklyResults(); loadUpcomingExams(); 
+            }
+            if(viewId === 'view-digest' && (Date.now() - lastFetchTimes.digest > 30000)) { 
+                loadDailyDigest(); lastFetchTimes.digest = Date.now(); 
+            }
+        }
+
+        function openSubModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeSubModal(event, modalId, force=false) {
+            if (force || event.target.id === modalId) {
+                document.getElementById(modalId).style.display = 'none';
+                document.body.style.overflow = ''; 
+            }
+        }
+
+        function openDigestItem(id) {
+            const item = digestItems.find(i => i.id === id);
+            if (!item) return;
+            
+            document.getElementById('digestModalTitle').innerText = item.title;
+            
+            let safeContent = String(item.content || "Content unavailable.");
+            safeContent = safeContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            
+            let formattedContent = safeContent
+                .replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--brand);">$1</strong>') 
+                .replace(/\*(.*?)\*/g, '<em>$1</em>') 
+                .replace(/^[•\-]\s+(.*)$/gm, '<li style="margin-left: 20px; margin-bottom: 6px;">$1</li>') 
+                .replace(/\n/g, '<br/>'); 
+                
+            document.getElementById('digestModalBody').innerHTML = formattedContent;
+            document.getElementById('digestModalOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
+            
+            if (!item.is_read) {
+                item.is_read = true;
+                fetch(`https://ez-editorials-bot.onrender.com/api/digest/mark-read`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: appUserId, content_type: id })
+                });
+                loadDailyDigest(); 
+            }
+        }
+
+        function closeDigestModal(e, force=false) {
+            if (force || e.target.id === 'digestModalOverlay') {
+                document.getElementById('digestModalOverlay').style.display = 'none';
+                document.body.style.overflow = ''; 
+            }
+        }
+
         function updateDayTracker() {
             const ist = getIST();
             let dayNum = ist.getDay() === 0 ? 7 : ist.getDay(); 
-
             document.querySelectorAll('.badge-day').forEach(el => el.innerText = `Day ${dayNum}`);
-            
             const detailHeader = document.getElementById('day-detail-header');
             if (detailHeader) detailHeader.innerText = `Day ${dayNum}`;
-
             const btn = document.querySelector('.btn-massive');
             if(btn && dayNum <= 6) btn.innerText = `Start Day ${dayNum} 〉`;
             else if(btn) { btn.innerText = `Sunday Wrap-Up 〉`; btn.style.background = 'var(--text-muted)'; }
         }
-        updateDayTracker();
 
-        // --- NEW: ACTUAL HISTORY-BASED TRACKER ---
         function updateDynamicTracker() {
             const ist = getIST();
-            // 0=Mon, 1=Tue ... 5=Sat. Sunday (6) defaults to the end of the week.
             let currentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
-            
             const daysRow = document.querySelector('.days-row');
             if(!daysRow) return;
             daysRow.innerHTML = '';
             
-            // 1. Pull exact history labels and attempt arrays
             let userHistory = window.currentUserData?.history || {};
             let labels = userHistory.labels || [];
             let attempts = userHistory.daily_attempts || [];
-            
             const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-            // 🟢 Crisp SVG Icons for perfect shaping on all devices
             const svgCheck = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
             const svgCross = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--brand-red)" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
             const svgLock = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
@@ -610,22 +704,15 @@
             for(let i = 0; i < 6; i++) {
                 let dayNum = i + 1;
                 let cls = ''; let chk = '';
-                
-                // 2. Find if this specific day exists in the user's history
                 let dayName = weekDays[i];
                 let histIdx = labels.indexOf(dayName);
                 let attemptsThisDay = histIdx !== -1 ? attempts[histIdx] : 0;
                 
-                // 3. Assign correct checkmarks based on the timeline
                 if (i < currentDayIndex) {
-                    if (attemptsThisDay > 0) {
-                        cls = 'done'; chk = svgCheck; 
-                    } else {
-                        cls = ''; chk = svgCross;    
-                    }
+                    if (attemptsThisDay > 0) { cls = 'done'; chk = svgCheck; } 
+                    else { cls = ''; chk = svgCross; }
                 } else if (i === currentDayIndex) {
-                    cls = 'active'; 
-                    chk = attemptsThisDay > 0 ? svgCheck : '';
+                    cls = 'active'; chk = attemptsThisDay > 0 ? svgCheck : '';
                 } else {
                     cls = ''; chk = svgLock;
                 }
@@ -639,121 +726,173 @@
             }
         }
 
-        // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
-        async function loadRealCupData() {
-            try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${appUserId}`);
-                const data = await response.json();
+        function drawHybridCup(data) {
+            const lbList = document.getElementById('hybrid-leaderboard');
+            if(!lbList || !data.leaderboard) return;
+            
+            lbList.innerHTML = '';
+            let targetAverage = data.target_average || 0;
+            let insertedPromo = false;
+            let insertedDemo = false;
+            let demoCount = 0;
 
-                console.log("LEADERBOARD API RESPONSE:", data);
+            const LEAGUES = [
+                { name: 'Unranked', class: 'bg-unranked', icon: '🛡️', row: '' }, 
+                { name: 'Bronze', class: 'bg-bronze', icon: '🥉', row: 'row-bg-bronze' },      
+                { name: 'Silver', class: 'bg-silver', icon: '🥈', row: 'row-bg-silver' },      
+                { name: 'Gold', class: 'bg-gold', icon: '🥇', row: 'row-bg-gold' },          
+                { name: 'Platinum', class: 'bg-plat', icon: '💠', row: 'row-bg-plat' },      
+                { name: 'Diamond', class: 'bg-dia', icon: '💎', row: 'row-bg-dia' },        
+                { name: 'Champion', class: 'bg-champ', icon: '👑', row: 'row-bg-champ' },     
+                { name: 'Master', class: 'bg-master', icon: '🎖️', row: 'row-bg-master' },      
+                { name: 'Elite', class: 'bg-elite', icon: '⚡', row: 'row-bg-elite' },        
+                { name: 'Legend', class: 'bg-legend', icon: '🌟', row: 'row-bg-legend' },      
+                { name: 'Mythic', class: 'bg-mythic', icon: '🔮', row: 'row-bg-mythic' },      
+                { name: 'Prodigy', class: 'bg-prodigy', icon: '⚛️', row: 'row-bg-prodigy' },    
+                { name: 'Celestial', class: 'bg-celestial', icon: '☄️', row: 'row-bg-celestial' },
+                { name: 'Zenith', class: 'bg-zenith', icon: '🧿', row: 'row-bg-zenith' },      
+                { name: 'Ascendant', class: 'bg-ascendant', icon: '🌌', row: 'row-bg-ascendant' }, 
+                { name: 'Omniscient', class: 'bg-omniscient', icon: '👁️‍🗨️', row: 'row-bg-omniscient' }
+            ];
+            
+            data.leaderboard.forEach(user => {
+                let isDemotion = user.score < targetAverage;
+                if (isDemotion) demoCount++;
+                if (isDemotion && demoCount > 10 && user.id != appUserId) return;
 
-                if (typeof renderLeaderboardData === 'function') {
-                    renderLeaderboardData(data);
-                } else {
-                    console.error("renderLeaderboardData function not found! Ensure app_v8.js is loaded.");
+                if (!insertedPromo && !isDemotion) {
+                    lbList.innerHTML += `
+                        <div style="display: flex; align-items: center; margin: 10px 0 15px 0;">
+                            <div style="flex: 1; height: 1px; background: #10b981;"></div>
+                            <div style="padding: 4px 12px; font-size: 11px; font-weight: 800; color: #10b981; background: #d1fae5; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; margin: 0 10px;">▲ Promotion Zone ▲</div>
+                            <div style="flex: 1; height: 1px; background: #10b981;"></div>
+                        </div>
+                    `;
+                    insertedPromo = true;
+                }
+                if (!insertedDemo && isDemotion) {
+                    lbList.innerHTML += `
+                        <div id="demotionZoneLine" style="display: flex; align-items: center; margin: 24px 0 15px 0;">
+                            <div style="flex: 1; height: 1px; background: #ef4444;"></div>
+                            <div style="padding: 4px 12px; font-size: 11px; font-weight: 800; color: #ef4444; background: #fee2e2; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; margin: 0 10px;">▼ Demotion Zone ▼</div>
+                            <div style="flex: 1; height: 1px; background: #ef4444;"></div>
+                        </div>
+                    `;
+                    insertedDemo = true;
                 }
 
-                if (data.current_user) {
-                    const cu = data.current_user;
-                    
-                    const leagueBadge = getLeagueBadgeHTML(cu.league);
-                    
-                    // 1. Safely inject into Home Tab
-                    const homeRank = document.getElementById('home-rank');
-                    if (homeRank) homeRank.innerText = `#${cu.rank || 'N/A'}`;
-                    const homeScore = document.getElementById('home-score');
-                    if (homeScore) homeScore.innerText = cu.score || 0;
+                const isMe = user.id == appUserId;
+                let l = LEAGUES[user.league] || LEAGUES[0];
+                if (user.league >= 16) l = { name: 'Genesis', class: 'bg-genesis', icon: '✨', row: 'row-bg-genesis' };
 
-                    // 2. Safely inject into Profile Tab
-                    const profileRank = document.getElementById('profile-rank');
-                    if (profileRank) profileRank.innerText = `#${cu.rank || 'N/A'}`;
-                    const profileScore = document.getElementById('profile-score');
-                    if (profileScore) profileScore.innerText = cu.score || 0;
-                    
-                    // --- ADD THIS BLOCK ---
-                    // 3. Safely inject into Cup Tab
-                    const cupRank = document.getElementById('cup-tab-rank');
-                    if (cupRank) cupRank.innerText = `#${cu.rank || 'N/A'}`;
-                    const cupScore = document.getElementById('cup-tab-score');
-                    if (cupScore) cupScore.innerText = cu.score || 0;
-                    // ----------------------
-                    
-                    // 3. Update Progress Tab (Leave this existing code intact)
-                    const progressStats = document.querySelector('#view-progress .card-main');
-                    
-                    if(progressStats) {
-                        progressStats.innerHTML = `
-                            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
-                                <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
-                                <div class="stat-col"><p>Rank</p><h3>#${cu.rank || 'N/A'}</h3></div>
+                let baseStyle = 'display:flex; justify-content:space-between; align-items:center; padding:16px 14px; border-radius:12px; margin-bottom:8px; cursor:pointer;';
+                let highlightStyle = isMe ? 'border: 2px solid var(--brand); box-shadow: 0 4px 12px rgba(90,50,250,0.15);' : 'border: 1px solid var(--border-light); background: white;';
+                let bgClass = (l.row && l.row !== '') ? l.row : '';
+
+                let houseIcon = '🏳️';
+                if(user.house && user.house.includes('Gryffindor')) houseIcon = '🦁';
+                else if(user.house && user.house.includes('Slytherin')) houseIcon = '🐍';
+                else if(user.house && user.house.includes('Ravenclaw')) houseIcon = '🦅';
+                else if(user.house && user.house.includes('Hufflepuff')) houseIcon = '🦡';
+
+                let trendIcon = user.score >= targetAverage 
+                    ? `<span style="color: #10b981; font-size: 11px; margin-left: 4px;">▲</span>` 
+                    : `<span style="color: #ef4444; font-size: 11px; margin-left: 4px;">▼</span>`;
+
+                lbList.innerHTML += `
+                    <div class="${bgClass}" style="${baseStyle} ${highlightStyle}" onclick="if(typeof openProfile === 'function') openProfile(${user.id})">
+                        <div style="display:flex; gap:14px; align-items:center;">
+                            <span style="font-weight:900; font-size:16px; color:var(--text-muted); width:26px; text-align:center;">${user.rank}</span>
+                            <div style="display:flex; flex-direction:column; gap:6px;">
+                                <span style="font-weight:700; font-size:15px; color:var(--text-main);">${isMe ? 'You' : user.name} ${user.is_captain ? '🪄' : ''}</span>
+                                <div style="display:flex; gap:8px; align-items:center;">
+                                    <span style="font-size:14px;">${houseIcon}</span>
+                                    <span class="league-badge ${l.class}" style="font-size:10px; padding:3px 6px;">${l.icon} ${Math.round(user.elo)} Elo</span>
+                                </div>
                             </div>
-                            <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success">${cu.history?.accuracy || 0}%</h3></div>
-                        `;
-                    }
-                    
-                    // 🟢 UPDATE TRACKER BUBBLES NOW THAT DATA IS LOADED
-                    updateDynamicTracker();
-                }
-            } catch (err) { 
-                console.error("Failed to load Cup data", err); 
-                const listEl = document.getElementById('list');
-                if(listEl) listEl.innerHTML = '<p style="text-align:center; color:red; font-size: 14px;">Failed to connect to the Great Hall.</p>';
+                        </div>
+                        <span style="font-size:15px; font-weight:800; color:var(--text-main);">${user.score % 1 !== 0 ? user.score.toFixed(2) : user.score} ${trendIcon}</span>
+                    </div>
+                `;
+            });
+
+            if (data.current_user) {
+                const cu = data.current_user;
+                const hRank = document.getElementById('home-rank'); if(hRank) hRank.innerText = `#${cu.rank || 'N/A'}`;
+                const hScore = document.getElementById('home-score'); if(hScore) hScore.innerText = cu.score || 0;
+                const cRank = document.getElementById('cup-tab-rank'); if(cRank) cRank.innerText = `#${cu.rank || 'N/A'}`;
+                const cScore = document.getElementById('cup-tab-score'); if(cScore) cScore.innerText = cu.score || 0;
+                const pRank = document.getElementById('prog-rank'); if(pRank) pRank.innerText = `#${cu.rank || 'N/A'}`;
+                const pScore = document.getElementById('prog-score'); if(pScore) pScore.innerText = cu.score || 0;
+                const pAcc = document.getElementById('prog-acc'); if(pAcc) pAcc.innerText = (cu.history?.accuracy || 0) + '%';
+                const prRank = document.getElementById('profile-rank'); if(prRank) prRank.innerText = `#${cu.rank || 'N/A'}`;
+                const prScore = document.getElementById('profile-score'); if(prScore) prScore.innerText = cu.score || 0;
             }
         }
-        
-        // --- MASTER SPEC: LOAD GROUPED QUIZZES ---
+
+        function renderQuizCard(quiz, container) {
+            let statusHtml = ''; let wrapperTag = 'div'; let wrapperHref = '';
+            const dropDate = new Date(quiz.drop_time);
+            const timeString = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+            if (quiz.status === 'locked') statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
+            else if (quiz.status === 'completed') statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
+            else if (quiz.status === 'closed') statusHtml = `<div class="status-badge status-locked">Closed</div>`;
+            else {
+                statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
+                wrapperTag = 'a'; wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
+            }
+
+            container.innerHTML += `
+                <${wrapperTag} ${wrapperHref} class="quiz-item">
+                    <div><h3 style="color:var(--text-main); margin-bottom:4px;">${quiz.topic}</h3><p style="font-size:13px; color:var(--text-muted); margin:0;">${quiz.question_count} Questions • ${quiz.duration_seconds / 60} mins</p></div>
+                    ${statusHtml}
+                </${wrapperTag}>
+            `;
+        }
+
         async function loadQuizzes() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`);
                 const data = await response.json();
                 const container = document.getElementById('api-quiz-container');
+                if(!container) return;
                 container.innerHTML = ''; 
+
+                let completedCount = 0;
+                let totalCount = 0;
+                let hasUnattemptedQuizzes = false; 
 
                 if (data.quizzes.Today && data.quizzes.Today.length > 0) {
                     container.innerHTML += `<h3 style="margin-top:16px;">Today</h3>`;
                     data.quizzes.Today.forEach(quiz => renderQuizCard(quiz, container));
                 }
-
-                // Fix: Look for "Pending" instead of "Yesterday"
                 if (data.quizzes.Pending && data.quizzes.Pending.length > 0) {
-                    container.innerHTML += `<h3 style="margin-top:16px; color:var(--brand-red);">Pending Trials (Closes Tonight)</h3>`;
+                    container.innerHTML += `<h3 style="margin-top:16px; color:var(--brand-red);">Pending Trials</h3>`;
                     data.quizzes.Pending.forEach(quiz => renderQuizCard(quiz, container));
                 }
-
-                // 🟢 NEW: DYNAMIC PROGRESS BAR CALCULATION
-                let totalActiveQuizzes = 0;
-                let completedQuizzes = 0;
-                let hasUnattemptedQuizzes = false; // 🟢 Track if any quizzes need attention
 
                 ['Today', 'Pending'].forEach(day => {
                     if (data.quizzes[day]) {
                         data.quizzes[day].forEach(q => {
                             totalActiveQuizzes++;
                             if (q.status === 'completed') {
-                                completedQuizzes++;
+                                completedCount++;
                             } else if (q.status === 'unlocked' || q.status === 'start') {
-                                hasUnattemptedQuizzes = true; // 🟢 Found an active, unfinished quiz!
+                                hasUnattemptedQuizzes = true; 
                             }
                         });
                     }
                 });
 
-                const progressText = document.getElementById('progress-text');
-                const progressFill = document.getElementById('progress-fill');
+                const pText = document.getElementById('progress-text');
+                if(pText) pText.innerText = `${completedCount} / ${totalCount} Completed`;
+                const pFill = document.getElementById('progress-fill');
+                if(pFill) pFill.style.width = totalCount > 0 ? `${(completedCount / totalCount) * 100}%` : '0%';
 
-                if (progressText && progressFill) {
-                    progressText.innerText = `${completedQuizzes} / ${totalActiveQuizzes} Completed`;
-                    let percentage = totalActiveQuizzes > 0 ? (completedQuizzes / totalActiveQuizzes) * 100 : 0;
-                    progressFill.style.width = `${percentage}%`;
-                }
-
-                // 🟢 NEW: Trigger the Top Header Notification Bell for Quizzes
                 const headerBell = document.getElementById('header-bell-badge');
-                if(hasUnattemptedQuizzes && headerBell) {
-                    headerBell.style.display = 'block';
-                }
+                if(hasUnattemptedQuizzes && headerBell) headerBell.style.display = 'block';
 
-                // --- MASTER SPEC: Empty state fallback ---
                 if ((!data.quizzes.Today || data.quizzes.Today.length === 0) && (!data.quizzes.Pending || data.quizzes.Pending.length === 0)) {
                     container.innerHTML = `
                         <div class="card-main" style="text-align: center; padding: 30px 20px;">
@@ -763,47 +902,25 @@
                         </div>
                     `;
                 }
-
             } catch (error) {
-                document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
+                const container = document.getElementById('api-quiz-container');
+                if(container) container.innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
         }
 
-        // --- MASTER SPEC: LOAD HOME TAB READ-ONLY CONTENT ---
-        async function loadHomeContent() {
-            try {
-                fetch('https://ez-editorials-bot.onrender.com/api/word-of-day')
-                    .then(r => r.json())
-                    .then(data => {
-                        if(data.word_of_the_day && document.getElementById('home-wotd')) {
-                            document.getElementById('home-wotd').innerText = data.word_of_the_day;
-                        }
-                    });
-                
-                fetch('https://ez-editorials-bot.onrender.com/api/upcoming-exams')
-                    .then(r => r.json())
-                    .then(data => {
-                        const examList = document.getElementById('home-exams-list');
-                        if(data.exams && examList) {
-                            examList.innerHTML = data.exams.map(e => `<li>${e.name} - ${e.date}</li>`).join('');
-                        }
-                    });
-            } catch(e) { console.error("Content load failed"); }
-        }
-
-        // --- MASTER SPEC: LOAD PROGRESS TAB REAL HISTORY ---
         async function loadProgressHistory() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${appUserId}`);
                 const data = await response.json();
                 const container = document.getElementById('progress-history-container');
-                
+                if(!container) return;
+
                 if (data.history && data.history.length > 0) {
                     container.innerHTML = data.history.map(item => `
-                        <div class="quiz-item" style="margin-bottom: 12px;">
+                        <div class="quiz-item" style="margin-bottom: 12px; background: white;">
                             <div>
-                                <h3 style="margin-bottom:2px;">${item.topic}</h3>
-                                <p style="font-size:11px;">${item.date}</p>
+                                <h3 style="margin-bottom:2px; font-size:14px; font-weight:600; color:var(--text-main);">${item.topic}</h3>
+                                <p style="font-size:11px; color:var(--text-muted); margin:0;">${item.date}</p>
                             </div>
                             <span class="font-bold text-brand">${item.score} pts</span>
                         </div>
@@ -814,15 +931,32 @@
             } catch(e) { console.error("History load failed"); }
         }
 
-        loadHomeContent();
-        loadProgressHistory();
+        async function loadHomeContent() {
+            try {
+                fetch('https://ez-editorials-bot.onrender.com/api/word-of-day')
+                    .then(r => r.json())
+                    .then(data => {
+                        const wotdEl = document.getElementById('home-wotd');
+                        if(data.word_of_the_day && wotdEl) wotdEl.innerText = data.word_of_the_day;
+                    });
+                
+                fetch('https://ez-editorials-bot.onrender.com/api/upcoming-exams')
+                    .then(r => r.json())
+                    .then(data => {
+                        const examList = document.getElementById('home-exams-list');
+                        if(data.exams && examList) {
+                            examList.innerHTML = data.exams.map(e => `<li><b>${e.name}</b> <span style="color:var(--text-muted); font-size:11px;">(${e.date})</span></li>`).join('');
+                        }
+                    });
+            } catch(e) { console.error("Content load failed"); }
+        }
 
-        // --- MASTER SPEC: SECTIONS 6 & 7 (Load Weekly Archive) ---
         async function loadWeeklyResults() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/weekly-results`);
                 const data = await response.json();
                 const container = document.getElementById('weekly-history-container');
+                if(!container) return;
                 
                 if (data.results && data.results.length > 0) {
                     container.innerHTML = `<p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Season ${data.week_num} Top 10</p>`;
@@ -852,19 +986,15 @@
                 } else {
                     container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">No past results available.</p>`;
                 }
-            } catch (err) {
-                console.error("Failed to load weekly results", err);
-            }
+            } catch (err) { console.error("Failed to load weekly results", err); }
         }
-
-        // --- MASTER SPEC: SECTION 4 (Upcoming Exams & Timers) ---
-        let examTimers = [];
 
         async function loadUpcomingExams() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/upcoming-exams`);
                 const data = await response.json();
                 const container = document.getElementById('profile-exams-container');
+                if(!container) return;
                 
                 if (data.exams && data.exams.length > 0) {
                     container.innerHTML = '';
@@ -910,19 +1040,15 @@
                 } else {
                     container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">No upcoming exams scheduled.</p>`;
                 }
-            } catch (err) {
-                console.error("Failed to load exams", err);
-            }
+            } catch (err) { console.error("Failed to load exams", err); }
         }
-
-        // --- MASTER SPEC: SECTION 5 (Daily Digest & Read Tracking) ---
-        let digestItems = [];
 
         async function loadDailyDigest() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/digest/today?user_id=${appUserId}`);
                 const data = await response.json();
                 const container = document.getElementById('digest-tiles-container');
+                if(!container) return;
                 
                 if (data.items) {
                     digestItems = data.items;
@@ -956,208 +1082,113 @@
                     
                     const navBadge = document.getElementById('digest-badge');
                     if(navBadge) navBadge.style.display = hasUnread ? 'block' : 'none';
-                    const headerBell = document.getElementById('header-bell-badge');
-                    if(headerBell) headerBell.style.display = hasUnread ? 'block' : 'none';
                 }
-            } catch (err) {
-                console.error("Failed to load digest", err);
-            }
+            } catch (err) { console.error("Failed to load digest", err); }
         }
 
-        function openDigestItem(id) {
-            const item = digestItems.find(i => i.id === id);
-            if (!item) return;
-            
-            document.getElementById('digestModalTitle').innerText = item.title;
-            
-            // 1. Force String and Escape raw HTML to prevent crashes
-            let safeContent = String(item.content || "Content unavailable.");
-            safeContent = safeContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            
-            // 2. Safe Regex Parsing (No unsupported flags)
-            let formattedContent = safeContent
-                .replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--brand);">$1</strong>') // Bold
-                .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italics
-                .replace(/^[•\-]\s+(.*)$/gm, '<li style="margin-left: 20px; margin-bottom: 6px;">$1</li>') // Bullets
-                .replace(/\n/g, '<br/>'); // Line breaks
-                
-            document.getElementById('digestModalBody').innerHTML = formattedContent;
-            document.getElementById('digestModalOverlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; 
-            
-            if (!item.is_read) {
-                item.is_read = true;
-                fetch(`https://ez-editorials-bot.onrender.com/api/digest/mark-read`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: appUserId, content_type: id })
-                });
-                loadDailyDigest(); 
-            }
-        }
-        
-        // Don't forget to unlock scrolling when closed!
-        function closeDigestModal(e, force=false) {
-            if (force || e.target.id === 'digestModalOverlay') {
-                document.getElementById('digestModalOverlay').style.display = 'none';
-                document.body.style.overflow = ''; // Unlock scrolling
-            }
-        }
-
-        // Function to open the hidden sub-menus (Archive & Exams)
-        function openSubModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Lock background scrolling
-        }
-
-        // Function to close the hidden sub-menus
-        function closeSubModal(event, modalId, force=false) {
-            if (force || event.target.id === modalId) {
-                document.getElementById(modalId).style.display = 'none';
-                document.body.style.overflow = ''; // Unlock scrolling
-            }
-        }
-
-        function renderQuizCard(quiz, container) {
-            let statusHtml = ''; let wrapperTag = 'div'; let wrapperHref = '';
-            const dropDate = new Date(quiz.drop_time);
-            const timeString = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-
-            if (quiz.status === 'locked') statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
-            else if (quiz.status === 'completed') statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
-            else if (quiz.status === 'closed') statusHtml = `<div class="status-badge status-locked">Closed</div>`;
-            else {
-                statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
-                wrapperTag = 'a'; wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
-            }
-
-            container.innerHTML += `
-                <${wrapperTag} ${wrapperHref} class="quiz-item">
-                    <div><h3>${quiz.topic}</h3><p>${quiz.question_count} Questions • ${quiz.duration_seconds / 60} mins</p></div>
-                    ${statusHtml}
-                </${wrapperTag}>
-            `;
-        }
-
-        // --- MASTER SPEC: TAB SWITCHER ---
-        function switchView(viewId) {
-            document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            window.scrollTo(0, 0);
-
-            // 🟢 Toggle Native Telegram Back Button
-            if (viewId === 'view-home') {
-                tgApp.BackButton.hide();
-            } else {
-                tgApp.BackButton.show();
-            }
-
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            let navId = 'nav-home';
-            
-            if(viewId === 'view-cup') { 
-                navId = 'nav-cup'; 
-                if (Date.now() - lastFetchTimes.cup > 30000) {
-                    loadRealCupData();
-                    lastFetchTimes.cup = Date.now();
+        async function loadRealCupData() {
+            try {
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${appUserId}`);
+                const data = await response.json();
+                if (typeof renderLeaderboardData === 'function') {
+                    renderLeaderboardData(data);
                 }
-            }
-            if(viewId === 'view-progress') {
-                navId = 'nav-progress';
-                if (Date.now() - lastFetchTimes.progress > 30000) {
-                    loadProgressHistory();
-                    lastFetchTimes.progress = Date.now();
-                }
-            }
-            if(viewId === 'view-profile') {
-                navId = 'nav-profile';
-                
-                // Remove the openEloLeaderboard() and menu-performance lines.
-                // Only keep these two:
-                loadWeeklyResults();
-                loadUpcomingExams(); 
-            }
-            if(viewId === 'view-digest') {
-                navId = 'nav-digest';
-                if (Date.now() - lastFetchTimes.digest > 30000) {
-                    loadDailyDigest();
-                    lastFetchTimes.digest = Date.now();
-                }
-            }
-            
-            document.getElementById(navId).classList.add('active');
+            } catch (err) { console.error("Failed to load Cup data", err); }
         }
 
-        // 6. TOP TIMER (IST BOUND)
-        setInterval(() => {
-            const ist = getIST();
-            const endOfDay = new Date(ist);
-            endOfDay.setHours(23, 59, 59, 999);
-            const diff = endOfDay - ist;
-            
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-            const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
-            
-            document.getElementById('home-timer').innerText = `${h} : ${m} : ${s}`;
-            const detailTimer = document.getElementById('detail-timer');
-            if(detailTimer) detailTimer.innerText = `${h} : ${m} : ${s}`;
-            
-            if (typeof examTimers !== 'undefined') {
-                examTimers.forEach(timer => {
-                    const el = document.getElementById(timer.elementId);
-                    if (!el) return;
-                    
-                    const eDiff = timer.targetDate - ist;
-                    if (eDiff <= 0) {
-                        el.innerText = "TODAY IS THE EXAM!";
-                        el.style.color = "var(--success)";
-                        return;
-                    }
-                    
-                    const eD = Math.floor(eDiff / (1000 * 60 * 60 * 24));
-                    const eH = Math.floor((eDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-                    const eM = Math.floor((eDiff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-                    const eS = Math.floor((eDiff % (1000 * 60)) / 1000).toString().padStart(2, '0');
-                    
-                    if (eD > 0) {
-                        el.innerText = timer.isExact ? `${eD}d : ${eH}h : ${eM}m : ${eS}s` : `~ ${eD} Days Left`;
-                    } else {
-                        el.innerText = `${eH}h : ${eM}m : ${eS}s`;
-                    }
-                });
-            }
-        }, 1000);
-
-        // Wait for app_v8.js to fully load before initializing to prevent render failures
+        // --- 3. DOM LOADED INITIALIZATION & APP_V8 INTERCEPT ---
         window.addEventListener('DOMContentLoaded', () => {
-            try { loadQuizzes(); } catch(e) { console.error(e); }
-            try { loadDailyDigest(); } catch(e) { console.error(e); }
             
-            // 🟢 NEW: Read the cache left by app_v8.js to populate Home Stats instantly (No Double Fetch!)
+            const firstName = tgApp.initDataUnsafe?.user?.first_name || 'Student';
+            const userNameEl = document.getElementById('user-name');
+            if (userNameEl) userNameEl.innerText = firstName;
+            const profileNameEl = document.getElementById('profile-name');
+            if (profileNameEl) profileNameEl.innerText = firstName;
+            const avatarEl = document.getElementById('avatar-initial');
+            if (avatarEl) avatarEl.innerText = firstName.charAt(0).toUpperCase();
+
+            const istNow = getIST();
+            const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
+            const dateEl = document.getElementById('current-date');
+            if (dateEl) dateEl.innerText = istNow.toLocaleDateString('en-GB', options);
+
+            updateDayTracker();
+
+            // 🟢 Intercept the background render function safely
+            if (typeof renderLeaderboardData === 'function') {
+                const originalRender = renderLeaderboardData;
+                renderLeaderboardData = function(data) {
+                    originalRender(data); 
+                    drawHybridCup(data);  
+                    updateDynamicTracker(); 
+                };
+            }
+
+            // Start Timers
+            setInterval(() => {
+                const ist = getIST();
+                const endOfDay = new Date(ist);
+                endOfDay.setHours(23, 59, 59, 999);
+                const diff = endOfDay - ist;
+                
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                
+                const homeTimer = document.getElementById('home-timer');
+                if(homeTimer) homeTimer.innerText = `${h} : ${m} : ${s}`;
+                const detailTimer = document.getElementById('detail-timer');
+                if(detailTimer) detailTimer.innerText = `${h} : ${m} : ${s}`;
+                
+                if (typeof examTimers !== 'undefined') {
+                    examTimers.forEach(timer => {
+                        const el = document.getElementById(timer.elementId);
+                        if (!el) return;
+                        
+                        const eDiff = timer.targetDate - ist;
+                        if (eDiff <= 0) {
+                            el.innerText = "TODAY IS THE EXAM!";
+                            el.style.color = "var(--success)";
+                            return;
+                        }
+                        
+                        const eD = Math.floor(eDiff / (1000 * 60 * 60 * 24));
+                        const eH = Math.floor((eDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                        const eM = Math.floor((eDiff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                        const eS = Math.floor((eDiff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                        
+                        if (eD > 0) { el.innerText = timer.isExact ? `${eD}d : ${eH}h : ${eM}m : ${eS}s` : `~ ${eD} Days Left`; } 
+                        else { el.innerText = `${eH}h : ${eM}m : ${eS}s`; }
+                    });
+                }
+            }, 1000);
+
+            // Sync Stats from app_v8.js to Home/Progress tabs
+            setInterval(() => {
+                if (window.currentUserData) {
+                    const cu = window.currentUserData;
+                    const hRank = document.getElementById('home-rank'); if(hRank) hRank.innerText = `#${cu.rank || 'N/A'}`;
+                    const hScore = document.getElementById('home-score'); if(hScore) hScore.innerText = cu.score || 0;
+                    const cRank = document.getElementById('cup-tab-rank'); if(cRank) cRank.innerText = `#${cu.rank || 'N/A'}`;
+                    const cScore = document.getElementById('cup-tab-score'); if(cScore) cScore.innerText = cu.score || 0;
+                    const pRank = document.getElementById('prog-rank'); if(pRank) pRank.innerText = `#${cu.rank || 'N/A'}`;
+                    const pScore = document.getElementById('prog-score'); if(pScore) pScore.innerText = cu.score || 0;
+                    const pAcc = document.getElementById('prog-acc'); if(pAcc) pAcc.innerText = (cu.history?.accuracy || 0) + '%';
+                    const prRank = document.getElementById('profile-rank'); if(prRank) prRank.innerText = `#${cu.rank || 'N/A'}`;
+                    const prScore = document.getElementById('profile-score'); if(prScore) prScore.innerText = cu.score || 0;
+                }
+            }, 1000);
+
+            // Trigger Initial Loads
+            loadQuizzes();
+            loadHomeContent();
+            loadProgressHistory();
+            loadDailyDigest();
+
+            // Try to draw from cache immediately so screen isn't empty
             try {
                 const cachedData = JSON.parse(localStorage.getItem('quizCupData_' + appUserId));
-                if (cachedData && cachedData.current_user) {
-                    const cu = cachedData.current_user;
-                    
-                    const homeRank = document.getElementById('home-rank');
-                    if (homeRank) homeRank.innerText = `#${cu.rank || 'N/A'}`;
-                    const homeScore = document.getElementById('home-score');
-                    if (homeScore) homeScore.innerText = cu.score || 0;
-                    
-                    const progressStats = document.querySelector('#view-progress .card-main');
-                    if(progressStats) {
-                        progressStats.innerHTML = `
-                            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
-                                <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
-                                <div class="stat-col"><p>Rank</p><h3>#${cu.rank || 'N/A'}</h3></div>
-                            </div>
-                            <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success">${cu.history?.accuracy || 0}%</h3></div>
-                        `;
-                    }
-                    window.currentUserData = cu; // Sync tracker
-                    updateDynamicTracker();
-                }
+                if (cachedData && cachedData.current_user) drawHybridCup(cachedData);
             } catch(e) {}
         });
     </script>
