@@ -101,13 +101,28 @@ function scrollToDemotionZone() {
 }
 
 function renderLeaderboardData(data) {
-    document.getElementById('weekNumber').innerText = data.current_week;
-    document.getElementById('activeCount').innerText = data.total_active || data.leaderboard.length;
+    if (document.getElementById('weekNumber')) document.getElementById('weekNumber').innerText = data.current_week;
+    if (document.getElementById('activeCount')) document.getElementById('activeCount').innerText = data.total_active || data.leaderboard.length;
 
     window.totalQuizzesAvailable = data.total_quizzes || 0;
     window.topperHistory = data.topper_history;
     window.classAvgHistory = data.class_avg_history;
-    window.currentUserData = data.current_user;
+
+    // --- SAFETY NET: PREVENT UNDEFINED ID CRASH ---
+    window.currentUserData = data.current_user || {
+        id: null,
+        name: "You",
+        score: 0,
+        rank: "N/A",
+        league: 0,
+        house: "🏳️ Unsorted",
+        is_captain: 0,
+        elo: 1000,
+        attempts: 0,
+        lifetime_growth: "Calibrating...",
+        rank_history: [],
+        history: { labels: [], scores: [], accuracy: 0, correct: 0, wrong: 0 }
+    };
 
     const listDiv = document.getElementById('list');
     listDiv.innerHTML = '';
