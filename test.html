@@ -291,8 +291,8 @@
         let timerInterval = null;
         let timeRemaining = 0;
         let topicName = "Test";
-        
         let isSubmitting = false;
+        let endTime = 0; // 🟢 NEW: Absolute clock sync
 
         async function startQuiz() {
             try {
@@ -332,6 +332,8 @@
                 buildPalette();
                 loadQuestion(0);
                 document.getElementById('loading-screen').style.display = 'none';
+                // 🟢 NEW: Calculate absolute end time
+                endTime = Date.now() + (data.duration_seconds * 1000);
                 startTimer();
                 
             } catch (err) {
@@ -478,7 +480,9 @@
 
         function startTimer() {
             timerInterval = setInterval(() => {
-                timeRemaining--;
+                // Calculate exact time left based on absolute clock
+                timeRemaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+                
                 let m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
                 let s = (timeRemaining % 60).toString().padStart(2, '0');
                 document.getElementById('timer-display').innerText = `${m}:${s}`;
