@@ -397,6 +397,8 @@
             const qId = questions[currentIndex].question_id;
             delete responses[qId];
             document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+            
+            updatePaletteColors();
         }
 
         function toggleReview() {
