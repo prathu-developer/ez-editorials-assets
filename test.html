@@ -299,12 +299,15 @@
                 // Fetch the specific quiz duration from the API to set the timer accurately
                 const homeRes = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`);
                 const homeData = await homeRes.json();
-                const currentQuizMeta = homeData.quizzes.find(q => q.id == quizId);
+                
+                // FIX: Combine the grouped arrays into a single flat array before searching
+                const allQuizzes = [...(homeData.quizzes.Today || []), ...(homeData.quizzes.Pending || [])];
+                const currentQuizMeta = allQuizzes.find(q => q.id == quizId);
                 
                 if(currentQuizMeta) {
                     topicName = currentQuizMeta.topic;
                 }
-
+        
                 document.getElementById('display-title').innerText = topicName;
                 document.getElementById('palette-topic').innerText = topicName;
                 document.getElementById('summary-topic').innerText = topicName;
