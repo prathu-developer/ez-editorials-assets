@@ -1141,43 +1141,63 @@
             try { loadQuizzes(); } catch(e) { console.error(e); }
             try { loadDailyDigest(); } catch(e) { console.error(e); }
             
-            // 🟢 NEW: Read the cache left by app_v8.js to populate Home Stats instantly (No Double Fetch!)
+            // 🟢 THE INTERCEPTOR: Catch app_v8.js updates and force the top cards to sync!
+            if (typeof renderLeaderboardData === 'function') {
+                const originalRender = renderLeaderboardData;
+                window.renderLeaderboardData = function(data) {
+                    // 1. Let app_v8.js build the list normally
+                    originalRender(data); 
+                    
+                    // 2. Force update ALL top cards across the Mini App
+                    if (data && data.current_user) {
+                        const cu = data.current_user;
+                        // Format the score cleanly (e.g. 14.03 instead of 14.03000001)
+                        let displayScore = cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score;
+                        
+                        // Sync Home Tab
+                        const homeRank = document.getElementById('home-rank');
+                        if (homeRank) homeRank.innerText = `#${cu.rank || 'N/A'}`;
+                        const homeScore = document.getElementById('home-score');
+                        if (homeScore) homeScore.innerText = displayScore;
+
+                        // Sync Cup Tab
+                        const cupRank = document.getElementById('cup-tab-rank');
+                        if (cupRank) cupRank.innerText = `#${cu.rank || 'N/A'}`;
+                        const cupScore = document.getElementById('cup-tab-score');
+                        if (cupScore) cupScore.innerText = displayScore;
+
+                        // Sync Profile Tab
+                        const profileRank = document.getElementById('profile-rank');
+                        if (profileRank) profileRank.innerText = `#${cu.rank || 'N/A'}`;
+                        const profileScore = document.getElementById('profile-score');
+                        if (profileScore) profileScore.innerText = displayScore;
+                        
+                        // Sync Progress Tab
+                        const progressStats = document.querySelector('#view-progress .card-main');
+                        if(progressStats) {
+                            progressStats.innerHTML = `
+                                <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
+                                    <div class="stat-col"><p>Score</p><h3>${displayScore}</h3></div>
+                                    <div class="stat-col"><p>Rank</p><h3>#${cu.rank || 'N/A'}</h3></div>
+                                </div>
+                                <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success">${cu.history?.accuracy || 0}%</h3></div>
+                            `;
+                        }
+                        
+                        window.currentUserData = cu; 
+                        updateDynamicTracker();
+                    }
+                };
+            }
+            
+            // 🟢 INITIAL CACHE READ (To prevent blank screens while loading)
             try {
                 const cachedData = JSON.parse(localStorage.getItem('quizCupData_' + appUserId));
                 if (cachedData && cachedData.current_user) {
-                    const cu = cachedData.current_user;
-                    
-                    // 1. Sync Home Tab
-                    const homeRank = document.getElementById('home-rank');
-                    if (homeRank) homeRank.innerText = `#${cu.rank || 'N/A'}`;
-                    const homeScore = document.getElementById('home-score');
-                    if (homeScore) homeScore.innerText = cu.score || 0;
-
-                    // 2. Sync Cup Tab
-                    const cupRank = document.getElementById('cup-tab-rank');
-                    if (cupRank) cupRank.innerText = `#${cu.rank || 'N/A'}`;
-                    const cupScore = document.getElementById('cup-tab-score');
-                    if (cupScore) cupScore.innerText = cu.score || 0;
-
-                    // 3. Sync Profile Tab
-                    const profileRank = document.getElementById('profile-rank');
-                    if (profileRank) profileRank.innerText = `#${cu.rank || 'N/A'}`;
-                    const profileScore = document.getElementById('profile-score');
-                    if (profileScore) profileScore.innerText = cu.score || 0;
-                    
-                    // 4. Sync Progress Tab
-                    const progressStats = document.querySelector('#view-progress .card-main');
-                    if(progressStats) {
-                        progressStats.innerHTML = `
-                            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
-                                <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
-                                <div class="stat-col"><p>Rank</p><h3>#${cu.rank || 'N/A'}</h3></div>
-                            </div>
-                            <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success">${cu.history?.accuracy || 0}%</h3></div>
-                        `;
+                    // Re-trigger our custom render function to paint the cached data instantly
+                    if (typeof window.renderLeaderboardData === 'function') {
+                        window.renderLeaderboardData(cachedData);
                     }
-                    window.currentUserData = cu; // Sync tracker
-                    updateDynamicTracker();
                 }
             } catch(e) {}
         });
