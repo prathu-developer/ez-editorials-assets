@@ -281,9 +281,8 @@
         <div class="card-main">
             <p class="text-xs text-muted" style="margin-bottom: 12px;">Your Status</p>
             <div class="cup-stats" style="margin-top:0;">
-                <!-- Fix: Added IDs so JavaScript can target them -->
-                <div class="stat-col"><p>Rank</p><h3 class="text-brand" id="cup-tab-rank">--</h3></div>
-                <div class="stat-col"><p>Score</p><h3 id="cup-tab-score">--</h3></div>
+                <div class="stat-col"><p>Rank</p><h3 class="text-brand">#24</h3></div>
+                <div class="stat-col"><p>Score</p><h3>184</h3></div>
             </div>
         </div>
 
@@ -670,14 +669,6 @@
                     const profileScore = document.getElementById('profile-score');
                     if (profileScore) profileScore.innerText = cu.score || 0;
                     
-                    // --- ADD THIS BLOCK ---
-                    // 3. Safely inject into Cup Tab
-                    const cupRank = document.getElementById('cup-tab-rank');
-                    if (cupRank) cupRank.innerText = `#${cu.rank || 'N/A'}`;
-                    const cupScore = document.getElementById('cup-tab-score');
-                    if (cupScore) cupScore.innerText = cu.score || 0;
-                    // ----------------------
-                    
                     // 3. Update Progress Tab (Leave this existing code intact)
                     const progressStats = document.querySelector('#view-progress .card-main');
                     
@@ -714,9 +705,8 @@
                     data.quizzes.Today.forEach(quiz => renderQuizCard(quiz, container));
                 }
 
-                // Fix: Look for "Pending" instead of "Yesterday"
                 if (data.quizzes.Pending && data.quizzes.Pending.length > 0) {
-                    container.innerHTML += `<h3 style="margin-top:16px; color:var(--brand-red);">Pending Trials (Closes Tonight)</h3>`;
+                    container.innerHTML += `<h3 style="margin-top:16px; color:var(--brand-red);">Pending Trials</h3>`;
                     data.quizzes.Pending.forEach(quiz => renderQuizCard(quiz, container));
                 }
 
