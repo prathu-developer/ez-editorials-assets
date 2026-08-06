@@ -1147,11 +1147,25 @@
                 if (cachedData && cachedData.current_user) {
                     const cu = cachedData.current_user;
                     
+                    // 1. Sync Home Tab
                     const homeRank = document.getElementById('home-rank');
                     if (homeRank) homeRank.innerText = `#${cu.rank || 'N/A'}`;
                     const homeScore = document.getElementById('home-score');
                     if (homeScore) homeScore.innerText = cu.score || 0;
+
+                    // 2. Sync Cup Tab
+                    const cupRank = document.getElementById('cup-tab-rank');
+                    if (cupRank) cupRank.innerText = `#${cu.rank || 'N/A'}`;
+                    const cupScore = document.getElementById('cup-tab-score');
+                    if (cupScore) cupScore.innerText = cu.score || 0;
+
+                    // 3. Sync Profile Tab
+                    const profileRank = document.getElementById('profile-rank');
+                    if (profileRank) profileRank.innerText = `#${cu.rank || 'N/A'}`;
+                    const profileScore = document.getElementById('profile-score');
+                    if (profileScore) profileScore.innerText = cu.score || 0;
                     
+                    // 4. Sync Progress Tab
                     const progressStats = document.querySelector('#view-progress .card-main');
                     if(progressStats) {
                         progressStats.innerHTML = `
