@@ -1013,12 +1013,22 @@
             const dropDate = new Date(quiz.drop_time);
             const timeString = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 
-            if (quiz.status === 'locked') statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
-            else if (quiz.status === 'completed') statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
-            else if (quiz.status === 'closed') statusHtml = `<div class="status-badge status-locked">Closed</div>`;
+            if (quiz.status === 'locked') {
+                statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
+            }
+            else if (quiz.status === 'completed') {
+                // FIX: Make the completed card a clickable link to result.html!
+                statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
+                wrapperTag = 'a'; 
+                wrapperHref = `href="result.html?attempt_id=${quiz.attempt_id}"`;
+            }
+            else if (quiz.status === 'closed') {
+                statusHtml = `<div class="status-badge status-locked">Closed</div>`;
+            }
             else {
                 statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
-                wrapperTag = 'a'; wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
+                wrapperTag = 'a'; 
+                wrapperHref = `href="test.html?quiz_id=${quiz.id}"`;
             }
 
             container.innerHTML += `
