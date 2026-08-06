@@ -462,7 +462,17 @@
             </div>
             <!-- Charts -->
             <div style="margin-bottom: 25px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Weekly Score Trend</h3><div style="background: white; border-radius: 12px; padding: 10px; height: 200px;"><canvas id="dailyChart"></canvas></div></div>
-            <div style="margin-bottom: 25px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Accuracy Ratio</h3><div style="background: white; border-radius: 12px; padding: 10px; height: 200px;"><canvas id="pieChart"></canvas></div></div>
+            <div style="margin-bottom: 25px;">
+                <h3 style="font-size: 14px; margin-bottom: 12px;">Accuracy Ratio</h3>
+                <div style="background: white; border-radius: 12px; padding: 10px; height: 200px; position: relative;">
+                    <!-- 🟢 CSS Overlay Text (Never overlaps, always perfectly centered) -->
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none;">
+                        <div id="chart-center-perc" style="font-size: 32px; font-weight: 800; color: #0f172a; line-height: 1;">--%</div>
+                        <div style="font-size: 13px; font-weight: 500; color: #64748b; margin-top: 4px;">Accuracy</div>
+                    </div>
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
             <div style="margin-bottom: 25px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Lifetime History Tracker</h3><div id="rankHistorySection"></div></div>
             <div style="padding-bottom: 50px;"><h3 style="font-size: 14px; margin-bottom: 12px;">Activity Log</h3><div id="activityList"></div></div>
             <div style="display:none;"><span id="csTotal"></span><span id="csCorrect"></span><span id="csWrong"></span><span id="csAcc"></span></div>
@@ -470,8 +480,8 @@
     </div>
     
     <!-- History Sub-Modal -->
-    <div class="modal-overlay" id="historyModalOverlay" onclick="closeHistoryModal(event)" style="z-index: 500;">
-        <div class="modal-content" onclick="event.stopPropagation()" style="margin: 20px; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+    <div class="modal-overlay" id="historyModalOverlay" onclick="closeHistoryModal(event)" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: center; justify-content: center;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="background: #ffffff; margin: auto; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 350px; box-sizing: border-box;">
             <div style="text-align: center; margin-bottom: 15px;">
                 <div style="font-size: 2.5em; margin-bottom: 10px;">📜</div><h3 style="margin: 0; color: #0f172a; font-size: 1.3em;">Week <span id="histWeek"></span> Archive</h3>
             </div>
@@ -749,31 +759,13 @@
                 let pieData = [c, w]; let pieColors = ['#10b981', '#ef4444'];
                 if (c === 0 && w === 0) { pieData = [1]; pieColors = ['#e2e8f0']; }
 
+                // Update the new HTML text overlay directly
+                document.getElementById('chart-center-perc').innerText = targetUser.history.accuracy + "%";
+
                 window.pieChartInstance = new Chart(ctxPie, {
                     type: 'doughnut',
                     data: { labels: ['Correct', 'Wrong'], datasets: [{ data: pieData, backgroundColor: pieColors, borderWidth: 0, borderRadius: 8, spacing: 5 }] },
-                    options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } },
-                    plugins: [{
-                        id: 'textCenter',
-                        beforeDraw: function(chart) {
-                            var width = chart.width, height = chart.height, ctx = chart.ctx;
-                            ctx.restore();
-                            var fontSize = (height / 80).toFixed(2);
-                            ctx.font = "bold " + fontSize + "em sans-serif";
-                            ctx.textBaseline = "middle"; ctx.fillStyle = "#0f172a";
-                            var text = targetUser.history.accuracy + "%",
-                                textX = Math.round((width - ctx.measureText(text).width) / 2),
-                                textY = height / 2 - 5; // Pushed up slightly
-                            if(c>0 || w>0) ctx.fillText(text, textX, textY);
-
-                            ctx.font = "500 " + (fontSize * 0.4) + "em sans-serif"; ctx.fillStyle = "#64748b";
-                            var subText = "Accuracy",
-                                subX = Math.round((width - ctx.measureText(subText).width) / 2),
-                                subY = height / 2 + (height * 0.15); // DYNAMIC SPACING! Fixes overlap on all devices.
-                            if(c>0 || w>0) ctx.fillText(subText, subX, subY);
-                            ctx.save();
-                        }
-                    }]
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
                 });
             };
         }
