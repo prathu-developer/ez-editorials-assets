@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- ⚡ FREE ZERO-BANDWIDTH CDN DELIVERY -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/style.css?v=2.1">
-    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js?v=2.6" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js?v=2.7" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -178,11 +178,11 @@
          ========================================== -->
     <div id="view-home" class="view-container active">
         <div class="top-header">
-            <!-- Left icon hooked to Performance Modal -->
-            <svg class="icon-btn" onclick="openProfile(appUserId)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <!-- Left icon (Coming Soon) -->
+            <svg class="icon-btn" onclick="alert('Menu features coming soon!')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
             
-            <!-- Right Bell icon with the ID wrapper for notifications -->
-            <div style="position: relative;">
+            <!-- Right Bell icon (Hooked to Notification Modal) -->
+            <div style="position: relative;" onclick="openSubModal('notificationModalOverlay')">
                 <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                 <div id="header-bell-badge" style="display:none; position:absolute; top:-2px; right:2px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
             </div>
@@ -363,7 +363,7 @@
             </div>
             
             <!-- 2. Global Elo Rankings -->
-            <div class="p-menu-item" onclick="openEloLeaderboard(); openSubModal('eloModalOverlay');">
+            <div class="p-menu-item" onclick="openSubModal('eloModalOverlay'); openEloLeaderboard();">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
                     <span>Global Elo Rankings</span>
@@ -408,7 +408,7 @@
             </div>
 
             <!-- 7. Help & Support (From Mockup Image) -->
-            <div class="p-menu-item" onclick="window.Telegram.WebApp.openTelegramLink('https://t.me/Ez_vocab_bot')">
+            <div class="p-menu-item" onclick="alert('Help & Support feature coming soon!')">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     <span>Help & Support</span>
@@ -524,6 +524,19 @@
          SAFELY ISOLATED POPUP MODALS
          ========================================== -->
 
+    <!-- 0. NOTIFICATIONS MODAL -->
+    <div id="notificationModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'notificationModalOverlay')">
+        <div style="background: var(--bg-body); width: 100%; max-height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+            <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light);">
+                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'notificationModalOverlay', true)">×</span>
+                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">🔔 Notifications</h3>
+            </div>
+            <div id="notifications-list" style="flex: 1; overflow-y: auto; padding: 20px; display:flex; flex-direction:column; gap:12px;">
+                <p style="text-align:center; color:var(--text-muted); font-size: 13px;">No new notifications right now.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- 1. ELO RANKINGS MODAL -->
     <div id="eloModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'eloModalOverlay')">
         <div style="background: var(--bg-body); width: 100%; height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
@@ -597,6 +610,142 @@
         const tgApp = window.Telegram.WebApp;
         tgApp.expand();
         const appUserId = tgApp.initDataUnsafe?.user?.id || 123456789;
+
+        // 🟢 FIX 1: NOTIFICATION LOGIC
+        let activeNotifications = [];
+        function renderNotifications() {
+            const list = document.getElementById('notifications-list');
+            if(activeNotifications.length === 0) {
+                list.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">You're all caught up!</p>`;
+                return;
+            }
+            list.innerHTML = activeNotifications.map(msg => `
+                <div style="background: #f8fafc; border: 1px solid var(--border-light); padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--text-main); display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 18px;">💡</span> ${msg}
+                </div>
+            `).join('');
+        }
+
+        // 🟢 FIX 2: BULLETPROOF ELO RENDERER
+        window.openEloLeaderboard = function() {
+            const container = document.getElementById('eloListContainer');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            // Safely grab the data
+            let eloData = (window.RAM_CACHE && window.RAM_CACHE.elo_ranking) || window.globalEloData || [];
+            let top50Active = eloData.filter(eu => eu.is_active).slice(0, 50);
+
+            if(top50Active.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:14px; margin-top:20px;">Fetching Global Rankings...</p>';
+            }
+
+            top50Active.forEach(eu => {
+                let isMe = eu.id == appUserId;
+                let bg = isMe ? "background: #eff6ff; border: 1px solid #bfdbfe;" : "background: white; border: 1px solid #edf1f5;";
+                container.innerHTML += `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; margin-bottom: 8px; border-radius: 12px; ${bg} box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="font-weight: 900; color: #94a3b8; width: 25px;">#${eu.rank}</div>
+                            <div style="font-weight: bold; color: #1e293b; font-size: 14px;">${eu.name}</div>
+                        </div>
+                        <div style="font-weight: 800; color: #2563eb; font-size: 14px;">🧠 ${Math.round(eu.elo)}</div>
+                    </div>
+                `;
+            });
+
+            const footer = document.getElementById('eloFooter');
+            let myEloEntry = eloData.find(eu => eu.id == appUserId);
+            let myRankDisplay = myEloEntry ? `#${myEloEntry.rank}` : 'N/A';
+            let myEloDisplay = myEloEntry ? Math.round(myEloEntry.elo) : (window.currentUserData ? Math.round(window.currentUserData.elo) : 1000);
+
+            if(footer) {
+                footer.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="font-weight: 900; color: #cbd5e1; font-size: 16px;">${myRankDisplay}</div>
+                            <div>
+                                <div style="font-weight: bold; font-size: 15px;">You</div>
+                                <div style="font-size: 0.75em; color: #94a3b8;">Intelligence Rating</div>
+                            </div>
+                        </div>
+                        <div style="font-weight: 800; color: #60a5fa; font-size: 16px;">🧠 ${myEloDisplay}</div>
+                    </div>
+                `;
+            }
+        };
+
+        // 🟢 FIX 3: CHART TEXT OVERLAP FIX (Overrides app_v8.js to perfectly center text)
+        if (typeof renderCharts === 'function') {
+            window.renderCharts = function(targetUser) {
+                const ctxDaily = document.getElementById('dailyChart').getContext('2d');
+                const ctxPie = document.getElementById('pieChart').getContext('2d');
+                if (window.dailyChartInstance) window.dailyChartInstance.destroy();
+                if (window.pieChartInstance) window.pieChartInstance.destroy();
+
+                const weekLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                let finalYou = [null, null, null, null, null, null, null];
+                let finalTop = [null, null, null, null, null, null, null];
+                let finalAvg = [null, null, null, null, null, null, null];
+                
+                let day = getIST().getDay();
+                let currentDayIndex = day === 0 ? 6 : day - 1; 
+
+                for (let i = 0; i < targetUser.history.labels.length; i++) {
+                    let dayIndex = weekLabels.indexOf(targetUser.history.labels[i]);
+                    if (dayIndex !== -1 && dayIndex <= currentDayIndex) finalYou[dayIndex] = targetUser.history.scores[i];
+                }
+                for (let i = 0; i <= currentDayIndex; i++) {
+                    if (finalYou[i] === null) finalYou[i] = 0;
+                    finalTop[i] = window.topperHistory ? (window.topperHistory[weekLabels[i]] || 0) : 0;
+                    finalAvg[i] = window.classAvgHistory ? (window.classAvgHistory[weekLabels[i]] || 0) : 0;
+                }
+
+                window.dailyChartInstance = new Chart(ctxDaily, {
+                    type: 'bar',
+                    data: {
+                        labels: weekLabels,
+                        datasets: [
+                            { label: 'You', data: finalYou, backgroundColor: '#3b82f6', barPercentage: 1.0, categoryPercentage: 0.65, borderRadius: 6 },
+                            { label: `Topper`, data: finalTop, backgroundColor: '#fbbf24', barPercentage: 1.0, categoryPercentage: 0.65, borderRadius: 6 },
+                            { label: `Class Avg`, data: finalAvg, backgroundColor: '#10b981', barPercentage: 1.0, categoryPercentage: 0.65, borderRadius: 6 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, border: {display: false} }, x: { grid: { display: false }, border: {display: false} } } }
+                });
+
+                let c = targetUser.history.correct; let w = targetUser.history.wrong;
+                let pieData = [c, w]; let pieColors = ['#10b981', '#ef4444'];
+                if (c === 0 && w === 0) { pieData = [1]; pieColors = ['#e2e8f0']; }
+
+                window.pieChartInstance = new Chart(ctxPie, {
+                    type: 'doughnut',
+                    data: { labels: ['Correct', 'Wrong'], datasets: [{ data: pieData, backgroundColor: pieColors, borderWidth: 0, borderRadius: 8, spacing: 5 }] },
+                    options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } },
+                    plugins: [{
+                        id: 'textCenter',
+                        beforeDraw: function(chart) {
+                            var width = chart.width, height = chart.height, ctx = chart.ctx;
+                            ctx.restore();
+                            var fontSize = (height / 80).toFixed(2);
+                            ctx.font = "bold " + fontSize + "em sans-serif";
+                            ctx.textBaseline = "middle"; ctx.fillStyle = "#0f172a";
+                            var text = targetUser.history.accuracy + "%",
+                                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                                textY = height / 2 - 5; // Pushed up slightly
+                            if(c>0 || w>0) ctx.fillText(text, textX, textY);
+
+                            ctx.font = "500 " + (fontSize * 0.4) + "em sans-serif"; ctx.fillStyle = "#64748b";
+                            var subText = "Accuracy",
+                                subX = Math.round((width - ctx.measureText(subText).width) / 2),
+                                subY = height / 2 + (height * 0.15); // DYNAMIC SPACING! Fixes overlap on all devices.
+                            if(c>0 || w>0) ctx.fillText(subText, subX, subY);
+                            ctx.save();
+                        }
+                    }]
+                });
+            };
+        }
         
         // 🟢 Bind the native back button
         tgApp.BackButton.onClick(() => {
@@ -800,6 +949,10 @@
                 const headerBell = document.getElementById('header-bell-badge');
                 if(hasUnattemptedQuizzes && headerBell) {
                     headerBell.style.display = 'block';
+                    if (!activeNotifications.includes("📝 You have pending Topic Trials waiting to be attempted!")) {
+                        activeNotifications.push("📝 You have pending Topic Trials waiting to be attempted!");
+                    }
+                    if (typeof renderNotifications === 'function') renderNotifications();
                 }
 
                 // --- MASTER SPEC: Empty state fallback ---
@@ -867,25 +1020,34 @@
         loadProgressHistory();
 
         // --- MASTER SPEC: SECTIONS 6 & 7 (Load Weekly Archive) ---
-        async function loadWeeklyResults() {
+        async function loadWeeklyResults(targetWeek = null) {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/weekly-results`);
+                let url = `https://ez-editorials-bot.onrender.com/api/weekly-results`;
+                if (targetWeek) url += `?week_num=${targetWeek}`;
+                
+                const response = await fetch(url);
                 const data = await response.json();
                 const container = document.getElementById('weekly-history-container');
                 
                 if (data.results && data.results.length > 0) {
-                    container.innerHTML = `<p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Season ${data.week_num} Top 10</p>`;
+                    const currentWeek = data.week_num;
+                    
+                    // The Pagination Header (Swipe/Click through past seasons)
+                    let html = `
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; background:var(--border-light); padding:8px 12px; border-radius:12px;">
+                            <span style="font-size:20px; cursor:pointer;" onclick="loadWeeklyResults(${currentWeek - 1})">⬅️</span>
+                            <span style="font-weight:bold; font-size:14px;">Season ${currentWeek} Top 10</span>
+                            <span style="font-size:20px; cursor:pointer;" onclick="loadWeeklyResults(${currentWeek + 1})">➡️</span>
+                        </div>
+                    `;
+                    
                     data.results.forEach(user => {
                         const isMe = user.id == appUserId;
                         const bg = isMe ? 'background:var(--brand-light); border:none; padding:12px; border-radius:12px; margin-bottom:8px;' : 'padding:12px 0; border-bottom:1px solid var(--border-light);';
-                        const leagueBadge = getLeagueBadgeHTML(user.league || 0);
-                        
-                        let rankDisplay = `#${user.rank}`;
-                        if (user.rank === 1) rankDisplay = '🥇';
-                        else if (user.rank === 2) rankDisplay = '🥈';
-                        else if (user.rank === 3) rankDisplay = '🥉';
+                        const leagueBadge = typeof getLeagueBadgeHTML === 'function' ? getLeagueBadgeHTML(user.league || 0) : `Lvl ${user.league || 0}`;
+                        let rankDisplay = user.rank === 1 ? '🥇' : user.rank === 2 ? '🥈' : user.rank === 3 ? '🥉' : `#${user.rank}`;
 
-                        container.innerHTML += `
+                        html += `
                             <div class="lb-item" style="${bg}">
                                 <div class="lb-left">
                                     <span class="lb-rank" style="${isMe ? 'font-weight:bold;color:var(--brand);' : ''}">${rankDisplay}</span>
@@ -898,8 +1060,10 @@
                             </div>
                         `;
                     });
+                    container.innerHTML = html;
                 } else {
-                    container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">No past results available.</p>`;
+                    container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px; margin-top:20px;">No records available for this season.</p>
+                    <div style="text-align:center; margin-top:15px;"><button style="padding:8px 16px; border-radius:8px; border:none; background:var(--brand); color:white; font-weight:bold; cursor:pointer;" onclick="loadWeeklyResults()">Return to Latest</button></div>`;
                 }
             } catch (err) {
                 console.error("Failed to load weekly results", err);
@@ -1035,7 +1199,15 @@
                     const navBadge = document.getElementById('digest-badge');
                     if(navBadge) navBadge.style.display = hasUnread ? 'block' : 'none';
                     const headerBell = document.getElementById('header-bell-badge');
-                    if(headerBell) headerBell.style.display = hasUnread ? 'block' : 'none';
+                    if(headerBell) {
+                        headerBell.style.display = hasUnread ? 'block' : 'none';
+                        if (hasUnread) {
+                            if (!activeNotifications.includes("🌍 Today's Daily Digest insights have dropped!")) {
+                                activeNotifications.push("🌍 Today's Daily Digest insights have dropped!");
+                            }
+                            if (typeof renderNotifications === 'function') renderNotifications();
+                        }
+                    }
                 }
             } catch (err) {
                 console.error("Failed to load digest", err);
