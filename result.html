@@ -125,11 +125,12 @@
                 </div>
             `;
 
+            // 🟢 We removed the solutions loop! It now stops after rendering the score.
             document.getElementById('loading').style.display = 'none';
             document.getElementById('result-content').style.display = 'block';
         }
 
-        // 🟢 NEW: Router function
+        // 🟢 NEW: Router function that pushes the user to the Review Engine
         function openReviewMode() {
             if (isPractice) {
                 window.location.href = `test.html?practice=true&mode=review`;
