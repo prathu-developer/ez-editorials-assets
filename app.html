@@ -684,13 +684,12 @@
             `;
             
             try {
-                // Fetch the live Elo data directly from the server
-                // Note: If your endpoint is slightly different (e.g. /api/elo), update the URL below!
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/elo-leaderboard`); 
+                // 🟢 FIX: Fetch from the correct existing leaderboard endpoint
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${appUserId}`); 
                 const data = await response.json();
                 
-                // Handle different possible JSON structures gracefully
-                let eloData = data.rankings || data.results || data.data || data || [];
+                // 🟢 FIX: Extract the elo_ranking array that is already provided by your Python backend
+                let eloData = data.elo_ranking || [];
                 if (!Array.isArray(eloData)) eloData = [];
                 
                 let top50Active = eloData.filter(eu => eu.is_active !== false).slice(0, 50);
