@@ -29,6 +29,20 @@
             --success: #10b981;
         }
 
+        /* 🟢 Dark Mode Variables */
+        body.dark-mode {
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-light: #374151;
+        }
+        body.dark-mode .card-main, body.dark-mode .bottom-nav, body.dark-mode .bottom-sheet, body.dark-mode .modal-content {
+            background-color: var(--bg-card);
+        }
+        body.dark-mode .bottom-nav { background: rgba(30,30,30,0.95); }
+        .toggle-active { background-color: var(--brand) !important; }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-body);
@@ -406,8 +420,8 @@
                 <div class="p-menu-right">›</div>
             </div>
 
-            <!-- 6. Settings (From Mockup Image) -->
-            <div class="p-menu-item" onclick="alert('Settings feature coming soon!')">
+            <!-- 6. Settings -->
+            <div class="p-menu-item" onclick="openSubModal('settingsModalOverlay')">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                     <span>Settings</span>
@@ -607,6 +621,36 @@
         </div>
     </div>
 
+    <!-- 🟢 SETTINGS MODAL -->
+    <div id="settingsModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 600; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'settingsModalOverlay')">
+        <div style="background: var(--bg-body); width: 100%; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+            <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light);">
+                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'settingsModalOverlay', true)">×</span>
+                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">⚙️ Settings</h3>
+            </div>
+            <div style="padding: 20px 24px 40px 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <span style="font-size: 15px; font-weight: 600; color: var(--text-main);">🌙 Dark Mode</span>
+                    <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                        <input type="checkbox" onchange="toggleDarkMode()" style="opacity: 0; width: 0; height: 0;">
+                        <span id="darkToggleBg" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 24px; transition: .4s;">
+                            <span id="darkToggleBall" style="position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s;"></span>
+                        </span>
+                    </label>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 15px; font-weight: 600; color: var(--text-main);">📳 Haptic Vibration</span>
+                    <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                        <input type="checkbox" onchange="toggleVibration()" style="opacity: 0; width: 0; height: 0;">
+                        <span id="vibToggleBg" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 24px; transition: .4s;">
+                            <span id="vibToggleBall" style="position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s;"></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- ==========================================
          BOTTOM NAVIGATION BAR (Master Spec: 5 Tabs)
          ========================================== -->
@@ -649,11 +693,40 @@
         tgApp.expand();
         const appUserId = tgApp.initDataUnsafe?.user?.id || 123456789;
 
+        // 🟢 GLOBAL PREFERENCES
+        window.vibrationEnabled = localStorage.getItem('app_vibration') !== 'false';
+
         // 🟢 TELEGRAM NATIVE HAPTIC FEEDBACK ENGINE
         function triggerHaptic(style = 'light') {
-            // styles can be: 'light', 'medium', 'heavy', 'rigid', 'soft'
+            if (!window.vibrationEnabled) return;
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
                 window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
+            }
+        }
+
+        function toggleVibration() {
+            window.vibrationEnabled = !window.vibrationEnabled;
+            localStorage.setItem('app_vibration', window.vibrationEnabled);
+            updateToggleUI('vibToggleBall', 'vibToggleBg', window.vibrationEnabled);
+            if(window.vibrationEnabled) triggerHaptic('medium');
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('app_dark_mode', isDark);
+            updateToggleUI('darkToggleBall', 'darkToggleBg', isDark);
+            triggerHaptic('light');
+        }
+
+        function updateToggleUI(ballId, bgId, isActive) {
+            const ball = document.getElementById(ballId);
+            const bg = document.getElementById(bgId);
+            if(isActive) {
+                ball.style.transform = 'translateX(20px)';
+                bg.classList.add('toggle-active');
+            } else {
+                ball.style.transform = 'translateX(0)';
+                bg.classList.remove('toggle-active');
             }
         }
 
@@ -1491,6 +1564,10 @@
 
         // Wait for app_v8.js to fully load before initializing to prevent render failures
         window.addEventListener('DOMContentLoaded', () => {
+            // 🟢 Apply Saved Settings on Load
+            if(localStorage.getItem('app_dark_mode') === 'true') toggleDarkMode();
+            updateToggleUI('vibToggleBall', 'vibToggleBg', window.vibrationEnabled);
+            
             // 🟢 URL Router: Open specific tabs from external pages
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('view') === 'day') switchView('view-day');
