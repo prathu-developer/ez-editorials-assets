@@ -340,9 +340,10 @@ function renderRankHistory(targetUser) {
         let score = entry.score || 0;
         let att = entry.attempts || 0;
         let cor = entry.correct || 0;
+        let total = entry.total || 0; // 🟢 Prevents 'undefined' syntax breaks
 
-        let clickAction = `onclick="openHistoryDetail(${entry.week}, ${entry.rank}, ${entry.total}, ${score}, ${att}, ${cor})"`;
-
+        let clickAction = `onclick="openHistoryDetail(${entry.week}, ${entry.rank}, ${total}, ${score}, ${att}, ${cor})"`;
+        
         container.innerHTML += `
             <div class="activity-row" ${clickAction} style="align-items: center; cursor: pointer; padding: 12px 10px; border-radius: 8px; margin-bottom: 5px; background: white; border: 1px solid #f1f5f9; box-shadow: 0 1px 2px rgba(0,0,0,0.02); transition: transform 0.1s;">
                 <div class="act-day" style="width: auto; font-weight: 600; color: #0f172a;">Week ${entry.week} ${statusBadge}</div>
