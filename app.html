@@ -852,9 +852,12 @@
             
             const svgCheck = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
             const svgLock = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
-            const svgPending = `<span style="font-size: 13px;">⏳</span>`; 
+            // 🟢 NEW: Clean Monochrome Clock Icon for Pending
+            const svgPending = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`; 
 
-            let allQuizzes = window.masterQuizData ? [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])] : [];
+            // 🟢 FIX: Prevent assigning ticks before the API finishes loading
+            let isDataLoaded = !!window.masterQuizData;
+            let allQuizzes = isDataLoaded ? [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])] : [];
 
             for(let i = 0; i < 6; i++) {
                 let dayNum = i + 1;
@@ -863,25 +866,31 @@
                 let dayQuizzes = allQuizzes.filter(q => q.day_num === dayNum);
                 
                 if (i < currentDayIndex) {
-                    let hasUnfinished = dayQuizzes.some(q => q.status !== 'completed');
-                    if (dayQuizzes.length > 0 && hasUnfinished) {
-                        cls = ''; chk = svgPending; 
+                    if (!isDataLoaded) {
+                        // Keep blank until server confirms status
+                        cls = ''; chk = ''; 
                     } else {
-                        cls = 'done'; chk = svgCheck;
+                        let hasUnfinished = dayQuizzes.some(q => q.status !== 'completed');
+                        if (dayQuizzes.length > 0 && hasUnfinished) {
+                            cls = ''; chk = svgPending; 
+                        } else {
+                            cls = 'done'; chk = svgCheck;
+                        }
                     }
                 } else if (i === currentDayIndex) {
                     cls = 'active'; 
-                    let allFinished = dayQuizzes.length > 0 && dayQuizzes.every(q => q.status === 'completed');
-                    chk = allFinished ? svgCheck : '';
+                    if (isDataLoaded) {
+                        let allFinished = dayQuizzes.length > 0 && dayQuizzes.every(q => q.status === 'completed');
+                        chk = allFinished ? svgCheck : '';
+                    }
                 } else {
                     cls = ''; chk = svgLock; 
                 }
                 
-                // 🟢 REMOVED onclick to make it untouchable/purely visual
                 daysRow.innerHTML += `
                     <div style="text-align:center;">
                         <div class="day-circle ${cls}">${dayNum}</div>
-                        <div class="day-check" style="color: var(--text-main);">${chk}</div>
+                        <div class="day-check" style="color: var(--text-main); margin-top:6px;">${chk}</div>
                     </div>
                 `;
             }
@@ -894,9 +903,8 @@
             if (!window.masterQuizData) return;
             
             window.currentViewingDayIndex = dayIndex;
-            let targetDay = dayIndex + 1; // 1 to 6 (Mon to Sat)
+            let targetDay = dayIndex + 1; 
             
-            // 1. Update Header & Arrows dynamically
             const headerText = document.getElementById('day-detail-header');
             if (headerText) headerText.innerText = `Day ${targetDay}`;
             
@@ -908,12 +916,11 @@
             if(leftArrow) leftArrow.style.visibility = dayIndex > 0 ? 'visible' : 'hidden';
             if(rightArrow) rightArrow.style.visibility = (dayIndex < actualCurrentDayIndex && dayIndex < 5) ? 'visible' : 'hidden';
 
-            // 2. Fetch and Filter Quizzes
             let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
             let filteredQuizzes = allQuizzes.filter(q => q.day_num === targetDay);
 
             const container = document.getElementById('api-quiz-container');
-            container.innerHTML = ``; // Clear previous container
+            container.innerHTML = ``; 
             
             let dayTotal = 0; 
             let dayCompleted = 0;
@@ -934,7 +941,6 @@
                 `;
             }
             
-            // 3. Update Progress Bar for the specific day viewed
             const progressText = document.getElementById('progress-text');
             const progressFill = document.getElementById('progress-fill');
             if (progressText && progressFill) {
@@ -946,7 +952,7 @@
 
         // 🟢 Hook for Left/Right Arrows
         function navigateDay(direction) {
-            triggerHaptic('selection');
+            triggerHaptic('light'); // 🟢 FIX: Prevented the Haptic crash!
             let nextIndex = window.currentViewingDayIndex + direction;
             const ist = getIST();
             let actualCurrentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
