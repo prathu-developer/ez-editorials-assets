@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- ⚡ FREE ZERO-BANDWIDTH CDN DELIVERY -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/style.css?v=2.1">
-    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js?v=3.0" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js?v=3.1" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -858,7 +858,7 @@
             }
         }
 
-        // 🟢 NEW: TIMELINE FILTER LOGIC
+        // 🟢 FIX: TIMELINE FILTER & DYNAMIC PROGRESS BAR
         function filterByDay(dayIndex) {
             triggerHaptic('light');
             if (!window.masterQuizData) return;
@@ -866,17 +866,21 @@
             let targetDay = dayIndex + 1; // 1 to 6 (Mon to Sat)
             let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
             
-            // Filter quizzes matching this day
-            let filteredQuizzes = allQuizzes.filter(q => {
-                let dropDate = new Date(q.drop_time);
-                return dropDate.getDay() === targetDay; 
-            });
+            // Filter strictly by the server's day_num
+            let filteredQuizzes = allQuizzes.filter(q => q.day_num === targetDay);
 
             const container = document.getElementById('api-quiz-container');
             container.innerHTML = `<h3 style="margin-top:16px;">Day ${targetDay} Trials</h3>`;
             
+            let dayTotal = 0; 
+            let dayCompleted = 0;
+
             if (filteredQuizzes.length > 0) {
-                filteredQuizzes.forEach(quiz => renderQuizCard(quiz, container));
+                filteredQuizzes.forEach(quiz => {
+                    renderQuizCard(quiz, container);
+                    dayTotal++;
+                    if (quiz.status === 'completed') dayCompleted++;
+                });
             } else {
                 container.innerHTML += `
                     <div class="card-main" style="text-align: center; padding: 30px 20px; margin-top: 12px;">
@@ -887,19 +891,29 @@
                 `;
             }
             
+            // 🟢 Calculate Progress ONLY for the selected day!
+            const progressText = document.getElementById('progress-text');
+            const progressFill = document.getElementById('progress-fill');
+            if (progressText && progressFill) {
+                progressText.innerText = `${dayCompleted} / ${dayTotal} Completed`;
+                let percentage = dayTotal > 0 ? (dayCompleted / dayTotal) * 100 : 0;
+                progressFill.style.width = `${percentage}%`;
+            }
+            
             // Highlight the selected day bubble
             document.querySelectorAll('.days-row > div').forEach((el, idx) => {
                 const circle = el.querySelector('.day-circle');
-                if (idx === dayIndex) {
-                    circle.style.border = "2px solid var(--brand)";
-                    circle.style.transform = "scale(1.1)";
-                } else {
-                    circle.style.border = "";
-                    circle.style.transform = "scale(1)";
+                if (circle) {
+                    if (idx === dayIndex) {
+                        circle.style.border = "2px solid var(--brand)";
+                        circle.style.transform = "scale(1.1)";
+                    } else {
+                        circle.style.border = "";
+                        circle.style.transform = "scale(1)";
+                    }
                 }
             });
         }
-
         // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
         async function loadRealCupData() {
             try {
@@ -960,40 +974,16 @@
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`);
                 const data = await response.json();
                 
-                window.masterQuizData = data.quizzes; // 🟢 Save to global cache for filtering
+                window.masterQuizData = data.quizzes; // Save to global cache for the filter
                 
-                const container = document.getElementById('api-quiz-container');
-                container.innerHTML = ''; 
-
-                if (data.quizzes.Today && data.quizzes.Today.length > 0) {
-                    container.innerHTML += `<h3 style="margin-top:16px;">Today</h3>`;
-                    data.quizzes.Today.forEach(quiz => renderQuizCard(quiz, container));
-                }
-
-                if (data.quizzes.Pending && data.quizzes.Pending.length > 0) {
-                    container.innerHTML += `<h3 style="margin-top:16px; color:var(--brand-red);">Pending Trials</h3>`;
-                    data.quizzes.Pending.forEach(quiz => renderQuizCard(quiz, container));
-                }
-
-                let totalActiveQuizzes = 0; let completedQuizzes = 0; let hasUnattemptedQuizzes = false; 
+                let hasUnattemptedQuizzes = false; 
                 ['Today', 'Pending'].forEach(day => {
                     if (data.quizzes[day]) {
                         data.quizzes[day].forEach(q => {
-                            totalActiveQuizzes++;
-                            if (q.status === 'completed') completedQuizzes++;
-                            else if (q.status === 'unlocked' || q.status === 'start') hasUnattemptedQuizzes = true; 
+                            if (q.status === 'unlocked' || q.status === 'start') hasUnattemptedQuizzes = true; 
                         });
                     }
                 });
-
-                const progressText = document.getElementById('progress-text');
-                const progressFill = document.getElementById('progress-fill');
-
-                if (progressText && progressFill) {
-                    progressText.innerText = `${completedQuizzes} / ${totalActiveQuizzes} Completed`;
-                    let percentage = totalActiveQuizzes > 0 ? (completedQuizzes / totalActiveQuizzes) * 100 : 0;
-                    progressFill.style.width = `${percentage}%`;
-                }
 
                 const headerBell = document.getElementById('header-bell-badge');
                 if(hasUnattemptedQuizzes && headerBell) {
@@ -1004,15 +994,12 @@
                     if (typeof renderNotifications === 'function') renderNotifications();
                 }
 
-                if ((!data.quizzes.Today || data.quizzes.Today.length === 0) && (!data.quizzes.Pending || data.quizzes.Pending.length === 0)) {
-                    container.innerHTML = `
-                        <div class="card-main" style="text-align: center; padding: 30px 20px;">
-                            <span style="font-size: 32px;">🧘</span>
-                            <h3 style="margin: 12px 0 4px 0; font-size: 16px;">Rest Day</h3>
-                            <p style="font-size: 13px; color: var(--text-muted);">No active trials</p>
-                        </div>
-                    `;
-                }
+                // 🟢 Instantly trigger the timeline filter to show today's accurate data!
+                const ist = getIST();
+                let currentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
+                if (currentDayIndex > 5) currentDayIndex = 5; // Default to Saturday if looking on Sunday
+                filterByDay(currentDayIndex);
+
             } catch (error) {
                 document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
