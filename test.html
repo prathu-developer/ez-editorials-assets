@@ -413,7 +413,7 @@
         }
 
         function selectOption(optIndex, element) {
-            triggerHaptic('selection');
+            triggerHaptic('light'); // 🟢 FIX: 'selection' was crashing the phone's vibration engine
             const qId = questions[currentIndex].question_id;
             responses[qId] = optIndex;
             document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
