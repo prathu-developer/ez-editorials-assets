@@ -595,14 +595,16 @@
                 }
                 updatePaletteColors();
                 
-                // Review Star marking logic
+                // Review Star marking logic (Safeguard)
                 const revBtn = document.getElementById('review-btn');
-                if (reviewStatus[q.question_id || q.id]) {
-                    revBtn.classList.add('marked');
-                    revBtn.innerText = "Review ★";
-                } else {
-                    revBtn.classList.remove('marked');
-                    revBtn.innerText = "Review ☆";
+                if (revBtn) {
+                    if (reviewStatus[q.question_id || q.id]) {
+                        revBtn.classList.add('marked');
+                        revBtn.innerText = "Review ★";
+                    } else {
+                        revBtn.classList.remove('marked');
+                        revBtn.innerText = "Review ☆";
+                    }
                 }
             }
         }
@@ -634,14 +636,22 @@
         function buildReviewPalette() {
             const grid = document.getElementById('review-palette-grid');
             grid.innerHTML = '';
+            let attempted = 0; // 🟢 Track attempts
+            
+            document.getElementById('pal-total-rev').innerText = questions.length; // Set total
+
             questions.forEach((q, index) => {
                 const btn = document.createElement('div');
                 btn.className = 'pal-btn';
                 btn.innerText = index + 1;
                 
-                if (q.user_selected_index === null) btn.classList.add('review-skip');
-                else if (q.is_correct) btn.classList.add('review-correct');
-                else btn.classList.add('review-wrong');
+                if (q.user_selected_index === null) {
+                    btn.classList.add('review-skip');
+                } else {
+                    attempted++; // 🟢 Increment if attempted
+                    if (q.is_correct) btn.classList.add('review-correct');
+                    else btn.classList.add('review-wrong');
+                }
                 
                 btn.onclick = () => {
                     loadQuestion(index);
@@ -649,6 +659,8 @@
                 };
                 grid.appendChild(btn);
             });
+            
+            document.getElementById('pal-att-rev').innerText = attempted; // Update UI
         }
 
         function openReviewPalette() {
