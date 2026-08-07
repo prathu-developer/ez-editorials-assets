@@ -533,12 +533,15 @@ function openHistoryDetail(week, rank, total, score, attempts, correct) {
     document.getElementById('histAcc').innerText = acc + '%';
     document.getElementById('histCorrect').innerText = correct;
 
-    document.getElementById('historyModalOverlay').classList.add('active');
+    // 🟢 FIX: Use display flex to keep it perfectly centered and prevent cut-offs!
+    document.getElementById('historyModalOverlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Lock scrolling
 }
 
 function closeHistoryModal(event, force=false) {
     if (force || event.target.id === 'historyModalOverlay') {
-        document.getElementById('historyModalOverlay').classList.remove('active');
+        document.getElementById('historyModalOverlay').style.display = 'none';
+        document.body.style.overflow = ''; // Unlock scrolling
     }
 }
 
@@ -642,30 +645,8 @@ function renderCharts(targetUser) {
         options: {
             responsive: true, maintainAspectRatio: false, cutout: '80%',
             plugins: { legend: { display: false }, tooltip: { enabled: false } }
-        },
-        plugins: [{
-            id: 'textCenter',
-            beforeDraw: function(chart) {
-                var width = chart.width, height = chart.height, ctx = chart.ctx;
-                ctx.restore();
-                var fontSize = (height / 80).toFixed(2);
-                ctx.font = "bold " + fontSize + "em sans-serif";
-                ctx.textBaseline = "middle";
-                ctx.fillStyle = "#0f172a";
-                var text = targetUser.history.accuracy + "%",
-                    textX = Math.round((width - ctx.measureText(text).width) / 2),
-                    textY = height / 2;
-                if(c>0 || w>0) ctx.fillText(text, textX, textY);
-
-                ctx.font = "500 " + (fontSize * 0.4) + "em sans-serif";
-                ctx.fillStyle = "#64748b";
-                var subText = "Accuracy",
-                    subX = Math.round((width - ctx.measureText(subText).width) / 2),
-                    subY = height / 2 + 15;
-                if(c>0 || w>0) ctx.fillText(subText, subX, subY);
-                ctx.save();
-            }
-        }]
+        }
+        // 🟢 FIX: Removed the conflicting 'textCenter' plugin so the HTML overlay works perfectly
     });
 }
 
