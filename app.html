@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- ⚡ FREE ZERO-BANDWIDTH CDN DELIVERY -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/style.css?v=2.1">
-    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js?v=2.9" defer></script>
+    <script src="https://cdn.jsdelivr.net/gh/prathu-developer/ez-editorials-assets@main/app_v8.js?v=3.0" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -818,21 +818,17 @@
         // --- NEW: ACTUAL HISTORY-BASED TRACKER ---
         function updateDynamicTracker() {
             const ist = getIST();
-            // 0=Mon, 1=Tue ... 5=Sat. Sunday (6) defaults to the end of the week.
             let currentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
             
             const daysRow = document.querySelector('.days-row');
             if(!daysRow) return;
             daysRow.innerHTML = '';
             
-            // 1. Pull exact history labels and attempt arrays
             let userHistory = window.currentUserData?.history || {};
             let labels = userHistory.labels || [];
             let attempts = userHistory.daily_attempts || [];
             
             const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-            // 🟢 Crisp SVG Icons for perfect shaping on all devices
             const svgCheck = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
             const svgCross = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--brand-red)" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
             const svgLock = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
@@ -841,32 +837,67 @@
                 let dayNum = i + 1;
                 let cls = ''; let chk = '';
                 
-                // 2. Find if this specific day exists in the user's history
                 let dayName = weekDays[i];
                 let histIdx = labels.indexOf(dayName);
                 let attemptsThisDay = histIdx !== -1 ? attempts[histIdx] : 0;
                 
-                // 3. Assign correct checkmarks based on the timeline
                 if (i < currentDayIndex) {
-                    if (attemptsThisDay > 0) {
-                        cls = 'done'; chk = svgCheck; 
-                    } else {
-                        cls = ''; chk = svgCross;    
-                    }
+                    if (attemptsThisDay > 0) { cls = 'done'; chk = svgCheck; } 
+                    else { cls = ''; chk = svgCross; }
                 } else if (i === currentDayIndex) {
-                    cls = 'active'; 
-                    chk = attemptsThisDay > 0 ? svgCheck : '';
-                } else {
-                    cls = ''; chk = svgLock;
-                }
+                    cls = 'active'; chk = attemptsThisDay > 0 ? svgCheck : '';
+                } else { cls = ''; chk = svgLock; }
                 
+                // 🟢 NEW: Added onclick to trigger the Timeline Filter
                 daysRow.innerHTML += `
-                    <div style="text-align:center">
+                    <div style="text-align:center; cursor:pointer;" onclick="filterByDay(${i})">
                         <div class="day-circle ${cls}">${dayNum}</div>
                         <div class="day-check" style="color: var(--text-main);">${chk}</div>
                     </div>
                 `;
             }
+        }
+
+        // 🟢 NEW: TIMELINE FILTER LOGIC
+        function filterByDay(dayIndex) {
+            triggerHaptic('light');
+            if (!window.masterQuizData) return;
+            
+            let targetDay = dayIndex + 1; // 1 to 6 (Mon to Sat)
+            let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
+            
+            // Filter quizzes matching this day
+            let filteredQuizzes = allQuizzes.filter(q => {
+                let dropDate = new Date(q.drop_time);
+                return dropDate.getDay() === targetDay; 
+            });
+
+            const container = document.getElementById('api-quiz-container');
+            container.innerHTML = `<h3 style="margin-top:16px;">Day ${targetDay} Trials</h3>`;
+            
+            if (filteredQuizzes.length > 0) {
+                filteredQuizzes.forEach(quiz => renderQuizCard(quiz, container));
+            } else {
+                container.innerHTML += `
+                    <div class="card-main" style="text-align: center; padding: 30px 20px; margin-top: 12px;">
+                        <span style="font-size: 32px;">📭</span>
+                        <h3 style="margin: 12px 0 4px 0; font-size: 16px;">No Trials Found</h3>
+                        <p style="font-size: 13px; color: var(--text-muted);">No quizzes dropped on this day.</p>
+                    </div>
+                `;
+            }
+            
+            // Highlight the selected day bubble
+            document.querySelectorAll('.days-row > div').forEach((el, idx) => {
+                const circle = el.querySelector('.day-circle');
+                if (idx === dayIndex) {
+                    circle.style.border = "2px solid var(--brand)";
+                    circle.style.transform = "scale(1.1)";
+                } else {
+                    circle.style.border = "";
+                    circle.style.transform = "scale(1)";
+                }
+            });
         }
 
         // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
@@ -928,6 +959,9 @@
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`);
                 const data = await response.json();
+                
+                window.masterQuizData = data.quizzes; // 🟢 Save to global cache for filtering
+                
                 const container = document.getElementById('api-quiz-container');
                 container.innerHTML = ''; 
 
@@ -941,20 +975,13 @@
                     data.quizzes.Pending.forEach(quiz => renderQuizCard(quiz, container));
                 }
 
-                // 🟢 NEW: DYNAMIC PROGRESS BAR CALCULATION
-                let totalActiveQuizzes = 0;
-                let completedQuizzes = 0;
-                let hasUnattemptedQuizzes = false; // 🟢 Track if any quizzes need attention
-
+                let totalActiveQuizzes = 0; let completedQuizzes = 0; let hasUnattemptedQuizzes = false; 
                 ['Today', 'Pending'].forEach(day => {
                     if (data.quizzes[day]) {
                         data.quizzes[day].forEach(q => {
                             totalActiveQuizzes++;
-                            if (q.status === 'completed') {
-                                completedQuizzes++;
-                            } else if (q.status === 'unlocked' || q.status === 'start') {
-                                hasUnattemptedQuizzes = true; // 🟢 Found an active, unfinished quiz!
-                            }
+                            if (q.status === 'completed') completedQuizzes++;
+                            else if (q.status === 'unlocked' || q.status === 'start') hasUnattemptedQuizzes = true; 
                         });
                     }
                 });
@@ -968,7 +995,6 @@
                     progressFill.style.width = `${percentage}%`;
                 }
 
-                // 🟢 NEW: Trigger the Top Header Notification Bell for Quizzes
                 const headerBell = document.getElementById('header-bell-badge');
                 if(hasUnattemptedQuizzes && headerBell) {
                     headerBell.style.display = 'block';
@@ -978,7 +1004,6 @@
                     if (typeof renderNotifications === 'function') renderNotifications();
                 }
 
-                // --- MASTER SPEC: Empty state fallback ---
                 if ((!data.quizzes.Today || data.quizzes.Today.length === 0) && (!data.quizzes.Pending || data.quizzes.Pending.length === 0)) {
                     container.innerHTML = `
                         <div class="card-main" style="text-align: center; padding: 30px 20px;">
@@ -988,7 +1013,6 @@
                         </div>
                     `;
                 }
-
             } catch (error) {
                 document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
             }
