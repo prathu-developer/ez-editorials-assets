@@ -252,9 +252,17 @@
          ========================================== -->
     <div id="view-day" class="view-container">
         <div class="top-header">
-            <span></span>
-            <span class="font-bold" id="day-detail-header">Day</span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span style="width: 24px;"></span>
+            
+            <!-- 🟢 NEW: Left/Right Arrow Navigation -->
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <span id="nav-arrow-left" style="font-size: 20px; cursor: pointer; color: var(--brand); padding: 4px; user-select: none;" onclick="navigateDay(-1)">❮</span>
+                <span class="font-bold" id="day-detail-header" style="font-size: 16px; min-width: 65px; text-align: center;">Day</span>
+                <span id="nav-arrow-right" style="font-size: 20px; cursor: pointer; color: var(--brand); padding: 4px; user-select: none;" onclick="navigateDay(1)">❯</span>
+            </div>
+            
+            <!-- 🟢 NEW: Hooked up the Calendar icon to open the bottom sheet -->
+            <svg class="icon-btn" onclick="openSubModal('calendarModalOverlay')" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         </div>
 
         <div class="time-left-sm">
@@ -533,6 +541,24 @@
     <!-- ==========================================
          SAFELY ISOLATED POPUP MODALS
          ========================================== -->
+
+    <!-- 📅 CALENDAR JUMP MODAL -->
+    <div id="calendarModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'calendarModalOverlay')">
+        <div style="background: var(--bg-body); width: 100%; max-height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
+            <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light);">
+                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'calendarModalOverlay', true)">×</span>
+                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">📅 Jump to Day</h3>
+            </div>
+            <div style="padding: 20px 20px 40px 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                <button onclick="jumpToDay(0)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 1</button>
+                <button onclick="jumpToDay(1)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 2</button>
+                <button onclick="jumpToDay(2)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 3</button>
+                <button onclick="jumpToDay(3)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 4</button>
+                <button onclick="jumpToDay(4)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 5</button>
+                <button onclick="jumpToDay(5)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 6</button>
+            </div>
+        </div>
+    </div>
 
     <!-- 0. NOTIFICATIONS MODAL -->
     <div id="notificationModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'notificationModalOverlay')">
@@ -824,33 +850,36 @@
             if(!daysRow) return;
             daysRow.innerHTML = '';
             
-            let userHistory = window.currentUserData?.history || {};
-            let labels = userHistory.labels || [];
-            let attempts = userHistory.daily_attempts || [];
-            
-            const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             const svgCheck = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-            const svgCross = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--brand-red)" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
             const svgLock = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
+            const svgPending = `<span style="font-size: 13px;">⏳</span>`; 
+
+            let allQuizzes = window.masterQuizData ? [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])] : [];
 
             for(let i = 0; i < 6; i++) {
                 let dayNum = i + 1;
                 let cls = ''; let chk = '';
                 
-                let dayName = weekDays[i];
-                let histIdx = labels.indexOf(dayName);
-                let attemptsThisDay = histIdx !== -1 ? attempts[histIdx] : 0;
+                let dayQuizzes = allQuizzes.filter(q => q.day_num === dayNum);
                 
                 if (i < currentDayIndex) {
-                    if (attemptsThisDay > 0) { cls = 'done'; chk = svgCheck; } 
-                    else { cls = ''; chk = svgCross; }
+                    let hasUnfinished = dayQuizzes.some(q => q.status !== 'completed');
+                    if (dayQuizzes.length > 0 && hasUnfinished) {
+                        cls = ''; chk = svgPending; 
+                    } else {
+                        cls = 'done'; chk = svgCheck;
+                    }
                 } else if (i === currentDayIndex) {
-                    cls = 'active'; chk = attemptsThisDay > 0 ? svgCheck : '';
-                } else { cls = ''; chk = svgLock; }
+                    cls = 'active'; 
+                    let allFinished = dayQuizzes.length > 0 && dayQuizzes.every(q => q.status === 'completed');
+                    chk = allFinished ? svgCheck : '';
+                } else {
+                    cls = ''; chk = svgLock; 
+                }
                 
-                // 🟢 NEW: Added onclick to trigger the Timeline Filter
+                // 🟢 REMOVED onclick to make it untouchable/purely visual
                 daysRow.innerHTML += `
-                    <div style="text-align:center; cursor:pointer;" onclick="filterByDay(${i})">
+                    <div style="text-align:center;">
                         <div class="day-circle ${cls}">${dayNum}</div>
                         <div class="day-check" style="color: var(--text-main);">${chk}</div>
                     </div>
@@ -858,19 +887,33 @@
             }
         }
 
-        // 🟢 FIX: TIMELINE FILTER & DYNAMIC PROGRESS BAR
+        // 🟢 TIMELINE FILTER & NAVIGATION LOGIC
+        window.currentViewingDayIndex = 0;
+
         function filterByDay(dayIndex) {
-            triggerHaptic('light');
             if (!window.masterQuizData) return;
             
+            window.currentViewingDayIndex = dayIndex;
             let targetDay = dayIndex + 1; // 1 to 6 (Mon to Sat)
-            let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
             
-            // Filter strictly by the server's day_num
+            // 1. Update Header & Arrows dynamically
+            const headerText = document.getElementById('day-detail-header');
+            if (headerText) headerText.innerText = `Day ${targetDay}`;
+            
+            const ist = getIST();
+            let actualCurrentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
+            
+            const leftArrow = document.getElementById('nav-arrow-left');
+            const rightArrow = document.getElementById('nav-arrow-right');
+            if(leftArrow) leftArrow.style.visibility = dayIndex > 0 ? 'visible' : 'hidden';
+            if(rightArrow) rightArrow.style.visibility = (dayIndex < actualCurrentDayIndex && dayIndex < 5) ? 'visible' : 'hidden';
+
+            // 2. Fetch and Filter Quizzes
+            let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
             let filteredQuizzes = allQuizzes.filter(q => q.day_num === targetDay);
 
             const container = document.getElementById('api-quiz-container');
-            container.innerHTML = `<h3 style="margin-top:16px;">Day ${targetDay} Trials</h3>`;
+            container.innerHTML = ``; // Clear previous container
             
             let dayTotal = 0; 
             let dayCompleted = 0;
@@ -891,7 +934,7 @@
                 `;
             }
             
-            // 🟢 Calculate Progress ONLY for the selected day!
+            // 3. Update Progress Bar for the specific day viewed
             const progressText = document.getElementById('progress-text');
             const progressFill = document.getElementById('progress-fill');
             if (progressText && progressFill) {
@@ -899,20 +942,32 @@
                 let percentage = dayTotal > 0 ? (dayCompleted / dayTotal) * 100 : 0;
                 progressFill.style.width = `${percentage}%`;
             }
+        }
+
+        // 🟢 Hook for Left/Right Arrows
+        function navigateDay(direction) {
+            triggerHaptic('selection');
+            let nextIndex = window.currentViewingDayIndex + direction;
+            const ist = getIST();
+            let actualCurrentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
             
-            // Highlight the selected day bubble
-            document.querySelectorAll('.days-row > div').forEach((el, idx) => {
-                const circle = el.querySelector('.day-circle');
-                if (circle) {
-                    if (idx === dayIndex) {
-                        circle.style.border = "2px solid var(--brand)";
-                        circle.style.transform = "scale(1.1)";
-                    } else {
-                        circle.style.border = "";
-                        circle.style.transform = "scale(1)";
-                    }
-                }
-            });
+            if (nextIndex >= 0 && nextIndex <= actualCurrentDayIndex && nextIndex < 6) {
+                filterByDay(nextIndex);
+            }
+        }
+
+        // 🟢 Hook for the Calendar Modal
+        function jumpToDay(dayIndex) {
+            closeSubModal(null, 'calendarModalOverlay', true);
+            const ist = getIST();
+            let actualCurrentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
+            
+            if (dayIndex > actualCurrentDayIndex) {
+                alert("This day is locked until it arrives!");
+                return;
+            }
+            triggerHaptic('light');
+            filterByDay(dayIndex);
         }
         // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
         async function loadRealCupData() {
