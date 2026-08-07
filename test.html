@@ -106,14 +106,22 @@
         .radio-label { display: flex; align-items: center; margin-bottom: 16px; cursor: pointer; }
         .radio-input { width: 20px; height: 20px; margin-right: 12px; accent-color: var(--brand-blue); }
 
-        /* 🟢 REVIEW MODE STYLES */
-        .option.correct-reveal { background: #def7ec; border-color: #31c48d; }
-        .option.wrong-reveal { background: #fde8e8; border-color: #f98080; }
-        .opt-badge { font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 6px; margin-left: auto; display: flex; align-items: center; gap: 4px; }
-        .badge-correct { background: #31c48d; color: white; }
-        .badge-wrong { background: #f98080; color: white; }
+        /* 🟢 REVIEW MODE & NEW UI STYLES */
+        .stats-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-main); border-bottom: 1px solid var(--border-color); }
+        .stat-pill { background: #e5e7eb; color: var(--text-dark); padding: 4px 10px; border-radius: 16px; font-size: 13px; font-weight: 600; }
+        .stat-pill.green-tint { background: #def7ec; color: #03543f; display: flex; align-items: center; gap: 4px; }
+        
+        .instruction-block { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+        .inst-badge { width: 24px; height: 24px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+        .inst-title { font-size: 15px; font-weight: 700; flex-grow: 1; margin-top: 2px; }
         
         .unattempted-warning { color: var(--brand-red); font-size: 13px; font-weight: 600; margin-bottom: 12px; display: none; }
+        
+        .option.correct-reveal { background: #def7ec; border-color: #31c48d; pointer-events: none; }
+        .option.wrong-reveal { background: #fde8e8; border-color: #f98080; pointer-events: none; }
+        .opt-badge { width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; margin-left: auto; }
+        .badge-correct { background: #31c48d; color: white; }
+        .badge-wrong { background: #f98080; color: white; }
         
         .solution-accordion { margin-top: 16px; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; display: none; }
         .acc-header { padding: 14px 16px; background: #f8fafc; font-weight: 600; font-size: 14px; color: var(--brand-blue); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
@@ -128,10 +136,19 @@
         input:checked + .slider { background-color: var(--brand-red); }
         input:checked + .slider:before { transform: translateX(18px); }
 
-        /* Review Summary Colors */
-        .pal-btn.review-correct { background: #def7ec; border-color: #31c48d; color: #03543f; }
-        .pal-btn.review-wrong { background: #fde8e8; border-color: #f98080; color: #9b1c1c; }
-        .pal-btn.review-skip { background: #f3f4f6; color: var(--text-muted); border-color: transparent; }
+        /* Test Summary Modal Specifics */
+        .summary-tab { font-size: 15px; font-weight: 600; color: var(--brand-red); border-bottom: 2px solid var(--brand-red); padding-bottom: 8px; display: inline-block; margin-bottom: 16px; }
+        .summary-meta { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-dark); margin-bottom: 16px; align-items: center; }
+        .pal-btn { aspect-ratio: 1; border-radius: 8px; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .pal-btn.review-correct { background: #31c48d; color: white; border: none; }
+        .pal-btn.review-wrong { background: #f98080; color: white; border: none; }
+        .pal-btn.review-skip { background: #e5e7eb; color: var(--text-muted); border: none; }
+        .pal-btn.current { border: 2px solid #31c48d; background: white; color: #1a1a1a; }
+        
+        .legend-section { border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px; }
+        .legend-title { font-size: 13px; color: var(--text-dark); margin-bottom: 12px; }
+        .legend-row { display: flex; gap: 16px; font-size: 13px; color: var(--text-dark); font-weight: 500; align-items: center; margin-bottom: 8px;}
+        .legend-dot { width: 16px; height: 16px; border-radius: 50%; display: inline-block; flex-shrink: 0;}
     </style>
 </head>
 <body>
@@ -185,51 +202,67 @@
         </div>
     </div>
 
-    <!-- 🟢 LIVE TEST HEADER -->
-    <div class="top-header" id="live-header">
-        <div class="pause-btn">||</div>
-        <div class="header-info">
-            <div class="header-title" id="display-title">Loading Topic...</div>
-            <div class="timer-text">Total Time left: <span class="timer-countdown" id="timer-display">00:00</span></div>
+    <!-- 🟢 DUAL-MODE HEADER -->
+    <div class="top-header" id="main-header">
+        <div id="live-nav" style="display: flex; align-items: center; gap: 12px; width: 100%;">
+            <div class="pause-btn">||</div>
+            <div class="header-info">
+                <div class="header-title" id="display-title">Loading Topic...</div>
+                <div class="timer-text" id="live-timer-container">Total Time left: <span class="timer-countdown" id="timer-display">00:00</span></div>
+            </div>
+            <div class="header-icons" id="live-icons">
+                <svg onclick="openSettingsModal()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span onclick="openPalette()" style="font-size:24px; margin-left:8px;">☰</span>
+            </div>
         </div>
-        <div class="header-icons">
-            <svg onclick="openSettingsModal()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            <span onclick="openPalette()" style="font-size:24px; margin-left:8px;">☰</span>
+        
+        <div id="review-nav" style="display: none; align-items: center; justify-content: space-between; width: 100%;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <svg onclick="goBackFromResult()" class="icon-btn" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                <div class="header-title" id="review-title" style="font-size: 16px;">Reading Comprehe...</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted);">
+                Re-Attempt
+                <label class="switch">
+                    <input type="checkbox" id="reattempt-toggle" onchange="toggleReattemptMode()">
+                    <span class="slider"></span>
+                </label>
+            </div>
         </div>
     </div>
 
-    <!-- 🟢 REVIEW MODE HEADER -->
-    <div class="top-header" id="review-header" style="display: none;">
-        <svg onclick="window.location.href='app.html'" class="icon-btn" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        <div class="header-info" style="margin-left: 12px;">
-            <div class="header-title" id="review-title">Detailed Solutions</div>
+    <!-- 🟢 SUB HEADER & STATS BAR -->
+    <div style="background: var(--bg-main);">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
+            <span id="sub-type-text" style="font-size: 15px; font-weight: 600; color: var(--text-dark);">Cloze Test</span>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <svg onclick="openSettingsModal()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <span onclick="openPalette()" style="font-size:24px; cursor:pointer;">☰</span>
+            </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted);">
-            Re-Attempt
-            <label class="switch">
-                <input type="checkbox" id="reattempt-toggle" onchange="toggleReattemptMode()">
-                <span class="slider"></span>
-            </label>
+        <div class="stats-row" id="review-stats-bar" style="display: none;">
+            <div class="stat-pill">Avg : 01:14</div>
+            <div class="stat-pill green-tint">👥 96% <span style="font-size: 11px; font-weight: 500;">Answered<br>correctly</span></div>
         </div>
-    </div>
-
-    <div class="sub-header" id="sub-header-bar">
-        <span id="sub-type-text">Question Type : Multiple Choice</span>
-        <span class="review-btn" id="review-btn" onclick="toggleReview()">Review ☆</span>
-        <span id="review-stats" style="display:none; color: #10b981; font-weight: 600;">👥 Review & Analytics</span>
     </div>
 
     <!-- Question Content -->
     <div class="scroll-area">
-        <div class="q-meta">
-            <div class="q-num-box" id="q-num">1</div>
-            <div class="q-label">Question</div>
-            <div class="marks-badge marks-plus">+1.0</div>
-            <div class="marks-badge marks-minus">-0.25</div>
+        <!-- 🟢 INSTRUCTION BLOCK -->
+        <div class="instruction-block">
+            <div class="inst-badge">1</div>
+            <div class="inst-title">Instructions</div>
+            <svg onclick="alert('Bookmark feature coming soon!')" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--text-muted); cursor:pointer;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
         </div>
+        <div style="font-size: 14px; line-height: 1.6; margin-bottom: 20px; color: var(--text-dark);">
+            <b>Read the following passage and answer the given questions.</b><br>
+            The Clean India Mission, also known as Swachh Bharat Abhiyan, is a national campaign...
+        </div>
+
+        <div class="q-label" style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">Question</div>
+        <div class="q-text" id="q-text" style="font-weight: 700;"></div>
         
         <div class="unattempted-warning" id="unattempted-warning">*You have not attempted this question</div>
-        <div class="q-text" id="q-text"></div>
         <div id="options-container"></div>
         
         <div class="solution-accordion" id="solution-box">
@@ -309,24 +342,43 @@
         </div>
     </div>
 
-    <!-- 🟢 REVIEW PALETTE MODAL -->
+    <!-- 🟢 REVIEW SUMMARY (BOTTOM SHEET) -->
     <div class="modal-overlay" id="review-palette-modal">
-        <div class="bottom-sheet">
-            <div class="sheet-header">
-                <h3>Test Summary</h3>
+        <div class="bottom-sheet" style="padding-bottom: 20px;">
+            <div style="text-align: right; margin-bottom: 8px;">
                 <span class="close-icon" onclick="closeModal('review-palette-modal')">×</span>
             </div>
             
+            <div class="summary-tab">Cloze Test</div>
+            
+            <div class="summary-meta">
+                <span>Questions: <span id="pal-total-rev">5</span> | Attempted: <span id="pal-att-rev">0</span></span>
+                <span style="color: var(--brand-blue); font-weight: 600; display:flex; align-items:center; gap:4px; cursor:pointer;" onclick="alert('Filter coming soon!')">FILTER <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></span>
+            </div>
+
             <div class="palette-grid" id="review-palette-grid"></div>
             
-            <div style="margin: 20px 0; font-size: 13px; font-weight: 500; display: flex; gap: 12px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 16px;">
-                <span style="display:flex; align-items:center; gap:4px;"><div style="width:12px;height:12px;border-radius:50%;background:#31c48d;"></div> Correct</span>
-                <span style="display:flex; align-items:center; gap:4px;"><div style="width:12px;height:12px;border-radius:50%;background:#f98080;"></div> Incorrect</span>
-                <span style="display:flex; align-items:center; gap:4px;"><div style="width:12px;height:12px;border-radius:50%;background:#f3f4f6;"></div> Unattempted</span>
+            <!-- Legends -->
+            <div class="legend-section">
+                <div class="legend-title">Speed Indicator</div>
+                <div class="legend-row">
+                    <span><span style="color:#31c48d;">⏱️</span> Fast</span>
+                    <span><span style="color:#eab308;">⏱️</span> On Time</span>
+                    <span><span style="color:#f98080;">⏱️</span> Slow</span>
+                </div>
+            </div>
+            
+            <div class="legend-section" style="border-top: none; padding-top: 0; margin-bottom: 24px;">
+                <div class="legend-row" style="flex-wrap: wrap;">
+                    <span><span class="legend-dot" style="background:#31c48d;"></span> Correct</span>
+                    <span><span class="legend-dot" style="background:#f98080;"></span> Incorrect</span>
+                    <span><span class="legend-dot" style="background:#e5e7eb;"></span> Unattempted</span>
+                    <span><span class="legend-dot" style="background:#fde047;"></span> Unevaluated</span>
+                </div>
             </div>
             
             <div style="display: flex; gap: 12px;">
-                <button class="btn-half" onclick="reviewNavigate(-1)" style="flex:1;">Previous</button>
+                <button class="btn-half" onclick="reviewNavigate(-1)" style="flex:1; border: 1px solid var(--brand-blue); color: var(--brand-blue);">Previous</button>
                 <button class="btn-main submit" onclick="reviewNavigate(1)" style="flex:1;">Next</button>
             </div>
         </div>
@@ -381,18 +433,23 @@
         let endTime = 0; 
         let reattemptModeActive = false; // 🟢 Toggle State
 
+        // 🟢 Routing Back to Results
+        function goBackFromResult() {
+            triggerHaptic('light');
+            if (isPractice) window.location.href = `result.html?practice=true`;
+            else window.location.href = `result.html?attempt_id=${attemptIdParam}`;
+        }
+
         async function startQuiz() {
             try {
                 // 🟢 REVIEW MODE INITIALIZATION
                 if (isReviewMode) {
                     document.getElementById('loading-screen').innerText = "Loading Analytics...";
-                    document.getElementById('live-header').style.display = 'none';
-                    document.getElementById('review-header').style.display = 'flex';
+                    document.getElementById('live-nav').style.display = 'none';
+                    document.getElementById('review-nav').style.display = 'flex';
                     document.getElementById('live-bottom-bar').style.display = 'none';
-                    document.getElementById('review-bottom-bar').style.display = 'block';
-                    document.getElementById('review-btn').style.display = 'none';
-                    document.getElementById('sub-type-text').style.display = 'none';
-                    document.getElementById('review-stats').style.display = 'block';
+                    document.getElementById('review-bottom-bar').style.display = 'flex';
+                    document.getElementById('review-stats-bar').style.display = 'flex';
                     
                     let data;
                     if (isPractice) {
