@@ -34,157 +34,65 @@
             overflow: hidden;
         }
 
+        /* 🟢 Dynamic Font Scaling */
+        body.font-small .q-text, body.font-small .opt-text { font-size: 13px; }
+        body.font-large .q-text { font-size: 17px; } body.font-large .opt-text { font-size: 15px; }
+        body.font-xlarge .q-text { font-size: 20px; } body.font-xlarge .opt-text { font-size: 17px; }
+
         /* Top Header */
-        .top-header {
-            background: var(--card-bg);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            z-index: 10;
-        }
-        .pause-btn {
-            background: var(--brand-red);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 14px;
-            cursor: pointer;
-        }
+        .top-header { background: var(--card-bg); padding: 12px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); z-index: 10; }
+        .pause-btn { background: var(--brand-red); color: white; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; cursor: pointer; }
         .header-info { flex-grow: 1; }
         .header-title { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
         .timer-text { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
         .timer-countdown { color: var(--brand-red); font-weight: 600; }
-        .header-icons { display: flex; gap: 16px; font-size: 20px; color: var(--text-muted); cursor: pointer; }
+        .header-icons { display: flex; align-items: center; gap: 16px; color: var(--text-muted); cursor: pointer; }
 
         /* Sub Header */
-        .sub-header {
-            background: var(--bg-main);
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-color);
-        }
+        .sub-header { background: var(--bg-main); padding: 12px 16px; display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; color: var(--text-muted); border-bottom: 1px solid var(--border-color); }
         .review-btn { cursor: pointer; display: flex; align-items: center; gap: 4px; }
         .review-btn.marked { color: #d97706; font-weight: 600; }
 
         /* Question Area */
-        .scroll-area {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 16px;
-            padding-bottom: 120px;
-        }
-        .q-meta {
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .q-num-box {
-            background: #e5e7eb;
-            color: var(--text-dark);
-            width: 28px;
-            height: 28px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 13px;
-            margin-right: 12px;
-        }
+        .scroll-area { flex-grow: 1; overflow-y: auto; padding: 16px; padding-bottom: 120px; }
+        .q-meta { display: flex; align-items: center; margin-bottom: 16px; }
+        .q-num-box { background: #e5e7eb; color: var(--text-dark); width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; margin-right: 12px; }
         .q-label { font-size: 15px; font-weight: 700; flex-grow: 1; }
-        .marks-badge {
-            font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px;
-        }
+        .marks-badge { font-size: 12px; font-weight: 600; padding: 2px 6px; border-radius: 4px; margin-left: 6px; }
         .marks-plus { background: var(--green-bg); color: var(--green-text); }
         .marks-minus { background: var(--red-bg); color: var(--red-text); }
-
-        .q-text { font-size: 15px; line-height: 1.6; font-weight: 500; margin-bottom: 24px; white-space: pre-wrap; }
+        .q-text { font-size: 15px; line-height: 1.6; font-weight: 500; margin-bottom: 24px; white-space: pre-wrap; transition: font-size 0.2s; }
 
         /* Options */
-        .option {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .option.selected {
-            border-color: var(--brand-blue);
-            background: #eff6ff;
-        }
-        .opt-letter {
-            width: 30px; height: 30px; border-radius: 50%; background: #f3f4f6; color: var(--text-muted);
-            display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px;
-            flex-shrink: 0;
-        }
+        .option { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s; }
+        .option.selected { border-color: var(--brand-blue); background: #eff6ff; }
+        .opt-letter { width: 30px; height: 30px; border-radius: 50%; background: #f3f4f6; color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0; }
         .option.selected .opt-letter { background: var(--brand-blue); color: white; }
-        .opt-text { font-size: 14px; font-weight: 500; color: var(--text-dark); }
+        .opt-text { font-size: 14px; font-weight: 500; color: var(--text-dark); transition: font-size 0.2s; }
 
         /* Bottom Fixed Bar */
-        .bottom-bar {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: var(--card-bg);
-            padding: 12px 16px 20px 16px;
-            box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
-        }
-        .action-row {
-            display: flex; gap: 12px; margin-bottom: 12px;
-        }
-        .btn-half {
-            flex: 1; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600;
-            background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer;
-            color: var(--text-muted); display: flex; justify-content: center; align-items: center; gap: 6px;
-        }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); padding: 12px 16px 20px 16px; box-shadow: 0 -4px 12px rgba(0,0,0,0.05); }
+        .action-row { display: flex; gap: 12px; margin-bottom: 12px; }
+        .btn-half { flex: 1; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer; color: var(--text-muted); display: flex; justify-content: center; align-items: center; gap: 6px; }
         .btn-report { color: var(--brand-red); }
-        .btn-main {
-            width: 100%; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600;
-            background: var(--brand-red); color: white; border: none; cursor: pointer;
-        }
+        .btn-main { width: 100%; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; background: var(--brand-red); color: white; border: none; cursor: pointer; }
         .btn-main.submit { background: var(--brand-blue); }
 
-        /* Full Screen Modals (Palette & Submit) */
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100;
-            display: none; align-items: flex-end; justify-content: center;
-        }
-        .bottom-sheet {
-            background: var(--card-bg); width: 100%; border-radius: 20px 20px 0 0;
-            padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;
-        }
+        /* Full Screen Modals */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: flex-end; justify-content: center; }
+        .bottom-sheet { background: var(--card-bg); width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto; }
         .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--brand-red); padding-bottom: 8px;}
         .sheet-header h3 { margin: 0; font-size: 16px; color: var(--text-dark); }
         .close-icon { font-size: 24px; cursor: pointer; color: var(--text-muted); }
 
         /* Palette Grid */
         .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
-        .pal-btn {
-            aspect-ratio: 1; border-radius: 8px; border: 1px solid var(--border-color);
-            background: var(--card-bg); font-weight: 600; font-size: 14px; display: flex;
-            align-items: center; justify-content: center; cursor: pointer; color: var(--text-dark);
-        }
-        /* Palette States based on mockup */
+        .pal-btn { aspect-ratio: 1; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-dark); }
         .pal-btn.answered { background: var(--brand-blue); color: white; border-color: var(--brand-blue); }
         .pal-btn.not-answered { background: #f3f4f6; color: var(--text-dark); }
         .pal-btn.review { background: #fef08a; border-color: #facc15; }
         .pal-btn.review-answered { background: #fef08a; border-color: var(--brand-blue); border-width: 2px; }
-        .pal-btn.current { border: 2px solid #22c55e; } /* Green border for active question */
+        .pal-btn.current { border: 2px solid #22c55e; }
 
         /* Submit Modal Specifics */
         .submit-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;}
@@ -193,13 +101,64 @@
         .warning-box { background: #fffbeb; color: #b45309; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 500; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;}
 
         #loading-screen { position: absolute; inset: 0; background: var(--bg-main); display: flex; align-items: center; justify-content: center; z-index: 200; font-weight: 600; }
+        
+        /* Language/Font settings specific */
+        .radio-label { display: flex; align-items: center; margin-bottom: 16px; cursor: pointer; }
+        .radio-input { width: 20px; height: 20px; margin-right: 12px; accent-color: var(--brand-blue); }
     </style>
 </head>
 <body>
 
-    <div id="loading-screen">Starting Test...</div>
+    <div id="loading-screen">Authenticating Test...</div>
 
-    <!-- Top Navigation -->
+    <!-- 🟢 INSTRUCTIONS PRE-SCREEN -->
+    <div id="instructions-screen" style="position:fixed; inset:0; background:var(--bg-main); z-index:50; display:none; flex-direction:column;">
+        <div class="top-header" style="justify-content:center;">
+            <div class="header-title" style="font-size:16px;">Instructions</div>
+        </div>
+        <div style="padding: 20px; flex-grow: 1; overflow-y: auto; background: var(--card-bg);">
+            <h2 id="inst-topic" style="font-size: 18px; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Topic Name</h2>
+            
+            <div style="display:flex; justify-content:space-between; margin-bottom: 24px;">
+                <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
+                    <div id="inst-qcount" style="font-size:18px; font-weight:700;">10</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Questions</div>
+                </div>
+                <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
+                    <div id="inst-marks" style="font-size:18px; font-weight:700;">10</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Max Marks</div>
+                </div>
+                <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
+                    <div id="inst-time" style="font-size:18px; font-weight:700;">5</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Mins</div>
+                </div>
+            </div>
+            
+            <div style="font-size:14px; line-height:1.6; color:var(--text-dark);">
+                <p style="font-weight:600; margin-bottom:12px;">Please read the following instructions very carefully:</p>
+                <ul style="padding-left:16px; margin:0;">
+                    <li style="margin-bottom:8px;">You have <span id="inst-time-text" style="font-weight:600;">5 Minutes</span> to complete the test.</li>
+                    <li style="margin-bottom:8px;">The test contains a total of <span id="inst-qcount-text" style="font-weight:600;">10</span> Questions.</li>
+                    <li style="margin-bottom:8px;">There is only one correct answer to each question. Click on the most appropriate option to mark it.</li>
+                    <li style="margin-bottom:8px;">There is 1/4 penalty for each wrong answer (-0.25 marks).</li>
+                    <li style="margin-bottom:8px;">You can change your answer by clicking on some other option, or unmark it by clicking "Clear Response".</li>
+                    <li style="margin-bottom:8px;">A Number list of all questions appears at the right-hand side of the screen. You can jump to any question using this grid.</li>
+                    <li style="margin-bottom:8px;">Do not click "Submit test" before completing. A test once submitted cannot be resumed.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="padding: 16px; background: var(--card-bg); border-top: 1px solid var(--border-color); display:flex; gap:12px;">
+            <div style="flex:1; position:relative;">
+                 <button onclick="openSettingsModal()" style="width:100%; padding:14px; border-radius:8px; font-size:14px; font-weight:600; background:#f8f9fa; border:1px solid var(--border-color); color:var(--brand-blue); display:flex; justify-content:center; align-items:center; gap:6px; cursor:pointer;">
+                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg> English
+                 </button>
+            </div>
+            <button style="flex:1; padding:14px; border-radius:8px; font-size:15px; font-weight:600; background:var(--brand-red); color:white; border:none; cursor:pointer;" onclick="beginTest()">Start Test</button>
+        </div>
+    </div>
+
+    <!-- Top Navigation (Active Test) -->
     <div class="top-header">
         <div class="pause-btn">||</div>
         <div class="header-info">
@@ -207,7 +166,8 @@
             <div class="timer-text">Total Time left: <span class="timer-countdown" id="timer-display">00:00</span></div>
         </div>
         <div class="header-icons">
-            <span onclick="openPalette()">☰</span>
+            <svg onclick="openSettingsModal()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span onclick="openPalette()" style="font-size:24px; margin-left:8px;">☰</span>
         </div>
     </div>
 
@@ -236,6 +196,44 @@
             <button class="btn-half" onclick="clearResponse()">Clear Response</button>
         </div>
         <button class="btn-main" id="btn-next" onclick="saveAndNext()">Save & Next</button>
+    </div>
+
+    <!-- 🟢 Settings (Font & Language) Modal -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="bottom-sheet" style="padding-bottom: 20px;">
+            <div class="sheet-header">
+                <h3 style="font-size: 18px;">Select Font Size & Language</h3>
+                <span class="close-icon" onclick="closeModal('settings-modal')">×</span>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; font-weight: 500;">Font Size</div>
+                
+                <label class="radio-label" style="font-size:14px;">
+                    <input type="radio" name="fontsize" value="small" class="radio-input" onchange="applyFontSize('small')"> Small
+                </label>
+                <label class="radio-label" style="font-size:16px;">
+                    <input type="radio" name="fontsize" value="normal" class="radio-input" onchange="applyFontSize('normal')" checked> Normal (Default)
+                </label>
+                <label class="radio-label" style="font-size:18px;">
+                    <input type="radio" name="fontsize" value="large" class="radio-input" onchange="applyFontSize('large')"> Large
+                </label>
+                <label class="radio-label" style="font-size:20px;">
+                    <input type="radio" name="fontsize" value="xlarge" class="radio-input" onchange="applyFontSize('xlarge')"> Extra Large
+                </label>
+            </div>
+            
+            <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; font-weight: 500;">Language</div>
+                
+                <label class="radio-label" style="font-size:16px;">
+                    <input type="radio" name="lang" value="hi" class="radio-input" onclick="alert('Hindi language pack coming soon!')"> HINDI <span style="color:var(--text-muted); font-size:12px; margin-left:6px;">(HINDI)</span>
+                </label>
+                <label class="radio-label" style="font-size:16px;">
+                    <input type="radio" name="lang" value="en" class="radio-input" checked> English <span style="color:var(--text-muted); font-size:12px; margin-left:6px;">(ENGLISH)</span>
+                </label>
+            </div>
+        </div>
     </div>
 
     <!-- Palette Modal -->
@@ -282,40 +280,47 @@
         const userId = tg.initDataUnsafe?.user?.id || 123456789;
         const urlParams = new URLSearchParams(window.location.search);
         const quizId = urlParams.get('quiz_id');
+        const isPractice = urlParams.get('practice') === 'true'; // 🟢 Practice Mode Flag
 
         let attemptId = null;
         let questions = [];
         let currentIndex = 0;
         let responses = {}; 
-        let reviewStatus = {}; // Tracks which questions are marked for review
+        let reviewStatus = {}; 
         let timerInterval = null;
+        let initialDuration = 0;
         let timeRemaining = 0;
         let topicName = "Test";
         let isSubmitting = false;
-        let endTime = 0; // 🟢 NEW: Absolute clock sync
+        let endTime = 0; 
+
+        // 🟢 TELEGRAM NATIVE HAPTIC FEEDBACK ENGINE
+        function triggerHaptic(style = 'light') {
+            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
+            }
+        }
 
         async function startQuiz() {
             try {
-                // Fetch the specific quiz duration from the API to set the timer accurately
+                // Fetch the topic name for UI
                 const homeRes = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`);
                 const homeData = await homeRes.json();
                 
-                // FIX: Combine the grouped arrays into a single flat array before searching
                 const allQuizzes = [...(homeData.quizzes.Today || []), ...(homeData.quizzes.Pending || [])];
                 const currentQuizMeta = allQuizzes.find(q => q.id == quizId);
-                
-                if(currentQuizMeta) {
-                    topicName = currentQuizMeta.topic;
-                }
+                if(currentQuizMeta) topicName = currentQuizMeta.topic;
         
                 document.getElementById('display-title').innerText = topicName;
                 document.getElementById('palette-topic').innerText = topicName;
                 document.getElementById('summary-topic').innerText = topicName;
+                document.getElementById('inst-topic').innerText = topicName;
 
+                // Hit the Start Endpoint
                 const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/start`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: userId, quiz_set_id: quizId })
+                    body: JSON.stringify({ user_id: userId, quiz_set_id: quizId, is_practice: isPractice })
                 });
                 
                 const data = await res.json();
@@ -327,22 +332,37 @@
 
                 attemptId = data.attempt_id;
                 questions = data.questions;
+                initialDuration = data.duration_seconds;
+                timeRemaining = initialDuration;
                 
-                // ✅ FIX BUG #2: Strictly enforce the server's exact duration limit
-                timeRemaining = data.duration_seconds;
+                // Populate UI Data
                 document.getElementById('pal-total').innerText = questions.length;
+                document.getElementById('inst-qcount').innerText = questions.length;
+                document.getElementById('inst-qcount-text').innerText = questions.length;
+                document.getElementById('inst-marks').innerText = questions.length;
+                let minutes = Math.floor(timeRemaining / 60);
+                document.getElementById('inst-time').innerText = minutes;
+                document.getElementById('inst-time-text').innerText = `${minutes} Minutes`;
                 
                 buildPalette();
                 loadQuestion(0);
+                
+                // Show instructions, Hide loader
                 document.getElementById('loading-screen').style.display = 'none';
-                // 🟢 NEW: Calculate absolute end time
-                endTime = Date.now() + (data.duration_seconds * 1000);
-                startTimer();
+                document.getElementById('instructions-screen').style.display = 'flex';
                 
             } catch (err) {
                 alert("Failed to start quiz.");
                 window.location.href = 'app.html';
             }
+        }
+
+        // 🟢 TRIGGERED BY THE "START TEST" BUTTON ON INSTRUCTIONS SCREEN
+        function beginTest() {
+            triggerHaptic('medium');
+            document.getElementById('instructions-screen').style.display = 'none';
+            endTime = Date.now() + (timeRemaining * 1000);
+            startTimer();
         }
 
         function loadQuestion(index) {
@@ -352,7 +372,6 @@
             document.getElementById('q-num').innerText = index + 1;
             document.getElementById('q-text').innerText = q.text;
 
-            // Handle Review button visual state
             const revBtn = document.getElementById('review-btn');
             if (reviewStatus[q.question_id]) {
                 revBtn.classList.add('marked');
@@ -394,10 +413,7 @@
         }
 
         function selectOption(optIndex, element) {
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.selectionChanged();
-            }
-            
+            triggerHaptic('selection');
             const qId = questions[currentIndex].question_id;
             responses[qId] = optIndex;
             document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
@@ -408,7 +424,6 @@
             const qId = questions[currentIndex].question_id;
             delete responses[qId];
             document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
-            
             updatePaletteColors();
         }
 
@@ -419,16 +434,12 @@
         }
 
         function saveAndNext() {
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.selectionChanged();
-            }
-            
+            triggerHaptic('light');
             if (currentIndex < questions.length - 1) {
                 loadQuestion(currentIndex + 1);
             }
         }
 
-        // --- PALETTE LOGIC ---
         function buildPalette() {
             const grid = document.getElementById('palette-grid');
             grid.innerHTML = '';
@@ -451,7 +462,6 @@
                 const isAnswered = responses[q.question_id] !== undefined;
                 const isReviewed = reviewStatus[q.question_id];
                 
-                // Reset classes
                 btn.className = 'pal-btn';
                 
                 if (isReviewed && isAnswered) btn.classList.add('review-answered');
@@ -459,18 +469,28 @@
                 else if (isAnswered) btn.classList.add('answered');
                 else if (index < currentIndex) btn.classList.add('not-answered');
                 
-                // Active outline
                 if (index === currentIndex) btn.classList.add('current');
             });
         }
 
-        // --- MODAL & TIMER LOGIC ---
         function openPalette() {
+            triggerHaptic('medium');
             updatePaletteColors();
             document.getElementById('palette-modal').style.display = 'flex';
         }
         
+        function openSettingsModal() {
+            triggerHaptic('medium');
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+        
+        function applyFontSize(size) {
+            document.body.classList.remove('font-small', 'font-large', 'font-xlarge');
+            if(size !== 'normal') document.body.classList.add(`font-${size}`);
+        }
+        
         function openSubmitModal() {
+            triggerHaptic('medium');
             const answeredCount = Object.keys(responses).length;
             document.getElementById('summary-answered').innerText = answeredCount;
             document.getElementById('summary-total').innerText = answeredCount;
@@ -478,14 +498,13 @@
         }
 
         function closeModal(id) {
+            triggerHaptic('soft');
             document.getElementById(id).style.display = 'none';
         }
 
         function startTimer() {
             timerInterval = setInterval(() => {
-                // Calculate exact time left based on absolute clock
                 timeRemaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
-                
                 let m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
                 let s = (timeRemaining % 60).toString().padStart(2, '0');
                 document.getElementById('timer-display').innerText = `${m}:${s}`;
@@ -498,14 +517,57 @@
         }
 
         async function submitQuiz() {
-            if (isSubmitting) return; // Prevent double taps
+            if (isSubmitting) return; 
             isSubmitting = true;
             
             clearInterval(timerInterval);
             document.getElementById('submit-modal').style.display = 'none';
             document.getElementById('loading-screen').innerText = 'Submitting Test...';
             document.getElementById('loading-screen').style.display = 'flex';
-            
+
+            // 🟢 PRACTICE MODE: SCORE LOCALLY (Do not hit DB)
+            if (attemptId === "practice_mode") {
+                let correctCount = 0, wrongCount = 0, unattemptedCount = 0;
+                let score = 0;
+                
+                let localSolutions = questions.map(q => {
+                    let uIdx = responses[q.question_id] !== undefined ? responses[q.question_id] : null;
+                    let isCorr = false;
+                    
+                    if (uIdx === null) {
+                        unattemptedCount++;
+                    } else if (uIdx === q.correct_index) {
+                        isCorr = true; correctCount++; score += 1.0;
+                    } else {
+                        wrongCount++; score -= 0.25;
+                    }
+                    
+                    return {
+                        question_id: q.question_id, text: q.text, options: q.options,
+                        correct_index: q.correct_index, explanation: q.explanation,
+                        user_selected_index: uIdx, is_correct: isCorr
+                    };
+                });
+                
+                let timeSpent = initialDuration - Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+                let accuracy = (correctCount + wrongCount) > 0 ? (correctCount / (correctCount + wrongCount) * 100) : 0;
+                
+                let practiceResult = {
+                    quiz_set_id: quizId,
+                    summary: {
+                        score: score, rank: "-", total_participants: "-", percentile: "-",
+                        accuracy: accuracy, time_spent_seconds: timeSpent,
+                        correct: correctCount, wrong: wrongCount, unattempted: unattemptedCount
+                    },
+                    solutions: localSolutions
+                };
+                
+                sessionStorage.setItem("practiceResult", JSON.stringify(practiceResult));
+                window.location.href = `result.html?practice=true`;
+                return;
+            }
+
+            // 🔴 LIVE MODE: SEND TO SERVER
             const formattedResponses = questions.map(q => ({
                 question_id: q.question_id,
                 selected_index: responses[q.question_id] !== undefined ? responses[q.question_id] : null
@@ -520,19 +582,18 @@
                 
                 const data = await response.json();
                 
-                // --- MASTER SPEC: CHECK STATUS BEFORE REDIRECTING ---
                 if (response.status !== 200) {
                     document.getElementById('loading-screen').style.display = 'none';
                     alert(`Submission Rejected: ${data.error}`);
-                    isSubmitting = false; // 🟢 ADDED: Unlock the button!
-                    return; // Stop the redirect
+                    isSubmitting = false; 
+                    return; 
                 }
                 
                 window.location.href = `result.html?attempt_id=${attemptId}`;
             } catch (err) {
                 alert("Submission failed. Please check connection.");
                 document.getElementById('loading-screen').style.display = 'none';
-                isSubmitting = false; // 🟢 ADDED: Unlock the button!
+                isSubmitting = false; 
             }
         }
 
