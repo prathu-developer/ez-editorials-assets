@@ -371,7 +371,7 @@
             </div>
             
             <!-- 2. Global Elo Rankings -->
-            <div class="p-menu-item" onclick="openSubModal('eloModalOverlay'); openEloLeaderboard();">
+            <div class="p-menu-item" onclick="openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
                     <span>Global Elo Rankings</span>
@@ -671,7 +671,7 @@
         }
 
         // 🟢 FIX 2: BULLETPROOF ELO RENDERER & FETCHER
-        window.openEloLeaderboard = async function() {
+        window.fetchAndOpenEloLeaderboard = async function() {
             const container = document.getElementById('eloListContainer');
             if(!container) return;
             
@@ -742,7 +742,7 @@
         };
 
         // 🟢 FIX 3: CHART TEXT OVERLAP FIX (Overrides app_v8.js to perfectly center text)
-        if (typeof renderCharts === 'function') {
+        window.addEventListener('DOMContentLoaded', () => {
             window.renderCharts = function(targetUser) {
                 const ctxDaily = document.getElementById('dailyChart').getContext('2d');
                 const ctxPie = document.getElementById('pieChart').getContext('2d');
