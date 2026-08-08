@@ -229,7 +229,8 @@
     <script>
         window.Telegram.WebApp.ready();
 
-        const questions = [
+        // 1. MASTER QUESTION BANK (Add as many questions here as you like)
+        const questionBank = [
             { q: "Choose the correct synonym for 'Genuine'.", opts: ["Fake", "Authentic", "False", "Artificial"], ans: 1 },
             { q: "Complete the sentence: 'She is exceptionally good ___ mathematics.'", opts: ["in", "on", "at", "with"], ans: 2 },
             { q: "Identify the correctly spelt word.", opts: ["Favourate", "Favourite", "Faverite", "Favurite"], ans: 1 },
@@ -239,25 +240,34 @@
             { q: "Complete the sentence: 'The train ___ the station before we arrived.'", opts: ["left", "leaves", "had left", "leaving"], ans: 2 },
             { q: "A person who does not believe in the existence of God is known as an...", opts: ["Theist", "Atheist", "Agnostic", "Optimist"], ans: 1 },
             { q: "Choose the correct plural form of the word 'Child'.", opts: ["Childs", "Childes", "Children", "Childrens"], ans: 2 },
-            { q: "Identify the correctly spelt word.", opts: ["Travelled", "Traveled", "Travellled", "Travelld"], ans: 0 }
+            { q: "Identify the correctly spelt word.", opts: ["Travelled", "Traveled", "Travellled", "Travelld"], ans: 0 },
+            
+            // ➕ ADD MORE QUESTIONS HERE:
+            { q: "Choose the correct synonym for 'Rapid'.", opts: ["Slow", "Quick", "Calm", "Lazy"], ans: 1 },
+            { q: "Select the exact antonym for 'Giant'.", opts: ["Huge", "Dwarf", "Large", "Enormous"], ans: 1 },
+            { q: "Complete the idiom: 'Bite the ___.'", opts: ["bullet", "apple", "dust", "sand"], ans: 0 },
+            { q: "Identify the correctly spelt word.", opts: ["Receive", "Recieve", "Receve", "Recive"], ans: 0 },
+            { q: "Choose the correct preposition: 'He was accused ___ theft.'", opts: ["for", "with", "of", "about"], ans: 2 }
         ];
-
-        // ✨ PRO FEATURE: Completely shuffle the questions every single time the Mini App opens
-        questions.sort(() => Math.random() - 0.5);
-
+    
+        // 2. SHUFFLE BANK & SELECT EXACTLY 10 RANDOM QUESTIONS FOR THIS SESSION
+        const questions = questionBank
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 10);
+    
         let currentQuestion = 0;
         let isProcessingTap = false; // Prevents spam-clicking
 
         function renderProgress() {
-            document.getElementById('q-num').innerText = currentQuestion + 1;
-            const barContainer = document.getElementById('progress-bars');
-            barContainer.innerHTML = '';
-            for(let i = 0; i < questions.length; i++) {
-                const bar = document.createElement('div');
-                bar.className = 'bar ' + (i <= currentQuestion ? 'active' : '');
-                barContainer.appendChild(bar);
-            }
+        document.getElementById('q-num').innerText = currentQuestion + 1;
+        const barContainer = document.getElementById('progress-bars');
+        barContainer.innerHTML = '';
+        for(let i = 0; i < questions.length; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar ' + (i <= currentQuestion ? 'active' : '');
+            barContainer.appendChild(bar);
         }
+    }
 
         function loadQuestion() {
             if (currentQuestion >= questions.length) {
@@ -274,7 +284,7 @@
             
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
-
+    
             qData.opts.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
@@ -288,51 +298,50 @@
                 optionsContainer.appendChild(btn);
             });
         }
-
+    
         function handleTap(btn, selectedIndex, correctIndex) {
             if (isProcessingTap) return;
-
+    
             document.querySelectorAll('.option-btn').forEach(b => {
                 b.classList.remove('error');
                 b.classList.remove('correct');
             });
             document.getElementById('warning-msg').classList.remove('show');
-
+    
             if (selectedIndex === correctIndex) {
                 isProcessingTap = true;
                 btn.classList.add('correct'); // Turns Green + Shows ✓
-
+    
                 if (window.Telegram.WebApp.HapticFeedback) {
                     window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
                 }
-
-                // 400ms pause so the user clearly sees the green checkmark!
+    
                 setTimeout(() => {
                     currentQuestion++;
                     loadQuestion();
                 }, 400);
-
+    
             } else {
                 btn.classList.add('error'); // Turns Red + Shows ✕
-                document.getElementById('warning-msg').classList.add('show');
-
+                document.getElementById('warning-msg').classList.show ? document.getElementById('warning-msg').classList.add('show') : null;
+    
                 if (window.Telegram.WebApp.HapticFeedback) {
                     window.Telegram.WebApp.HapticFeedback.notificationOccurred('error');
                 }
             }
         }
-
+    
         function finishQuiz() {
             document.getElementById('main-card').style.display = 'none';
             document.getElementById('loading-overlay').style.display = 'block';
-
+    
             if (window.Telegram.WebApp.HapticFeedback) {
                 window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
             }
-
+    
             const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
             const userId = initDataUnsafe.user ? initDataUnsafe.user.id : null;
-
+    
             if (userId) {
                 fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
                     method: 'POST',
@@ -347,7 +356,7 @@
                 alert("Please open this inside Telegram.");
             }
         }
-
+    
         loadQuestion();
     </script>
 </body>
