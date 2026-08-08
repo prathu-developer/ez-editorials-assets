@@ -464,13 +464,47 @@
                 const homeData = await homeRes.json();
                 const allQuizzes = [...(homeData.quizzes?.Today || []), ...(homeData.quizzes?.Pending || [])];
                 const currentQuizMeta = allQuizzes.find(q => q.id == quizId);
-                if(currentQuizMeta) topicName = currentQuizMeta.topic;
-        
-                document.getElementById('display-title').innerText = topicName;
-                document.getElementById('palette-topic').innerText = topicName;
-                document.getElementById('summary-topic').innerText = topicName;
-                document.getElementById('inst-topic').innerText = topicName;
+                
+                if(currentQuizMeta) {
+                    topicName = currentQuizMeta.topic;
+                    initialDuration = currentQuizMeta.duration_seconds;
+                    let qCount = currentQuizMeta.question_count;
+                    
+                    document.getElementById('display-title').innerText = topicName;
+                    document.getElementById('palette-topic').innerText = topicName;
+                    document.getElementById('summary-topic').innerText = topicName;
+                    document.getElementById('inst-topic').innerText = topicName;
+                    
+                    document.getElementById('pal-total').innerText = qCount;
+                    document.getElementById('inst-qcount').innerText = qCount;
+                    document.getElementById('inst-qcount-text').innerText = qCount;
+                    document.getElementById('inst-marks').innerText = qCount;
+                    
+                    let minutes = Math.floor(initialDuration / 60);
+                    document.getElementById('inst-time').innerText = minutes;
+                    document.getElementById('inst-time-text').innerText = `${minutes} Minutes`;
+                } else if (isPractice) {
+                    document.getElementById('inst-topic').innerText = "Practice Trial";
+                    document.getElementById('display-title').innerText = "Practice Trial";
+                }
 
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('instructions-screen').style.display = 'flex';
+                
+            } catch (err) {
+                alert("Failed to initialize quiz.");
+                window.location.href = 'app.html'; // 🟢 FIX: Redirects to the correct SPA
+            }
+        }
+
+        async function beginTest() {
+            triggerHaptic('medium');
+            
+            // 🟢 Show loading overlay while we hit the API and start the backend timer
+            document.getElementById('loading-screen').innerText = "Starting Timer...";
+            document.getElementById('loading-screen').style.display = 'flex';
+
+            try {
                 const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/start`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -478,38 +512,30 @@
                 });
                 
                 const data = await res.json();
-                if (data.error) { alert(data.error); window.location.href = 'index.html'; return; }
+                if (data.error) { 
+                    alert(data.error); 
+                    window.location.href = 'app.html'; // 🟢 FIX: Redirects to the correct SPA
+                    return; 
+                }
 
                 attemptId = data.attempt_id;
                 questions = data.questions || [];
                 initialDuration = data.duration_seconds;
                 timeRemaining = initialDuration;
                 
-                document.getElementById('pal-total').innerText = questions.length;
-                document.getElementById('inst-qcount').innerText = questions.length;
-                document.getElementById('inst-qcount-text').innerText = questions.length;
-                document.getElementById('inst-marks').innerText = questions.length;
-                let minutes = Math.floor(timeRemaining / 60);
-                document.getElementById('inst-time').innerText = minutes;
-                document.getElementById('inst-time-text').innerText = `${minutes} Minutes`;
-                
                 buildPalette();
                 loadQuestion(0);
                 
+                document.getElementById('instructions-screen').style.display = 'none';
                 document.getElementById('loading-screen').style.display = 'none';
-                document.getElementById('instructions-screen').style.display = 'flex';
+                
+                endTime = Date.now() + (timeRemaining * 1000);
+                startTimer();
                 
             } catch (err) {
-                alert("Failed to initialize quiz.");
-                window.location.href = 'index.html';
+                alert("Failed to start the quiz.");
+                window.location.href = 'app.html';
             }
-        }
-
-        function beginTest() {
-            triggerHaptic('medium');
-            document.getElementById('instructions-screen').style.display = 'none';
-            endTime = Date.now() + (timeRemaining * 1000);
-            startTimer();
         }
 
         function loadQuestion(index) {
