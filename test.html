@@ -511,8 +511,7 @@
                 document.getElementById('instructions-screen').style.display = 'flex';
                 
             } catch (err) {
-                // 🟢 Shows the actual backend/code error directly to you
-                alert("Failed to initialize. Error: " + err.message);
+                alert("Failed to initialize.");
                 window.location.href = 'app.html';
             }
         }
@@ -557,12 +556,7 @@
                 document.getElementById('unattempted-warning').style.display = 'none';
             }
 
-            // 🟢 THE FIX: Safely parse options back into an array if the backend sent a string
-            let optionsList = [];
-            try { optionsList = typeof q.options === 'string' ? JSON.parse(q.options) : q.options; } 
-            catch(e) { optionsList = []; }
-
-            optionsList.forEach((optText, i) => {
+            q.options.forEach((optText, i) => {
                 const optDiv = document.createElement('div');
                 optDiv.className = `option`;
                 
@@ -571,10 +565,10 @@
                     let badge = '';
                     if (i === q.correct_index) {
                         optDiv.classList.add('correct-reveal');
-                        badge = '<div class="opt-badge badge-correct"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg></div>';
+                        badge = '<div class="opt-badge badge-correct"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Correct</div>';
                     } else if (i === q.user_selected_index) {
                         optDiv.classList.add('wrong-reveal');
-                        badge = '<div class="opt-badge badge-wrong"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></div>';
+                        badge = '<div class="opt-badge badge-wrong">✗ Wrong</div>';
                     }
                     optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${optText}</div>${badge}`;
                     optDiv.style.cursor = 'default';
@@ -615,7 +609,7 @@
                 }
             }
         }
-        
+
         function selectOption(optIndex, element) {
             triggerHaptic('light'); 
             const qId = questions[currentIndex].question_id || questions[currentIndex].id;
