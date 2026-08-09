@@ -590,21 +590,30 @@
             let passage = "";
             let instruction = "";
             
-            // 1. If the server sent it as a string, parse it into an object first
+            // 1. Unpack potentially double-stringified JSON from the database
             if (typeof opts === 'string') {
-                try { opts = JSON.parse(opts); } 
-                catch(e) { opts = []; }
+                try { opts = JSON.parse(opts); } catch(e) { }
+            }
+            if (typeof opts === 'string') {
+                try { opts = JSON.parse(opts); } catch(e) { }
             }
             
-            // 2. Now check if it's our newly packed dictionary containing the passage
-            if (opts && typeof opts === 'object' && !Array.isArray(opts) && opts.options) {
+            // 2. Check if it is our newly packed dictionary containing the passage
+            if (opts && typeof opts === 'object' && !Array.isArray(opts)) {
                 passage = opts.passage || "";
                 instruction = opts.instruction || "";
-                opts = opts.options;
+                opts = opts.options || [];
+                
+                // Just in case the options array inside the dictionary was ALSO stringified
+                if (typeof opts === 'string') {
+                    try { opts = JSON.parse(opts); } catch(e) { }
+                }
             }
 
-            // 3. Fallback safety check
-            if (!Array.isArray(opts)) opts = [];
+            // 3. Final Fallback safety check
+            if (!Array.isArray(opts)) {
+                opts = [];
+            }
 
             // Handle the Passage Display
             const passageBlock = document.getElementById('passage-block');
