@@ -585,24 +585,25 @@
             const qId = q.question_id || q.id;
             document.getElementById('q-num').innerText = index + 1;
 
-            // Extract the new meta payload
+            // Extract the new meta payload safely
             let opts = q.options;
             let passage = "";
             let instruction = "";
             
+            // 1. If the server sent it as a string, parse it into an object first
             if (typeof opts === 'string') {
-                try { 
-                    let parsedOpts = JSON.parse(opts); 
-                    // Check if it is our new packed dictionary
-                    if (parsedOpts && !Array.isArray(parsedOpts) && parsedOpts.options) {
-                        opts = parsedOpts.options;
-                        passage = parsedOpts.passage || "";
-                        instruction = parsedOpts.instruction || "";
-                    } else {
-                        opts = parsedOpts;
-                    }
-                } catch(e) { opts = []; }
+                try { opts = JSON.parse(opts); } 
+                catch(e) { opts = []; }
             }
+            
+            // 2. Now check if it's our newly packed dictionary containing the passage
+            if (opts && typeof opts === 'object' && !Array.isArray(opts) && opts.options) {
+                passage = opts.passage || "";
+                instruction = opts.instruction || "";
+                opts = opts.options;
+            }
+
+            // 3. Fallback safety check
             if (!Array.isArray(opts)) opts = [];
 
             // Handle the Passage Display
