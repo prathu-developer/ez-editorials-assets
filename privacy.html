@@ -59,7 +59,13 @@
 
 <div class="container">
 
-<h1>Privacy Policy</h1>
+    <!-- Visual Back Button -->
+    <div class="back-btn" onclick="goBackToApp()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to App
+    </div>
+
+    <h1>Privacy Policy</h1>
 
 <p><strong>Last Updated:</strong> 28 July 2026</p>
 
@@ -156,5 +162,26 @@ group or bot.
 
 </div>
 
+<script>
+    // Initialize Telegram WebApp
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    // 1. Show the native Telegram Back Button in the top header
+    tg.BackButton.show();
+
+    // 2. What happens when the native Telegram Back Button is clicked
+    tg.BackButton.onClick(() => {
+        window.location.href = 'app.html';
+    });
+
+    // 3. What happens when our HTML on-screen button is clicked
+    function goBackToApp() {
+        if (tg.HapticFeedback) {
+            tg.HapticFeedback.impactOccurred('light');
+        }
+        window.location.href = 'app.html';
+    }
+</script>
 </body>
 </html>
