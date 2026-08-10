@@ -266,14 +266,10 @@
         <div class="top-header">
             <span style="width: 24px;"></span>
             
-            <!-- 🟢 NEW: Left/Right Arrow Navigation -->
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <span id="nav-arrow-left" style="font-size: 20px; cursor: pointer; color: var(--brand); padding: 4px; user-select: none;" onclick="navigateDay(-1)">❮</span>
-                <span class="font-bold" id="day-detail-header" style="font-size: 16px; min-width: 65px; text-align: center;">Day</span>
-                <span id="nav-arrow-right" style="font-size: 20px; cursor: pointer; color: var(--brand); padding: 4px; user-select: none;" onclick="navigateDay(1)">❯</span>
-            </div>
+            <!-- Day Header (Arrows Removed) -->
+            <span class="font-bold" id="day-detail-header" style="font-size: 16px;">Day</span>
             
-            <!-- 🟢 NEW: Hooked up the Calendar icon to open the bottom sheet -->
+            <!-- Calendar Icon -->
             <svg class="icon-btn" onclick="openSubModal('calendarModalOverlay')" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         </div>
 
@@ -570,13 +566,8 @@
                 <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'calendarModalOverlay', true)">×</span>
                 <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">📅 Jump to Day</h3>
             </div>
-            <div style="padding: 20px 20px 40px 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
-                <button onclick="jumpToDay(0)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 1</button>
-                <button onclick="jumpToDay(1)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 2</button>
-                <button onclick="jumpToDay(2)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 3</button>
-                <button onclick="jumpToDay(3)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 4</button>
-                <button onclick="jumpToDay(4)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 5</button>
-                <button onclick="jumpToDay(5)" style="padding: 14px; border-radius: 12px; border: 1px solid var(--border-light); background: var(--bg-main); font-weight: bold; font-size: 15px; cursor: pointer; color: var(--text-main);">Day 6</button>
+            <div id="calendar-grid" style="padding: 20px 20px 40px 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                <!-- Buttons injected dynamically by JS -->
             </div>
         </div>
     </div>
@@ -940,6 +931,9 @@
             let isDataLoaded = !!window.masterQuizData;
             let allQuizzes = isDataLoaded ? [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])] : [];
 
+            const calendarGrid = document.getElementById('calendar-grid');
+            if (calendarGrid) calendarGrid.innerHTML = '';
+
             for(let i = 0; i < 6; i++) {
                 let dayNum = i + 1;
                 let cls = ''; let chk = '';
@@ -974,6 +968,24 @@
                         <div class="day-check" style="color: var(--text-main); margin-top:6px;">${chk}</div>
                     </div>
                 `;
+                // 🟢 NEW: Synchronize the Calendar Jump Modal buttons!
+                if (calendarGrid) {
+                    let isLocked = (i > currentDayIndex);
+                    let isActiveView = (i === window.currentViewingDayIndex); // Highlight the day they are currently looking at
+
+                    let bg = isActiveView ? 'var(--brand-light)' : 'var(--bg-main)';
+                    let border = isActiveView ? 'var(--brand)' : 'var(--border-light)';
+                    let textCol = isActiveView ? 'var(--brand)' : 'var(--text-main)';
+                    let cursor = isLocked ? 'not-allowed' : 'pointer';
+                    let opacity = isLocked ? '0.5' : '1';
+
+                    calendarGrid.innerHTML += `
+                        <button ${isLocked ? '' : `onclick="jumpToDay(${i})"`}
+                                style="padding: 14px; border-radius: 12px; border: 1px solid ${border}; background: ${bg}; color: ${textCol}; font-weight: bold; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 6px; cursor: ${cursor}; opacity: ${opacity};">
+                            Day ${dayNum} <span style="display:flex; align-items:center;">${chk}</span>
+                        </button>
+                    `;
+                }
             }
         }
 
@@ -1029,6 +1041,9 @@
                 let percentage = dayTotal > 0 ? (dayCompleted / dayTotal) * 100 : 0;
                 progressFill.style.width = `${percentage}%`;
             }
+            
+            // 🟢 Keep the Calendar highlight in sync when switching days!
+            updateDynamicTracker(); 
         }
 
         // 🟢 Hook for Left/Right Arrows
@@ -1545,9 +1560,28 @@
         // 6. TOP TIMER (IST BOUND)
         setInterval(() => {
             const ist = getIST();
+            
+            // 1. Define today's 4:30 PM drop time
+            const dropTime = new Date(ist);
+            dropTime.setHours(16, 30, 0, 0);
+            
+            // 2. Define end of the day (Midnight)
             const endOfDay = new Date(ist);
             endOfDay.setHours(23, 59, 59, 999);
-            const diff = endOfDay - ist;
+            
+            // 🟢 DYNAMIC TIMER LOGIC
+            let targetTime;
+            let isPreDrop = false;
+            
+            if (ist < dropTime) {
+                targetTime = dropTime; // Count down to 4:30 PM
+                isPreDrop = true;
+            } else {
+                targetTime = endOfDay; // Count down to Midnight
+                isPreDrop = false;
+            }
+            
+            const diff = targetTime - ist;
             
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
@@ -1556,15 +1590,25 @@
             const homeTimer = document.getElementById('home-timer');
             if (homeTimer) {
                 homeTimer.innerText = `${h} : ${m} : ${s}`;
-                // 🟢 Change color to Red (#e73b50) on Sunday (0) for urgency, otherwise default Violet
                 homeTimer.style.color = ist.getDay() === 0 ? '#e73b50' : 'var(--brand)';
+                
+                // 🟢 Update Home Timer Label automatically
+                const homeLabel = homeTimer.previousElementSibling?.querySelector('span');
+                if (homeLabel) {
+                    homeLabel.innerText = isPreDrop ? "Starts In" : "Time Left Today";
+                }
             }
             
             const detailTimer = document.getElementById('detail-timer');
             if (detailTimer) {
                 detailTimer.innerText = `${h} : ${m} : ${s}`;
-                // 🟢 Keep the Day Details timer perfectly synced with the Home timer
                 detailTimer.style.color = ist.getDay() === 0 ? '#e73b50' : 'var(--brand)';
+                
+                // 🟢 Update Day Detail Label automatically
+                const detailLabel = detailTimer.previousElementSibling;
+                if (detailLabel && detailLabel.tagName.toLowerCase() === 'p') {
+                    detailLabel.innerText = isPreDrop ? "Starts In" : "Time Left";
+                }
             }
             
             if (typeof examTimers !== 'undefined') {
