@@ -306,7 +306,7 @@
         <div class="top-header">
             <span></span>
             <span class="font-bold">Weekly Cup</span>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            <svg class="icon-btn" onclick="openProfile(appUserId)" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
         </div>
         
         <div class="card-main">
@@ -382,11 +382,11 @@
                 <div class="p-menu-right">›</div>
             </div>
             
-            <!-- 2. Global Elo Rankings -->
+            <!-- 2. Toppers' Rankings -->
             <div class="p-menu-item" onclick="openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
-                    <span>Global Elo Rankings</span>
+                    <span>Toppers' Rankings</span>
                 </div>
                 <div class="p-menu-right">›</div>
             </div>
@@ -1117,7 +1117,7 @@
                 const data = await response.json();
                 
                 window.masterQuizData = data.quizzes; // Save to global cache for the filter
-                updateDynamicTracker(); // 🟢 Instantly update tracker once data is fetched
+                updateDynamicTracker(); // Instantly update tracker once data is fetched
                 
                 let hasUnattemptedQuizzes = false; 
                 ['Today', 'Pending'].forEach(day => {
@@ -1128,16 +1128,30 @@
                     }
                 });
 
+                // 🟢 NEW: Editorial Notification Logic
+                const serverHour = data.server_hour || new Date().getHours();
+                const isSunday = data.server_day === 6; // 0 = Mon, 6 = Sun
+                const hasReadEditorial = data.has_read_editorial;
+                
+                // Only alert them if: It is NOT Sunday, they haven't read it, and it's past 11:00 AM
+                let needsToReadEditorial = !isSunday && !hasReadEditorial && serverHour >= 11;
+
                 const headerBell = document.getElementById('header-bell-badge');
-                if(hasUnattemptedQuizzes && headerBell) {
-                    headerBell.style.display = 'block';
-                    if (!activeNotifications.includes("📝 You have pending Topic Trials waiting to be attempted!")) {
+                if(hasUnattemptedQuizzes || needsToReadEditorial) {
+                    if (headerBell) headerBell.style.display = 'block';
+                    
+                    if (hasUnattemptedQuizzes && !activeNotifications.includes("📝 You have pending Topic Trials waiting to be attempted!")) {
                         activeNotifications.push("📝 You have pending Topic Trials waiting to be attempted!");
                     }
+                    
+                    if (needsToReadEditorial && !activeNotifications.includes("📰 Today's Editorials are up! Make sure to read them and mark your attendance in the group.")) {
+                        activeNotifications.push("📰 Today's Editorials are up! Make sure to read them and mark your attendance in the group.");
+                    }
+                    
                     if (typeof renderNotifications === 'function') renderNotifications();
                 }
 
-                // 🟢 Instantly trigger the timeline filter to show today's accurate data!
+                // Instantly trigger the timeline filter to show today's accurate data!
                 const ist = getIST();
                 let currentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
                 if (currentDayIndex > 5) currentDayIndex = 5; // Default to Saturday if looking on Sunday
@@ -1539,9 +1553,19 @@
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
             const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
             
-            document.getElementById('home-timer').innerText = `${h} : ${m} : ${s}`;
+            const homeTimer = document.getElementById('home-timer');
+            if (homeTimer) {
+                homeTimer.innerText = `${h} : ${m} : ${s}`;
+                // 🟢 Change color to Red (#e73b50) on Sunday (0) for urgency, otherwise default Violet
+                homeTimer.style.color = ist.getDay() === 0 ? '#e73b50' : 'var(--brand)';
+            }
+            
             const detailTimer = document.getElementById('detail-timer');
-            if(detailTimer) detailTimer.innerText = `${h} : ${m} : ${s}`;
+            if (detailTimer) {
+                detailTimer.innerText = `${h} : ${m} : ${s}`;
+                // 🟢 Keep the Day Details timer perfectly synced with the Home timer
+                detailTimer.style.color = ist.getDay() === 0 ? '#e73b50' : 'var(--brand)';
+            }
             
             if (typeof examTimers !== 'undefined') {
                 examTimers.forEach(timer => {
@@ -1586,6 +1610,13 @@
             if (typeof renderLeaderboardData === 'function') {
                 const originalRender = renderLeaderboardData;
                 window.renderLeaderboardData = function(data) {
+                    
+                    // 🟢 FIX: Securely inject Admin privileges into the raw server payload
+                    if (data && data.current_user) {
+                        const ADMIN_IDS = [716496729, 5103843488, 6251430317];
+                        data.current_user.is_admin = ADMIN_IDS.includes(appUserId);
+                    }
+
                     // 1. Let app_v8.js build the list normally
                     originalRender(data); 
                     
