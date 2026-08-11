@@ -871,8 +871,24 @@
             }
         }
 
-        // 🟢 FIX 1: NOTIFICATION LOGIC
+        // 🟢 MASTER NOTIFICATION ENGINE
+        window.appState = { quizzes: false, editorials: false, digest: false };
         let activeNotifications = [];
+
+        function syncGlobalNotifications() {
+            let alerts = [];
+            if (window.appState.quizzes) alerts.push("📝 You have pending Topic Trials waiting to be attempted!");
+            if (window.appState.editorials) alerts.push("📰 Today's Editorials are up! Make sure to read them and mark your attendance in the group.");
+            if (window.appState.digest) alerts.push("🌍 Today's Daily Digest insights have dropped!");
+            
+            activeNotifications = alerts;
+            
+            const headerBell = document.getElementById('header-bell-badge');
+            if (headerBell) headerBell.style.display = activeNotifications.length > 0 ? 'block' : 'none';
+            
+            if (typeof renderNotifications === 'function') renderNotifications();
+        }
+
         function renderNotifications() {
             const list = document.getElementById('notifications-list');
             if(activeNotifications.length === 0) {
@@ -1274,8 +1290,8 @@
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`);
                 const data = await response.json();
                 
-                window.masterQuizData = data.quizzes; // Save to global cache for the filter
-                updateDynamicTracker(); // Instantly update tracker once data is fetched
+                window.masterQuizData = data.quizzes; 
+                updateDynamicTracker(); 
                 
                 let hasUnattemptedQuizzes = false; 
                 ['Today', 'Pending'].forEach(day => {
@@ -1286,44 +1302,20 @@
                     }
                 });
 
-                // 🟢 NEW: Editorial Notification Logic
                 const serverHour = data.server_hour || new Date().getHours();
-                const isSunday = data.server_day === 6; // 0 = Mon, 6 = Sun
+                const isSunday = data.server_day === 6; 
                 const hasReadEditorial = data.has_read_editorial;
                 
-                // Only alert them if: It is NOT Sunday, they haven't read it, and it's past 11:00 AM
                 let needsToReadEditorial = !isSunday && !hasReadEditorial && serverHour >= 11;
 
-                // 🟢 SMART NOTIFICATION SYNC LOGIC
-                const quizMsg = "📝 You have pending Topic Trials waiting to be attempted!";
-                const editMsg = "📰 Today's Editorials are up! Make sure to read them and mark your attendance in the group.";
+                // 🟢 Sync to Master Notification Engine
+                window.appState.quizzes = hasUnattemptedQuizzes;
+                window.appState.editorials = needsToReadEditorial;
+                syncGlobalNotifications();
 
-                // Check Quizzes
-                if (hasUnattemptedQuizzes) {
-                    if (!activeNotifications.includes(quizMsg)) activeNotifications.push(quizMsg);
-                } else {
-                    activeNotifications = activeNotifications.filter(msg => msg !== quizMsg);
-                }
-
-                // Check Editorials
-                if (needsToReadEditorial) {
-                    if (!activeNotifications.includes(editMsg)) activeNotifications.push(editMsg);
-                } else {
-                    activeNotifications = activeNotifications.filter(msg => msg !== editMsg);
-                }
-
-                // Globally Update the Header Bell Icon
-                const headerBell = document.getElementById('header-bell-badge');
-                if (headerBell) {
-                    headerBell.style.display = activeNotifications.length > 0 ? 'block' : 'none';
-                }
-
-                if (typeof renderNotifications === 'function') renderNotifications();
-
-                // Instantly trigger the timeline filter to show today's accurate data!
                 const ist = getIST();
                 let currentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
-                if (currentDayIndex > 5) currentDayIndex = 5; // Default to Saturday if looking on Sunday
+                if (currentDayIndex > 5) currentDayIndex = 5; 
                 filterByDay(currentDayIndex);
 
             } catch (error) {
@@ -1754,7 +1746,6 @@
                     let hasUnread = false;
                     
                     data.items.forEach(item => {
-                        // If ANY item is unread, trigger the flag
                         if (!item.is_read) hasUnread = true;
                         
                         const badgeHtml = !item.is_read ? `<div style="width: 10px; height: 10px; background: #e73b50; border-radius: 50%;"></div>` : '';
@@ -1779,31 +1770,12 @@
                         `;
                     });
                     
-                    // 1. Update the bottom navigation badge
                     const navBadge = document.getElementById('digest-badge');
                     if(navBadge) navBadge.style.display = hasUnread ? 'block' : 'none';
                     
-                    // 2. SMART NOTIFICATION LOGIC
-                    const digestMsg = "🌍 Today's Daily Digest insights have dropped!";
-                    
-                    if (hasUnread) {
-                        // Add notification if it's not already there
-                        if (!activeNotifications.includes(digestMsg)) {
-                            activeNotifications.push(digestMsg);
-                        }
-                    } else {
-                        // REMOVE the notification once both are read!
-                        activeNotifications = activeNotifications.filter(msg => msg !== digestMsg);
-                    }
-
-                    // 3. Safely update the global Bell Icon based on ALL active notifications (Quizzes + Digest)
-                    const headerBell = document.getElementById('header-bell-badge');
-                    if (headerBell) {
-                        headerBell.style.display = activeNotifications.length > 0 ? 'block' : 'none';
-                    }
-
-                    // 4. Re-render the notification list modal
-                    if (typeof renderNotifications === 'function') renderNotifications();
+                    // 🟢 Sync to Master Notification Engine
+                    window.appState.digest = hasUnread;
+                    syncGlobalNotifications();
                 }
             } catch (err) {
                 console.error("Failed to load digest", err);
