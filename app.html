@@ -183,6 +183,149 @@
         #footer { 
             display: none !important; 
         }
+
+        /* ==========================================
+           DAILY DIGEST ENHANCEMENT STYLES
+           ========================================== */
+        
+        .digest-date-banner {
+            background: linear-gradient(135deg, var(--brand-light), #f0edff);
+            border: 1px solid rgba(90, 50, 250, 0.15);
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin: 10px 20px 20px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .digest-date-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--brand);
+        }
+        .digest-date-value {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 2px;
+        }
+        
+        .digest-reader-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 20px;
+        }
+        
+        .digest-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-lang { background: #e0f2fe; color: #0369a1; }
+        .badge-pos { background: #fef3c7; color: #92400e; }
+        .badge-connotation { background: #f3e8ff; color: #6b21a8; }
+        .badge-audio { 
+            background: #f1f5f9; 
+            color: #475569; 
+            font-family: monospace; 
+            font-size: 12px; 
+            white-space: nowrap; 
+            flex-shrink: 0; 
+        }
+        
+        .trick-box {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            font-size: 13px;
+            color: #78350f;
+            line-height: 1.5;
+        }
+        
+        .meaning-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 14px;
+            margin: 10px 0;
+        }
+        .meaning-main {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+        .meaning-hindi {
+            font-size: 13px;
+            color: var(--brand);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+        
+        .editorial-quote-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: #1e40af;
+            line-height: 1.6;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .tag-item {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 8px;
+        }
+        .tag-synonym { background: #d1fae5; color: #065f46; }
+        .tag-antonym { background: #fee2e2; color: #991b1b; }
+        
+        .card-index-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 26px;
+            height: 26px;
+            background: var(--brand-light);
+            color: var(--brand);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
     </style>
 </head>
 <body>
@@ -351,7 +494,7 @@
         <div class="top-header">
             <span></span>
             <span class="font-bold">Profile</span>
-            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg class="icon-btn" onclick="openSubModal('settingsModalOverlay')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         </div>
 
         <!-- Avatar & Name -->
@@ -391,7 +534,7 @@
             <div class="p-menu-item" onclick="openSubModal('archiveModalOverlay')">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    <span>Quiz History (Weekly Archive)</span>
+                    <span>Weekly-Cup Results (Archive)</span>
                 </div>
                 <div class="p-menu-right">›</div>
             </div>
@@ -414,15 +557,6 @@
                 <div class="p-menu-right">›</div>
             </div>
 
-            <!-- 6. Settings -->
-            <div class="p-menu-item" onclick="openSubModal('settingsModalOverlay')">
-                <div class="p-menu-left">
-                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    <span>Settings</span>
-                </div>
-                <div class="p-menu-right">›</div>
-            </div>
-
             <!-- 7. Privacy Policy -->
             <div class="p-menu-item" onclick="window.location.href='privacy.html'">
                 <div class="p-menu-left">
@@ -432,8 +566,8 @@
                 <div class="p-menu-right">›</div>
             </div>
 
-            <!-- 8. Help & Support (From Mockup Image) -->
-            <div class="p-menu-item" onclick="alert('Help & Support feature coming soon!')">
+            <!-- 8. Help & Support -->
+            <div class="p-menu-item" onclick="tgApp.openTelegramLink('https://t.me/ezeditorialgroup/12103')">
                 <div class="p-menu-left">
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                     <span>Help & Support</span>
@@ -530,7 +664,16 @@
             <span></span>
         </div>
         
-        <div id="digest-tiles-container" style="padding: 10px 20px;">
+        <!-- Dynamic Date Banner -->
+        <div class="digest-date-banner">
+            <div>
+                <div class="digest-date-title">Today's Dispatch</div>
+                <div class="digest-date-value" id="digest-current-date">Loading date...</div>
+            </div>
+            <span style="font-size: 24px;">📰</span>
+        </div>
+        
+        <div id="digest-tiles-container" style="padding: 0 20px;">
             <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading digest...</p>
         </div>
     </div>
@@ -1151,20 +1294,31 @@
                 // Only alert them if: It is NOT Sunday, they haven't read it, and it's past 11:00 AM
                 let needsToReadEditorial = !isSunday && !hasReadEditorial && serverHour >= 11;
 
-                const headerBell = document.getElementById('header-bell-badge');
-                if(hasUnattemptedQuizzes || needsToReadEditorial) {
-                    if (headerBell) headerBell.style.display = 'block';
-                    
-                    if (hasUnattemptedQuizzes && !activeNotifications.includes("📝 You have pending Topic Trials waiting to be attempted!")) {
-                        activeNotifications.push("📝 You have pending Topic Trials waiting to be attempted!");
-                    }
-                    
-                    if (needsToReadEditorial && !activeNotifications.includes("📰 Today's Editorials are up! Make sure to read them and mark your attendance in the group.")) {
-                        activeNotifications.push("📰 Today's Editorials are up! Make sure to read them and mark your attendance in the group.");
-                    }
-                    
-                    if (typeof renderNotifications === 'function') renderNotifications();
+                // 🟢 SMART NOTIFICATION SYNC LOGIC
+                const quizMsg = "📝 You have pending Topic Trials waiting to be attempted!";
+                const editMsg = "📰 Today's Editorials are up! Make sure to read them and mark your attendance in the group.";
+
+                // Check Quizzes
+                if (hasUnattemptedQuizzes) {
+                    if (!activeNotifications.includes(quizMsg)) activeNotifications.push(quizMsg);
+                } else {
+                    activeNotifications = activeNotifications.filter(msg => msg !== quizMsg);
                 }
+
+                // Check Editorials
+                if (needsToReadEditorial) {
+                    if (!activeNotifications.includes(editMsg)) activeNotifications.push(editMsg);
+                } else {
+                    activeNotifications = activeNotifications.filter(msg => msg !== editMsg);
+                }
+
+                // Globally Update the Header Bell Icon
+                const headerBell = document.getElementById('header-bell-badge');
+                if (headerBell) {
+                    headerBell.style.display = activeNotifications.length > 0 ? 'block' : 'none';
+                }
+
+                if (typeof renderNotifications === 'function') renderNotifications();
 
                 // Instantly trigger the timeline filter to show today's accurate data!
                 const ist = getIST();
@@ -1366,7 +1520,229 @@
         // --- MASTER SPEC: SECTION 5 (Daily Digest & Read Tracking) ---
         let digestItems = [];
 
+        // 1. Set Date Banner
+        function updateDigestDate() {
+            const ist = getIST();
+            const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            const dateEl = document.getElementById('digest-current-date');
+            if (dateEl) dateEl.innerText = ist.toLocaleDateString('en-GB', options);
+        }
+
+        // 2. Parse WOTD String (Fixed Parser)
+        function parseWOTDString(rawText) {
+            const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
+            const data = {
+                word: '', pos: '', connotation: '', pronunciation: '',
+                mnemonic: '', meaning: '', hindiMeaning: '', synonyms: [], antonyms: [], context: ''
+            };
+
+            let currentKey = '';
+
+            lines.forEach(line => {
+                if (line.includes('WORD OF THE DAY')) return;
+
+                // FIX: Strictly grab the Word and POS, ignoring the meaning line
+                if (!data.word && line.includes('(') && line.includes(')') && !line.startsWith('📝') && !line.startsWith('💡')) {
+                    const match = line.match(/^([^(]+)\(([^)]+)\)\s*([+−=−-]?)/);
+                    if (match) {
+                        data.word = match[1].trim();
+                        data.pos = match[2].trim();
+                        data.connotation = match[3] ? match[3].trim() : '';
+                        return;
+                    }
+                }
+
+                if (line.startsWith('🔊')) {
+                    data.pronunciation = line.replace('🔊', '').trim();
+                    return;
+                }
+
+                if (line.includes('💡 Think of')) {
+                    currentKey = 'mnemonic';
+                    const rest = line.replace('💡 Think of', '').trim();
+                    if (rest) data.mnemonic = rest;
+                    return;
+                }
+
+                if (line.startsWith('📝')) {
+                    currentKey = 'meaning';
+                    const content = line.replace('📝', '').trim();
+                    const hindiMatch = content.match(/\(([^)]+)\)$/);
+                    if (hindiMatch) {
+                        data.hindiMeaning = hindiMatch[1].trim();
+                        data.meaning = content.replace(/\([^)]+\)$/, '').trim();
+                    } else {
+                        data.meaning = content;
+                    }
+                    return;
+                }
+
+                if (line.startsWith('🔄')) {
+                    currentKey = 'synonyms';
+                    data.synonyms = line.replace('🔄', '').split(/•|,/).map(s => s.trim()).filter(Boolean);
+                    return;
+                }
+
+                if (line.startsWith('↔️')) {
+                    currentKey = 'antonyms';
+                    data.antonyms = line.replace('↔️', '').split(/•|,/).map(s => s.trim()).filter(Boolean);
+                    return;
+                }
+
+                if (line.includes('📍 Where you\'ll hear it')) {
+                    currentKey = 'context';
+                    return;
+                }
+
+                if (currentKey === 'mnemonic') data.mnemonic += ' ' + line;
+                else if (currentKey === 'context') data.context += ' ' + line;
+            });
+
+            return data;
+        }
+
+        // 3. Parse Foreign Expressions (Fixed Unicode Glitch)
+        function parseForeignExpressionsString(rawText) {
+            const blocks = rawText.split(/(?=\d+[\uFE0F\u20E3\u20E0]?\u20E3?|\d+\.)/).filter(b => b.trim().length > 0);
+            const items = [];
+
+            blocks.forEach(block => {
+                const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+                if (lines.length === 0 || lines[0].includes('FOREIGN EXPRESSIONS')) return;
+
+                const item = { expression: '', language: 'Foreign', pronunciation: '', meaning: '', hindiMeaning: '', example: '' };
+
+                lines.forEach(line => {
+                    // FIX: Safely extract the expression while destroying all emojis/numbers
+                    const headerMatch = line.match(/([a-zA-ZÀ-ÿ\s'-]+)\s*\(([^)]+)\)/);
+                    if (headerMatch && !item.expression) {
+                        item.expression = headerMatch[1].replace(/^[^a-zA-Z]+/, '').trim();
+                        item.language = headerMatch[2].trim();
+                        return;
+                    }
+
+                    if (line.startsWith('🔊')) {
+                        item.pronunciation = line.replace('🔊', '').trim();
+                        return;
+                    }
+
+                    if (line.startsWith('💡')) {
+                        item.meaning = line.replace('💡', '').trim();
+                        return;
+                    }
+
+                    if (line.startsWith('(') && line.endsWith(')')) {
+                        item.hindiMeaning = line.replace(/^\(|\)$/g, '').trim();
+                        return;
+                    }
+
+                    if (line.startsWith('📰')) {
+                        item.example = line.replace('📰', '').trim();
+                        return;
+                    }
+
+                    if (item.meaning && !item.example && !line.startsWith('🔊')) {
+                        item.meaning += ' ' + line;
+                    }
+                });
+
+                if (item.expression) items.push(item);
+            });
+
+            return items;
+        }
+
+        // 4. Build WOTD HTML (Fixed Title Wrapping)
+        function buildWOTDCardHTML(wotd) {
+            return `
+                <div class="digest-card">
+                    <!-- Added flex-wrap: wrap so the audio pill safely drops to the next line if space is tight -->
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 12px; gap: 12px; flex-wrap: wrap;">
+                        <div style="flex: 1 1 auto; min-width: 0;">
+                            <!-- Removed the aggressive word-break property -->
+                            <h2 style="font-size: 24px; font-weight: 800; color: var(--brand); margin:0; overflow-wrap: break-word;">${wotd.word || "Word of the Day"}</h2>
+                            <div style="display:flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
+                                ${wotd.pos ? `<span class="badge-pill badge-pos">${wotd.pos}</span>` : ''}
+                                ${wotd.connotation ? `<span class="badge-pill badge-connotation">${wotd.connotation}</span>` : ''}
+                            </div>
+                        </div>
+                        ${wotd.pronunciation ? `<span class="badge-pill badge-audio">🔊 ${wotd.pronunciation}</span>` : ''}
+                    </div>
+
+                    ${wotd.mnemonic ? `
+                        <div class="trick-box">
+                            <strong>💡 Mnemonic Trick:</strong><br/>
+                            ${wotd.mnemonic}
+                        </div>
+                    ` : ''}
+
+                    <div class="meaning-box">
+                        <div class="meaning-main">${wotd.meaning}</div>
+                        ${wotd.hindiMeaning ? `<div class="meaning-hindi">${wotd.hindiMeaning}</div>` : ''}
+                    </div>
+
+                    ${wotd.synonyms.length ? `
+                        <div style="margin-top: 12px;">
+                            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Synonyms (British English)</span>
+                            <div class="tag-group">
+                                ${wotd.synonyms.map(s => `<span class="tag-item tag-synonym">${s}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${wotd.antonyms.length ? `
+                        <div style="margin-top: 10px;">
+                            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Antonyms</span>
+                            <div class="tag-group">
+                                ${wotd.antonyms.map(a => `<span class="tag-item tag-antonym">${a}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${wotd.context ? `
+                        <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted);">
+                            <strong>📍 Exam Context:</strong> ${wotd.context}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // 5. Build Foreign Cards HTML (Fixed Flag Glitch and Audio Styling)
+        function buildForeignCardsHTML(expressions) {
+            if (!expressions || expressions.length === 0) {
+                return `<p style="text-align:center; color:var(--text-muted);">No expressions available today.</p>`;
+            }
+
+            return expressions.map((exp, idx) => `
+                <div class="digest-card" style="margin-bottom: 14px;">
+                    <div class="card-index-badge">#${idx + 1}</div>
+                    <div style="margin-bottom: 12px;">
+                        <span class="badge-pill badge-lang">${exp.language}</span>
+                        <h3 style="font-size: 20px; font-weight: 800; color: var(--text-main); margin: 6px 0 6px 0;">${exp.expression}</h3>
+                        ${exp.pronunciation ? `<span class="badge-pill badge-audio">🔊 ${exp.pronunciation}</span>` : ''}
+                    </div>
+
+                    <div class="meaning-box">
+                        <div class="meaning-main">${exp.meaning}</div>
+                        ${exp.hindiMeaning ? `<div class="meaning-hindi">${exp.hindiMeaning}</div>` : ''}
+                    </div>
+
+                    ${exp.example ? `
+                        <div class="editorial-quote-box">
+                            <span style="font-size: 16px;">📰</span>
+                            <div style="flex: 1;">
+                                <strong style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Editorial Application</strong>
+                                "${exp.example}"
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
         async function loadDailyDigest() {
+            updateDigestDate();
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/digest/today?user_id=${appUserId}`);
                 const data = await response.json();
@@ -1378,6 +1754,7 @@
                     let hasUnread = false;
                     
                     data.items.forEach(item => {
+                        // If ANY item is unread, trigger the flag
                         if (!item.is_read) hasUnread = true;
                         
                         const badgeHtml = !item.is_read ? `<div style="width: 10px; height: 10px; background: #e73b50; border-radius: 50%;"></div>` : '';
@@ -1402,18 +1779,31 @@
                         `;
                     });
                     
+                    // 1. Update the bottom navigation badge
                     const navBadge = document.getElementById('digest-badge');
                     if(navBadge) navBadge.style.display = hasUnread ? 'block' : 'none';
-                    const headerBell = document.getElementById('header-bell-badge');
-                    if(headerBell) {
-                        headerBell.style.display = hasUnread ? 'block' : 'none';
-                        if (hasUnread) {
-                            if (!activeNotifications.includes("🌍 Today's Daily Digest insights have dropped!")) {
-                                activeNotifications.push("🌍 Today's Daily Digest insights have dropped!");
-                            }
-                            if (typeof renderNotifications === 'function') renderNotifications();
+                    
+                    // 2. SMART NOTIFICATION LOGIC
+                    const digestMsg = "🌍 Today's Daily Digest insights have dropped!";
+                    
+                    if (hasUnread) {
+                        // Add notification if it's not already there
+                        if (!activeNotifications.includes(digestMsg)) {
+                            activeNotifications.push(digestMsg);
                         }
+                    } else {
+                        // REMOVE the notification once both are read!
+                        activeNotifications = activeNotifications.filter(msg => msg !== digestMsg);
                     }
+
+                    // 3. Safely update the global Bell Icon based on ALL active notifications (Quizzes + Digest)
+                    const headerBell = document.getElementById('header-bell-badge');
+                    if (headerBell) {
+                        headerBell.style.display = activeNotifications.length > 0 ? 'block' : 'none';
+                    }
+
+                    // 4. Re-render the notification list modal
+                    if (typeof renderNotifications === 'function') renderNotifications();
                 }
             } catch (err) {
                 console.error("Failed to load digest", err);
@@ -1425,19 +1815,25 @@
             if (!item) return;
             
             document.getElementById('digestModalTitle').innerText = item.title;
+            const bodyEl = document.getElementById('digestModalBody');
             
-            // 1. Force String and Escape raw HTML to prevent crashes
-            let safeContent = String(item.content || "Content unavailable.");
-            safeContent = safeContent.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            // Format Content based on type
+            if (id === 'wotd') {
+                const parsedWOTD = parseWOTDString(item.content);
+                bodyEl.innerHTML = buildWOTDCardHTML(parsedWOTD);
+                bodyEl.style.background = 'transparent'; // Remove the old gray background
+                bodyEl.style.border = 'none';
+                bodyEl.style.padding = '0';
+            } else if (id === 'foreign') {
+                const parsedExpressions = parseForeignExpressionsString(item.content);
+                bodyEl.innerHTML = buildForeignCardsHTML(parsedExpressions);
+                bodyEl.style.background = 'transparent'; 
+                bodyEl.style.border = 'none';
+                bodyEl.style.padding = '0';
+            } else {
+                bodyEl.innerText = item.content; // Fallback
+            }
             
-            // 2. Safe Regex Parsing (No unsupported flags)
-            let formattedContent = safeContent
-                .replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--brand);">$1</strong>') // Bold
-                .replace(/\*(.*?)\*/g, '<em>$1</em>') // Italics
-                .replace(/^[•\-]\s+(.*)$/gm, '<li style="margin-left: 20px; margin-bottom: 6px;">$1</li>') // Bullets
-                .replace(/\n/g, '<br/>'); // Line breaks
-                
-            document.getElementById('digestModalBody').innerHTML = formattedContent;
             document.getElementById('digestModalOverlay').style.display = 'flex';
             document.body.style.overflow = 'hidden'; 
             
@@ -1452,11 +1848,10 @@
             }
         }
         
-        // Don't forget to unlock scrolling when closed!
         function closeDigestModal(e, force=false) {
             if (force || e.target.id === 'digestModalOverlay') {
                 document.getElementById('digestModalOverlay').style.display = 'none';
-                document.body.style.overflow = ''; // Unlock scrolling
+                document.body.style.overflow = ''; 
             }
         }
 

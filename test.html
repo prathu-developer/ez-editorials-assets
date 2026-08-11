@@ -823,8 +823,14 @@
 
         function openPalette() {
             triggerHaptic('medium');
-            updatePaletteColors();
-            document.getElementById('palette-modal').style.display = 'flex';
+            
+            // 🟢 FIX: Route to the correct modal based on the mode!
+            if (isReviewMode) {
+                openReviewPalette(); 
+            } else {
+                updatePaletteColors();
+                document.getElementById('palette-modal').style.display = 'flex';
+            }
         }
         
         function openSettingsModal() {
