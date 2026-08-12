@@ -1,0 +1,259 @@
+/*
+ * Ez Editorials — UI Foundation v1
+ *
+ * Purpose: establish a consistent premium visual system without replacing
+ * existing screens or changing application behaviour.
+ */
+
+:root {
+    --ez-brand: #5a32fa;
+    --ez-brand-strong: #4820e8;
+    --ez-brand-soft: #f0edff;
+    --ez-bg: #f7f7fb;
+    --ez-surface: #ffffff;
+    --ez-surface-soft: #fafaff;
+    --ez-text: #111827;
+    --ez-text-secondary: #4b5563;
+    --ez-text-muted: #8a919d;
+    --ez-border: #e9eaf0;
+    --ez-border-strong: #dfe1e8;
+    --ez-success: #0f9f6e;
+    --ez-success-soft: #e8f8f1;
+    --ez-danger: #dc4b5f;
+    --ez-danger-soft: #fff0f2;
+    --ez-warning: #b7791f;
+    --ez-warning-soft: #fff8e7;
+    --ez-info: #2563eb;
+    --ez-info-soft: #edf4ff;
+
+    --ez-radius-sm: 10px;
+    --ez-radius-md: 14px;
+    --ez-radius-lg: 18px;
+    --ez-radius-xl: 22px;
+
+    --ez-shadow-sm: 0 1px 2px rgba(17, 24, 39, .03), 0 3px 10px rgba(17, 24, 39, .025);
+    --ez-shadow-md: 0 8px 24px rgba(17, 24, 39, .06);
+    --ez-shadow-focus: 0 0 0 3px rgba(90, 50, 250, .14);
+
+    --ez-ease: cubic-bezier(.2, .8, .2, 1);
+    --ez-fast: 160ms;
+    --ez-normal: 220ms;
+}
+
+/* ---------- Global foundation ---------- */
+html {
+    background: var(--ez-bg);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    background: var(--ez-bg) !important;
+    color: var(--ez-text) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+[role="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: none;
+    box-shadow: var(--ez-shadow-focus) !important;
+}
+
+::selection {
+    background: rgba(90, 50, 250, .16);
+    color: var(--ez-text);
+}
+
+/* ---------- Consistent surfaces ---------- */
+.card-main,
+.quiz-item,
+.coming-soon,
+.modal-content,
+.bottom-sheet {
+    border-color: var(--ez-border) !important;
+}
+
+.card-main {
+    border-radius: var(--ez-radius-xl) !important;
+    box-shadow: var(--ez-shadow-sm) !important;
+}
+
+.quiz-item {
+    border-radius: var(--ez-radius-md) !important;
+    transition: transform var(--ez-fast) var(--ez-ease),
+                border-color var(--ez-fast) ease,
+                box-shadow var(--ez-fast) ease,
+                background-color var(--ez-fast) ease;
+}
+
+.quiz-item:active {
+    transform: scale(.985);
+}
+
+/* ---------- Primary action language ---------- */
+.btn-massive,
+.btn-main,
+button.btn-main,
+button[type="submit"] {
+    border-radius: var(--ez-radius-md) !important;
+    min-height: 48px;
+    font-weight: 650 !important;
+    letter-spacing: -.01em;
+    transition: transform var(--ez-fast) var(--ez-ease),
+                box-shadow var(--ez-fast) ease,
+                filter var(--ez-fast) ease;
+}
+
+.btn-massive {
+    background: var(--ez-brand) !important;
+    box-shadow: 0 6px 16px rgba(90, 50, 250, .18) !important;
+}
+
+.btn-massive:active,
+.btn-main:active,
+button[type="submit"]:active {
+    transform: scale(.985);
+}
+
+/* ---------- Typography hierarchy ---------- */
+.greeting-title {
+    letter-spacing: -.025em;
+}
+
+.days-title,
+.quiz-item h3,
+.coming-soon h3 {
+    letter-spacing: -.015em;
+}
+
+.text-muted,
+.time-left-sm p,
+.quiz-item p,
+.stat-col p {
+    color: var(--ez-text-muted) !important;
+}
+
+/* ---------- Progress / status language ---------- */
+.status-attempted {
+    color: var(--ez-success) !important;
+}
+
+.status-start {
+    color: var(--ez-brand) !important;
+}
+
+.status-locked {
+    color: var(--ez-text-muted) !important;
+}
+
+.track {
+    background: #ececf2 !important;
+    height: 7px !important;
+}
+
+.fill {
+    background: var(--ez-brand) !important;
+}
+
+/* ---------- Bottom navigation ---------- */
+.bottom-nav {
+    border: 1px solid rgba(17, 24, 39, .06) !important;
+    box-shadow: 0 -6px 24px rgba(17, 24, 39, .07) !important;
+}
+
+/* ---------- Soft, intentional motion ---------- */
+@keyframes ez-fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.view-container.active {
+    animation: ez-fade-up 220ms var(--ez-ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ---------- Dark theme foundation ---------- */
+body.dark-mode {
+    --ez-bg: #101116;
+    --ez-surface: #181a21;
+    --ez-surface-soft: #1d1f27;
+    --ez-text: #f5f5f7;
+    --ez-text-secondary: #c2c5ce;
+    --ez-text-muted: #969aa6;
+    --ez-border: #2b2e38;
+    --ez-border-strong: #383b47;
+    --ez-brand-soft: #282143;
+    --ez-success-soft: #123126;
+    --ez-danger-soft: #351c22;
+    --ez-warning-soft: #342a16;
+    --ez-info-soft: #182a48;
+    background: var(--ez-bg) !important;
+    color: var(--ez-text) !important;
+}
+
+body.dark-mode .card-main,
+body.dark-mode .quiz-item,
+body.dark-mode .coming-soon,
+body.dark-mode .bottom-sheet,
+body.dark-mode .modal-content {
+    background: var(--ez-surface) !important;
+    border-color: var(--ez-border) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18) !important;
+}
+
+body.dark-mode .quiz-item:active {
+    background: var(--ez-surface-soft) !important;
+}
+
+body.dark-mode .track {
+    background: #2b2e38 !important;
+}
+
+/* ---------- Safe-area handling for modern phones ---------- */
+.view-container {
+    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+}
+
+.bottom-nav {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Keep the foundation quiet on very small screens. */
+@media (max-width: 360px) {
+    .top-header { padding-left: 16px !important; padding-right: 16px !important; }
+    .greeting-section { padding-left: 16px !important; padding-right: 16px !important; }
+    .card-main { margin-left: 16px !important; margin-right: 16px !important; }
+    .quiz-list { padding-left: 16px !important; padding-right: 16px !important; }
+}
