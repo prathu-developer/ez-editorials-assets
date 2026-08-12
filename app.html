@@ -510,10 +510,13 @@
         </div>
         
         <!-- Clean Stats Row -->
-        <div class="profile-stats-row">
+        <div class="profile-stats-row" style="position: relative;">
             <div class="profile-stat-box"><span class="p-stat-label">Rank</span><span class="p-stat-value text-brand" id="profile-rank">#--</span></div>
             <div class="profile-stat-div"></div>
             <div class="profile-stat-box"><span class="p-stat-label">Score</span><span class="p-stat-value" id="profile-score">--</span></div>
+            
+            <!-- NEW: League Badge Container (Far Right) -->
+            <div id="profile-league-container" style="position: absolute; right: 0; bottom: 32px; font-size: 16px; display: none;"></div>
         </div>
         
         <!-- The Sleek List Menu -->
@@ -1343,7 +1346,7 @@
         // --- NEW: ACTUAL HISTORY-BASED TRACKER ---
         function updateDynamicTracker() {
             const ist = getIST();
-            let currentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
+            let liveDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
             
             const daysRow = document.querySelector('.days-row');
             if(!daysRow) return;
@@ -1351,10 +1354,8 @@
             
             const svgCheck = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
             const svgLock = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
-            // 🟢 NEW: Clean Monochrome Clock Icon for Pending
             const svgPending = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`; 
 
-            // 🟢 FIX: Prevent assigning ticks before the API finishes loading
             let isDataLoaded = !!window.masterQuizData;
             let allQuizzes = isDataLoaded ? [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])] : [];
 
@@ -1367,9 +1368,9 @@
                 
                 let dayQuizzes = allQuizzes.filter(q => q.day_num === dayNum);
                 
-                if (i < currentDayIndex) {
+                // 1. Set the Icons (Ticks, Locks, Pending) based on the REAL clock
+                if (i < liveDayIndex) {
                     if (!isDataLoaded) {
-                        // Keep blank until server confirms status
                         cls = ''; chk = ''; 
                     } else {
                         let hasUnfinished = dayQuizzes.some(q => q.status !== 'completed');
@@ -1379,14 +1380,18 @@
                             cls = 'done'; chk = svgCheck;
                         }
                     }
-                } else if (i === currentDayIndex) {
-                    cls = 'active'; 
+                } else if (i === liveDayIndex) {
                     if (isDataLoaded) {
                         let allFinished = dayQuizzes.length > 0 && dayQuizzes.every(q => q.status === 'completed');
                         chk = allFinished ? svgCheck : '';
                     }
                 } else {
                     cls = ''; chk = svgLock; 
+                }
+
+                // 2. 🟢 FORCE the purple background highlight to match the day the user clicked!
+                if (i === window.currentViewingDayIndex) {
+                    cls = 'active';
                 }
                 
                 daysRow.innerHTML += `
@@ -1395,10 +1400,10 @@
                         <div class="day-check" style="color: var(--text-main); margin-top:6px;">${chk}</div>
                     </div>
                 `;
-                // 🟢 NEW: Synchronize the Calendar Jump Modal buttons!
+
                 if (calendarGrid) {
-                    let isLocked = (i > currentDayIndex);
-                    let isActiveView = (i === window.currentViewingDayIndex); // Highlight the day they are currently looking at
+                    let isLocked = (i > liveDayIndex);
+                    let isActiveView = (i === window.currentViewingDayIndex); 
 
                     let bg = isActiveView ? 'var(--brand-light)' : 'var(--bg-main)';
                     let border = isActiveView ? 'var(--brand)' : 'var(--border-light)';
@@ -1528,6 +1533,17 @@
                     if (profileRank) profileRank.innerText = `#${cu.rank || 'N/A'}`;
                     const profileScore = document.getElementById('profile-score');
                     if (profileScore) profileScore.innerText = cu.score || 0;
+                    
+                    // 🟢 NEW: Sync League Badge
+                    const profileLeague = document.getElementById('profile-league-container');
+                    if (profileLeague) {
+                        if (cu.league > 0) {
+                            profileLeague.innerHTML = getLeagueBadgeHTML(cu.league);
+                            profileLeague.style.display = 'block';
+                        } else {
+                            profileLeague.style.display = 'none'; // Hide if Unranked
+                        }
+                    }
                     
                     // 3. Update Progress Tab (Leave this existing code intact)
                     const progressStats = document.querySelector('#view-progress .card-main');
@@ -1708,6 +1724,47 @@
                 const container = document.getElementById('profile-exams-container');
                 
                 if (data.exams && data.exams.length > 0) {
+                    
+                    // 🟢 NEW: Filter exams based on Target Exam Selection
+                    const targetExam = localStorage.getItem('user_exam');
+                    const categoryMapping = {
+                        'SSC': ['SSC'],
+                        'Bank': ['IBPS', 'SBI'],
+                        'RBI': ['RBI'],
+                        'Ins': ['LIC', 'NIACL', 'NICL', 'UIIC', 'GIC'],
+                        'Reg': ['SEBI', 'NABARD', 'IRDAI', 'PFRDA', 'IFSCA'],
+                        'EPFO': ['EPFO', 'ESIC'],
+                        'Intel': ['IB ACIO'],
+                        'FCI': ['FCI'],
+                        'Rail': ['RRB NTPC'],
+                        'Def': ['CDS', 'AFCAT', 'CAPF'],
+                        'UPSC': ['UPSC Civil'],
+                        'PSC': ['PSC']
+                    };
+
+                    let displayExams = data.exams;
+                    
+                    // Apply filter if the user has selected a target
+                    if (targetExam && categoryMapping[targetExam]) {
+                        const allowedPrefixes = categoryMapping[targetExam];
+                        displayExams = data.exams.filter(exam => {
+                            return allowedPrefixes.some(prefix => exam.name.startsWith(prefix));
+                        });
+                    }
+
+                    // 🟢 NEW: If filter leaves the list empty, show a friendly message
+                    if (displayExams.length === 0) {
+                        container.innerHTML = `
+                            <div style="text-align:center; padding: 30px 20px;">
+                                <span style="font-size: 32px;">📭</span>
+                                <h3 style="margin: 12px 0 4px 0; font-size: 16px; color: var(--text-main);">No Exams Found</h3>
+                                <p style="font-size: 13px; color: var(--text-muted);">No upcoming exams scheduled for your targeted category (${targetExam}).</p>
+                                <button onclick="closeSubModal(null, 'examsModalOverlay', true); setTimeout(() => openSubModal('targetModalOverlay'), 100);" style="margin-top: 16px; padding: 10px 16px; border-radius: 8px; background: var(--brand-light); color: var(--brand); border: none; font-size: 13px; font-weight: 700; cursor: pointer;">Change Target Exam</button>
+                            </div>
+                        `;
+                        return;
+                    }
+
                     let upcomingHtml = '';
                     let pastHtml = '';
                     examTimers = []; 
@@ -1716,7 +1773,8 @@
                     const istNow = getIST();
                     istNow.setHours(0,0,0,0);
                     
-                    data.exams.forEach((exam, index) => {
+                    // 🟢 FIX: Loop over 'displayExams' instead of 'data.exams'
+                    displayExams.forEach((exam, index) => {
                         const isTBA = exam.display_date.toLowerCase().includes('to be announced');
                         const examDate = new Date(exam.exam_date + 'T00:00:00+05:30');
                         
@@ -2181,10 +2239,10 @@
                 statusHtml = `<div class="status-badge status-locked">🔒 ${timeString}</div>`;
             }
             else if (quiz.status === 'completed') {
-                // FIX: Make the completed card a clickable link to result.html!
                 statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
                 wrapperTag = 'a'; 
-                wrapperHref = `href="result.html?attempt_id=${quiz.attempt_id}"`;
+                // 🟢 NEW: Added the day parameter here!
+                wrapperHref = `href="result.html?attempt_id=${quiz.attempt_id}&day=${window.currentViewingDayIndex}"`;
             }
             else if (quiz.status === 'closed') {
                 statusHtml = `<div class="status-badge status-locked">Closed</div>`;
@@ -2386,6 +2444,17 @@
                         if (profileRank) profileRank.innerText = `#${cu.rank || 'N/A'}`;
                         const profileScore = document.getElementById('profile-score');
                         if (profileScore) profileScore.innerText = displayScore;
+                        
+                        // 🟢 NEW: Sync League Badge
+                        const profileLeague = document.getElementById('profile-league-container');
+                        if (profileLeague) {
+                            if (cu.league > 0) {
+                                profileLeague.innerHTML = getLeagueBadgeHTML(cu.league);
+                                profileLeague.style.display = 'block';
+                            } else {
+                                profileLeague.style.display = 'none'; // Hide if Unranked
+                            }
+                        }
                         
                         // Sync Progress Tab
                         const progressStats = document.querySelector('#view-progress .card-main');

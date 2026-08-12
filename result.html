@@ -60,10 +60,15 @@
             <!-- Stats injected here -->
         </div>
 
-        <!-- The New Top 10 Block -->
-        <div class="leaderboard-card" id="leaderboard-section" style="display: none;">
-            <div class="lb-title">🏆 Top 10 Scholars</div>
-            <div id="leaderboard-list"></div>
+        <!-- The New Top 10 Block (Foldable) -->
+        <div class="leaderboard-card" id="leaderboard-section" style="display: none; padding: 0; overflow: hidden;">
+            <div class="lb-title" onclick="toggleLeaderboard()" style="cursor: pointer; padding: 16px; margin: 0; justify-content: space-between; background: #f8f9fa;">
+                <span style="display: flex; align-items: center; gap: 8px;">🏆 Top 10 Scholars</span>
+                <span id="lb-chevron" style="transition: transform 0.3s; color: #888; font-size: 20px;">⌄</span>
+            </div>
+            <div id="lb-collapse-wrapper" style="display: none; border-top: 1px solid #f0f0f0; padding: 0 16px 16px 16px;">
+                <div id="leaderboard-list"></div>
+            </div>
         </div>
 
         <div class="action-row" style="margin-top: 10px;">
@@ -199,7 +204,9 @@
 
         function triggerReattempt() {
             if(currentQuizId) {
-                window.location.href = `test.html?quiz_id=${currentQuizId}&practice=true`;
+                const dayParamStr = urlParams.get('day');
+                const dayQuery = dayParamStr !== null ? `&day=${dayParamStr}` : '';
+                window.location.href = `test.html?quiz_id=${currentQuizId}&practice=true${dayQuery}`;
             }
         }
 
@@ -215,6 +222,24 @@
             document.getElementById('btn-back-topics').href = `app.html?view=day&day=${dayParamStr}`;
         }
 
+        // 🟢 Accordion Logic for the Leaderboard
+        function toggleLeaderboard() {
+            // Trigger a soft vibration when tapped
+            if (window.Telegram?.WebApp) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+            }
+            
+            const wrapper = document.getElementById('lb-collapse-wrapper');
+            const chevron = document.getElementById('lb-chevron');
+            
+            if (wrapper.style.display === 'none') {
+                wrapper.style.display = 'block';
+                chevron.style.transform = 'rotate(180deg)'; // Flip arrow up
+            } else {
+                wrapper.style.display = 'none';
+                chevron.style.transform = 'rotate(0deg)'; // Flip arrow down
+            }
+        }
         loadResults();
     </script>
 </body>

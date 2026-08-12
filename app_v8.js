@@ -530,7 +530,7 @@ function populateRecentActivity(targetUser) {
 }
 
 function openHistoryDetail(week, rank, total, score, attempts, correct) {
-    // 🟢 FIX: Parse the stringified arguments back to numbers
+    // 🟢 FIX: Parse the stringified arguments back to numbers safely
     score = parseFloat(score) || 0;
     attempts = parseInt(attempts) || 0;
     correct = parseInt(correct) || 0;
