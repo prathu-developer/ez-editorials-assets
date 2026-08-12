@@ -337,19 +337,23 @@ function renderRankHistory(targetUser) {
     targetUser.rank_history.slice(0, 5).forEach((entry, idx) => {
         let statusBadge = idx === 0 ? `<span class="league-badge bg-gold" style="font-size:0.6em; padding:2px 4px; margin-left:8px;">Previous Week</span>` : '';
 
+        // Extract variables safely
         let score = entry.score || 0;
         let att = entry.attempts || 0;
         let cor = entry.correct || 0;
-        let total = entry.total || 0; // 🟢 Prevents 'undefined' syntax breaks
+        let total = entry.total || 0; 
+        let rank = entry.rank || '-';
+        let week = entry.week || '-';
 
-        let clickAction = `onclick="openHistoryDetail(${entry.week}, ${entry.rank}, ${total}, ${score}, ${att}, ${cor})"`;
+        // 🟢 FIX: Wrap all arguments in quotes to prevent JS syntax breaks
+        let clickAction = `onclick="openHistoryDetail('${week}', '${rank}', '${total}', '${score}', '${att}', '${cor}')"`;
         
         container.innerHTML += `
             <div class="activity-row" ${clickAction} style="align-items: center; cursor: pointer; padding: 12px 10px; border-radius: 8px; margin-bottom: 5px; background: white; border: 1px solid #f1f5f9; box-shadow: 0 1px 2px rgba(0,0,0,0.02); transition: transform 0.1s;">
-                <div class="act-day" style="width: auto; font-weight: 600; color: #0f172a;">Week ${entry.week} ${statusBadge}</div>
+                <div class="act-day" style="width: auto; font-weight: 600; color: #0f172a;">Week ${week} ${statusBadge}</div>
                 <div style="display:flex; align-items:center; gap: 12px;">
                     <div class="text-blue" style="font-weight: 700; font-size: 1.05em;">
-                        #${entry.rank} <span style="font-size: 0.75em; color: #64748b; font-weight: normal;">/ ${entry.total}</span>
+                        #${rank} <span style="font-size: 0.75em; color: #64748b; font-weight: normal;">/ ${total}</span>
                     </div>
                     <div style="color: #cbd5e1; font-weight: bold; font-size: 1.2em;">➔</div>
                 </div>
@@ -526,6 +530,11 @@ function populateRecentActivity(targetUser) {
 }
 
 function openHistoryDetail(week, rank, total, score, attempts, correct) {
+    // 🟢 FIX: Parse the stringified arguments back to numbers
+    score = parseFloat(score) || 0;
+    attempts = parseInt(attempts) || 0;
+    correct = parseInt(correct) || 0;
+
     let acc = attempts > 0 ? Math.round((correct / attempts) * 100) : 0;
 
     document.getElementById('histWeek').innerText = week;
@@ -534,7 +543,6 @@ function openHistoryDetail(week, rank, total, score, attempts, correct) {
     document.getElementById('histAcc').innerText = acc + '%';
     document.getElementById('histCorrect').innerText = correct;
 
-    // 🟢 FIX: Use display flex to keep it perfectly centered and prevent cut-offs!
     document.getElementById('historyModalOverlay').style.display = 'flex';
     document.body.style.overflow = 'hidden'; // Lock scrolling
 }
