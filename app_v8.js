@@ -26,16 +26,16 @@ function getLeagueBadgeHTML(tier) {
         { name: 'Zenith', class: 'bg-zenith', icon: '🧿' },      
         { name: 'Ascendant', class: 'bg-ascendant', icon: '🌌' }, 
         { name: 'Omniscient', class: 'bg-omniscient', icon: '👁️‍🗨️' }, 
-        { name: 'Gen I', class: 'bg-genesis', icon: '✨' }, 
-        { name: 'Gen II', class: 'bg-genesis', icon: '✨' }, 
-        { name: 'Gen III', class: 'bg-genesis', icon: '✨' }, 
-        { name: 'Gen IV', class: 'bg-genesis', icon: '✨' }, 
-        { name: 'Gen V', class: 'bg-genesis', icon: '✨' },  
-        { name: 'Gen VI', class: 'bg-genesis', icon: '✨' }, 
-        { name: 'Gen VII', class: 'bg-genesis', icon: '✨' },
-        { name: 'Gen VIII', class: 'bg-genesis', icon: '✨' },
-        { name: 'Gen IX', class: 'bg-genesis', icon: '✨' }, 
-        { name: 'Gen X', class: 'bg-genesis', icon: '👑' }   
+        { name: 'Genesis I', class: 'bg-genesis', icon: '✨' }, 
+        { name: 'Genesis II', class: 'bg-genesis', icon: '✨' }, 
+        { name: 'Genesis III', class: 'bg-genesis', icon: '✨' }, 
+        { name: 'Genesis IV', class: 'bg-genesis', icon: '✨' }, 
+        { name: 'Genesis V', class: 'bg-genesis', icon: '✨' },  
+        { name: 'Genesis VI', class: 'bg-genesis', icon: '✨' }, 
+        { name: 'Genesis VII', class: 'bg-genesis', icon: '✨' },
+        { name: 'Genesis VIII', class: 'bg-genesis', icon: '✨' },
+        { name: 'Genesis IX', class: 'bg-genesis', icon: '✨' }, 
+        { name: 'Genesis X', class: 'bg-genesis', icon: '👑' }   
     ];
     let l = leagues[tier] || leagues[0];
     return `<span class="league-badge ${l.class}">${l.icon} ${l.name}</span>`;

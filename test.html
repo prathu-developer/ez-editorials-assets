@@ -121,7 +121,8 @@
         .stats-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-main); border-bottom: 1px solid var(--border-color); }
         .stat-pill { background: #e5e7eb; color: var(--text-dark); padding: 4px 10px; border-radius: 16px; font-size: 13px; font-weight: 600; }
         .stat-pill.green-tint { background: #def7ec; color: #03543f; display: flex; align-items: center; gap: 4px; }
-        
+        .stat-pill.red-tint { background: #fde8e8; color: #9b1c1c; display: flex; align-items: center; gap: 4px; }
+
         .instruction-block { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
         .inst-badge { width: 24px; height: 24px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
         .inst-title { font-size: 15px; font-weight: 700; flex-grow: 1; margin-top: 2px; }
@@ -166,8 +167,12 @@
 
     <!-- Instructions Pre-Screen -->
     <div id="instructions-screen" style="position:fixed; inset:0; background:var(--bg-main); z-index:50; display:none; flex-direction:column;">
-        <div class="top-header" style="justify-content:center;">
+        <div class="top-header" style="justify-content:space-between;">
+            <svg onclick="exitTestEarly()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer; color: var(--text-dark);">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
             <div class="header-title" style="font-size:16px;">Instructions</div>
+            <div style="width: 24px;"></div> <!-- Invisible spacer keeps the title perfectly centered -->
         </div>
         <div style="padding: 20px; flex-grow: 1; overflow-y: auto; background: var(--card-bg);">
             <h2 id="inst-topic" style="font-size: 18px; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Topic Name</h2>
@@ -204,8 +209,13 @@
         <div style="padding: 16px; background: var(--card-bg); border-top: 1px solid var(--border-color); display:flex; gap:12px;">
             <div style="flex:1; position:relative;">
                  <button onclick="openSettingsModal()" style="width:100%; padding:14px; border-radius:8px; font-size:14px; font-weight:600; background:#f8f9fa; border:1px solid var(--border-color); color:var(--brand-blue); display:flex; justify-content:center; align-items:center; gap:6px; cursor:pointer;">
-                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> Settings
-                 </button>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg> 
+                    English (Aa)
+                </button>
             </div>
             <button style="flex:1; padding:14px; border-radius:8px; font-size:15px; font-weight:600; background:var(--brand-red); color:white; border:none; cursor:pointer;" onclick="beginTest()">Start Test</button>
         </div>
@@ -220,8 +230,16 @@
                 <div class="timer-text" id="live-timer-container">Total Time left: <span class="timer-countdown" id="timer-display">00:00</span></div>
             </div>
             <div class="header-icons" id="live-icons">
-                <svg onclick="openSettingsModal()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                <span onclick="openPalette()" style="font-size:24px; margin-left:8px;">☰</span>
+                <!-- Aa Typography Icon -->
+                <svg onclick="openSettingsModal()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                    <!-- Big A -->
+                    <path d="M4 20l5-16 5 16"></path>
+                    <path d="M6 14h6"></path>
+                    <!-- Small a -->
+                    <circle cx="18" cy="16" r="3"></circle>
+                    <path d="M21 13v7"></path>
+                </svg>
+                <span onclick="openPalette()" style="font-size:24px; margin-left:8px; cursor:pointer;">☰</span>
             </div>
         </div>
         
@@ -242,16 +260,9 @@
 
     <!-- Sub Header & Stats Bar -->
     <div style="background: var(--bg-main);">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
-            <span id="sub-type-text" style="font-size: 15px; font-weight: 600; color: var(--text-dark);">Topic Trial</span>
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <svg onclick="openSettingsModal()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                <span onclick="openPalette()" style="font-size:24px; cursor:pointer;">☰</span>
-            </div>
-        </div>
         <div class="stats-row" id="review-stats-bar" style="display: none;">
-            <div class="stat-pill" id="review-time-pill">Review Mode</div>
-            <div class="stat-pill green-tint">👥 Detailed Analysis</div>
+            <div class="stat-pill" id="review-time-pill">Avg: 00:00</div>
+            <div class="stat-pill green-tint" id="review-acc-pill">👥 0% Answered correctly</div>
         </div>
     </div>
 
@@ -452,8 +463,26 @@
 
         function goBackFromResult() {
             triggerHaptic('light');
-            if (isPractice) window.location.href = `result.html?practice=true`;
-            else window.location.href = `result.html?attempt_id=${attemptIdParam}`;
+            const dayParam = new URLSearchParams(window.location.search).get('day');
+            const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+            
+            if (isPractice) window.location.href = `result.html?practice=true${dayQuery}`;
+            else window.location.href = `result.html?attempt_id=${attemptIdParam}${dayQuery}`;
+        }
+
+        function exitTestEarly() {
+            triggerHaptic('light');
+            
+            // Read the exact day they came from
+            const urlParams = new URLSearchParams(window.location.search);
+            const dayParam = urlParams.get('day');
+            
+            // Explicitly route them back to that specific day
+            if (dayParam !== null) {
+                window.location.href = `app.html?view=day&day=${dayParam}`;
+            } else {
+                window.location.href = 'app.html?view=day';
+            }
         }
 
         async function startQuiz() {
@@ -584,6 +613,42 @@
 
             const qId = q.question_id || q.id;
             document.getElementById('q-num').innerText = index + 1;
+
+            // 🟢 NEW: Update Community Stats Pills for Review Mode
+            if (isReviewMode) {
+                const estTime = q.global_avg_time || 0;
+                const m = Math.floor(estTime / 60).toString().padStart(2, '0');
+                const s = (estTime % 60).toString().padStart(2, '0');
+                
+                document.getElementById('review-time-pill').innerText = `Avg: ${m}:${s}`;
+                
+                const accPill = document.getElementById('review-acc-pill');
+                
+                // 1. Find the lowest accuracy in this entire quiz
+                let lowestAcc = 100;
+                questions.forEach(quest => {
+                    if (quest.global_accuracy !== undefined && quest.global_accuracy < lowestAcc) {
+                        lowestAcc = quest.global_accuracy;
+                    }
+                });
+
+                // 2. Apply text and colors based on performance
+                if (isPractice) {
+                    accPill.innerText = `👥 Practice Mode`;
+                    accPill.className = 'stat-pill green-tint';
+                } else {
+                    const currentAcc = q.global_accuracy || 0;
+                    
+                    // If this is the hardest question AND the community actually failed it (< 50%)
+                    if (currentAcc === lowestAcc && currentAcc < 50) {
+                        accPill.innerText = `🚨 Hardest: ${currentAcc}% Answered correctly`;
+                        accPill.className = 'stat-pill red-tint';
+                    } else {
+                        accPill.innerText = `👥 ${currentAcc}% Answered correctly`;
+                        accPill.className = 'stat-pill green-tint';
+                    }
+                }
+            }
 
             // Extract the new meta payload safely
             let opts = q.options;
@@ -918,7 +983,10 @@
                 };
                 
                 sessionStorage.setItem("practiceResult", JSON.stringify(practiceResult));
-                window.location.href = `result.html?practice=true`;
+
+                const dayParam = new URLSearchParams(window.location.search).get('day');
+                const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+                window.location.href = `result.html?practice=true${dayQuery}`;
                 return;
             }
 
@@ -945,8 +1013,10 @@
                     isSubmitting = false; 
                     return; 
                 }
-                
-                window.location.href = `result.html?attempt_id=${attemptId}`;
+
+                const dayParam = new URLSearchParams(window.location.search).get('day');
+                const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+                window.location.href = `result.html?attempt_id=${attemptId}${dayQuery}`;
             } catch (err) {
                 alert("Submission failed. Please check your connection.");
                 document.getElementById('loading-screen').style.display = 'none';

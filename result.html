@@ -25,6 +25,18 @@
         .option.wrong { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
         .explanation { margin-top: 16px; padding: 12px; background: #fff3cd; border-radius: 8px; font-size: 13px; line-height: 1.5; color: #856404; }
         
+        /* Top 10 Leaderboard */
+        .leaderboard-card { background: #fff; padding: 16px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; }
+        .lb-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #1a1a1a; display: flex; align-items: center; gap: 8px; }
+        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+        .lb-row:last-child { border-bottom: none; padding-bottom: 0; }
+        .lb-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: #1a1a1a; }
+        .lb-rank { width: 24px; color: #888; font-weight: 700; text-align: center; }
+        .lb-right { text-align: right; }
+        .lb-score { font-size: 14px; font-weight: 700; color: #1c64f2; }
+        .lb-time { font-size: 12px; color: #888; margin-top: 2px; font-weight: 500; }
+        .lb-me { background: #eff6ff; border-radius: 8px; padding: 12px; margin: 0 -12px; border-bottom: none; border: 1px solid #bfdbfe; }
+
         /* 🟢 NEW ACTION BUTTONS */
         .action-row { display: flex; gap: 12px; margin-top: 24px; }
         .btn-share { flex: 1; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; background: #fff; color: #e73b50; border: 1px solid #e73b50; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
@@ -48,6 +60,12 @@
             <!-- Stats injected here -->
         </div>
 
+        <!-- The New Top 10 Block -->
+        <div class="leaderboard-card" id="leaderboard-section" style="display: none;">
+            <div class="lb-title">🏆 Top 10 Scholars</div>
+            <div id="leaderboard-list"></div>
+        </div>
+
         <div class="action-row" style="margin-top: 10px;">
             <button class="btn-share" onclick="shareResult()">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
@@ -57,7 +75,7 @@
             <button class="btn-reattempt" style="background: #1c64f2;" onclick="openReviewMode()">Review & Re-Attempt</button>
         </div>
         <div style="display: flex; gap: 12px; margin-top: 12px;">
-            <a href="app.html?view=day" class="btn-home" style="margin-top: 0; background: #f8f9fa; color: #1a1a1a; border: 1px solid #ddd; flex: 1;">Back to Topics</a>
+            <a id="btn-back-topics" href="app.html?view=day" class="btn-home" style="margin-top: 0; background: #f8f9fa; color: #1a1a1a; border: 1px solid #ddd; flex: 1;">Back to Topics</a>
             <a href="app.html" class="btn-home" style="margin-top: 0; flex: 1;">Return to Home</a>
         </div>
     </div>
@@ -125,17 +143,57 @@
                 </div>
             `;
 
-            // 🟢 We removed the solutions loop! It now stops after rendering the score.
+            // 🟢 Render Top 10 Leaderboard
+            if (data.top_10 && data.top_10.length > 0) {
+                const lbList = document.getElementById('leaderboard-list');
+                lbList.innerHTML = '';
+                
+                const currentUserId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+                
+                data.top_10.forEach((user, index) => {
+                    const m = Math.floor(user.time_taken / 60);
+                    const s = user.time_taken % 60;
+                    const timeStr = m > 0 ? `${m}m ${s}s` : `${s}s`;
+                    
+                    let rankDisplay = index + 1;
+                    if (rankDisplay === 1) rankDisplay = '🥇';
+                    else if (rankDisplay === 2) rankDisplay = '🥈';
+                    else if (rankDisplay === 3) rankDisplay = '🥉';
+                    else rankDisplay = `#${rankDisplay}`;
+
+                    const isMe = user.user_id == currentUserId;
+                    const rowClass = isMe ? 'lb-row lb-me' : 'lb-row';
+                    const nameDisplay = isMe ? 'You' : user.name;
+
+                    lbList.innerHTML += `
+                        <div class="${rowClass}">
+                            <div class="lb-left">
+                                <span class="lb-rank">${rankDisplay}</span>
+                                <span>${nameDisplay}</span>
+                            </div>
+                            <div class="lb-right">
+                                <div class="lb-score">${user.score} pts</div>
+                                <div class="lb-time">⏱ ${timeStr}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('leaderboard-section').style.display = 'block';
+            }
+
             document.getElementById('loading').style.display = 'none';
             document.getElementById('result-content').style.display = 'block';
         }
 
         // 🟢 NEW: Router function that pushes the user to the Review Engine
         function openReviewMode() {
+            const dayParam = urlParams.get('day');
+            const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+            
             if (isPractice) {
-                window.location.href = `test.html?practice=true&mode=review`;
+                window.location.href = `test.html?practice=true&mode=review${dayQuery}`;
             } else {
-                window.location.href = `test.html?attempt_id=${attemptId}&mode=review`;
+                window.location.href = `test.html?attempt_id=${attemptId}&mode=review${dayQuery}`;
             }
         }
 
@@ -150,6 +208,11 @@
                 window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
             }
             alert("Sharing feature coming soon!");
+        }
+
+        const dayParamStr = urlParams.get('day');
+        if (dayParamStr !== null) {
+            document.getElementById('btn-back-topics').href = `app.html?view=day&day=${dayParamStr}`;
         }
 
         loadResults();
