@@ -561,7 +561,10 @@
             try {
                 const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/start`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-Telegram-Init-Data': window.Telegram.WebApp.initData // ✨ SECURE AUTH HEADER
+                    },
                     body: JSON.stringify({ user_id: userId, quiz_set_id: quizId, is_practice: isPractice })
                 });
                 
@@ -1001,7 +1004,10 @@
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/submit`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-Telegram-Init-Data': window.Telegram.WebApp.initData // ✨ SECURE AUTH HEADER
+                    },
                     body: JSON.stringify({ attempt_id: attemptId, responses: formattedResponses })
                 });
                 

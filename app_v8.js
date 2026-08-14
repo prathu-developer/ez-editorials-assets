@@ -245,7 +245,9 @@ if (cachedString) {
     } catch (e) { console.error("Cache read error", e); }
 }
 
-fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`)
+fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`, {
+    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData } // ✨ SECURE AUTH HEADER
+})
     .then(response => response.json())
     .then(data => {
         if (data.locked || data.error) {
@@ -657,79 +659,4 @@ function renderCharts(targetUser) {
         }
         // 🟢 FIX: Removed the conflicting 'textCenter' plugin so the HTML overlay works perfectly
     });
-}
-
-let globalEloData = [];
-let eloAutoOpened = false; 
-
-const oldRender = renderLeaderboardData;
-renderLeaderboardData = function(data) {
-    oldRender(data); 
-
-    globalData.forEach(u => {
-        let matched = data.leaderboard.find(x => x.id === u.id);
-        if (matched) u.elo = matched.elo;
-    });
-    window.currentUserData.elo = data.current_user.elo || 1000;
-    globalEloData = data.elo_ranking || [];
-    
-    if (tg.initDataUnsafe?.start_param === 'elo' && !eloAutoOpened) {
-        openEloLeaderboard();
-        eloAutoOpened = true; 
-    }
-};
-
-function openEloLeaderboard() {
-    const container = document.getElementById('eloListContainer');
-    container.innerHTML = '';
-
-    let top50Active = globalEloData.filter(eu => eu.is_active).slice(0, 50);
-
-    top50Active.forEach(eu => {
-        let isMe = eu.id === window.currentUserData.id;
-        let bg = isMe ? "background: #eff6ff; border: 1px solid #bfdbfe;" : "background: white; border: 1px solid #edf1f5;";
-
-        container.innerHTML += `
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; margin-bottom: 8px; border-radius: 12px; ${bg} box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="font-weight: 900; color: #94a3b8; width: 25px;">#${eu.rank}</div>
-                    <div style="font-weight: bold; color: #1e293b;">${eu.name}</div>
-                </div>
-                <div style="font-weight: 800; color: #2563eb;">🧠 ${Math.round(eu.elo)}</div>
-            </div>
-        `;
-    });
-
-    const footer = document.getElementById('eloFooter');
-    let myEloEntry = globalEloData.find(eu => eu.id === window.currentUserData.id);
-    let myTitle = getAcademicTitle(window.currentUserData.elo);
-
-    let myRankDisplay = myEloEntry ? `#${myEloEntry.rank}` : 'N/A';
-    let myEloDisplay = myEloEntry ? Math.round(myEloEntry.elo) : Math.round(window.currentUserData.elo);
-
-    let inactivityWarning = myEloEntry && !myEloEntry.is_active
-        ? `<div style="font-size: 0.7em; color: #ef4444; margin-top: 2px;">Hidden from public board (Inactive)</div>`
-        : ``;
-
-    footer.innerHTML = `
-        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="font-weight: 900; color: #cbd5e1;">${myRankDisplay}</div>
-                <div>
-                    <div style="font-weight: bold;">You</div>
-                    <div style="font-size: 0.75em; color: #94a3b8;">${myTitle}</div>
-                    ${inactivityWarning}
-                </div>
-            </div>
-            <div style="font-weight: 800; color: #60a5fa;">🧠 ${myEloDisplay}</div>
-        </div>
-    `;
-
-    document.getElementById('eloModalOverlay').classList.add('active');
-}
-
-function closeEloModal(event, force=false) {
-    if (force || event.target.id === 'eloModalOverlay') {
-        document.getElementById('eloModalOverlay').classList.remove('active');
-    }
 }
