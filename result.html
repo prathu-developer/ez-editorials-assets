@@ -5,48 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quiz Results</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="haptics.js" defer></script>
+    <script src="theme.js" defer></script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; color: #1a1a1a; }
-        .header { text-align: center; margin-bottom: 24px; }
-        .header h2 { margin: 0 0 4px 0; font-size: 24px; color: #1a1a1a; }
-        .header p { margin: 0; color: #666; font-size: 14px; }
-        .scorecard { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
-        .stat-box { background: #fff; padding: 16px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; }
-        .stat-value { font-size: 22px; font-weight: 700; color: #5c3bfe; margin-bottom: 4px; }
-        .stat-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-box.highlight { background: #5c3bfe; color: #fff; border: none; }
-        .stat-box.highlight .stat-value { color: #fff; }
-        .stat-box.highlight .stat-label { color: #e0e0e0; }
-        h3 { font-size: 18px; margin-bottom: 16px; }
-        .solution-card { background: #fff; padding: 16px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; }
-        .question-text { font-size: 15px; font-weight: 600; margin-bottom: 16px; line-height: 1.5; white-space: pre-wrap; }
-        .option { padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; font-size: 14px; background: #f8f9fa; border: 1px solid #eee; }
-        .option.correct { background: #d4edda; border-color: #c3e6cb; color: #155724; font-weight: 600; }
-        .option.wrong { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
-        .explanation { margin-top: 16px; padding: 12px; background: #fff3cd; border-radius: 8px; font-size: 13px; line-height: 1.5; color: #856404; }
-        
-        /* Top 10 Leaderboard */
-        .leaderboard-card { background: #fff; padding: 16px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; }
-        .lb-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #1a1a1a; display: flex; align-items: center; gap: 8px; }
-        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
-        .lb-row:last-child { border-bottom: none; padding-bottom: 0; }
-        .lb-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: #1a1a1a; }
-        .lb-rank { width: 24px; color: #888; font-weight: 700; text-align: center; }
-        .lb-right { text-align: right; }
-        .lb-score { font-size: 14px; font-weight: 700; color: #1c64f2; }
-        .lb-time { font-size: 12px; color: #888; margin-top: 2px; font-weight: 500; }
-        .lb-me { background: #eff6ff; border-radius: 8px; padding: 12px; margin: 0 -12px; border-bottom: none; border: 1px solid #bfdbfe; }
+        :root {
+            --brand: #5a32fa;
+            --brand-light: #ece9ff;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-light: #f1f5f9;
+            --success: #10b981;
+            --danger: #ef4444;
+            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 8px 20px rgba(90, 50, 250, 0.15);
+            --app-max-width: 700px;
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+        }
 
-        /* 🟢 NEW ACTION BUTTONS */
-        .action-row { display: flex; gap: 12px; margin-top: 24px; }
-        .btn-share { flex: 1; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; background: #fff; color: #e73b50; border: 1px solid #e73b50; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-reattempt { flex: 1; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; background: #e73b50; color: #fff; border: none; cursor: pointer; }
-        .btn-home { display: block; width: 100%; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; text-align: center; background: #1a1a1a; color: #fff; text-decoration: none; margin-top: 12px; box-sizing: border-box; }
+        /* Dark Mode overrides for Result UI */
+        body.dark-mode {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-light: #334155;
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #e2e8f0; 
+            margin: 0; 
+            color: var(--text-main); 
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .app-shell {
+            max-width: var(--app-max-width);
+            margin: 0 auto;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background-color: var(--bg-body);
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            padding-bottom: calc(20px + var(--safe-bottom));
+            box-sizing: border-box;
+        }
+
+        .header { text-align: center; margin-bottom: 24px; padding-top: 10px; }
+        .header h2 { margin: 0 0 6px 0; font-size: 24px; font-weight: 800; color: var(--text-main); }
+        .header p { margin: 0; color: var(--text-muted); font-size: 13px; font-weight: 500; }
         
-        #loading { text-align: center; margin-top: 50px; color: #666; }
+        .scorecard { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 24px; }
+        .stat-box { background: var(--bg-card); padding: 16px; border-radius: 16px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); }
+        .stat-value { font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
+        .stat-label { font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* The Hero Stat Box */
+        .stat-box.highlight { background: linear-gradient(135deg, #5a32fa, #7c3aed); color: white; border: none; box-shadow: var(--shadow-md); }
+        .stat-box.highlight .stat-value { color: white; }
+        .stat-box.highlight .stat-label { color: var(--brand-light); }
+        
+        /* Premium Leaderboard Card (No heavy blur needed!) */
+        .leaderboard-card { background: var(--bg-card); border-radius: 20px; margin-bottom: 24px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); overflow: hidden; }
+        .lb-title { font-size: 15px; font-weight: 800; padding: 16px 20px; color: var(--text-main); display: flex; align-items: center; justify-content: space-between; background: var(--bg-body); border-bottom: 1px solid var(--border-light); cursor: pointer; }
+        
+        .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border-light); }
+        .lb-row:last-child { border-bottom: none; }
+        .lb-left { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 700; color: var(--text-main); }
+        .lb-rank { width: 24px; color: var(--text-muted); font-weight: 800; font-size: 14px; }
+        .lb-score { font-size: 14px; font-weight: 800; color: var(--brand); }
+        .lb-time { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-top: 4px; text-align: right; }
+        
+        /* Highlight Current User */
+        .lb-me { background: var(--brand-light); border: 1px solid #c7d2fe; border-radius: 12px; margin: 8px; padding: 12px; }
+
+        /* Clean Buttons */
+        .action-row { display: flex; gap: 12px; margin-top: 24px; }
+        .btn-action { flex: 1; padding: 16px; border-radius: 16px; font-size: 14px; font-weight: 700; text-align: center; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; text-decoration: none; box-sizing: border-box; transition: transform 0.1s; }
+        .btn-action:active { transform: scale(0.96); }
+        
+        .btn-primary { background: var(--brand); color: white; box-shadow: var(--shadow-md); }
+        .btn-secondary { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); }
+        .btn-outline { background: transparent; color: var(--brand); border: 1px solid var(--brand); }
+        
+        #loading { text-align: center; margin-top: 50px; color: var(--text-muted); font-weight: 600; font-size: 14px; }
     </style>
 </head>
 <body>
+    <div class="app-shell">
 
     <div id="loading">Calculating Results...</div>
 
@@ -71,19 +122,22 @@
             </div>
         </div>
 
-        <div class="action-row" style="margin-top: 10px;">
-            <button class="btn-share" onclick="shareResult()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+        <!-- Actions -->
+        <div class="action-row">
+            <button class="btn-action btn-outline" onclick="shareResult()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
                 Share
             </button>
-            <!-- 🟢 NEW: Routes to the Review Engine -->
-            <button class="btn-reattempt" style="background: #1c64f2;" onclick="openReviewMode()">Review & Re-Attempt</button>
+            <button class="btn-action btn-primary" onclick="openReviewMode()">Review Quiz</button>
         </div>
-        <div style="display: flex; gap: 12px; margin-top: 12px;">
-            <a id="btn-back-topics" href="app.html?view=day" class="btn-home" style="margin-top: 0; background: #f8f9fa; color: #1a1a1a; border: 1px solid #ddd; flex: 1;">Back to Topics</a>
-            <a href="app.html" class="btn-home" style="margin-top: 0; flex: 1;">Return to Home</a>
+        
+        <div class="action-row" style="margin-top: 12px;">
+            <a id="btn-back-topics" href="app.html?view=day" class="btn-action btn-secondary">Back to Topics</a>
+            <a href="app.html" class="btn-action btn-secondary">Return Home</a>
         </div>
     </div>
+
+    </div> <!-- End of app-shell -->
 
     <script>
         const tg = window.Telegram.WebApp;
