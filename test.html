@@ -514,7 +514,10 @@
                 }
 
                 // Live Test Initialization
-                const homeRes = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`);
+                // ✨ FIX: Send Telegram initData header
+                const homeRes = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`, {
+                    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData }
+                });
                 const homeData = await homeRes.json();
                 const allQuizzes = [...(homeData.quizzes?.Today || []), ...(homeData.quizzes?.Pending || [])];
                 const currentQuizMeta = allQuizzes.find(q => q.id == quizId);

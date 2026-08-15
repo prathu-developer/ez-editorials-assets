@@ -112,7 +112,10 @@
             }
 
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptId}`);
+                // ✨ FIX: Attach Telegram HMAC header to unlock the secured results
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptId}`, {
+                    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData }
+                });
                 const data = await response.json();
 
                 if (data.error) {

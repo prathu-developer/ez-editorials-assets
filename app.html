@@ -1626,7 +1626,10 @@
         // --- MASTER SPEC: LOAD GROUPED QUIZZES ---
         async function loadQuizzes() {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`);
+                // ✨ FIX: Send Telegram initData header
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`, {
+                    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData }
+                });
                 const data = await response.json();
                 
                 window.masterQuizData = data.quizzes; 

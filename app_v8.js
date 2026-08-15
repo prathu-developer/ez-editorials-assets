@@ -259,21 +259,23 @@ fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`
         const ADMIN_IDS = [716496729, 5103843488, 6251430317];
         const isAdmin = ADMIN_IDS.includes(tgUserId);
 
-        let myPersonalData = {
-            "rank": "N/A", "score": 0, "house": "🏳️ Unsorted", "name": "You", "is_captain": 0, "league": 0, 
-            "is_admin": isAdmin, 
-            "rank_history": [], "history": {"labels": [], "scores": [], "accuracy": 0, "correct": 0, "wrong": 0}
+        // ✨ FIX: Single declaration preserving the server's rich current_user object
+        const myPersonalData = data.current_user || {
+            id: tgUserId,
+            name: "You",
+            score: 0,
+            rank: "N/A",
+            league: 0,
+            house: "🏳️ Unsorted",
+            is_captain: 0,
+            elo: 1000,
+            attempts: 0,
+            lifetime_growth: "Calibrating...",
+            rank_history: [],
+            history: { labels: [], scores: [], accuracy: 0, correct: 0, wrong: 0 }
         };
 
-        if (tgUserId) {
-            let matchedUser = data.leaderboard.find(student => Number(student.id) === tgUserId);
-            if (matchedUser) {
-                myPersonalData = {
-                    ...matchedUser,
-                    "is_admin": isAdmin 
-                };
-            }
-        }
+        myPersonalData.is_admin = isAdmin;
         data.current_user = myPersonalData; 
 
         localStorage.setItem(cacheKey, JSON.stringify(data));
