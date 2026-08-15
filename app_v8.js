@@ -373,9 +373,10 @@ function closeModal(event, force=false) {
 }
 
 function openProfile(targetId) {
-    let isOwnProfile = (targetId === window.currentUserData.id);
+    // 🟢 FIX: Use loose equality or Number() cast to prevent string vs int mismatch
+    let isOwnProfile = Number(targetId) === Number(window.currentUserData?.id) || targetId === appUserId;
 
-    if (!isOwnProfile && !window.currentUserData.is_admin) {
+    if (!isOwnProfile && !window.currentUserData?.is_admin) {
         if (window.Telegram?.WebApp?.showAlert) {
             window.Telegram.WebApp.showAlert("🔒 Only Admins can view other students' detailed analysis.");
         } else {
@@ -384,8 +385,12 @@ function openProfile(targetId) {
         return; 
     }
 
-    let targetUser = isOwnProfile ? window.currentUserData : globalData.find(u => u.id === targetId);
-    if (!targetUser) return;
+    let targetUser = isOwnProfile ? window.currentUserData : globalData.find(u => Number(u.id) === Number(targetId));
+    if (!targetUser || !targetUser.history) {
+        // If data is still loading, fetch and retry
+        loadRealCupData();
+        return;
+    }
 
     const modalContent = document.getElementById('modalContentBg');
     modalContent.className = 'modal-content';

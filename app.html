@@ -2364,9 +2364,9 @@
             }
             if(viewId === 'view-profile') {
                 navId = 'nav-profile';
-                
-                // Remove the openEloLeaderboard() and menu-performance lines.
-                // Only keep these two:
+                if (!window.currentUserData || !window.currentUserData.history) {
+                    loadRealCupData(); // 👈 Ensures user data exists before clicking performance
+                }
                 loadWeeklyResults();
                 loadUpcomingExams(); 
             }
@@ -2483,6 +2483,7 @@
                 openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();
             }
             
+            try { loadRealCupData(); } catch(e) { console.error(e); } // 👈 ADD THIS LINE
             try { loadQuizzes(); } catch(e) { console.error(e); }
             try { loadDailyDigest(); } catch(e) { console.error(e); }
             

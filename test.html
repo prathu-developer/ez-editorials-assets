@@ -499,11 +499,16 @@
                     if (isPractice) {
                         data = JSON.parse(sessionStorage.getItem('practiceResult'));
                     } else {
-                        const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptIdParam}`);
+                        // 🟢 FIX: Attach the X-Telegram-Init-Data security header
+                        const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptIdParam}`, {
+                            headers: { 
+                                'X-Telegram-Init-Data': window.Telegram.WebApp.initData 
+                            }
+                        });
                         data = await res.json();
                     }
                     
-                    if(!data || data.error) throw new Error("Failed to load review data");
+                    if(!data || data.error) throw new Error(data?.error || "Failed to load review data");
 
                     questions = data.solutions || [];
                     buildReviewPalette();
