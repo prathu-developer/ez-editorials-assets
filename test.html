@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Active Test</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="haptics.js" defer></script>
-    <script src="theme.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -22,53 +20,18 @@
             --green-text: #03543f;
             --red-bg: #fde8e8;
             --red-text: #9b1c1c;
-
-            /* Responsive Widths & Safe Areas */
-            --app-max-width: 680px; /* Kept slightly narrower for reading focus */
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
-
-        @media (min-width: 768px) { :root { --app-max-width: 760px; } }
-
-        /* Dark Mode Extensions for Test UI */
-        body.dark-mode {
-            --bg-main: #0f172a;
-            --card-bg: #1e293b;
-            --text-dark: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-        }
-        body.dark-mode .q-num-box, body.dark-mode .opt-letter { background: #334155; color: #f8fafc; }
-        body.dark-mode .option.selected { background: rgba(28, 100, 242, 0.15); border-color: var(--brand-blue); }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #e2e8f0; /* Outer background */
+            background-color: var(--bg-main);
             margin: 0;
             padding: 0;
             color: var(--text-dark);
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .app-shell {
-            max-width: var(--app-max-width);
-            margin: 0 auto;
-            height: 100vh;
-            height: 100dvh;
-            background-color: var(--bg-main);
-            position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
+            height: 100vh;
             overflow: hidden;
-        }
-
-        /* Update bottom bar to respect max-width */
-        .bottom-bar {
-            max-width: var(--app-max-width);
-            margin: 0 auto;
-            padding-bottom: calc(12px + var(--safe-bottom));
         }
 
         /* Dynamic Font Scaling */
@@ -199,7 +162,6 @@
     </style>
 </head>
 <body>
-    <div class="app-shell">
 
     <div id="loading-screen">Authenticating Test...</div>
 
@@ -461,8 +423,6 @@
             </div>
         </div>
     </div>
-
-    </div> <!-- End of app-shell -->
 
     <script>
         // Native Telegram WebApp Haptic Helper

@@ -99,134 +99,65 @@ function renderLeaderboardData(data) {
     window.topperHistory = data.topper_history;
     window.classAvgHistory = data.class_avg_history;
 
-    // --- SAFETY NET ---
+    // --- SAFETY NET: PREVENT UNDEFINED ID CRASH ---
     window.currentUserData = data.current_user || {
-        id: null, name: "You", score: 0, rank: "N/A", league: 0,
-        history: { accuracy: 0, correct: 0, wrong: 0 }
+        id: null,
+        name: "You",
+        score: 0,
+        rank: "N/A",
+        league: 0,
+        house: "🏳️ Unsorted",
+        is_captain: 0,
+        elo: 1000,
+        attempts: 0,
+        lifetime_growth: "Calibrating...",
+        rank_history: [],
+        history: { labels: [], scores: [], accuracy: 0, correct: 0, wrong: 0 }
     };
-    const me = window.currentUserData;
 
     const listDiv = document.getElementById('list');
     listDiv.innerHTML = '';
     globalData = data.leaderboard;
+
     let targetAverage = data.target_average || 0;
-
-    // 1. DYNAMIC MATH: Update "Overtake" and "Promotion Zone" texts
-    const heroCard = document.querySelector('.cup-hero-card');
-    if (heroCard && globalData.length > 0) {
-        let myIndex = globalData.findIndex(u => u.id === me.id);
-        
-        // Calculate points to overtake the person above
-        if (myIndex > 0) {
-            let targetUser = globalData[myIndex - 1];
-            let diff = (targetUser.score - me.score).toFixed(2);
-            let overtakeTextEl = heroCard.querySelector('span[style*="overtake"]');
-            if (overtakeTextEl) overtakeTextEl.innerText = `${diff} pts to overtake #${targetUser.rank} ›`;
-        }
-        
-        // Calculate places to go for the Promotion Zone
-        const promoBanner = document.querySelector('.promo-banner');
-        if (promoBanner && myIndex !== -1) {
-            let cutoffIndex = globalData.findIndex(u => u.score < targetAverage);
-            if (cutoffIndex === -1) cutoffIndex = globalData.length;
-            
-            let placesToGoEl = promoBanner.querySelector('span[style*="#059669"]');
-            if (placesToGoEl) {
-                let places = myIndex - cutoffIndex + 1;
-                placesToGoEl.innerText = places > 0 ? `${places} places to go` : `Safely in zone!`;
-            }
-        }
-    }
-
-    // 2. RENDER "BATTLE AROUND YOU"
-    const battleContainer = document.getElementById('battle-around-you-container');
-    if (battleContainer && globalData.length > 0) {
-        let myIndex = globalData.findIndex(u => u.id === me.id);
-        if (myIndex === -1) myIndex = globalData.length - 1; 
-        
-        let startIdx = Math.max(0, myIndex - 1);
-        let endIdx = Math.min(globalData.length - 1, myIndex + 1);
-        
-        // Always try to show 3 boxes if possible
-        if (myIndex === 0 && globalData.length > 2) endIdx = 2;
-        if (myIndex === globalData.length - 1 && globalData.length > 2) startIdx = globalData.length - 3;
-
-        let battleHtml = "";
-        for (let i = startIdx; i <= endIdx; i++) {
-            let u = globalData[i];
-            let isMe = (u.id === me.id);
-            let iconHtml = "", diffText = "";
-            
-            if (isMe) {
-                iconHtml = `<div style="font-size: 13px; font-weight: 800; color: var(--brand); margin-bottom: 2px;">#${u.rank}</div>`;
-                diffText = `<div style="font-size: 13px; font-weight: 700; color: var(--brand);">${(u.score % 1 !== 0 ? u.score.toFixed(2) : u.score)} pts</div>`;
-            } else if (i < myIndex) {
-                iconHtml = `<div style="color: var(--danger); font-size: 16px; font-weight: 900; margin-bottom: 2px;">↑</div><div style="font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 2px;">#${u.rank}</div>`;
-                diffText = `<div style="font-size: 11px; color: var(--danger); font-weight: 600; margin-top: 2px;">-${(u.score - me.score).toFixed(2)} pts</div>`;
-            } else {
-                iconHtml = `<div style="color: var(--success); font-size: 16px; font-weight: 900; margin-bottom: 2px;">↓</div><div style="font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 2px;">#${u.rank}</div>`;
-                diffText = `<div style="font-size: 11px; color: var(--success); font-weight: 600; margin-top: 2px;">+${(me.score - u.score).toFixed(2)} pts</div>`;
-            }
-            
-            let activeClass = isMe ? "active" : "";
-            let nameDisplay = isMe ? "You" : u.name.split(' ')[0];
-            
-            battleHtml += `
-                <div class="battle-item ${activeClass}" onclick="openProfile(${u.id})">
-                    ${iconHtml}
-                    <div style="font-size: 13px; font-weight: 700; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px; margin: 0 auto;">${nameDisplay}</div>
-                    ${diffText}
-                </div>
-            `;
-            
-            if (i < endIdx) battleHtml += `<div style="border-top: 2px dashed var(--border-light); width: 16px;"></div>`;
-        }
-        battleContainer.innerHTML = battleHtml;
-    }
-
-    // 3. RENDER TOPPERS (Podium + List)
-    let htmlBuffer = "";
     let insertedPromoDivider = false;
     let insertedDemoDivider = false;
+    
+    let htmlBuffer = "";
+    let demotionRenderCount = 0;
 
-    // Podium (Top 3 Cards)
-    if (globalData.length > 0) {
-        htmlBuffer += `<div class="podium-container">`;
-        let podiumOrder = [];
-        if (globalData.length >= 2) podiumOrder.push(globalData[1]); // Rank 2 on left
-        if (globalData.length >= 1) podiumOrder.push(globalData[0]); // Rank 1 in middle
-        if (globalData.length >= 3) podiumOrder.push(globalData[2]); // Rank 3 on right
-        
-        podiumOrder.forEach(u => {
-            let isMe = u.id === me.id;
-            let rankClass = `rank-${u.rank}`;
-            let medal = u.rank === 1 ? '🥇' : u.rank === 2 ? '🥈' : '🥉';
-            let initial = u.name.charAt(0).toUpperCase();
-            let scoreDisplay = u.score % 1 !== 0 ? u.score.toFixed(2) : u.score;
-            
-            htmlBuffer += `
-                <div class="podium-card ${rankClass}" onclick="openProfile(${u.id})">
-                    <div class="podium-medal">${medal}</div>
-                    <div class="podium-avatar">${initial}</div>
-                    <div style="font-size: 12px; font-weight: 800; color: var(--text-main); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${isMe ? 'You' : u.name.split(' ')[0]}</div>
-                    ${getLeagueBadgeHTML(u.league)}
-                    <div style="font-size: 14px; font-weight: 900; color: var(--brand); margin-top: 8px;">${scoreDisplay} pts</div>
-                </div>
-            `;
-        });
-        htmlBuffer += `</div>`;
-    }
-
-    // Remaining List (Rank 4 onwards)
-    globalData.slice(3).forEach((user, index) => {
+    data.leaderboard.forEach((user, index) => {
         let isDemotion = user.score < targetAverage;
+        if (isDemotion) {
+            demotionRenderCount++;
+        }
+
+        if (isDemotion && demotionRenderCount > 10 && user.id !== window.currentUserData.id) {
+            return; 
+        }
+
+        // --- MASTER SPEC: CHECK IF THIS ROW BELONGS TO THE VIEWER ---
+        let isMe = (user.id === window.currentUserData.id);
+
+        let cascadeDelay = index * 0.04;
+
+        let rankDisplay = `#${user.rank}`;
+        if (user.rank === 1) rankDisplay = '🥇';
+        else if (user.rank === 2) rankDisplay = '🥈';
+        else if (user.rank === 3) rankDisplay = '🥉';
+
+        let userLeagueBadge = getLeagueBadgeHTML(user.league);
+
+        let trendIcon = user.score >= targetAverage
+            ? `<span style="color: #10b981; font-size: 0.8em; margin-left: 6px;" title="Promotion Zone">▲</span>`
+            : `<span style="color: #ef4444; font-size: 0.8em; margin-left: 6px;" title="Demotion Zone">▼</span>`;
 
         if (!insertedPromoDivider && user.score >= targetAverage) {
             htmlBuffer += `
-                <div style="display: flex; align-items: center; margin: 10px 0 20px 0;">
+                <div style="display: flex; align-items: center; margin: 0 0 15px 0; opacity: 0.95;">
                     <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #10b981);"></div>
-                    <div style="padding: 4px 12px; font-size: 10px; font-weight: 800; color: #10b981; background: #d1fae5; border-radius: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 8px;">
-                        ▲ PROMOTION ZONE ▲
+                    <div style="padding: 5px 14px; font-size: 0.7em; font-weight: 800; color: #10b981; background: #d1fae5; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 5px rgba(16, 185, 129, 0.15);">
+                        <span>▲</span> PROMOTION ZONE <span>▲</span>
                     </div>
                     <div style="flex: 1; height: 1px; background: linear-gradient(270deg, transparent, #10b981);"></div>
                 </div>
@@ -236,10 +167,10 @@ function renderLeaderboardData(data) {
 
         if (!insertedDemoDivider && user.score < targetAverage) {
             htmlBuffer += `
-                <div id="demotionZoneLine" style="display: flex; align-items: center; margin: 20px 0 15px 0;">
+                <div id="demotionZoneLine" style="display: flex; align-items: center; margin: 20px 0 15px 0; opacity: 0.95;">
                     <div style="flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #ef4444);"></div>
-                    <div style="padding: 4px 12px; font-size: 10px; font-weight: 800; color: #ef4444; background: #fee2e2; border-radius: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 8px;">
-                        ▼ DEMOTION ZONE ▼
+                    <div style="padding: 5px 14px; font-size: 0.7em; font-weight: 800; color: #ef4444; background: #fee2e2; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 5px rgba(239, 68, 68, 0.15);">
+                        <span>▼</span> DEMOTION ZONE <span>▼</span>
                     </div>
                     <div style="flex: 1; height: 1px; background: linear-gradient(270deg, transparent, #ef4444);"></div>
                 </div>
@@ -247,29 +178,63 @@ function renderLeaderboardData(data) {
             insertedDemoDivider = true;
         }
 
-        let isMe = (user.id === me.id);
-        let displayName = isMe ? `<span style="font-weight: 900; color: var(--brand);">You</span>` : user.name;
-        let meHighlightStyle = isMe ? `border: 1px solid var(--brand); box-shadow: 0 0 10px rgba(90, 50, 250, 0.15);` : ``;
+        let clickAction = `onclick="openProfile(${user.id})"`;
+        let cursorStyle = `cursor: pointer;`;
         let rowBgClass = getLeagueBgClass(user.league, 'row');
-        let scoreDisplay = user.score % 1 !== 0 ? user.score.toFixed(2) : user.score;
+        
+        // --- MASTER SPEC: VISUALLY HIGHLIGHT "YOU" IN THE MAIN LIST ---
+        let displayName = isMe ? `<span style="font-weight: 900; color: #3b82f6;">You</span>` : user.name;
+        let meHighlightStyle = isMe ? `border: 1px solid #bfdbfe; box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);` : ``;
 
         htmlBuffer += `
-            <div class="rank-row ${rowBgClass}" onclick="openProfile(${user.id})" style="cursor: pointer; ${meHighlightStyle} animation-delay: ${index * 0.04}s;">
+            <div class="rank-row ${rowBgClass}" ${clickAction} style="${cursorStyle} ${meHighlightStyle} animation-delay: ${cascadeDelay}s;">
                 <div class="rank-left">
-                    <div class="rank-number" style="font-size: 14px;">#${user.rank}</div>
+                    <div class="rank-number">${rankDisplay}</div>
                     <div class="user-details">
                         <div class="user-name">${displayName}</div>
                         <div class="user-sub-details">
-                            ${getLeagueBadgeHTML(user.league)}
+                            ${userLeagueBadge}
                         </div>
                     </div>
                 </div>
-                <div class="user-score" style="background: transparent; color: var(--text-main); font-weight: 800;">${scoreDisplay}</div>
+                <div class="user-score">${user.score % 1 !== 0 ? user.score.toFixed(2) : user.score} pts ${trendIcon}</div>
             </div>
         `;
     });
 
     listDiv.innerHTML = htmlBuffer;
+
+    const footerDiv = document.getElementById('footer');
+    const me = window.currentUserData;
+
+    let myLeagueBadge = getLeagueBadgeHTML(me.league);
+    
+    let myTrendIcon = me.score >= targetAverage
+        ? `<span style="color: #10b981; font-size: 0.8em; margin-left: 6px;" title="Promotion Zone">▲</span>`
+        : `<span style="color: #ff6b6b; font-size: 0.8em; margin-left: 6px;" title="Demotion Zone">▼</span>`;
+
+    footerDiv.onclick = () => openProfile(me.id);
+    footerDiv.style.background = getLeagueFooterColor(me.league);
+
+    footerDiv.style.display = 'flex'; // Unhide the footer in the SPA!
+
+    footerDiv.innerHTML = `
+        <div style="display:flex; flex-direction:column; width:100%;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="rank-left">
+                    <div class="rank-number" style="color: #2a5298;">#${me.rank}</div>
+                    <div class="user-details">
+                        <div class="user-name">You</div>
+                        <div class="user-sub-details">
+                            ${myLeagueBadge}
+                        </div>
+                    </div>
+                </div>
+                <div class="user-score" style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; display: flex; align-items: center;">${me.score % 1 !== 0 ? me.score.toFixed(2) : me.score} pts ${myTrendIcon}</div>
+            </div>
+            <div style="text-align:center; font-size:0.75em; color:#64748b; margin-top:8px; font-weight: 600;">Tap here to view your dashboard 📊</div>
+        </div>
+    `;
 }
 
 const cacheKey = 'quizCupData_' + userId;
@@ -407,7 +372,7 @@ function closeModal(event, force=false) {
     }
 }
 
-async function openProfile(targetId) {
+function openProfile(targetId) {
     let isOwnProfile = (targetId === window.currentUserData.id);
 
     if (!isOwnProfile && !window.currentUserData.is_admin) {
@@ -419,26 +384,7 @@ async function openProfile(targetId) {
         return; 
     }
 
-    let targetUser;
-    if (isOwnProfile) {
-        targetUser = window.currentUserData;
-    } else {
-        try {
-            // Fetch detailed profile for other students (Admin only)
-            // Shows loading state before overwriting
-            document.getElementById('modalStudentName').innerText = "Loading data...";
-            const response = await fetch(`https://ez-editorials-bot.onrender.com/api/profile/${targetId}`);
-            if (!response.ok) throw new Error("Endpoint not found");
-            targetUser = await response.json();
-        } catch (error) {
-            console.error("Failed to load user profile:", error);
-            if (window.Telegram?.WebApp?.showAlert) {
-                window.Telegram.WebApp.showAlert("⚠️ Could not load student's detailed profile. The backend endpoint may not be ready.");
-            }
-            return;
-        }
-    }
-
+    let targetUser = isOwnProfile ? window.currentUserData : globalData.find(u => u.id === targetId);
     if (!targetUser) return;
 
     const modalContent = document.getElementById('modalContentBg');
@@ -473,30 +419,59 @@ async function openProfile(targetId) {
         growthElement.style.fontSize = "1.3em";
     }
     
-    document.getElementById('tblStudentHeader').innerText = isOwnProfile ? 'You' : targetUser.name.split(' ')[0];
+    let topper = globalData.length > 0 ? globalData[0] : targetUser;
 
-    // Safely extract from either 'history' (own profile) or 'performance' (other profile API)
-    let userAtt = totalAttempts;
-    let userAcc = targetUser.history?.accuracy ?? targetUser.performance?.accuracy ?? 0;
-    let userCor = targetUser.history?.correct ?? Math.round((userAcc / 100) * userAtt) ?? 0;
-    let userWro = targetUser.history?.wrong ?? Math.max(0, userAtt - userCor);
+    let topCor = topper.history.correct;
+    let topWro = topper.history.wrong;
+    let topStat = {
+        correct: topCor,
+        wrong: topWro,
+        attempts: topper.attempts,
+        accuracy: topper.attempts > 0 ? Math.round((topCor / topper.attempts) * 100) : 0,
+        score: topper.score
+    };
 
-    document.getElementById('tblYouCor').innerHTML = `${userCor} <span style="font-size:0.8em; color:#64748b;">(${userAcc}%)</span>`;
-    document.getElementById('tblYouWro').innerHTML = `${userWro} <span style="font-size:0.8em; color:#64748b;">(${userAtt > 0 ? 100 - userAcc : 0}%)</span>`;
-    document.getElementById('tblYouAtt').innerText = userAtt;
-    document.getElementById('tblYouAcc').innerText = userAcc + '%';
+    let totalClassCorrect = 0;
+    let totalClassWrong = 0;
+    let totalClassAttempts = 0;
+    let totalClassScore = 0;
 
-    // Omit Topper/Class Averages safely since lightweight leaderboard lacks history
-    ['tblTopCor', 'tblTopWro', 'tblTopAtt', 'tblTopAcc', 'tblAvgCor', 'tblAvgWro', 'tblAvgAtt', 'tblAvgAcc'].forEach(id => {
-        let el = document.getElementById(id);
-        if (el) el.innerText = '—';
+    globalData.forEach(u => {
+        totalClassCorrect += u.history.correct;
+        totalClassWrong += u.history.wrong;
+        totalClassAttempts += u.attempts;
+        totalClassScore += u.score;
     });
 
-    let topper = globalData && globalData.length > 0 ? globalData[0] : targetUser;
-    let topperName = topper.name || "Student";
-    let topperScore = topper.score || 0;
-    document.getElementById('bannerTopperName').innerHTML = topperName;
-    document.getElementById('bannerTopperInfo').innerText = `${topperScore % 1 !== 0 ? topperScore.toFixed(2) : topperScore} pts`;
+    let participants = globalData.length > 0 ? globalData.length : 1;
+
+    let avgStat = {
+        correct: Math.round(totalClassCorrect / participants),
+        wrong: Math.round(totalClassWrong / participants),
+        attempts: Math.round(totalClassAttempts / participants),
+        score: Math.round(totalClassScore / participants),
+        accuracy: totalClassAttempts > 0 ? Math.round((totalClassCorrect / totalClassAttempts) * 100) : 0
+    };
+
+    document.getElementById('tblStudentHeader').innerText = isOwnProfile ? 'You' : targetUser.name.split(' ')[0];
+
+    document.getElementById('tblYouCor').innerHTML = `${targetUser.history.correct} <span style="font-size:0.8em; color:#64748b;">(${targetUser.history.accuracy}%)</span>`;
+    document.getElementById('tblYouWro').innerHTML = `${targetUser.history.wrong} <span style="font-size:0.8em; color:#64748b;">(${totalAttempts > 0 ? 100 - targetUser.history.accuracy : 0}%)</span>`;
+    document.getElementById('tblYouAtt').innerText = totalAttempts;
+    document.getElementById('tblYouAcc').innerText = targetUser.history.accuracy + '%';
+
+    document.getElementById('tblTopCor').innerHTML = `${topStat.correct} <span style="font-size:0.8em; color:#64748b;">(${topStat.accuracy}%)</span>`;
+    document.getElementById('tblTopWro').innerHTML = `${topStat.wrong} <span style="font-size:0.8em; color:#64748b;">(${topStat.attempts > 0 ? 100 - topStat.accuracy : 0}%)</span>`;
+    document.getElementById('tblTopAtt').innerText = topStat.attempts;
+    document.getElementById('tblTopAcc').innerText = topStat.accuracy + '%';
+
+    document.getElementById('tblAvgCor').innerHTML = `${avgStat.correct} <span style="font-size:0.8em; color:#64748b;">(${avgStat.accuracy}%)</span>`;
+    document.getElementById('tblAvgWro').innerHTML = `${avgStat.wrong} <span style="font-size:0.8em; color:#64748b;">(${avgStat.attempts > 0 ? 100 - avgStat.accuracy : 0}%)</span>`;
+    document.getElementById('tblAvgAtt').innerText = avgStat.attempts;
+    document.getElementById('tblAvgAcc').innerText = avgStat.accuracy + '%';
+
+    document.getElementById('bannerTopperName').innerHTML = topper.name;
+    document.getElementById('bannerTopperInfo').innerText = `${topper.score % 1 !== 0 ? topper.score.toFixed(2) : topper.score} pts • ${topStat.accuracy}% Accuracy`;
 
     document.getElementById('csTotal').innerText = targetUser.score % 1 !== 0 ? targetUser.score.toFixed(2) : targetUser.score;
     document.getElementById('csCorrect').innerText = targetUser.history.correct;
