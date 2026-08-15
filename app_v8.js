@@ -373,8 +373,8 @@ function closeModal(event, force=false) {
 }
 
 function openProfile(targetId) {
-    // 🟢 FIX: Use loose equality or Number() cast to prevent string vs int mismatch
-    let isOwnProfile = Number(targetId) === Number(window.currentUserData?.id) || targetId === appUserId;
+    // 🟢 FIX: Bulletproof Type-Safe Check
+    let isOwnProfile = (Number(targetId) === Number(window.currentUserData?.id)) || (Number(targetId) === Number(userId));
 
     if (!isOwnProfile && !window.currentUserData?.is_admin) {
         if (window.Telegram?.WebApp?.showAlert) {
@@ -386,11 +386,7 @@ function openProfile(targetId) {
     }
 
     let targetUser = isOwnProfile ? window.currentUserData : globalData.find(u => Number(u.id) === Number(targetId));
-    if (!targetUser || !targetUser.history) {
-        // If data is still loading, fetch and retry
-        loadRealCupData();
-        return;
-    }
+    if (!targetUser) return;
 
     const modalContent = document.getElementById('modalContentBg');
     modalContent.className = 'modal-content';
@@ -404,9 +400,10 @@ function openProfile(targetId) {
     document.getElementById('modalStudentTitle').innerText = getAcademicTitle(targetUser.elo || 1000);
 
     document.getElementById('statScore').innerText = targetUser.score % 1 !== 0 ? targetUser.score.toFixed(2) : targetUser.score;
-    document.getElementById('statAccuracy').innerText = targetUser.history.accuracy + '%';
+    document.getElementById('statAccuracy').innerText = (targetUser.history?.accuracy || 0) + '%';
 
-    let totalAttempts = targetUser.history.correct + targetUser.history.wrong;
+    // 🟢 FIX: Handle missing history object safely
+    let totalAttempts = (targetUser.history?.correct || 0) + (targetUser.history?.wrong || 0);
     let maxAvailable = window.totalQuizzesAvailable || 0;
     
     if (totalAttempts > maxAvailable) maxAvailable = totalAttempts;
@@ -426,29 +423,34 @@ function openProfile(targetId) {
     
     let topper = globalData.length > 0 ? globalData[0] : targetUser;
 
-    let topCor = topper.history.correct;
-    let topWro = topper.history.wrong;
+    // 🟢 FIX: Handle missing Topper history gracefully
+    let topCor = topper.history?.correct || 0;
+    let topWro = topper.history?.wrong || 0;
     let topStat = {
         correct: topCor,
         wrong: topWro,
-        attempts: topper.attempts,
-        accuracy: topper.attempts > 0 ? Math.round((topCor / topper.attempts) * 100) : 0,
-        score: topper.score
+        attempts: topper.attempts || 0,
+        accuracy: topper.history?.accuracy || 0,
+        score: topper.score || 0
     };
 
     let totalClassCorrect = 0;
     let totalClassWrong = 0;
     let totalClassAttempts = 0;
     let totalClassScore = 0;
+    let validUsers = 0;
 
     globalData.forEach(u => {
-        totalClassCorrect += u.history.correct;
-        totalClassWrong += u.history.wrong;
-        totalClassAttempts += u.attempts;
-        totalClassScore += u.score;
+        if (u.history) {
+            totalClassCorrect += u.history.correct || 0;
+            totalClassWrong += u.history.wrong || 0;
+            totalClassAttempts += u.attempts || 0;
+            totalClassScore += u.score || 0;
+            validUsers++;
+        }
     });
 
-    let participants = globalData.length > 0 ? globalData.length : 1;
+    let participants = validUsers > 0 ? validUsers : 1;
 
     let avgStat = {
         correct: Math.round(totalClassCorrect / participants),
@@ -460,10 +462,10 @@ function openProfile(targetId) {
 
     document.getElementById('tblStudentHeader').innerText = isOwnProfile ? 'You' : targetUser.name.split(' ')[0];
 
-    document.getElementById('tblYouCor').innerHTML = `${targetUser.history.correct} <span style="font-size:0.8em; color:#64748b;">(${targetUser.history.accuracy}%)</span>`;
-    document.getElementById('tblYouWro').innerHTML = `${targetUser.history.wrong} <span style="font-size:0.8em; color:#64748b;">(${totalAttempts > 0 ? 100 - targetUser.history.accuracy : 0}%)</span>`;
+    document.getElementById('tblYouCor').innerHTML = `${targetUser.history?.correct || 0} <span style="font-size:0.8em; color:#64748b;">(${targetUser.history?.accuracy || 0}%)</span>`;
+    document.getElementById('tblYouWro').innerHTML = `${targetUser.history?.wrong || 0} <span style="font-size:0.8em; color:#64748b;">(${totalAttempts > 0 ? 100 - (targetUser.history?.accuracy || 0) : 0}%)</span>`;
     document.getElementById('tblYouAtt').innerText = totalAttempts;
-    document.getElementById('tblYouAcc').innerText = targetUser.history.accuracy + '%';
+    document.getElementById('tblYouAcc').innerText = (targetUser.history?.accuracy || 0) + '%';
 
     document.getElementById('tblTopCor').innerHTML = `${topStat.correct} <span style="font-size:0.8em; color:#64748b;">(${topStat.accuracy}%)</span>`;
     document.getElementById('tblTopWro').innerHTML = `${topStat.wrong} <span style="font-size:0.8em; color:#64748b;">(${topStat.attempts > 0 ? 100 - topStat.accuracy : 0}%)</span>`;
@@ -479,13 +481,19 @@ function openProfile(targetId) {
     document.getElementById('bannerTopperInfo').innerText = `${topper.score % 1 !== 0 ? topper.score.toFixed(2) : topper.score} pts • ${topStat.accuracy}% Accuracy`;
 
     document.getElementById('csTotal').innerText = targetUser.score % 1 !== 0 ? targetUser.score.toFixed(2) : targetUser.score;
-    document.getElementById('csCorrect').innerText = targetUser.history.correct;
-    document.getElementById('csWrong').innerText = targetUser.history.wrong;
-    document.getElementById('csAcc').innerText = targetUser.history.accuracy + '%';
+    document.getElementById('csCorrect').innerText = targetUser.history?.correct || 0;
+    document.getElementById('csWrong').innerText = targetUser.history?.wrong || 0;
+    document.getElementById('csAcc').innerText = (targetUser.history?.accuracy || 0) + '%';
 
     renderRankHistory(targetUser);
     populateRecentActivity(targetUser);
-    renderCharts(targetUser);
+    
+    // Safety check in case app.html's inline renderer isn't ready
+    if (typeof window.renderCharts === 'function') {
+        window.renderCharts(targetUser);
+    } else {
+        renderCharts(targetUser);
+    }
 
     const modal = document.getElementById('analysisModal');
     modal.classList.add('active');
@@ -495,10 +503,11 @@ function populateRecentActivity(targetUser) {
     const actList = document.getElementById('activityList');
     actList.innerHTML = '';
 
-    let labels = targetUser.history.labels;
-    let scores = targetUser.history.scores;
-    let dailyCorrect = targetUser.history.daily_correct || [];
-    let dailyAttempts = targetUser.history.daily_attempts || [];
+    // 🟢 FIX: Handle missing arrays
+    let labels = targetUser.history?.labels || [];
+    let scores = targetUser.history?.scores || [];
+    let dailyCorrect = targetUser.history?.daily_correct || [];
+    let dailyAttempts = targetUser.history?.daily_attempts || [];
 
     if (!labels || labels.length === 0) {
         actList.innerHTML = '<div style="text-align:center; color:#94a3b8; padding: 10px;">No quizzes attempted yet.</div>';

@@ -1313,9 +1313,13 @@
                 let day = getIST().getDay();
                 let currentDayIndex = day === 0 ? 6 : day - 1; 
 
-                for (let i = 0; i < targetUser.history.labels.length; i++) {
-                    let dayIndex = weekLabels.indexOf(targetUser.history.labels[i]);
-                    if (dayIndex !== -1 && dayIndex <= currentDayIndex) finalYou[dayIndex] = targetUser.history.scores[i];
+                // 🟢 FIX: Safe fallback if arrays are stripped
+                let labels = targetUser.history?.labels || [];
+                let scores = targetUser.history?.scores || [];
+
+                for (let i = 0; i < labels.length; i++) {
+                    let dayIndex = weekLabels.indexOf(labels[i]);
+                    if (dayIndex !== -1 && dayIndex <= currentDayIndex) finalYou[dayIndex] = scores[i];
                 }
                 for (let i = 0; i <= currentDayIndex; i++) {
                     if (finalYou[i] === null) finalYou[i] = 0;
@@ -1336,12 +1340,13 @@
                     options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, border: {display: false} }, x: { grid: { display: false }, border: {display: false} } } }
                 });
 
-                let c = targetUser.history.correct; let w = targetUser.history.wrong;
+                // 🟢 FIX: Safe fallback for pie chart variables
+                let c = targetUser.history?.correct || 0; 
+                let w = targetUser.history?.wrong || 0;
                 let pieData = [c, w]; let pieColors = ['#10b981', '#ef4444'];
                 if (c === 0 && w === 0) { pieData = [1]; pieColors = ['#e2e8f0']; }
 
-                // Update the new HTML text overlay directly
-                document.getElementById('chart-center-perc').innerText = targetUser.history.accuracy + "%";
+                document.getElementById('chart-center-perc').innerText = (targetUser.history?.accuracy || 0) + "%";
 
                 window.pieChartInstance = new Chart(ctxPie, {
                     type: 'doughnut',
