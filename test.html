@@ -625,7 +625,7 @@
             const qId = q.question_id || q.id;
             document.getElementById('q-num').innerText = index + 1;
 
-            // 🟢 NEW: Update Community Stats Pills for Review Mode
+            // 1. Update Community Stats Pills for Review Mode
             if (isReviewMode) {
                 const estTime = q.global_avg_time || 0;
                 const m = Math.floor(estTime / 60).toString().padStart(2, '0');
@@ -635,7 +635,6 @@
                 
                 const accPill = document.getElementById('review-acc-pill');
                 
-                // 1. Find the lowest accuracy in this entire quiz
                 let lowestAcc = 100;
                 questions.forEach(quest => {
                     if (quest.global_accuracy !== undefined && quest.global_accuracy < lowestAcc) {
@@ -643,14 +642,11 @@
                     }
                 });
 
-                // 2. Apply text and colors based on performance
                 if (isPractice) {
                     accPill.innerText = `👥 Practice Mode`;
                     accPill.className = 'stat-pill green-tint';
                 } else {
                     const currentAcc = q.global_accuracy || 0;
-                    
-                    // If this is the hardest question AND the community actually failed it (< 50%)
                     if (currentAcc === lowestAcc && currentAcc < 50) {
                         accPill.innerText = `🚨 Hardest: ${currentAcc}% Answered correctly`;
                         accPill.className = 'stat-pill red-tint';
@@ -661,12 +657,11 @@
                 }
             }
 
-            // Extract the new meta payload safely
+            // 2. Safely parse metadata payload (options, passage, instruction)
             let opts = q.options;
             let passage = "";
             let instruction = "";
             
-            // 1. Unpack potentially double-stringified JSON from the database
             if (typeof opts === 'string') {
                 try { opts = JSON.parse(opts); } catch(e) { }
             }
@@ -674,24 +669,21 @@
                 try { opts = JSON.parse(opts); } catch(e) { }
             }
             
-            // 2. Check if it is our newly packed dictionary containing the passage
             if (opts && typeof opts === 'object' && !Array.isArray(opts)) {
                 passage = opts.passage || "";
                 instruction = opts.instruction || "";
                 opts = opts.options || [];
                 
-                // Just in case the options array inside the dictionary was ALSO stringified
                 if (typeof opts === 'string') {
                     try { opts = JSON.parse(opts); } catch(e) { }
                 }
             }
 
-            // 3. Final Fallback safety check
             if (!Array.isArray(opts)) {
                 opts = [];
             }
 
-            // Handle Instruction and Passage Display independently
+            // 3. Independent Handling for Instructions & Reading Passages
             const passageBlock = document.getElementById('passage-block');
             const instText = document.getElementById('inst-text');
             const passageText = document.getElementById('passage-text');
@@ -724,10 +716,8 @@
                 passageBlock.style.display = 'none';
             }
 
-            // Set the Question Text (Fallback to old format if new format isn't present)
+            // 4. Set Question Text
             let rawQText = q.text || q.question_text || '';
-            // If the backend didn't separate them, the question text is the whole thing.
-            // If it did, it's just the question.
             document.getElementById('q-text').innerText = rawQText;
 
             const optsContainer = document.getElementById('options-container');
@@ -752,6 +742,7 @@
                 document.getElementById('unattempted-warning').style.display = 'none';
             }
 
+            // 5. Render Options
             opts.forEach((optText, i) => {
                 const optDiv = document.createElement('div');
                 optDiv.className = `option`;
