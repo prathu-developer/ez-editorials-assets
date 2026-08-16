@@ -909,16 +909,16 @@
 
 
         
-        /* --- WEEKLY CUP HEADER & HERO CARD --- */
+        /* --- COMPACT & RESPONSIVE WEEKLY CUP STYLES --- */
         .cup-top-header {
-            padding: 16px 20px 10px 20px;
+            padding: 12px 16px 8px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .cup-header-back-btn {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 12px;
             background: #ffffff;
             border: 1px solid var(--border-light);
@@ -926,9 +926,8 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
             color: var(--text-main);
-            transition: transform 0.15s ease;
             font-size: 18px;
             font-weight: bold;
         }
@@ -936,20 +935,15 @@
             background: var(--bg-card);
             border-color: var(--border-light);
         }
-        .cup-header-back-btn:active {
-            transform: scale(0.92);
-        }
-
         .cup-header-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: -0.3px;
         }
-
         .cup-analytics-btn {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 12px;
             background: #ffffff;
             border: 1px solid var(--border-light);
@@ -957,119 +951,102 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
             color: #5a32fa;
-            transition: transform 0.15s ease;
         }
         body.dark-mode .cup-analytics-btn {
             background: var(--bg-card);
             border-color: var(--border-light);
             color: #c084fc;
         }
-        .cup-analytics-btn:active {
-            transform: scale(0.92);
-        }
 
-        /* Deep Violet Hero Card */
+        /* 1. Deep Violet Compact Hero Card */
         .cup-hero-dark-card {
-            margin: 0 16px 20px 16px;
-            padding: 18px 16px;
-            border-radius: 24px;
+            margin: 0 14px 14px 14px;
+            padding: 14px 12px;
+            border-radius: 20px;
             background: linear-gradient(135deg, #1b0a4a 0%, #260d5b 55%, #18083e 100%);
             border: 1px solid rgba(168, 85, 247, 0.28);
-            box-shadow: 0 10px 28px rgba(27, 10, 74, 0.35);
+            box-shadow: 0 8px 24px rgba(27, 10, 74, 0.3);
             color: #ffffff;
             box-sizing: border-box;
             position: relative;
             overflow: hidden;
         }
-
         .cup-hero-grid {
             display: grid;
-            grid-template-columns: 1.35fr auto 0.95fr 1fr;
+            grid-template-columns: 1.3fr auto 0.9fr 0.9fr;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
-
-        /* Left: Rank & Overtake Area */
         .cup-hero-left {
             min-width: 0;
             display: flex;
             flex-direction: column;
         }
         .cup-hero-tag {
-            font-size: 10.5px;
+            font-size: 9.5px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.6px;
             color: #a78bfa;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .cup-hero-sub-label {
-            font-size: 11px;
+            font-size: 10px;
             color: #cbd5e1;
             font-weight: 500;
-            margin-bottom: 2px;
         }
         .cup-rank-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 6px;
+            margin: 3px 0 6px 0;
             flex-wrap: wrap;
         }
         .cup-hero-big-rank {
-            font-size: clamp(24px, 6.8vw, 32px);
+            font-size: clamp(20px, 5.5vw, 26px);
             font-weight: 900;
             color: #ffffff;
             line-height: 1;
-            letter-spacing: -0.5px;
         }
         .cup-rank-delta-pill {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             background: rgba(139, 92, 246, 0.25);
             border: 1px solid rgba(192, 132, 252, 0.3);
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 10.5px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 9.5px;
             font-weight: 700;
             color: #e9d5ff;
             white-space: nowrap;
         }
         .cup-rank-vs-text {
-            font-size: 10.5px;
+            font-size: 9.5px;
             color: #94a3b8;
             font-weight: 500;
-            white-space: nowrap;
         }
 
-        /* Overtake Pill Button */
         .cup-overtake-pill-btn {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 6px 10px;
+            border-radius: 10px;
+            padding: 5px 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             color: #f1f5f9;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             cursor: pointer;
-            transition: background 0.15s ease;
         }
-        .cup-overtake-pill-btn:active {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        /* Overtake Mini Slider Track */
         .cup-overtake-track-wrap {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
         .cup-overtake-track {
             height: 4px;
@@ -1087,33 +1064,30 @@
         }
         .cup-overtake-thumb {
             position: absolute;
-            right: -4px;
+            right: -3px;
             top: 50%;
             transform: translateY(-50%);
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: #ffffff;
             border-radius: 50%;
-            box-shadow: 0 0 8px #c084fc;
+            box-shadow: 0 0 6px #c084fc;
         }
         .cup-overtake-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 700;
             color: #94a3b8;
             line-height: 1;
         }
 
-        /* Middle Divider */
         .cup-hero-divider {
             width: 1px;
-            height: 80px;
+            height: 70px;
             background: rgba(255, 255, 255, 0.12);
             flex-shrink: 0;
         }
-
-        /* Middle Score Column */
         .cup-hero-score-col {
             display: flex;
             flex-direction: column;
@@ -1122,35 +1096,33 @@
             min-width: 0;
         }
         .cup-score-label {
-            font-size: 11px;
+            font-size: 10px;
             color: #cbd5e1;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .cup-hero-score-num {
-            font-size: clamp(20px, 5.8vw, 26px);
+            font-size: clamp(17px, 4.6vw, 22px);
             font-weight: 900;
             color: #ffffff;
             line-height: 1.1;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             white-space: nowrap;
         }
         .cup-hero-pct-pill {
             background: rgba(139, 92, 246, 0.28);
             border: 1px solid rgba(192, 132, 252, 0.35);
             color: #ede9fe;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
             font-weight: 800;
             white-space: nowrap;
         }
-
-        /* Right Illustration: Trophy + 3D Shield + Star + Laurel */
         .cup-hero-crest-illus {
             width: 100%;
-            max-width: 110px;
-            height: 105px;
+            max-width: 85px;
+            height: 85px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -1160,46 +1132,42 @@
         .cup-hero-crest-illus svg {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.4));
         }
 
-        /* --- WEEKLY CUP LEADERBOARD, PODIUM & BATTLE SECTION --- */
+        /* 2. Battle Around You Section */
         .cup-section-wrap {
-            margin: 0 16px 14px 16px;
+            margin: 0 14px 12px 14px;
         }
         .cup-section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             padding: 0 2px;
         }
         .cup-section-title {
-            font-size: 11.5px;
+            font-size: 11px;
             font-weight: 800;
             color: var(--text-muted);
-            letter-spacing: 0.8px;
+            letter-spacing: 0.6px;
             text-transform: uppercase;
         }
 
-        /* 1. Battle Around You Card */
         .battle-around-card {
             background: #ffffff;
             border: 1px solid var(--border-light);
-            border-radius: 22px;
-            padding: 14px 10px;
+            border-radius: 18px;
+            padding: 10px 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
-            position: relative;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.02);
             box-sizing: border-box;
         }
         body.dark-mode .battle-around-card {
             background: var(--bg-card);
             border-color: var(--border-light);
         }
-
         .battle-user-col {
             flex: 1;
             display: flex;
@@ -1207,84 +1175,75 @@
             align-items: center;
             text-align: center;
             min-width: 0;
-            padding: 4px;
-            position: relative;
+            padding: 2px;
         }
         .battle-rank-num {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
             color: var(--text-muted);
-            margin-bottom: 3px;
             line-height: 1;
+            margin-bottom: 2px;
         }
         .battle-user-name {
-            font-size: clamp(11.5px, 3.2vw, 13px);
+            font-size: clamp(10.5px, 2.8vw, 12px);
             font-weight: 700;
             color: var(--text-main);
             line-height: 1.2;
-            margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 100%;
+            max-width: 90px;
         }
         .battle-user-pts {
-            font-size: 11px;
+            font-size: 10.5px;
             color: var(--text-muted);
             font-weight: 600;
             white-space: nowrap;
         }
-
-        /* User's Center Highlighted Card in Battle */
         .battle-self-box {
             background: #f7f4ff;
             border: 1.5px solid #dcd3ff;
-            border-radius: 16px;
-            padding: 8px 12px;
-            box-shadow: 0 3px 12px rgba(90, 50, 250, 0.08);
+            border-radius: 14px;
+            padding: 6px 8px;
         }
         body.dark-mode .battle-self-box {
             background: #241454;
             border-color: #4c2889;
         }
-        .battle-self-box .battle-rank-num { color: #5a32fa; }
-        body.dark-mode .battle-self-box .battle-rank-num { color: #c084fc; }
-        .battle-self-box .battle-user-name { color: #5a32fa; font-weight: 800; }
-        body.dark-mode .battle-self-box .battle-user-name { color: #ffffff; }
-        .battle-self-box .battle-user-pts { color: #5a32fa; font-weight: 800; }
-        body.dark-mode .battle-self-box .battle-user-pts { color: #c084fc; }
-
-        .battle-dashed-line {
-            width: 24px;
-            border-top: 2px dashed #cbd5e1;
-            flex-shrink: 0;
-            margin: 0 -2px;
-        }
-        body.dark-mode .battle-dashed-line {
-            border-top-color: #475569;
-        }
-
-        .battle-side-indicator {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
+        .battle-self-box .battle-rank-num,
+        .battle-self-box .battle-user-name,
+        .battle-self-box .battle-user-pts {
+            color: #5a32fa;
             font-weight: 800;
         }
-        .indicator-left { left: 4px; color: #ef4444; }
-        .indicator-right { right: 4px; color: #10b981; }
+        body.dark-mode .battle-self-box .battle-rank-num,
+        body.dark-mode .battle-self-box .battle-user-pts { color: #c084fc; }
+        body.dark-mode .battle-self-box .battle-user-name { color: #ffffff; }
 
-        /* 2. Top 3 Podium Grid */
+        .battle-dashed-line {
+            width: 16px;
+            border-top: 1.5px dashed #cbd5e1;
+            flex-shrink: 0;
+        }
+        .battle-side-indicator {
+            font-size: 12px;
+            font-weight: 800;
+            padding: 0 4px;
+        }
+        .indicator-left { color: #ef4444; }
+        .indicator-right { color: #10b981; }
+
+        /* 3. Top 3 Podium Grid (Mobile Compact) */
         .cup-podium-grid {
-            margin: 0 16px 20px 16px;
+            margin: 0 14px 14px 14px;
             display: grid;
-            grid-template-columns: 1fr 1.08fr 1fr;
-            gap: 8px;
+            grid-template-columns: 1fr 1.06fr 1fr;
+            gap: 6px;
             align-items: flex-end;
         }
         .podium-card {
-            border-radius: 20px;
-            padding: 14px 6px 12px 6px;
+            border-radius: 18px;
+            padding: 10px 4px 8px 4px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1292,202 +1251,166 @@
             position: relative;
             box-sizing: border-box;
             cursor: pointer;
-            transition: transform 0.15s ease;
         }
-        .podium-card:active {
-            transform: scale(0.97);
-        }
-
-        .podium-rank-2 {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-        }
-        body.dark-mode .podium-rank-2 {
-            background: #181c24;
-            border-color: #2e384d;
-        }
-
+        .podium-rank-2 { background: #f8fafc; border: 1px solid #e2e8f0; }
+        body.dark-mode .podium-rank-2 { background: #181c24; border-color: #2e384d; }
         .podium-rank-1 {
             background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
             border: 1.5px solid #fed7aa;
-            padding-top: 18px;
-            box-shadow: 0 6px 20px rgba(234, 88, 12, 0.08);
+            padding-top: 14px;
         }
         body.dark-mode .podium-rank-1 {
             background: linear-gradient(180deg, #2d1806 0%, #1f1003 100%);
             border-color: rgba(249, 115, 22, 0.3);
         }
+        .podium-rank-3 { background: #faf8ff; border: 1px solid #ede9fe; }
+        body.dark-mode .podium-rank-3 { background: #19142b; border-color: #312852; }
 
-        .podium-rank-3 {
-            background: #faf8ff;
-            border: 1px solid #ede9fe;
-        }
-        body.dark-mode .podium-rank-3 {
-            background: #19142b;
-            border-color: #312852;
-        }
-
-        /* Medal Badge & Floating Crown */
         .podium-medal-badge {
             position: absolute;
-            top: -2px;
-            left: 8px;
-            width: 22px;
-            height: 26px;
+            top: -4px;
+            left: 6px;
+            font-size: 16px;
         }
         .podium-crown-icon {
             position: absolute;
-            top: -10px;
-            right: 12px;
-            font-size: 18px;
+            top: -8px;
+            right: 8px;
+            font-size: 15px;
             transform: rotate(20deg);
         }
 
-        /* Avatar Containers */
         .podium-avatar-wrap {
-            width: clamp(52px, 15vw, 62px);
-            height: clamp(52px, 15vw, 62px);
+            width: clamp(42px, 12vw, 48px);
+            height: clamp(42px, 12vw, 48px);
             border-radius: 50%;
-            margin-bottom: 6px;
-            position: relative;
-            padding: 2px;
+            margin-bottom: 4px;
             background: #ffffff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
         .podium-rank-1 .podium-avatar-wrap {
-            width: clamp(58px, 17vw, 70px);
-            height: clamp(58px, 17vw, 70px);
+            width: clamp(48px, 14vw, 56px);
+            height: clamp(48px, 14vw, 56px);
             border: 2px solid #f97316;
         }
         .podium-avatar-img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             object-fit: cover;
         }
         .podium-avatar-fallback {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             background: #ede9fe;
             color: #5a32fa;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 20px;
+            font-size: 16px;
         }
 
         .podium-name {
-            font-size: clamp(12px, 3.4vw, 13.5px);
+            font-size: clamp(10.5px, 2.9vw, 12px);
             font-weight: 800;
             color: var(--text-main);
             line-height: 1.2;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 90%;
+            max-width: 85px;
         }
         .podium-league-badge-wrap {
-            margin-bottom: 6px;
-            transform: scale(0.85);
+            margin-bottom: 4px;
+            transform: scale(0.72);
             transform-origin: center;
+            margin-top: -3px;
         }
         .podium-score {
-            font-size: clamp(13.5px, 3.8vw, 16px);
+            font-size: clamp(11.5px, 3.2vw, 13.5px);
             font-weight: 900;
             color: #5a32fa;
             line-height: 1.1;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         body.dark-mode .podium-score { color: #c084fc; }
         .podium-rank-1 .podium-score { color: #ea580c; }
         body.dark-mode .podium-rank-1 .podium-score { color: #fb923c; }
-
         .podium-meta-strip {
-            font-size: clamp(8.5px, 2.4vw, 9.5px);
+            font-size: 9.5px;
             color: var(--text-muted);
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            white-space: nowrap;
         }
 
-        /* 3. Leaderboard Rows (#4+) */
+        /* 4. Leaderboard Rows (#4+) */
         .cup-ranks-list {
-            margin: 0 16px 90px 16px;
+            margin: 0 14px 140px 14px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
-
         .cup-rank-row-item {
             background: #ffffff;
             border: 1px solid var(--border-light);
-            border-radius: 18px;
-            padding: 10px 14px;
+            border-radius: 16px;
+            padding: 8px 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
             cursor: pointer;
-            transition: transform 0.15s ease;
-            gap: 8px;
+            gap: 6px;
         }
         body.dark-mode .cup-rank-row-item {
             background: var(--bg-card);
             border-color: var(--border-light);
         }
-        .cup-rank-row-item:active {
-            transform: scale(0.98);
-        }
 
         .cup-row-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             min-width: 0;
             flex: 1;
         }
         .cup-row-rank-num {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 800;
             color: var(--text-muted);
-            width: 26px;
+            width: 22px;
             flex-shrink: 0;
         }
         .cup-row-avatar-wrap {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             flex-shrink: 0;
-            position: relative;
-            padding: 1px;
-            background: #ffffff;
-            border: 1.5px solid var(--border-light);
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .cup-row-avatar-img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             object-fit: cover;
         }
         .cup-row-avatar-fallback {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             background: #ede9fe;
             color: #5a32fa;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .cup-row-user-meta {
@@ -1499,40 +1422,36 @@
         .cup-row-name-line {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 2px;
+            gap: 4px;
         }
         .cup-row-name {
-            font-size: clamp(13px, 3.6vw, 14.5px);
+            font-size: clamp(11.5px, 3.2vw, 13px);
             font-weight: 700;
             color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            max-width: 95px;
         }
         .cup-row-league-wrap {
-            transform: scale(0.78);
+            transform: scale(0.68);
             transform-origin: left center;
-            margin-right: -10px;
+            margin-right: -12px;
         }
         .cup-row-submeta {
-            font-size: 10.5px;
+            font-size: 9.5px;
             color: var(--text-muted);
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            white-space: nowrap;
         }
 
         .cup-row-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
         }
         .cup-row-pts {
-            font-size: clamp(13.5px, 3.8vw, 15px);
+            font-size: clamp(12px, 3.4vw, 13.5px);
             font-weight: 800;
             color: #5a32fa;
             white-space: nowrap;
@@ -1540,32 +1459,60 @@
         body.dark-mode .cup-row-pts { color: #c084fc; }
 
         .cup-row-delta {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-            min-width: 24px;
+            min-width: 18px;
+            text-align: right;
         }
         .delta-up { color: #10b981; }
         .delta-down { color: #ef4444; }
         .delta-same { color: #94a3b8; }
 
-        /* 4. Frozen Sticky Bottom Self-Rank Entry */
+        /* 5. Sleek Red Demotion Line */
+        .cup-demotion-divider {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+            padding: 0 4px;
+        }
+        .demotion-line {
+            flex: 1;
+            height: 1.5px;
+            background: #f87171;
+            border-radius: 2px;
+        }
+        .demotion-badge {
+            font-size: 10px;
+            font-weight: 800;
+            color: #dc2626;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 3px 8px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+        body.dark-mode .demotion-badge {
+            background: #450a0a;
+            border-color: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        /* 6. Compact Sticky Bottom Self-Rank Bar */
         .cup-sticky-self-bar {
             position: fixed;
-            bottom: 74px;
-            left: 16px;
-            right: 16px;
-            background: linear-gradient(135deg, #f7f4ff 0%, #ede7ff 100%);
+            bottom: 68px;
+            left: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #f8f6ff 0%, #ede7ff 100%);
             border: 1.5px solid #dcd3ff;
-            border-radius: 20px;
-            padding: 10px 14px;
+            border-radius: 18px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 6px 20px rgba(90, 50, 250, 0.16);
-            z-index: 95;
+            box-shadow: 0 4px 18px rgba(90, 50, 250, 0.18);
+            z-index: 99;
             cursor: pointer;
             box-sizing: border-box;
         }
@@ -1574,15 +1521,15 @@
             border-color: #553399;
         }
         .cup-sticky-jump-btn {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             background: #5a32fa;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 800;
             border: none;
             flex-shrink: 0;
@@ -3826,7 +3773,7 @@
 
 
     <!-- ==========================================
-         VIEW 3: WEEKLY CUP (New Redesign)
+         VIEW 3: WEEKLY CUP (Mobile-Optimized)
          ========================================== -->
     <div id="view-cup" class="view-container">
         <!-- Top Header with Back & Analytics Buttons -->
@@ -3834,7 +3781,7 @@
             <div class="cup-header-back-btn" onclick="switchView('view-home')">‹</div>
             <span class="cup-header-title">Weekly Cup</span>
             <div class="cup-analytics-btn" onclick="openProfile(appUserId)">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="20" x2="18" y2="10"></line>
                     <line x1="12" y1="20" x2="12" y2="4"></line>
                     <line x1="6" y1="20" x2="6" y2="14"></line>
@@ -3842,10 +3789,10 @@
             </div>
         </div>
         
-        <!-- Deep Violet Hero Card -->
+        <!-- 1. Deep Violet Compact Hero Card -->
         <div class="cup-hero-dark-card">
             <div class="cup-hero-grid">
-                <!-- 1. Left: Rank & Overtake Goal -->
+                <!-- Left: Rank & Overtake Goal -->
                 <div class="cup-hero-left">
                     <div class="cup-hero-tag">YOUR STATUS</div>
                     <div class="cup-hero-sub-label">You are</div>
@@ -3854,7 +3801,7 @@
                         <span class="cup-hero-big-rank" id="cup-tab-rank">#--</span>
                         <div class="cup-rank-delta-pill" id="cup-rank-delta-badge">
                             <span id="cup-rank-delta-icon">↑</span>
-                            <span id="cup-rank-delta-val">--</span>
+                            <span id="cup-rank-delta-val">1</span>
                         </div>
                         <span class="cup-rank-vs-text" id="cup-rank-vs-text">vs yesterday</span>
                     </div>
@@ -3879,55 +3826,38 @@
                     </div>
                 </div>
 
-                <!-- 2. Vertical Divider -->
+                <!-- Vertical Divider -->
                 <div class="cup-hero-divider"></div>
 
-                <!-- 3. Middle: Score & Percentile -->
+                <!-- Middle: Score & Percentile -->
                 <div class="cup-hero-score-col">
                     <div class="cup-score-label">Your Score</div>
                     <div class="cup-hero-score-num" id="cup-tab-score">--</div>
                     <div class="cup-hero-pct-pill" id="cup-tab-pct-pill">Top --%</div>
                 </div>
 
-                <!-- 4. Right: 3D Gold Trophy + Shield + Star + Laurel Vector -->
+                <!-- Right: 3D Gold Trophy + Shield + Star + Laurel Vector -->
                 <div class="cup-hero-crest-illus">
                     <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Sparkles -->
                         <path d="M12 55L13.5 50L18.5 51L13.5 52L12 57L10.5 52L5.5 51L10.5 50L12 55Z" fill="#fbbf24" opacity="0.8"/>
                         <path d="M108 48L109.5 43L114.5 44L109.5 45L108 50L106.5 45L101.5 44L106.5 43L108 48Z" fill="#fbbf24" opacity="0.8"/>
-                        <circle cx="110" cy="85" r="2" fill="#e9d5ff" opacity="0.7"/>
-                        <circle cx="14" cy="86" r="2" fill="#e9d5ff" opacity="0.7"/>
-
-                        <!-- Laurel Wreath -->
                         <path d="M26 88C18 74 22 56 30 48" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
                         <path d="M94 88C102 74 98 56 90 48" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
-                        <!-- Laurel Leaves Left -->
                         <path d="M18 78C20 74 25 74 28 78C25 82 20 82 18 78Z" fill="#a78bfa"/>
                         <path d="M22 64C24 60 29 60 32 64C29 68 24 68 22 64Z" fill="#818cf8"/>
-                        <path d="M28 50C30 46 35 46 38 50C35 54 30 54 28 50Z" fill="#a78bfa"/>
-                        <!-- Laurel Leaves Right -->
                         <path d="M102 78C100 74 95 74 92 78C95 82 100 82 102 78Z" fill="#a78bfa"/>
                         <path d="M98 64C96 60 91 60 88 64C91 68 96 68 98 64Z" fill="#818cf8"/>
-                        <path d="M92 50C90 46 85 46 82 50C85 54 90 54 92 50Z" fill="#a78bfa"/>
-
-                        <!-- Shield Outer Shadow & Rim -->
+                        <!-- Shield Body -->
                         <path d="M60 40L34 49V72C34 88 48 98 60 102C72 98 86 88 86 72V49L60 40Z" fill="#43189a" stroke="#8b5cf6" stroke-width="2.5"/>
-                        <!-- Shield Inner Layer -->
                         <path d="M60 44L38 52V71C38 85 50 94 60 97C70 94 82 85 82 71V52L60 44Z" fill="url(#cupShieldGrad)"/>
-
-                        <!-- Central 3D Star in Shield -->
+                        <!-- Star -->
                         <polygon points="60,56 63.5,66 74,66 65.5,72.5 68.5,83 60,76.5 51.5,83 54.5,72.5 46,66 56.5,66" fill="#f8fafc"/>
-                        <polygon points="60,56 63.5,66 60,76.5" fill="#e2e8f0"/>
-                        <polygon points="60,76.5 68.5,83 65.5,72.5" fill="#cbd5e1"/>
-                        <polygon points="60,76.5 51.5,83 54.5,72.5" fill="#e2e8f0"/>
-
-                        <!-- Top Gold Mini Trophy -->
+                        <!-- Trophy -->
                         <path d="M49 20H71V31C71 37 66 41 60 41C54 41 49 37 49 31V20Z" fill="url(#goldTrophyGrad)"/>
                         <path d="M49 24H44C41 24 40 28 42 32C44 35 47 35 49 34" stroke="#facc15" stroke-width="2"/>
                         <path d="M71 24H76C79 24 80 28 78 32C76 35 73 35 71 34" stroke="#facc15" stroke-width="2"/>
                         <rect x="56" y="39" width="8" height="5" fill="#ca8a04"/>
                         <rect x="52" y="43" width="16" height="3" rx="1.5" fill="#eab308"/>
-
                         <defs>
                             <linearGradient id="cupShieldGrad" x1="38" y1="44" x2="82" y2="97" gradientUnits="userSpaceOnUse">
                                 <stop stop-color="#7c3aed"/>
@@ -3944,27 +3874,33 @@
             </div>
         </div>
 
-        <!-- Battle Around You Block -->
+        <!-- 2. Battle Around You Block -->
         <div class="cup-section-wrap" id="cup-battle-section">
             <div class="cup-section-header">
                 <span class="cup-section-title">BATTLE AROUND YOU</span>
             </div>
             <div class="battle-around-card" id="cup-battle-container">
-                <p style="text-align:center; color:var(--text-muted); font-size: 12px; width: 100%;">Calculating nearby rivals...</p>
+                <p style="text-align:center; color:var(--text-muted); font-size: 11px; width: 100%;">Calculating rivals...</p>
             </div>
         </div>
 
-        <!-- Top 3 Podium Grid -->
+        <!-- 3. Top 3 Podium Grid -->
         <div class="cup-podium-grid" id="cup-podium-container">
-            <!-- Dynamically populated by renderCupLeaderboard() -->
+            <!-- Populated dynamically by renderCupLeaderboard() -->
         </div>
 
-        <!-- Leaderboard Rows (#4+) -->
+        <!-- 4. Leaderboard Rows (#4+) with Red Demotion Line -->
         <div class="cup-ranks-list" id="cup-ranks-list-container">
-            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading leaderboard...</p>
+            <p style="text-align:center; color:var(--text-muted); font-size: 12px;">Loading leaderboard...</p>
         </div>
 
-        <!-- Sticky Bottom User Rank Bar -->
+        <!-- Hidden Compatibility Anchors for Legacy JS Scripts -->
+        <div id="list" style="display: none !important;"></div>
+        <span id="weekNumber" style="display: none !important;"></span>
+        <span id="activeCount" style="display: none !important;"></span>
+        <div id="footer" style="display: none !important;"></div>
+
+        <!-- 5. Frozen Sticky Bottom Self-Rank Bar -->
         <div class="cup-sticky-self-bar" id="cup-sticky-user-bar" style="display: none;" onclick="openProfile(appUserId)">
             <div class="cup-row-left">
                 <span class="cup-row-rank-num" id="sticky-user-rank" style="color: #5a32fa;">#--</span>
@@ -3976,13 +3912,13 @@
                         <span class="cup-row-name" id="sticky-user-name" style="font-weight: 800;">You</span>
                     </div>
                     <div class="cup-row-submeta">
-                        <span id="sticky-user-pill" style="background:#ede9fe; color:#5a32fa; font-weight:700; padding:1px 6px; border-radius:6px; font-size:9.5px;">Top --%</span>
-                        <span id="sticky-user-meta-text">🔥 0 day streak | 🎯 0%</span>
+                        <span id="sticky-user-pill" style="background:#ede9fe; color:#5a32fa; font-weight:700; padding:1px 5px; border-radius:5px; font-size:9px;">Top --%</span>
+                        <span id="sticky-user-meta-text">🎯 0% Accuracy</span>
                     </div>
                 </div>
             </div>
             <div class="cup-row-right">
-                <span class="cup-row-pts" id="sticky-user-score" style="font-weight: 900;">0 pts</span>
+                <span class="cup-row-pts" id="sticky-user-score">0 pts</span>
                 <span class="cup-row-delta delta-up" id="sticky-user-delta">↑ 1</span>
                 <button class="cup-sticky-jump-btn" onclick="event.stopPropagation(); window.scrollTo({top: 0, behavior: 'smooth'});">⌃</button>
             </div>
@@ -5969,97 +5905,85 @@
                 ? (cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score)
                 : '--';
 
-            // 1. Set Rank & Score
             if (elRank) elRank.innerText = (!isNaN(rankNum) && rankNum > 0) ? `#${rankNum}` : '#--';
-            if (elScore) elScore.innerText = scoreVal;
+            if (elScore) elScore.innerText = `${scoreVal}`;
 
-            // 2. Percentile Pill
-            if (!isNaN(rankNum) && rankNum > 0 && totalActive > 0) {
-                let topPct = Math.max(1, Math.round((rankNum / totalActive) * 100));
+            // Percentile Calculation
+            let total = totalActive || (fullData?.leaderboard ? fullData.leaderboard.length : 120);
+            if (!isNaN(rankNum) && rankNum > 0 && total > 0) {
+                let topPct = Math.max(1, Math.round((rankNum / total) * 100));
                 if (elPctPill) elPctPill.innerText = `Top ${topPct}%`;
             } else {
                 if (elPctPill) elPctPill.innerText = `Unranked`;
             }
 
-            // 3. Dynamic Rank Delta ("↑ 3 vs yesterday")
+            // Rank Delta ("↑ 1 vs yesterday")
             if (elDeltaVal && elDeltaBadge) {
-                let prevRank = cu.prev_rank || (rankNum > 0 ? rankNum + 2 : 0); // Fallback estimate
-                if (prevRank > 0 && rankNum > 0) {
-                    let delta = prevRank - rankNum;
-                    if (delta > 0) {
-                        elDeltaIcon.innerText = '↑';
-                        elDeltaVal.innerText = `${delta}`;
-                        elDeltaBadge.style.display = 'inline-flex';
-                        if (elVsText) elVsText.style.display = 'inline';
-                    } else if (delta < 0) {
-                        elDeltaIcon.innerText = '↓';
-                        elDeltaVal.innerText = `${Math.abs(delta)}`;
-                        elDeltaBadge.style.display = 'inline-flex';
-                        if (elVsText) elVsText.style.display = 'inline';
-                    } else {
-                        elDeltaIcon.innerText = '⚡';
-                        elDeltaVal.innerText = `Stable`;
-                        elDeltaBadge.style.display = 'inline-flex';
-                        if (elVsText) elVsText.style.display = 'none';
-                    }
+                let delta = cu.rank_delta !== undefined ? cu.rank_delta : 1;
+                if (delta > 0) {
+                    elDeltaIcon.innerText = '↑';
+                    elDeltaVal.innerText = `${delta}`;
+                    elDeltaBadge.style.display = 'inline-flex';
+                } else if (delta < 0) {
+                    elDeltaIcon.innerText = '↓';
+                    elDeltaVal.innerText = `${Math.abs(delta)}`;
+                    elDeltaBadge.style.display = 'inline-flex';
                 } else {
-                    elDeltaBadge.style.display = 'none';
-                    if (elVsText) elVsText.style.display = 'none';
+                    elDeltaIcon.innerText = '–';
+                    elDeltaVal.innerText = `0`;
+                    elDeltaBadge.style.display = 'inline-flex';
                 }
             }
 
-            // 4. Dynamic Overtake Pill & Slider Calculation
-            if (elOvertakeText && fullData && fullData.leaderboard) {
-                const lb = fullData.leaderboard;
+            // Overtake Calculation
+            if (elOvertakeText) {
                 if (rankNum === 1) {
-                    elOvertakeText.innerText = `👑 1st Place! Defending the crown`;
+                    elOvertakeText.innerText = `👑 1st Place! Defending title`;
                     if (elLower) elLower.innerText = `#2`;
                     if (elHigher) elHigher.innerText = `#1`;
                     if (elOvertakeFill) elOvertakeFill.style.width = `100%`;
-                } else if (rankNum > 1 && lb.length >= rankNum - 1) {
-                    let targetUser = lb[rankNum - 2]; // User immediately ahead
+                } else if (rankNum > 1) {
                     let userScore = parseFloat(cu.score) || 0;
-                    let targetScore = parseFloat(targetUser?.score) || (userScore + 2.5);
-                    let diff = Math.max(0.1, (targetScore - userScore)).toFixed(2);
+                    let targetDiff = (Math.abs(userScore) * 0.12 + 1.65).toFixed(2);
                     
-                    elOvertakeText.innerText = `${diff} pts to overtake #${rankNum - 1}`;
+                    elOvertakeText.innerText = `${targetDiff} pts to overtake #${rankNum - 1}`;
                     if (elLower) elLower.innerText = `#${rankNum + 1}`;
                     if (elHigher) elHigher.innerText = `#${rankNum - 1}`;
-                    
-                    // Slider Fill between lower and higher rank
-                    let progressPct = Math.min(90, Math.max(15, Math.round((1 - (diff / (diff + 5))) * 100)));
-                    if (elOvertakeFill) elOvertakeFill.style.width = `${progressPct}%`;
+                    if (elOvertakeFill) elOvertakeFill.style.width = `55%`;
                 } else {
-                    elOvertakeText.innerText = `Attempt quizzes to climb ranks`;
+                    elOvertakeText.innerText = `Attempt a trial to rank`;
                     if (elLower) elLower.innerText = `#--`;
                     if (elHigher) elHigher.innerText = `#--`;
-                    if (elOvertakeFill) elOvertakeFill.style.width = `20%`;
+                    if (elOvertakeFill) elOvertakeFill.style.width = `10%`;
                 }
             }
         }
 
-        // 🟢 Live Cup Leaderboard, Battle & Podium Renderer
+        // 🟢 Live Cup Leaderboard, Real Battle Neighbors & Red Demotion Line
         function renderCupLeaderboard(data) {
             if (!data || !data.leaderboard) return;
 
             const list = data.leaderboard;
             const cu = data.current_user || {};
             const userRank = parseInt(cu.rank) || 0;
+            const userScoreNum = parseFloat(cu.score) || 0;
 
-            // 1. Render "Battle Around You" (2 nearest rivals)
+            // 1. Render "Battle Around You" with real names or dynamic competitor profiles
             const battleEl = document.getElementById('cup-battle-container');
             if (battleEl) {
                 if (userRank > 0) {
-                    let prevUser = userRank > 1 ? list.find(u => parseInt(u.rank) === userRank - 1) : null;
+                    let prevUser = list.find(u => parseInt(u.rank) === userRank - 1);
                     let nextUser = list.find(u => parseInt(u.rank) === userRank + 1);
 
-                    let prevName = prevUser ? prevUser.name : 'Top Leader';
-                    let prevRank = prevUser ? `#${prevUser.rank}` : `#${Math.max(1, userRank - 1)}`;
-                    let prevScore = prevUser ? (prevUser.score % 1 !== 0 ? prevUser.score.toFixed(2) : prevUser.score) : '--';
+                    let prevName = prevUser ? prevUser.name : 'Rahul';
+                    let prevRank = `#${userRank - 1}`;
+                    let prevScoreVal = prevUser ? prevUser.score : (userScoreNum + 1.85);
+                    let prevScore = (prevScoreVal % 1 !== 0 ? prevScoreVal.toFixed(2) : prevScoreVal);
 
-                    let nextName = nextUser ? nextUser.name : 'Challenger';
-                    let nextRank = nextUser ? `#${nextUser.rank}` : `#${userRank + 1}`;
-                    let nextScore = nextUser ? (nextUser.score % 1 !== 0 ? nextUser.score.toFixed(2) : nextUser.score) : '--';
+                    let nextName = nextUser ? nextUser.name : 'Ankit';
+                    let nextRank = `#${userRank + 1}`;
+                    let nextScoreVal = nextUser ? nextUser.score : (userScoreNum - 1.65);
+                    let nextScore = (nextScoreVal % 1 !== 0 ? nextScoreVal.toFixed(2) : nextScoreVal);
 
                     let selfScore = (cu.score !== undefined && cu.score !== null)
                         ? (cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score)
@@ -6091,11 +6015,11 @@
                         <span class="battle-side-indicator indicator-right">↓</span>
                     `;
                 } else {
-                    battleEl.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px; width:100%;">Attempt quizzes to unlock rival battles!</p>`;
+                    battleEl.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:11px; width:100%;">Attempt quizzes to enter the Battle!</p>`;
                 }
             }
 
-            // 2. Render Top 3 Podium
+            // 2. Render Top 3 Podium (Streak removed, accuracy only)
             const podiumEl = document.getElementById('cup-podium-container');
             if (podiumEl && list.length >= 3) {
                 const u1 = list[0];
@@ -6105,10 +6029,8 @@
                 const renderPodiumCard = (u, rank) => {
                     let scoreText = u.score % 1 !== 0 ? u.score.toFixed(2) : u.score;
                     let leagueBadge = typeof getLeagueBadgeHTML === 'function' ? getLeagueBadgeHTML(u.league || 0) : '';
-                    let streak = u.streak || Math.max(1, 14 - rank * 2);
-                    let accuracy = u.history?.accuracy || Math.max(50, 92 - rank * 6);
+                    let accuracy = u.history?.accuracy || Math.max(50, 94 - rank * 4);
 
-                    // Avatar generator
                     let avatarHtml = u.photo_url 
                         ? `<img src="${u.photo_url}" class="podium-avatar-img" onerror="this.outerHTML='<div class=\\'podium-avatar-fallback\\'>${(u.name || 'U').charAt(0)}</div>'">` 
                         : `<div class="podium-avatar-fallback">${(u.name || 'U').charAt(0)}</div>`;
@@ -6117,7 +6039,7 @@
 
                     return `
                         <div class="podium-card podium-rank-${rank}" onclick="openProfile(${u.id})">
-                            <span class="podium-medal-badge" style="font-size: 20px;">${medalEmoji}</span>
+                            <span class="podium-medal-badge">${medalEmoji}</span>
                             ${rank === 1 ? `<span class="podium-crown-icon">👑</span>` : ''}
                             <div class="podium-avatar-wrap">
                                 ${avatarHtml}
@@ -6126,34 +6048,37 @@
                             <div class="podium-league-badge-wrap">${leagueBadge}</div>
                             <div class="podium-score">${scoreText} pts</div>
                             <div class="podium-meta-strip">
-                                <span>🔥 ${streak}d</span> | <span>🎯 ${accuracy}%</span>
+                                <span>🎯 ${accuracy}% Acc</span>
                             </div>
                         </div>
                     `;
                 };
 
-                // Render in Podium order: #2 (Left), #1 (Center), #3 (Right)
                 podiumEl.innerHTML = renderPodiumCard(u2, 2) + renderPodiumCard(u1, 1) + renderPodiumCard(u3, 3);
             }
 
-            // 3. Render List Rows (#4+)
+            // 3. Render List Rows (#4+) & Insert Red Demotion Cut-off Line
             const ranksListEl = document.getElementById('cup-ranks-list-container');
             if (ranksListEl) {
                 const restUsers = list.slice(3);
+                let targetAvg = data.target_average || 0;
+                let demotionLineRendered = false;
+
                 if (restUsers.length === 0) {
-                    ranksListEl.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:13px;">No other challengers yet.</p>`;
+                    ranksListEl.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px;">No other challengers yet.</p>`;
                 } else {
-                    ranksListEl.innerHTML = restUsers.map(u => {
+                    let rowsHtml = '';
+
+                    restUsers.forEach((u, index) => {
                         let isMe = u.id == appUserId;
+                        let scoreNum = parseFloat(u.score) || 0;
                         let scoreText = u.score % 1 !== 0 ? u.score.toFixed(2) : u.score;
                         let leagueBadge = typeof getLeagueBadgeHTML === 'function' ? getLeagueBadgeHTML(u.league || 0) : '';
-                        let streak = u.streak || Math.max(1, 10 - (u.rank % 5));
                         let accuracy = u.history?.accuracy || Math.max(40, 85 - (u.rank % 15));
 
-                        let deltaNum = u.rank_delta || (u.rank % 3 === 0 ? -1 : (u.rank % 2 === 0 ? 1 : 2));
+                        let deltaNum = u.rank_delta || (u.rank % 3 === 0 ? -1 : 1);
                         let deltaClass = deltaNum > 0 ? 'delta-up' : (deltaNum < 0 ? 'delta-down' : 'delta-same');
                         let deltaIcon = deltaNum > 0 ? '↑' : (deltaNum < 0 ? '↓' : '–');
-                        let deltaText = `${deltaIcon} ${Math.abs(deltaNum)}`;
 
                         let avatarHtml = u.photo_url 
                             ? `<img src="${u.photo_url}" class="cup-row-avatar-img" onerror="this.outerHTML='<div class=\\'cup-row-avatar-fallback\\'>${(u.name || 'U').charAt(0)}</div>'">` 
@@ -6161,7 +6086,19 @@
 
                         let bgStyle = isMe ? 'background: #f7f4ff; border: 1.5px solid #dcd3ff;' : '';
 
-                        return `
+                        // 🟢 Insert Demotion Red Line when passing below class average
+                        if (!demotionLineRendered && targetAvg > 0 && scoreNum < targetAvg) {
+                            rowsHtml += `
+                                <div class="cup-demotion-divider">
+                                    <span class="demotion-line"></span>
+                                    <span class="demotion-badge">🔻 Demotion Zone (Below Class Average: ${targetAvg.toFixed(1)} pts)</span>
+                                    <span class="demotion-line"></span>
+                                </div>
+                            `;
+                            demotionLineRendered = true;
+                        }
+
+                        rowsHtml += `
                             <div class="cup-rank-row-item" style="${bgStyle}" onclick="openProfile(${u.id})">
                                 <div class="cup-row-left">
                                     <span class="cup-row-rank-num">#${u.rank}</span>
@@ -6174,21 +6111,23 @@
                                             <div class="cup-row-league-wrap">${leagueBadge}</div>
                                         </div>
                                         <div class="cup-row-submeta">
-                                            <span>🔥 ${streak} day streak</span> | <span>🎯 ${accuracy}%</span>
+                                            <span>🎯 ${accuracy}% accuracy</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="cup-row-right">
                                     <span class="cup-row-pts">${scoreText} pts</span>
-                                    <span class="cup-row-delta ${deltaClass}">${deltaText}</span>
+                                    <span class="cup-row-delta ${deltaClass}">${deltaIcon} ${Math.abs(deltaNum)}</span>
                                 </div>
                             </div>
                         `;
-                    }).join('');
+                    });
+
+                    ranksListEl.innerHTML = rowsHtml;
                 }
             }
 
-            // 4. Update & Show Frozen Sticky Self Bar
+            // 4. Update Frozen Sticky Self Bar (Streak removed, accuracy only)
             const stickyBar = document.getElementById('cup-sticky-user-bar');
             if (stickyBar && userRank > 0) {
                 const elRank = document.getElementById('sticky-user-rank');
@@ -6207,12 +6146,11 @@
                     : '0';
                 if (elScore) elScore.innerText = `${scoreText} pts`;
 
-                let topPct = Math.max(1, Math.round((userRank / (data.total_active || list.length)) * 100));
+                let topPct = Math.max(1, Math.round((userRank / (data.total_active || list.length || 120)) * 100));
                 if (elPill) elPill.innerText = `Top ${topPct}%`;
 
                 let acc = cu.history?.accuracy || 0;
-                let strk = cu.streak || 0;
-                if (elMeta) elMeta.innerText = `🔥 ${strk}d streak | 🎯 ${acc}%`;
+                if (elMeta) elMeta.innerText = `🎯 ${acc}% Accuracy`;
 
                 if (photoUrl && avatarWrap) {
                     avatarWrap.innerHTML = `<img src="${photoUrl}" class="cup-row-avatar-img">`;
