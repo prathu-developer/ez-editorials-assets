@@ -75,13 +75,26 @@
         .text-sm { font-size: 13px; }
         .text-xs { font-size: 12px; }
 
-        /* Global Header */
-        .top-header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .icon-btn { width: 24px; height: 24px; cursor: pointer; color: var(--text-main); }
-        
-        /* --- MOBILE-OPTIMISED HERO HEADER & STREAK --- */
+        /* ==========================================
+           VIEW 1: COMPACT MOBILE-OPTIMIZED HOME SCREEN
+           ========================================== */
+
+        /* 1. Header & Greeting */
+        .top-header { 
+            padding: 12px 16px 6px 16px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        .icon-btn { 
+            width: 22px; 
+            height: 22px; 
+            cursor: pointer; 
+            color: var(--text-main); 
+        }
+
         .greeting-wrapper {
-            padding: 0 16px 16px 16px;
+            padding: 0 14px 10px 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -92,75 +105,73 @@
             min-width: 0;
         }
         .greeting-title {
-            font-size: clamp(18px, 5.2vw, 22px);
-            font-weight: 700;
-            margin-bottom: 4px;
+            font-size: clamp(16px, 4.6vw, 19px);
+            font-weight: 800;
+            margin-bottom: 2px;
             letter-spacing: -0.3px;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
             gap: 4px;
             color: var(--text-main);
-            line-height: 1.2;
+            line-height: 1.15;
         }
         .date-badge {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 12px;
+            gap: 5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 500;
         }
         .badge-day {
             background: #ede9fe;
             color: #6366f1;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 10px;
         }
-
-        /* Coming Soon Streak Badge */
         .streak-card {
             background: #fff7ed;
             border: 1px solid #ffedd5;
-            border-radius: 14px;
-            padding: 6px 10px;
+            border-radius: 11px;
+            padding: 4px 8px;
             text-align: center;
             flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(251, 146, 60, 0.08);
+            box-shadow: 0 2px 6px rgba(251, 146, 60, 0.06);
         }
         .streak-val {
-            font-size: 13px;
+            font-size: 11.5px;
             font-weight: 800;
             color: #ea580c;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 3px;
-            line-height: 1.1;
+            gap: 2px;
+            line-height: 1;
         }
         .streak-sub {
-            font-size: 9px;
+            font-size: 8px;
             color: #9a3412;
-            font-weight: 700;
+            font-weight: 800;
             background: #fed7aa;
-            padding: 1px 5px;
-            border-radius: 6px;
-            margin-top: 3px;
+            padding: 1px 4px;
+            border-radius: 5px;
+            margin-top: 2px;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
             display: inline-block;
         }
 
-        /* --- MOBILE-OPTIMISED 3D TIMER HERO CARD --- */
+        /* 2. Compact 3D Timer Hero Card */
         .timer-hero-card {
-            margin: 0 16px 16px 16px;
-            padding: 16px;
-            border-radius: 20px;
+            margin: 0 14px 10px 14px;
+            padding: 12px 12px 10px 12px;
+            border-radius: 18px;
             border: 1px solid rgba(99, 102, 241, 0.15);
             background: #ffffff;
-            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.06);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.05);
             position: relative;
             overflow: hidden;
         }
@@ -172,8 +183,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 14px;
+            gap: 6px;
+            margin-bottom: 8px;
         }
         .timer-left-content {
             flex: 1;
@@ -182,57 +193,57 @@
         .timer-header-label {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 12px;
+            gap: 4px;
+            font-size: 10.5px;
             font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
         .timer-digits-val {
-            font-size: clamp(24px, 6.8vw, 32px);
-            font-weight: 800;
+            font-size: clamp(20px, 5.6vw, 26px);
+            font-weight: 900;
             color: #5a32fa;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             line-height: 1;
             font-variant-numeric: tabular-nums;
             white-space: nowrap;
         }
         .timer-sub-labels {
             display: flex;
-            gap: clamp(16px, 5vw, 26px);
-            font-size: 9px;
+            gap: clamp(14px, 4.2vw, 22px);
+            font-size: 8px;
             color: var(--text-muted);
             font-weight: 700;
-            margin-top: 4px;
-            margin-bottom: 12px;
+            margin-top: 3px;
+            margin-bottom: 6px;
             margin-left: 2px;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
         }
         .daily-goal-track {
-            height: 6px;
+            height: 4.5px;
             background: #f1f0fb;
-            border-radius: 6px;
+            border-radius: 4px;
             overflow: hidden;
             width: 100%;
-            max-width: 175px;
+            max-width: 150px;
         }
         .daily-goal-fill {
             height: 100%;
             background: #5a32fa;
-            border-radius: 6px;
+            border-radius: 4px;
             width: 0%;
             transition: width 0.4s ease;
         }
         .daily-goal-text {
-            font-size: 11px;
+            font-size: 9.5px;
             color: var(--text-muted);
             font-weight: 600;
-            margin-top: 5px;
+            margin-top: 3px;
             white-space: nowrap;
         }
         .timer-illustration-wrap {
-            width: clamp(75px, 22vw, 95px);
-            height: clamp(75px, 22vw, 95px);
+            width: clamp(58px, 17vw, 72px);
+            height: clamp(58px, 17vw, 72px);
             flex-shrink: 0;
             position: relative;
             display: flex;
@@ -243,27 +254,21 @@
             width: 100%;
             height: 100%;
         }
-        .hourglass-glow-bg {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(243, 232, 255, 0) 70%);
-            border-radius: 50%;
-        }
         .btn-start-hero {
             background: #5a32fa;
             color: white;
             border: none;
             width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 14px rgba(90, 50, 250, 0.25);
+            gap: 6px;
+            box-shadow: 0 3px 10px rgba(90, 50, 250, 0.2);
             transition: transform 0.1s ease, opacity 0.2s ease;
         }
         .btn-start-hero:active {
@@ -271,247 +276,334 @@
             opacity: 0.92;
         }
 
-        /* --- ENHANCED MOBILE-OPTIMISED WEEKLY CUP CARD --- */
+        /* 3. Compact Weekly Cup Summary Card */
         .weekly-cup-card {
-            margin: 0 16px 20px 16px;
-            padding: 16px 18px;
-            border-radius: 22px;
+            margin: 0 14px 10px 14px;
+            padding: 11px 13px;
+            border-radius: 18px;
             border: 1px solid rgba(90, 50, 250, 0.12);
             background: #ffffff;
-            box-shadow: 0 4px 20px rgba(90, 50, 250, 0.04);
+            box-shadow: 0 3px 14px rgba(90, 50, 250, 0.03);
             box-sizing: border-box;
         }
         body.dark-mode .weekly-cup-card {
             background: var(--bg-card);
             border-color: var(--border-light);
         }
-
         .cup-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
         }
         .cup-title-group {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         .cup-trophy-icon {
-            font-size: 24px;
+            font-size: 19px;
             line-height: 1;
         }
         .cup-title-text {
-            font-size: clamp(16px, 4.4vw, 18px);
+            font-size: clamp(14px, 3.8vw, 15.5px);
             font-weight: 800;
             color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
         }
         .cup-title-crown {
-            font-size: 16px;
+            font-size: 14px;
         }
         .cup-live-pill {
             background: #f3f0ff;
             color: #5a32fa;
             border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-size: 10px;
             font-weight: 700;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
         body.dark-mode .cup-live-pill {
             background: #2e1065;
             color: #c084fc;
         }
-        .cup-live-pill:active {
-            opacity: 0.75;
-        }
 
-        /* Metrics Row */
         .cup-metrics-flex {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
-            margin-bottom: 14px;
+            gap: 6px;
+            margin-bottom: 8px;
         }
         .cup-rank-pill-box {
             background: #f5f3ff;
             border: 1px solid #ede9fe;
-            border-radius: 14px;
-            padding: 8px 14px;
+            border-radius: 10px;
+            padding: 5px 10px;
             text-align: center;
-            min-width: 68px;
+            min-width: 58px;
         }
         body.dark-mode .cup-rank-pill-box {
             background: #1e1b4b;
             border-color: #312e81;
         }
         .cup-rank-label {
-            font-size: 11px;
+            font-size: 9.5px;
             font-weight: 600;
             color: #6366f1;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
-        body.dark-mode .cup-rank-label {
-            color: #a5b4fc;
-        }
+        body.dark-mode .cup-rank-label { color: #a5b4fc; }
         .cup-rank-number {
-            font-size: clamp(16px, 4.6vw, 20px);
+            font-size: clamp(14px, 4vw, 17px);
             font-weight: 800;
             color: #5a32fa;
             line-height: 1.1;
         }
-        body.dark-mode .cup-rank-number {
-            color: #c084fc;
-        }
+        body.dark-mode .cup-rank-number { color: #c084fc; }
 
         .cup-metric-divider {
             width: 1px;
-            height: 36px;
+            height: 28px;
             background: var(--border-light);
             flex-shrink: 0;
         }
-
         .cup-score-box {
-            padding: 0 4px;
+            padding: 0 2px;
         }
         .cup-score-label {
-            font-size: 11px;
+            font-size: 9.5px;
             color: var(--text-muted);
             font-weight: 600;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
         .cup-score-number {
-            font-size: clamp(16px, 4.6vw, 20px);
+            font-size: clamp(14px, 4vw, 17px);
             font-weight: 800;
             color: var(--text-main);
             line-height: 1.1;
         }
-
         .cup-pct-box {
             text-align: right;
         }
         .cup-pct-number {
-            font-size: clamp(15px, 4.4vw, 18px);
+            font-size: clamp(13px, 3.8vw, 15px);
             font-weight: 800;
             color: #10b981;
             line-height: 1.1;
         }
         .cup-pct-subtext {
-            font-size: 11px;
+            font-size: 9.5px;
             color: var(--text-muted);
             font-weight: 500;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
-        /* Cup Progress Bar */
         .cup-progress-track {
-            height: 6px;
+            height: 4px;
             background: #f1f0fb;
-            border-radius: 6px;
+            border-radius: 4px;
             overflow: hidden;
             width: 100%;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
-        body.dark-mode .cup-progress-track {
-            background: #27272a;
-        }
+        body.dark-mode .cup-progress-track { background: #27272a; }
         .cup-progress-fill {
             height: 100%;
             background: #5a32fa;
-            border-radius: 6px;
+            border-radius: 4px;
             width: 0%;
             transition: width 0.4s ease;
         }
-
-        /* Footer Row */
         .cup-footer-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
-            font-weight: 600;
         }
         .cup-season-meta {
             color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: clamp(11px, 3.2vw, 12px);
+            gap: 3px;
+            font-size: clamp(9.5px, 2.8vw, 10.5px);
+            font-weight: 600;
         }
         .cup-view-link {
             color: #5a32fa;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 3px;
-            font-size: clamp(11px, 3.2vw, 12px);
-            transition: opacity 0.2s;
+            gap: 2px;
+            font-size: clamp(9.5px, 2.8vw, 10.5px);
+            font-weight: 700;
         }
-        body.dark-mode .cup-view-link {
-            color: #a5b4fc;
-        }
-        .cup-view-link:active {
-            opacity: 0.7;
-        }
+        body.dark-mode .cup-view-link { color: #a5b4fc; }
 
-        /* --- FULLY RESPONSIVE 4-METRIC DAILY ACTIVITY STRIP --- */
-        .daily-stats-card {
-            margin: 0 16px 20px 16px;
-            padding: 14px 10px;
+        /* 4. Compact Days Tracker Card */
+        .days-tracker-card {
+            margin: 0 14px 10px 14px;
+            padding: 10px 12px;
             border-radius: 18px;
             border: 1px solid var(--border-light);
             background: #ffffff;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.02);
+            box-sizing: border-box;
+        }
+        body.dark-mode .days-tracker-card {
+            background: var(--bg-card);
+            border-color: var(--border-light);
+        }
+        .days-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .days-title-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .days-icon-badge {
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            background: #ede9fe;
+            color: #5a32fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+        body.dark-mode .days-icon-badge {
+            background: #2e1065;
+            color: #c084fc;
+        }
+        .days-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+        .days-sub-badge {
+            font-size: 9.5px;
+            font-weight: 700;
+            color: #5a32fa;
+            background: #f3f0ff;
+            padding: 2px 7px;
+            border-radius: 10px;
+        }
+        body.dark-mode .days-sub-badge {
+            background: #2e1065;
+            color: #c084fc;
+        }
+
+        .days-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4px;
+        }
+        .day-item-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            flex: 1;
+            min-width: 0;
+        }
+        .day-circle {
+            width: clamp(28px, 7.8vw, 34px);
+            height: clamp(28px, 7.8vw, 34px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(10.5px, 3vw, 12px);
+            font-weight: 700;
+            color: var(--text-muted);
+            background: #f8fafc;
+            border: 1.5px solid var(--border-light);
+            box-sizing: border-box;
+        }
+        body.dark-mode .day-circle {
+            background: #18181b;
+            border-color: #27272a;
+        }
+        .day-circle.active {
+            background: #5a32fa;
+            color: #ffffff;
+            border-color: #5a32fa;
+            box-shadow: 0 2px 8px rgba(90, 50, 250, 0.3);
+        }
+        .day-circle.done {
+            background: #f0fdf4;
+            color: #166534;
+            border-color: #bbf7d0;
+        }
+        body.dark-mode .day-circle.done {
+            background: #052e16;
+            color: #86efac;
+            border-color: #14532d;
+        }
+        .day-check {
+            height: 12px;
+            margin-top: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 9.5px;
+        }
+
+        /* 5. Compact 4-Metric Daily Activity Strip */
+        .daily-stats-card {
+            margin: 0 14px 10px 14px;
+            padding: 10px 6px;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            background: #ffffff;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.02);
             box-sizing: border-box;
         }
         body.dark-mode .daily-stats-card {
             background: var(--bg-card);
             border-color: var(--border-light);
         }
-
         .daily-stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             align-items: center;
-            gap: 4px;
+            gap: 2px;
         }
-
         .stat-item-col {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             min-width: 0;
-            padding: 2px 4px;
+            padding: 1px 2px;
             position: relative;
         }
-
-        /* Vertical divider between columns */
         .stat-item-col:not(:last-child)::after {
             content: "";
             position: absolute;
-            right: -2px;
+            right: -1px;
             top: 15%;
             height: 70%;
             width: 1px;
             background: var(--border-light);
         }
-
         .stat-icon-wrap {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            margin-bottom: 4px;
+            font-size: 12px;
+            margin-bottom: 2px;
             flex-shrink: 0;
         }
         .stat-icon-purple { background: #f3e8ff; color: #7c3aed; }
@@ -520,77 +612,71 @@
         .stat-icon-blue   { background: #e1effe; color: #1c64f2; }
 
         .stat-label-title {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 600;
             color: var(--text-muted);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-            line-height: 1.2;
+            line-height: 1.1;
         }
-
         .stat-main-number {
-            font-size: clamp(14px, 4vw, 17px);
+            font-size: clamp(12.5px, 3.6vw, 15px);
             font-weight: 800;
             color: var(--text-main);
-            line-height: 1.2;
-            margin: 2px 0 1px 0;
+            line-height: 1.15;
+            margin: 1px 0;
             white-space: nowrap;
         }
-
         .stat-sub-caption {
-            font-size: 9px;
+            font-size: 8px;
             color: var(--text-muted);
             font-weight: 500;
             line-height: 1;
         }
 
-        /* Clean up old standalone dividers */
-        .stat-col-divider {
-            display: none;
-        }
-
-        /* --- CONTINUE YOUR JOURNEY SECTION --- */
+        /* 6. Compact "Continue Your Journey" Section */
         .journey-section {
-            margin: 0 16px 24px 16px;
+            margin: 0 14px 12px 14px;
         }
         .journey-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .journey-title {
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 13.5px;
+            font-weight: 800;
             color: var(--text-main);
         }
         .journey-view-all {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 11.5px;
+            font-weight: 700;
             color: #5a32fa;
             cursor: pointer;
             background: none;
             border: none;
             padding: 0;
         }
+        body.dark-mode .journey-view-all { color: #c084fc; }
+
         .journey-scroll-container {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             overflow-x: auto;
-            padding-bottom: 6px;
+            padding-bottom: 4px;
             scrollbar-width: none;
             -webkit-overflow-scrolling: touch;
         }
-        .journey-scroll-container::-webkit-scrollbar {
-            display: none;
-        }
+        .journey-scroll-container::-webkit-scrollbar { display: none; }
+
         .journey-card {
-            min-width: 145px;
-            width: 145px;
-            border-radius: 20px;
-            padding: 16px 14px;
+            min-width: 125px;
+            width: 125px;
+            border-radius: 16px;
+            padding: 12px 10px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -599,65 +685,40 @@
             position: relative;
             flex-shrink: 0;
             cursor: pointer;
-            transition: transform 0.15s ease;
         }
-        .journey-card:active {
-            transform: scale(0.97);
-        }
-
-        /* Dynamic Card Color Themes (All 8 Core Categories) */
-        .card-theme-purple { background: #faf5ff; border-color: #f3e8ff; }
-        .card-theme-green  { background: #f0fdf4; border-color: #dcfce7; }
-        .card-theme-orange { background: #fffbeb; border-color: #fef3c7; }
-        .card-theme-teal   { background: #f0fdfa; border-color: #ccfbf1; }
-        .card-theme-blue   { background: #f0f9ff; border-color: #e0f2fe; }
-        .card-theme-indigo { background: #eef2ff; border-color: #e0e7ff; }
-        .card-theme-amber  { background: #fff7ed; border-color: #ffedd5; }
-        .card-theme-rose   { background: #fff1f2; border-color: #ffe4e6; }
-
         .journey-card-top {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
         }
         .journey-icon-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 15px;
         }
-        .icon-bg-purple { background: #7c3aed; color: white; }
-        .icon-bg-green  { background: #0e9f6e; color: white; }
-        .icon-bg-orange { background: #f59e0b; color: white; }
-        .icon-bg-teal   { background: #0d9488; color: white; }
-        .icon-bg-blue   { background: #1c64f2; color: white; }
-        .icon-bg-indigo { background: #4f46e5; color: white; }
-        .icon-bg-amber  { background: #d97706; color: white; }
-        .icon-bg-rose   { background: #e11d48; color: white; }
-
         .journey-topic-name {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--text-main);
-            line-height: 1.3;
-            height: 36px;
+            line-height: 1.25;
+            height: 30px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
-
         .journey-card-bottom {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 14px;
+            gap: 6px;
+            margin-top: 8px;
         }
         .journey-progress-track {
-            height: 5px;
+            height: 4px;
             background: rgba(0, 0, 0, 0.06);
             border-radius: 4px;
             overflow: hidden;
@@ -669,101 +730,73 @@
             width: 0%;
             transition: width 0.4s ease;
         }
-        .fill-purple { background: #7c3aed; }
-        .fill-green  { background: #0e9f6e; }
-        .fill-orange { background: #f59e0b; }
-        .fill-teal   { background: #0d9488; }
-        .fill-blue   { background: #1c64f2; }
-        .fill-indigo { background: #4f46e5; }
-        .fill-amber  { background: #d97706; }
-        .fill-rose   { background: #e11d48; }
-
         .journey-footer-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .journey-fraction-text {
-            font-size: 12px;
+            font-size: 10.5px;
             font-weight: 700;
             color: var(--text-main);
         }
         .journey-arrow-btn {
-            width: 28px;
-            height: 28px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 10.5px;
             border: none;
             cursor: pointer;
         }
-        .arrow-btn-purple { background: #f3e8ff; color: #7c3aed; }
-        .arrow-btn-green  { background: #dcfce7; color: #0e9f6e; }
-        .arrow-btn-orange { background: #fef3c7; color: #d97706; }
-        .arrow-btn-teal   { background: #ccfbf1; color: #0d9488; }
-        .arrow-btn-blue   { background: #e0f2fe; color: #1c64f2; }
-        .arrow-btn-indigo { background: #e0e7ff; color: #4f46e5; }
-        .arrow-btn-amber  { background: #ffedd5; color: #d97706; }
-        .arrow-btn-rose   { background: #ffe4e6; color: #e11d48; }
 
-        /* --- TODAY'S HIGHLIGHTS SECTION --- */
+        /* 7. Compact Highlights Card */
         .highlights-section {
-            margin: 0 16px 16px 16px;
+            margin: 0 14px 10px 14px;
         }
         .highlights-title {
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 13.5px;
+            font-weight: 800;
             color: var(--text-main);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .highlights-card {
             background: #ffffff;
             border: 1px solid var(--border-light);
-            border-radius: 20px;
-            padding: 6px 16px;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+            border-radius: 18px;
+            padding: 2px 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.02);
             box-sizing: border-box;
         }
         body.dark-mode .highlights-card {
             background: var(--bg-card);
             border-color: var(--border-light);
         }
-
         .highlight-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            padding: 14px 0;
+            gap: 10px;
+            padding: 10px 0;
             cursor: pointer;
-            transition: opacity 0.15s ease;
         }
-        .highlight-row:active {
-            opacity: 0.7;
-        }
-        .highlight-row-divider {
-            height: 1px;
-            background: var(--border-light);
-            width: 100%;
-        }
-
         .highlight-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             min-width: 0;
             flex: 1;
         }
         .highlight-icon-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 14px;
             flex-shrink: 0;
         }
         .hl-purple { background: #f3e8ff; color: #7c3aed; }
@@ -774,30 +807,29 @@
             flex: 1;
         }
         .highlight-tag {
-            font-size: 11px;
+            font-size: 9.5px;
             font-weight: 600;
             color: var(--text-muted);
             display: flex;
             align-items: center;
-            gap: 4px;
-            margin-bottom: 3px;
+            gap: 3px;
+            margin-bottom: 1px;
         }
         .highlight-main-line {
             display: flex;
             align-items: baseline;
-            gap: 8px;
-            flex-wrap: nowrap;
+            gap: 6px;
             overflow: hidden;
         }
         .highlight-word {
-            font-size: clamp(14px, 4vw, 16px);
+            font-size: clamp(12.5px, 3.6vw, 14px);
             font-weight: 800;
             color: var(--text-main);
             white-space: nowrap;
             flex-shrink: 0;
         }
         .highlight-meaning {
-            font-size: clamp(11px, 3.2vw, 13px);
+            font-size: clamp(10px, 2.8vw, 11.5px);
             color: var(--text-muted);
             font-weight: 500;
             white-space: nowrap;
@@ -805,41 +837,40 @@
             text-overflow: ellipsis;
         }
         .highlight-arrow {
-            font-size: 18px;
+            font-size: 15px;
             color: #94a3b8;
             font-weight: 600;
             flex-shrink: 0;
         }
 
-        /* --- MOTIVATION / PERCENTILE BANNER --- */
+        /* 8. Compact Bottom Motivation Banner */
         .motivation-banner {
-            margin: 0 16px 24px 16px;
-            padding: 14px 16px;
-            border-radius: 20px;
+            margin: 0 14px 16px 14px;
+            padding: 10px 12px;
+            border-radius: 18px;
             background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
             border: 1px solid rgba(99, 102, 241, 0.15);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.05);
+            gap: 8px;
+            box-shadow: 0 3px 12px rgba(99, 102, 241, 0.04);
             box-sizing: border-box;
         }
         body.dark-mode .motivation-banner {
             background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
             border-color: rgba(168, 85, 247, 0.2);
         }
-
         .banner-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             min-width: 0;
             flex: 1.1;
         }
         .banner-rocket-wrap {
-            width: 44px;
-            height: 44px;
+            width: 34px;
+            height: 34px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -850,33 +881,29 @@
             height: 100%;
         }
         .banner-quote {
-            font-size: clamp(11px, 3.2vw, 13px);
+            font-size: clamp(9.5px, 2.8vw, 11.5px);
             color: #4b5563;
             font-weight: 500;
-            line-height: 1.35;
+            line-height: 1.25;
         }
-        body.dark-mode .banner-quote {
-            color: #cbd5e1;
-        }
+        body.dark-mode .banner-quote { color: #cbd5e1; }
         .banner-quote strong {
             color: #4338ca;
             font-weight: 700;
             display: block;
         }
-        body.dark-mode .banner-quote strong {
-            color: #a5b4fc;
-        }
+        body.dark-mode .banner-quote strong { color: #a5b4fc; }
 
         .banner-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             flex-shrink: 0;
             text-align: left;
         }
         .banner-badge-icon {
-            width: 38px;
-            height: 38px;
+            width: 30px;
+            height: 30px;
             flex-shrink: 0;
         }
         .banner-badge-icon svg {
@@ -888,27 +915,21 @@
             flex-direction: column;
         }
         .banner-pct-sub {
-            font-size: 10px;
+            font-size: 8.5px;
             color: #6b7280;
             font-weight: 500;
             line-height: 1;
         }
-        body.dark-mode .banner-pct-sub {
-            color: #94a3b8;
-        }
+        body.dark-mode .banner-pct-sub { color: #94a3b8; }
         .banner-pct-val {
-            font-size: clamp(13px, 4vw, 16px);
+            font-size: clamp(11.5px, 3.4vw, 13.5px);
             font-weight: 800;
             color: #4338ca;
-            line-height: 1.25;
+            line-height: 1.2;
             white-space: nowrap;
         }
-        body.dark-mode .banner-pct-val {
-            color: #c084fc;
-        }
+        body.dark-mode .banner-pct-val { color: #c084fc; }
 
-
-        
         /* --- COMPACT & RESPONSIVE WEEKLY CUP STYLES --- */
         .cup-top-header {
             padding: 12px 16px 8px 16px;
@@ -3018,155 +3039,6 @@
             background: #2e1065;
             color: #c084fc;
         }
-
-        /* -------------------------------------
-           VIEW 1: HOME SCREEN
-           ------------------------------------- */
-        .greeting-section { padding: 0 20px 20px 20px; }
-        .greeting-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-        .date-badge { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--text-muted); }
-        .badge-day { background: var(--brand-light); color: var(--brand); padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; }
-
-        .card-main { margin: 0 20px 20px 20px; padding: 20px; border-radius: 20px; border: 1px solid var(--border-light); box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
-        .timer-label { font-size: 13px; color: var(--text-muted); font-weight: 500; margin-bottom: 8px; display: flex; justify-content: space-between;}
-        .timer-value { font-size: 32px; font-weight: 700; color: var(--brand); letter-spacing: 2px; margin-bottom: 4px; }
-        .timer-subs { display: flex; gap: 32px; font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 20px; margin-left: 4px;}
-        .btn-massive { background: var(--brand); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
-
-        .cup-card { display: flex; justify-content: space-between; align-items: flex-start; }
-        .cup-stats { display: flex; gap: 32px; margin-top: 16px; }
-        .stat-col p { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
-        .stat-col h3 { font-size: 18px; font-weight: 700; }
-        .link-view { font-size: 13px; color: var(--text-main); font-weight: 600; display: flex; align-items: center; gap: 4px; cursor: pointer; margin-top: 16px; justify-content: flex-end;}
-
-        /* --- THEMED DAYS TIMELINE CARD --- */
-        .days-tracker-card {
-            margin: 0 16px 20px 16px;
-            padding: 16px 14px;
-            border-radius: 20px;
-            border: 1px solid var(--border-light);
-            background: #ffffff;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
-            box-sizing: border-box;
-        }
-        body.dark-mode .days-tracker-card {
-            background: var(--bg-card);
-            border-color: var(--border-light);
-        }
-
-        .days-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-        .days-title-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .days-icon-badge {
-            width: 32px;
-            height: 32px;
-            border-radius: 9px;
-            background: #ede9fe;
-            color: #5a32fa;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-        }
-        body.dark-mode .days-icon-badge {
-            background: #2e1065;
-            color: #c084fc;
-        }
-        .days-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-        .days-sub-badge {
-            font-size: 11px;
-            font-weight: 700;
-            color: #5a32fa;
-            background: #f3f0ff;
-            padding: 3px 9px;
-            border-radius: 12px;
-        }
-        body.dark-mode .days-sub-badge {
-            background: #2e1065;
-            color: #c084fc;
-        }
-
-        /* Day Items Grid */
-        .days-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 4px;
-        }
-        .day-item-col {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            flex: 1;
-            min-width: 0;
-            transition: transform 0.15s ease;
-        }
-        .day-item-col:active {
-            transform: scale(0.93);
-        }
-
-        .day-circle {
-            width: clamp(34px, 9vw, 40px);
-            height: clamp(34px, 9vw, 40px);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: clamp(12px, 3.4vw, 14px);
-            font-weight: 700;
-            color: var(--text-muted);
-            background: #f8fafc;
-            border: 1.5px solid var(--border-light);
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-        }
-        body.dark-mode .day-circle {
-            background: #18181b;
-            border-color: #27272a;
-        }
-
-        /* Active Day (Purple Theme) */
-        .day-circle.active {
-            background: #5a32fa;
-            color: #ffffff;
-            border-color: #5a32fa;
-            box-shadow: 0 3px 10px rgba(90, 50, 250, 0.35);
-        }
-
-        /* Completed Day */
-        .day-circle.done {
-            background: #f0fdf4;
-            color: #166534;
-            border-color: #bbf7d0;
-        }
-        body.dark-mode .day-circle.done {
-            background: #052e16;
-            color: #86efac;
-            border-color: #14532d;
-        }
-
-        .day-check {
-            height: 16px;
-            margin-top: 6px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 11px;
-        }
-
 
         /* -------------------------------------
            VIEW 2: DAY DETAILS (QUIZ LIST)
