@@ -2389,6 +2389,7 @@
         // 6. TOP TIMER (IST BOUND)
         setInterval(() => {
             const ist = getIST();
+            const isSunday = (ist.getDay() === 0);
             
             // 1. Define today's 4:30 PM drop time
             const dropTime = new Date(ist);
@@ -2398,12 +2399,15 @@
             const endOfDay = new Date(ist);
             endOfDay.setHours(23, 59, 59, 999);
             
-            // 🟢 DYNAMIC TIMER LOGIC
+            // 🟢 DYNAMIC TIMER LOGIC (On Sundays, skip 4:30 PM drop and count down to midnight cup lock)
             let targetTime;
             let isPreDrop = false;
             
-            if (ist < dropTime) {
-                targetTime = dropTime; // Count down to 4:30 PM
+            if (isSunday) {
+                targetTime = endOfDay;
+                isPreDrop = false;
+            } else if (ist < dropTime) {
+                targetTime = dropTime; // Count down to 4:30 PM (Mon-Sat)
                 isPreDrop = true;
             } else {
                 targetTime = endOfDay; // Count down to Midnight
@@ -2419,24 +2423,24 @@
             const homeTimer = document.getElementById('home-timer');
             if (homeTimer) {
                 homeTimer.innerText = `${h} : ${m} : ${s}`;
-                homeTimer.style.color = ist.getDay() === 0 ? '#e73b50' : 'var(--brand)';
+                homeTimer.style.color = isSunday ? '#e73b50' : 'var(--brand)';
                 
                 // 🟢 Update Home Timer Label automatically
                 const homeLabel = homeTimer.previousElementSibling?.querySelector('span');
                 if (homeLabel) {
-                    homeLabel.innerText = isPreDrop ? "Starts In" : "Time Left Today";
+                    homeLabel.innerText = isSunday ? "Weekly Cup Closes In" : (isPreDrop ? "Starts In" : "Time Left Today");
                 }
             }
             
             const detailTimer = document.getElementById('detail-timer');
             if (detailTimer) {
                 detailTimer.innerText = `${h} : ${m} : ${s}`;
-                detailTimer.style.color = ist.getDay() === 0 ? '#e73b50' : 'var(--brand)';
+                detailTimer.style.color = isSunday ? '#e73b50' : 'var(--brand)';
                 
                 // 🟢 Update Day Detail Label automatically
                 const detailLabel = detailTimer.previousElementSibling;
                 if (detailLabel && detailLabel.tagName.toLowerCase() === 'p') {
-                    detailLabel.innerText = isPreDrop ? "Starts In" : "Time Left";
+                    detailLabel.innerText = isSunday ? "Weekly Cup Closes In" : (isPreDrop ? "Starts In" : "Time Left");
                 }
             }
             
