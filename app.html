@@ -1498,12 +1498,12 @@
             color: #fca5a5;
         }
 
-        /* 6. Compact Sticky Bottom Self-Rank Bar */
+        /* 6. Compact Sticky Bottom Self-Rank Bar (Proper Clearance) */
         .cup-sticky-self-bar {
             position: fixed;
-            bottom: 68px;
-            left: 12px;
-            right: 12px;
+            bottom: calc(78px + env(safe-area-inset-bottom, 0px));
+            left: 14px;
+            right: 14px;
             background: linear-gradient(135deg, #f8f6ff 0%, #ede7ff 100%);
             border: 1.5px solid #dcd3ff;
             border-radius: 18px;
@@ -1511,7 +1511,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 18px rgba(90, 50, 250, 0.18);
+            box-shadow: 0 6px 20px rgba(90, 50, 250, 0.22);
             z-index: 99;
             cursor: pointer;
             box-sizing: border-box;
@@ -5959,7 +5959,7 @@
             }
         }
 
-        // 🟢 Live Cup Leaderboard, Real Battle Neighbors & Red Demotion Line
+        // 🟢 Live Cup Leaderboard, Real Battle Neighbors & Vibrant Avatars
         function renderCupLeaderboard(data) {
             if (!data || !data.leaderboard) return;
 
@@ -5968,7 +5968,29 @@
             const userRank = parseInt(cu.rank) || 0;
             const userScoreNum = parseFloat(cu.score) || 0;
 
-            // 1. Render "Battle Around You" with real names or dynamic competitor profiles
+            // Palette for dynamic avatar backgrounds
+            const avatarGradients = [
+                'linear-gradient(135deg, #6366f1, #a855f7)',
+                'linear-gradient(135deg, #3b82f6, #06b6d4)',
+                'linear-gradient(135deg, #ec4899, #f43f5e)',
+                'linear-gradient(135deg, #10b981, #059669)',
+                'linear-gradient(135deg, #f59e0b, #d97706)',
+                'linear-gradient(135deg, #8b5cf6, #ec4899)'
+            ];
+
+            function getAvatarMarkup(u, isPodium = false, customClass = '') {
+                const imgUrl = u.photo_url || u.avatar_url || u.avatar || u.profile_pic;
+                const nameChar = (u.name || 'U').trim().charAt(0).toUpperCase();
+                const charCode = (u.name || 'U').charCodeAt(0) || 0;
+                const bgGrad = avatarGradients[charCode % avatarGradients.length];
+
+                if (imgUrl) {
+                    return `<img src="${imgUrl}" class="${customClass}" onerror="this.outerHTML='<div class=\\'${customClass}\\' style=\\'background:${bgGrad}; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800;\\'>${nameChar}</div>'">`;
+                }
+                return `<div class="${customClass}" style="background:${bgGrad}; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800;">${nameChar}</div>`;
+            }
+
+            // 1. Render "Battle Around You"
             const battleEl = document.getElementById('cup-battle-container');
             if (battleEl) {
                 if (userRank > 0) {
@@ -6019,7 +6041,7 @@
                 }
             }
 
-            // 2. Render Top 3 Podium (Streak removed, accuracy only)
+            // 2. Render Top 3 Podium
             const podiumEl = document.getElementById('cup-podium-container');
             if (podiumEl && list.length >= 3) {
                 const u1 = list[0];
@@ -6030,11 +6052,7 @@
                     let scoreText = u.score % 1 !== 0 ? u.score.toFixed(2) : u.score;
                     let leagueBadge = typeof getLeagueBadgeHTML === 'function' ? getLeagueBadgeHTML(u.league || 0) : '';
                     let accuracy = u.history?.accuracy || Math.max(50, 94 - rank * 4);
-
-                    let avatarHtml = u.photo_url 
-                        ? `<img src="${u.photo_url}" class="podium-avatar-img" onerror="this.outerHTML='<div class=\\'podium-avatar-fallback\\'>${(u.name || 'U').charAt(0)}</div>'">` 
-                        : `<div class="podium-avatar-fallback">${(u.name || 'U').charAt(0)}</div>`;
-
+                    let avatarHtml = getAvatarMarkup(u, true, 'podium-avatar-img');
                     let medalEmoji = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : '🥉');
 
                     return `
@@ -6069,7 +6087,7 @@
                 } else {
                     let rowsHtml = '';
 
-                    restUsers.forEach((u, index) => {
+                    restUsers.forEach((u) => {
                         let isMe = u.id == appUserId;
                         let scoreNum = parseFloat(u.score) || 0;
                         let scoreText = u.score % 1 !== 0 ? u.score.toFixed(2) : u.score;
@@ -6079,14 +6097,11 @@
                         let deltaNum = u.rank_delta || (u.rank % 3 === 0 ? -1 : 1);
                         let deltaClass = deltaNum > 0 ? 'delta-up' : (deltaNum < 0 ? 'delta-down' : 'delta-same');
                         let deltaIcon = deltaNum > 0 ? '↑' : (deltaNum < 0 ? '↓' : '–');
-
-                        let avatarHtml = u.photo_url 
-                            ? `<img src="${u.photo_url}" class="cup-row-avatar-img" onerror="this.outerHTML='<div class=\\'cup-row-avatar-fallback\\'>${(u.name || 'U').charAt(0)}</div>'">` 
-                            : `<div class="cup-row-avatar-fallback">${(u.name || 'U').charAt(0)}</div>`;
+                        let avatarHtml = getAvatarMarkup(u, false, 'cup-row-avatar-img');
 
                         let bgStyle = isMe ? 'background: #f7f4ff; border: 1.5px solid #dcd3ff;' : '';
 
-                        // 🟢 Insert Demotion Red Line when passing below class average
+                        // Insert Demotion Red Line when passing below class average
                         if (!demotionLineRendered && targetAvg > 0 && scoreNum < targetAvg) {
                             rowsHtml += `
                                 <div class="cup-demotion-divider">
@@ -6127,7 +6142,7 @@
                 }
             }
 
-            // 4. Update Frozen Sticky Self Bar (Streak removed, accuracy only)
+            // 4. Update Frozen Sticky Self Bar
             const stickyBar = document.getElementById('cup-sticky-user-bar');
             if (stickyBar && userRank > 0) {
                 const elRank = document.getElementById('sticky-user-rank');
@@ -6152,8 +6167,8 @@
                 let acc = cu.history?.accuracy || 0;
                 if (elMeta) elMeta.innerText = `🎯 ${acc}% Accuracy`;
 
-                if (photoUrl && avatarWrap) {
-                    avatarWrap.innerHTML = `<img src="${photoUrl}" class="cup-row-avatar-img">`;
+                if (avatarWrap) {
+                    avatarWrap.innerHTML = getAvatarMarkup(cu, false, 'cup-row-avatar-img');
                 }
 
                 stickyBar.style.display = 'flex';
