@@ -1018,19 +1018,68 @@
             gap: 6px;
             word-break: break-word;
         }
+        /* --- PROFILE TARGET & LEAGUE PILLS (PASTEL STYLING) --- */
         .profile-target-tag-row {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 5px;
+            gap: 8px;
+            margin-bottom: 8px;
             flex-wrap: wrap;
         }
+
         .profile-tag-pill {
-            padding: 2px 8px;
-            border-radius: 7px;
-            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 9px;
+            font-size: 12px;
             font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
             line-height: 1.2;
+            letter-spacing: 0.2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+            cursor: pointer;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+        }
+        .profile-tag-pill:active {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        /* 1. State Pill (Lavender / Purple) */
+        .tag-state {
+            background: #ede9fe;
+            color: #5a32fa;
+            border: 1px solid rgba(90, 50, 250, 0.15);
+        }
+        body.dark-mode .tag-state {
+            background: #2e1065;
+            color: #c084fc;
+            border-color: rgba(192, 132, 252, 0.2);
+        }
+
+        /* 2. Exam Pill (Sky Blue) */
+        .tag-exam {
+            background: #e0f2fe;
+            color: #0284c7;
+            border: 1px solid rgba(2, 132, 199, 0.18);
+        }
+        body.dark-mode .tag-exam {
+            background: #082f49;
+            color: #38bdf8;
+            border-color: rgba(56, 189, 248, 0.2);
+        }
+
+        /* 3. League Pill (Amber / Gold) */
+        .tag-league {
+            background: #fef3c7;
+            color: #d97706;
+            border: 1px solid rgba(217, 119, 6, 0.18);
+        }
+        body.dark-mode .tag-league {
+            background: #451a03;
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.2);
         }
 
         .profile-motto-text {
@@ -2033,10 +2082,11 @@
                 <div class="profile-user-meta">
                     <h2 class="profile-display-name" id="profile-name">Student</h2>
                     
-                    <!-- Clickable Target Tags (Tap to Edit) -->
-                    <div class="profile-target-tag-row" id="header-target-tags" onclick="openSubModal('targetModalOverlay')" style="cursor: pointer;">
-                        <span id="header-state-tag" class="profile-tag-pill tag-state" style="display: none;"></span>
-                        <span id="header-exam-tag" class="profile-tag-pill tag-exam" style="display: none;"></span>
+                    <!-- Dynamic Target Tags & League Pill Row -->
+                    <div class="profile-target-tag-row" id="header-target-tags">
+                        <span id="header-state-tag" class="profile-tag-pill tag-state" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
+                        <span id="header-exam-tag" class="profile-tag-pill tag-exam" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
+                        <span id="header-league-tag" class="profile-tag-pill tag-league" style="display: none;" onclick="openSubModal('guideModalOverlay')"></span>
                     </div>
 
                     <!-- Motto -->
@@ -3447,6 +3497,8 @@
         }
 
         // 🟢 Live Profile Tab Hero & Bottom Percentile Banner Update
+        // 🟢 Live Profile Tab Hero, Tags & League Update
+        // 🟢 Live Profile Tab Hero, Tags & League Update
         function updateProfileHeroUI(cu, totalActive) {
             if (!cu) return;
 
@@ -3460,6 +3512,7 @@
             const bannerTitle = document.getElementById('profile-banner-pct-title');
             const bannerPill = document.getElementById('profile-banner-pct-pill');
             const bannerFill = document.getElementById('profile-banner-fill');
+            const headerLeagueTag = document.getElementById('header-league-tag');
 
             let rankNum = parseInt(cu.rank);
             let scoreVal = (cu.score !== undefined && cu.score !== null)
@@ -3472,14 +3525,24 @@
             let acc = cu.history?.accuracy !== undefined ? cu.history.accuracy : 0;
             if (profileAccuracy) profileAccuracy.innerText = `${acc}%`;
 
+            // 🟢 Render League Badge Pill beside State and Exam
+            if (headerLeagueTag) {
+                if (cu.league > 0 && typeof getLeagueBadgeHTML === 'function') {
+                    headerLeagueTag.innerHTML = getLeagueBadgeHTML(cu.league);
+                    headerLeagueTag.style.display = 'inline-flex';
+                } else if (cu.league > 0) {
+                    headerLeagueTag.innerText = `🎖️ Lvl ${cu.league}`;
+                    headerLeagueTag.style.display = 'inline-flex';
+                } else {
+                    headerLeagueTag.style.display = 'none';
+                }
+            }
+
             // Dynamic Rank & Percentile Logic
             if (!isNaN(rankNum) && rankNum > 0 && totalActive > 0) {
                 let topPct = Math.max(1, Math.round((rankNum / totalActive) * 100));
                 
-                // Update Hero Metric Pill
                 if (rankPill) rankPill.innerText = `Top ${topPct}%`;
-
-                // Update Bottom Banner
                 if (bannerTitle) bannerTitle.innerText = `You're in the Top ${topPct}% of all learners!`;
                 if (bannerPill) bannerPill.innerText = `Top ${topPct}%`;
                 if (bannerFill) bannerFill.style.width = `${Math.min(100, Math.max(8, 100 - topPct + 10))}%`;
@@ -4238,15 +4301,22 @@
             const headerStateTag = document.getElementById('header-state-tag');
             const headerExamTag = document.getElementById('header-exam-tag');
             
-            if (stateVal) {
+            if (stateVal && headerStateTag) {
                 headerStateTag.innerText = stateVal;
-                headerStateTag.style.display = 'inline-block';
-                document.getElementById('state-select').value = stateVal; 
+                headerStateTag.style.display = 'inline-flex';
+                const stateSelect = document.getElementById('state-select');
+                if (stateSelect) stateSelect.value = stateVal; 
+            } else if (headerStateTag) {
+                headerStateTag.style.display = 'none';
             }
-            if (examVal) {
+
+            if (examVal && headerExamTag) {
                 headerExamTag.innerText = examVal;
-                headerExamTag.style.display = 'inline-block';
-                document.getElementById('exam-select').value = examVal; 
+                headerExamTag.style.display = 'inline-flex';
+                const examSelect = document.getElementById('exam-select');
+                if (examSelect) examSelect.value = examVal; 
+            } else if (headerExamTag) {
+                headerExamTag.style.display = 'none';
             }
         }
 
