@@ -2073,18 +2073,22 @@
             height: 100%;
         }
         
-        /* --- DAILY DIGEST HERO BANNER --- */
+        /* ==========================================
+           VIEW 6: BALANCED COMPACT DAILY DIGEST
+           ========================================== */
+
+        /* 1. Daily Dispatch Hero Banner */
         .digest-hero-banner {
-            margin: 10px 16px 20px 16px;
-            padding: 18px 16px;
-            border-radius: 22px;
+            margin: 0 16px 14px 16px;
+            padding: 12px 14px;
+            border-radius: 20px;
             background: linear-gradient(135deg, #f7f3ff 0%, #ece4ff 100%);
             border: 1px solid rgba(90, 50, 250, 0.15);
-            box-shadow: 0 4px 20px rgba(90, 50, 250, 0.05);
+            box-shadow: 0 4px 16px rgba(90, 50, 250, 0.04);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            gap: 8px;
             box-sizing: border-box;
             position: relative;
             overflow: hidden;
@@ -2095,53 +2099,49 @@
         }
 
         .digest-hero-left {
-            flex: 1.25;
+            flex: 1.2;
             min-width: 0;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }
-
         .digest-hero-tag {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.6px;
             color: #5a32fa;
         }
         body.dark-mode .digest-hero-tag {
             color: #c084fc;
         }
-
         .digest-hero-date {
-            font-size: clamp(16px, 4.8vw, 20px);
+            font-size: clamp(15px, 4.2vw, 18px);
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: -0.3px;
             line-height: 1.2;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
-
         .digest-hero-motto {
-            font-size: clamp(11px, 3.1vw, 12px);
+            font-size: clamp(10px, 2.8vw, 11px);
             color: #4b5563;
             font-weight: 500;
-            line-height: 1.3;
-            margin-bottom: 6px;
+            line-height: 1.25;
+            margin-bottom: 4px;
         }
         body.dark-mode .digest-hero-motto {
             color: #cbd5e1;
         }
-
         .digest-insight-pill {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             background: #ede9fe;
             color: #5a32fa;
-            padding: 5px 11px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 9px;
+            font-size: 10px;
             font-weight: 700;
             width: fit-content;
             border: 1px solid rgba(90, 50, 250, 0.12);
@@ -2152,10 +2152,9 @@
             border-color: rgba(192, 132, 252, 0.2);
         }
 
-        /* 3D Newspaper & Coffee Vector Illustration */
         .digest-hero-illustration {
-            width: clamp(95px, 28vw, 125px);
-            height: clamp(85px, 24vw, 110px);
+            width: clamp(72px, 21vw, 88px);
+            height: clamp(64px, 18vw, 76px);
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -2165,68 +2164,62 @@
         .digest-hero-illustration svg {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 6px 12px rgba(90, 50, 250, 0.12));
+            filter: drop-shadow(0 4px 8px rgba(90, 50, 250, 0.1));
         }
 
-        /* --- TODAY'S INSIGHTS CARDS --- */
+        /* 2. Today's Insights Section */
         .digest-insights-section {
-            margin: 0 16px 20px 16px;
+            margin: 0 16px 14px 16px;
         }
         .digest-insights-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             padding: 0 2px;
         }
         .digest-insights-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
-            letter-spacing: 0.8px;
+            letter-spacing: 0.6px;
             color: var(--text-muted);
             text-transform: uppercase;
         }
         .digest-insights-view-all {
-            font-size: 13px;
+            font-size: 11.5px;
             font-weight: 700;
             color: #5a32fa;
             cursor: pointer;
             background: none;
             border: none;
             padding: 0;
-            transition: opacity 0.15s ease;
         }
         body.dark-mode .digest-insights-view-all {
             color: #c084fc;
         }
-        .digest-insights-view-all:active {
-            opacity: 0.7;
-        }
 
-        /* Insight Cards Layout */
+        /* 3. Detailed Insight Cards */
         .digest-cards-list {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 10px;
         }
-
         .digest-detail-card {
-            border-radius: 22px;
-            padding: 16px 14px;
+            border-radius: 18px;
+            padding: 12px 12px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 11px;
             border: 1px solid var(--border-light);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.02);
             box-sizing: border-box;
             cursor: pointer;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            transition: transform 0.15s ease;
         }
         .digest-detail-card:active {
             transform: scale(0.98);
         }
 
-        /* Card Themes */
         .card-theme-purple {
             background: #faf8ff;
             border-color: #ede9fe;
@@ -2235,7 +2228,6 @@
             background: #1e1b4b;
             border-color: #312e81;
         }
-
         .card-theme-green {
             background: #f6fcf8;
             border-color: #dcfce7;
@@ -2245,11 +2237,10 @@
             border-color: #14532d;
         }
 
-        /* 3D Illustration Boxes */
         .card-illus-box {
-            width: clamp(72px, 20vw, 86px);
-            height: clamp(72px, 20vw, 86px);
-            border-radius: 18px;
+            width: clamp(58px, 16vw, 70px);
+            height: clamp(58px, 16vw, 70px);
+            border-radius: 14px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -2259,203 +2250,144 @@
         .box-purple {
             background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
         }
-        body.dark-mode .box-purple {
-            background: #2e1065;
-        }
+        body.dark-mode .box-purple { background: #2e1065; }
         .box-green {
             background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
         }
-        body.dark-mode .box-green {
-            background: #0f3d24;
-        }
+        body.dark-mode .box-green { background: #0f3d24; }
         .card-illus-box svg {
-            width: 82%;
-            height: 82%;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.08));
+            width: 80%;
+            height: 80%;
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.06));
         }
 
-        /* Card Text Content */
         .card-content-wrap {
             flex: 1;
             min-width: 0;
             display: flex;
             flex-direction: column;
         }
-
         .card-category-tag {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            padding: 3px 8px;
-            border-radius: 6px;
+            letter-spacing: 0.5px;
+            padding: 2px 6px;
+            border-radius: 5px;
             width: fit-content;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
-        .tag-purple {
-            background: #ede9fe;
-            color: #6366f1;
-        }
-        body.dark-mode .tag-purple {
-            background: #2e1065;
-            color: #c084fc;
-        }
-        .tag-green {
-            background: #dcfce7;
-            color: #059669;
-        }
-        body.dark-mode .tag-green {
-            background: #14532d;
-            color: #6ee7b7;
-        }
+        .tag-purple { background: #ede9fe; color: #6366f1; }
+        body.dark-mode .tag-purple { background: #2e1065; color: #c084fc; }
+        .tag-green { background: #dcfce7; color: #059669; }
+        body.dark-mode .tag-green { background: #14532d; color: #6ee7b7; }
 
         .card-title-row {
             display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 4px;
+            gap: 5px;
+            margin-bottom: 3px;
             flex-wrap: wrap;
         }
         .card-main-title {
-            font-size: clamp(16px, 4.4vw, 19px);
+            font-size: clamp(14.5px, 4vw, 17px);
             font-weight: 800;
             color: var(--text-main);
             line-height: 1.15;
         }
         .card-audio-btn {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             background: rgba(99, 102, 241, 0.1);
             color: #5a32fa;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 10px;
             border: none;
             cursor: pointer;
             flex-shrink: 0;
-            transition: transform 0.1s ease;
         }
         body.dark-mode .card-audio-btn {
             background: rgba(192, 132, 252, 0.15);
             color: #c084fc;
         }
-        .card-audio-btn:active {
-            transform: scale(0.85);
-        }
 
         .card-pos-pill {
-            font-size: 10.5px;
+            font-size: 9.5px;
             font-weight: 700;
-            padding: 2px 7px;
-            border-radius: 6px;
+            padding: 1px 6px;
+            border-radius: 5px;
             width: fit-content;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
-        .pos-purple {
-            background: #f3e8ff;
-            color: #7c3aed;
-        }
-        body.dark-mode .pos-purple {
-            background: #3b0764;
-            color: #d8b4fe;
-        }
-        .pos-green {
-            background: #def7ec;
-            color: #0d9488;
-        }
-        body.dark-mode .pos-green {
-            background: #042f2e;
-            color: #5eead4;
-        }
+        .pos-purple { background: #f3e8ff; color: #7c3aed; }
+        body.dark-mode .pos-purple { background: #3b0764; color: #d8b4fe; }
+        .pos-green { background: #def7ec; color: #0d9488; }
+        body.dark-mode .pos-green { background: #042f2e; color: #5eead4; }
 
         .card-short-def {
-            font-size: clamp(11.5px, 3.2vw, 13px);
+            font-size: clamp(11px, 3vw, 12px);
             color: #374151;
             font-weight: 600;
-            line-height: 1.35;
-            margin-bottom: 6px;
+            line-height: 1.3;
+            margin-bottom: 4px;
         }
-        body.dark-mode .card-short-def {
-            color: #d1d5db;
-        }
+        body.dark-mode .card-short-def { color: #d1d5db; }
 
         .card-inner-divider {
             height: 1px;
             background: rgba(0, 0, 0, 0.05);
-            margin: 3px 0 6px 0;
+            margin: 2px 0 4px 0;
             width: 100%;
         }
-        body.dark-mode .card-inner-divider {
-            background: rgba(255, 255, 255, 0.07);
-        }
+        body.dark-mode .card-inner-divider { background: rgba(255, 255, 255, 0.07); }
 
         .card-extra-row {
-            font-size: clamp(11px, 3vw, 12.5px);
+            font-size: clamp(10px, 2.8vw, 11.5px);
             color: var(--text-muted);
             font-weight: 500;
-            line-height: 1.35;
+            line-height: 1.3;
         }
         .card-extra-row strong {
             font-weight: 700;
             color: var(--text-main);
         }
-        .purple-accent {
-            color: #6366f1;
-        }
-        body.dark-mode .purple-accent {
-            color: #a5b4fc;
-        }
-        .green-accent {
-            color: #059669;
-        }
-        body.dark-mode .green-accent {
-            color: #34d399;
-        }
+        .purple-accent { color: #6366f1; }
+        body.dark-mode .purple-accent { color: #a5b4fc; }
+        .green-accent { color: #059669; }
+        body.dark-mode .green-accent { color: #34d399; }
 
-        /* Arrow Jump Circle */
         .card-arrow-circle {
-            width: 32px;
-            height: 32px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 700;
             flex-shrink: 0;
             border: none;
         }
-        .arrow-purple {
-            background: #ede9fe;
-            color: #5a32fa;
-        }
-        body.dark-mode .arrow-purple {
-            background: #2e1065;
-            color: #c084fc;
-        }
-        .arrow-green {
-            background: #dcfce7;
-            color: #059669;
-        }
-        body.dark-mode .arrow-green {
-            background: #14532d;
-            color: #34d399;
-        }
+        .arrow-purple { background: #ede9fe; color: #5a32fa; }
+        body.dark-mode .arrow-purple { background: #2e1065; color: #c084fc; }
+        .arrow-green { background: #dcfce7; color: #059669; }
+        body.dark-mode .arrow-green { background: #14532d; color: #34d399; }
 
-        /* --- BOTTOM TROPHY & TARGET MOTIVATION BANNER --- */
+        /* 4. Bottom Motivational Banner */
         .digest-bottom-banner {
-            margin: 0 16px 24px 16px;
-            padding: 14px 16px;
-            border-radius: 22px;
+            margin: 0 16px 18px 16px;
+            padding: 10px 12px;
+            border-radius: 18px;
             background: linear-gradient(135deg, #fffbf5 0%, #fff7ed 100%);
             border: 1px solid rgba(249, 115, 22, 0.16);
-            box-shadow: 0 4px 18px rgba(249, 115, 22, 0.04);
+            box-shadow: 0 3px 14px rgba(249, 115, 22, 0.03);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
+            gap: 8px;
             box-sizing: border-box;
         }
         body.dark-mode .digest-bottom-banner {
@@ -2464,8 +2396,8 @@
         }
 
         .banner-trophy-illus {
-            width: clamp(48px, 14vw, 58px);
-            height: clamp(48px, 14vw, 58px);
+            width: clamp(38px, 11vw, 46px);
+            height: clamp(38px, 11vw, 46px);
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -2481,10 +2413,10 @@
             min-width: 0;
             display: flex;
             align-items: flex-start;
-            gap: 8px;
+            gap: 6px;
         }
         .quote-mark {
-            font-size: 22px;
+            font-size: 18px;
             line-height: 1;
             color: #f97316;
             font-weight: 900;
@@ -2494,41 +2426,35 @@
         .quote-text-group {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 1px;
         }
         .quote-headline {
-            font-size: clamp(12px, 3.4vw, 13.5px);
+            font-size: clamp(10.5px, 3vw, 12px);
             color: #374151;
             font-weight: 500;
-            line-height: 1.35;
+            line-height: 1.25;
         }
-        body.dark-mode .quote-headline {
-            color: #e5e7eb;
-        }
+        body.dark-mode .quote-headline { color: #e5e7eb; }
         .quote-headline strong {
             font-weight: 800;
             color: #111827;
             display: block;
         }
-        body.dark-mode .quote-headline strong {
-            color: #f9fafb;
-        }
+        body.dark-mode .quote-headline strong { color: #f9fafb; }
         .quote-subline {
-            font-size: clamp(10.5px, 2.9vw, 11.5px);
+            font-size: clamp(9px, 2.5vw, 10.5px);
             color: #6b7280;
             font-weight: 500;
         }
-        body.dark-mode .quote-subline {
-            color: #9ca3af;
-        }
+        body.dark-mode .quote-subline { color: #9ca3af; }
         .quote-subline strong {
             font-weight: 700;
             color: var(--text-main);
         }
 
         .banner-target-illus {
-            width: clamp(44px, 13vw, 54px);
-            height: clamp(44px, 13vw, 54px);
+            width: clamp(34px, 10vw, 42px);
+            height: clamp(34px, 10vw, 42px);
             flex-shrink: 0;
             display: flex;
             align-items: center;
