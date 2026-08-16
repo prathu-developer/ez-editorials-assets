@@ -908,6 +908,519 @@
         }
 
 
+
+        /* --- PROGRESS SCREEN ENHANCEMENTS --- */
+        .progress-top-header {
+            padding: 16px 20px 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .progress-header-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+        .progress-chart-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            color: #5a32fa;
+            transition: transform 0.15s ease;
+        }
+        body.dark-mode .progress-chart-btn {
+            background: var(--bg-card);
+            border-color: var(--border-light);
+            color: #c084fc;
+        }
+        .progress-chart-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* 1. Top Hero Card (Score, Radial Accuracy Ring, Rank) */
+        .progress-hero-card {
+            margin: 0 16px 16px 16px;
+            padding: 20px 14px 18px 14px;
+            border-radius: 24px;
+            background: linear-gradient(180deg, #faf8ff 0%, #f3eeff 100%);
+            border: 1px solid rgba(99, 102, 241, 0.16);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.05);
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1.1fr 1.2fr 1.1fr;
+            align-items: center;
+            gap: 6px;
+        }
+        body.dark-mode .progress-hero-card {
+            background: linear-gradient(180deg, #1e1b4b 0%, #17153a 100%);
+            border-color: rgba(168, 85, 247, 0.2);
+        }
+
+        .prog-hero-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 0;
+        }
+        .prog-col-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1;
+        }
+        .prog-col-val {
+            font-size: clamp(18px, 5.2vw, 24px);
+            font-weight: 900;
+            color: #5a32fa;
+            line-height: 1.15;
+            margin-bottom: 8px;
+            white-space: nowrap;
+        }
+        body.dark-mode .prog-col-val {
+            color: #c084fc;
+        }
+        .prog-hero-pill {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: clamp(9px, 2.6vw, 10.5px);
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .pill-purple-soft {
+            background: #ede9fe;
+            color: #6366f1;
+        }
+        body.dark-mode .pill-purple-soft {
+            background: #2e1065;
+            color: #c084fc;
+        }
+
+        /* Center Radial Ring */
+        .prog-radial-wrap {
+            position: relative;
+            width: clamp(88px, 25vw, 108px);
+            height: clamp(88px, 25vw, 108px);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .prog-radial-wrap svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .prog-radial-bg {
+            fill: none;
+            stroke: rgba(99, 102, 241, 0.15);
+            stroke-width: 7;
+        }
+        body.dark-mode .prog-radial-bg {
+            stroke: rgba(168, 85, 247, 0.2);
+        }
+        .prog-radial-fill {
+            fill: none;
+            stroke: #5a32fa;
+            stroke-width: 7;
+            stroke-linecap: round;
+            stroke-dasharray: 238.76;
+            stroke-dashoffset: 238.76;
+            transition: stroke-dashoffset 0.8s ease;
+        }
+        body.dark-mode .prog-radial-fill {
+            stroke: #c084fc;
+        }
+        .prog-radial-center {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4px;
+        }
+        .prog-radial-val {
+            font-size: clamp(16px, 4.6vw, 20px);
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1.1;
+        }
+        .prog-radial-sub {
+            font-size: clamp(8px, 2.3vw, 9.5px);
+            color: var(--text-muted);
+            font-weight: 600;
+            line-height: 1.15;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /* 2. 4-Metric Breakdown Card */
+        .progress-metrics-card {
+            margin: 0 16px 22px 16px;
+            padding: 14px 10px;
+            border-radius: 20px;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            align-items: center;
+            gap: 4px;
+            box-sizing: border-box;
+        }
+        body.dark-mode .progress-metrics-card {
+            background: var(--bg-card);
+            border-color: var(--border-light);
+        }
+
+        .prog-metric-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-width: 0;
+            padding: 2px 4px;
+            position: relative;
+        }
+        .prog-metric-col:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: -2px;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background: var(--border-light);
+        }
+
+        .prog-icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-bottom: 4px;
+            flex-shrink: 0;
+        }
+        .pico-purple { background: #f3e8ff; color: #7c3aed; }
+        .pico-green  { background: #def7ec; color: #0e9f6e; }
+        .pico-orange { background: #ffedd5; color: #ea580c; }
+        .pico-blue   { background: #e0f2fe; color: #0284c7; }
+
+        .prog-stat-label {
+            font-size: clamp(9px, 2.5vw, 10px);
+            font-weight: 600;
+            color: var(--text-muted);
+            line-height: 1.15;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+        .prog-stat-num {
+            font-size: clamp(14px, 4vw, 17px);
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.2;
+            margin-bottom: 2px;
+            white-space: nowrap;
+        }
+        .prog-stat-sub {
+            font-size: clamp(8.5px, 2.4vw, 9.5px);
+            color: var(--text-muted);
+            font-weight: 500;
+            line-height: 1;
+        }
+
+        /* --- RECENT ATTEMPTS SECTION & CARDS --- */
+        .recent-attempts-section {
+            margin: 0 16px 20px 16px;
+        }
+        .recent-attempts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 0 2px;
+        }
+        .recent-attempts-title {
+            font-size: clamp(15px, 4.2vw, 17px);
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        /* Filter Dropdown Pill */
+        .filter-dropdown-wrap {
+            position: relative;
+        }
+        .filter-pill-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background: #f3f0ff;
+            color: #5a32fa;
+            border: 1px solid rgba(90, 50, 250, 0.15);
+            padding: 6px 28px 6px 12px;
+            border-radius: 18px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            font-family: inherit;
+        }
+        body.dark-mode .filter-pill-select {
+            background: #2e1065;
+            color: #c084fc;
+            border-color: rgba(192, 132, 252, 0.2);
+        }
+        .filter-dropdown-arrow {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            font-size: 10px;
+            color: #5a32fa;
+            font-weight: bold;
+        }
+        body.dark-mode .filter-dropdown-arrow {
+            color: #c084fc;
+        }
+
+        /* Attempts Card List */
+        .attempts-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .attempt-item-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 14px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.02);
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            gap: 10px;
+        }
+        body.dark-mode .attempt-item-card {
+            background: var(--bg-card);
+            border-color: var(--border-light);
+        }
+        .attempt-item-card:active {
+            transform: scale(0.98);
+        }
+
+        .attempt-card-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        /* Topic Icon Box */
+        .attempt-topic-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .att-ico-purple { background: #f3e8ff; color: #7c3aed; }
+        .att-ico-green  { background: #def7ec; color: #0e9f6e; }
+        .att-ico-orange { background: #ffedd5; color: #ea580c; }
+        .att-ico-blue   { background: #e0f2fe; color: #0284c7; }
+        .att-ico-pink   { background: #fce7f3; color: #db2777; }
+        .att-ico-teal   { background: #ccfbf1; color: #0d9488; }
+        .att-ico-indigo { background: #e0e7ff; color: #4f46e5; }
+        .att-ico-rose   { background: #ffe4e6; color: #e11d48; }
+
+        .attempt-text-meta {
+            min-width: 0;
+            flex: 1;
+        }
+        .attempt-topic-name {
+            font-size: clamp(13.5px, 3.8vw, 15px);
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.25;
+            margin-bottom: 3px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .attempt-date-time {
+            font-size: clamp(10.5px, 2.9vw, 12px);
+            color: var(--text-muted);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        /* Right Section: Score + Status + Arrow */
+        .attempt-card-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .attempt-score-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+        .attempt-score-val {
+            font-size: clamp(13.5px, 3.8vw, 15px);
+            font-weight: 800;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+        .score-positive { color: #5a32fa; }
+        .score-negative { color: #ef4444; }
+        .score-zero     { color: #5a32fa; }
+        body.dark-mode .score-positive, 
+        body.dark-mode .score-zero { color: #c084fc; }
+
+        .attempt-status-pill {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 8px;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+        .pill-status-purple { background: #f3f0ff; color: #5a32fa; }
+        .pill-status-red    { background: #fee2e2; color: #ef4444; }
+        body.dark-mode .pill-status-purple { background: #2e1065; color: #c084fc; }
+        body.dark-mode .pill-status-red    { background: #450a0a; color: #f87171; }
+
+        .attempt-arrow-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: #94a3b8;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        body.dark-mode .attempt-arrow-btn {
+            background: #1e1b4b;
+            border-color: #312e81;
+            color: #cbd5e1;
+        }
+
+        /* --- BOTTOM INSIGHT MOTIVATIONAL BANNER --- */
+        .progress-insight-banner {
+            margin: 10px 16px 24px 16px;
+            padding: 14px 16px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #faf8ff 0%, #f3eeff 100%);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            box-sizing: border-box;
+        }
+        body.dark-mode .progress-insight-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
+            border-color: rgba(168, 85, 247, 0.2);
+        }
+
+        .pib-left-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #ede9fe;
+            color: #5a32fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        body.dark-mode .pib-left-icon {
+            background: #2e1065;
+            color: #c084fc;
+        }
+
+        .pib-text-center {
+            flex: 1;
+            min-width: 0;
+        }
+        .pib-tag-label {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #6366f1;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 2px;
+        }
+        body.dark-mode .pib-tag-label {
+            color: #a5b4fc;
+        }
+        .pib-title-text {
+            font-size: clamp(12.5px, 3.6vw, 14px);
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.2;
+            margin-bottom: 3px;
+        }
+        .pib-sub-desc {
+            font-size: clamp(10px, 2.8vw, 11px);
+            color: var(--text-muted);
+            font-weight: 500;
+            line-height: 1.35;
+        }
+
+        .pib-chart-illus {
+            width: clamp(75px, 22vw, 95px);
+            height: clamp(45px, 13vw, 55px);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pib-chart-illus svg {
+            width: 100%;
+            height: 100%;
+        }
         
         /* --- DAILY DIGEST HERO BANNER --- */
         .digest-hero-banner {
@@ -2492,8 +3005,8 @@
             <h3 class="highlights-title">Today's Highlights</h3>
             
             <div class="highlights-card">
-                <!-- 1. Word of the Day -->
-                <div class="highlight-row" onclick="openDigestItem('wotd')">
+                <!-- 1. Word of the Day (Navigates to Digest Tab) -->
+                <div class="highlight-row" onclick="switchView('view-digest')">
                     <div class="highlight-left">
                         <div class="highlight-icon-box hl-purple">📖</div>
                         <div class="highlight-text-content">
@@ -2509,8 +3022,8 @@
 
                 <div class="highlight-row-divider"></div>
 
-                <!-- 2. Foreign Expression -->
-                <div class="highlight-row" onclick="openDigestItem('foreign')">
+                <!-- 2. Foreign Expression (Navigates to Digest Tab) -->
+                <div class="highlight-row" onclick="switchView('view-digest')">
                     <div class="highlight-left">
                         <div class="highlight-icon-box hl-green">🌍</div>
                         <div class="highlight-text-content">
@@ -2659,22 +3172,150 @@
     </div>
 
     <!-- ==========================================
-         VIEW 4: PROGRESS (Master Spec: Real Data)
+         VIEW 4: PROGRESS (New Redesign)
          ========================================== -->
     <div id="view-progress" class="view-container">
-        <div class="top-header">
-            <span></span>
-            <span class="font-bold">Your Progress</span>
-            <span></span>
+        <!-- Progress Top Header -->
+        <div class="progress-top-header">
+            <span style="width: 38px;"></span>
+            <span class="progress-header-title">Your Progress</span>
+            <div class="progress-chart-btn" onclick="openProfile(appUserId)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                    <polyline points="16 7 22 7 22 13"></polyline>
+                </svg>
+            </div>
         </div>
         
-        <div class="card-main" id="progress-stats-container">
-            <!-- Dynamic Accuracy Stats injected here -->
+        <!-- 1. Hero Card: Score, Radial Accuracy, Rank -->
+        <div class="progress-hero-card">
+            <!-- Left: Your Score -->
+            <div class="prog-hero-col">
+                <div class="prog-col-label">Your Score</div>
+                <div class="prog-col-val" id="prog-hero-score">--</div>
+                <div class="prog-hero-pill pill-purple-soft" id="prog-hero-pct-pill">Top --% of participants</div>
+            </div>
+
+            <!-- Center: Radial Accuracy Ring -->
+            <div class="prog-hero-col">
+                <div class="prog-radial-wrap">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="prog-radial-bg" cx="50" cy="50" r="38"></circle>
+                        <circle class="prog-radial-fill" id="prog-radial-fill" cx="50" cy="50" r="38"></circle>
+                    </svg>
+                    <div class="prog-radial-center">
+                        <div class="prog-radial-val" id="prog-radial-val">0%</div>
+                        <div class="prog-radial-sub">
+                            <span>🎯</span> Overall<br/>Accuracy
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Your Rank -->
+            <div class="prog-hero-col">
+                <div class="prog-col-label">Your Rank</div>
+                <div class="prog-col-val" id="prog-hero-rank">#--</div>
+                <div class="prog-hero-pill pill-purple-soft" id="prog-hero-rank-pill">Keep pushing! 💪</div>
+            </div>
         </div>
 
-        <h3 style="margin: 0 20px 12px 20px; font-size: 15px;">Recent Attempts</h3>
-        <div id="progress-history-container" style="padding: 0 20px;">
-            <p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading history...</p>
+        <!-- 2. Metrics Strip: Attempts, Correct Answers, Streak, Study Time -->
+        <div class="progress-metrics-card">
+            <!-- 1. Total Attempts -->
+            <div class="prog-metric-col">
+                <div class="prog-icon-box pico-purple">📄</div>
+                <div class="prog-stat-label">Total Attempts</div>
+                <div class="prog-stat-num" id="prog-total-attempts">0</div>
+                <div class="prog-stat-sub">Quizzes</div>
+            </div>
+
+            <!-- 2. Correct Answers -->
+            <div class="prog-metric-col">
+                <div class="prog-icon-box pico-green">🎯</div>
+                <div class="prog-stat-label">Correct Answers</div>
+                <div class="prog-stat-num" id="prog-correct-answers">0</div>
+                <div class="prog-stat-sub" id="prog-correct-pct">0%</div>
+            </div>
+
+            <!-- 3. Best Streak -->
+            <div class="prog-metric-col">
+                <div class="prog-icon-box pico-orange">🔥</div>
+                <div class="prog-stat-label">Best Streak</div>
+                <div class="prog-stat-num" id="prog-best-streak">0</div>
+                <div class="prog-stat-sub">Days</div>
+            </div>
+
+            <!-- 4. Study Time -->
+            <div class="prog-metric-col">
+                <div class="prog-icon-box pico-blue">⏱</div>
+                <div class="prog-stat-label">Study Time</div>
+                <div class="prog-stat-num" id="prog-study-time">0m</div>
+                <div class="prog-stat-sub">This Week</div>
+            </div>
+        </div>
+
+        <!-- Recent Attempts Section -->
+        <div class="recent-attempts-section">
+            <!-- Header + Filter Dropdown -->
+            <div class="recent-attempts-header">
+                <h3 class="recent-attempts-title">Recent Attempts</h3>
+                
+                <div class="filter-dropdown-wrap">
+                    <select class="filter-pill-select" id="progress-topic-filter" onchange="filterProgressHistory(this.value)">
+                        <option value="ALL">All Quizzes</option>
+                        <option value="Vocab">Vocab Quiz</option>
+                        <option value="Sentence Improvement">Sentence Improvement</option>
+                        <option value="Error Detection">Error Detection</option>
+                        <option value="Reading Comprehension">Reading Comprehension</option>
+                        <option value="Cloze Test">Cloze Test</option>
+                        <option value="Para Jumbles">Para Jumbles</option>
+                        <option value="Word Usage">Word Usage</option>
+                        <option value="Fill in the Blank">Fill in the Blank</option>
+                    </select>
+                    <span class="filter-dropdown-arrow">▼</span>
+                </div>
+            </div>
+
+            <!-- Dynamic Attempts Card List -->
+            <div class="attempts-cards-list" id="progress-history-container">
+                <p style="text-align:center; color:var(--text-muted); font-size: 13px; padding: 20px 0;">Loading history...</p>
+            </div>
+        </div>
+
+        <!-- Bottom Motivation & Consistency Banner -->
+        <div class="progress-insight-banner">
+            <!-- Left Bar Chart Icon -->
+            <div class="pib-left-icon">📊</div>
+
+            <!-- Center Quote Text -->
+            <div class="pib-text-center">
+                <div class="pib-tag-label">Insight</div>
+                <div class="pib-title-text">Consistency is the key!</div>
+                <div class="pib-sub-desc">Attempt quizzes daily to improve your score and climb the ranks.</div>
+            </div>
+
+            <!-- Right Vector Growth Chart -->
+            <div class="pib-chart-illus">
+                <svg viewBox="0 0 120 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Glow Gradient Area Under Curve -->
+                    <path d="M10 60 Q 40 55, 60 40 T 110 15 L 110 65 L 10 65 Z" fill="url(#growthAreaGrad)" opacity="0.3"/>
+                    <!-- Growth Line -->
+                    <path d="M10 60 Q 40 55, 60 40 T 105 18" stroke="#8b5cf6" stroke-width="3.5" stroke-linecap="round"/>
+                    <!-- Arrow Head -->
+                    <path d="M98 16L110 15L108 27" stroke="#7c3aed" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Data Points -->
+                    <circle cx="28" cy="56" r="3.5" fill="#ffffff" stroke="#8b5cf6" stroke-width="2.5"/>
+                    <circle cx="60" cy="40" r="3.5" fill="#ffffff" stroke="#8b5cf6" stroke-width="2.5"/>
+                    <circle cx="90" cy="24" r="3.5" fill="#ffffff" stroke="#8b5cf6" stroke-width="2.5"/>
+                    <defs>
+                        <linearGradient id="growthAreaGrad" x1="60" y1="15" x2="60" y2="65" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#a78bfa"/>
+                            <stop offset="1" stop-color="#ede9fe" stop-opacity="0"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
         </div>
     </div>
 
@@ -4402,6 +5043,91 @@
             }
         }
 
+        // 🟢 Live Progress Tab Hero & Metrics Update
+        function updateProgressTabUI(cu, totalActive) {
+            if (!cu) return;
+
+            const elScore = document.getElementById('prog-hero-score');
+            const elRank = document.getElementById('prog-hero-rank');
+            const elPctPill = document.getElementById('prog-hero-pct-pill');
+            const elRankPill = document.getElementById('prog-hero-rank-pill');
+            const elRadialVal = document.getElementById('prog-radial-val');
+            const elRadialFill = document.getElementById('prog-radial-fill');
+
+            const elAttempts = document.getElementById('prog-total-attempts');
+            const elCorrect = document.getElementById('prog-correct-answers');
+            const elCorrectPct = document.getElementById('prog-correct-pct');
+            const elStreak = document.getElementById('prog-best-streak');
+            const elStudyTime = document.getElementById('prog-study-time');
+
+            // 1. Score & Rank
+            let rankNum = parseInt(cu.rank);
+            let scoreVal = (cu.score !== undefined && cu.score !== null)
+                ? (cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score)
+                : '--';
+
+            if (elScore) elScore.innerText = scoreVal;
+            if (elRank) elRank.innerText = (!isNaN(rankNum) && rankNum > 0) ? `#${rankNum}` : '#--';
+
+            // 2. Percentile & Rank Pill
+            if (!isNaN(rankNum) && rankNum > 0 && totalActive > 0) {
+                let topPct = Math.max(1, Math.round((rankNum / totalActive) * 100));
+                if (elPctPill) elPctPill.innerText = `Top ${topPct}% of participants`;
+                if (elRankPill) {
+                    elRankPill.innerText = topPct <= 10 ? `Dominating! 👑` : (topPct <= 30 ? `Top Tier! 🔥` : `Keep pushing! 💪`);
+                }
+            } else {
+                if (elPctPill) elPctPill.innerText = `Unranked`;
+                if (elRankPill) elRankPill.innerText = `Attempt a trial 🪄`;
+            }
+
+            // 3. Radial Accuracy Ring
+            let acc = (cu.history?.accuracy !== undefined) ? cu.history.accuracy : 0;
+            if (elRadialVal) elRadialVal.innerText = `${acc}%`;
+            if (elRadialFill) {
+                const circumference = 238.76;
+                const offset = circumference - (circumference * acc) / 100;
+                elRadialFill.style.strokeDashoffset = offset;
+            }
+
+            // 4. Lifetime Stats: Attempts & Correct Answers
+            let hist = cu.history || {};
+            let correctCount = hist.correct || 0;
+            let wrongCount = hist.wrong || 0;
+            let totalAttempts = hist.attempts || (correctCount + wrongCount);
+
+            if (elAttempts) elAttempts.innerText = totalAttempts;
+            if (elCorrect) elCorrect.innerText = correctCount;
+            if (elCorrectPct) elCorrectPct.innerText = `${acc}%`;
+
+            // 5. Streak
+            if (elStreak) elStreak.innerText = cu.streak || 0;
+
+            // 6. Calculate Weekly Study Time (From active completed tests)
+            let totalSeconds = 0;
+            if (window.masterQuizData) {
+                let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
+                allQuizzes.forEach(q => {
+                    if (q.status === 'completed') totalSeconds += (q.duration_seconds || 300);
+                });
+            } else if (totalAttempts > 0) {
+                totalSeconds = totalAttempts * 300; // Estimated 5m per quiz fallback
+            }
+
+            if (elStudyTime) {
+                let totalMinutes = Math.round(totalSeconds / 60);
+                if (totalMinutes >= 60) {
+                    let hrs = Math.floor(totalMinutes / 60);
+                    let mins = totalMinutes % 60;
+                    elStudyTime.innerText = `${hrs}h ${mins}m`;
+                } else if (totalMinutes > 0) {
+                    elStudyTime.innerText = `${totalMinutes}m`;
+                } else {
+                    elStudyTime.innerText = `0m`;
+                }
+            }
+        }
+
         // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
         async function loadRealCupData() {
             try {
@@ -4427,6 +5153,7 @@
                     let totalActive = data.total_active || (data.leaderboard ? data.leaderboard.length : 0);
                     updateWeeklyCupHomeUI(cu, totalActive, data);
                     updateProfileHeroUI(cu, totalActive);
+                    updateProgressTabUI(cu, totalActive); // 🟢 Updates Progress Screen
 
                     // 2. Safely inject into Profile Tab
                     const profileRank = document.getElementById('profile-rank');
@@ -4541,7 +5268,94 @@
             } catch(e) { console.error("Content load failed"); }
         }
 
-        // --- MASTER SPEC: LOAD PROGRESS TAB REAL HISTORY ---
+        // --- MASTER SPEC: LOAD PROGRESS TAB ATTEMPTS & FILTERING ---
+        window.rawProgressHistory = [];
+
+        // Helper to get Topic Icon & Theme Color
+        function getTopicBadgeMeta(topicName = '') {
+            const name = topicName.toLowerCase();
+            if (name.includes('vocab')) return { icon: '📖', theme: 'att-ico-purple' };
+            if (name.includes('sentence')) return { icon: '✏️', theme: 'att-ico-green' };
+            if (name.includes('error')) return { icon: '⚠️', theme: 'att-ico-orange' };
+            if (name.includes('reading') || name.includes('comprehension')) return { icon: '📚', theme: 'att-ico-blue' };
+            if (name.includes('cloze')) return { icon: '🧩', theme: 'att-ico-pink' };
+            if (name.includes('para') || name.includes('jumble')) return { icon: '🔀', theme: 'att-ico-teal' };
+            if (name.includes('usage')) return { icon: '🎯', theme: 'att-ico-rose' };
+            if (name.includes('blank')) return { icon: '📝', theme: 'att-ico-indigo' };
+            return { icon: '📄', theme: 'att-ico-purple' };
+        }
+
+        // Render Cards into Container
+        function renderProgressAttemptCards(attemptsList) {
+            const container = document.getElementById('progress-history-container');
+            if (!container) return;
+
+            if (!attemptsList || attemptsList.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding: 30px 16px; background: #fafafa; border-radius: 16px; border: 1px solid var(--border-light);">
+                        <span style="font-size: 28px;">📭</span>
+                        <h4 style="margin: 8px 0 2px 0; font-size: 14px; color: var(--text-main);">No Attempts Found</h4>
+                        <p style="font-size: 12px; color: var(--text-muted); margin: 0;">No completed trials recorded for this category.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = attemptsList.map(item => {
+                const badge = getTopicBadgeMeta(item.topic);
+                const score = parseFloat(item.score) || 0;
+                const isNegative = score < 0;
+                const scoreColorClass = isNegative ? 'score-negative' : 'score-positive';
+                const statusPillClass = isNegative ? 'pill-status-red' : 'pill-status-purple';
+                const scoreText = (score > 0 ? `+${score}` : `${score}`) + ' pts';
+                
+                // Construct target URL to open result/quiz
+                const attemptId = item.attempt_id || item.id || '';
+                const quizId = item.quiz_id || '';
+                const dayNum = item.day_num || 0;
+                const targetUrl = attemptId 
+                    ? `result.html?attempt_id=${attemptId}&day=${dayNum}` 
+                    : (quizId ? `test.html?quiz_id=${quizId}&day=${dayNum}` : '#');
+
+                return `
+                    <div class="attempt-item-card" onclick="triggerHaptic('light'); window.location.href='${targetUrl}'">
+                        <div class="attempt-card-left">
+                            <div class="attempt-topic-icon ${badge.theme}">
+                                ${badge.icon}
+                            </div>
+                            <div class="attempt-text-meta">
+                                <div class="attempt-topic-name">${item.topic || 'Topic Quiz'}</div>
+                                <div class="attempt-date-time">
+                                    <span>🗓</span> ${item.date || 'Recently completed'}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="attempt-card-right">
+                            <div class="attempt-score-group">
+                                <span class="attempt-score-val ${scoreColorClass}">${scoreText}</span>
+                                <span class="attempt-status-pill ${statusPillClass}">Completed</span>
+                            </div>
+                            <button class="attempt-arrow-btn">›</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Filter Function for Dropdown
+        function filterProgressHistory(selectedCategory) {
+            triggerHaptic('soft');
+            if (selectedCategory === 'ALL') {
+                renderProgressAttemptCards(window.rawProgressHistory);
+            } else {
+                const filtered = window.rawProgressHistory.filter(item => 
+                    item.topic && item.topic.toLowerCase().includes(selectedCategory.toLowerCase())
+                );
+                renderProgressAttemptCards(filtered);
+            }
+        }
+
         async function loadProgressHistory() {
             try {
                 // ✨ SECURE AUTH HEADER ADDED
@@ -4549,22 +5363,13 @@
                     headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData }
                 });
                 const data = await response.json();
-                const container = document.getElementById('progress-history-container');
                 
-                if (data.history && data.history.length > 0) {
-                    container.innerHTML = data.history.map(item => `
-                        <div class="quiz-item" style="margin-bottom: 12px;">
-                            <div>
-                                <h3 style="margin-bottom:2px;">${item.topic}</h3>
-                                <p style="font-size:11px;">${item.date}</p>
-                            </div>
-                            <span class="font-bold text-brand">${item.score} pts</span>
-                        </div>
-                    `).join('');
-                } else {
-                    container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">No completed quizzes yet.</p>`;
-                }
-            } catch(e) { console.error("History load failed"); }
+                window.rawProgressHistory = data.history || [];
+                const currentFilter = document.getElementById('progress-topic-filter')?.value || 'ALL';
+                filterProgressHistory(currentFilter);
+            } catch(e) { 
+                console.error("History load failed", e); 
+            }
         }
 
         loadHomeContent();
@@ -5428,6 +6233,7 @@
                         let totalActive = data.total_active || (data.leaderboard ? data.leaderboard.length : 0);
                         updateWeeklyCupHomeUI(cu, totalActive, data);
                         updateProfileHeroUI(cu, totalActive);
+                        updateProgressTabUI(cu, totalActive); // 🟢 Updates Progress Screen
 
                         // Sync Cup Tab
                         const cupRank = document.getElementById('cup-tab-rank');
