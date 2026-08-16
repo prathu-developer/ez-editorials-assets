@@ -3181,6 +3181,354 @@
             font-size: 12px;
             font-weight: 800;
         }
+        /* ==========================================
+           ENHANCED PERFORMANCE ANALYSIS MODAL STYLES
+           ========================================== */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 500;
+            flex-direction: column;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity 0.25s ease-out;
+        }
+        .modal-overlay.active { 
+            display: flex; 
+            opacity: 1; 
+        }
+
+        .modal-content {
+            background: #ffffff;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 28px 28px 0 0;
+            padding: 16px 18px 40px 18px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
+        }
+        body.dark-mode .modal-content {
+            background: #16161a;
+            color: var(--text-main);
+        }
+        .modal-overlay.active .modal-content { 
+            transform: translateY(0); 
+        }
+
+        /* Modal Pull Handle */
+        .close-indicator {
+            width: 42px;
+            height: 5px;
+            background: #cbd5e1;
+            border-radius: 10px;
+            margin: 0 auto 16px auto;
+            cursor: pointer;
+        }
+        body.dark-mode .close-indicator {
+            background: #374151;
+        }
+
+        /* 1. Modal Top Profile Header */
+        .perf-header-card {
+            background: linear-gradient(135deg, #f7f4ff 0%, #ede7ff 100%);
+            border: 1px solid rgba(90, 50, 250, 0.14);
+            border-radius: 20px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            box-sizing: border-box;
+        }
+        body.dark-mode .perf-header-card {
+            background: linear-gradient(135deg, #1e1b4b 0%, #241454 100%);
+            border-color: rgba(168, 85, 247, 0.22);
+        }
+
+        .perf-user-left {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+        .perf-user-name {
+            font-size: clamp(16px, 4.4vw, 19px);
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.2;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .perf-user-league {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .perf-elo-right {
+            text-align: right;
+            flex-shrink: 0;
+        }
+        .perf-elo-val {
+            font-size: clamp(17px, 4.6vw, 20px);
+            font-weight: 900;
+            color: #5a32fa;
+            line-height: 1.1;
+        }
+        body.dark-mode .perf-elo-val {
+            color: #c084fc;
+        }
+        .perf-elo-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* 2. Top 4 Stats Grid */
+        .perf-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .perf-stat-box {
+            background: #fafafa;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            transition: transform 0.15s ease;
+        }
+        body.dark-mode .perf-stat-box {
+            background: #1f1f24;
+            border-color: #2e2e38;
+        }
+        .perf-stat-box:active {
+            transform: scale(0.97);
+        }
+
+        .perf-stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .perf-stat-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+        }
+        .p-ico-purple { background: #ede9fe; color: #5a32fa; }
+        .p-ico-green  { background: #def7ec; color: #0e9f6e; }
+        .p-ico-blue   { background: #e0f2fe; color: #0284c7; }
+        .p-ico-amber  { background: #fef3c7; color: #d97706; }
+
+        .perf-stat-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .perf-stat-val {
+            font-size: clamp(16px, 4.4vw, 20px);
+            font-weight: 900;
+            line-height: 1.15;
+            color: var(--text-main);
+        }
+        .col-purple { color: #5a32fa; }
+        .col-green  { color: #10b981; }
+        .col-blue   { color: #0284c7; }
+        .col-amber  { color: #ea580c; }
+        body.dark-mode .col-purple { color: #c084fc; }
+        body.dark-mode .col-blue   { color: #38bdf8; }
+
+        /* 3. Reusable Dashboard Card */
+        .dash-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 16px 14px;
+            margin-bottom: 14px;
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-light);
+            box-sizing: border-box;
+        }
+        body.dark-mode .dash-card {
+            background: #1f1f24;
+            border-color: #2e2e38;
+        }
+
+        .section-title {
+            font-size: 13.5px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* 4. Weekly Bar Chart & Summary Strip */
+        .chart-container {
+            position: relative;
+            height: 220px;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        .chart-summary {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 8px 6px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            border: 1px solid var(--border-light);
+        }
+        body.dark-mode .chart-summary {
+            background: #16161a;
+            border-color: #2e2e38;
+        }
+        .cs-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .cs-label {
+            font-size: 9.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .cs-val {
+            font-weight: 800;
+            color: var(--text-main);
+            font-size: 12.5px;
+        }
+
+        /* 5. Performance Comparison (Doughnut + Table) */
+        .doughnut-layout {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        .doughnut-wrap {
+            width: 96px;
+            height: 96px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .performance-table {
+            flex: 1;
+            min-width: 0;
+        }
+        .perf-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 11.5px;
+        }
+        .perf-table th {
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 10.5px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .perf-table td {
+            padding: 6px 2px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-main);
+        }
+        .perf-table tr:last-child td {
+            border-bottom: none;
+        }
+        .tbl-label {
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        /* 6. Topper Banner */
+        .topper-banner {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 1px solid #fde047;
+            border-radius: 14px;
+            padding: 10px 14px;
+            margin-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        body.dark-mode .topper-banner {
+            background: linear-gradient(135deg, #2d1806 0%, #1f1003 100%);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+        .topper-banner-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 11.5px;
+            color: #b45309;
+            text-transform: uppercase;
+        }
+        body.dark-mode .topper-banner-title {
+            color: #fbbf24;
+        }
+        .topper-banner-info {
+            font-weight: 700;
+            font-size: 11.5px;
+            color: #92400e;
+        }
+        body.dark-mode .topper-banner-info {
+            color: #fde68a;
+        }
+
+        /* 7. Activity Log Rows */
+        .activity-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .activity-row:last-child {
+            border-bottom: none;
+        }
+        .act-day {
+            width: 50px;
+            font-weight: 700;
+        }
+        .act-stats {
+            flex: 1;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -4104,75 +4452,101 @@
          GLOBAL MODALS (Safely Outside View Containers)
          ========================================== -->
 
-    <!-- PERFORMANCE ANALYSIS MODAL -->
-    <div class="modal-overlay" id="analysisModal" onclick="closeModal(event)" style="z-index: 400;">
+    <!-- PERFORMANCE ANALYSIS MODAL (Theme-Aligned Redesign) -->
+    <div class="modal-overlay" id="analysisModal" onclick="closeModal(event)">
         <div class="modal-content" id="modalContentBg" onclick="event.stopPropagation()">
+            <!-- Drag & Close Pull Indicator -->
             <div class="close-indicator" onclick="closeModal(null, true)"></div>
 
-            <!-- Profile Header -->
-            <div class="profile-header" style="align-items: flex-start;">
-                <div class="profile-info" style="flex: 1;">
-                    <h2 id="modalStudentName" style="font-size: 1.3em;">Student Name</h2>
-                    <p id="modalStudentHouse" style="font-size: 0.9em; margin-top: 8px;"></p>
+            <!-- 1. Header: Name, League Badge, Elo Rating -->
+            <div class="perf-header-card">
+                <div class="perf-user-left">
+                    <div class="perf-user-name" id="modalStudentName">Student Name</div>
+                    <div class="perf-user-league" id="modalStudentHouse"></div>
                 </div>
-                <div style="text-align: right; flex-shrink: 0; padding-left: 10px;">
-                    <h2 id="modalStudentElo" style="margin: 0; font-size: 1.4em; color: #1e3a8a; font-weight: 900;">🧠 1000</h2>
-                    <p id="modalStudentTitle" style="margin: 5px 0 0 0; color: #64748b; font-size: 0.85em; font-weight: 700;">🎓 Scholar</p>
-                </div>
-            </div>
-
-            <!-- Top 4 Stats Grid -->
-            <div class="stats-grid-4">
-                <div class="mini-stat">
-                    <div class="mini-stat-val val-blue" id="statScore">0</div>
-                    <div class="mini-stat-label">Total Points</div>
-                </div>
-                <div class="mini-stat">
-                    <div class="mini-stat-val val-green" id="statAccuracy">0%</div>
-                    <div class="mini-stat-label">Weekly Accuracy</div>
-                </div>
-                <div class="mini-stat">
-                    <div class="mini-stat-val val-purple" id="statAttempts">0</div>
-                    <div class="mini-stat-label">Quizzes Attempted</div>
-                </div>
-                <div class="mini-stat">
-                    <div class="mini-stat-val val-amber" id="statGrowth" style="font-size: 1.5em;">Calibrating...</div>
-                    <div class="mini-stat-label">Lifetime Growth 📈</div>
+                <div class="perf-elo-right">
+                    <div class="perf-elo-val" id="modalStudentElo">🧠 1000</div>
+                    <div class="perf-elo-title" id="modalStudentTitle">🎓 Scholar</div>
                 </div>
             </div>
 
-            <!-- Rank History -->
-            <div class="dash-card">
-                <div class="section-title">📜 Previous Rank History</div>
-                <div id="rankHistorySection">
-                    <div style="text-align:center; color:#94a3b8; padding: 10px; font-size: 0.85em;">No previous records available. Data will start appearing from next week! 🔮</div>
+            <!-- 2. Top 4 Stats Grid -->
+            <div class="perf-stats-grid">
+                <!-- Stat 1: Total Points -->
+                <div class="perf-stat-box">
+                    <div class="perf-stat-top">
+                        <span class="perf-stat-label">Total Points</span>
+                        <div class="perf-stat-icon p-ico-purple">📈</div>
+                    </div>
+                    <div class="perf-stat-val col-purple" id="statScore">0</div>
+                </div>
+
+                <!-- Stat 2: Weekly Accuracy -->
+                <div class="perf-stat-box">
+                    <div class="perf-stat-top">
+                        <span class="perf-stat-label">Accuracy</span>
+                        <div class="perf-stat-icon p-ico-green">🎯</div>
+                    </div>
+                    <div class="perf-stat-val col-green" id="statAccuracy">0%</div>
+                </div>
+
+                <!-- Stat 3: Quizzes Attempted -->
+                <div class="perf-stat-box">
+                    <div class="perf-stat-top">
+                        <span class="perf-stat-label">Attempted</span>
+                        <div class="perf-stat-icon p-ico-blue">📄</div>
+                    </div>
+                    <div class="perf-stat-val col-blue" id="statAttempts">0 / 0</div>
+                </div>
+
+                <!-- Stat 4: Lifetime Growth -->
+                <div class="perf-stat-box">
+                    <div class="perf-stat-top">
+                        <span class="perf-stat-label">Growth</span>
+                        <div class="perf-stat-icon p-ico-amber">⚡</div>
+                    </div>
+                    <div class="perf-stat-val col-amber" id="statGrowth">Calibrating...</div>
                 </div>
             </div>
 
-            <!-- Weekly Progress Chart -->
+            <!-- 3. Weekly Progress Chart -->
             <div class="dash-card">
                 <div class="section-title">
-                    <div>📊 Weekly Progress <span style="font-size: 0.7em; color: #64748b; margin-left: 5px; font-weight:normal;">(Mon - Sun)</span></div>
+                    <span>📊 Weekly Progress</span>
+                    <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">Mon - Sun</span>
                 </div>
                 <div class="chart-container">
                     <canvas id="dailyChart"></canvas>
                 </div>
                 <div class="chart-summary">
-                    <div class="cs-item"><div class="cs-label">Σ Total Points</div><div class="cs-val" id="csTotal">0</div></div>
-                    <div class="cs-item"><div class="cs-label">✅ Correct</div><div class="cs-val" id="csCorrect">0</div></div>
-                    <div class="cs-item"><div class="cs-label">❌ Wrong</div><div class="cs-val" id="csWrong">0</div></div>
-                    <div class="cs-item"><div class="cs-label">🎯 Accuracy</div><div class="cs-val" id="csAcc">0%</div></div>
+                    <div class="cs-item">
+                        <span class="cs-label">Σ Points</span>
+                        <span class="cs-val" id="csTotal">0</span>
+                    </div>
+                    <div class="cs-item">
+                        <span class="cs-label">✅ Correct</span>
+                        <span class="cs-val" style="color:#10b981;" id="csCorrect">0</span>
+                    </div>
+                    <div class="cs-item">
+                        <span class="cs-label">❌ Wrong</span>
+                        <span class="cs-val" style="color:#ef4444;" id="csWrong">0</span>
+                    </div>
+                    <div class="cs-item">
+                        <span class="cs-label">🎯 Accuracy</span>
+                        <span class="cs-val" style="color:#5a32fa;" id="csAcc">0%</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Performance Overview & Doughnut -->
+            <!-- 4. Performance Overview & Benchmarking -->
             <div class="dash-card">
-                <div class="section-title">🎯 Performance Overview</div>
+                <div class="section-title">
+                    <span>🎯 Performance Overview</span>
+                </div>
                 <div class="doughnut-layout">
                     <div class="doughnut-wrap">
-                        <!-- Centered Overlay Text -->
                         <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none;">
-                            <div id="chart-center-perc" style="font-size: 20px; font-weight: 800; color: #0f172a; line-height: 1;">--%</div>
+                            <div id="chart-center-perc" style="font-size: 18px; font-weight: 900; color: var(--text-main); line-height: 1;">--%</div>
                         </div>
                         <canvas id="pieChart"></canvas>
                     </div>
@@ -4182,42 +4556,40 @@
                                 <th></th>
                                 <th id="tblStudentHeader">Student</th>
                                 <th>Topper</th>
-                                <th>Class Avg.</th>
+                                <th>Class Avg</th>
                             </tr>
                             <tr>
                                 <td class="tbl-label"><span class="text-green">●</span> Correct</td>
                                 <td id="tblYouCor" style="font-weight:bold;">0</td>
-                                <td id="tblTopCor" style="font-weight:bold;">0</td>
-                                <td id="tblAvgCor" style="font-weight:bold;">0</td>
+                                <td id="tblTopCor">0</td>
+                                <td id="tblAvgCor">0</td>
                             </tr>
                             <tr>
                                 <td class="tbl-label"><span class="text-red">●</span> Wrong</td>
                                 <td id="tblYouWro" style="font-weight:bold;">0</td>
-                                <td id="tblTopWro" style="font-weight:bold;">0</td>
-                                <td id="tblAvgWro" style="font-weight:bold;">0</td>
+                                <td id="tblTopWro">0</td>
+                                <td id="tblAvgWro">0</td>
                             </tr>
                             <tr>
-                                <td class="tbl-label" style="color: #64748b;">Total</td>
+                                <td class="tbl-label">Total</td>
                                 <td id="tblYouAtt" style="font-weight:bold;">0</td>
-                                <td id="tblTopAtt" style="font-weight:bold;">0</td>
-                                <td id="tblAvgAtt" style="font-weight:bold;">0</td>
+                                <td id="tblTopAtt">0</td>
+                                <td id="tblAvgAtt">0</td>
                             </tr>
                             <tr>
-                                <td class="tbl-label" style="color: #64748b;">Accuracy</td>
-                                <td id="tblYouAcc" style="font-weight:bold;">0%</td>
-                                <td id="tblTopAcc" style="font-weight:bold;">0%</td>
-                                <td id="tblAvgAcc" style="font-weight:bold;">0%</td>
+                                <td class="tbl-label">Accuracy</td>
+                                <td id="tblYouAcc" style="font-weight:bold; color: #5a32fa;">0%</td>
+                                <td id="tblTopAcc">0%</td>
+                                <td id="tblAvgAcc">0%</td>
                             </tr>
                         </table>
                     </div>
                 </div>
 
+                <!-- Topper Banner -->
                 <div class="topper-banner">
                     <div class="topper-banner-title">
-                        🏆 Topper This Week
-                    </div>
-                    <div style="display:flex; align-items:center; gap: 8px;">
-                        <span id="bannerTopperName" style="font-weight: bold; color: #1c1e21;">Name</span>
+                        <span>👑</span> <span id="bannerTopperName">Topper</span>
                     </div>
                     <div class="topper-banner-info" id="bannerTopperInfo">
                         0 pts • 0% Accuracy
@@ -4225,13 +4597,23 @@
                 </div>
             </div>
 
-            <!-- Activity Log -->
-            <div class="dash-card" style="padding-bottom: 50px;">
-                <div class="section-title">🕒 Recent Activity</div>
-                <div id="activityList">
+            <!-- 5. Previous Rank History -->
+            <div class="dash-card">
+                <div class="section-title">
+                    <span>📜 Previous Rank History</span>
+                </div>
+                <div id="rankHistorySection">
+                    <div style="text-align:center; color:var(--text-muted); padding: 10px; font-size: 12px;">No previous records available. Data will appear from next week! 🔮</div>
                 </div>
             </div>
 
+            <!-- 6. Activity Log -->
+            <div class="dash-card" style="margin-bottom: 20px;">
+                <div class="section-title">
+                    <span>🕒 Daily Activity Breakdown</span>
+                </div>
+                <div id="activityList"></div>
+            </div>
         </div>
     </div>
     
