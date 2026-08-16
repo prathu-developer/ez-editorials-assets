@@ -391,10 +391,10 @@
             text-overflow: ellipsis;
         }
 
-        /* --- DAILY STATS OVERVIEW STRIP --- */
+        /* --- FULLY RESPONSIVE 4-METRIC DAILY ACTIVITY STRIP --- */
         .daily-stats-card {
             margin: 0 16px 20px 16px;
-            padding: 14px 12px;
+            padding: 14px 10px;
             border-radius: 18px;
             border: 1px solid var(--border-light);
             background: #ffffff;
@@ -407,28 +407,42 @@
         }
 
         .daily-stats-grid {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             align-items: center;
-            justify-content: space-between;
             gap: 4px;
         }
 
         .stat-item-col {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
-            flex: 1;
+            text-align: center;
             min-width: 0;
+            padding: 2px 4px;
+            position: relative;
+        }
+
+        /* Vertical divider between columns */
+        .stat-item-col:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: -2px;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background: var(--border-light);
         }
 
         .stat-icon-wrap {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 14px;
+            margin-bottom: 4px;
             flex-shrink: 0;
         }
         .stat-icon-purple { background: #f3e8ff; color: #7c3aed; }
@@ -436,43 +450,36 @@
         .stat-icon-orange { background: #ffedd5; color: #ea580c; }
         .stat-icon-blue   { background: #e1effe; color: #1c64f2; }
 
-        .stat-text-meta {
-            min-width: 0;
-            flex: 1;
-        }
-
         .stat-label-title {
-            font-size: clamp(9px, 2.5vw, 11px);
+            font-size: 10px;
             font-weight: 600;
             color: var(--text-muted);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 1.1;
-            margin-bottom: 2px;
+            width: 100%;
+            line-height: 1.2;
         }
 
         .stat-main-number {
-            font-size: clamp(13px, 3.8vw, 16px);
+            font-size: clamp(14px, 4vw, 17px);
             font-weight: 800;
             color: var(--text-main);
-            line-height: 1.15;
+            line-height: 1.2;
+            margin: 2px 0 1px 0;
             white-space: nowrap;
         }
 
         .stat-sub-caption {
-            font-size: clamp(9px, 2.3vw, 10px);
+            font-size: 9px;
             color: var(--text-muted);
             font-weight: 500;
-            margin-top: 1px;
+            line-height: 1;
         }
 
+        /* Clean up old standalone dividers */
         .stat-col-divider {
-            width: 1px;
-            height: 36px;
-            background: var(--border-light);
-            margin: 0 4px;
-            flex-shrink: 0;
+            display: none;
         }
 
         /* --- CONTINUE YOUR JOURNEY SECTION --- */
@@ -843,7 +850,7 @@
         .day-circle.active { background: var(--brand); color: white; border-color: var(--brand); }
         .day-check { width: auto; height: auto; margin-top: 6px; display: flex; justify-content: center; align-items: center; }
 
-        
+
         /* -------------------------------------
            VIEW 2: DAY DETAILS (QUIZ LIST)
            ------------------------------------- */
@@ -1094,10 +1101,7 @@
         <!-- Greeting & Streak Section -->
         <div class="greeting-wrapper">
             <div class="greeting-left">
-                <h1 class="greeting-title">
-                    <span id="greeting-time-text">Good Evening</span>, 
-                    <span class="text-brand" id="user-name">Prathu</span>
-                </h1>
+                <h1 class="greeting-title"><span id="greeting-time-text">Good Evening</span>, <span class="text-brand" id="user-name">Prathu</span></h1>
                 <div class="date-badge">
                     <span id="current-date">Friday, 14 Aug 2026</span>
                     <span class="badge-day">Day 5</span>
@@ -1245,50 +1249,36 @@
         <div class="daily-stats-card">
             <div class="daily-stats-grid">
                 
-                <!-- 1. Quizzes Attempted -->
+                <!-- 1. Quizzes -->
                 <div class="stat-item-col">
                     <div class="stat-icon-wrap stat-icon-purple">📄</div>
-                    <div class="stat-text-meta">
-                        <div class="stat-label-title">Quizzes Attempted</div>
-                        <div class="stat-main-number" id="stat-today-quizzes">0</div>
-                        <div class="stat-sub-caption">Today</div>
-                    </div>
+                    <div class="stat-label-title">Quizzes</div>
+                    <div class="stat-main-number" id="stat-today-quizzes">0</div>
+                    <div class="stat-sub-caption">Today</div>
                 </div>
-
-                <div class="stat-col-divider"></div>
 
                 <!-- 2. Accuracy -->
                 <div class="stat-item-col">
                     <div class="stat-icon-wrap stat-icon-green">🎯</div>
-                    <div class="stat-text-meta">
-                        <div class="stat-label-title">Accuracy</div>
-                        <div class="stat-main-number" id="stat-today-accuracy">--%</div>
-                        <div class="stat-sub-caption">Today</div>
-                    </div>
+                    <div class="stat-label-title">Accuracy</div>
+                    <div class="stat-main-number" id="stat-today-accuracy">--%</div>
+                    <div class="stat-sub-caption">Today</div>
                 </div>
-
-                <div class="stat-col-divider"></div>
 
                 <!-- 3. Best Streak -->
                 <div class="stat-item-col">
                     <div class="stat-icon-wrap stat-icon-orange">🔥</div>
-                    <div class="stat-text-meta">
-                        <div class="stat-label-title">Best Streak</div>
-                        <div class="stat-main-number" id="stat-best-streak">--</div>
-                        <div class="stat-sub-caption">Days</div>
-                    </div>
+                    <div class="stat-label-title">Streak</div>
+                    <div class="stat-main-number" id="stat-best-streak">Soon</div>
+                    <div class="stat-sub-caption">Days</div>
                 </div>
 
-                <div class="stat-col-divider"></div>
-
-                <!-- 4. Study Time (Calculated from completed topic tests) -->
+                <!-- 4. Study Time -->
                 <div class="stat-item-col">
                     <div class="stat-icon-wrap stat-icon-blue">⏱</div>
-                    <div class="stat-text-meta">
-                        <div class="stat-label-title">Study Time</div>
-                        <div class="stat-main-number" id="stat-today-study-time">0m</div>
-                        <div class="stat-sub-caption">Today</div>
-                    </div>
+                    <div class="stat-label-title">Study Time</div>
+                    <div class="stat-main-number" id="stat-today-study-time">0m</div>
+                    <div class="stat-sub-caption">Today</div>
                 </div>
 
             </div>
