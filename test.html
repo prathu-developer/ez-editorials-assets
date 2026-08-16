@@ -691,17 +691,35 @@
                 opts = [];
             }
 
-            // Handle the Passage Display
+            // Handle Instruction and Passage Display independently
             const passageBlock = document.getElementById('passage-block');
-            if (passage && passage.trim() !== "") {
+            const instText = document.getElementById('inst-text');
+            const passageText = document.getElementById('passage-text');
+            const viewMoreBtn = document.getElementById('view-more-btn');
+
+            const hasInstruction = Boolean(instruction && instruction.trim() !== "");
+            const hasPassage = Boolean(passage && passage.trim() !== "");
+
+            if (hasInstruction || hasPassage) {
                 passageBlock.style.display = 'block';
-                document.getElementById('inst-text').innerText = instruction;
-                document.getElementById('passage-text').innerText = passage;
-                
-                // Reset to collapsed state
-                document.getElementById('passage-text').classList.add('collapsed');
-                document.getElementById('view-more-btn').innerText = "...View more";
-                document.getElementById('view-more-btn').style.display = 'inline-block';
+
+                if (hasInstruction) {
+                    instText.style.display = 'block';
+                    instText.innerText = instruction;
+                } else {
+                    instText.style.display = 'none';
+                }
+
+                if (hasPassage) {
+                    passageText.style.display = 'block';
+                    passageText.innerText = passage;
+                    passageText.classList.add('collapsed');
+                    viewMoreBtn.style.display = 'inline-block';
+                    viewMoreBtn.innerText = "...View more";
+                } else {
+                    passageText.style.display = 'none';
+                    viewMoreBtn.style.display = 'none';
+                }
             } else {
                 passageBlock.style.display = 'none';
             }
