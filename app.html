@@ -79,6 +79,198 @@
         .top-header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
         .icon-btn { width: 24px; height: 24px; cursor: pointer; color: var(--text-main); }
         
+        /* --- MOBILE-OPTIMISED HERO HEADER & STREAK --- */
+        .greeting-wrapper {
+            padding: 0 16px 16px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        .greeting-left {
+            flex: 1;
+            min-width: 0;
+        }
+        .greeting-title {
+            font-size: clamp(18px, 5.2vw, 22px);
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 4px;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+        .date-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .badge-day {
+            background: #ede9fe;
+            color: #6366f1;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        /* Coming Soon Streak Badge */
+        .streak-card {
+            background: #fff7ed;
+            border: 1px solid #ffedd5;
+            border-radius: 14px;
+            padding: 6px 10px;
+            text-align: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(251, 146, 60, 0.08);
+        }
+        .streak-val {
+            font-size: 13px;
+            font-weight: 800;
+            color: #ea580c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            line-height: 1.1;
+        }
+        .streak-sub {
+            font-size: 9px;
+            color: #9a3412;
+            font-weight: 700;
+            background: #fed7aa;
+            padding: 1px 5px;
+            border-radius: 6px;
+            margin-top: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            display: inline-block;
+        }
+
+        /* --- MOBILE-OPTIMISED 3D TIMER HERO CARD --- */
+        .timer-hero-card {
+            margin: 0 16px 16px 16px;
+            padding: 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            background: #ffffff;
+            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        body.dark-mode .timer-hero-card {
+            background: var(--bg-card);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+        .timer-flex-layout {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .timer-left-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .timer-header-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        .timer-digits-val {
+            font-size: clamp(24px, 6.8vw, 32px);
+            font-weight: 800;
+            color: #5a32fa;
+            letter-spacing: 1.5px;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+        .timer-sub-labels {
+            display: flex;
+            gap: clamp(16px, 5vw, 26px);
+            font-size: 9px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-top: 4px;
+            margin-bottom: 12px;
+            margin-left: 2px;
+            letter-spacing: 0.5px;
+        }
+        .daily-goal-track {
+            height: 6px;
+            background: #f1f0fb;
+            border-radius: 6px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 175px;
+        }
+        .daily-goal-fill {
+            height: 100%;
+            background: #5a32fa;
+            border-radius: 6px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+        .daily-goal-text {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 5px;
+            white-space: nowrap;
+        }
+        .timer-illustration-wrap {
+            width: clamp(75px, 22vw, 95px);
+            height: clamp(75px, 22vw, 95px);
+            flex-shrink: 0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-illustration-wrap svg {
+            width: 100%;
+            height: 100%;
+        }
+        .hourglass-glow-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(243, 232, 255, 0) 70%);
+            border-radius: 50%;
+        }
+        .btn-start-hero {
+            background: #5a32fa;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(90, 50, 250, 0.25);
+            transition: transform 0.1s ease, opacity 0.2s ease;
+        }
+        .btn-start-hero:active {
+            transform: scale(0.98);
+            opacity: 0.92;
+        }
+
         /* -------------------------------------
            VIEW 1: HOME SCREEN
            ------------------------------------- */
@@ -358,23 +550,104 @@
             </div>
         </div>
 
-        <div class="greeting-section">
-            <h1 class="greeting-title">Good Evening, <span class="text-brand" id="user-name">Prathamesh</span></h1>
-            <div class="date-badge">
-                <span id="current-date">Monday, 3 Aug 2026</span>
-                <span class="badge-day">Day 3</span>
+        <!-- Greeting & Streak Section -->
+        <div class="greeting-wrapper">
+            <div class="greeting-left">
+                <h1 class="greeting-title">
+                    <span id="greeting-time-text">Good Evening</span>, 
+                    <span class="text-brand" id="user-name">Student</span> 🎩
+                </h1>
+                <div class="date-badge">
+                    <span id="current-date">Friday, 14 Aug 2026</span>
+                    <span class="badge-day">Day 5</span>
+                </div>
+            </div>
+            
+            <!-- Streak Badge (Coming Soon) -->
+            <div class="streak-card">
+                <div class="streak-val">🔥 Streak</div>
+                <div class="streak-sub">Soon</div>
             </div>
         </div>
 
-        <!-- Timer Card -->
-        <div class="card-main">
-            <div class="timer-label">
-                <span>Time Left Today</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <!-- 3D Hourglass Timer Card -->
+        <div class="timer-hero-card">
+            <div class="timer-flex-layout">
+                <div class="timer-left-content">
+                    <div class="timer-header-label">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span id="home-timer-label">Time Left Today</span>
+                    </div>
+                    
+                    <div class="timer-digits-val" id="home-timer">00 : 00 : 00</div>
+                    
+                    <div class="timer-sub-labels">
+                        <span>HRS</span>
+                        <span>MIN</span>
+                        <span>SEC</span>
+                    </div>
+                    
+                    <div class="daily-goal-track">
+                        <div class="daily-goal-fill" id="daily-goal-fill" style="width: 0%;"></div>
+                    </div>
+                    <div class="daily-goal-text" id="daily-goal-text">0% of daily goal completed</div>
+                </div>
+
+                <!-- Scaled 3D Glowing Hourglass Vector -->
+                <div class="timer-illustration-wrap">
+                    <div class="hourglass-glow-bg"></div>
+                    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(8deg);">
+                        <!-- Sparkles -->
+                        <path d="M20 34L22 26L30 28L22 30L20 38L18 30L10 28L18 26L20 34Z" fill="#a855f7" opacity="0.6"/>
+                        <path d="M104 74L105.5 68L111.5 69.5L105.5 71L104 77L102.5 71L96.5 69.5L102.5 68L104 74Z" fill="#fbbf24" opacity="0.8"/>
+                        <circle cx="106" cy="34" r="2.5" fill="#c084fc" opacity="0.7"/>
+                        <!-- Pedestal Glow Shadow -->
+                        <ellipse cx="60" cy="104" rx="38" ry="9" fill="rgba(90, 50, 250, 0.12)"/>
+                        <!-- Bottom Gold Base -->
+                        <ellipse cx="60" cy="94" rx="26" ry="7" fill="#eab308"/>
+                        <path d="M34 94C34 94 37 98 60 98C83 98 86 94 86 94V91C86 91 83 95 60 95C37 95 34 91 34 91V94Z" fill="#ca8a04"/>
+                        <ellipse cx="60" cy="91" rx="26" ry="7" fill="#fde047"/>
+                        <!-- Top Gold Cap -->
+                        <ellipse cx="60" cy="24" rx="26" ry="7" fill="#eab308"/>
+                        <path d="M34 24C34 24 37 28 60 28C83 28 86 24 86 24V21C86 21 83 25 60 25C37 25 34 21 34 21V24Z" fill="#ca8a04"/>
+                        <ellipse cx="60" cy="21" rx="26" ry="7" fill="#fde047"/>
+                        <!-- Glass Body -->
+                        <path d="M38 24C40 46 54 54 57 58C54 62 40 70 38 92H82C80 70 66 62 63 58C66 54 80 46 82 24H38Z" fill="url(#glassGrad)" fill-opacity="0.38" stroke="url(#glassStroke)" stroke-width="2"/>
+                        <!-- Sand Bottom Chamber -->
+                        <path d="M41 89C42 76 53 71 58 68C63 71 74 76 75 89H41Z" fill="url(#sandGrad)"/>
+                        <!-- Sand Stream -->
+                        <path d="M58.5 54V76H61.5V54H58.5Z" fill="#d97706" opacity="0.8"/>
+                        <!-- Sand Top Chamber -->
+                        <path d="M43 32C45 42 53 47 57 50C63 50 71 45 73 32H43Z" fill="url(#sandGrad)"/>
+                        <!-- Glass Reflections -->
+                        <path d="M44 28C43 45 52 52 54 55" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+                        <path d="M44 87C43 75 51 68 53 65" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+                        <defs>
+                            <linearGradient id="glassGrad" x1="38" y1="24" x2="82" y2="92" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#c084fc"/>
+                                <stop offset="0.5" stop-color="#818cf8"/>
+                                <stop offset="1" stop-color="#a855f7"/>
+                            </linearGradient>
+                            <linearGradient id="glassStroke" x1="38" y1="24" x2="82" y2="92" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#e9d5ff"/>
+                                <stop offset="1" stop-color="#a855f7"/>
+                            </linearGradient>
+                            <linearGradient id="sandGrad" x1="41" y1="32" x2="75" y2="89" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#f59e0b"/>
+                                <stop offset="1" stop-color="#d97706"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
             </div>
-            <div class="timer-value" id="home-timer">06 : 42 : 18</div>
-            <div class="timer-subs"><span>HRS</span><span>MIN</span><span>SEC</span></div>
-            <button class="btn-massive" onclick="switchView('view-day')">Start Day 3 〉</button>
+
+            <!-- Start Day Button -->
+            <button class="btn-start-hero" id="btn-start-hero" onclick="switchView('view-day')">
+                Start Day 5 〉
+            </button>
         </div>
 
         <!-- Weekly Cup Card -->
@@ -1388,7 +1661,38 @@
         const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
         document.getElementById('current-date').innerText = istNow.toLocaleDateString('en-GB', options);
 
-        // 2. DYNAMIC DAY TRACKER (Header elements only)
+        // 🟢 Dynamic Greeting Based on Time of Day
+        function updateGreeting() {
+            const ist = getIST();
+            const hrs = ist.getHours();
+            let greeting = "Good Morning";
+            if (hrs >= 12 && hrs < 17) greeting = "Good Afternoon";
+            else if (hrs >= 17 || hrs < 4) greeting = "Good Evening";
+            
+            const greetEl = document.getElementById('greeting-time-text');
+            if (greetEl) greetEl.innerText = greeting;
+        }
+
+        // 🟢 Calculate Daily Goal Completion %
+        function updateDailyGoalProgress() {
+            if (!window.masterQuizData) return;
+            const ist = getIST();
+            let currentDayNum = ist.getDay() === 0 ? 7 : ist.getDay();
+            let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
+            let todayQuizzes = allQuizzes.filter(q => q.day_num === currentDayNum);
+            
+            let total = todayQuizzes.length || (window.masterQuizData.Today ? window.masterQuizData.Today.length : 0);
+            let completed = todayQuizzes.filter(q => q.status === 'completed').length;
+            
+            let pct = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            const fill = document.getElementById('daily-goal-fill');
+            const txt = document.getElementById('daily-goal-text');
+            if (fill) fill.style.width = `${pct}%`;
+            if (txt) txt.innerText = `${pct}% of daily goal completed`;
+        }
+
+        // 2. DYNAMIC DAY TRACKER
         function updateDayTracker() {
             const ist = getIST();
             let dayNum = ist.getDay() === 0 ? 7 : ist.getDay(); 
@@ -1398,9 +1702,16 @@
             const detailHeader = document.getElementById('day-detail-header');
             if (detailHeader) detailHeader.innerText = `Day ${dayNum}`;
 
-            const btn = document.querySelector('.btn-massive');
-            if(btn && dayNum <= 6) btn.innerText = `Start Day ${dayNum} 〉`;
-            else if(btn) { btn.innerText = `Sunday Wrap-Up 〉`; btn.style.background = 'var(--text-muted)'; }
+            const btn = document.getElementById('btn-start-hero');
+            if (btn && dayNum <= 6) {
+                btn.innerText = `Start Day ${dayNum} 〉`;
+                btn.style.background = '#5a32fa';
+            } else if (btn) {
+                btn.innerText = `Sunday Wrap-Up 〉`;
+                btn.style.background = 'var(--text-muted)';
+            }
+            
+            updateGreeting();
         }
         updateDayTracker();
 
@@ -1696,6 +2007,7 @@
                 }
                 
                 filterByDay(currentDayIndex);
+                updateDailyGoalProgress(); // 🟢 Recalculates the hero card progress bar
 
             } catch (error) {
                 document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
