@@ -271,14 +271,14 @@
             opacity: 0.92;
         }
 
-        /* --- FULLY RESPONSIVE MOBILE WEEKLY CUP CARD --- */
+        /* --- ENHANCED MOBILE-OPTIMISED WEEKLY CUP CARD --- */
         .weekly-cup-card {
-            margin: 0 16px 16px 16px;
-            padding: 16px 14px;
-            border-radius: 18px;
-            border: 1px solid var(--border-light);
+            margin: 0 16px 20px 16px;
+            padding: 16px 18px;
+            border-radius: 22px;
+            border: 1px solid rgba(90, 50, 250, 0.12);
             background: #ffffff;
-            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 20px rgba(90, 50, 250, 0.04);
             box-sizing: border-box;
         }
         body.dark-mode .weekly-cup-card {
@@ -286,109 +286,178 @@
             border-color: var(--border-light);
         }
 
-        .cup-card-header {
+        .cup-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
             margin-bottom: 14px;
         }
-        .cup-header-left {
+        .cup-title-group {
             display: flex;
             align-items: center;
             gap: 8px;
-            min-width: 0;
         }
-        .cup-icon-badge {
-            width: 36px;
-            height: 36px;
-            background: #faf5ff;
-            border-radius: 10px;
+        .cup-trophy-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+        .cup-title-text {
+            font-size: clamp(16px, 4.4vw, 18px);
+            font-weight: 800;
+            color: var(--text-main);
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 19px;
-            flex-shrink: 0;
+            gap: 6px;
         }
-        .cup-title {
-            font-size: clamp(15px, 4.2vw, 17px);
-            font-weight: 700;
-            color: var(--text-main);
-            white-space: nowrap;
+        .cup-title-crown {
+            font-size: 16px;
         }
-        .btn-view-leaderboard {
+        .cup-live-pill {
             background: #f3f0ff;
             color: #5a32fa;
             border: none;
-            padding: 6px 11px;
-            border-radius: 18px;
-            font-size: clamp(11px, 3.2vw, 12px);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        body.dark-mode .cup-live-pill {
+            background: #2e1065;
+            color: #c084fc;
+        }
+        .cup-live-pill:active {
+            opacity: 0.75;
+        }
+
+        /* Metrics Row */
+        .cup-metrics-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .cup-rank-pill-box {
+            background: #f5f3ff;
+            border: 1px solid #ede9fe;
+            border-radius: 14px;
+            padding: 8px 14px;
+            text-align: center;
+            min-width: 68px;
+        }
+        body.dark-mode .cup-rank-pill-box {
+            background: #1e1b4b;
+            border-color: #312e81;
+        }
+        .cup-rank-label {
+            font-size: 11px;
             font-weight: 600;
+            color: #6366f1;
+            margin-bottom: 2px;
+        }
+        body.dark-mode .cup-rank-label {
+            color: #a5b4fc;
+        }
+        .cup-rank-number {
+            font-size: clamp(16px, 4.6vw, 20px);
+            font-weight: 800;
+            color: #5a32fa;
+            line-height: 1.1;
+        }
+        body.dark-mode .cup-rank-number {
+            color: #c084fc;
+        }
+
+        .cup-metric-divider {
+            width: 1px;
+            height: 36px;
+            background: var(--border-light);
+            flex-shrink: 0;
+        }
+
+        .cup-score-box {
+            padding: 0 4px;
+        }
+        .cup-score-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .cup-score-number {
+            font-size: clamp(16px, 4.6vw, 20px);
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.1;
+        }
+
+        .cup-pct-box {
+            text-align: right;
+        }
+        .cup-pct-number {
+            font-size: clamp(15px, 4.4vw, 18px);
+            font-weight: 800;
+            color: #10b981;
+            line-height: 1.1;
+        }
+        .cup-pct-subtext {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* Cup Progress Bar */
+        .cup-progress-track {
+            height: 6px;
+            background: #f1f0fb;
+            border-radius: 6px;
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        body.dark-mode .cup-progress-track {
+            background: #27272a;
+        }
+        .cup-progress-fill {
+            height: 100%;
+            background: #5a32fa;
+            border-radius: 6px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Footer Row */
+        .cup-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .cup-season-meta {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: clamp(11px, 3.2vw, 12px);
+        }
+        .cup-view-link {
+            color: #5a32fa;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 3px;
-            white-space: nowrap;
-            flex-shrink: 0;
+            font-size: clamp(11px, 3.2vw, 12px);
+            transition: opacity 0.2s;
         }
-        .btn-view-leaderboard:active {
-            opacity: 0.75;
+        body.dark-mode .cup-view-link {
+            color: #a5b4fc;
         }
-
-        .cup-metrics-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 2px;
-        }
-        .cup-metric-col {
-            flex: 1;
-            min-width: 0; /* Prevents column from overflowing on small screens */
-            text-align: left;
-        }
-        .cup-metric-divider {
-            width: 1px;
-            height: 32px;
-            background: var(--border-light);
-            margin: 0 6px;
-            flex-shrink: 0;
-        }
-        .cup-metric-label {
-            font-size: clamp(10px, 3vw, 11px);
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-bottom: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .cup-metric-value {
-            font-size: clamp(15px, 4.6vw, 19px);
-            font-weight: 800;
-            line-height: 1.15;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .cup-metric-value.rank-val {
-            color: #5a32fa;
-        }
-        .cup-metric-value.pct-val {
-            color: #10b981;
-            font-size: clamp(13px, 4.2vw, 16px);
-        }
-        .cup-metric-sub {
-            font-size: clamp(10px, 2.9vw, 11px);
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-top: 3px;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .cup-view-link:active {
+            opacity: 0.7;
         }
 
         /* --- FULLY RESPONSIVE 4-METRIC DAILY ACTIVITY STRIP --- */
@@ -536,11 +605,15 @@
             transform: scale(0.97);
         }
 
-        /* Dynamic Card Color Themes */
+        /* Dynamic Card Color Themes (All 8 Core Categories) */
         .card-theme-purple { background: #faf5ff; border-color: #f3e8ff; }
         .card-theme-green  { background: #f0fdf4; border-color: #dcfce7; }
         .card-theme-orange { background: #fffbeb; border-color: #fef3c7; }
+        .card-theme-teal   { background: #f0fdfa; border-color: #ccfbf1; }
         .card-theme-blue   { background: #f0f9ff; border-color: #e0f2fe; }
+        .card-theme-indigo { background: #eef2ff; border-color: #e0e7ff; }
+        .card-theme-amber  { background: #fff7ed; border-color: #ffedd5; }
+        .card-theme-rose   { background: #fff1f2; border-color: #ffe4e6; }
 
         .journey-card-top {
             display: flex;
@@ -559,7 +632,11 @@
         .icon-bg-purple { background: #7c3aed; color: white; }
         .icon-bg-green  { background: #0e9f6e; color: white; }
         .icon-bg-orange { background: #f59e0b; color: white; }
+        .icon-bg-teal   { background: #0d9488; color: white; }
         .icon-bg-blue   { background: #1c64f2; color: white; }
+        .icon-bg-indigo { background: #4f46e5; color: white; }
+        .icon-bg-amber  { background: #d97706; color: white; }
+        .icon-bg-rose   { background: #e11d48; color: white; }
 
         .journey-topic-name {
             font-size: 14px;
@@ -595,7 +672,11 @@
         .fill-purple { background: #7c3aed; }
         .fill-green  { background: #0e9f6e; }
         .fill-orange { background: #f59e0b; }
+        .fill-teal   { background: #0d9488; }
         .fill-blue   { background: #1c64f2; }
+        .fill-indigo { background: #4f46e5; }
+        .fill-amber  { background: #d97706; }
+        .fill-rose   { background: #e11d48; }
 
         .journey-footer-row {
             display: flex;
@@ -621,7 +702,11 @@
         .arrow-btn-purple { background: #f3e8ff; color: #7c3aed; }
         .arrow-btn-green  { background: #dcfce7; color: #0e9f6e; }
         .arrow-btn-orange { background: #fef3c7; color: #d97706; }
+        .arrow-btn-teal   { background: #ccfbf1; color: #0d9488; }
         .arrow-btn-blue   { background: #e0f2fe; color: #1c64f2; }
+        .arrow-btn-indigo { background: #e0e7ff; color: #4f46e5; }
+        .arrow-btn-amber  { background: #ffedd5; color: #d97706; }
+        .arrow-btn-rose   { background: #ffe4e6; color: #e11d48; }
 
         /* --- TODAY'S HIGHLIGHTS SECTION --- */
         .highlights-section {
@@ -820,6 +905,225 @@
         }
         body.dark-mode .banner-pct-val {
             color: #c084fc;
+        }
+
+
+
+        /* --- NEW PROFILE HEADER & HERO CARD --- */
+        .profile-top-header {
+            padding: 16px 20px 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .profile-header-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+        .profile-settings-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            color: var(--text-main);
+            transition: transform 0.15s ease;
+        }
+        body.dark-mode .profile-settings-btn {
+            background: var(--bg-card);
+            border-color: var(--border-light);
+        }
+        .profile-settings-btn:active {
+            transform: scale(0.92);
+        }
+
+        .profile-hero-card {
+            margin: 0 16px 20px 16px;
+            padding: 16px 14px 14px 14px;
+            border-radius: 22px;
+            background: linear-gradient(180deg, #faf8ff 0%, #f3eeff 100%);
+            border: 1px solid rgba(99, 102, 241, 0.16);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.05);
+            box-sizing: border-box;
+        }
+        body.dark-mode .profile-hero-card {
+            background: linear-gradient(180deg, #1e1b4b 0%, #17153a 100%);
+            border-color: rgba(168, 85, 247, 0.2);
+        }
+
+        /* User Info Row */
+        .profile-user-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .profile-avatar-outer {
+            position: relative;
+            width: clamp(66px, 18vw, 76px);
+            height: clamp(66px, 18vw, 76px);
+            flex-shrink: 0;
+        }
+        .profile-avatar-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            padding: 2px;
+            box-sizing: border-box;
+            border: 2.5px solid #818cf8;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar-edit-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #6366f1;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid #ffffff;
+            box-shadow: 0 2px 6px rgba(99, 102, 241, 0.4);
+        }
+        body.dark-mode .avatar-edit-badge {
+            border-color: #1e1b4b;
+        }
+
+        .profile-user-meta {
+            flex: 1;
+            min-width: 0;
+        }
+        .profile-display-name {
+            font-size: clamp(17px, 4.8vw, 21px);
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            word-break: break-word;
+        }
+        .profile-target-tag-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 5px;
+            flex-wrap: wrap;
+        }
+        .profile-tag-pill {
+            padding: 2px 8px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .profile-motto-text {
+            font-size: clamp(10px, 2.9vw, 11px);
+            color: var(--text-muted);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.3;
+        }
+
+        /* 3-Column Metrics Strip */
+        .profile-nested-metrics {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 10px 8px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            align-items: center;
+            gap: 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+        body.dark-mode .profile-nested-metrics {
+            background: var(--bg-card);
+        }
+
+        .p-metric-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+            padding: 0 2px;
+        }
+        .p-metric-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .p-icon-purple { background: #f3e8ff; color: #7c3aed; }
+        .p-icon-green  { background: #def7ec; color: #0e9f6e; }
+        .p-icon-blue   { background: #e0f2fe; color: #0284c7; }
+
+        .p-metric-text {
+            min-width: 0;
+            flex: 1;
+        }
+        .p-metric-label {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+            line-height: 1;
+        }
+        .p-metric-value {
+            font-size: clamp(13px, 3.8vw, 16px);
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.15;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .p-val-purple { color: #5a32fa; }
+
+        .p-metric-subpill {
+            display: inline-block;
+            padding: 1px 5px;
+            border-radius: 5px;
+            font-size: clamp(8.5px, 2.4vw, 9.5px);
+            font-weight: 700;
+            line-height: 1.15;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .subpill-purple { background: #f3e8ff; color: #7c3aed; }
+        .subpill-green  { background: #def7ec; color: #0e9f6e; }
+        .subpill-amber  { background: #ede9fe; color: #6366f1; }
+
+        .p-metric-divider {
+            width: 1px;
+            height: 32px;
+            background: var(--border-light);
+            margin: 0 2px;
+            flex-shrink: 0;
         }
 
         /* -------------------------------------
@@ -1197,37 +1501,52 @@
 
         <!-- Weekly Cup Card -->
         <div class="weekly-cup-card">
-            <div class="cup-card-header">
-                <div class="cup-header-left">
-                    <div class="cup-icon-badge">🏆</div>
-                    <h3 class="cup-title">Weekly Cup</h3>
+            <!-- Header Row -->
+            <div class="cup-header-row">
+                <div class="cup-title-group">
+                    <span class="cup-trophy-icon">🏆</span>
+                    <h3 class="cup-title-text">Weekly Cup <span class="cup-title-crown">👑</span></h3>
                 </div>
-                <button class="btn-view-leaderboard" onclick="switchView('view-cup')">
-                    View Leaderboard <span>›</span>
-                </button>
+                <button class="cup-live-pill" onclick="switchView('view-cup')">Live Leaderboard</button>
             </div>
-            
-            <div class="cup-metrics-row">
-                <!-- Rank -->
-                <div class="cup-metric-col">
-                    <div class="cup-metric-label">Your Rank</div>
-                    <div class="cup-metric-value rank-val" id="home-rank">#--</div>
+
+            <!-- Metrics Row (Rank Pill, Score, Percentile) -->
+            <div class="cup-metrics-flex">
+                <!-- Rank Pill Box -->
+                <div class="cup-rank-pill-box">
+                    <div class="cup-rank-label">Rank</div>
+                    <div class="cup-rank-number" id="home-rank">#--</div>
                 </div>
-                
+
                 <div class="cup-metric-divider"></div>
-                
-                <!-- Score -->
-                <div class="cup-metric-col">
-                    <div class="cup-metric-label">Your Score</div>
-                    <div class="cup-metric-value" id="home-score">--</div>
+
+                <!-- Score Box -->
+                <div class="cup-score-box">
+                    <div class="cup-score-label">Score</div>
+                    <div class="cup-score-number" id="home-score">--</div>
                 </div>
-                
+
                 <div class="cup-metric-divider"></div>
-                
-                <!-- Percentile -->
-                <div class="cup-metric-col" style="flex: 1.15;">
-                    <div class="cup-metric-value pct-val" id="home-top-pct">Top --%</div>
-                    <div class="cup-metric-sub" id="home-top-msg">Keep pushing! 💪</div>
+
+                <!-- Percentile Box (Maintained % functionality) -->
+                <div class="cup-pct-box">
+                    <div class="cup-pct-number" id="home-top-pct">Top --%</div>
+                    <div class="cup-pct-subtext" id="home-top-msg">Keep pushing! 💪</div>
+                </div>
+            </div>
+
+            <!-- Cup Progress Bar -->
+            <div class="cup-progress-track">
+                <div class="cup-progress-fill" id="home-cup-progress-fill" style="width: 0%;"></div>
+            </div>
+
+            <!-- Footer Row: Season Meta & View Link -->
+            <div class="cup-footer-row">
+                <div class="cup-season-meta">
+                    🔥 <span id="home-cup-season-text">Season -- • -- Active Challengers</span>
+                </div>
+                <div class="cup-view-link" onclick="switchView('view-cup')">
+                    View Leaderboard <span>›</span>
                 </div>
             </div>
         </div>
@@ -1488,35 +1807,90 @@
     </div>
 
     <!-- ==========================================
-         VIEW 5: PROFILE (Compact Menu UI)
+         VIEW 5: PROFILE (New Redesign)
          ========================================== -->
     <div id="view-profile" class="view-container">
-        <div class="top-header">
-            <span></span>
-            <span class="font-bold">Profile</span>
-            <svg class="icon-btn" onclick="openSubModal('settingsModalOverlay')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-        </div>
-
-        <!-- Avatar & Name -->
-        <div class="profile-card" style="padding-bottom: 24px;">
-            <div class="avatar" id="avatar-initial" style="width: 86px; height: 86px; font-size: 36px;">P</div>
-            <h2 id="profile-name" style="font-size: 20px; margin-bottom: 8px;">Student</h2>
-            
-            <!-- NEW: Target Tags perfectly centered under the name -->
-            <div id="header-target-tags" style="display: flex; justify-content: center; gap: 8px;">
-                <span id="header-state-tag" style="background: var(--brand-light); color: var(--brand); font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px; display: none;"></span>
-                <span id="header-exam-tag" style="background: #e0f2fe; color: #0369a1; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 6px; display: none;"></span>
+        <!-- Profile Top Header -->
+        <div class="profile-top-header">
+            <span style="width: 38px;"></span>
+            <span class="profile-header-title">Profile</span>
+            <div class="profile-settings-btn" onclick="openSubModal('settingsModalOverlay')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
             </div>
         </div>
-        
-        <!-- Clean Stats Row -->
-        <div class="profile-stats-row" style="position: relative;">
-            <div class="profile-stat-box"><span class="p-stat-label">Rank</span><span class="p-stat-value text-brand" id="profile-rank">#--</span></div>
-            <div class="profile-stat-div"></div>
-            <div class="profile-stat-box"><span class="p-stat-label">Score</span><span class="p-stat-value" id="profile-score">--</span></div>
-            
-            <!-- NEW: League Badge Container (Far Right) -->
-            <div id="profile-league-container" style="position: absolute; right: 0; bottom: 32px; font-size: 16px; display: none;"></div>
+
+        <!-- Hero Profile Card -->
+        <div class="profile-hero-card">
+            <!-- User Info: Avatar + Meta -->
+            <div class="profile-user-row">
+                <div class="profile-avatar-outer">
+                    <div class="profile-avatar-ring">
+                        <div class="avatar" id="avatar-initial" style="width: 100%; height: 100%; font-size: 30px; margin: 0;">P</div>
+                    </div>
+                    <!-- Pencil Icon button to update target exam/state -->
+                    <div class="avatar-edit-badge" onclick="openSubModal('targetModalOverlay')">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 20h9"></path>
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="profile-user-meta">
+                    <h2 class="profile-display-name" id="profile-name">Student</h2>
+                    
+                    <!-- Dynamic Target Tags -->
+                    <div class="profile-target-tag-row" id="header-target-tags">
+                        <span id="header-state-tag" class="profile-tag-pill tag-state" style="display: none;"></span>
+                        <span id="header-exam-tag" class="profile-tag-pill tag-exam" style="display: none;"></span>
+                    </div>
+
+                    <!-- Motto -->
+                    <div class="profile-motto-text">
+                        <span>✨</span> Learn more. Score higher. Win together.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nested 3-Column Metrics Strip -->
+            <div class="profile-nested-metrics">
+                <!-- 1. Rank -->
+                <div class="p-metric-item">
+                    <div class="p-metric-icon p-icon-purple">🏆</div>
+                    <div class="p-metric-text">
+                        <div class="p-metric-label">Rank</div>
+                        <div class="p-metric-value p-val-purple" id="profile-rank">#--</div>
+                        <div class="p-metric-subpill subpill-purple" id="profile-rank-pill">Top --%</div>
+                    </div>
+                </div>
+
+                <div class="p-metric-divider"></div>
+
+                <!-- 2. Accuracy -->
+                <div class="p-metric-item">
+                    <div class="p-metric-icon p-icon-green">🎯</div>
+                    <div class="p-metric-text">
+                        <div class="p-metric-label">Accuracy</div>
+                        <div class="p-metric-value" id="profile-accuracy-val">0%</div>
+                        <div class="p-metric-subpill subpill-green" id="profile-acc-pill">Keep going!</div>
+                    </div>
+                </div>
+
+                <div class="p-metric-divider"></div>
+
+                <!-- 3. Score -->
+                <div class="p-metric-item">
+                    <div class="p-metric-icon p-icon-blue">📈</div>
+                    <div class="p-metric-text">
+                        <div class="p-metric-label">Score</div>
+                        <div class="p-metric-value" id="profile-score">--</div>
+                        <div class="p-metric-subpill subpill-amber" id="profile-score-pill">Keep pushing! 💪</div>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- The Sleek List Menu -->
@@ -2500,7 +2874,7 @@
             }
         }
 
-        // 🟢 Dynamically Render "Continue Your Journey" Cards with Weekly Totals
+        // 🟢 Dynamically Render "Continue Your Journey" Cards with All 8 Core Categories
         function updateJourneySection() {
             const container = document.getElementById('journey-cards-container');
             if (!container) return;
@@ -2510,21 +2884,25 @@
                 allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
             }
 
-            // Define topics and match them against the weekly quiz pool
+            // All 8 Core Quiz Topics from the backend ingestion schema
             const topicsConfig = [
                 { keyword: "Vocab", title: "Vocab Quiz", theme: "purple", icon: "📖" },
                 { keyword: "Error Detection", title: "Error Detection", theme: "green", icon: "✏️" },
                 { keyword: "Sentence Improvement", title: "Sentence Improvement", theme: "orange", icon: "✍️" },
-                { keyword: "Reading Comprehension", title: "Reading Comprehension", theme: "blue", icon: "📚" }
+                { keyword: "Fill in the Blank", title: "Fill in the Blank", theme: "teal", icon: "📝" },
+                { keyword: "Reading Comprehension", title: "Reading Comprehension", theme: "blue", icon: "📚" },
+                { keyword: "Cloze Test", title: "Cloze Test", theme: "indigo", icon: "🧩" },
+                { keyword: "Para Jumbles", title: "Para Jumbles", theme: "amber", icon: "🔀" },
+                { keyword: "Word Usage", title: "Word Usage", theme: "rose", icon: "🎯" }
             ];
 
             let html = '';
 
             topicsConfig.forEach(topic => {
-                // Find all quizzes matching this topic throughout the week
                 let matchedQuizzes = allQuizzes.filter(q => q.topic && q.topic.toLowerCase().includes(topic.keyword.toLowerCase()));
                 
-                let totalAvailable = matchedQuizzes.length > 0 ? matchedQuizzes.length : 5; // Fallback denominator if not synced yet
+                // Active instances available this week (defaulting to minimum 6 days of drops)
+                let totalAvailable = matchedQuizzes.length > 0 ? matchedQuizzes.length : 6;
                 let completedCount = matchedQuizzes.filter(q => q.status === 'completed').length;
                 
                 let percentage = Math.min(100, Math.round((completedCount / totalAvailable) * 100));
@@ -2761,13 +3139,15 @@
             triggerHaptic('light');
             filterByDay(dayIndex);
         }
-        // 🟢 Live Weekly Cup Home Card & Percentile Calculator (Syncs Cup & Banner)
-        function updateWeeklyCupHomeUI(cu, totalActive) {
+        // 🟢 Live Weekly Cup Home Card & Percentile Calculator (Syncs Cup, Bar & Banner)
+        function updateWeeklyCupHomeUI(cu, totalActive, fullData) {
             const homeRank = document.getElementById('home-rank');
             const homeScore = document.getElementById('home-score');
             const homeTopPct = document.getElementById('home-top-pct');
             const homeTopMsg = document.getElementById('home-top-msg');
             const bannerTopPct = document.getElementById('banner-top-pct');
+            const cupProgressFill = document.getElementById('home-cup-progress-fill');
+            const seasonText = document.getElementById('home-cup-season-text');
 
             if (!cu) return;
 
@@ -2779,14 +3159,28 @@
             if (homeRank) homeRank.innerText = (!isNaN(rankNum) && rankNum > 0) ? `#${rankNum}` : '#--';
             if (homeScore) homeScore.innerText = scoreVal;
 
+            // 1. Dynamic Season & Active Challengers
+            if (seasonText && fullData) {
+                let seasonNum = fullData.current_week || 14;
+                let activeCount = totalActive || (fullData.leaderboard ? fullData.leaderboard.length : 0);
+                seasonText.innerText = `Season ${seasonNum} • ${activeCount} Active Challengers`;
+            }
+
+            // 2. Dynamic Progress Towards Promotion Cut-off
+            if (cupProgressFill && fullData && fullData.target_average) {
+                let targetAvg = fullData.target_average;
+                let userScore = parseFloat(cu.score) || 0;
+                let progressPct = targetAvg > 0 ? Math.min(100, Math.max(5, Math.round((userScore / targetAvg) * 100))) : 50;
+                if (userScore <= 0) progressPct = 5;
+                cupProgressFill.style.width = `${progressPct}%`;
+            }
+
+            // 3. Percentile Calculation
             if (homeTopPct && homeTopMsg) {
                 if (!isNaN(rankNum) && rankNum > 0 && totalActive > 0) {
                     let topPercentage = Math.max(1, Math.round((rankNum / totalActive) * 100));
                     
-                    // 1. Update Weekly Cup Card
                     homeTopPct.innerText = `Top ${topPercentage}%`;
-
-                    // 2. Update Motivation Banner
                     if (bannerTopPct) bannerTopPct.innerText = `Top ${topPercentage}%`;
 
                     if (topPercentage <= 5) {
@@ -2813,7 +3207,6 @@
                 }
             }
 
-            // Keep daily stats & journey synced
             if (typeof updateDailyOverviewStats === 'function') updateDailyOverviewStats();
             if (typeof updateJourneySection === 'function') updateJourneySection();
         }
@@ -2839,9 +3232,10 @@
                     
                     const leagueBadge = getLeagueBadgeHTML(cu.league);
                     
-                    // 1. Safely inject into Home Tab (Rank, Score & Top X%)
+                    // Sync Home Tab (Rank, Score & Top X%)
                     let totalActive = data.total_active || (data.leaderboard ? data.leaderboard.length : 0);
-                    updateWeeklyCupHomeUI(cu, totalActive);
+                    updateWeeklyCupHomeUI(cu, totalActive, data);
+                    updateProfileHeroUI(cu, totalActive);
 
                     // 2. Safely inject into Profile Tab
                     const profileRank = document.getElementById('profile-rank');
@@ -3776,7 +4170,8 @@
                         
                         // Sync Home Tab (Rank, Score & Top X%)
                         let totalActive = data.total_active || (data.leaderboard ? data.leaderboard.length : 0);
-                        updateWeeklyCupHomeUI(cu, totalActive);
+                        updateWeeklyCupHomeUI(cu, totalActive, data);
+                        updateProfileHeroUI(cu, totalActive);
 
                         // Sync Cup Tab
                         const cupRank = document.getElementById('cup-tab-rank');
