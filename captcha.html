@@ -416,27 +416,40 @@
         function finishQuiz() {
             document.getElementById('main-card').style.display = 'none';
             document.getElementById('loading-overlay').style.display = 'block';
-    
-            if (window.Telegram.WebApp.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+
+            const tg = window.Telegram.WebApp;
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
             }
-    
-            const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
-            const userId = initDataUnsafe.user ? initDataUnsafe.user.id : null;
-    
-            if (userId) {
-                fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: userId })
-                }).then(() => {
-                    setTimeout(() => window.Telegram.WebApp.close(), 800);
-                }).catch(err => {
-                    alert("Connection error. Please try again.");
-                });
-            } else {
-                alert("Please open this inside Telegram.");
-            }
+
+            // Extract the secure validation token and user ID
+            const initData = tg.initData || '';
+            const userId = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+
+            fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'X-Telegram-Init-Data': initData
+                },
+                body: JSON.stringify({ user_id: userId })
+            })
+            .then(async (response) => {
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.error || 'Server error: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(() => {
+                setTimeout(() => tg.close(), 1000);
+            })
+            .catch((err) => {
+                console.error("Approval error:", err);
+                alert("Verification failed. Please try again from the direct message sent by the bot.");
+                document.getElementById('main-card').style.display = 'block';
+                document.getElementById('loading-overlay').style.display = 'none';
+            });
         }
     
         loadQuestion();
