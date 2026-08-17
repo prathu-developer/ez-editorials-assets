@@ -228,6 +228,12 @@
 
     <script>
         window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand(); // Expands to full height (Fullsize)
+
+        // Enables true fullscreen (Telegram Bot API 8.0+)
+        if (window.Telegram.WebApp.requestFullscreen) {
+            window.Telegram.WebApp.requestFullscreen();
+        }
 
         // 1. MASTER QUESTION BANK (Add as many questions here as you like)
         const questionBank = [
