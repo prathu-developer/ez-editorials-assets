@@ -7,75 +7,85 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --glass-bg: rgba(0, 0, 0, 0.25);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --btn-bg: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(0, 0, 0, 0.28);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --btn-bg: rgba(255, 255, 255, 0.12);
             --text-main: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.6);
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --brand-green: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #1f9c54, #b4e036);
+            background: linear-gradient(140deg, #15803d 0%, #4ade80 50%, #a3e635 100%);
             color: var(--text-main);
             margin: 0;
             padding: 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* ✨ CHANGE THIS BACK TO CENTER */
+            justify-content: center;
             min-height: 100vh;
-            box-sizing: border-box;
             user-select: none;
         }
 
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 24px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
             padding: 24px 20px;
             width: 100%;
             max-width: 400px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
 
+        /* Header */
         .header {
             display: flex;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .group-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.22);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
             margin-right: 12px;
+            flex-shrink: 0;
         }
         .group-info h2 {
             margin: 0;
             font-size: 18px;
             font-weight: 700;
+            letter-spacing: -0.2px;
         }
         .group-info p {
             margin: 2px 0 0;
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-muted);
         }
 
+        /* Progress Section */
         .progress-header {
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-muted);
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
             text-transform: uppercase;
         }
         .progress-header svg {
@@ -86,39 +96,41 @@
         }
         .progress-bars {
             display: flex;
-            gap: 4px;
+            gap: 6px;
             margin-bottom: 24px;
         }
         .bar {
-            height: 3px;
+            height: 4px;
             flex: 1;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 4px;
+            transition: background 0.3s ease;
         }
         .bar.active {
             background: #ffffff;
         }
 
+        /* Question & Options */
         .question-text {
-            font-size: 22px;
+            font-size: 21px;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 24px;
-            line-height: 1.3;
+            margin-bottom: 22px;
+            line-height: 1.35;
         }
 
         .options-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
         .option-btn {
             background: var(--btn-bg);
             border: 1px solid var(--glass-border);
             color: var(--text-main);
-            border-radius: 16px;
-            padding: 16px 20px;
-            font-size: 17px;
+            border-radius: 22px;
+            padding: 15px 20px;
+            font-size: 16px;
             font-weight: 600;
             text-align: left;
             cursor: pointer;
@@ -127,21 +139,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            outline: none;
         }
 
-        /* 🟢 CORRECT STATE (Matching Photo 1) */
+        /* Correct & Error States */
         .option-btn.correct {
-            background: rgba(46, 204, 113, 0.9);
-            border-color: rgba(46, 204, 113, 1);
+            background: rgba(34, 197, 94, 0.95);
+            border-color: rgba(34, 197, 94, 1);
+            color: #ffffff;
         }
         .badge-icon {
             display: none;
             width: 22px;
             height: 22px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.35);
             border-radius: 50%;
             text-align: center;
-            line-height: 20px;
+            line-height: 22px;
             font-size: 13px;
             font-weight: bold;
         }
@@ -149,10 +163,9 @@
             display: block;
         }
 
-        /* 🔴 ERROR STATE (Matching Photo 2) */
         .option-btn.error {
-            background: rgba(219, 78, 64, 0.9);
-            border-color: rgba(219, 78, 64, 1);
+            background: rgba(239, 68, 68, 0.95);
+            border-color: rgba(239, 68, 68, 1);
             animation: shake 0.4s;
         }
         .option-btn.error .badge-icon.cross {
@@ -161,78 +174,164 @@
 
         .warning-msg {
             text-align: center;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 15px;
-            font-weight: 500;
-            margin-top: 24px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 18px;
             opacity: 0;
             transition: opacity 0.3s;
-            height: 20px;
+            height: 18px;
         }
         .warning-msg.show {
             opacity: 1;
         }
 
-        #loading-overlay {
+        /* Success Screen */
+        .success-view {
             display: none;
             text-align: center;
-            margin-top: 40px;
+            padding: 10px 0 6px;
         }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top: 4px solid #fff;
+        .halo-container {
+            position: relative;
+            width: 86px;
+            height: 86px;
+            margin: 10px auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .halo-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
+            background: rgba(255, 255, 255, 0.12);
+            animation: pulse-ring 2s infinite ease-out;
+        }
+        .success-badge {
+            position: relative;
+            width: 62px;
+            height: 62px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #ffffff;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .success-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0 0 8px;
+            letter-spacing: -0.5px;
+        }
+        .success-sub {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin: 0 0 28px;
+            line-height: 1.4;
+        }
+        .continue-btn {
+            background: #ffffff;
+            color: #15803d;
+            border: none;
+            border-radius: 9999px;
+            padding: 16px 24px;
+            font-size: 17px;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .continue-btn:active {
+            transform: scale(0.98);
+        }
+        .decorations {
+            margin-top: 24px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 6px;
         }
 
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             50% { transform: translateX(5px); }
             75% { transform: translateX(-5px); }
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div class="glass-card" id="main-card">
-        <div class="header">
-            <div class="group-icon">🪄</div>
-            <div class="group-info">
-                <h2>Ez Editorialś</h2>
-                <p>Answer quick questions to join the group.</p>
+    <div class="glass-card">
+        <!-- Quiz State -->
+        <div id="quiz-view">
+            <div class="header">
+                <div class="group-icon">🪄</div>
+                <div class="group-info">
+                    <h2>Ez Editorials</h2>
+                    <p>Answer 4 quick questions to join the group.</p>
+                </div>
             </div>
+
+            <div class="progress-header">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                BOT QUIZ · Question <span id="q-num">1</span> of 4
+            </div>
+            <div class="progress-bars" id="progress-bars"></div>
+
+            <div class="question-text" id="question-text">Loading...</div>
+
+            <div class="options-container" id="options-container"></div>
+            
+            <div class="warning-msg" id="warning-msg">⚠️ Not quite. Try again.</div>
         </div>
 
-        <div class="progress-header">
-            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-            BOT QUIZ · Question <span id="q-num">1</span> of 10
+        <!-- Success State -->
+        <div class="success-view" id="success-view">
+            <div class="header" style="justify-content: flex-start; text-align: left;">
+                <div class="group-icon">🪄</div>
+                <div class="group-info">
+                    <h2>Ez Editorials</h2>
+                    <p>Answer 4 quick questions to join the group.</p>
+                </div>
+            </div>
+
+            <div class="halo-container">
+                <div class="halo-ring"></div>
+                <div class="success-badge">✓</div>
+            </div>
+
+            <h1 class="success-title">You're in.</h1>
+            <p class="success-sub">You passed the Ez Editorials entrance trial.</p>
+
+            <button class="continue-btn" id="continue-btn" onclick="handleContinue()">
+                Continue to Group <span>&rarr;</span>
+            </button>
+
+            <div class="decorations">🪄 ★ ✦ 🪄 ★ ✦ 🪄</div>
         </div>
-        <div class="progress-bars" id="progress-bars"></div>
-
-        <div class="question-text" id="question-text">Loading...</div>
-
-        <div class="options-container" id="options-container"></div>
-        
-        <div class="warning-msg" id="warning-msg">⚠️ Not quite. Try again.</div>
-    </div>
-
-    <div id="loading-overlay">
-        <div class="spinner"></div>
-        <h2 style="margin:0; font-size: 18px;">Approving Request...</h2>
     </div>
 
     <script>
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand(); // Expands to full height (Fullsize)
-
-        // Enables true fullscreen (Telegram Bot API 8.0+)
-        if (window.Telegram.WebApp.requestFullscreen) {
-            window.Telegram.WebApp.requestFullscreen();
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        if (tg.requestFullscreen) {
+            tg.requestFullscreen();
         }
 
         // 1. MASTER QUESTION BANK (Add as many questions here as you like)
@@ -338,41 +437,41 @@
             { q: "Choose the correct sentence.", opts: ["He is good in mathematics.", "He is good at mathematics.", "He is good on mathematics.", "He is good with mathematics."], ans: 1 }
         ];
     
-        // 2. SHUFFLE BANK & SELECT EXACTLY 10 RANDOM QUESTIONS FOR THIS SESSION
+        // Pick exactly 4 random questions
         const questions = questionBank
             .sort(() => Math.random() - 0.5)
-            .slice(0, 10);
-    
+            .slice(0, 4);
+
         let currentQuestion = 0;
-        let isProcessingTap = false; // Prevents spam-clicking
+        let isProcessingTap = false;
 
         function renderProgress() {
-        document.getElementById('q-num').innerText = currentQuestion + 1;
-        const barContainer = document.getElementById('progress-bars');
-        barContainer.innerHTML = '';
-        for(let i = 0; i < questions.length; i++) {
-            const bar = document.createElement('div');
-            bar.className = 'bar ' + (i <= currentQuestion ? 'active' : '');
-            barContainer.appendChild(bar);
+            document.getElementById('q-num').innerText = currentQuestion + 1;
+            const barContainer = document.getElementById('progress-bars');
+            barContainer.innerHTML = '';
+            for (let i = 0; i < questions.length; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar ' + (i <= currentQuestion ? 'active' : '');
+                barContainer.appendChild(bar);
+            }
         }
-    }
 
         function loadQuestion() {
             if (currentQuestion >= questions.length) {
                 finishQuiz();
                 return;
             }
-            
+
             isProcessingTap = false;
             document.getElementById('warning-msg').classList.remove('show');
             renderProgress();
-            
+
             const qData = questions[currentQuestion];
             document.getElementById('question-text').innerText = qData.q;
-            
+
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
-    
+
             qData.opts.forEach((opt, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
@@ -381,83 +480,76 @@
                     <span class="badge-icon check">✓</span>
                     <span class="badge-icon cross">✕</span>
                 `;
-                
+
                 btn.onclick = () => handleTap(btn, index, qData.ans);
                 optionsContainer.appendChild(btn);
             });
         }
-    
+
         function handleTap(btn, selectedIndex, correctIndex) {
             if (isProcessingTap) return;
-    
+
             document.querySelectorAll('.option-btn').forEach(b => {
                 b.classList.remove('error');
                 b.classList.remove('correct');
             });
             document.getElementById('warning-msg').classList.remove('show');
-    
+
             if (selectedIndex === correctIndex) {
                 isProcessingTap = true;
-                btn.classList.add('correct'); // Turns Green + Shows ✓
-    
-                if (window.Telegram.WebApp.HapticFeedback) {
-                    window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+                btn.classList.add('correct');
+
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('success');
                 }
-    
+
                 setTimeout(() => {
                     currentQuestion++;
                     loadQuestion();
-                }, 400);
-    
+                }, 350);
+
             } else {
-                btn.classList.add('error'); // Turns Red + Shows ✕
-                document.getElementById('warning-msg').classList.show ? document.getElementById('warning-msg').classList.add('show') : null;
-    
-                if (window.Telegram.WebApp.HapticFeedback) {
-                    window.Telegram.WebApp.HapticFeedback.notificationOccurred('error');
+                btn.classList.add('error');
+                document.getElementById('warning-msg').classList.add('show');
+
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
                 }
             }
         }
-    
-        function finishQuiz() {
-            document.getElementById('main-card').style.display = 'none';
-            document.getElementById('loading-overlay').style.display = 'block';
 
-            const tg = window.Telegram.WebApp;
+        function finishQuiz() {
+            // Instantly transition to the "You're in." window
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('success-view').style.display = 'block';
+
             if (tg.HapticFeedback) {
                 tg.HapticFeedback.notificationOccurred('success');
             }
 
-            // Extract the secure validation token and user ID
+            // Dispatch the approval request in the background
             const initData = tg.initData || '';
             const userId = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
 
             fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
                 method: 'POST',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
                     'X-Telegram-Init-Data': initData
                 },
                 body: JSON.stringify({ user_id: userId })
-            })
-            .then(async (response) => {
-                if (!response.ok) {
-                    const errData = await response.json().catch(() => ({}));
-                    throw new Error(errData.error || 'Server error: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(() => {
-                setTimeout(() => tg.close(), 1000);
-            })
-            .catch((err) => {
-                console.error("Approval error:", err);
-                alert("Verification failed. Please try again from the direct message sent by the bot.");
-                document.getElementById('main-card').style.display = 'block';
-                document.getElementById('loading-overlay').style.display = 'none';
+            }).catch(err => {
+                console.error("Approval request failed:", err);
             });
         }
-    
+
+        function handleContinue() {
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('medium');
+            }
+            tg.close();
+        }
+
         loadQuestion();
     </script>
 </body>
