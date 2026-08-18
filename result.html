@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quiz Results</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-main: #f8fafc;
@@ -13,12 +13,10 @@
             --text-dark: #1e293b;
             --text-muted: #64748b;
             --border-color: #f1f5f9;
+            --brand-red: #e73b50;
+            --brand-red-dark: #be123c;
             --brand-blue: #1c64f2;
-            --brand-red: #ef4444;
             --brand-green: #10b981;
-            --brand-yellow: #f59e0b;
-            --brand-purple: #8b5cf6;
-            --brand-pink: #ec4899;
         }
 
         body { 
@@ -30,38 +28,127 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Top Header Bar */
-        .top-nav-header {
+        /* 1. Brand Red "Quiz Complete" Top Hero Card */
+        .hero-banner-card {
+            margin-top: 14px;
+            margin-bottom: 14px;
+            padding: 16px 16px 14px 16px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.25);
+            box-sizing: border-box;
+        }
+        .hero-top-nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 0 12px 0;
-            position: sticky;
-            top: 0;
-            background: var(--bg-main);
-            z-index: 20;
+            margin-bottom: 14px;
         }
-        .nav-back-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
+        .hero-back-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            color: var(--text-dark);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-        }
-        .header-main-title {
-            margin: 0;
-            font-size: 18px;
+            color: #ffffff;
+            font-size: 16px;
             font-weight: 800;
-            color: var(--text-dark);
+        }
+        .hero-header-title {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
         }
 
-        /* Reusable Card */
+        .hero-score-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .hero-user-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex: 1;
+        }
+        .hero-medal-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.22);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .hero-text-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+        .hero-status-heading {
+            font-size: 14.5px;
+            font-weight: 800;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .hero-sub-label {
+            font-size: 11px;
+            color: #fee2e2;
+            font-weight: 500;
+        }
+
+        .hero-big-marks {
+            font-size: clamp(19px, 5.5vw, 24px);
+            font-weight: 900;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Hero Cutoff Notification Strip */
+        .hero-cutoff-strip {
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.35;
+        }
+        .hero-info-badge {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: var(--brand-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        /* 2. Reusable White Card */
         .res-card {
             background: var(--card-bg);
             border-radius: 18px;
@@ -72,61 +159,12 @@
         }
         .res-card-title {
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-dark);
             margin-bottom: 14px;
         }
 
-        /* Block 1: Top Metrics List */
-        .metric-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 10px 0;
-            border-bottom: 1px solid #f8fafc;
-        }
-        .metric-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        .metric-row:first-child {
-            padding-top: 0;
-        }
-        .metric-icon-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 17px;
-            font-weight: 800;
-            color: white;
-            flex-shrink: 0;
-        }
-        .ico-yellow { background: #f59e0b; }
-        .ico-green  { background: #10b981; }
-        .ico-red    { background: #ef4444; }
-        .ico-purple { background: #8b5cf6; }
-        .ico-pink   { background: #ec4899; }
-
-        .metric-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-        .metric-label {
-            font-size: 12.5px;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-        .metric-value {
-            font-size: 15.5px;
-            font-weight: 800;
-            color: var(--text-dark);
-        }
-
-        /* Block 2: Question Distribution */
+        /* 3. Question Distribution */
         .qd-progress-track {
             height: 7px;
             background: #f1f5f9;
@@ -142,7 +180,7 @@
         .qd-pills-row {
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 16px;
             flex-wrap: wrap;
         }
         .qd-pill-item {
@@ -154,13 +192,13 @@
             color: var(--text-dark);
         }
         .qd-badge-circle {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 800;
             color: white;
         }
@@ -168,7 +206,7 @@
         .bg-qd-wrong   { background: var(--brand-red); }
         .bg-qd-unatt   { background: #e2e8f0; color: var(--text-dark); }
 
-        /* Block 3: Comparison Chart */
+        /* 4. Comparison Chart */
         .chart-legend-tag {
             display: flex;
             align-items: center;
@@ -212,17 +250,16 @@
             font-weight: 700;
         }
         .chart-tab.locked {
-            opacity: 0.7;
+            opacity: 0.65;
         }
 
         .bar-chart-visual {
-            height: 180px;
+            height: 170px;
             display: flex;
             align-items: flex-end;
             justify-content: space-around;
             border-bottom: 1px solid #e2e8f0;
             padding-bottom: 2px;
-            position: relative;
         }
         .chart-col {
             display: flex;
@@ -245,9 +282,7 @@
             margin-top: 8px;
             text-align: center;
         }
-        .col-meta-box {
-            width: 70px;
-        }
+        .col-meta-box { width: 70px; }
         .col-role-title {
             font-size: 11.5px;
             font-weight: 600;
@@ -260,7 +295,7 @@
             color: var(--text-dark);
         }
 
-        /* Block 4: Leaderboard */
+        /* 5. Leaderboard Block (Direct Score + Time) */
         .lb-list-container {
             display: flex;
             flex-direction: column;
@@ -281,7 +316,7 @@
         }
         .lb-rank-badge {
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--text-muted);
             width: 18px;
             text-align: center;
@@ -296,7 +331,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
             flex-shrink: 0;
         }
@@ -308,20 +343,33 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .lb-right-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
         .lb-score-pill {
             background: #f1f5f9;
             color: var(--text-dark);
-            padding: 4px 10px;
+            padding: 4px 8px;
             border-radius: 8px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+        .lb-time-pill {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            font-weight: 600;
             white-space: nowrap;
         }
 
-        /* Pinned User Bar at bottom of leaderboard */
+        /* Pinned User Bar inside Leaderboard */
         .lb-user-pinned-card {
-            background: #e0f2fe;
-            border: 1px solid #bae6fd;
+            background: #eff6ff;
+            border: 1.5px solid #bfdbfe;
             border-radius: 14px;
             padding: 10px 12px;
             margin-top: 12px;
@@ -346,7 +394,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 800;
             flex-shrink: 0;
         }
@@ -372,25 +420,28 @@
         .pinned-right {
             text-align: right;
             flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
         }
         .pinned-score-pill {
             background: #ffffff;
             color: var(--text-dark);
-            padding: 4px 10px;
-            border-radius: 12px;
+            padding: 3px 8px;
+            border-radius: 8px;
             font-size: 12.5px;
             font-weight: 800;
             display: inline-block;
             border: 1px solid #cbd5e1;
         }
-        .pinned-rank-label {
+        .pinned-time-rank {
             font-size: 10.5px;
             color: var(--text-muted);
             font-weight: 700;
-            margin-top: 2px;
         }
 
-        /* Frozen Bottom Action Bar */
+        /* 6. Frozen Bottom Action Bar */
         .fixed-bottom-bar {
             position: fixed;
             bottom: 0;
@@ -448,62 +499,29 @@
 
     <div id="result-content" style="display: none;">
         
-        <!-- Top Navigation Header -->
-        <div class="top-nav-header">
-            <div class="nav-back-btn" onclick="goBackToTopics()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 12H5M12 19l-7-7 7-7"/>
-                </svg>
-            </div>
-            <h2 class="header-main-title">Quiz Result</h2>
-            <div style="width: 36px;"></div>
-        </div>
-
-        <!-- 1. Top Metrics Card -->
-        <div class="res-card">
-            <!-- Rank Achieved -->
-            <div class="metric-row">
-                <div class="metric-icon-box ico-yellow">🏅</div>
-                <div class="metric-meta">
-                    <span class="metric-label">Rank Achieved</span>
-                    <span class="metric-value" id="val-rank">0/0</span>
-                </div>
+        <!-- 1. Red Brand Hero Card (Quiz Complete) -->
+        <div class="hero-banner-card">
+            <div class="hero-top-nav">
+                <div class="hero-back-btn" onclick="goBackToTopics()">‹</div>
+                <h2 class="hero-header-title">Quiz Complete</h2>
+                <div style="width: 32px;"></div>
             </div>
 
-            <!-- Cutoff Marks -->
-            <div class="metric-row">
-                <div class="metric-icon-box ico-green">✓</div>
-                <div class="metric-meta">
-                    <span class="metric-label">Cutoff Marks</span>
-                    <span class="metric-value" id="val-cutoff">0.0/0.0</span>
+            <div class="hero-score-row">
+                <div class="hero-user-meta">
+                    <div class="hero-medal-box">🎖️</div>
+                    <div class="hero-text-group">
+                        <div class="hero-status-heading" id="hero-status-title">Session Complete!</div>
+                        <div class="hero-sub-label">Marks for the session:</div>
+                    </div>
                 </div>
+                <div class="hero-big-marks" id="hero-score-val">0.0/0.0</div>
             </div>
 
-            <!-- Time Spent -->
-            <div class="metric-row">
-                <div class="metric-icon-box ico-red">⏱</div>
-                <div class="metric-meta">
-                    <span class="metric-label">Time Spent</span>
-                    <span class="metric-value" id="val-time">00m 00s</span>
-                </div>
-            </div>
-
-            <!-- Percentile -->
-            <div class="metric-row">
-                <div class="metric-icon-box ico-purple">%</div>
-                <div class="metric-meta">
-                    <span class="metric-label">Percentile</span>
-                    <span class="metric-value" id="val-percentile">0.00%</span>
-                </div>
-            </div>
-
-            <!-- Accuracy -->
-            <div class="metric-row">
-                <div class="metric-icon-box ico-pink">🎯</div>
-                <div class="metric-meta">
-                    <span class="metric-label">Accuracy</span>
-                    <span class="metric-value" id="val-accuracy">0.00%</span>
-                </div>
+            <!-- Cutoff Gap Informational Banner -->
+            <div class="hero-cutoff-strip">
+                <span class="hero-info-badge">i</span>
+                <span id="hero-cutoff-msg">Calculating cutoff evaluation...</span>
             </div>
         </div>
 
@@ -567,20 +585,20 @@
             <div class="chart-labels-row">
                 <div class="col-meta-box">
                     <div class="col-role-title">You</div>
-                    <div class="col-score-val" id="chart-val-user">0/0</div>
+                    <div class="col-score-val" id="chart-val-user">0.0</div>
                 </div>
                 <div class="col-meta-box">
                     <div class="col-role-title">Average</div>
-                    <div class="col-score-val" id="chart-val-avg">0/0</div>
+                    <div class="col-score-val" id="chart-val-avg">0.0</div>
                 </div>
                 <div class="col-meta-box">
                     <div class="col-role-title">Topper</div>
-                    <div class="col-score-val" id="chart-val-top">0/0</div>
+                    <div class="col-score-val" id="chart-val-top">0.0</div>
                 </div>
             </div>
         </div>
 
-        <!-- 4. Leaderboard Card (Full Open) -->
+        <!-- 4. Leaderboard Card (Full Open: Direct Score + Timer) -->
         <div class="res-card" id="leaderboard-card-wrap">
             <div class="res-card-title">Leaderboard</div>
             
@@ -598,8 +616,8 @@
                     </div>
                 </div>
                 <div class="pinned-right">
-                    <div class="pinned-score-pill" id="pinned-score-val">0/0</div>
-                    <div class="pinned-rank-label" id="pinned-rank-val">Rank : -</div>
+                    <div class="pinned-score-pill" id="pinned-score-val">0.0 pts</div>
+                    <div class="pinned-time-rank" id="pinned-time-rank-val">⏱ 00m 00s • Rank : -</div>
                 </div>
             </div>
         </div>
@@ -693,25 +711,34 @@
 
         function renderData(data) {
             const s = data.summary || {};
-            const totalQuestions = (s.correct || 0) + (s.wrong || 0) + (s.unattempted || 0) || 10;
-            const maxMarks = totalQuestions.toFixed(1);
-            const userScore = (parseFloat(s.score) || 0).toFixed(1);
-            
-            // 1. Calculate Cutoff Marks (55% of Max Marks)
-            const cutoffMarks = (totalQuestions * 0.55).toFixed(1);
-
-            // Populate Block 1: Metrics
-            document.getElementById('val-rank').innerText = `${s.rank || 1}/${s.total_participants || 1}`;
-            document.getElementById('val-cutoff').innerText = `${cutoffMarks}/${maxMarks}`;
-            document.getElementById('val-time').innerText = formatTime(s.time_spent_seconds);
-            document.getElementById('val-percentile').innerText = `${(parseFloat(s.percentile) || 0).toFixed(2)}%`;
-            document.getElementById('val-accuracy').innerText = `${(parseFloat(s.accuracy) || 0).toFixed(2)}%`;
-
-            // Populate Block 2: Question Distribution
             const correctCount = s.correct || 0;
             const wrongCount = s.wrong || 0;
             const unattCount = s.unattempted || 0;
+            const totalQuestions = correctCount + wrongCount + unattCount || 10;
+            
+            const maxMarks = totalQuestions.toFixed(1);
+            const userScoreNum = parseFloat(s.score) || 0;
+            const userScoreStr = userScoreNum.toFixed(1);
+            
+            // Cutoff calculation (55% threshold)
+            const cutoffMarks = totalQuestions * 0.55;
 
+            // 1. Populate Top Red Hero Card ("Quiz Complete")
+            document.getElementById('hero-score-val').innerText = `${userScoreStr}/${maxMarks}`;
+            
+            const statusTitle = document.getElementById('hero-status-title');
+            const cutoffMsg = document.getElementById('hero-cutoff-msg');
+            const cutoffDiff = cutoffMarks - userScoreNum;
+
+            if (cutoffDiff > 0) {
+                statusTitle.innerText = userScoreNum <= 0 ? "Need More Hardwork!" : "Keep Pushing!";
+                cutoffMsg.innerText = `You still need ${cutoffDiff.toFixed(2)} marks to reach the cutoff marks (${cutoffMarks.toFixed(1)})`;
+            } else {
+                statusTitle.innerText = "Cutoff Cleared! 🎉";
+                cutoffMsg.innerText = `Great job! You cleared the cutoff mark (${cutoffMarks.toFixed(1)}) by +${Math.abs(cutoffDiff).toFixed(2)} marks.`;
+            }
+
+            // 2. Populate Question Distribution
             document.getElementById('cnt-correct').innerText = correctCount;
             document.getElementById('cnt-wrong').innerText = wrongCount;
             document.getElementById('cnt-unatt').innerText = unattCount;
@@ -724,15 +751,15 @@
             document.getElementById('seg-wrong').style.width = `${wroPct}%`;
             document.getElementById('seg-unatt').style.width = `${unaPct}%`;
 
-            // Populate Block 3: Comparison Chart
+            // 3. Populate Comparison Chart (Direct Scores)
             const topperScore = (data.top_10 && data.top_10.length > 0) ? parseFloat(data.top_10[0].score) : parseFloat(maxMarks);
             const avgScore = (topperScore * 0.45).toFixed(1);
 
-            document.getElementById('chart-val-user').innerText = `${userScore}/${maxMarks}`;
-            document.getElementById('chart-val-avg').innerText = `${avgScore}/${maxMarks}`;
-            document.getElementById('chart-val-top').innerText = `${topperScore.toFixed(1)}/${maxMarks}`;
+            document.getElementById('chart-val-user').innerText = `${userScoreStr}`;
+            document.getElementById('chart-val-avg').innerText = `${avgScore}`;
+            document.getElementById('chart-val-top').innerText = `${topperScore.toFixed(1)}`;
 
-            const userBarHeight = Math.max(5, Math.min(100, (parseFloat(userScore) / parseFloat(maxMarks)) * 100));
+            const userBarHeight = Math.max(5, Math.min(100, (userScoreNum / parseFloat(maxMarks)) * 100));
             const avgBarHeight = Math.max(5, Math.min(100, (parseFloat(avgScore) / parseFloat(maxMarks)) * 100));
             const topBarHeight = Math.max(5, Math.min(100, (topperScore / parseFloat(maxMarks)) * 100));
 
@@ -740,7 +767,7 @@
             document.getElementById('bar-avg').style.height = `${avgBarHeight}%`;
             document.getElementById('bar-top').style.height = `${topBarHeight}%`;
 
-            // Populate Block 4: Leaderboard List
+            // 4. Populate Leaderboard List (Direct Score + Timer)
             const lbList = document.getElementById('leaderboard-rows-list');
             lbList.innerHTML = '';
 
@@ -749,6 +776,7 @@
                 const rankNum = index + 1;
                 const initial = (user.name || 'U').trim().charAt(0).toUpperCase();
                 const scoreFormatted = (parseFloat(user.score) || 0).toFixed(2);
+                const timeString = formatTime(user.time_taken);
 
                 lbList.innerHTML += `
                     <div class="lb-item-row">
@@ -757,17 +785,21 @@
                             <div class="lb-avatar-square">${initial}</div>
                             <span class="lb-user-name">${user.name}</span>
                         </div>
-                        <div class="lb-score-pill">${scoreFormatted}/${parseInt(maxMarks)}</div>
+                        <div class="lb-right-meta">
+                            <span class="lb-score-pill">${scoreFormatted} pts</span>
+                            <span class="lb-time-pill">⏱ ${timeString}</span>
+                        </div>
                     </div>
                 `;
             });
 
             // Pinned Current User inside Leaderboard
             const currentUserName = tg?.initDataUnsafe?.user?.first_name || 'You';
+            const userTimeStr = formatTime(s.time_spent_seconds);
             document.getElementById('pinned-user-name').innerText = currentUserName;
             document.getElementById('pinned-avatar-initial').innerText = currentUserName.charAt(0).toUpperCase();
-            document.getElementById('pinned-score-val').innerText = `${(parseFloat(userScore) || 0).toFixed(2)}/${parseInt(maxMarks)}`;
-            document.getElementById('pinned-rank-val').innerText = `Rank : ${s.rank || '-'}`;
+            document.getElementById('pinned-score-val').innerText = `${userScoreNum.toFixed(2)} pts`;
+            document.getElementById('pinned-time-rank-val').innerText = `⏱ ${userTimeStr} • Rank : ${s.rank || '-'}`;
 
             document.getElementById('loading').style.display = 'none';
             document.getElementById('result-content').style.display = 'block';
