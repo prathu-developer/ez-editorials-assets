@@ -683,22 +683,28 @@
                     initialDuration = currentQuizMeta.duration_seconds;
                     let qCount = currentQuizMeta.question_count;
                     
-                    document.getElementById('display-title').innerText = topicName;
-                    document.getElementById('palette-topic').innerText = topicName;
-                    document.getElementById('summary-topic').innerText = topicName;
-                    document.getElementById('inst-topic').innerText = topicName;
+                    const setSafeText = (id, val) => {
+                        const el = document.getElementById(id);
+                        if (el) el.innerText = val;
+                    };
                     
-                    document.getElementById('pal-total').innerText = qCount;
-                    document.getElementById('inst-qcount').innerText = qCount;
-                    document.getElementById('inst-qcount-text').innerText = qCount;
-                    document.getElementById('inst-marks').innerText = qCount;
+                    setSafeText('display-title', topicName);
+                    setSafeText('summary-topic', topicName);
+                    setSafeText('inst-topic', topicName);
+                    
+                    setSafeText('pal-total', qCount);
+                    setSafeText('inst-qcount', qCount);
+                    setSafeText('inst-qcount-text', qCount);
+                    setSafeText('inst-marks', qCount);
                     
                     let minutes = Math.floor(initialDuration / 60);
-                    document.getElementById('inst-time').innerText = minutes;
-                    document.getElementById('inst-time-text').innerText = `${minutes} Minutes`;
+                    setSafeText('inst-time', minutes);
+                    setSafeText('inst-time-text', `${minutes} Minutes`);
                 } else if (isPractice) {
-                    document.getElementById('inst-topic').innerText = "Practice Trial";
-                    document.getElementById('display-title').innerText = "Practice Trial";
+                    const instTop = document.getElementById('inst-topic');
+                    if (instTop) instTop.innerText = "Practice Trial";
+                    const dispTop = document.getElementById('display-title');
+                    if (dispTop) dispTop.innerText = "Practice Trial";
                 }
 
                 document.getElementById('loading-screen').style.display = 'none';
