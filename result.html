@@ -14,6 +14,7 @@
             --text-muted: #64748b;
             --border-color: #f1f5f9;
             --brand-red: #e73b50;
+            --brand-red-dark: #be123c;
             --brand-blue: #1c64f2;
             --brand-green: #10b981;
         }
@@ -22,31 +23,31 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
             background-color: var(--bg-main); 
             margin: 0; 
-            padding: 0 12px 75px 12px; 
+            padding: 0 16px 100px 16px; 
             color: var(--text-dark); 
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* 1. Compact Red Hero Card */
+        /* 1. Brand Red "Quiz Complete" Top Hero Card */
         .hero-banner-card {
-            margin-top: 8px;
-            margin-bottom: 8px;
-            padding: 10px 12px;
-            border-radius: 14px;
+            margin-top: 14px;
+            margin-bottom: 14px;
+            padding: 16px 16px 14px 16px;
+            border-radius: 20px;
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
             color: #ffffff;
-            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.2);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.25);
             box-sizing: border-box;
         }
         .hero-top-nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 6px;
+            margin-bottom: 14px;
         }
         .hero-back-btn {
-            width: 26px;
-            height: 26px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -55,12 +56,12 @@
             justify-content: center;
             cursor: pointer;
             color: #ffffff;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 800;
         }
         .hero-header-title {
             margin: 0;
-            font-size: 14px;
+            font-size: 17px;
             font-weight: 800;
             letter-spacing: -0.2px;
         }
@@ -69,108 +70,108 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
-            margin-bottom: 8px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
         .hero-user-meta {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             min-width: 0;
             flex: 1;
         }
         .hero-medal-box {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.22);
             border: 1px solid rgba(255, 255, 255, 0.35);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 18px;
             flex-shrink: 0;
         }
         .hero-text-group {
             display: flex;
             flex-direction: column;
-            gap: 1px;
+            gap: 2px;
             min-width: 0;
         }
         .hero-status-heading {
-            font-size: 12.5px;
+            font-size: 14.5px;
             font-weight: 800;
-            line-height: 1.15;
+            line-height: 1.2;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .hero-sub-label {
-            font-size: 9.5px;
+            font-size: 11px;
             color: #fee2e2;
             font-weight: 500;
         }
 
         .hero-big-marks {
-            font-size: clamp(16px, 4.5vw, 19px);
+            font-size: clamp(19px, 5.5vw, 24px);
             font-weight: 900;
-            letter-spacing: 0.2px;
+            letter-spacing: 0.3px;
             white-space: nowrap;
             flex-shrink: 0;
         }
 
-        /* Compact Cutoff Notification Strip */
+        /* Hero Cutoff Notification Strip */
         .hero-cutoff-strip {
             background: rgba(255, 255, 255, 0.16);
             border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 9px;
-            padding: 5px 8px;
+            border-radius: 12px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 10px;
+            gap: 8px;
+            font-size: 11.5px;
             font-weight: 600;
             color: #ffffff;
-            line-height: 1.25;
+            line-height: 1.35;
         }
         .hero-info-badge {
-            width: 14px;
-            height: 14px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
             background: #ffffff;
             color: var(--brand-red);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 900;
             flex-shrink: 0;
         }
 
-        /* 2. Compact Reusable White Card */
+        /* 2. Reusable White Card */
         .res-card {
             background: var(--card-bg);
-            border-radius: 14px;
-            padding: 10px 12px;
-            margin-bottom: 8px;
-            box-shadow: 0 1px 6px rgba(0,0,0,0.02);
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
             border: 1px solid var(--border-color);
         }
         .res-card-title {
-            font-size: 12.5px;
+            font-size: 15px;
             font-weight: 800;
             color: var(--text-dark);
-            margin-bottom: 8px;
+            margin-bottom: 14px;
         }
 
-        /* 3. Compact Question Distribution */
+        /* 3. Question Distribution */
         .qd-progress-track {
-            height: 5px;
+            height: 7px;
             background: #f1f5f9;
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
             display: flex;
-            margin: 6px 0 10px 0;
+            margin: 12px 0 16px 0;
         }
         .qd-segment-correct { background: var(--brand-blue); height: 100%; }
         .qd-segment-wrong   { background: var(--brand-red); height: 100%; }
@@ -179,25 +180,25 @@
         .qd-pills-row {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             flex-wrap: wrap;
         }
         .qd-pill-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 11.5px;
+            gap: 8px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-dark);
         }
         .qd-badge-circle {
-            width: 18px;
-            height: 18px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 11.5px;
             font-weight: 800;
             color: white;
         }
@@ -205,36 +206,36 @@
         .bg-qd-wrong   { background: var(--brand-red); }
         .bg-qd-unatt   { background: #e2e8f0; color: var(--text-dark); }
 
-        /* 4. Compact Comparison Chart */
+        /* 4. Comparison Chart */
         .chart-legend-tag {
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 10.5px;
+            gap: 6px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
         .chart-legend-box {
-            width: 10px;
-            height: 10px;
-            border-radius: 2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
             background: var(--brand-blue);
         }
         .chart-tabs-scroll {
             display: flex;
-            gap: 4px;
+            gap: 6px;
             overflow-x: auto;
-            margin-bottom: 10px;
+            margin-bottom: 18px;
             padding-bottom: 2px;
             scrollbar-width: none;
         }
         .chart-tabs-scroll::-webkit-scrollbar { display: none; }
         
         .chart-tab {
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 10.5px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             white-space: nowrap;
@@ -253,7 +254,7 @@
         }
 
         .bar-chart-visual {
-            height: 110px;
+            height: 170px;
             display: flex;
             align-items: flex-end;
             justify-content: space-around;
@@ -266,76 +267,76 @@
             align-items: center;
             height: 100%;
             justify-content: flex-end;
-            width: 60px;
+            width: 70px;
         }
         .chart-bar-fill {
-            width: 10px;
+            width: 14px;
             background: var(--brand-blue);
-            border-radius: 3px 3px 0 0;
+            border-radius: 4px 4px 0 0;
             min-height: 4px;
             transition: height 0.5s ease;
         }
         .chart-labels-row {
             display: flex;
             justify-content: space-around;
-            margin-top: 5px;
+            margin-top: 8px;
             text-align: center;
         }
-        .col-meta-box { width: 60px; }
+        .col-meta-box { width: 70px; }
         .col-role-title {
-            font-size: 10px;
+            font-size: 11.5px;
             font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 1px;
+            margin-bottom: 2px;
         }
         .col-score-val {
-            font-size: 11px;
+            font-size: 12.5px;
             font-weight: 800;
             color: var(--text-dark);
         }
 
-        /* 5. Compact Leaderboard */
+        /* 5. Leaderboard Block (Direct Score + Time) */
         .lb-list-container {
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 10px;
         }
         .lb-item-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 10px;
         }
         .lb-item-left {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             min-width: 0;
             flex: 1;
         }
         .lb-rank-badge {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 800;
             color: var(--text-muted);
-            width: 16px;
+            width: 18px;
             text-align: center;
             flex-shrink: 0;
         }
         .lb-avatar-square {
-            width: 26px;
-            height: 26px;
-            border-radius: 7px;
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
             background: #e0f2fe;
             color: #0284c7;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: 800;
             flex-shrink: 0;
         }
         .lb-user-name {
-            font-size: 12px;
+            font-size: 13.5px;
             font-weight: 700;
             color: var(--text-dark);
             white-space: nowrap;
@@ -346,54 +347,54 @@
         .lb-right-meta {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             flex-shrink: 0;
         }
         .lb-score-pill {
             background: #f1f5f9;
             color: var(--text-dark);
-            padding: 2px 6px;
-            border-radius: 6px;
-            font-size: 10.5px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
             font-weight: 800;
             white-space: nowrap;
         }
         .lb-time-pill {
-            font-size: 10px;
+            font-size: 11.5px;
             color: var(--text-muted);
             font-weight: 600;
             white-space: nowrap;
         }
 
-        /* Pinned User Bar */
+        /* Pinned User Bar inside Leaderboard */
         .lb-user-pinned-card {
             background: #eff6ff;
             border: 1.5px solid #bfdbfe;
-            border-radius: 10px;
-            padding: 7px 10px;
-            margin-top: 8px;
+            border-radius: 14px;
+            padding: 10px 12px;
+            margin-top: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 10px;
         }
         .pinned-left {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             min-width: 0;
             flex: 1;
         }
         .pinned-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 7px;
+            width: 36px;
+            height: 36px;
+            border-radius: 9px;
             background: var(--brand-blue);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
+            font-size: 15px;
             font-weight: 800;
             flex-shrink: 0;
         }
@@ -402,19 +403,19 @@
             flex: 1;
         }
         .pinned-name {
-            font-size: 12px;
+            font-size: 13.5px;
             font-weight: 800;
             color: var(--text-dark);
-            line-height: 1.15;
+            line-height: 1.2;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .pinned-motto {
-            font-size: 9.5px;
+            font-size: 11px;
             color: #0369a1;
             font-weight: 600;
-            margin-top: 1px;
+            margin-top: 2px;
         }
         .pinned-right {
             text-align: right;
@@ -422,43 +423,43 @@
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 1px;
+            gap: 2px;
         }
         .pinned-score-pill {
             background: #ffffff;
             color: var(--text-dark);
-            padding: 2px 6px;
-            border-radius: 6px;
-            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 12.5px;
             font-weight: 800;
             display: inline-block;
             border: 1px solid #cbd5e1;
         }
         .pinned-time-rank {
-            font-size: 9.5px;
+            font-size: 10.5px;
             color: var(--text-muted);
             font-weight: 700;
         }
 
-        /* 6. Compact Fixed Bottom Bar */
+        /* 6. Frozen Bottom Action Bar */
         .fixed-bottom-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             background: #ffffff;
-            padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) 12px;
-            box-shadow: 0 -3px 12px rgba(0,0,0,0.05);
+            padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)) 16px;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
             display: flex;
-            gap: 8px;
+            gap: 10px;
             z-index: 100;
             box-sizing: border-box;
         }
         .btn-bottom-share {
             flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 14px;
             font-weight: 700;
             background: #ffffff;
             color: var(--brand-red);
@@ -467,13 +468,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 6px;
         }
         .btn-bottom-review {
             flex: 1.4;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 14px;
             font-weight: 700;
             background: var(--brand-blue);
             color: #ffffff;
@@ -486,8 +487,7 @@
 
         #loading {
             text-align: center;
-            margin-top: 40px;
-            font-size: 13px;
+            margin-top: 60px;
             font-weight: 600;
             color: var(--text-muted);
         }
@@ -499,12 +499,12 @@
 
     <div id="result-content" style="display: none;">
         
-        <!-- 1. Red Brand Hero Card -->
+        <!-- 1. Red Brand Hero Card (Quiz Complete) -->
         <div class="hero-banner-card">
             <div class="hero-top-nav">
                 <div class="hero-back-btn" onclick="goBackToTopics()">‹</div>
                 <h2 class="hero-header-title">Quiz Complete</h2>
-                <div style="width: 26px;"></div>
+                <div style="width: 32px;"></div>
             </div>
 
             <div class="hero-score-row">
@@ -518,7 +518,7 @@
                 <div class="hero-big-marks" id="hero-score-val">0.0/0.0</div>
             </div>
 
-            <!-- Cutoff Gap Notification Banner -->
+            <!-- Cutoff Gap Informational Banner -->
             <div class="hero-cutoff-strip">
                 <span class="hero-info-badge">i</span>
                 <span id="hero-cutoff-msg">Calculating cutoff evaluation...</span>
@@ -568,12 +568,15 @@
             </div>
 
             <div class="bar-chart-visual">
+                <!-- User Bar -->
                 <div class="chart-col">
                     <div class="chart-bar-fill" id="bar-user" style="height: 10%;"></div>
                 </div>
+                <!-- Average Bar -->
                 <div class="chart-col">
                     <div class="chart-bar-fill" id="bar-avg" style="height: 40%;"></div>
                 </div>
+                <!-- Topper Bar -->
                 <div class="chart-col">
                     <div class="chart-bar-fill" id="bar-top" style="height: 95%;"></div>
                 </div>
@@ -595,12 +598,15 @@
             </div>
         </div>
 
-        <!-- 4. Leaderboard Card (Direct Score + Timer) -->
+        <!-- 4. Leaderboard Card (Full Open: Direct Score + Timer) -->
         <div class="res-card" id="leaderboard-card-wrap">
             <div class="res-card-title">Leaderboard</div>
             
-            <div class="lb-list-container" id="leaderboard-rows-list"></div>
+            <div class="lb-list-container" id="leaderboard-rows-list">
+                <!-- Injected via renderData() -->
+            </div>
 
+            <!-- Sticky Bottom Current User Card inside Leaderboard -->
             <div class="lb-user-pinned-card">
                 <div class="pinned-left">
                     <div class="pinned-avatar" id="pinned-avatar-initial">U</div>
@@ -618,10 +624,10 @@
 
     </div>
 
-    <!-- 5. Compact Bottom Bar -->
+    <!-- 5. Frozen Bottom Action Bar -->
     <div class="fixed-bottom-bar">
         <button class="btn-bottom-share" onclick="shareResult()">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="18" cy="5" r="3"></circle>
                 <circle cx="6" cy="12" r="3"></circle>
                 <circle cx="18" cy="19" r="3"></circle>
@@ -714,9 +720,10 @@
             const userScoreNum = parseFloat(s.score) || 0;
             const userScoreStr = userScoreNum.toFixed(1);
             
+            // Cutoff calculation (55% threshold)
             const cutoffMarks = totalQuestions * 0.55;
 
-            // 1. Hero Card
+            // 1. Populate Top Red Hero Card ("Quiz Complete")
             document.getElementById('hero-score-val').innerText = `${userScoreStr}/${maxMarks}`;
             
             const statusTitle = document.getElementById('hero-status-title');
@@ -725,13 +732,13 @@
 
             if (cutoffDiff > 0) {
                 statusTitle.innerText = userScoreNum <= 0 ? "Need More Hardwork!" : "Keep Pushing!";
-                cutoffMsg.innerText = `You still need ${cutoffDiff.toFixed(2)} marks to reach the cutoff (${cutoffMarks.toFixed(1)})`;
+                cutoffMsg.innerText = `You still need ${cutoffDiff.toFixed(2)} marks to reach the cutoff marks (${cutoffMarks.toFixed(1)})`;
             } else {
                 statusTitle.innerText = "Cutoff Cleared! 🎉";
-                cutoffMsg.innerText = `Cleared cutoff (${cutoffMarks.toFixed(1)}) by +${Math.abs(cutoffDiff).toFixed(2)} marks.`;
+                cutoffMsg.innerText = `Great job! You cleared the cutoff mark (${cutoffMarks.toFixed(1)}) by +${Math.abs(cutoffDiff).toFixed(2)} marks.`;
             }
 
-            // 2. Question Distribution
+            // 2. Populate Question Distribution
             document.getElementById('cnt-correct').innerText = correctCount;
             document.getElementById('cnt-wrong').innerText = wrongCount;
             document.getElementById('cnt-unatt').innerText = unattCount;
@@ -744,7 +751,7 @@
             document.getElementById('seg-wrong').style.width = `${wroPct}%`;
             document.getElementById('seg-unatt').style.width = `${unaPct}%`;
 
-            // 3. Comparison Chart
+            // 3. Populate Comparison Chart (Direct Scores)
             const topperScore = (data.top_10 && data.top_10.length > 0) ? parseFloat(data.top_10[0].score) : parseFloat(maxMarks);
             const avgScore = (topperScore * 0.45).toFixed(1);
 
@@ -760,7 +767,7 @@
             document.getElementById('bar-avg').style.height = `${avgBarHeight}%`;
             document.getElementById('bar-top').style.height = `${topBarHeight}%`;
 
-            // 4. Leaderboard
+            // 4. Populate Leaderboard List (Direct Score + Timer)
             const lbList = document.getElementById('leaderboard-rows-list');
             lbList.innerHTML = '';
 
@@ -786,7 +793,7 @@
                 `;
             });
 
-            // Pinned Current User
+            // Pinned Current User inside Leaderboard
             const currentUserName = tg?.initDataUnsafe?.user?.first_name || 'You';
             const userTimeStr = formatTime(s.time_spent_seconds);
             document.getElementById('pinned-user-name').innerText = currentUserName;
