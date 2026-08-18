@@ -234,6 +234,214 @@
         .legend-title { font-size: 13px; color: var(--text-dark); margin-bottom: 12px; }
         .legend-row { display: flex; gap: 16px; font-size: 13px; color: var(--text-dark); font-weight: 500; align-items: center; margin-bottom: 8px;}
         .legend-dot { width: 16px; height: 16px; border-radius: 50%; display: inline-block; flex-shrink: 0;}
+
+        /* --- REVIEW SECTION STRIP --- */
+        .review-section-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .review-section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .review-strip-icons {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--text-dark);
+        }
+
+        /* --- REVIEW PALETTE & FILTER POPOVER --- */
+        .review-tab-header {
+            display: inline-block;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--brand-red);
+            border-bottom: 2.5px solid var(--brand-red);
+            padding-bottom: 6px;
+            margin-bottom: 14px;
+        }
+        .review-meta-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .filter-btn-trigger {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #2563eb;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            background: #eff6ff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* Filter Dropdown Popover */
+        .filter-popover {
+            position: absolute;
+            top: 32px;
+            right: 0;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            padding: 10px 12px;
+            z-index: 150;
+            width: 175px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .filter-pop-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            padding: 2px 0;
+        }
+        .filter-left-tag {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .filter-color-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+            font-weight: 800;
+        }
+        .filter-checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: #2563eb;
+            cursor: pointer;
+        }
+
+        /* Review Question Grid */
+        .rev-pal-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding: 2px;
+        }
+        .rev-pal-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            background: #e2e8f0;
+            color: #475569;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            box-sizing: border-box;
+        }
+        .rev-pal-item.current {
+            border-color: #10b981 !important;
+            background: #ffffff;
+            color: var(--text-dark);
+        }
+        .rev-pal-item.rev-correct {
+            background: #def7ec;
+            color: #03543f;
+            border-color: #31c48d;
+        }
+        .rev-pal-item.rev-incorrect {
+            background: #fde8e8;
+            color: #9b1c1c;
+            border-color: #f98080;
+        }
+        .rev-pal-item.rev-unattempted {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+        .rev-pal-item.rev-unevaluated {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #fde047;
+        }
+
+        /* Indicators & Legend */
+        .speed-indicator-wrap {
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+        }
+        .speed-label-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        .speed-badges-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .speed-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .review-legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 10px;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .rev-leg-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .rev-leg-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+            font-weight: 800;
+        }
     </style>
 </head>
 <body>
@@ -329,6 +537,23 @@
                         <span class="slider"></span>
                     </label>
                 </div>
+            </div>
+        </div>
+
+        <div class="review-section-strip" id="review-section-strip" style="display: none;">
+            <span class="review-section-title" id="review-section-title">English</span>
+            <div class="review-strip-icons">
+                <svg onclick="openSettingsModal()" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                    <path d="M4 20l5-16 5 16"></path>
+                    <path d="M6 14h6"></path>
+                    <circle cx="18" cy="16" r="3"></circle>
+                    <path d="M21 13v7"></path>
+                </svg>
+                <svg onclick="openReviewPalette()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
             </div>
         </div>
 
@@ -482,31 +707,105 @@
     </div>
 
     <!-- Review Summary (Bottom Sheet) -->
-    <div class="modal-overlay" id="review-palette-modal">
-        <div class="bottom-sheet" style="padding-bottom: 20px;">
-            <div style="text-align: right; margin-bottom: 8px;">
-                <span class="close-icon" onclick="closeModal('review-palette-modal')">×</span>
+    <div class="modal-overlay" id="review-palette-modal" onclick="closeModal('review-palette-modal')">
+        <div class="bottom-sheet" style="padding-bottom: 20px; position: relative;" onclick="event.stopPropagation()">
+            
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 4px;">
+                <span class="close-icon" onclick="closeModal('review-palette-modal')" style="font-size: 24px; line-height: 1;">×</span>
             </div>
             
-            <div class="summary-tab" id="review-sheet-title">Quiz Summary</div>
+            <div class="review-tab-header" id="review-tab-name">English</div>
             
-            <div class="summary-meta">
+            <div class="review-meta-bar">
                 <span>Questions: <span id="pal-total-rev">0</span> | Attempted: <span id="pal-att-rev">0</span></span>
-            </div>
+                
+                <div class="filter-btn-trigger" onclick="toggleReviewFilterMenu(event)">
+                    <span>FILTER</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                        <line x1="17" y1="16" x2="23" y2="16"></line>
+                    </svg>
+                </div>
 
-            <div class="palette-grid" id="review-palette-grid"></div>
-            
-            <div class="legend-section">
-                <div class="legend-row" style="flex-wrap: wrap;">
-                    <span><span class="legend-dot" style="background:#31c48d;"></span> Correct</span>
-                    <span><span class="legend-dot" style="background:#f98080;"></span> Incorrect</span>
-                    <span><span class="legend-dot" style="background:#e5e7eb;"></span> Unattempted</span>
+                <div class="filter-popover" id="filter-popover" style="display: none;" onclick="event.stopPropagation()">
+                    <label class="filter-pop-row">
+                        <div class="filter-left-tag">
+                            <span class="filter-color-dot" style="background:#2563eb;">✓</span>
+                            <span>All</span>
+                        </div>
+                        <input type="checkbox" id="flt-all" class="filter-checkbox" checked onchange="handleFilterSelection('all')">
+                    </label>
+                    <label class="filter-pop-row">
+                        <div class="filter-left-tag">
+                            <span class="filter-color-dot" style="background:#10b981;">✓</span>
+                            <span>Correct</span>
+                        </div>
+                        <input type="checkbox" id="flt-correct" class="filter-checkbox" checked onchange="handleFilterSelection('correct')">
+                    </label>
+                    <label class="filter-pop-row">
+                        <div class="filter-left-tag">
+                            <span class="filter-color-dot" style="background:#ef4444;">✓</span>
+                            <span>Incorrect</span>
+                        </div>
+                        <input type="checkbox" id="flt-incorrect" class="filter-checkbox" checked onchange="handleFilterSelection('incorrect')">
+                    </label>
+                    <label class="filter-pop-row">
+                        <div class="filter-left-tag">
+                            <span class="filter-color-dot" style="background:#cbd5e1; color:#475569;">✓</span>
+                            <span>Unattempted</span>
+                        </div>
+                        <input type="checkbox" id="flt-unattempted" class="filter-checkbox" checked onchange="handleFilterSelection('unattempted')">
+                    </label>
+                    <label class="filter-pop-row">
+                        <div class="filter-left-tag">
+                            <span class="filter-color-dot" style="background:#fde047; color:#854d0e;">✓</span>
+                            <span>Unevaluated</span>
+                        </div>
+                        <input type="checkbox" id="flt-unevaluated" class="filter-checkbox" checked onchange="handleFilterSelection('unevaluated')">
+                    </label>
                 </div>
             </div>
-            
-            <div style="display: flex; gap: 12px;">
-                <button class="btn-half" onclick="reviewNavigate(-1)" style="flex:1; border: 1px solid var(--brand-blue); color: var(--brand-blue);">Previous</button>
-                <button class="btn-main submit" onclick="reviewNavigate(1)" style="flex:1;">Next</button>
+
+            <div class="rev-pal-grid" id="review-palette-grid"></div>
+
+            <div class="speed-indicator-wrap">
+                <div class="speed-label-title">Speed Indicator</div>
+                <div class="speed-badges-row">
+                    <div class="speed-item" style="color: #059669;">⏱ Fast</div>
+                    <div class="speed-item" style="color: #d97706;">⏱ On Time</div>
+                    <div class="speed-item" style="color: #dc2626;">⏱ Slow</div>
+                </div>
+            </div>
+
+            <div class="review-legend-grid">
+                <div class="rev-leg-item">
+                    <span class="rev-leg-dot" style="background:#10b981;">✓</span>
+                    <span>Correct</span>
+                </div>
+                <div class="rev-leg-item">
+                    <span class="rev-leg-dot" style="background:#ef4444;">✓</span>
+                    <span>Incorrect</span>
+                </div>
+                <div class="rev-leg-item">
+                    <span class="rev-leg-dot" style="background:#cbd5e1; color:#475569;">✓</span>
+                    <span>Unattempted</span>
+                </div>
+                <div class="rev-leg-item">
+                    <span class="rev-leg-dot" style="background:#fde047; color:#854d0e;">✓</span>
+                    <span>Unevaluated</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 14px;">
+                <button class="btn-half" onclick="reviewNavigate(-1); closeModal('review-palette-modal');" style="flex:1; border: 1.5px solid var(--border-color);">Previous</button>
+                <button class="btn-main submit" onclick="reviewNavigate(1); closeModal('review-palette-modal');" style="flex:1; padding: 12px; border-radius: 8px;">Next</button>
             </div>
         </div>
     </div>
@@ -589,7 +888,14 @@
         let responses = {}; 
         let reattemptResponses = {}; 
         let reviewStatus = {};
-        let visitedQuestions = {}; 
+        let visitedQuestions = {};
+        let reviewFilters = {
+            all: true,
+            correct: true,
+            incorrect: true,
+            unattempted: true,
+            unevaluated: true
+        }; 
         let timerInterval = null;
         let initialDuration = 0;
         let timeRemaining = 0;
@@ -647,6 +953,7 @@
                     document.getElementById('live-bottom-bar').style.display = 'none';
                     document.getElementById('review-bottom-bar').style.display = 'block';
                     document.getElementById('review-stats-bar').style.display = 'flex';
+                    document.getElementById('review-section-strip').style.display = 'flex'; // 🟢 ADD THIS LINE
                     
                     let data;
                     if (isPractice) {
@@ -973,27 +1280,92 @@
             loadQuestion(currentIndex);
         }
 
+        function toggleReviewFilterMenu(e) {
+            if (e) e.stopPropagation();
+            triggerHaptic('light');
+            const menu = document.getElementById('filter-popover');
+            if (menu) menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function handleFilterSelection(type) {
+            triggerHaptic('light');
+            const allCheckbox = document.getElementById('flt-all');
+            const correctCb = document.getElementById('flt-correct');
+            const incorrectCb = document.getElementById('flt-incorrect');
+            const unattCb = document.getElementById('flt-unattempted');
+            const unevalCb = document.getElementById('flt-unevaluated');
+
+            if (type === 'all') {
+                const isAll = allCheckbox.checked;
+                reviewFilters.all = isAll;
+                reviewFilters.correct = isAll;
+                reviewFilters.incorrect = isAll;
+                reviewFilters.unattempted = isAll;
+                reviewFilters.unevaluated = isAll;
+                
+                correctCb.checked = isAll;
+                incorrectCb.checked = isAll;
+                unattCb.checked = isAll;
+                unevalCb.checked = isAll;
+            } else {
+                reviewFilters.correct = correctCb.checked;
+                reviewFilters.incorrect = incorrectCb.checked;
+                reviewFilters.unattempted = unattCb.checked;
+                reviewFilters.unevaluated = unevalCb.checked;
+                
+                const areAllChecked = correctCb.checked && incorrectCb.checked && unattCb.checked && unevalCb.checked;
+                allCheckbox.checked = areAllChecked;
+                reviewFilters.all = areAllChecked;
+            }
+
+            buildReviewPalette();
+        }
+
         function buildReviewPalette() {
             const grid = document.getElementById('review-palette-grid');
-            if(!grid) return;
+            if (!grid) return;
             grid.innerHTML = '';
             let attempted = 0;
             
             document.getElementById('pal-total-rev').innerText = questions.length;
 
             questions.forEach((q, index) => {
-                const btn = document.createElement('div');
-                btn.className = 'pal-btn';
-                btn.innerText = index + 1;
-                
-                if (q.user_selected_index === null) {
-                    btn.classList.add('review-skip');
-                } else {
-                    attempted++;
-                    if (q.is_correct) btn.classList.add('review-correct');
-                    else btn.classList.add('review-wrong');
+                const isUnattempted = (q.user_selected_index === null || q.user_selected_index === undefined);
+                const isCorrect = q.is_correct === true;
+                const isIncorrect = (!isUnattempted && !isCorrect);
+
+                if (!isUnattempted) attempted++;
+
+                // Filter check
+                let shouldShow = false;
+                if (reviewFilters.all) {
+                    shouldShow = true;
+                } else if (isCorrect && reviewFilters.correct) {
+                    shouldShow = true;
+                } else if (isIncorrect && reviewFilters.incorrect) {
+                    shouldShow = true;
+                } else if (isUnattempted && reviewFilters.unattempted) {
+                    shouldShow = true;
                 }
-                
+
+                if (!shouldShow) return;
+
+                const btn = document.createElement('div');
+                btn.className = 'rev-pal-item';
+                btn.innerText = index + 1;
+
+                if (isUnattempted) {
+                    btn.classList.add('rev-unattempted');
+                } else if (isCorrect) {
+                    btn.classList.add('rev-correct');
+                } else {
+                    btn.classList.add('rev-incorrect');
+                }
+
+                if (index === currentIndex) {
+                    btn.classList.add('current');
+                }
+
                 btn.onclick = () => {
                     loadQuestion(index);
                     closeModal('review-palette-modal');
@@ -1006,6 +1378,9 @@
 
         function openReviewPalette() {
             triggerHaptic('medium');
+            const menu = document.getElementById('filter-popover');
+            if (menu) menu.style.display = 'none'; // Close popover by default on open
+            buildReviewPalette();
             document.getElementById('review-palette-modal').style.display = 'flex';
         }
 
