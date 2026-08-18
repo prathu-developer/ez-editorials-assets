@@ -34,6 +34,65 @@
             overflow: hidden;
         }
 
+        /* Test Mode Safety Guard Modal */
+        .test-mode-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 20px 0 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .test-mode-info {
+            flex: 1;
+        }
+
+        .test-mode-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .test-mode-desc {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .custom-radio {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--brand-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .custom-radio::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--brand-red);
+        }
+
+        .close-indicator {
+            width: 40px;
+            height: 4px;
+            background: #d1d5db;
+            border-radius: 8px;
+            margin: 0 auto 16px auto;
+            cursor: pointer;
+        }
+
         /* Dynamic Font Scaling */
         body.font-small .q-text, body.font-small .opt-text { font-size: 13px; }
         body.font-large .q-text { font-size: 17px; } body.font-large .opt-text { font-size: 15px; }
@@ -82,11 +141,14 @@
         .option.selected .opt-letter { background: var(--brand-blue); color: white; }
         .opt-text { font-size: 14px; font-weight: 500; color: var(--text-dark); transition: font-size 0.2s; flex-grow: 1; }
 
-        /* Bottom Fixed Bar */
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); padding: 12px 16px 20px 16px; box-shadow: 0 -4px 12px rgba(0,0,0,0.05); }
-        .action-row { display: flex; gap: 12px; margin-bottom: 12px; }
-        .btn-half { flex: 1; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer; color: var(--text-muted); display: flex; justify-content: center; align-items: center; gap: 6px; }
+        /* Compact Bottom Bar */
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); padding: 8px 14px 14px 14px; box-shadow: 0 -4px 12px rgba(0,0,0,0.06); z-index: 20; }
+        .action-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .btn-half { flex: 1; padding: 10px 8px; border-radius: 8px; font-size: 13px; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer; color: var(--text-dark); display: flex; justify-content: center; align-items: center; gap: 4px; transition: all 0.15s ease; }
+        .btn-half:active { transform: scale(0.97); }
         .btn-report { color: var(--brand-red); }
+        .btn-mark { background: #fffbeb; border-color: #fde68a; color: #b45309; font-weight: 700; }
+        .btn-save-next { background: var(--brand-red); color: white; border: none; font-weight: 700; }
         .btn-main { width: 100%; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; background: var(--brand-red); color: white; border: none; cursor: pointer; }
         .btn-main.submit { background: var(--brand-blue); }
 
@@ -97,14 +159,27 @@
         .sheet-header h3 { margin: 0; font-size: 16px; color: var(--text-dark); }
         .close-icon { font-size: 24px; cursor: pointer; color: var(--text-muted); }
 
-        /* Palette Grid */
-        .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
-        .pal-btn { aspect-ratio: 1; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-dark); }
-        .pal-btn.answered { background: var(--brand-blue); color: white; border-color: var(--brand-blue); }
-        .pal-btn.not-answered { background: #f3f4f6; color: var(--text-dark); }
-        .pal-btn.review { background: #fef08a; border-color: #facc15; }
-        .pal-btn.review-answered { background: #fef08a; border-color: var(--brand-blue); border-width: 2px; }
-        .pal-btn.current { border: 2px solid #22c55e; }
+        /* Palette Modal & 5-State Indicators */
+        .palette-scroll-wrap { max-height: 260px; overflow-y: auto; margin-bottom: 16px; padding: 2px 4px 2px 0; }
+        .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .pal-btn { aspect-ratio: 1; border-radius: 8px; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid #e5e7eb; background: #ffffff; color: var(--text-dark); box-sizing: border-box; }
+
+        .pal-btn.not-visited { background: #ffffff; border-color: #e5e7eb; color: var(--text-dark); }
+        .pal-btn.not-answered { background: #f3f4f6; border-color: #e5e7eb; color: var(--text-dark); }
+        .pal-btn.answered { background: #3b82f6; border-color: #3b82f6; color: #ffffff; }
+        .pal-btn.review { background: #fef08a; border-color: #facc15; color: #854d0e; }
+        .pal-btn.review-answered { background: #fef08a; border: 2px solid #3b82f6; color: #854d0e; }
+        .pal-btn.current { outline: 2.5px solid #22c55e; outline-offset: -1px; }
+
+        /* Palette Legend Grid */
+        .palette-legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; padding-top: 12px; border-top: 1px solid var(--border-color); font-size: 12px; font-weight: 500; color: var(--text-dark); }
+        .legend-item { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+        .leg-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+        .leg-answered { background: #3b82f6; color: white; }
+        .leg-not-answered { background: #cbd5e1; }
+        .leg-review { background: #fef08a; color: #ca8a04; border: 1px solid #fde047; }
+        .leg-not-visited { background: #ffffff; border: 1.5px solid #94a3b8; color: #94a3b8; }
+        .leg-review-answered { background: #fef08a; color: #1e3a8a; border: 2px solid #3b82f6; }
 
         /* Submit Modal */
         .submit-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;}
@@ -307,7 +382,10 @@
             <button class="btn-half btn-report">⚑ Report</button>
             <button class="btn-half" onclick="clearResponse()">Clear Response</button>
         </div>
-        <button class="btn-main" id="btn-next" onclick="saveAndNext()">Save & Next</button>
+        <div class="action-row" style="margin-bottom: 0;">
+            <button class="btn-half btn-mark" onclick="markAndNext()">Mark & Next</button>
+            <button class="btn-half btn-save-next" id="btn-next" onclick="saveAndNext()">Save & Next</button>
+        </div>
     </div>
 
     <!-- Review Bottom Bar -->
@@ -356,16 +434,50 @@
         </div>
     </div>
 
-    <!-- Palette Modal -->
-    <div class="modal-overlay" id="palette-modal">
-        <div class="bottom-sheet">
-            <div class="sheet-header">
-                <h3 id="palette-topic">Topic Name</h3>
-                <span class="close-icon" onclick="closeModal('palette-modal')">×</span>
+   <!-- Palette Modal (Question Navigation) -->
+    <div class="modal-overlay" id="palette-modal" onclick="closeModal('palette-modal')">
+        <div class="bottom-sheet" style="padding-bottom: 20px;" onclick="event.stopPropagation()">
+            <!-- Modal Top Bar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <span style="font-size: 15px; font-weight: 700; color: var(--text-dark);">
+                    Questions: <span id="pal-total">15</span>
+                </span>
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #6b7280; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #4b5563; font-family: serif; cursor: pointer;" title="Question Legend">i</span>
+                    <span class="close-icon" onclick="closeModal('palette-modal')" style="font-size: 22px; line-height: 1;">×</span>
+                </div>
             </div>
-            <div style="font-size: 14px; margin-bottom: 16px; color: var(--text-dark);">Questions: <span id="pal-total">10</span></div>
-            <div class="palette-grid" id="palette-grid"></div>
-            <button class="btn-main submit" onclick="openSubmitModal()">Submit Test</button>
+
+            <!-- Scrollable Question Number Grid -->
+            <div class="palette-scroll-wrap">
+                <div class="palette-grid" id="palette-grid"></div>
+            </div>
+
+            <!-- 5-State Legend -->
+            <div class="palette-legend-grid">
+                <div class="legend-item">
+                    <span class="leg-icon leg-answered">✓</span>
+                    <span>Answered</span>
+                </div>
+                <div class="legend-item">
+                    <span class="leg-icon leg-not-answered"></span>
+                    <span>Not Answered</span>
+                </div>
+                <div class="legend-item">
+                    <span class="leg-icon leg-review">✓</span>
+                    <span>Marked for Review</span>
+                </div>
+                <div class="legend-item">
+                    <span class="leg-icon leg-not-visited">✓</span>
+                    <span>Not visited</span>
+                </div>
+                <div class="legend-item" style="grid-column: span 2;">
+                    <span class="leg-icon leg-review-answered">✓</span>
+                    <span>Marked for Review and Answered</span>
+                </div>
+            </div>
+
+            <button class="btn-main submit" onclick="openSubmitModal()" style="margin-top: 14px; width: 100%;">Submit Test</button>
         </div>
     </div>
 
@@ -424,6 +536,30 @@
         </div>
     </div>
 
+    <!-- 🛡️ TEST MODE SAFETY POPUP -->
+    <div class="modal-overlay" id="test-mode-modal" onclick="closeTestModeModal(event)">
+        <div class="bottom-sheet" style="padding-bottom: 24px;" onclick="event.stopPropagation()">
+            <!-- Pull Handle -->
+            <div class="close-indicator" onclick="closeTestModeModal(null, true)"></div>
+            
+            <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: var(--text-dark);">Test Mode</h3>
+
+            <!-- Mode Option Card -->
+            <div class="test-mode-card">
+                <div class="test-mode-info">
+                    <div class="test-mode-title">Normal Mode</div>
+                    <div class="test-mode-desc">Get to know where you stand with intelligently designed test interface.</div>
+                </div>
+                <div class="custom-radio"></div>
+            </div>
+
+            <!-- Start CTA -->
+            <button class="btn-main" onclick="proceedToInstructions()" style="background: var(--brand-red); width: 100%; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700;">
+                Start Test
+            </button>
+        </div>
+    </div>
+
     <script>
         // Native Telegram WebApp Haptic Helper
         function triggerHaptic(style = 'light') {
@@ -452,7 +588,8 @@
         let currentIndex = 0;
         let responses = {}; 
         let reattemptResponses = {}; 
-        let reviewStatus = {}; 
+        let reviewStatus = {};
+        let visitedQuestions = {}; 
         let timerInterval = null;
         let initialDuration = 0;
         let timeRemaining = 0;
@@ -482,6 +619,20 @@
                 window.location.href = `app.html?view=day&day=${dayParam}`;
             } else {
                 window.location.href = 'app.html?view=day';
+            }
+        }
+
+        function proceedToInstructions() {
+            triggerHaptic('light');
+            document.getElementById('test-mode-modal').style.display = 'none';
+            document.getElementById('instructions-screen').style.display = 'flex';
+        }
+
+        function closeTestModeModal(e, force = false) {
+            if (force || (e && e.target.id === 'test-mode-modal')) {
+                triggerHaptic('soft');
+                document.getElementById('test-mode-modal').style.display = 'none';
+                exitTestEarly(); // Safely return user back to topics screen
             }
         }
 
@@ -551,7 +702,8 @@
                 }
 
                 document.getElementById('loading-screen').style.display = 'none';
-                document.getElementById('instructions-screen').style.display = 'flex';
+                // Show the Test Mode popup instead of opening instructions immediately
+                document.getElementById('test-mode-modal').style.display = 'flex';
                 
             } catch (err) {
                 alert("Failed to initialize quiz.");
@@ -623,6 +775,7 @@
             if (!q) return;
 
             const qId = q.question_id || q.id;
+            visitedQuestions[qId] = true; // 🟢 ADD THIS LINE
             document.getElementById('q-num').innerText = index + 1;
 
             // 1. Update Community Stats Pills for Review Mode
@@ -788,11 +941,9 @@
                 const nextBtn = document.getElementById('btn-next');
                 if (index === questions.length - 1) {
                     nextBtn.innerText = "Submit Test";
-                    nextBtn.classList.add('submit');
                     nextBtn.onclick = openSubmitModal;
                 } else {
                     nextBtn.innerText = "Save & Next";
-                    nextBtn.classList.remove('submit');
                     nextBtn.onclick = saveAndNext;
                 }
                 updatePaletteColors();
@@ -859,16 +1010,31 @@
             }
         }
 
+        function markAndNext() {
+            triggerHaptic('light');
+            const qId = questions[currentIndex].question_id || questions[currentIndex].id;
+            reviewStatus[qId] = true;
+            
+            if (currentIndex < questions.length - 1) {
+                loadQuestion(currentIndex + 1);
+            } else {
+                openSubmitModal();
+            }
+        }
+
         function clearResponse() {
             triggerHaptic('light');
             const qId = questions[currentIndex].question_id || questions[currentIndex].id;
             delete responses[qId];
+            delete reviewStatus[qId];
             document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
             updatePaletteColors();
         }
 
         function saveAndNext() {
             triggerHaptic('light');
+            const qId = questions[currentIndex].question_id || questions[currentIndex].id;
+            delete reviewStatus[qId]; // Clear review status when explicitly saved
             if (currentIndex < questions.length - 1) {
                 loadQuestion(currentIndex + 1);
             }
@@ -879,7 +1045,7 @@
             grid.innerHTML = '';
             questions.forEach((q, index) => {
                 const btn = document.createElement('div');
-                btn.className = 'pal-btn';
+                btn.className = 'pal-btn not-visited';
                 btn.id = `pal-${index}`;
                 btn.innerText = index + 1;
                 btn.onclick = () => {
@@ -895,14 +1061,28 @@
                 const qId = q.question_id || q.id;
                 const btn = document.getElementById(`pal-${index}`);
                 if (!btn) return;
-                
+
                 const isAnswered = responses[qId] !== undefined;
+                const isMarked = reviewStatus[qId] === true;
+                const isVisited = visitedQuestions[qId] === true;
+
                 btn.className = 'pal-btn';
-                
-                if (isAnswered) btn.classList.add('answered');
-                else if (index < currentIndex) btn.classList.add('not-answered');
-                
-                if (index === currentIndex) btn.classList.add('current');
+
+                if (isMarked && isAnswered) {
+                    btn.classList.add('review-answered');
+                } else if (isMarked) {
+                    btn.classList.add('review');
+                } else if (isAnswered) {
+                    btn.classList.add('answered');
+                } else if (isVisited) {
+                    btn.classList.add('not-answered');
+                } else {
+                    btn.classList.add('not-visited');
+                }
+
+                if (index === currentIndex) {
+                    btn.classList.add('current');
+                }
             });
         }
 
