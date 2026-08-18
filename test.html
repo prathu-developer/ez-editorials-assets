@@ -192,11 +192,31 @@
         .radio-label { display: flex; align-items: center; margin-bottom: 16px; cursor: pointer; }
         .radio-input { width: 20px; height: 20px; margin-right: 12px; accent-color: var(--brand-blue); }
 
-        /* Review Mode UI Styles */
-        .stats-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: var(--bg-main); border-bottom: 1px solid var(--border-color); }
-        .stat-pill { background: #e5e7eb; color: var(--text-dark); padding: 4px 10px; border-radius: 16px; font-size: 13px; font-weight: 600; }
-        .stat-pill.green-tint { background: #def7ec; color: #03543f; display: flex; align-items: center; gap: 4px; }
-        .stat-pill.red-tint { background: #fde8e8; color: #9b1c1c; display: flex; align-items: center; gap: 4px; }
+        /* Review Mode Compact Stats Strip */
+        .stats-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 8px 14px; 
+            background: var(--bg-main); 
+            border-bottom: 1px solid var(--border-color); 
+            gap: 8px; 
+        }
+        .stat-pill { 
+            background: #f1f5f9; 
+            color: var(--text-dark); 
+            padding: 3.5px 9px; 
+            border-radius: 12px; 
+            font-size: 11.5px; 
+            font-weight: 600; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 4px; 
+            white-space: nowrap; 
+        }
+        .stat-pill.green-tint { background: #def7ec; color: #03543f; }
+        .stat-pill.red-tint   { background: #fde8e8; color: #9b1c1c; }
+        .stat-pill.amber-tint { background: #fef3c7; color: #92400e; }
 
         .instruction-block { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
         .inst-badge { width: 24px; height: 24px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
@@ -889,6 +909,8 @@
         let reattemptResponses = {}; 
         let reviewStatus = {};
         let visitedQuestions = {};
+        let questionTimeSpent = {}; // Tracks exact seconds per question
+        let currentQuestionStartTime = Date.now();
         let reviewFilters = {
             all: true,
             correct: true,
@@ -1084,43 +1106,72 @@
         }
 
         function loadQuestion(index) {
+            // ⏱️ Record elapsed time on the previous question during live test
+            if (!isReviewMode && questions[currentIndex]) {
+                const prevQId = questions[currentIndex].question_id || questions[currentIndex].id;
+                const elapsedSec = Math.max(1, Math.round((Date.now() - currentQuestionStartTime) / 1000));
+                questionTimeSpent[prevQId] = (questionTimeSpent[prevQId] || 0) + elapsedSec;
+            }
+            currentQuestionStartTime = Date.now();
+
             currentIndex = index;
             const q = questions[index];
             if (!q) return;
 
             const qId = q.question_id || q.id;
-            visitedQuestions[qId] = true; // 🟢 ADD THIS LINE
+            visitedQuestions[qId] = true;
             document.getElementById('q-num').innerText = index + 1;
 
-            // 1. Update Community Stats Pills for Review Mode
+            // 1. Update Community Stats Pills & Time Trap Engine
             if (isReviewMode) {
-                const estTime = q.global_avg_time || 0;
-                const m = Math.floor(estTime / 60).toString().padStart(2, '0');
-                const s = (estTime % 60).toString().padStart(2, '0');
-                
-                document.getElementById('review-time-pill').innerText = `Avg: ${m}:${s}`;
-                
-                const accPill = document.getElementById('review-acc-pill');
-                
-                let lowestAcc = 100;
-                questions.forEach(quest => {
-                    if (quest.global_accuracy !== undefined && quest.global_accuracy < lowestAcc) {
-                        lowestAcc = quest.global_accuracy;
-                    }
-                });
+                // Fetch user time from cache or practice session
+                let savedTimes = {};
+                try {
+                    const cacheKey = 'quiz_times_' + (attemptIdParam || quizId || 'temp');
+                    savedTimes = JSON.parse(localStorage.getItem(cacheKey)) || {};
+                } catch(e) {}
 
+                const userSec = q.user_time_spent || savedTimes[qId] || questionTimeSpent[qId] || 0;
+                const avgSec = q.global_avg_time || 11; // Default fallback to class average
+
+                const formatTimeDigits = (sec) => {
+                    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+                    const s = (sec % 60).toString().padStart(2, '0');
+                    return `${m}:${s}`;
+                };
+
+                const timePill = document.getElementById('review-time-pill');
+                
+                // 🚨 TIME TRAP CONDITION:
+                // User took 1.5x longer than class average OR spent over 35s on an incorrect/unattempted question
+                const isTimeTrap = (userSec >= avgSec * 1.5 && userSec >= 18) || (userSec >= 35 && !q.is_correct);
+                const isFast = userSec > 0 && userSec <= avgSec * 0.75;
+
+                if (userSec > 0) {
+                    if (isTimeTrap) {
+                        timePill.className = 'stat-pill red-tint';
+                        timePill.innerHTML = `🚨 Time Trap: ${formatTimeDigits(userSec)} <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
+                    } else if (isFast) {
+                        timePill.className = 'stat-pill green-tint';
+                        timePill.innerHTML = `⚡ ${formatTimeDigits(userSec)} <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
+                    } else {
+                        timePill.className = 'stat-pill';
+                        timePill.innerHTML = `⏱ ${formatTimeDigits(userSec)} <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
+                    }
+                } else {
+                    timePill.className = 'stat-pill';
+                    timePill.innerText = `Avg: ${formatTimeDigits(avgSec)}`;
+                }
+                
+                // Accuracy Pill
+                const accPill = document.getElementById('review-acc-pill');
                 if (isPractice) {
                     accPill.innerText = `👥 Practice Mode`;
                     accPill.className = 'stat-pill green-tint';
                 } else {
                     const currentAcc = q.global_accuracy || 0;
-                    if (currentAcc === lowestAcc && currentAcc < 50) {
-                        accPill.innerText = `🚨 Hardest: ${currentAcc}% Answered correctly`;
-                        accPill.className = 'stat-pill red-tint';
-                    } else {
-                        accPill.innerText = `👥 ${currentAcc}% Answered correctly`;
-                        accPill.className = 'stat-pill green-tint';
-                    }
+                    accPill.innerText = `👥 ${currentAcc}% Answered correctly`;
+                    accPill.className = currentAcc < 50 ? 'stat-pill red-tint' : 'stat-pill green-tint';
                 }
             }
 
@@ -1523,10 +1574,19 @@
             isSubmitting = true;
             
             clearInterval(timerInterval);
+
+            // 🟢 1. RECORD TIME SPENT ON THE CURRENT (LAST) QUESTION BEFORE CLOSING
+            if (questions[currentIndex]) {
+                const lastQId = questions[currentIndex].question_id || questions[currentIndex].id;
+                const elapsedSec = Math.max(1, Math.round((Date.now() - currentQuestionStartTime) / 1000));
+                questionTimeSpent[lastQId] = (questionTimeSpent[lastQId] || 0) + elapsedSec;
+            }
+
             document.getElementById('submit-modal').style.display = 'none';
             document.getElementById('loading-screen').innerText = 'Submitting Test...';
             document.getElementById('loading-screen').style.display = 'flex';
 
+            // Practice Mode Submission Handling
             if (attemptId === "practice_mode") {
                 let correctCount = 0, wrongCount = 0, unattemptedCount = 0;
                 let score = 0;
@@ -1547,7 +1607,8 @@
                     return {
                         question_id: qId, text: q.text || q.question_text, options: q.options,
                         correct_index: q.correct_index, explanation: q.explanation,
-                        user_selected_index: uIdx, is_correct: isCorr
+                        user_selected_index: uIdx, is_correct: isCorr,
+                        user_time_spent: questionTimeSpent[qId] || 0
                     };
                 });
                 
@@ -1566,12 +1627,19 @@
                 
                 sessionStorage.setItem("practiceResult", JSON.stringify(practiceResult));
 
+                // 🟢 2. PERSIST TIMINGS FOR PRACTICE MODE REVIEW
+                try {
+                    const cacheKey = 'quiz_times_' + quizId;
+                    localStorage.setItem(cacheKey, JSON.stringify(questionTimeSpent));
+                } catch(e) {}
+
                 const dayParam = new URLSearchParams(window.location.search).get('day');
                 const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
                 window.location.href = `result.html?practice=true${dayQuery}`;
                 return;
             }
 
+            // Real Test Submission Handling
             const formattedResponses = questions.map(q => {
                 const qId = q.question_id || q.id;
                 return {
@@ -1585,7 +1653,7 @@
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
-                        'X-Telegram-Init-Data': window.Telegram.WebApp.initData // ✨ SECURE AUTH HEADER
+                        'X-Telegram-Init-Data': window.Telegram.WebApp.initData
                     },
                     body: JSON.stringify({ attempt_id: attemptId, responses: formattedResponses })
                 });
@@ -1598,6 +1666,12 @@
                     isSubmitting = false; 
                     return; 
                 }
+
+                // 🟢 3. PERSIST TIMINGS FOR LIVE ATTEMPT REVIEW
+                try {
+                    const cacheKey = 'quiz_times_' + attemptId;
+                    localStorage.setItem(cacheKey, JSON.stringify(questionTimeSpent));
+                } catch(e) {}
 
                 const dayParam = new URLSearchParams(window.location.search).get('day');
                 const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
