@@ -283,13 +283,13 @@
                 <div class="group-icon">🪄</div>
                 <div class="group-info">
                     <h2>Ez Editorials</h2>
-                    <p>Answer 4 quick questions to join the group.</p>
+                    <p>Answer 3 quick questions to join the group.</p>
                 </div>
             </div>
 
             <div class="progress-header">
                 <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-                BOT QUIZ · Question <span id="q-num">1</span> of 4
+                BOT QUIZ · Question <span id="q-num">1</span> of 3
             </div>
             <div class="progress-bars" id="progress-bars"></div>
 
@@ -306,7 +306,7 @@
                 <div class="group-icon">🪄</div>
                 <div class="group-info">
                     <h2>Ez Editorials</h2>
-                    <p>Answer 4 quick questions to join the group.</p>
+                    <p>Answer 3 quick questions to join the group.</p>
                 </div>
             </div>
 
@@ -318,8 +318,9 @@
             <h1 class="success-title">You're in.</h1>
             <p class="success-sub">You passed the Ez Editorials entrance trial.</p>
 
-            <button class="continue-btn" id="continue-btn" onclick="handleContinue()">
-                Continue to Group <span>&rarr;</span>
+            <!-- Disable button by default with a loading state -->
+            <button class="continue-btn" id="continue-btn" onclick="handleContinue()" disabled style="opacity: 0.7;">
+                Approving... ⏳
             </button>
 
             <div class="decorations">🪄 ★ ✦ 🪄 ★ ✦ 🪄</div>
@@ -437,10 +438,10 @@
             { q: "Choose the correct sentence.", opts: ["He is good in mathematics.", "He is good at mathematics.", "He is good on mathematics.", "He is good with mathematics."], ans: 1 }
         ];
     
-        // Pick exactly 4 random questions
+        // Pick exactly 3 random questions
         const questions = questionBank
             .sort(() => Math.random() - 0.5)
-            .slice(0, 4);
+            .slice(0, 3);
 
         let currentQuestion = 0;
         let isProcessingTap = false;
@@ -518,7 +519,7 @@
             }
         }
 
-        function finishQuiz() {
+        async function finishQuiz() {
             // Instantly transition to the "You're in." window
             document.getElementById('quiz-view').style.display = 'none';
             document.getElementById('success-view').style.display = 'block';
@@ -527,20 +528,28 @@
                 tg.HapticFeedback.notificationOccurred('success');
             }
 
-            // Dispatch the approval request in the background
             const initData = tg.initData || '';
             const userId = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+            const btn = document.getElementById('continue-btn');
 
-            fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Telegram-Init-Data': initData
-                },
-                body: JSON.stringify({ user_id: userId })
-            }).catch(err => {
+            // Await the fetch request to prevent the user from closing the app before the server registers it
+            try {
+                await fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Telegram-Init-Data': initData
+                    },
+                    body: JSON.stringify({ user_id: userId })
+                });
+            } catch (err) {
                 console.error("Approval request failed:", err);
-            });
+            } finally {
+                // Unlock the continue button ONLY after the backend is done processing
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
+            }
         }
 
         function handleContinue() {

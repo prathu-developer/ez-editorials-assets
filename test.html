@@ -905,6 +905,7 @@
         let attemptId = null;
         let questions = [];
         let currentIndex = 0;
+        let isPassageExpanded = false;
         let responses = {}; 
         let reattemptResponses = {}; 
         let reviewStatus = {};
@@ -1099,9 +1100,11 @@
             if (passageEl.classList.contains('collapsed')) {
                 passageEl.classList.remove('collapsed');
                 btnEl.innerText = "View less";
+                isPassageExpanded = true; // Track that it is now open
             } else {
                 passageEl.classList.add('collapsed');
                 btnEl.innerText = "...View more";
+                isPassageExpanded = false; // Track that it is now closed
             }
         }
 
@@ -1221,17 +1224,22 @@
                 }
 
                 if (hasPassage) {
-                    passageText.style.display = 'block';
-                    passageText.innerText = passage;
-                    passageText.classList.add('collapsed');
-                    viewMoreBtn.style.display = 'inline-block';
-                    viewMoreBtn.innerText = "...View more";
+                passageText.style.display = 'block';
+                passageText.innerText = passage;
+                
+                // Check user preference instead of forcing collapse
+                if (isPassageExpanded) {
+                    passageText.classList.remove('collapsed');
+                    viewMoreBtn.innerText = "View less";
                 } else {
-                    passageText.style.display = 'none';
-                    viewMoreBtn.style.display = 'none';
+                    passageText.classList.add('collapsed');
+                    viewMoreBtn.innerText = "...View more";
                 }
+                
+                viewMoreBtn.style.display = 'inline-block';
             } else {
-                passageBlock.style.display = 'none';
+                passageText.style.display = 'none';
+                viewMoreBtn.style.display = 'none';
             }
 
             // 4. Set Question Text
