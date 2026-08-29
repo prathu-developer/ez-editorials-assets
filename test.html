@@ -1064,6 +1064,15 @@
                 });
                 
                 const data = await res.json();
+                
+                // If the test was completed/expired, forward immediately to the results page
+                if (data.completed) {
+                    const dayParam = new URLSearchParams(window.location.search).get('day');
+                    const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+                    window.location.href = `result.html?attempt_id=${data.attempt_id}${dayQuery}`;
+                    return;
+                }
+
                 if (data.error) { 
                     alert(data.error); 
                     window.location.href = 'app.html'; 
@@ -1073,12 +1082,13 @@
                 attemptId = data.attempt_id;
                 questions = data.questions || [];
                 initialDuration = data.duration_seconds;
-                timeRemaining = initialDuration;
+                
+                // Sync timer with exact remaining seconds from server
+                timeRemaining = data.remaining_seconds || initialDuration;
                 
                 buildPalette();
                 loadQuestion(0);
                 
-                // Hide Instructions, hide loading, and display the live test container
                 document.getElementById('instructions-screen').style.display = 'none';
                 document.getElementById('loading-screen').style.display = 'none';
                 document.getElementById('live-test-container').style.display = 'flex';
@@ -1087,7 +1097,7 @@
                 startTimer();
                 
             } catch (err) {
-                alert("Failed to start the quiz.");
+                alert("Failed to connect. Please check your internet connection.");
                 window.location.href = 'app.html';
             }
         }
