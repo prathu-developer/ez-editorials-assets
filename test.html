@@ -1224,22 +1224,25 @@
                 }
 
                 if (hasPassage) {
-                passageText.style.display = 'block';
-                passageText.innerText = passage;
-                
-                // Check user preference instead of forcing collapse
-                if (isPassageExpanded) {
-                    passageText.classList.remove('collapsed');
-                    viewMoreBtn.innerText = "View less";
+                    passageText.style.display = 'block';
+                    passageText.innerText = passage;
+                    
+                    // Check user preference instead of forcing collapse
+                    if (isPassageExpanded) {
+                        passageText.classList.remove('collapsed');
+                        viewMoreBtn.innerText = "View less";
+                    } else {
+                        passageText.classList.add('collapsed');
+                        viewMoreBtn.innerText = "...View more";
+                    }
+                    
+                    viewMoreBtn.style.display = 'inline-block';
                 } else {
-                    passageText.classList.add('collapsed');
-                    viewMoreBtn.innerText = "...View more";
+                    passageText.style.display = 'none';
+                    viewMoreBtn.style.display = 'none';
                 }
-                
-                viewMoreBtn.style.display = 'inline-block';
             } else {
-                passageText.style.display = 'none';
-                viewMoreBtn.style.display = 'none';
+                passageBlock.style.display = 'none';
             }
 
             // 4. Set Question Text
