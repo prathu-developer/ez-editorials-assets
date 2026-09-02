@@ -803,10 +803,20 @@
         const isPractice = urlParams.get('practice') === 'true';
         let currentQuizId = null;
 
-        function triggerHaptic(style = 'light') {
-            if (tg?.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred(style);
-            }
+        function triggerHaptic(type = 'light') {
+            if (localStorage.getItem('app_vibration') === 'false') return;
+            const haptic = window.Telegram?.WebApp?.HapticFeedback;
+            if (!haptic) return;
+
+            try {
+                if (['light', 'medium', 'heavy', 'rigid', 'soft'].includes(type)) {
+                    haptic.impactOccurred(type);
+                } else if (['success', 'warning', 'error'].includes(type)) {
+                    haptic.notificationOccurred(type);
+                } else if (type === 'selection') {
+                    haptic.selectionChanged();
+                }
+            } catch(e) {}
         }
 
         function goBackToTopics() {
@@ -888,9 +898,11 @@
             if (cutoffDiff > 0) {
                 statusTitle.innerText = userScoreNum <= 0 ? "Need More Hardwork!" : "Keep Pushing!";
                 cutoffMsg.innerText = `You still need ${cutoffDiff.toFixed(2)} marks to reach the cutoff marks (${cutoffMarks.toFixed(1)})`;
+                triggerHaptic('warning');
             } else {
                 statusTitle.innerText = "Cutoff Cleared! 🎉";
                 cutoffMsg.innerText = `Great job! You cleared the cutoff mark (${cutoffMarks.toFixed(1)}) by +${Math.abs(cutoffDiff).toFixed(2)} marks.`;
+                triggerHaptic('success');
             }
 
             // 2. Restored Key Metrics Overview Card

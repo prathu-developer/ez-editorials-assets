@@ -4,6 +4,21 @@ tg.setHeaderColor('#1e3c72');
 tg.setBackgroundColor('#f4f6f8');
 
 const userId = tg.initDataUnsafe?.user?.id || 0;
+
+function triggerHaptic(type = 'light') {
+    if (localStorage.getItem('app_vibration') === 'false') return;
+    const haptic = window.Telegram?.WebApp?.HapticFeedback;
+    if (!haptic) return;
+    try {
+        if (['light', 'medium', 'heavy', 'rigid', 'soft'].includes(type)) {
+            haptic.impactOccurred(type);
+        } else if (['success', 'warning', 'error'].includes(type)) {
+            haptic.notificationOccurred(type);
+        } else if (type === 'selection') {
+            haptic.selectionChanged();
+        }
+    } catch (e) {}
+}
 let globalData = [];
 let dailyChartInstance = null;
 let pieChartInstance = null;
@@ -81,8 +96,10 @@ function getAcademicTitle(elo) {
 function scrollToDemotionZone() {
     const demotionLine = document.getElementById('demotionZoneLine');
     if (demotionLine) {
+        triggerHaptic('light');
         demotionLine.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
+        triggerHaptic('warning');
         if (window.Telegram?.WebApp?.showAlert) {
             window.Telegram.WebApp.showAlert("No active members inside the Demotion Zone line yet!");
         } else {
@@ -368,15 +385,16 @@ function renderRankHistory(targetUser) {
 
 function closeModal(event, force=false) {
     if (force || event.target.id === 'analysisModal') {
+        triggerHaptic('soft');
         document.getElementById('analysisModal').classList.remove('active');
     }
 }
 
 function openProfile(targetId) {
-    // 🟢 FIX: Bulletproof Type-Safe Check
     let isOwnProfile = (Number(targetId) === Number(window.currentUserData?.id)) || (Number(targetId) === Number(userId));
 
     if (!isOwnProfile && !window.currentUserData?.is_admin) {
+        triggerHaptic('warning');
         if (window.Telegram?.WebApp?.showAlert) {
             window.Telegram.WebApp.showAlert("🔒 Only Admins can view other students' detailed analysis.");
         } else {
@@ -385,6 +403,7 @@ function openProfile(targetId) {
         return; 
     }
 
+    triggerHaptic('medium');
     let targetUser = isOwnProfile ? window.currentUserData : globalData.find(u => Number(u.id) === Number(targetId));
     if (!targetUser) return;
 
@@ -548,7 +567,7 @@ function populateRecentActivity(targetUser) {
 }
 
 function openHistoryDetail(week, rank, total, score, attempts, correct) {
-    // 🟢 FIX: Parse the stringified arguments back to numbers safely
+    triggerHaptic('light');
     score = parseFloat(score) || 0;
     attempts = parseInt(attempts) || 0;
     correct = parseInt(correct) || 0;
@@ -567,8 +586,9 @@ function openHistoryDetail(week, rank, total, score, attempts, correct) {
 
 function closeHistoryModal(event, force=false) {
     if (force || event.target.id === 'historyModalOverlay') {
+        triggerHaptic('soft');
         document.getElementById('historyModalOverlay').style.display = 'none';
-        document.body.style.overflow = ''; // Unlock scrolling
+        document.body.style.overflow = '';
     }
 }
 

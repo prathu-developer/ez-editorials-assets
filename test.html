@@ -1100,16 +1100,20 @@
 
     <script>
         // Native Telegram WebApp Haptic Helper
-        function triggerHaptic(style = 'light') {
-            if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-                try {
-                    if (style === 'soft' || style === 'light' || style === 'medium' || style === 'heavy') {
-                        window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
-                    } else if (style === 'success' || style === 'warning' || style === 'error') {
-                        window.Telegram.WebApp.HapticFeedback.notificationOccurred(style);
-                    }
-                } catch(e) {}
-            }
+        function triggerHaptic(type = 'light') {
+            if (localStorage.getItem('app_vibration') === 'false') return;
+            const haptic = window.Telegram?.WebApp?.HapticFeedback;
+            if (!haptic) return;
+
+            try {
+                if (['light', 'medium', 'heavy', 'rigid', 'soft'].includes(type)) {
+                    haptic.impactOccurred(type);
+                } else if (['success', 'warning', 'error'].includes(type)) {
+                    haptic.notificationOccurred(type);
+                } else if (type === 'selection') {
+                    haptic.selectionChanged();
+                }
+            } catch(e) {}
         }
 
         const tg = window.Telegram.WebApp;
@@ -1556,7 +1560,7 @@
         }
 
         function selectOption(optIndex, element) {
-            triggerHaptic('light'); 
+            triggerHaptic('selection'); 
             const qId = questions[currentIndex].question_id || questions[currentIndex].id;
             
             if (isReviewMode) reattemptResponses[qId] = optIndex;
@@ -1783,7 +1787,7 @@
         }
         
         function openSubmitModal() {
-            triggerHaptic('medium');
+            triggerHaptic('warning');
             const answeredCount = Object.keys(responses).length;
             document.getElementById('summary-answered').innerText = answeredCount;
             document.getElementById('summary-total').innerText = answeredCount;
@@ -1812,6 +1816,7 @@
         async function submitQuiz() {
             if (isSubmitting) return; 
             isSubmitting = true;
+            triggerHaptic('heavy');
             
             clearInterval(timerInterval);
 
