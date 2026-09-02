@@ -3181,6 +3181,60 @@
             font-size: 12px;
             font-weight: 800;
         }
+
+        /* 🟢 Word of the Day & Foreign Expressions Reader Dark Mode */
+        body.dark-mode #digestModalOverlay .digest-modal-sheet {
+            background: var(--bg-card) !important;
+            border-top: 1px solid var(--border-light);
+        }
+        body.dark-mode #digestModalTitle {
+            color: var(--text-main) !important;
+        }
+        body.dark-mode .meaning-box {
+            background: #27272a;
+            border-color: var(--border-light);
+        }
+        body.dark-mode .meaning-main {
+            color: var(--text-main);
+        }
+        body.dark-mode .meaning-hindi {
+            color: #c084fc;
+        }
+        body.dark-mode .trick-box {
+            background: #261603;
+            border-left: 4px solid #f59e0b;
+            color: #fde68a;
+        }
+        body.dark-mode .editorial-quote-box {
+            background: #172554;
+            border-color: #1e40af;
+            color: #93c5fd;
+        }
+        body.dark-mode .badge-audio {
+            background: #27272a;
+            color: #cbd5e1;
+        }
+        body.dark-mode .badge-pos {
+            background: #451a03;
+            color: #fcd34d;
+        }
+        body.dark-mode .badge-connotation {
+            background: #3b0764;
+            color: #d8b4fe;
+        }
+        body.dark-mode .card-index-badge {
+            background: #2e1065;
+            color: #c084fc;
+        }
+        body.dark-mode .tag-synonym {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+        body.dark-mode .tag-antonym {
+            background: #450a0a;
+            color: #fca5a5;
+        }
+
         /* ==========================================
            ENHANCED PERFORMANCE ANALYSIS MODAL STYLES
            ========================================== */
@@ -3528,6 +3582,77 @@
             display: flex;
             gap: 12px;
             justify-content: center;
+        }
+
+        /* =========================================================
+           🟢 PHASE 2: DETAILED PERFORMANCE MODAL DARK THEME OVERRIDES
+           ========================================================= */
+
+        /* 1. Modal Sheet Background & Structural Colors (Overrides !important from style.css) */
+        body.dark-mode .modal-content,
+        body.dark-mode .modal-content[class*="mod-bg-"] {
+            background: #16161a !important;
+            color: var(--text-main) !important;
+        }
+        body.dark-mode .close-indicator {
+            background: #374151;
+        }
+        body.dark-mode .section-title {
+            color: var(--text-main);
+        }
+
+        /* 2. Stat Boxes & Table Colors */
+        body.dark-mode .chart-summary {
+            background: #1f1f24;
+            border-color: #2e2e38;
+        }
+        body.dark-mode .cs-val {
+            color: var(--text-main);
+        }
+        body.dark-mode .perf-table th {
+            border-color: #2e2e38;
+            color: var(--text-muted);
+        }
+        body.dark-mode .perf-table td {
+            border-color: #2e2e38;
+            color: var(--text-main);
+        }
+        body.dark-mode .activity-row {
+            border-color: #2e2e38;
+            color: var(--text-main);
+        }
+        body.dark-mode .act-day {
+            color: var(--text-main);
+        }
+
+        /* 3. Previous Rank History Cards */
+        body.dark-mode #rankHistorySection .activity-row {
+            background: #1f1f24 !important;
+            border: 1px solid #2e2e38 !important;
+            color: var(--text-main) !important;
+        }
+        body.dark-mode #rankHistorySection .act-day {
+            color: var(--text-main) !important;
+        }
+
+        /* 4. Week Archive Sub-Modal (#historyModalOverlay) */
+        body.dark-mode #historyModalOverlay .modal-content {
+            background: #1e1e1e !important;
+            border: 1px solid #2e2e38;
+            color: var(--text-main);
+        }
+        body.dark-mode #historyModalOverlay h3 {
+            color: var(--text-main) !important;
+        }
+        body.dark-mode #historyModalOverlay div[style*="background: #f8fafc"] {
+            background: #27272a !important;
+        }
+        body.dark-mode #historyModalOverlay span[style*="color: #0f172a"] {
+            color: var(--text-main) !important;
+        }
+        body.dark-mode #historyModalOverlay button {
+            background: #2e2e38 !important;
+            color: var(--text-main) !important;
         }
     </style>
 </head>
@@ -4939,7 +5064,7 @@
     
     <!-- Digest Reading Modal -->
     <div id="digestModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeDigestModal(event)">
-        <div style="background: #fff; width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
+        <div class="digest-modal-sheet" style="background: var(--bg-card); width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
                 <h3 id="digestModalTitle" style="margin: 0; font-size: 16px; color: var(--text-main);">Title</h3>
                 <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeDigestModal(null, true)">×</span>
@@ -5389,6 +5514,10 @@
                     finalAvg[i] = window.classAvgHistory ? (window.classAvgHistory[weekLabels[i]] || 0) : 0;
                 }
 
+                const isDark = document.body.classList.contains('dark-mode');
+                const gridLineColor = isDark ? 'rgba(255, 255, 255, 0.08)' : '#f1f5f9';
+                const tickTextColor = isDark ? '#9ca3af' : '#64748b';
+
                 window.dailyChartInstance = new Chart(ctxDaily, {
                     type: 'bar',
                     data: {
@@ -5399,7 +5528,31 @@
                             { label: `Class Avg`, data: finalAvg, backgroundColor: '#10b981', barPercentage: 1.0, categoryPercentage: 0.65, borderRadius: 6 }
                         ]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: '#f1f5f9' }, border: {display: false} }, x: { grid: { display: false }, border: {display: false} } } }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: tickTextColor,
+                                    font: { family: 'Inter', size: 11, weight: '600' }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: gridLineColor },
+                                ticks: { color: tickTextColor },
+                                border: { display: false }
+                            },
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: tickTextColor },
+                                border: { display: false }
+                            }
+                        }
+                    }
                 });
 
                 // 🟢 FIX: Safe fallback for pie chart variables
