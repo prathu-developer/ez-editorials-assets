@@ -4191,7 +4191,7 @@
             <div class="cup-row-right">
                 <span class="cup-row-pts" id="sticky-user-score">0 pts</span>
                 <span class="cup-row-delta delta-up" id="sticky-user-delta">↑ 1</span>
-                <button class="cup-sticky-jump-btn" onclick="event.stopPropagation(); window.scrollTo({top: 0, behavior: 'smooth'});">⌃</button>
+                <button class="cup-sticky-jump-btn" onclick="event.stopPropagation(); triggerHaptic('light'); window.scrollTo({top: 0, behavior: 'smooth'});">⌃</button>
             </div>
         </div>
     </div>
@@ -6800,9 +6800,9 @@
                     // The Pagination Header (Swipe/Click through past seasons)
                     let html = `
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; background:var(--border-light); padding:8px 12px; border-radius:12px;">
-                            <span style="font-size:20px; cursor:pointer;" onclick="loadWeeklyResults(${currentWeek - 1})">⬅️</span>
+                            <span style="font-size:20px; cursor:pointer;" onclick="triggerHaptic('selection'); loadWeeklyResults(${currentWeek - 1});">⬅️</span>
                             <span style="font-weight:bold; font-size:14px;">Season ${currentWeek} Top 10</span>
-                            <span style="font-size:20px; cursor:pointer;" onclick="loadWeeklyResults(${currentWeek + 1})">➡️</span>
+                            <span style="font-size:20px; cursor:pointer;" onclick="triggerHaptic('selection'); loadWeeklyResults(${currentWeek + 1});">➡️</span>
                         </div>
                     `;
                     
@@ -7441,8 +7441,7 @@
             else if (quiz.status === 'completed') {
                 statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
                 wrapperTag = 'a'; 
-                // 🟢 NEW: Added the day parameter here!
-                wrapperHref = `href="result.html?attempt_id=${quiz.attempt_id}&day=${window.currentViewingDayIndex}"`;
+                wrapperHref = `href="result.html?attempt_id=${quiz.attempt_id}&day=${window.currentViewingDayIndex}" onclick="triggerHaptic('light')"`;
             }
             else if (quiz.status === 'closed') {
                 statusHtml = `<div class="status-badge status-locked">Closed</div>`;
@@ -7450,7 +7449,7 @@
             else {
                 statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
                 wrapperTag = 'a'; 
-                wrapperHref = `href="test.html?quiz_id=${quiz.id}&day=${window.currentViewingDayIndex}"`;
+                wrapperHref = `href="test.html?quiz_id=${quiz.id}&day=${window.currentViewingDayIndex}" onclick="triggerHaptic('medium')"`;
             }
 
             container.innerHTML += `
