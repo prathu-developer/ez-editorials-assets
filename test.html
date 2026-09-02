@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Active Test</title>
+    <script>
+        (function() {
+            if (localStorage.getItem('app_dark_mode') === 'true') {
+                document.documentElement.classList.add('dark-mode');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('dark-mode');
+                });
+            }
+        })();
+    </script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
@@ -20,6 +30,125 @@
             --green-text: #03543f;
             --red-bg: #fde8e8;
             --red-text: #9b1c1c;
+        }
+
+        /* 🟢 Phase 2: Dark Mode Tokens & Live Test Engine */
+        html.dark-mode, body.dark-mode {
+            --bg-main: #121212;
+            --card-bg: #1e1e1e;
+            --text-dark: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #2e2e38;
+            --green-bg: #064e3b;
+            --green-text: #6ee7b7;
+            --red-bg: #450a0a;
+            --red-text: #fca5a5;
+        }
+
+        /* Top Header & Question Layout */
+        body.dark-mode .top-header,
+        body.dark-mode .sub-header {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        body.dark-mode .q-num-box {
+            background: #27272a;
+            color: var(--text-dark);
+            border-color: var(--border-color);
+        }
+        body.dark-mode .passage-text {
+            color: #d1d5db;
+        }
+
+        /* Option Tiles */
+        body.dark-mode .option {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        body.dark-mode .opt-letter {
+            background: #27272a;
+            color: var(--text-muted);
+        }
+        body.dark-mode .option.selected {
+            background: #1e293b;
+            border-color: #3b82f6;
+        }
+        body.dark-mode .option.selected .opt-letter {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+
+        /* Bottom Navigation Bar */
+        body.dark-mode .bottom-bar {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.45);
+        }
+        body.dark-mode .btn-half {
+            background: #27272a;
+            border-color: var(--border-color);
+            color: var(--text-dark);
+        }
+
+        /* Palette & Modals */
+        body.dark-mode .bottom-sheet {
+            background: var(--card-bg);
+        }
+        body.dark-mode .close-indicator {
+            background: #374151;
+        }
+        body.dark-mode .test-mode-card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        body.dark-mode .pal-btn.not-visited {
+            background: #1e1e1e;
+            border-color: var(--border-color);
+            color: var(--text-muted);
+        }
+        body.dark-mode .pal-btn.not-answered {
+            background: #27272a;
+            border-color: var(--border-color);
+            color: var(--text-dark);
+        }
+        body.dark-mode .pal-btn.review {
+            background: #422006;
+            border-color: #713f12;
+            color: #fde047;
+        }
+        body.dark-mode .pal-btn.review-answered {
+            background: #422006;
+            border: 2px solid #3b82f6;
+            color: #fde047;
+        }
+        body.dark-mode .leg-not-visited {
+            background: #1e1e1e;
+            border-color: #4b5563;
+            color: #9ca3af;
+        }
+        body.dark-mode .leg-not-answered {
+            background: #374151;
+        }
+        body.dark-mode .submit-table th {
+            background: #27272a;
+            color: var(--text-dark);
+        }
+        body.dark-mode .warning-box {
+            background: #451a03;
+            color: #fcd34d;
+        }
+
+        /* Instructions Screen Overrides for Hardcoded Inlines */
+        body.dark-mode #instructions-screen > div:nth-child(2) {
+            background: var(--card-bg) !important;
+        }
+        body.dark-mode #instructions-screen [style*="background:#f8f9fa"],
+        body.dark-mode #instructions-screen [style*="background: #f8f9fa"] {
+            background: #27272a !important;
+        }
+        body.dark-mode #instructions-screen div:last-child {
+            background: var(--card-bg) !important;
+            border-color: var(--border-color) !important;
         }
 
         body {
@@ -461,6 +590,96 @@
             font-size: 10px;
             color: white;
             font-weight: 800;
+        }
+
+        /* 🟢 Phase 4: Review & Re-attempt Mode Dark UI */
+        body.dark-mode .review-section-strip {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        body.dark-mode .stat-pill {
+            background: #27272a;
+            color: var(--text-dark);
+        }
+
+        /* Correct / Incorrect Revealed Options */
+        body.dark-mode .option.correct-reveal {
+            background: #064e3b;
+            border-color: #059669;
+        }
+        body.dark-mode .option.wrong-reveal {
+            background: #450a0a;
+            border-color: #dc2626;
+        }
+        body.dark-mode .badge-correct {
+            background: #059669;
+            color: #ffffff;
+        }
+        body.dark-mode .badge-wrong {
+            background: #dc2626;
+            color: #ffffff;
+        }
+
+        /* Solution Accordion */
+        body.dark-mode .solution-accordion {
+            border-color: var(--border-color);
+        }
+        body.dark-mode .acc-header {
+            background: #27272a;
+            color: #60a5fa;
+        }
+        body.dark-mode .acc-body {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+            color: #d1d5db;
+        }
+
+        /* Review Bottom Bar Button */
+        body.dark-mode #review-bottom-bar .btn-main {
+            background: #27272a !important;
+            color: #60a5fa !important;
+            border-color: #3b82f6 !important;
+        }
+
+        /* Review Palette Grid Items */
+        body.dark-mode .rev-pal-item {
+            background: #27272a;
+            color: var(--text-muted);
+        }
+        body.dark-mode .rev-pal-item.rev-correct {
+            background: #064e3b;
+            color: #6ee7b7;
+            border-color: #059669;
+        }
+        body.dark-mode .rev-pal-item.rev-incorrect {
+            background: #450a0a;
+            color: #fca5a5;
+            border-color: #dc2626;
+        }
+        body.dark-mode .rev-pal-item.rev-unattempted {
+            background: #374151;
+            color: #9ca3af;
+        }
+        body.dark-mode .rev-pal-item.current {
+            background: #1e1e1e !important;
+            color: #ffffff !important;
+            border-color: #10b981 !important;
+        }
+
+        /* Review Filter Popover & Trigger Button */
+        body.dark-mode .filter-btn-trigger {
+            background: #1e293b;
+            border-color: #3b82f6;
+            color: #93c5fd;
+        }
+        body.dark-mode .filter-popover {
+            background: #1e1e1e;
+            border-color: var(--border-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+        }
+        body.dark-mode .speed-indicator-wrap,
+        body.dark-mode .review-legend-grid {
+            border-color: var(--border-color);
         }
     </style>
 </head>

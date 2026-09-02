@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quiz Results</title>
+    <script>
+        (function() {
+            if (localStorage.getItem('app_dark_mode') === 'true') {
+                document.documentElement.classList.add('dark-mode');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('dark-mode');
+                });
+            }
+        })();
+    </script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -17,6 +27,76 @@
             --brand-red-dark: #be123c;
             --brand-blue: #1c64f2;
             --brand-green: #10b981;
+        }
+
+        /* 🟢 Phase 3: Dark Mode Tokens & Results View */
+        html.dark-mode, body.dark-mode {
+            --bg-main: #121212;
+            --card-bg: #1e1e1e;
+            --text-dark: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #2e2e38;
+        }
+
+        /* Key Metrics Overview Card */
+        body.dark-mode .metric-row {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Question Distribution Card */
+        body.dark-mode .qd-progress-track {
+            background: #27272a;
+        }
+        body.dark-mode .bg-qd-unatt {
+            background: #374151;
+            color: #d1d5db;
+        }
+
+        /* Comparison Chart */
+        body.dark-mode .chart-tab {
+            background: #27272a;
+            border-color: var(--border-color);
+            color: var(--text-muted);
+        }
+        body.dark-mode .chart-tab.active {
+            background: #1e293b;
+            color: #60a5fa;
+            border-color: #3b82f6;
+        }
+        body.dark-mode .bar-chart-visual {
+            border-bottom-color: var(--border-color);
+        }
+
+        /* Leaderboard & Pinned Current User Card */
+        body.dark-mode .lb-score-pill {
+            background: #27272a;
+            color: var(--text-dark);
+        }
+        body.dark-mode .lb-user-pinned-card {
+            background: #172554;
+            border-color: #1e40af;
+        }
+        body.dark-mode .lb-user-pinned-card .pinned-name {
+            color: #ffffff;
+        }
+        body.dark-mode .lb-user-pinned-card .pinned-motto {
+            color: #93c5fd;
+        }
+        body.dark-mode .pinned-score-pill {
+            background: #1e1e1e;
+            color: #60a5fa;
+            border-color: #1e40af;
+        }
+
+        /* Fixed Bottom Action Bar */
+        body.dark-mode .fixed-bottom-bar {
+            background: var(--card-bg);
+            box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.5);
+        }
+        body.dark-mode .btn-bottom-share {
+            background: transparent;
+            border-color: var(--brand-red);
+            color: #f87171;
         }
 
         body { 
