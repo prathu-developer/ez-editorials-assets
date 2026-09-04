@@ -505,7 +505,6 @@ function openProfile(targetId) {
     document.getElementById('csAcc').innerText = (targetUser.history?.accuracy || 0) + '%';
 
     renderRankHistory(targetUser);
-    populateRecentActivity(targetUser);
     
     // Safety check in case app.html's inline renderer isn't ready
     if (typeof window.renderCharts === 'function') {
@@ -516,54 +515,6 @@ function openProfile(targetId) {
 
     const modal = document.getElementById('analysisModal');
     modal.classList.add('active');
-}
-
-function populateRecentActivity(targetUser) {
-    const actList = document.getElementById('activityList');
-    actList.innerHTML = '';
-
-    // 🟢 FIX: Handle missing arrays
-    let labels = targetUser.history?.labels || [];
-    let scores = targetUser.history?.scores || [];
-    let dailyCorrect = targetUser.history?.daily_correct || [];
-    let dailyAttempts = targetUser.history?.daily_attempts || [];
-
-    if (!labels || labels.length === 0) {
-        actList.innerHTML = '<div style="text-align:center; color:#94a3b8; padding: 10px;">No quizzes attempted yet.</div>';
-        return;
-    }
-
-    const weekOrder = { 'Mon': 1, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6, 'Sun': 7 };
-    let activities = [];
-    for (let i = 0; i < labels.length; i++) {
-        activities.push({
-            day: labels[i],
-            score: scores[i],
-            correct: dailyCorrect[i] || 0,
-            wrong: Math.max(0, (dailyAttempts[i] || 0) - (dailyCorrect[i] || 0)),
-            order: weekOrder[labels[i]] || 0
-        });
-    }
-    activities.sort((a, b) => b.order - a.order);
-
-    activities.forEach(act => {
-        if (act.score === 0 && act.correct === 0 && act.wrong === 0) return;
-
-        actList.innerHTML += `
-            <div class="activity-row">
-                <div class="act-day">${act.day}</div>
-                <div class="act-stats">
-                    <span class="text-green">✅ ${act.correct}</span>
-                    <span class="text-red">❌ ${act.wrong}</span>
-                </div>
-                <div class="text-blue" style="font-weight:700;">${act.score > 0 ? '+' : ''}${act.score % 1 !== 0 ? act.score.toFixed(2) : act.score} pts</div>
-            </div>
-        `;
-    });
-
-    if (actList.innerHTML === '') {
-        actList.innerHTML = '<div style="text-align:center; color:#94a3b8; padding: 10px;">No quizzes attempted yet.</div>';
-    }
 }
 
 function openHistoryDetail(week, rank, total, score, attempts, correct) {
@@ -581,7 +532,15 @@ function openHistoryDetail(week, rank, total, score, attempts, correct) {
     document.getElementById('histCorrect').innerText = correct;
 
     document.getElementById('historyModalOverlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // Lock scrolling
+    document.body.style.overflow = 'hidden'; // Lock scrollingetection
+    1/3
+    ›
+    ✍️
+    Sentence Improvement
+    0/2
+    ›
+    📝
+    Fill in the Blank
 }
 
 function closeHistoryModal(event, force=false) {

@@ -490,6 +490,32 @@
             cursor: pointer;
         }
 
+        /* 🟢 ADD THIS DIRECTLY BELOW: */
+        .btn-filter-apply {
+            margin-top: 6px;
+            width: 100%;
+            padding: 8px 0;
+            background: var(--brand-blue, #1c64f2);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-filter-apply:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
+        body.dark-mode .btn-filter-apply {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
         /* Review Question Grid */
         .rev-pal-grid {
             display: grid;
@@ -980,36 +1006,32 @@
                             <span class="filter-color-dot" style="background:#2563eb;">✓</span>
                             <span>All</span>
                         </div>
-                        <input type="checkbox" id="flt-all" class="filter-checkbox" checked onchange="handleFilterSelection('all')">
+                        <input type="checkbox" id="flt-all" class="filter-checkbox" checked onchange="handleFilterCheckboxChange('all')">
                     </label>
                     <label class="filter-pop-row">
                         <div class="filter-left-tag">
                             <span class="filter-color-dot" style="background:#10b981;">✓</span>
                             <span>Correct</span>
                         </div>
-                        <input type="checkbox" id="flt-correct" class="filter-checkbox" checked onchange="handleFilterSelection('correct')">
+                        <input type="checkbox" id="flt-correct" class="filter-checkbox" checked onchange="handleFilterCheckboxChange('correct')">
                     </label>
                     <label class="filter-pop-row">
                         <div class="filter-left-tag">
                             <span class="filter-color-dot" style="background:#ef4444;">✓</span>
                             <span>Incorrect</span>
                         </div>
-                        <input type="checkbox" id="flt-incorrect" class="filter-checkbox" checked onchange="handleFilterSelection('incorrect')">
+                        <input type="checkbox" id="flt-incorrect" class="filter-checkbox" checked onchange="handleFilterCheckboxChange('incorrect')">
                     </label>
                     <label class="filter-pop-row">
                         <div class="filter-left-tag">
                             <span class="filter-color-dot" style="background:#cbd5e1; color:#475569;">✓</span>
                             <span>Unattempted</span>
                         </div>
-                        <input type="checkbox" id="flt-unattempted" class="filter-checkbox" checked onchange="handleFilterSelection('unattempted')">
+                        <input type="checkbox" id="flt-unattempted" class="filter-checkbox" checked onchange="handleFilterCheckboxChange('unattempted')">
                     </label>
-                    <label class="filter-pop-row">
-                        <div class="filter-left-tag">
-                            <span class="filter-color-dot" style="background:#fde047; color:#854d0e;">✓</span>
-                            <span>Unevaluated</span>
-                        </div>
-                        <input type="checkbox" id="flt-unevaluated" class="filter-checkbox" checked onchange="handleFilterSelection('unevaluated')">
-                    </label>
+
+                    <!-- Apply Button Below Unattempted -->
+                    <button type="button" class="btn-filter-apply" onclick="applyReviewFilters(event)">Apply</button>
                 </div>
             </div>
 
@@ -1140,8 +1162,7 @@
             all: true,
             correct: true,
             incorrect: true,
-            unattempted: true,
-            unevaluated: true
+            unattempted: true
         }; 
         let timerInterval = null;
         let initialDuration = 0;
@@ -1369,7 +1390,7 @@
                 } catch(e) {}
 
                 const userSec = q.user_time_spent || savedTimes[qId] || questionTimeSpent[qId] || 0;
-                const avgSec = q.global_avg_time || 11; // Default fallback to class average
+                const avgSec = q.global_avg_time || 15;
 
                 const formatTimeDigits = (sec) => {
                     const m = Math.floor(sec / 60).toString().padStart(2, '0');
@@ -1378,13 +1399,11 @@
                 };
 
                 const timePill = document.getElementById('review-time-pill');
-                
-                // 🚨 TIME TRAP CONDITION:
-                // User took 1.5x longer than class average OR spent over 35s on an incorrect/unattempted question
-                const isTimeTrap = (userSec >= avgSec * 1.5 && userSec >= 18) || (userSec >= 35 && !q.is_correct);
-                const isFast = userSec > 0 && userSec <= avgSec * 0.75;
 
                 if (userSec > 0) {
+                    const isTimeTrap = (userSec >= avgSec * 1.5 && userSec >= 18) || (userSec >= 35 && !q.is_correct);
+                    const isFast = userSec <= avgSec * 0.75;
+
                     if (isTimeTrap) {
                         timePill.className = 'stat-pill red-tint';
                         timePill.innerHTML = `🚨 Time Trap: ${formatTimeDigits(userSec)} <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
@@ -1396,8 +1415,9 @@
                         timePill.innerHTML = `⏱ ${formatTimeDigits(userSec)} <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
                     }
                 } else {
+                    // Distinct label when the user skipped or did not attempt the question
                     timePill.className = 'stat-pill';
-                    timePill.innerText = `Avg: ${formatTimeDigits(avgSec)}`;
+                    timePill.innerHTML = `⏱ Skipped <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
                 }
                 
                 // Accuracy Pill
@@ -1583,72 +1603,114 @@
             if (menu) menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
         }
 
-        function handleFilterSelection(type) {
+        // 🟢 PASTE THIS REPLACEMENT BLOCK INSTEAD:
+        function handleFilterCheckboxChange(type) {
             triggerHaptic('light');
-            const allCheckbox = document.getElementById('flt-all');
-            const correctCb = document.getElementById('flt-correct');
-            const incorrectCb = document.getElementById('flt-incorrect');
-            const unattCb = document.getElementById('flt-unattempted');
-            const unevalCb = document.getElementById('flt-unevaluated');
+            const allCb = document.getElementById('flt-all');
+            const corCb = document.getElementById('flt-correct');
+            const incCb = document.getElementById('flt-incorrect');
+            const unaCb = document.getElementById('flt-unattempted');
 
             if (type === 'all') {
-                const isAll = allCheckbox.checked;
-                reviewFilters.all = isAll;
-                reviewFilters.correct = isAll;
-                reviewFilters.incorrect = isAll;
-                reviewFilters.unattempted = isAll;
-                reviewFilters.unevaluated = isAll;
-                
-                correctCb.checked = isAll;
-                incorrectCb.checked = isAll;
-                unattCb.checked = isAll;
-                unevalCb.checked = isAll;
+                const checked = allCb.checked;
+                corCb.checked = checked;
+                incCb.checked = checked;
+                unaCb.checked = checked;
             } else {
-                reviewFilters.correct = correctCb.checked;
-                reviewFilters.incorrect = incorrectCb.checked;
-                reviewFilters.unattempted = unattCb.checked;
-                reviewFilters.unevaluated = unevalCb.checked;
-                
-                const areAllChecked = correctCb.checked && incorrectCb.checked && unattCb.checked && unevalCb.checked;
-                allCheckbox.checked = areAllChecked;
-                reviewFilters.all = areAllChecked;
+                const allChecked = corCb.checked && incCb.checked && unaCb.checked;
+                allCb.checked = allChecked;
+            }
+        }
+
+        function getFilteredQuestionIndices() {
+            const indices = [];
+            questions.forEach((q, idx) => {
+                const isUnattempted = (q.user_selected_index === null || q.user_selected_index === undefined);
+                const isCorrect = q.is_correct === true;
+                const isIncorrect = (!isUnattempted && !isCorrect);
+
+                if (reviewFilters.all) {
+                    indices.push(idx);
+                } else if (isCorrect && reviewFilters.correct) {
+                    indices.push(idx);
+                } else if (isIncorrect && reviewFilters.incorrect) {
+                    indices.push(idx);
+                } else if (isUnattempted && reviewFilters.unattempted) {
+                    indices.push(idx);
+                }
+            });
+            return indices;
+        }
+
+        function applyReviewFilters(e) {
+            if (e) e.stopPropagation();
+            triggerHaptic('medium');
+
+            const allCb = document.getElementById('flt-all');
+            const corCb = document.getElementById('flt-correct');
+            const incCb = document.getElementById('flt-incorrect');
+            const unaCb = document.getElementById('flt-unattempted');
+
+            // Default to all if everything is unchecked
+            if (!allCb.checked && !corCb.checked && !incCb.checked && !unaCb.checked) {
+                allCb.checked = true;
+                corCb.checked = true;
+                incCb.checked = true;
+                unaCb.checked = true;
             }
 
+            reviewFilters.all = allCb.checked;
+            reviewFilters.correct = corCb.checked;
+            reviewFilters.incorrect = incCb.checked;
+            reviewFilters.unattempted = unaCb.checked;
+
+            // Close the filter popup window
+            const popover = document.getElementById('filter-popover');
+            if (popover) popover.style.display = 'none';
+
+            // Refresh the palette
             buildReviewPalette();
+
+            // Navigate to the first filtered question if current is hidden
+            const filteredIndices = getFilteredQuestionIndices();
+            if (filteredIndices.length > 0) {
+                if (!filteredIndices.includes(currentIndex)) {
+                    loadQuestion(filteredIndices[0]);
+                }
+            } else {
+                alert("No questions found for the selected filter.");
+            }
         }
 
         function buildReviewPalette() {
             const grid = document.getElementById('review-palette-grid');
             if (!grid) return;
             grid.innerHTML = '';
-            let attempted = 0;
-            
-            document.getElementById('pal-total-rev').innerText = questions.length;
 
-            questions.forEach((q, index) => {
+            const filteredIndices = getFilteredQuestionIndices();
+            
+            const palTotal = document.getElementById('pal-total-rev');
+            const palAtt = document.getElementById('pal-att-rev');
+            if (palTotal) palTotal.innerText = filteredIndices.length;
+
+            let attemptedInFilter = 0;
+
+            if (filteredIndices.length === 0) {
+                grid.innerHTML = `<div style="grid-column: span 5; text-align: center; color: var(--text-muted); padding: 24px 0; font-size: 13px; font-weight: 500;">No questions match this filter.</div>`;
+                if (palAtt) palAtt.innerText = 0;
+                return;
+            }
+
+            filteredIndices.forEach((idx) => {
+                const q = questions[idx];
                 const isUnattempted = (q.user_selected_index === null || q.user_selected_index === undefined);
                 const isCorrect = q.is_correct === true;
-                const isIncorrect = (!isUnattempted && !isCorrect);
 
-                if (!isUnattempted) attempted++;
-
-                // Filter check
-                let shouldShow = false;
-                if (reviewFilters.all) {
-                    shouldShow = true;
-                } else if (isCorrect && reviewFilters.correct) {
-                    shouldShow = true;
-                } else if (isIncorrect && reviewFilters.incorrect) {
-                    shouldShow = true;
-                } else if (isUnattempted && reviewFilters.unattempted) {
-                    shouldShow = true;
-                }
-
-                if (!shouldShow) return;
+                if (!isUnattempted) attemptedInFilter++;
 
                 const btn = document.createElement('div');
                 btn.className = 'rev-pal-item';
-                btn.innerText = index + 1;
+                btn.innerText = idx + 1;
 
                 if (isUnattempted) {
                     btn.classList.add('rev-unattempted');
@@ -1658,34 +1720,52 @@
                     btn.classList.add('rev-incorrect');
                 }
 
-                if (index === currentIndex) {
+                if (idx === currentIndex) {
                     btn.classList.add('current');
                 }
 
                 btn.onclick = () => {
                     triggerHaptic('selection');
-                    loadQuestion(index);
+                    loadQuestion(idx);
                     closeModal('review-palette-modal');
                 };
                 grid.appendChild(btn);
             });
-            
-            document.getElementById('pal-att-rev').innerText = attempted;
+
+            if (palAtt) palAtt.innerText = attemptedInFilter;
         }
 
         function openReviewPalette() {
             triggerHaptic('medium');
             const menu = document.getElementById('filter-popover');
-            if (menu) menu.style.display = 'none'; // Close popover by default on open
+            if (menu) menu.style.display = 'none';
             buildReviewPalette();
             document.getElementById('review-palette-modal').style.display = 'flex';
         }
 
         function reviewNavigate(direction) {
             triggerHaptic('light');
-            let next = currentIndex + direction;
-            if (next >= 0 && next < questions.length) {
-                loadQuestion(next);
+            const filteredIndices = getFilteredQuestionIndices();
+            if (filteredIndices.length === 0) return;
+
+            const currentPos = filteredIndices.indexOf(currentIndex);
+            let targetPos = -1;
+
+            if (currentPos !== -1) {
+                targetPos = currentPos + direction;
+            } else {
+                if (direction > 0) {
+                    targetPos = filteredIndices.findIndex(idx => idx > currentIndex);
+                    if (targetPos === -1) targetPos = filteredIndices.length - 1;
+                } else {
+                    targetPos = filteredIndices.slice().reverse().findIndex(idx => idx < currentIndex);
+                    if (targetPos !== -1) targetPos = filteredIndices.length - 1 - targetPos;
+                    else targetPos = 0;
+                }
+            }
+
+            if (targetPos >= 0 && targetPos < filteredIndices.length) {
+                loadQuestion(filteredIndices[targetPos]);
             }
         }
 
@@ -1834,6 +1914,15 @@
             document.getElementById('loading-screen').innerText = 'Submitting Test...';
             document.getElementById('loading-screen').style.display = 'flex';
 
+            // 🟢 Calculate exact seconds spent on this quiz
+            const timeSpent = initialDuration - Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+
+            // 🟢 Cache exact time spent locally for instant UI updates on Home & Progress
+            try {
+                if (attemptId) localStorage.setItem('attempt_duration_' + attemptId, timeSpent);
+                if (quizId) localStorage.setItem('quiz_duration_' + quizId, timeSpent);
+            } catch(e) {}
+
             // Practice Mode Submission Handling
             if (attemptId === "practice_mode") {
                 let correctCount = 0, wrongCount = 0, unattemptedCount = 0;
@@ -1860,7 +1949,6 @@
                     };
                 });
                 
-                let timeSpent = initialDuration - Math.max(0, Math.floor((endTime - Date.now()) / 1000));
                 let accuracy = (correctCount + wrongCount) > 0 ? (correctCount / (correctCount + wrongCount) * 100) : 0;
                 
                 let practiceResult = {
@@ -1875,7 +1963,7 @@
                 
                 sessionStorage.setItem("practiceResult", JSON.stringify(practiceResult));
 
-                // 🟢 2. PERSIST TIMINGS FOR PRACTICE MODE REVIEW
+                // 🟢 PERSIST TIMINGS FOR PRACTICE MODE REVIEW
                 try {
                     const cacheKey = 'quiz_times_' + quizId;
                     localStorage.setItem(cacheKey, JSON.stringify(questionTimeSpent));
@@ -1887,12 +1975,13 @@
                 return;
             }
 
-            // Real Test Submission Handling
+            // Replace this block in submitQuiz() in test.html:
             const formattedResponses = questions.map(q => {
                 const qId = q.question_id || q.id;
                 return {
                     question_id: qId,
-                    selected_index: responses[qId] !== undefined ? responses[qId] : null
+                    selected_index: responses[qId] !== undefined ? responses[qId] : null,
+                    time_spent: questionTimeSpent[qId] || 0 // 🟢 Send the actual seconds spent on this question
                 };
             });
 
@@ -1903,7 +1992,11 @@
                         'Content-Type': 'application/json',
                         'X-Telegram-Init-Data': window.Telegram.WebApp.initData
                     },
-                    body: JSON.stringify({ attempt_id: attemptId, responses: formattedResponses })
+                    body: JSON.stringify({ 
+                        attempt_id: attemptId, 
+                        responses: formattedResponses,
+                        time_spent_seconds: timeSpent // 🟢 Send exact time to backend
+                    })
                 });
                 
                 const data = await response.json();

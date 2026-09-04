@@ -752,6 +752,98 @@
             cursor: pointer;
         }
 
+    /* =========================================================
+        CONTINUE YOUR JOURNEY: 8 CORE THEME COLORS (Light & Dark)
+        ========================================================= */
+
+        /* 1. Purple (Vocab) */
+        .card-theme-purple { background: #faf8ff; border-color: #ede9fe; }
+        .icon-bg-purple    { background: #ede9fe; }
+        .fill-purple       { background: #7c3aed; }
+        .arrow-btn-purple  { background: #ffffff; color: #7c3aed; }
+
+        body.dark-mode .card-theme-purple { background: #1b1738; border-color: #312e81; }
+        body.dark-mode .icon-bg-purple    { background: #2e1065; }
+        body.dark-mode .fill-purple       { background: #a855f7; }
+        body.dark-mode .arrow-btn-purple  { background: #ffffff; color: #1e1b4b; }
+
+        /* 2. Green (Error Detection) */
+        .card-theme-green { background: #f6fcf8; border-color: #dcfce7; }
+        .icon-bg-green    { background: #dcfce7; }
+        .fill-green       { background: #10b981; }
+        .arrow-btn-green  { background: #ffffff; color: #059669; }
+
+        body.dark-mode .card-theme-green { background: #062818; border-color: #14532d; }
+        body.dark-mode .icon-bg-green    { background: #0d3822; }
+        body.dark-mode .fill-green       { background: #22c55e; }
+        body.dark-mode .arrow-btn-green  { background: #ffffff; color: #062e1a; }
+
+        /* 3. Orange (Sentence Improvement) */
+        .card-theme-orange { background: #fffaf5; border-color: #ffedd5; }
+        .icon-bg-orange    { background: #ffedd5; }
+        .fill-orange       { background: #f97316; }
+        .arrow-btn-orange  { background: #ffffff; color: #ea580c; }
+
+        body.dark-mode .card-theme-orange { background: #2e1808; border-color: #7c2d12; }
+        body.dark-mode .icon-bg-orange    { background: #431407; }
+        body.dark-mode .fill-orange       { background: #fb923c; }
+        body.dark-mode .arrow-btn-orange  { background: #ffffff; color: #431407; }
+
+        /* 4. Teal (Fill in the Blank) */
+        .card-theme-teal { background: #f0fdfa; border-color: #ccfbf1; }
+        .icon-bg-teal    { background: #ccfbf1; }
+        .fill-teal       { background: #0d9488; }
+        .arrow-btn-teal  { background: #ffffff; color: #0f766e; }
+
+        body.dark-mode .card-theme-teal { background: #042928; border-color: #115e59; }
+        body.dark-mode .icon-bg-teal    { background: #134e4a; }
+        body.dark-mode .fill-teal       { background: #2dd4bf; }
+        body.dark-mode .arrow-btn-teal  { background: #ffffff; color: #042f2e; }
+
+        /* 5. Blue (Reading Comprehension) */
+        .card-theme-blue { background: #f0f9ff; border-color: #e0f2fe; }
+        .icon-bg-blue    { background: #e0f2fe; }
+        .fill-blue       { background: #0284c7; }
+        .arrow-btn-blue  { background: #ffffff; color: #0369a1; }
+
+        body.dark-mode .card-theme-blue { background: #08253a; border-color: #0369a1; }
+        body.dark-mode .icon-bg-blue    { background: #0c4a6e; }
+        body.dark-mode .fill-blue       { background: #38bdf8; }
+        body.dark-mode .arrow-btn-blue  { background: #ffffff; color: #082f49; }
+
+        /* 6. Indigo (Cloze Test) */
+        .card-theme-indigo { background: #eef2ff; border-color: #e0e7ff; }
+        .icon-bg-indigo    { background: #e0e7ff; }
+        .fill-indigo       { background: #4f46e5; }
+        .arrow-btn-indigo  { background: #ffffff; color: #4338ca; }
+
+        body.dark-mode .card-theme-indigo { background: #171738; border-color: #3730a3; }
+        body.dark-mode .icon-bg-indigo    { background: #312e81; }
+        body.dark-mode .fill-indigo       { background: #818cf8; }
+        body.dark-mode .arrow-btn-indigo  { background: #ffffff; color: #1e1b4b; }
+
+        /* 7. Amber (Para Jumbles) */
+        .card-theme-amber { background: #fffbeb; border-color: #fef3c7; }
+        .icon-bg-amber    { background: #fef3c7; }
+        .fill-amber       { background: #d97706; }
+        .arrow-btn-amber  { background: #ffffff; color: #b45309; }
+
+        body.dark-mode .card-theme-amber { background: #2c1e05; border-color: #78350f; }
+        body.dark-mode .icon-bg-amber    { background: #451a03; }
+        body.dark-mode .fill-amber       { background: #fbbf24; }
+        body.dark-mode .arrow-btn-amber  { background: #ffffff; color: #451a03; }
+
+        /* 8. Rose (Word Usage) */
+        .card-theme-rose { background: #fff1f2; border-color: #ffe4e6; }
+        .icon-bg-rose    { background: #ffe4e6; }
+        .fill-rose       { background: #e11d48; }
+        .arrow-btn-rose  { background: #ffffff; color: #be123c; }
+
+        body.dark-mode .card-theme-rose { background: #300817; border-color: #881337; }
+        body.dark-mode .icon-bg-rose    { background: #4c0519; }
+        body.dark-mode .fill-rose       { background: #fb7185; }
+        body.dark-mode .arrow-btn-rose  { background: #ffffff; color: #4c0519; }
+
         /* 7. Highlights Card */
         .highlights-section {
             margin: 0 16px 14px 16px;
@@ -4731,14 +4823,6 @@
                     <div style="text-align:center; color:var(--text-muted); padding: 10px; font-size: 12px;">No previous records available. Data will appear from next week! 🔮</div>
                 </div>
             </div>
-
-            <!-- 6. Activity Log -->
-            <div class="dash-card" style="margin-bottom: 20px;">
-                <div class="section-title">
-                    <span>🕒 Daily Activity Breakdown</span>
-                </div>
-                <div id="activityList"></div>
-            </div>
         </div>
     </div>
     
@@ -5663,12 +5747,128 @@
         }
         updateDayTracker();
 
-        // 🟢 Calculate Today's Real Activity & Study Time
+        // 🟢 1. Helper: Extract exact seconds spent on an attempt
+        function getExactAttemptSeconds(item) {
+            if (!item) return 0;
+            const attemptId = item.attempt_id || item.id;
+            const quizId = item.quiz_id;
+
+            // Check database fields
+            const apiSec = Number(item.time_spent_seconds || item.time_taken || item.time_spent || 0);
+            if (apiSec > 0) return apiSec;
+
+            // Check localStorage cached duration
+            if (attemptId) {
+                const cachedDirect = Number(localStorage.getItem('attempt_duration_' + attemptId));
+                if (cachedDirect > 0) return cachedDirect;
+
+                try {
+                    const qTimesRaw = localStorage.getItem('quiz_times_' + attemptId);
+                    if (qTimesRaw) {
+                        const qTimes = JSON.parse(qTimesRaw);
+                        const sum = Object.values(qTimes).reduce((acc, val) => acc + (Number(val) || 0), 0);
+                        if (sum > 0) return sum;
+                    }
+                } catch (e) {}
+            }
+
+            if (quizId) {
+                const cachedDirect = Number(localStorage.getItem('quiz_duration_' + quizId));
+                if (cachedDirect > 0) return cachedDirect;
+            }
+
+            return 0;
+        }
+
+        // 🟢 2. Helper: Format seconds into clean "Xh Ym" or "Xm"
+        function formatStudyTime(totalSeconds) {
+            totalSeconds = Math.max(0, Math.round(totalSeconds || 0));
+            let totalMinutes = Math.round(totalSeconds / 60);
+            if (totalSeconds > 0 && totalMinutes === 0) totalMinutes = 1; // Show 1m if completed
+
+            if (totalMinutes >= 60) {
+                let hours = Math.floor(totalMinutes / 60);
+                let mins = totalMinutes % 60;
+                return `${hours}h ${mins}m`;
+            } else {
+                return `${totalMinutes}m`;
+            }
+        }
+
+        // 🟢 3. Central calculation engine for Today (Home) and This Week (Progress)
+        function updateAccurateStudyTimes() {
+            const elToday = document.getElementById('stat-today-study-time');
+            const elWeek = document.getElementById('prog-study-time');
+
+            let weekAttempts = window.rawProgressHistory || [];
+            let todaySeconds = 0;
+            let weekSeconds = 0;
+
+            const istNow = getIST();
+            const curYear = istNow.getFullYear();
+            const curMonth = istNow.getMonth();
+            const curDate = istNow.getDate();
+            const currentDayNum = istNow.getDay() === 0 ? 7 : istNow.getDay();
+
+            weekAttempts.forEach(item => {
+                const sec = getExactAttemptSeconds(item);
+                weekSeconds += sec;
+
+                // Match if attempt was submitted today (IST)
+                let isToday = false;
+                const rawTime = item.created_at || item.timestamp || item.date_time;
+                if (rawTime) {
+                    const d = new Date(rawTime);
+                    if (!isNaN(d.getTime())) {
+                        const dIST = new Date(d.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+                        if (dIST.getFullYear() === curYear && dIST.getMonth() === curMonth && dIST.getDate() === curDate) {
+                            isToday = true;
+                        }
+                    }
+                }
+
+                if (!isToday && item.date) {
+                    const shortMonth = istNow.toLocaleDateString('en-GB', { month: 'short' });
+                    if (item.date.includes(`${curDate} ${shortMonth}`) || item.date.includes(`${shortMonth} ${curDate}`)) {
+                        isToday = true;
+                    }
+                }
+
+                if (!isToday && item.day_num !== undefined && Number(item.day_num) === currentDayNum) {
+                    isToday = true;
+                }
+
+                if (isToday) {
+                    todaySeconds += sec;
+                }
+            });
+
+            // Include completed quizzes from masterQuizData if not yet returned in history list
+            if (window.masterQuizData) {
+                let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
+                allQuizzes.forEach(q => {
+                    if (q.status === 'completed') {
+                        const alreadyCounted = weekAttempts.some(a => (a.attempt_id && a.attempt_id === q.attempt_id) || (a.quiz_id && a.quiz_id === q.id));
+                        if (!alreadyCounted) {
+                            const sec = getExactAttemptSeconds(q);
+                            weekSeconds += sec;
+                            if (q.day_num === currentDayNum) {
+                                todaySeconds += sec;
+                            }
+                        }
+                    }
+                });
+            }
+
+            if (elToday) elToday.innerText = formatStudyTime(todaySeconds);
+            if (elWeek) elWeek.innerText = formatStudyTime(weekSeconds);
+        }
+
+        // 🟢 4. Calculate Today's Overview Stats
         function updateDailyOverviewStats() {
             const elQuizzes = document.getElementById('stat-today-quizzes');
             const elAccuracy = document.getElementById('stat-today-accuracy');
             const elStreak = document.getElementById('stat-best-streak');
-            const elStudyTime = document.getElementById('stat-today-study-time');
 
             const ist = getIST();
             const currentDayNum = ist.getDay() === 0 ? 7 : ist.getDay();
@@ -5677,21 +5877,7 @@
 
             let todayAttemptedQuestions = 0;
             let todayCorrectAnswers = 0;
-            let totalSecondsSpent = 0;
 
-            // 1. Calculate from active Quiz Sets loaded for today
-            if (window.masterQuizData) {
-                let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
-                let todayQuizSets = allQuizzes.filter(q => q.day_num === currentDayNum);
-                
-                todayQuizSets.forEach(q => {
-                    if (q.status === 'completed') {
-                        totalSecondsSpent += (q.duration_seconds || 300);
-                    }
-                });
-            }
-
-            // 2. Calculate Questions & Accuracy from Current User History
             if (window.currentUserData && window.currentUserData.history) {
                 const hist = window.currentUserData.history;
                 const labels = hist.labels || [];
@@ -5706,10 +5892,8 @@
                 }
             }
 
-            // 3. Update Quizzes Attempted
             if (elQuizzes) elQuizzes.innerText = todayAttemptedQuestions;
 
-            // 4. Update Accuracy
             if (elAccuracy) {
                 if (todayAttemptedQuestions > 0) {
                     let acc = Math.round((todayCorrectAnswers / todayAttemptedQuestions) * 100);
@@ -5719,22 +5903,10 @@
                 }
             }
 
-            // 5. Streak Status
             if (elStreak) elStreak.innerText = `Soon`;
 
-            // 6. Update Study Time
-            if (elStudyTime) {
-                let totalMinutes = Math.round(totalSecondsSpent / 60);
-                if (totalMinutes >= 60) {
-                    let hours = Math.floor(totalMinutes / 60);
-                    let remainingMins = totalMinutes % 60;
-                    elStudyTime.innerText = `${hours}h ${remainingMins}m`;
-                } else if (totalMinutes > 0) {
-                    elStudyTime.innerText = `${totalMinutes}m`;
-                } else {
-                    elStudyTime.innerText = `0m`;
-                }
-            }
+            // Calculate exact times for Home (Today) and Progress (This Week)
+            updateAccurateStudyTimes();
         }
 
         // 🟢 Dynamically Render "Continue Your Journey" Cards with All 8 Core Categories
@@ -6199,28 +6371,9 @@
             // 5. Streak
             if (elStreak) elStreak.innerText = cu.streak || 0;
 
-            // 6. Calculate Weekly Study Time (From active completed tests)
-            let totalSeconds = 0;
-            if (window.masterQuizData) {
-                let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
-                allQuizzes.forEach(q => {
-                    if (q.status === 'completed') totalSeconds += (q.duration_seconds || 300);
-                });
-            } else if (totalAttempts > 0) {
-                totalSeconds = totalAttempts * 300; // Estimated 5m per quiz fallback
-            }
-
-            if (elStudyTime) {
-                let totalMinutes = Math.round(totalSeconds / 60);
-                if (totalMinutes >= 60) {
-                    let hrs = Math.floor(totalMinutes / 60);
-                    let mins = totalMinutes % 60;
-                    elStudyTime.innerText = `${hrs}h ${mins}m`;
-                } else if (totalMinutes > 0) {
-                    elStudyTime.innerText = `${totalMinutes}m`;
-                } else {
-                    elStudyTime.innerText = `0m`;
-                }
+            // 6. Calculate Weekly Study Time using exact quiz completion times
+            if (typeof updateAccurateStudyTimes === 'function') {
+                updateAccurateStudyTimes();
             }
         }
 
@@ -6527,6 +6680,10 @@
                 });
                 const data = await response.json();
 
+                if (data.current_week) {
+                    window.currentWeekNum = data.current_week;
+                }
+
                 console.log("LEADERBOARD API RESPONSE:", data);
 
                 // 🟢 Render New Weekly Cup Podium, Battle & Rows
@@ -6688,8 +6845,8 @@
                 container.innerHTML = `
                     <div style="text-align:center; padding: 30px 16px; background: #fafafa; border-radius: 16px; border: 1px solid var(--border-light);">
                         <span style="font-size: 28px;">📭</span>
-                        <h4 style="margin: 8px 0 2px 0; font-size: 14px; color: var(--text-main);">No Attempts Found</h4>
-                        <p style="font-size: 12px; color: var(--text-muted); margin: 0;">No completed trials recorded for this category.</p>
+                        <h4 style="margin: 8px 0 2px 0; font-size: 14px; color: var(--text-main);">No Attempts This Week</h4>
+                        <p style="font-size: 12px; color: var(--text-muted); margin: 0;">No completed trials recorded for this week yet.</p>
                     </div>
                 `;
                 return;
@@ -6759,20 +6916,70 @@
                 
                 const rawList = data.history || [];
 
-                // 🟢 Sort strictly newest-first (latest attempt always at top)
-                window.rawProgressHistory = rawList.slice().sort((a, b) => {
-                    // 1. Sort by ISO timestamp or created_at if present
+                // 🟢 1. Calculate Current Week Window in IST (Monday 00:00:00 to Sunday 23:59:59.999)
+                const istNow = getIST();
+                const currentDay = istNow.getDay(); // 0 is Sunday, 1 is Monday...
+                const diffToMonday = (currentDay === 0 ? -6 : 1) - currentDay;
+
+                const mondayDate = new Date(istNow);
+                mondayDate.setDate(istNow.getDate() + diffToMonday);
+                const my = mondayDate.getFullYear();
+                const mm = String(mondayDate.getMonth() + 1).padStart(2, '0');
+                const md = String(mondayDate.getDate()).padStart(2, '0');
+                const startOfWeekIST = new Date(`${my}-${mm}-${md}T00:00:00+05:30`).getTime();
+
+                const sundayDate = new Date(mondayDate);
+                sundayDate.setDate(mondayDate.getDate() + 6);
+                const sy = sundayDate.getFullYear();
+                const sm = String(sundayDate.getMonth() + 1).padStart(2, '0');
+                const sd = String(sundayDate.getDate()).padStart(2, '0');
+                const endOfWeekIST = new Date(`${sy}-${sm}-${sd}T23:59:59.999+05:30`).getTime();
+
+                const activeWeek = data.current_week || data.week_num || window.currentWeekNum;
+
+                // 🟢 2. Filter strictly for Current Week's attempts only
+                const currentWeekList = rawList.filter(item => {
+                    // Check by explicit week number if returned by the backend
+                    const itemWeek = item.week_num !== undefined ? item.week_num : item.week;
+                    if (itemWeek !== undefined && activeWeek !== undefined) {
+                        return Number(itemWeek) === Number(activeWeek);
+                    }
+
+                    // Fallback: check by timestamp or formatted date string in IST
+                    let attemptTime = 0;
+                    if (item.created_at || item.timestamp || item.date_time) {
+                        attemptTime = new Date(item.created_at || item.timestamp || item.date_time).getTime();
+                    } else if (item.date) {
+                        let parsed = new Date(item.date);
+                        if (isNaN(parsed.getTime())) {
+                            parsed = new Date(`${item.date} ${istNow.getFullYear()}`);
+                        }
+                        if (!isNaN(parsed.getTime())) {
+                            const py = parsed.getFullYear();
+                            const pm = String(parsed.getMonth() + 1).padStart(2, '0');
+                            const pd = String(parsed.getDate()).padStart(2, '0');
+                            attemptTime = new Date(`${py}-${pm}-${pd}T12:00:00+05:30`).getTime();
+                        }
+                    }
+
+                    return attemptTime >= startOfWeekIST && attemptTime <= endOfWeekIST;
+                });
+
+                // 🟢 3. Sort strictly newest-first (latest attempt on top)
+                window.rawProgressHistory = currentWeekList.sort((a, b) => {
                     const timeA = new Date(a.created_at || a.timestamp || a.date_time || 0).getTime();
                     const timeB = new Date(b.created_at || b.timestamp || b.date_time || 0).getTime();
                     if (timeA && timeB && timeA !== timeB) return timeB - timeA;
 
-                    // 2. Sort by attempt_id / id (higher ID = newer attempt)
                     const idA = Number(a.attempt_id || a.id || 0);
                     const idB = Number(b.attempt_id || b.id || 0);
                     if (idA && idB && idA !== idB) return idB - idA;
 
                     return 0;
                 });
+
+                // 🟢 Update study times as soon as attempts are fetched
+                updateAccurateStudyTimes();
                 
                 const currentFilter = document.getElementById('progress-topic-filter')?.value || 'ALL';
                 filterProgressHistory(currentFilter);
@@ -7510,64 +7717,48 @@
             document.getElementById(navId).classList.add('active');
         }
 
-        // 6. TOP TIMER (IST BOUND)
+        // 6. TOP TIMER (IST BOUND) - UNIFIED END-OF-DAY COUNTDOWN
         setInterval(() => {
             const ist = getIST();
             const isSunday = (ist.getDay() === 0);
             
-            // 1. Define today's 4:30 PM drop time
-            const dropTime = new Date(ist);
-            dropTime.setHours(16, 30, 0, 0);
-            
-            // 2. Define end of the day (Midnight)
+            // Define end of the day (Midnight 23:59:59.999 IST)
             const endOfDay = new Date(ist);
             endOfDay.setHours(23, 59, 59, 999);
             
-            // 🟢 DYNAMIC TIMER LOGIC (On Sundays, skip 4:30 PM drop and count down to midnight cup lock)
-            let targetTime;
-            let isPreDrop = false;
-            
-            if (isSunday) {
-                targetTime = endOfDay;
-                isPreDrop = false;
-            } else if (ist < dropTime) {
-                targetTime = dropTime; // Count down to 4:30 PM (Mon-Sat)
-                isPreDrop = true;
-            } else {
-                targetTime = endOfDay; // Count down to Midnight
-                isPreDrop = false;
-            }
-            
-            const diff = targetTime - ist;
+            // Unified target: Always count down to the end of the day
+            const targetTime = endOfDay;
+            const diff = Math.max(0, targetTime - ist);
             
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
             const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
             
+            // 1. Home Screen Timer
             const homeTimer = document.getElementById('home-timer');
             if (homeTimer) {
                 homeTimer.innerText = `${h} : ${m} : ${s}`;
                 homeTimer.style.color = isSunday ? '#e73b50' : 'var(--brand)';
                 
-                // 🟢 Update Home Timer Label automatically
-                const homeLabel = homeTimer.previousElementSibling?.querySelector('span');
+                const homeLabel = document.getElementById('home-timer-label') || homeTimer.previousElementSibling?.querySelector('span');
                 if (homeLabel) {
-                    homeLabel.innerText = isSunday ? "Weekly Cup Closes In" : (isPreDrop ? "Starts In" : "Time Left Today");
+                    homeLabel.innerText = isSunday ? "Weekly Cup Closes In" : "Time Left Today";
                 }
             }
             
+            // 2. Day Details Screen Timer
             const detailTimer = document.getElementById('detail-timer');
             if (detailTimer) {
                 detailTimer.innerText = `${h} : ${m} : ${s}`;
                 detailTimer.style.color = isSunday ? '#e73b50' : 'var(--brand)';
                 
-                // 🟢 Update Day Detail Label automatically
                 const detailLabel = detailTimer.previousElementSibling;
                 if (detailLabel && detailLabel.tagName.toLowerCase() === 'p') {
-                    detailLabel.innerText = isSunday ? "Weekly Cup Closes In" : (isPreDrop ? "Starts In" : "Time Left");
+                    detailLabel.innerText = isSunday ? "Weekly Cup Closes In" : "Time Left";
                 }
             }
             
+            // 3. Upcoming Exam Timers (Untouched)
             if (typeof examTimers !== 'undefined') {
                 examTimers.forEach(timer => {
                     const el = document.getElementById(timer.elementId);
