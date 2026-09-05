@@ -531,15 +531,25 @@ function openHistoryDetail(week, rank, total, score, attempts, correct) {
     document.getElementById('histAcc').innerText = acc + '%';
     document.getElementById('histCorrect').innerText = correct;
 
-    document.getElementById('historyModalOverlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+    const modal = document.getElementById('historyModalOverlay');
+    modal.style.zIndex = '600';
+    modal.style.display = 'flex';
+    
+    // Allows the display change to register before triggering opacity & slide-in animation
+    setTimeout(() => {
+        modal.classList.add('active');
+    }, 10);
 }
 
 function closeHistoryModal(event, force=false) {
     if (force || event.target.id === 'historyModalOverlay') {
         triggerHaptic('soft');
-        document.getElementById('historyModalOverlay').style.display = 'none';
-        document.body.style.overflow = '';
+        const modal = document.getElementById('historyModalOverlay');
+        modal.classList.remove('active');
+        
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 200);
     }
 }
 
