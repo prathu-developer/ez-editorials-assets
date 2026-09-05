@@ -532,15 +532,7 @@ function openHistoryDetail(week, rank, total, score, attempts, correct) {
     document.getElementById('histCorrect').innerText = correct;
 
     document.getElementById('historyModalOverlay').style.display = 'flex';
-    document.body.style.overflow = 'hidden'; // Lock scrollingetection
-    1/3
-    ›
-    ✍️
-    Sentence Improvement
-    0/2
-    ›
-    📝
-    Fill in the Blank
+    document.body.style.overflow = 'hidden';
 }
 
 function closeHistoryModal(event, force=false) {
