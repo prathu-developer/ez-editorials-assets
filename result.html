@@ -12,6 +12,15 @@
                     document.body.classList.add('dark-mode');
                 });
             }
+            const tgPlatform = window.Telegram?.WebApp?.platform || '';
+            const isDesktopPlatform = ['tdesktop', 'macos', 'web', 'weba', 'webk'].includes(tgPlatform);
+            const isDesktopScreen = window.screen.width >= 768 || window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+            if (isDesktopPlatform || isDesktopScreen) {
+                document.documentElement.classList.add('is-desktop');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('is-desktop');
+                });
+            }
         })();
     </script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -609,6 +618,29 @@
             margin-top: 60px;
             font-weight: 600;
             color: var(--text-muted);
+        }
+
+        /* 🟢 LAPTOP & TELEGRAM WEB DESKTOP ADAPTIVE OVERRIDES */
+        html.is-desktop body,
+        body.is-desktop,
+        @media (hover: hover) and (pointer: fine), (max-height: 720px) {
+            body { padding: 0 10px 60px 10px; }
+            .hero-banner-card { padding: 8px 12px; margin-top: 6px; margin-bottom: 8px; border-radius: 12px; }
+            .hero-top-nav { margin-bottom: 6px; }
+            .hero-header-title { font-size: 13.5px; }
+            .hero-status-heading { font-size: 12.5px; }
+            .hero-big-marks { font-size: 16px; }
+            .hero-cutoff-strip { font-size: 10px; padding: 4px 8px; }
+
+            .res-card { padding: 8px 12px; margin-bottom: 8px; border-radius: 12px; }
+            .res-card-title { font-size: 12.5px; margin-bottom: 6px; }
+            .metric-row { padding: 4px 0; }
+            .metric-icon-box { width: 22px; height: 22px; font-size: 11px; border-radius: 6px; }
+            .metric-label { font-size: 10px; }
+            .metric-value { font-size: 12px; }
+
+            .fixed-bottom-bar { padding: 6px 12px calc(6px + env(safe-area-inset-bottom, 0px)) 12px; }
+            .btn-bottom-share, .btn-bottom-review { padding: 7px; font-size: 12px; border-radius: 6px; }
         }
     </style>
 </head>

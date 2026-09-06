@@ -11,6 +11,22 @@
     <meta http-equiv="Expires" content="0">
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        (function() {
+            if (localStorage.getItem('app_dark_mode') === 'true') {
+                document.documentElement.classList.add('dark-mode');
+            }
+            const tgPlatform = window.Telegram?.WebApp?.platform || '';
+            const isDesktopPlatform = ['tdesktop', 'macos', 'web', 'weba', 'webk'].includes(tgPlatform);
+            const isDesktopScreen = window.screen.width >= 768 || window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+            if (isDesktopPlatform || isDesktopScreen) {
+                document.documentElement.classList.add('is-desktop');
+                window.addEventListener('DOMContentLoaded', () => {
+                    document.body.classList.add('is-desktop');
+                });
+            }
+        })();
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- ⚡ HOSTED DIRECTLY ON CLOUDFLARE PAGES -->
     <link rel="stylesheet" href="style.css?v=2.7">
@@ -3745,6 +3761,48 @@
         body.dark-mode #historyModalOverlay button {
             background: #2e2e38 !important;
             color: var(--text-main) !important;
+        }
+
+        /* 🟢 LAPTOP & TELEGRAM WEB DESKTOP ADAPTIVE OVERRIDES */
+        html.is-desktop body,
+        body.is-desktop,
+        @media (hover: hover) and (pointer: fine), (max-height: 720px) {
+            .view-container { padding-bottom: 60px; }
+
+            .top-header { padding: 8px 14px 4px 14px; }
+            .greeting-wrapper { padding: 0 14px 8px 14px; }
+            .greeting-title { font-size: 15px; margin-bottom: 2px; }
+            .date-badge { font-size: 10.5px; }
+            .streak-card { padding: 3px 7px; border-radius: 8px; }
+
+            .timer-hero-card { margin: 0 12px 10px 12px; padding: 10px 12px; border-radius: 14px; }
+            .timer-digits-val { font-size: 20px; letter-spacing: 0.8px; }
+            .timer-illustration-wrap { width: 50px; height: 50px; }
+            .btn-start-hero { padding: 8px 10px; font-size: 12.5px; border-radius: 8px; }
+
+            .weekly-cup-card { margin: 0 12px 10px 12px; padding: 10px 12px; border-radius: 14px; }
+            .cup-title-text { font-size: 14px; }
+            .cup-rank-number, .cup-score-number, .cup-pct-number { font-size: 15px; }
+
+            .days-tracker-card { margin: 0 12px 10px 12px; padding: 8px 10px; border-radius: 14px; }
+            .day-circle { width: 28px; height: 28px; font-size: 11px; }
+
+            .daily-stats-card { margin: 0 12px 10px 12px; padding: 8px 6px; border-radius: 14px; }
+            .stat-main-number { font-size: 13px; }
+
+            .journey-section { margin: 0 12px 10px 12px; }
+            .journey-card { min-width: 112px; width: 112px; padding: 10px 9px; border-radius: 14px; }
+
+            .highlights-section { margin: 0 12px 10px 12px; }
+            .highlights-card { border-radius: 14px; padding: 2px 10px; }
+
+            .motivation-banner { margin: 0 12px 10px 12px; padding: 8px 12px; border-radius: 14px; }
+
+            .bottom-nav { padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px)) 0; }
+            .nav-item { font-size: 9.5px; gap: 2px; width: 50px; }
+            .nav-icon { width: 20px; height: 20px; }
+
+            .cup-sticky-self-bar { bottom: calc(52px + env(safe-area-inset-bottom, 0px)); padding: 6px 10px; }
         }
     </style>
 </head>
