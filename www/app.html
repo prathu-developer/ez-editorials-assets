@@ -5766,20 +5766,28 @@
                 switchView('view-home');
             });
         }
-        const firstName = tgApp.initDataUnsafe?.user?.first_name || 'Student';
-        const photoUrl = tgApp.initDataUnsafe?.user?.photo_url;
+        // Read profile from Android saved login OR Telegram Mini App wrapper
+        const savedProfile = (typeof getSavedUser === 'function') ? getSavedUser() : null;
+        const tgUser = tgApp?.initDataUnsafe?.user;
+        const activeUser = savedProfile || tgUser;
+
+        const firstName = activeUser?.first_name || activeUser?.name || 'Student';
+        const photoUrl = activeUser?.photo_url || activeUser?.avatar_url;
         
-        document.getElementById('user-name').innerText = firstName;
-        document.getElementById('profile-name').innerText = firstName;
+        const elUserName = document.getElementById('user-name');
+        if (elUserName) elUserName.innerText = firstName;
+
+        const elProfileName = document.getElementById('profile-name');
+        if (elProfileName) elProfileName.innerText = firstName;
         
         const avatarContainer = document.getElementById('avatar-initial');
-        if (photoUrl) {
-            // If Telegram provides a photo, inject it as a perfectly rounded image
-            avatarContainer.innerHTML = `<img src="${photoUrl}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;">`;
-            avatarContainer.style.background = 'transparent'; // Hide the purple background
-        } else {
-            // Fallback to the text initial if no photo exists
-            avatarContainer.innerText = firstName.charAt(0).toUpperCase();
+        if (avatarContainer) {
+            if (photoUrl) {
+                avatarContainer.innerHTML = `<img src="${photoUrl}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;">`;
+                avatarContainer.style.background = 'transparent';
+            } else {
+                avatarContainer.innerText = firstName.charAt(0).toUpperCase();
+            }
         }
 
         // 🟢 BULLETPROOF IST TIME FUNCTION 🟢

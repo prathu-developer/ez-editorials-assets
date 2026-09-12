@@ -3839,13 +3839,13 @@
             <p style="color:var(--text-muted, #6b7280); font-size:13.5px; line-height:1.5; margin:0 0 24px;">
                 Sign in with your Telegram account to sync your test scores, leagues, and daily reading progress.
             </p>
-    
+
             <!-- One-Tap Button for Mobile Browser & Android APK -->
             <button type="button" onclick="startMobileTelegramLogin()" style="width:100%; padding:14px; border:none; border-radius:12px; background:#5a32fa; color:#ffffff; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 14px rgba(90,50,250,0.25);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
                 Login via Telegram
             </button>
-    
+
             <!-- Desktop Web Widget -->
             <div style="margin-top:20px;">
                 <script async src="https://telegram.org/js/telegram-widget.js?22" 
@@ -3854,7 +3854,7 @@
                         data-onauth="onTelegramAuth(user)" 
                         data-request-access="write"></script>
             </div>
-    
+
             <p id="login-status-msg" style="margin-top:16px; font-size:12px; color:var(--text-muted, #6b7280); min-height:18px;"></p>
         </div>
     </div>
@@ -5481,9 +5481,9 @@
         let lastFetchTimes = { cup: 0, progress: 0, digest: 0 };
 
         // 1. Initialize Telegram & User (Renamed to avoid colliding with app_v8.js)
-        const tgApp = window.Telegram.WebApp;
-        tgApp.expand();
-        const appUserId = tgApp.initDataUnsafe?.user?.id || 123456789;
+        const tgApp = window.Telegram?.WebApp;
+        if (tgApp?.expand) tgApp.expand();
+        const appUserId = (typeof getActiveUserId === 'function' ? getActiveUserId() : 0) || tgApp?.initDataUnsafe?.user?.id || 123456789;
 
         // 🟢 GLOBAL PREFERENCES
         window.vibrationEnabled = localStorage.getItem('app_vibration') !== 'false';
@@ -5616,7 +5616,7 @@
             try {
                 // ✨ UPDATED: Fetch exclusively from the new, lightweight Elo endpoint!
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/elo?user_id=${appUserId}`, {
-                    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData }
+                    headers: getAuthHeaders()
                 }); 
                 const data = await response.json();
                 
@@ -5761,23 +5761,33 @@
         });
         
         // 🟢 Bind the native back button
-        tgApp.BackButton.onClick(() => {
-            switchView('view-home');
-        });
-        const firstName = tgApp.initDataUnsafe?.user?.first_name || 'Student';
-        const photoUrl = tgApp.initDataUnsafe?.user?.photo_url;
+        if (tgApp?.BackButton?.onClick) {
+            tgApp.BackButton.onClick(() => {
+                switchView('view-home');
+            });
+        }
+        // Read profile from Android saved login OR Telegram Mini App wrapper
+        const savedProfile = (typeof getSavedUser === 'function') ? getSavedUser() : null;
+        const tgUser = tgApp?.initDataUnsafe?.user;
+        const activeUser = savedProfile || tgUser;
+
+        const firstName = activeUser?.first_name || activeUser?.name || 'Student';
+        const photoUrl = activeUser?.photo_url || activeUser?.avatar_url;
         
-        document.getElementById('user-name').innerText = firstName;
-        document.getElementById('profile-name').innerText = firstName;
+        const elUserName = document.getElementById('user-name');
+        if (elUserName) elUserName.innerText = firstName;
+
+        const elProfileName = document.getElementById('profile-name');
+        if (elProfileName) elProfileName.innerText = firstName;
         
         const avatarContainer = document.getElementById('avatar-initial');
-        if (photoUrl) {
-            // If Telegram provides a photo, inject it as a perfectly rounded image
-            avatarContainer.innerHTML = `<img src="${photoUrl}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;">`;
-            avatarContainer.style.background = 'transparent'; // Hide the purple background
-        } else {
-            // Fallback to the text initial if no photo exists
-            avatarContainer.innerText = firstName.charAt(0).toUpperCase();
+        if (avatarContainer) {
+            if (photoUrl) {
+                avatarContainer.innerHTML = `<img src="${photoUrl}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;">`;
+                avatarContainer.style.background = 'transparent';
+            } else {
+                avatarContainer.innerText = firstName.charAt(0).toUpperCase();
+            }
         }
 
         // 🟢 BULLETPROOF IST TIME FUNCTION 🟢
@@ -6772,7 +6782,7 @@
         async function loadRealCupData() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${appUserId}`, {
-                    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData }
+                    headers: getAuthHeaders()
                 });
                 const data = await response.json();
 
@@ -6845,7 +6855,7 @@
             try {
                 // ✨ FIX: Send Telegram initData header
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`, {
-                    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData }
+                    headers: getAuthHeaders()
                 });
                 const data = await response.json();
                 
@@ -7006,7 +7016,7 @@
         async function loadProgressHistory() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${appUserId}`, {
-                    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData }
+                    headers: getAuthHeaders()
                 });
                 const data = await response.json();
                 
@@ -7566,7 +7576,7 @@
             try {
                 // ✨ SECURE AUTH HEADER ADDED
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/digest/today?user_id=${appUserId}`, {
-                    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData }
+                    headers: getAuthHeaders()
                 });
                 const data = await response.json();
                 
@@ -7636,10 +7646,7 @@
                 item.is_read = true;
                 fetch(`https://ez-editorials-bot.onrender.com/api/digest/mark-read`, {
                     method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'X-Telegram-Init-Data': window.Telegram.WebApp.initData // ✨ SECURE AUTH HEADER ADDED
-                    },
+                    headers: getAuthHeaders(),
                     body: JSON.stringify({ user_id: appUserId, content_type: id })
                 });
                 loadDailyDigest(); 
@@ -7695,10 +7702,7 @@
             // 2. Send to backend database in the background
             fetch(`https://ez-editorials-bot.onrender.com/api/profile/update-target`, {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'X-Telegram-Init-Data': window.Telegram.WebApp.initData // ✨ SECURE AUTH HEADER ADDED
-                },
+                headers: getAuthHeaders(),
                 body: JSON.stringify({ 
                     user_id: appUserId, 
                     state: stateVal, 
@@ -7771,10 +7775,12 @@
             window.scrollTo(0, 0);
 
             // 🟢 Toggle Native Telegram Back Button
-            if (viewId === 'view-home') {
-                tgApp.BackButton.hide();
-            } else {
-                tgApp.BackButton.show();
+            if (tgApp?.BackButton) {
+                if (viewId === 'view-home') {
+                    tgApp.BackButton.hide();
+                } else {
+                    tgApp.BackButton.show();
+                }
             }
 
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
