@@ -42,7 +42,8 @@ jobs:
 
       - name: Decode Release Keystore
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/ezeditorials.keystore
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | tr -d '\r\n ' | base64 -d -i > android/app/ezeditorials.keystore
+          ls -lh android/app/ezeditorials.keystore
 
       - name: Grant Execute Permission for Gradle
         run: chmod +x android/gradlew
@@ -57,18 +58,20 @@ jobs:
         run: |
           BUILD_TOOLS_PATH=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -n 1)
           
-          UNSIGNED_APK="android/app/build/outputs/apk/release/app-release-unsigned.apk"
+          UNSIGNED_APK=$(find android/app/build/outputs/apk/release -name "*.apk" | head -n 1)
           ALIGNED_APK="android/app/build/outputs/apk/release/EzEditorials-aligned.apk"
           FINAL_APK="android/app/build/outputs/apk/release/EzEditorials.apk"
           
-          $BUILD_TOOLS_PATH/zipalign -v -p 4 $UNSIGNED_APK $ALIGNED_APK
+          $BUILD_TOOLS_PATH/zipalign -v -p 4 "$UNSIGNED_APK" "$ALIGNED_APK"
           
           $BUILD_TOOLS_PATH/apksigner sign \
             --ks android/app/ezeditorials.keystore \
             --ks-key-alias ezeditorials \
             --ks-pass pass:"${{ secrets.KEYSTORE_PASSWORD }}" \
             --key-pass pass:"${{ secrets.KEYSTORE_PASSWORD }}" \
-            --out $FINAL_APK $ALIGNED_APK
+            --out "$FINAL_APK" "$ALIGNED_APK"
+
+          $BUILD_TOOLS_PATH/apksigner verify "$FINAL_APK"
 
       - name: Send APK to Telegram Topic 12916
         run: |
