@@ -1,29 +1,38 @@
 // auth.js - Unified Authentication for TMA, Web, and Android
 
-const isTMA = Boolean(window.Telegram?.WebApp?.initData && window.Telegram.WebApp.initData.length > 0);
-
-// 1. Returns headers for Render API calls
-function getAuthHeaders() {
-    if (isTMA) {
-        return {
-            'Content-Type': 'application/json',
-            'X-Telegram-Init-Data': window.Telegram.WebApp.initData
-        };
-    }
-    const token = localStorage.getItem('ez_session_token');
-    return {
-        'Content-Type': 'application/json',
-        'Authorization': token ? `Bearer ${token}` : ''
-    };
+function isTelegramMiniApp() {
+    return Boolean(window.Telegram?.WebApp?.initData && window.Telegram.WebApp.initData.length > 0);
 }
 
-// 2. Returns current student ID
+// 1. Returns headers for Render API calls
+function getAuthHeaders(customHeaders = {}) {
+    const headers = {
+        'Content-Type': 'application/json',
+        ...customHeaders
+    };
+    
+    if (isTelegramMiniApp()) {
+        headers['X-Telegram-Init-Data'] = window.Telegram.WebApp.initData;
+    } else {
+        const token = localStorage.getItem('ez_session_token');
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+    }
+    return headers;
+}
+
+// 2. Returns current student ID safely across TMA, Android, and Web
 function getActiveUserId() {
-    if (isTMA) {
-        return window.Telegram?.WebApp?.initDataUnsafe?.user?.id || 0;
+    if (isTelegramMiniApp()) {
+        const tgId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+        if (tgId) return Number(tgId);
     }
     const user = getSavedUser();
-    return user ? user.id : 0;
+    if (user) {
+        return Number(user.id || user.user_id || 0);
+    }
+    return 0;
 }
 
 // 3. Retrieves saved profile from localStorage
@@ -38,7 +47,7 @@ function getSavedUser() {
 
 // 4. Session check
 function isAuthenticated() {
-    if (isTMA) return true;
+    if (isTelegramMiniApp()) return true;
     return Boolean(localStorage.getItem('ez_session_token'));
 }
 
@@ -57,11 +66,9 @@ async function startMobileTelegramLogin() {
         const code = data.code;
         const botUsername = data.bot_username || 'Ez_vocab_bot';
 
-        // Direct student into bot with authentication payload
         const deepLink = `tg://resolve?domain=${botUsername}&start=login_${code}`;
         const webFallback = `https://t.me/${botUsername}?start=login_${code}`;
 
-        // Attempt app protocol first; fallback to browser link
         window.location.href = deepLink;
         setTimeout(() => {
             window.location.href = webFallback;
@@ -69,7 +76,6 @@ async function startMobileTelegramLogin() {
 
         if (statusEl) statusEl.innerText = "Tap 'Start' inside Telegram, then return here...";
 
-        // Poll Render until the bot records the user
         clearInterval(pollTimer);
         pollTimer = setInterval(async () => {
             try {
