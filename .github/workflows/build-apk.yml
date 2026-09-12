@@ -1,0 +1,79 @@
+name: Build & Publish Ez Editorials APK
+
+on:
+  workflow_dispatch: # Allows you to trigger the build manually anytime with one click
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Signed Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci || npm install
+
+      - name: Bundle Web Assets to www/
+        run: node build.js
+
+      - name: Sync Web Assets with Capacitor
+        run: npx cap sync android
+
+      - name: Decode Release Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/ezeditorials.keystore
+
+      - name: Grant Execute Permission for Gradle
+        run: chmod +x android/gradlew
+
+      - name: Build Release APK with Gradle
+        run: |
+          cd android
+          ./gradlew assembleRelease
+          cd ..
+
+      - name: Sign & Align APK
+        run: |
+          # Locate Android build tools on the runner
+          BUILD_TOOLS_PATH=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -n 1)
+          
+          UNSIGNED_APK="android/app/build/outputs/apk/release/app-release-unsigned.apk"
+          ALIGNED_APK="android/app/build/outputs/apk/release/EzEditorials-aligned.apk"
+          FINAL_APK="android/app/build/outputs/apk/release/EzEditorials.apk"
+          
+          # Align APK
+          $BUILD_TOOLS_PATH/zipalign -v -p 4 $UNSIGNED_APK $ALIGNED_APK
+          
+          # Sign APK with your stored keystore
+          $BUILD_TOOLS_PATH/apksigner sign \
+            --ks android/app/ezeditorials.keystore \
+            --ks-key-alias ezeditorials \
+            --ks-pass pass:"${{ secrets.KEYSTORE_PASSWORD }}" \
+            --key-pass pass:"${{ secrets.KEYSTORE_PASSWORD }}" \
+            --out $FINAL_APK $ALIGNED_APK
+
+      - name: Send APK to Telegram Topic 12916
+        run: |
+          curl -v -F "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+               -F "message_thread_id=12916" \
+               -F "document=@android/app/build/outputs/apk/release/EzEditorials.apk" \
+               -F "caption=📘 <b>Ez Editorials for Android</b>%0A%0AInstall this release to study daily editorials, practice quizzes, and track rankings offline.%0A%0A⚡ <i>Tap the file above to download and install.</i>" \
+               -F "parse_mode=HTML" \
+               https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendDocument
