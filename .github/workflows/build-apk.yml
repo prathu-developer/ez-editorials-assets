@@ -15,11 +15,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Java 17
+      - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Set up Node.js 22
         uses: actions/setup-node@v4
@@ -47,7 +47,6 @@ jobs:
           node -e "
             const fs = require('fs');
             const raw = process.env.KEYSTORE_BASE64 || '';
-            // Strip out Windows UTF-16 null bytes, newlines, and non-base64 characters
             const clean = raw.replace(/[^A-Za-z0-9+/=]/g, '');
             const buffer = Buffer.from(clean, 'base64');
             if (buffer.length < 500) {
@@ -78,10 +77,8 @@ jobs:
           
           echo "Processing generated APK: $UNSIGNED_APK"
           
-          # Align APK
           $BUILD_TOOLS_PATH/zipalign -v -p 4 "$UNSIGNED_APK" "$ALIGNED_APK"
           
-          # Sign APK with your stored keystore
           $BUILD_TOOLS_PATH/apksigner sign \
             --ks android/app/ezeditorials.keystore \
             --ks-key-alias ezeditorials \
@@ -89,7 +86,6 @@ jobs:
             --key-pass pass:"${{ secrets.KEYSTORE_PASSWORD }}" \
             --out "$FINAL_APK" "$ALIGNED_APK"
 
-          # Verify signature
           $BUILD_TOOLS_PATH/apksigner verify "$FINAL_APK"
           echo "✅ APK successfully signed and verified!"
 
