@@ -1,7 +1,7 @@
 name: Build & Publish Ez Editorials APK
 
 on:
-  workflow_dispatch: # Allows you to trigger the build manually anytime with one click
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -21,14 +21,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Node.js
+      - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci || npm install
+        run: npm install
 
       - name: Bundle Web Assets to www/
         run: node build.js
@@ -51,17 +51,14 @@ jobs:
 
       - name: Sign & Align APK
         run: |
-          # Locate Android build tools on the runner
           BUILD_TOOLS_PATH=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -n 1)
           
           UNSIGNED_APK="android/app/build/outputs/apk/release/app-release-unsigned.apk"
           ALIGNED_APK="android/app/build/outputs/apk/release/EzEditorials-aligned.apk"
           FINAL_APK="android/app/build/outputs/apk/release/EzEditorials.apk"
           
-          # Align APK
           $BUILD_TOOLS_PATH/zipalign -v -p 4 $UNSIGNED_APK $ALIGNED_APK
           
-          # Sign APK with your stored keystore
           $BUILD_TOOLS_PATH/apksigner sign \
             --ks android/app/ezeditorials.keystore \
             --ks-key-alias ezeditorials \
