@@ -40,9 +40,23 @@ jobs:
           chmod -R +x node_modules/.bin
           npx cap sync android
 
-      - name: Decode Release Keystore
+      - name: Decode Release Keystore with Node.js
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | tr -d '\r\n ' | base64 -d -i > android/app/ezeditorials.keystore
+          node -e "
+            const fs = require('fs');
+            const raw = process.env.KEYSTORE_BASE64 || '';
+            // Strip out Windows UTF-16 null bytes, newlines, and non-base64 characters
+            const clean = raw.replace(/[^A-Za-z0-9+/=]/g, '');
+            const buffer = Buffer.from(clean, 'base64');
+            if (buffer.length < 500) {
+              console.error('Error: Decoded keystore is too small (' + buffer.length + ' bytes). Check KEYSTORE_BASE64 secret.');
+              process.exit(1);
+            }
+            fs.writeFileSync('android/app/ezeditorials.keystore', buffer);
+            console.log('✅ Keystore decoded successfully (' + buffer.length + ' bytes)');
+          "
           ls -lh android/app/ezeditorials.keystore
 
       - name: Grant Execute Permission for Gradle
@@ -62,8 +76,12 @@ jobs:
           ALIGNED_APK="android/app/build/outputs/apk/release/EzEditorials-aligned.apk"
           FINAL_APK="android/app/build/outputs/apk/release/EzEditorials.apk"
           
+          echo "Processing generated APK: $UNSIGNED_APK"
+          
+          # Align APK
           $BUILD_TOOLS_PATH/zipalign -v -p 4 "$UNSIGNED_APK" "$ALIGNED_APK"
           
+          # Sign APK with your stored keystore
           $BUILD_TOOLS_PATH/apksigner sign \
             --ks android/app/ezeditorials.keystore \
             --ks-key-alias ezeditorials \
@@ -71,11 +89,14 @@ jobs:
             --key-pass pass:"${{ secrets.KEYSTORE_PASSWORD }}" \
             --out "$FINAL_APK" "$ALIGNED_APK"
 
+          # Verify signature
           $BUILD_TOOLS_PATH/apksigner verify "$FINAL_APK"
+          echo "✅ APK successfully signed and verified!"
 
       - name: Send APK to Telegram Topic 12916
         run: |
-          curl -v -F "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+          curl --fail-with-body \
+               -F "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
                -F "message_thread_id=12916" \
                -F "document=@android/app/build/outputs/apk/release/EzEditorials.apk" \
                -F "caption=📘 <b>Ez Editorials for Android</b>%0A%0AInstall this release to study daily editorials, practice quizzes, and track rankings offline.%0A%0A⚡ <i>Tap the file above to download and install.</i>" \
