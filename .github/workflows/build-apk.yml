@@ -28,13 +28,17 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: |
+          npm install
+          chmod -R +x node_modules/.bin
 
       - name: Bundle Web Assets to www/
         run: node build.js
 
       - name: Sync Web Assets with Capacitor
-        run: npx cap sync android
+        run: |
+          chmod -R +x node_modules/.bin
+          npx cap sync android
 
       - name: Decode Release Keystore
         run: |
