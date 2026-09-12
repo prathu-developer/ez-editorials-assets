@@ -5,7 +5,11 @@ if (tg?.expand) {
     tg.setBackgroundColor('#f4f6f8');
 }
 
-const userId = (typeof getActiveUserId === 'function' ? getActiveUserId() : 0) || tg?.initDataUnsafe?.user?.id || 0;
+function getEffectiveUserId() {
+    return (typeof getActiveUserId === 'function' ? getActiveUserId() : 0) ||
+           Number(window.Telegram?.WebApp?.initDataUnsafe?.user?.id || 0) ||
+           (typeof appUserId !== 'undefined' ? Number(appUserId) : 0);
+}
 
 function triggerHaptic(type = 'light') {
     if (localStorage.getItem('app_vibration') === 'false') return;
@@ -256,55 +260,40 @@ function renderLeaderboardData(data) {
     `;
 }
 
-const cacheKey = 'quizCupData_' + userId;
-const cachedString = localStorage.getItem(cacheKey);
-if (cachedString) {
-    try {
-        renderLeaderboardData(JSON.parse(cachedString));
-    } catch (e) { console.error("Cache read error", e); }
-}
+const currentActiveId = getEffectiveUserId();
 
-fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`, {
-    headers: getAuthHeaders()
-})
-    .then(response => response.json())
-    .then(data => {
-        if (data.locked || data.error) {
-            console.log("Server is syncing. Using cached data.");
-            return;
-        }
+if (currentActiveId > 0) {
+    const cacheKey = 'quizCupData_' + currentActiveId;
+    const cachedString = localStorage.getItem(cacheKey);
+    if (cachedString) {
+        try {
+            renderLeaderboardData(JSON.parse(cachedString));
+        } catch (e) { console.error("Cache read error", e); }
+    }
 
-        const tgUserId = Number(tg.initDataUnsafe?.user?.id) || 0;
-        const ADMIN_IDS = [716496729, 5103843488, 6251430317];
-        const isAdmin = ADMIN_IDS.includes(tgUserId);
-
-        // ✨ FIX: Single declaration preserving the server's rich current_user object
-        const myPersonalData = data.current_user || {
-            id: tgUserId,
-            name: "You",
-            score: 0,
-            rank: "N/A",
-            league: 0,
-            house: "🏳️ Unsorted",
-            is_captain: 0,
-            elo: 1000,
-            attempts: 0,
-            lifetime_growth: "Calibrating...",
-            rank_history: [],
-            history: { labels: [], scores: [], accuracy: 0, correct: 0, wrong: 0 }
-        };
-
-        myPersonalData.is_admin = isAdmin;
-        data.current_user = myPersonalData; 
-
-        localStorage.setItem(cacheKey, JSON.stringify(data));
-        renderLeaderboardData(data);
+    fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${currentActiveId}`, {
+        headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : {})
     })
-    .catch(err => {
-        if(!cachedString) {
-            document.getElementById('list').innerHTML = '<div style="text-align: center; color: #ef4444; margin-top: 30px;">Network error. Cannot connect to the Great Hall.</div>';
-        }
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.locked || data.error) {
+                console.log("Server is syncing. Using cached data.");
+                return;
+            }
+
+            const ADMIN_IDS = [716496729, 5103843488, 6251430317];
+            const isAdmin = ADMIN_IDS.includes(currentActiveId);
+
+            if (data.current_user) {
+                data.current_user.is_admin = isAdmin;
+                localStorage.setItem(cacheKey, JSON.stringify(data));
+                renderLeaderboardData(data);
+            }
+        })
+        .catch(err => {
+            console.error("Leaderboard background fetch error:", err);
+        });
+}
 
 function updateTimer() {
     let now = new Date();
@@ -393,7 +382,7 @@ function closeModal(event, force=false) {
 }
 
 function openProfile(targetId) {
-    let isOwnProfile = (Number(targetId) === Number(window.currentUserData?.id)) || (Number(targetId) === Number(userId));
+    let isOwnProfile = (Number(targetId) === Number(window.currentUserData?.id)) || (Number(targetId) === Number(getEffectiveUserId()));
 
     if (!isOwnProfile && !window.currentUserData?.is_admin) {
         triggerHaptic('warning');

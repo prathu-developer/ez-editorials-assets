@@ -1283,13 +1283,17 @@
                     if (isPractice) {
                         data = JSON.parse(sessionStorage.getItem('practiceResult'));
                     } else {
-                        const homeRes = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`, {
-                            headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : {})
+                        const headers = (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {};
+                        const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptIdParam}`, {
+                            headers: headers
                         });
                         data = await res.json();
                     }
                     
-                    if(!data || data.error) throw new Error(data?.error || "Failed to load review data");
+                    if (!data || data.error) {
+                        console.error("Review fetch error:", data);
+                        throw new Error(data?.error || "Failed to load review data");
+                    }
 
                     questions = data.solutions || [];
                     buildReviewPalette();
