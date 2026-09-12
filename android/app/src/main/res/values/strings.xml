@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Ez Editorials</string>
+    <string name="title_activity_main">Ez Editorials</string>
+    <string name="package_name">com.ezeditorials.app</string>
+    <string name="custom_url_scheme">com.ezeditorials.app</string>
+</resources>

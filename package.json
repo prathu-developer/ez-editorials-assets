@@ -1,0 +1,27 @@
+{
+  "name": "ez-editorials-assets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app_v8.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prathu-developer/ez-editorials-assets.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/prathu-developer/ez-editorials-assets/issues"
+  },
+  "homepage": "https://github.com/prathu-developer/ez-editorials-assets#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/app": "^8.1.1",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2"
+  }
+}

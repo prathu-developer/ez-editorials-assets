@@ -1,9 +1,11 @@
-const tg = window.Telegram.WebApp;
-tg.expand();
-tg.setHeaderColor('#1e3c72');
-tg.setBackgroundColor('#f4f6f8');
+const tg = window.Telegram?.WebApp;
+if (tg?.expand) {
+    tg.expand();
+    tg.setHeaderColor('#1e3c72');
+    tg.setBackgroundColor('#f4f6f8');
+}
 
-const userId = tg.initDataUnsafe?.user?.id || 0;
+const userId = (typeof getActiveUserId === 'function' ? getActiveUserId() : 0) || tg?.initDataUnsafe?.user?.id || 0;
 
 function triggerHaptic(type = 'light') {
     if (localStorage.getItem('app_vibration') === 'false') return;
@@ -263,7 +265,7 @@ if (cachedString) {
 }
 
 fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${userId}`, {
-    headers: { 'X-Telegram-Init-Data': window.Telegram.WebApp.initData } // ✨ SECURE AUTH HEADER
+    headers: getAuthHeaders()
 })
     .then(response => response.json())
     .then(data => {

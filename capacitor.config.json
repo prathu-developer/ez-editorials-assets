@@ -1,0 +1,8 @@
+{
+  "appId": "com.ezeditorials.app",
+  "appName": "Ez Editorials",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
