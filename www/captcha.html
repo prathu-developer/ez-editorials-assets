@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Entrance Trial</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --glass-bg: rgba(0, 0, 0, 0.28);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --btn-bg: rgba(255, 255, 255, 0.12);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --brand-green: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(140deg, #15803d 0%, #4ade80 50%, #a3e635 100%);
+            color: var(--text-main);
+            margin: 0;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            user-select: none;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 24px 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .group-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .group-info h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+        .group-info p {
+            margin: 2px 0 0;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Progress Section */
+        .progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .progress-header svg {
+            width: 14px;
+            height: 14px;
+            margin-right: 6px;
+            fill: currentColor;
+        }
+        .progress-bars {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 24px;
+        }
+        .bar {
+            height: 4px;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+        .bar.active {
+            background: #ffffff;
+        }
+
+        /* Question & Options */
+        .question-text {
+            font-size: 21px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 22px;
+            line-height: 1.35;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            background: var(--btn-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            border-radius: 22px;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            outline: none;
+        }
+
+        /* Correct & Error States */
+        .option-btn.correct {
+            background: rgba(34, 197, 94, 0.95);
+            border-color: rgba(34, 197, 94, 1);
+            color: #ffffff;
+        }
+        .badge-icon {
+            display: none;
+            width: 22px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.35);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 22px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .option-btn.correct .badge-icon.check {
+            display: block;
+        }
+
+        .option-btn.error {
+            background: rgba(239, 68, 68, 0.95);
+            border-color: rgba(239, 68, 68, 1);
+            animation: shake 0.4s;
+        }
+        .option-btn.error .badge-icon.cross {
+            display: block;
+        }
+
+        .warning-msg {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 18px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            height: 18px;
+        }
+        .warning-msg.show {
+            opacity: 1;
+        }
+
+        /* Success Screen */
+        .success-view {
+            display: none;
+            text-align: center;
+            padding: 10px 0 6px;
+        }
+        .halo-container {
+            position: relative;
+            width: 86px;
+            height: 86px;
+            margin: 10px auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .halo-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            animation: pulse-ring 2s infinite ease-out;
+        }
+        .success-badge {
+            position: relative;
+            width: 62px;
+            height: 62px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #ffffff;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .success-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 0 0 8px;
+            letter-spacing: -0.5px;
+        }
+        .success-sub {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin: 0 0 28px;
+            line-height: 1.4;
+        }
+        .continue-btn {
+            background: #ffffff;
+            color: #15803d;
+            border: none;
+            border-radius: 9999px;
+            padding: 16px 24px;
+            font-size: 17px;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .continue-btn:active {
+            transform: scale(0.98);
+        }
+        .decorations {
+            margin-top: 24px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 6px;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass-card">
+        <!-- Quiz State -->
+        <div id="quiz-view">
+            <div class="header">
+                <div class="group-icon">🪄</div>
+                <div class="group-info">
+                    <h2>Ez Editorials</h2>
+                    <p>Answer 3 quick questions to join the group.</p>
+                </div>
+            </div>
+
+            <div class="progress-header">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+                BOT QUIZ · Question <span id="q-num">1</span> of 3
+            </div>
+            <div class="progress-bars" id="progress-bars"></div>
+
+            <div class="question-text" id="question-text">Loading...</div>
+
+            <div class="options-container" id="options-container"></div>
+            
+            <div class="warning-msg" id="warning-msg">⚠️ Not quite. Try again.</div>
+        </div>
+
+        <!-- Success State -->
+        <div class="success-view" id="success-view">
+            <div class="header" style="justify-content: flex-start; text-align: left;">
+                <div class="group-icon">🪄</div>
+                <div class="group-info">
+                    <h2>Ez Editorials</h2>
+                    <p>Answer 3 quick questions to join the group.</p>
+                </div>
+            </div>
+
+            <div class="halo-container">
+                <div class="halo-ring"></div>
+                <div class="success-badge">✓</div>
+            </div>
+
+            <h1 class="success-title">You're in.</h1>
+            <p class="success-sub">You passed the Ez Editorials entrance trial.</p>
+
+            <!-- Disable button by default with a loading state -->
+            <button class="continue-btn" id="continue-btn" onclick="handleContinue()" disabled style="opacity: 0.7;">
+                Approving... ⏳
+            </button>
+
+            <div class="decorations">🪄 ★ ✦ 🪄 ★ ✦ 🪄</div>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        if (tg.requestFullscreen) {
+            tg.requestFullscreen();
+        }
+
+        // 1. MASTER QUESTION BANK (Add as many questions here as you like)
+        const questionBank = [
+            { q: "Choose the word closest in meaning to 'Meticulous'.", opts: ["Careless", "Thorough", "Impulsive", "Superficial"], ans: 1 },
+            { q: "Choose the antonym of 'Obsolete'.", opts: ["Outdated", "Ancient", "Modern", "Useless"], ans: 2 },
+            { q: "Choose the word closest in meaning to 'Pragmatic'.", opts: ["Practical", "Emotional", "Idealistic", "Hesitant"], ans: 0 },
+            { q: "Choose the antonym of 'Alleviate'.", opts: ["Relieve", "Aggravate", "Reduce", "Mitigate"], ans: 1 },
+            { q: "What does 'ambiguous' mean in the sentence: 'His explanation was ambiguous'?", opts: ["Clear and precise", "Open to more than one interpretation", "Completely incorrect", "Very detailed"], ans: 1 },
+            { q: "Choose the word closest in meaning to 'Candid'.", opts: ["Frank", "Cautious", "Secretive", "Deceptive"], ans: 0 },
+            { q: "Choose the antonym of 'Scarce'.", opts: ["Rare", "Limited", "Abundant", "Insufficient"], ans: 2 },
+            { q: "Choose the word closest in meaning to 'Deteriorate'.", opts: ["Improve", "Decline", "Stabilise", "Accelerate"], ans: 1 },
+            { q: "Choose the antonym of 'Coherent'.", opts: ["Logical", "Consistent", "Confusing", "Connected"], ans: 2 },
+            { q: "Choose the word closest in meaning to 'Resilient'.", opts: ["Fragile", "Adaptable", "Rigid", "Indifferent"], ans: 1 },
+            { q: "Choose the grammatically correct sentence.", opts: ["Neither of the boys have completed their work.", "Neither of the boys has completed his work.", "Neither of the boys have completed his work.", "Neither of the boys has completed their works."], ans: 1 },
+            { q: "By the time we reached the station, the train ___.", opts: ["leaves", "has left", "had left", "was leaving"], ans: 2 },
+            { q: "Identify the incorrect part: 'Each of the candidates were asked to submit his documents before noon.'", opts: ["Each of the candidates", "were asked", "to submit his documents", "before noon"], ans: 1 },
+            { q: "Choose the grammatically correct sentence.", opts: ["He is senior than me.", "He is senior to me.", "He is senior from me.", "He is more senior to me."], ans: 1 },
+            { q: "She has been working here ___ 2022.", opts: ["for", "from", "since", "by"], ans: 2 },
+            { q: "Choose the grammatically correct sentence.", opts: ["Hardly had I reached when it started raining.", "Hardly I had reached when it started raining.", "Hardly had I reached than it started raining.", "Hardly had I reached when it started raining."], ans: 3 },
+            { q: "Identify the incorrect part: 'One of my friend is preparing for the examination.'", opts: ["One of", "my friend", "is preparing", "for the examination"], ans: 1 },
+            { q: "Choose the correct sentence.", opts: ["No sooner did he arrive when the meeting began.", "No sooner had he arrived than the meeting began.", "No sooner he arrived than the meeting began.", "No sooner had he arrived when the meeting began."], ans: 1 },
+            { q: "Choose the correct form: 'She ___ in Delhi for five years before moving to Mumbai.'", opts: ["lived", "has lived", "had lived", "was living"], ans: 2 },
+            { q: "Choose the correct sentence.", opts: ["The furniture in this room are expensive.", "The furniture in this room is expensive.", "The furnitures in this room are expensive.", "The furnitures in this room is expensive."], ans: 1 },
+            { q: "Improve the sentence: 'He is knowing the answer.'", opts: ["He knows the answer.", "He has knowing the answer.", "He had knew the answer.", "No improvement"], ans: 0 },
+            { q: "Improve the sentence: 'She prefers tea than coffee.'", opts: ["She prefers tea over coffee.", "She prefers tea to coffee.", "She prefers tea from coffee.", "No improvement"], ans: 1 },
+            { q: "Improve the sentence: 'The news are not encouraging.'", opts: ["The news is not encouraging.", "The news were not encouraging.", "The news have not encouraging.", "No improvement"], ans: 0 },
+            { q: "Improve the sentence: 'He discussed about the issue with his manager.'", opts: ["He discussed on the issue with his manager.", "He discussed the issue with his manager.", "He discussed about on the issue with his manager.", "No improvement"], ans: 1 },
+            { q: "Improve the sentence: 'She returned back to her hometown yesterday.'", opts: ["She returned to her hometown yesterday.", "She returned again back to her hometown yesterday.", "She had returned back to her hometown yesterday.", "No improvement"], ans: 0 },
+            { q: "The committee arrived ___ a unanimous decision.", opts: ["on", "at", "in", "with"], ans: 1 },
+            { q: "He was accused ___ manipulating the data.", opts: ["for", "with", "of", "about"], ans: 2 },
+            { q: "The manager insisted ___ seeing the original documents.", opts: ["to", "for", "on", "at"], ans: 2 },
+            { q: "She is proficient ___ English and mathematics.", opts: ["at", "in", "on", "with"], ans: 1 },
+            { q: "The officer is responsible ___ maintaining the records.", opts: ["of", "for", "to", "with"], ans: 1 },
+            { q: "The government's decision was widely ___ by economists because it was expected to reduce inflation.", opts: ["condemned", "welcomed", "concealed", "distorted"], ans: 1 },
+            { q: "The sudden change in policy caused considerable ___ among the employees.", opts: ["confusion", "clarity", "certainty", "approval"], ans: 0 },
+            { q: "Despite facing several obstacles, the organisation managed to ___ its objectives.", opts: ["achieve", "evade", "withdraw", "diminish"], ans: 0 },
+            { q: "The minister's statement gave rise to considerable ___.", opts: ["controversy", "consensus", "stability", "compliance"], ans: 0 },
+            { q: "The company adopted a ___ approach to deal with the financial crisis.", opts: ["pragmatic", "reckless", "ambiguous", "obsolete"], ans: 0 },
+            { q: "What does the idiom 'bite the bullet' mean?", opts: ["Avoid a difficult situation", "Face a difficult situation with courage", "Make a careless decision", "Express anger"], ans: 1 },
+            { q: "What does 'bring into force' mean?", opts: ["Cancel officially", "Implement officially", "Discuss publicly", "Delay indefinitely"], ans: 1 },
+            { q: "What does 'do away with' mean?", opts: ["Introduce", "Preserve", "Abolish", "Postpone"], ans: 2 },
+            { q: "What does 'give rise to' mean?", opts: ["Prevent", "Cause", "Resolve", "Conceal"], ans: 1 },
+            { q: "What does 'look into' mean?", opts: ["Ignore", "Investigate", "Reject", "Predict"], ans: 1 },
+            { q: "Choose the correctly spelt word.", opts: ["Accomodate", "Acommodate", "Accommodate", "Accommadate"], ans: 2 },
+            { q: "Choose the correctly spelt word.", opts: ["Privilege", "Privelege", "Priviledge", "Privillage"], ans: 0 },
+            { q: "Choose the correctly spelt word.", opts: ["Conscientious", "Consciencious", "Conscientous", "Consciencious"], ans: 0 },
+            { q: "Choose the correctly spelt word.", opts: ["Maintenance", "Maintainance", "Maintanance", "Maintenence"], ans: 0 },
+            { q: "Choose the correctly spelt word.", opts: ["Entrepreneur", "Enterpreneur", "Entreprenuer", "Entreprenur"], ans: 0 },
+            { q: "Choose the correct word: 'The new policy will ___ the lives of thousands of workers.'", opts: ["effect", "affect", "effected", "affects"], ans: 1 },
+            { q: "Choose the correct word: 'The committee reached a ___ decision after several hours of discussion.'", opts: ["unanimous", "anonymous", "autonomous", "ambiguous"], ans: 0 },
+            { q: "Choose the correct word: 'The officer gave a ___ explanation for the delay.'", opts: ["credible", "credulous", "creditable", "credit"], ans: 0 },
+            { q: "Choose the correct word: 'The two witnesses gave ___ accounts of the incident.'", opts: ["consistent", "contradictory", "complementary", "contemporary"], ans: 1 },
+            { q: "Choose the correct word: 'The company is trying to ___ the growing demand for its products.'", opts: ["meet", "see", "watch", "look"], ans: 0 },
+            { q: "Choose the correct sentence.", opts: ["Unless you do not work hard, you will fail.", "Unless you work hard, you will fail.", "Unless you will work hard, you will fail.", "Unless you worked hard, you will fail."], ans: 1 },
+            { q: "Choose the correct sentence.", opts: ["If I would have known, I would have helped you.", "If I had known, I would have helped you.", "If I knew, I would have helped you.", "If I have known, I would have helped you."], ans: 1 },
+            { q: "Choose the correct sentence.", opts: ["The number of applicants have increased.", "The number of applicants has increased.", "The number of applicants have been increased.", "The number of applicant has increased."], ans: 1 },
+            { q: "Choose the correct sentence.", opts: ["A large number of students is absent today.", "A large number of students are absent today.", "A large number of student is absent today.", "A large number of students has absent today."], ans: 1 },
+            { q: "Choose the correct sentence.", opts: ["He is one of those students who works hard.", "He is one of those students who work hard.", "He is one of those student who work hard.", "He is one of those students who has work hard."], ans: 1 },
+            { q: "Choose the correct meaning of the phrase 'in lieu of'.", opts: ["In addition to", "Instead of", "In spite of", "Because of"], ans: 1 },
+            { q: "Choose the correct meaning of 'at odds with'.", opts: ["In agreement with", "In conflict with", "Dependent on", "Interested in"], ans: 1 },
+            { q: "Choose the correct meaning of 'by and large'.", opts: ["Suddenly", "In detail", "Generally", "Rarely"], ans: 2 },
+            { q: "Choose the correct meaning of 'a blessing in disguise'.", opts: ["A hidden danger", "Something that appears bad but proves beneficial", "An unexpected punishment", "A public celebration"], ans: 1 },
+            { q: "Choose the word closest in meaning to 'Eloquent'.", opts: ["Fluent", "Silent", "Confused", "Reluctant"], ans: 0 },
+            { q: "Choose the antonym of 'Benevolent'.", opts: ["Generous", "Kind", "Malevolent", "Compassionate"], ans: 2 },
+            { q: "Choose the word closest in meaning to 'Imminent'.", opts: ["Uncertain", "Approaching", "Impossible", "Remote"], ans: 1 },
+            { q: "Choose the antonym of 'Transparent'.", opts: ["Visible", "Obvious", "Opaque", "Clear"], ans: 2 },
+            { q: "Choose the word closest in meaning to 'Vigilant'.", opts: ["Watchful", "Careless", "Indifferent", "Forgetful"], ans: 0 },
+            { q: "Choose the antonym of 'Rigid'.", opts: ["Strict", "Flexible", "Firm", "Stiff"], ans: 1 },
+            { q: "Choose the word closest in meaning to 'Concise'.", opts: ["Brief", "Complicated", "Lengthy", "Vague"], ans: 0 },
+            { q: "Choose the antonym of 'Hostile'.", opts: ["Aggressive", "Unfriendly", "Friendly", "Violent"], ans: 2 },
+            { q: "Choose the word closest in meaning to 'Scrutinise'.", opts: ["Examine carefully", "Ignore completely", "Summarise briefly", "Reject immediately"], ans: 0 },
+            { q: "Choose the antonym of 'Explicit'.", opts: ["Clear", "Definite", "Implicit", "Precise"], ans: 2 },
+            { q: "Choose the correct form: 'Neither the manager nor his assistants ___ willing to accept the proposal.'", opts: ["was", "is", "were", "has"], ans: 2 },
+            { q: "Choose the correct form: 'Either the teachers or the principal ___ responsible for the decision.'", opts: ["are", "were", "have", "is"], ans: 3 },
+            { q: "Identify the incorrect part: 'The quality of these products have improved considerably.'", opts: ["The quality", "of these products", "have improved", "considerably"], ans: 2 },
+            { q: "Identify the incorrect part: 'He is one of the best player in the team.'", opts: ["He is", "one of the best", "player in the team", "No error"], ans: 2 },
+            { q: "Choose the correct sentence.", opts: ["She is accustomed to work late.", "She is accustomed to working late.", "She is accustomed for working late.", "She is accustomed with working late."], ans: 1 },
+            { q: "Choose the correct sentence.", opts: ["I look forward to meet you.", "I look forward to meeting you.", "I look forward for meeting you.", "I look forward at meeting you."], ans: 1 },
+            { q: "Choose the correct sentence.", opts: ["He prevented me to enter the room.", "He prevented me from entering the room.", "He prevented me for entering the room.", "He prevented me entering to the room."], ans: 1 },
+            { q: "Choose the correct sentence.", opts: ["She insisted to go alone.", "She insisted for going alone.", "She insisted on going alone.", "She insisted at going alone."], ans: 2 },
+            { q: "Choose the correct passive form: 'The committee will announce the results tomorrow.'", opts: ["The results will be announced by the committee tomorrow.", "The results are announced by the committee tomorrow.", "The results were announced by the committee tomorrow.", "The results have been announced by the committee tomorrow."], ans: 0 },
+            { q: "Choose the correct indirect speech: He said, 'I am busy.'", opts: ["He said that I am busy.", "He said that he was busy.", "He said that he is busy.", "He said that I was busy."], ans: 1 },
+            { q: "Choose the correct article: 'He is ___ university student.'", opts: ["a", "an", "the", "no article"], ans: 0 },
+            { q: "Choose the correct article: 'She waited for ___ hour before the train arrived.'", opts: ["a", "an", "the", "no article"], ans: 1 },
+            { q: "Choose the correct preposition: 'He has no control ___ his emotions.'", opts: ["on", "over", "at", "with"], ans: 1 },
+            { q: "Choose the correct preposition: 'The officer complied ___ the instructions.'", opts: ["to", "with", "for", "at"], ans: 1 },
+            { q: "Choose the correct preposition: 'She is capable ___ handling the situation.'", opts: ["to", "for", "of", "with"], ans: 2 },
+            { q: "Choose the correct word: 'The witness gave a ___ account of the incident.'", opts: ["credible", "credulous", "credit", "credibility"], ans: 0 },
+            { q: "Choose the correct word: 'The two departments must work in ___ with each other.'", opts: ["accord", "accordance", "accordingly", "according"], ans: 0 },
+            { q: "Choose the correct word: 'The new regulations are intended to ___ corruption.'", opts: ["curb", "curve", "carve", "cover"], ans: 0 },
+            { q: "Choose the correct word: 'The evidence was ___ to the investigation.'", opts: ["relevant", "reluctant", "relative", "reverent"], ans: 0 },
+            { q: "Choose the correct word: 'His argument lacks ___ evidence.'", opts: ["substantial", "substantive", "substantially", "substance"], ans: 0 },
+            { q: "What does the phrasal verb 'carry out' mean?", opts: ["Cancel", "Execute or perform", "Postpone", "Withdraw"], ans: 1 },
+            { q: "What does the phrasal verb 'come across' mean?", opts: ["Encounter or find", "Reject", "Escape", "Destroy"], ans: 0 },
+            { q: "What does the phrasal verb 'call off' mean?", opts: ["Announce", "Cancel", "Continue", "Repeat"], ans: 1 },
+            { q: "What does the idiom 'read between the lines' mean?", opts: ["Read very quickly", "Understand the hidden meaning", "Read aloud", "Skip unnecessary details"], ans: 1 },
+            { q: "What does the idiom 'hit the nail on the head' mean?", opts: ["Make a mistake", "Say exactly the right thing", "Work very slowly", "Avoid an issue"], ans: 1 },
+            { q: "Choose the correctly spelt word.", opts: ["Questionnaire", "Questionaire", "Questionnair", "Questionnare"], ans: 0 },
+            { q: "Choose the correctly spelt word.", opts: ["Exaggerate", "Exagerrate", "Exagerate", "Exaggerete"], ans: 0 },
+            { q: "Choose the correctly spelt word.", opts: ["Miscellaneous", "Miscelaneous", "Miscellanous", "Miscelanious"], ans: 0 },
+            { q: "Choose the correct sentence.", opts: ["Despite of the rain, the match continued.", "Despite the rain, the match continued.", "Despite from the rain, the match continued.", "Despite to the rain, the match continued."], ans: 1 },
+            { q: "Choose the correct sentence.", opts: ["He is good in mathematics.", "He is good at mathematics.", "He is good on mathematics.", "He is good with mathematics."], ans: 1 }
+        ];
+    
+        // Pick exactly 3 random questions
+        const questions = questionBank
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 3);
+
+        let currentQuestion = 0;
+        let isProcessingTap = false;
+
+        function renderProgress() {
+            document.getElementById('q-num').innerText = currentQuestion + 1;
+            const barContainer = document.getElementById('progress-bars');
+            barContainer.innerHTML = '';
+            for (let i = 0; i < questions.length; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'bar ' + (i <= currentQuestion ? 'active' : '');
+                barContainer.appendChild(bar);
+            }
+        }
+
+        function loadQuestion() {
+            if (currentQuestion >= questions.length) {
+                finishQuiz();
+                return;
+            }
+
+            isProcessingTap = false;
+            document.getElementById('warning-msg').classList.remove('show');
+            renderProgress();
+
+            const qData = questions[currentQuestion];
+            document.getElementById('question-text').innerText = qData.q;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+            qData.opts.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <span class="badge-icon check">✓</span>
+                    <span class="badge-icon cross">✕</span>
+                `;
+
+                btn.onclick = () => handleTap(btn, index, qData.ans);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function handleTap(btn, selectedIndex, correctIndex) {
+            if (isProcessingTap) return;
+
+            document.querySelectorAll('.option-btn').forEach(b => {
+                b.classList.remove('error');
+                b.classList.remove('correct');
+            });
+            document.getElementById('warning-msg').classList.remove('show');
+
+            if (selectedIndex === correctIndex) {
+                isProcessingTap = true;
+                btn.classList.add('correct');
+
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('success');
+                }
+
+                setTimeout(() => {
+                    currentQuestion++;
+                    loadQuestion();
+                }, 350);
+
+            } else {
+                btn.classList.add('error');
+                document.getElementById('warning-msg').classList.add('show');
+
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
+                }
+            }
+        }
+
+        async function finishQuiz() {
+            // Instantly transition to the "You're in." window
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('success-view').style.display = 'block';
+
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+
+            const initData = tg.initData || '';
+            const userId = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+            const btn = document.getElementById('continue-btn');
+
+            // Await the fetch request to prevent the user from closing the app before the server registers it
+            try {
+                await fetch('https://ez-verify-worker.prathamesh-adhe508.workers.dev', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Telegram-Init-Data': initData
+                    },
+                    body: JSON.stringify({ user_id: userId })
+                });
+            } catch (err) {
+                console.error("Approval request failed:", err);
+            } finally {
+                // Unlock the continue button ONLY after the backend is done processing
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
+            }
+        }
+
+        function handleContinue() {
+            if (tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('medium');
+            }
+            tg.close();
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

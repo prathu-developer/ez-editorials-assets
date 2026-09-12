@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Active Test</title>
+    <script>
+        (function() {
+            if (localStorage.getItem('app_dark_mode') === 'true') {
+                document.documentElement.classList.add('dark-mode');
+                window.addEventListener('DOMContentLoaded', () => {
+                    if (document.body) document.body.classList.add('dark-mode');
+                });
+            }
+            try {
+                const ua = navigator.userAgent || '';
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+                const tgPlatform = window.Telegram?.WebApp?.platform || '';
+                const isTgDesktop = ['tdesktop', 'macos', 'web', 'weba', 'webk'].includes(tgPlatform);
+                const isLaptopScreen = window.screen.width >= 768;
+
+                if (isTgDesktop || (!isMobile && isLaptopScreen)) {
+                    document.documentElement.classList.add('is-desktop');
+                }
+            } catch (e) {}
+        })();
+    </script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-red: #e73b50;
+            --brand-blue: #1c64f2;
+            --bg-main: #f5f6f8;
+            --card-bg: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-muted: #6b7280;
+            --border-color: #e5e7eb;
+            --green-bg: #def7ec;
+            --green-text: #03543f;
+            --red-bg: #fde8e8;
+            --red-text: #9b1c1c;
+        }
+
+        /* 🟢 Phase 2: Dark Mode Tokens & Live Test Engine */
+        html.dark-mode, body.dark-mode {
+            --bg-main: #121212;
+            --card-bg: #1e1e1e;
+            --text-dark: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #2e2e38;
+            --green-bg: #064e3b;
+            --green-text: #6ee7b7;
+            --red-bg: #450a0a;
+            --red-text: #fca5a5;
+        }
+
+        /* Top Header & Question Layout */
+        .dark-mode .top-header,
+        .dark-mode .sub-header {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        .dark-mode .q-num-box {
+            background: #27272a !important;
+            color: var(--text-dark) !important;
+            border-color: var(--border-color) !important;
+        }
+        .dark-mode .passage-text {
+            color: var(--text-dark) !important;
+        }
+
+        /* Option Tiles */
+        .dark-mode .option {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        .dark-mode .opt-letter {
+            background: #27272a !important;
+            color: var(--text-muted) !important;
+        }
+        .dark-mode .option.selected {
+            background: #1e293b;
+            border-color: #3b82f6;
+        }
+        .dark-mode .option.selected .opt-letter {
+            background: #3b82f6 !important;
+            color: #ffffff !important;
+        }
+
+        /* Bottom Navigation Bar */
+        .dark-mode .bottom-bar {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.45);
+        }
+        .dark-mode .btn-half {
+            background: #27272a;
+            border-color: var(--border-color);
+            color: var(--text-dark);
+        }
+
+        /* Palette & Modals */
+        .dark-mode .bottom-sheet {
+            background: var(--card-bg);
+        }
+        .dark-mode .close-indicator {
+            background: #374151;
+        }
+        .dark-mode .test-mode-card {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        .dark-mode .pal-btn.not-visited {
+            background: #1e1e1e;
+            border-color: var(--border-color);
+            color: var(--text-muted);
+        }
+        .dark-mode .pal-btn.not-answered {
+            background: #27272a;
+            border-color: var(--border-color);
+            color: var(--text-dark);
+        }
+        .dark-mode .pal-btn.review {
+            background: #422006;
+            border-color: #713f12;
+            color: #fde047;
+        }
+        .dark-mode .pal-btn.review-answered {
+            background: #422006;
+            border: 2px solid #3b82f6;
+            color: #fde047;
+        }
+        .dark-mode .leg-not-visited {
+            background: #1e1e1e;
+            border-color: #4b5563;
+            color: #9ca3af;
+        }
+        .dark-mode .leg-not-answered {
+            background: #374151;
+        }
+        .dark-mode .submit-table th {
+            background: #27272a;
+            color: var(--text-dark);
+        }
+        .dark-mode .warning-box {
+            background: #451a03;
+            color: #fcd34d;
+        }
+
+        /* Instructions Screen Overrides for Hardcoded Inlines */
+        .dark-mode #instructions-screen > div:nth-child(2) {
+            background: var(--card-bg) !important;
+        }
+        .dark-mode #instructions-screen [style*="background:#f8f9fa"],
+        .dark-mode #instructions-screen [style*="background: #f8f9fa"] {
+            background: #27272a !important;
+        }
+        .dark-mode #instructions-screen div:last-child {
+            background: var(--card-bg) !important;
+            border-color: var(--border-color) !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Test Mode Safety Guard Modal */
+        .test-mode-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 20px 0 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .test-mode-info {
+            flex: 1;
+        }
+
+        .test-mode-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .test-mode-desc {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .custom-radio {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--brand-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .custom-radio::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--brand-red);
+        }
+
+        .close-indicator {
+            width: 40px;
+            height: 4px;
+            background: #d1d5db;
+            border-radius: 8px;
+            margin: 0 auto 16px auto;
+            cursor: pointer;
+        }
+
+        /* Dynamic Font Scaling */
+        body.font-small .q-text, body.font-small .opt-text { font-size: 13px; }
+        body.font-large .q-text { font-size: 17px; } body.font-large .opt-text { font-size: 15px; }
+        body.font-xlarge .q-text { font-size: 20px; } body.font-xlarge .opt-text { font-size: 17px; }
+
+        /* Top Header */
+        .top-header { background: var(--card-bg); padding: 12px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); z-index: 10; }
+        .pause-btn { background: var(--brand-red); color: white; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; cursor: pointer; }
+        .header-info { flex-grow: 1; }
+        .header-title { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+        .timer-text { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+        .timer-countdown { color: var(--brand-red); font-weight: 600; }
+        .header-icons { display: flex; align-items: center; gap: 16px; color: var(--text-muted); cursor: pointer; }
+
+        /* Sub Header */
+        .sub-header { background: var(--bg-main); padding: 12px 16px; display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; color: var(--text-muted); border-bottom: 1px solid var(--border-color); }
+        .review-btn { cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .review-btn.marked { color: #d97706; font-weight: 600; }
+
+        /* Question Area */
+        .scroll-area { flex-grow: 1; overflow-y: auto; padding: 16px; padding-bottom: 140px; }
+        
+        .q-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .q-num-box { background: #f3f4f6; color: var(--text-dark); width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; margin-right: 12px; border: 1px solid var(--border-color);}
+        .inst-title { font-size: 16px; font-weight: 700; flex-grow: 1; }
+        
+        .marks-container { display: flex; gap: 6px; }
+        .marks-badge { font-size: 13px; font-weight: 600; padding: 2px 8px; border-radius: 12px; }
+        .marks-plus { background: var(--green-bg); color: var(--green-text); }
+        .marks-minus { background: var(--red-bg); color: var(--red-text); }
+        
+        .passage-block { margin-bottom: 24px; }
+        .inst-text { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+        .passage-text { font-size: 15px; line-height: 1.6; color: var(--text-dark); white-space: pre-wrap; transition: max-height 0.3s ease; overflow: hidden; }
+        .passage-text.collapsed { max-height: 68px; /* Approx 3 lines */ display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+        
+        .view-more-btn { color: var(--brand-blue); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-block; margin-top: 4px; }
+        
+        .q-label { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
+        .q-text { font-size: 16px; line-height: 1.6; font-weight: 400; margin-bottom: 24px; color: var(--text-dark); transition: font-size 0.2s; }
+
+        /* Options */
+        .option { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s; }
+        .option.selected { border-color: var(--brand-blue); background: #eff6ff; }
+        .opt-letter { width: 30px; height: 30px; border-radius: 50%; background: #f3f4f6; color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0; }
+        .option.selected .opt-letter { background: var(--brand-blue); color: white; }
+        .opt-text { font-size: 14px; font-weight: 500; color: var(--text-dark); transition: font-size 0.2s; flex-grow: 1; }
+
+        /* Compact Bottom Bar */
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); padding: 8px 14px 14px 14px; box-shadow: 0 -4px 12px rgba(0,0,0,0.06); z-index: 20; }
+        .action-row { display: flex; gap: 8px; margin-bottom: 8px; }
+        .btn-half { flex: 1; padding: 10px 8px; border-radius: 8px; font-size: 13px; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer; color: var(--text-dark); display: flex; justify-content: center; align-items: center; gap: 4px; transition: all 0.15s ease; }
+        .btn-half:active { transform: scale(0.97); }
+        .btn-report { color: var(--brand-red); }
+        .btn-mark { background: #fffbeb; border-color: #fde68a; color: #b45309; font-weight: 700; }
+        .btn-save-next { background: var(--brand-red); color: white; border: none; font-weight: 700; }
+        .btn-main { width: 100%; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; background: var(--brand-red); color: white; border: none; cursor: pointer; }
+        .btn-main.submit { background: var(--brand-blue); }
+
+        /* Modals & Sheets */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: flex-end; justify-content: center; }
+        .bottom-sheet { background: var(--card-bg); width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto; }
+        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--brand-red); padding-bottom: 8px;}
+        .sheet-header h3 { margin: 0; font-size: 16px; color: var(--text-dark); }
+        .close-icon { font-size: 24px; cursor: pointer; color: var(--text-muted); }
+
+        /* Palette Modal & 5-State Indicators */
+        .palette-scroll-wrap { max-height: 260px; overflow-y: auto; margin-bottom: 16px; padding: 2px 4px 2px 0; }
+        .palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .pal-btn { aspect-ratio: 1; border-radius: 8px; font-weight: 700; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid #e5e7eb; background: #ffffff; color: var(--text-dark); box-sizing: border-box; }
+
+        .pal-btn.not-visited { background: #ffffff; border-color: #e5e7eb; color: var(--text-dark); }
+        .pal-btn.not-answered { background: #f3f4f6; border-color: #e5e7eb; color: var(--text-dark); }
+        .pal-btn.answered { background: #3b82f6; border-color: #3b82f6; color: #ffffff; }
+        .pal-btn.review { background: #fef08a; border-color: #facc15; color: #854d0e; }
+        .pal-btn.review-answered { background: #fef08a; border: 2px solid #3b82f6; color: #854d0e; }
+        .pal-btn.current { outline: 2.5px solid #22c55e; outline-offset: -1px; }
+
+        /* Palette Legend Grid */
+        .palette-legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; padding-top: 12px; border-top: 1px solid var(--border-color); font-size: 12px; font-weight: 500; color: var(--text-dark); }
+        .legend-item { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+        .leg-icon { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+        .leg-answered { background: #3b82f6; color: white; }
+        .leg-not-answered { background: #cbd5e1; }
+        .leg-review { background: #fef08a; color: #ca8a04; border: 1px solid #fde047; }
+        .leg-not-visited { background: #ffffff; border: 1.5px solid #94a3b8; color: #94a3b8; }
+        .leg-review-answered { background: #fef08a; color: #1e3a8a; border: 2px solid #3b82f6; }
+
+        /* Submit Modal */
+        .submit-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden;}
+        .submit-table th, .submit-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        .submit-table th { background: #f9fafb; font-weight: 600; }
+        .warning-box { background: #fffbeb; color: #b45309; padding: 12px; border-radius: 8px; font-size: 13px; font-weight: 500; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;}
+
+        #loading-screen { position: absolute; inset: 0; background: var(--bg-main); display: flex; align-items: center; justify-content: center; z-index: 200; font-weight: 600; }
+        
+        .radio-label { display: flex; align-items: center; margin-bottom: 16px; cursor: pointer; }
+        .radio-input { width: 20px; height: 20px; margin-right: 12px; accent-color: var(--brand-blue); }
+
+        /* Review Mode Compact Stats Strip */
+        .stats-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 8px 14px; 
+            background: var(--bg-main); 
+            border-bottom: 1px solid var(--border-color); 
+            gap: 8px; 
+        }
+        .stat-pill { 
+            background: #f1f5f9; 
+            color: var(--text-dark); 
+            padding: 3.5px 9px; 
+            border-radius: 12px; 
+            font-size: 11.5px; 
+            font-weight: 600; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 4px; 
+            white-space: nowrap; 
+        }
+        .stat-pill.green-tint { background: #def7ec; color: #03543f; }
+        .stat-pill.red-tint   { background: #fde8e8; color: #9b1c1c; }
+        .stat-pill.amber-tint { background: #fef3c7; color: #92400e; }
+
+        .instruction-block { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+        .inst-badge { width: 24px; height: 24px; background: #e5e7eb; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+        .inst-title { font-size: 15px; font-weight: 700; flex-grow: 1; margin-top: 2px; }
+        
+        .unattempted-warning { color: var(--brand-red); font-size: 13px; font-weight: 600; margin-bottom: 12px; display: none; }
+        
+        .option.correct-reveal { background: #def7ec; border-color: #31c48d; pointer-events: none; }
+        .option.wrong-reveal { background: #fde8e8; border-color: #f98080; pointer-events: none; }
+        .opt-badge { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; margin-left: auto; white-space: nowrap; }
+        .badge-correct { background: #31c48d; color: white; }
+        .badge-wrong { background: #f98080; color: white; }
+        
+        .solution-accordion { margin-top: 16px; border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; display: none; }
+        .acc-header { padding: 14px 16px; background: #f8fafc; font-weight: 600; font-size: 14px; color: var(--brand-blue); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .acc-body { padding: 16px; font-size: 14px; line-height: 1.6; background: white; border-top: 1px solid var(--border-color); display: none; }
+        .acc-body.show { display: block; }
+        
+        /* Toggle Switch */
+        .switch { position: relative; display: inline-block; width: 42px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--brand-red); }
+        input:checked + .slider:before { transform: translateX(18px); }
+
+        /* Summary Modal Specifics */
+        .summary-tab { font-size: 15px; font-weight: 600; color: var(--brand-red); border-bottom: 2px solid var(--brand-red); padding-bottom: 8px; display: inline-block; margin-bottom: 16px; }
+        .summary-meta { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-dark); margin-bottom: 16px; align-items: center; }
+        .pal-btn.review-correct { background: #31c48d; color: white; border: none; }
+        .pal-btn.review-wrong { background: #f98080; color: white; border: none; }
+        .pal-btn.review-skip { background: #e5e7eb; color: var(--text-muted); border: none; }
+        
+        .legend-section { border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px; }
+        .legend-title { font-size: 13px; color: var(--text-dark); margin-bottom: 12px; }
+        .legend-row { display: flex; gap: 16px; font-size: 13px; color: var(--text-dark); font-weight: 500; align-items: center; margin-bottom: 8px;}
+        .legend-dot { width: 16px; height: 16px; border-radius: 50%; display: inline-block; flex-shrink: 0;}
+
+        /* --- REVIEW SECTION STRIP --- */
+        .review-section-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .review-section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .review-strip-icons {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--text-dark);
+        }
+
+        /* --- REVIEW PALETTE & FILTER POPOVER --- */
+        .review-tab-header {
+            display: inline-block;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--brand-red);
+            border-bottom: 2.5px solid var(--brand-red);
+            padding-bottom: 6px;
+            margin-bottom: 14px;
+        }
+        .review-meta-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .filter-btn-trigger {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #2563eb;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            background: #eff6ff;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* Filter Dropdown Popover */
+        .filter-popover {
+            position: absolute;
+            top: 32px;
+            right: 0;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            padding: 10px 12px;
+            z-index: 150;
+            width: 175px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .filter-pop-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+            padding: 2px 0;
+        }
+        .filter-left-tag {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .filter-color-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+            font-weight: 800;
+        }
+        .filter-checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: #2563eb;
+            cursor: pointer;
+        }
+
+        /* 🟢 ADD THIS DIRECTLY BELOW: */
+        .btn-filter-apply {
+            margin-top: 6px;
+            width: 100%;
+            padding: 8px 0;
+            background: var(--brand-blue, #1c64f2);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-filter-apply:active {
+            transform: scale(0.97);
+            opacity: 0.9;
+        }
+        body.dark-mode .btn-filter-apply {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        /* Review Question Grid */
+        .rev-pal-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding: 2px;
+        }
+        .rev-pal-item {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            background: #e2e8f0;
+            color: #475569;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1.5px solid transparent;
+            box-sizing: border-box;
+        }
+        .rev-pal-item.current {
+            border-color: #10b981 !important;
+            background: #ffffff;
+            color: var(--text-dark);
+        }
+        .rev-pal-item.rev-correct {
+            background: #def7ec;
+            color: #03543f;
+            border-color: #31c48d;
+        }
+        .rev-pal-item.rev-incorrect {
+            background: #fde8e8;
+            color: #9b1c1c;
+            border-color: #f98080;
+        }
+        .rev-pal-item.rev-unattempted {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+        .rev-pal-item.rev-unevaluated {
+            background: #fef3c7;
+            color: #92400e;
+            border-color: #fde047;
+        }
+
+        /* Indicators & Legend */
+        .speed-indicator-wrap {
+            margin-top: 14px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+        }
+        .speed-label-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        .speed-badges-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .speed-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .review-legend-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 10px;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        .rev-leg-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .rev-leg-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: white;
+            font-weight: 800;
+        }
+
+        /* 🟢 Phase 4: Review & Re-attempt Mode Dark UI */
+        body.dark-mode .review-section-strip {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        body.dark-mode .stat-pill {
+            background: #27272a;
+            color: var(--text-dark);
+        }
+
+        /* Correct / Incorrect Revealed Options */
+        body.dark-mode .option.correct-reveal {
+            background: #064e3b;
+            border-color: #059669;
+        }
+        body.dark-mode .option.wrong-reveal {
+            background: #450a0a;
+            border-color: #dc2626;
+        }
+        body.dark-mode .badge-correct {
+            background: #059669;
+            color: #ffffff;
+        }
+        body.dark-mode .badge-wrong {
+            background: #dc2626;
+            color: #ffffff;
+        }
+
+        /* Solution Accordion */
+        body.dark-mode .solution-accordion {
+            border-color: var(--border-color);
+        }
+        body.dark-mode .acc-header {
+            background: #27272a;
+            color: #60a5fa;
+        }
+        body.dark-mode .acc-body {
+            background: var(--card-bg);
+            border-color: var(--border-color);
+            color: #d1d5db;
+        }
+
+        /* Review Bottom Bar Button */
+        body.dark-mode #review-bottom-bar .btn-main {
+            background: #27272a !important;
+            color: #60a5fa !important;
+            border-color: #3b82f6 !important;
+        }
+
+        /* Review Palette Grid Items */
+        body.dark-mode .rev-pal-item {
+            background: #27272a;
+            color: var(--text-muted);
+        }
+        body.dark-mode .rev-pal-item.rev-correct {
+            background: #064e3b;
+            color: #6ee7b7;
+            border-color: #059669;
+        }
+        body.dark-mode .rev-pal-item.rev-incorrect {
+            background: #450a0a;
+            color: #fca5a5;
+            border-color: #dc2626;
+        }
+        body.dark-mode .rev-pal-item.rev-unattempted {
+            background: #374151;
+            color: #9ca3af;
+        }
+        body.dark-mode .rev-pal-item.current {
+            background: #1e1e1e !important;
+            color: #ffffff !important;
+            border-color: #10b981 !important;
+        }
+
+        /* Review Filter Popover & Trigger Button */
+        body.dark-mode .filter-btn-trigger {
+            background: #1e293b;
+            border-color: #3b82f6;
+            color: #93c5fd;
+        }
+        body.dark-mode .filter-popover {
+            background: #1e1e1e;
+            border-color: var(--border-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+        }
+        body.dark-mode .speed-indicator-wrap,
+        body.dark-mode .review-legend-grid {
+            border-color: var(--border-color);
+        }
+
+        /* 🟢 LAPTOP & TELEGRAM DESKTOP PROPORTIONAL SCALING */
+        html.is-desktop body {
+            zoom: 0.82;
+        }
+
+        html.is-desktop .top-header {
+            padding: 8px 14px;
+        }
+
+        html.is-desktop .pause-btn {
+            width: 28px;
+            height: 28px;
+            font-size: 12px;
+        }
+
+        html.is-desktop .sub-header,
+        html.is-desktop .review-section-strip {
+            padding: 6px 14px;
+        }
+
+        html.is-desktop .scroll-area {
+            padding: 12px 14px 120px 14px;
+        }
+
+        html.is-desktop .option {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+        }
+
+        html.is-desktop .bottom-bar {
+            padding: 6px 12px 12px 12px;
+        }
+
+        html.is-desktop .action-row {
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        html.is-desktop .btn-half {
+            padding: 8px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen">Authenticating Test...</div>
+
+    <!-- Instructions Pre-Screen -->
+    <div id="instructions-screen" style="position:fixed; inset:0; background:var(--bg-main); z-index:50; display:none; flex-direction:column;">
+        <div class="top-header" style="justify-content:space-between;">
+            <svg onclick="exitTestEarly()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer; color: var(--text-dark);">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <div class="header-title" style="font-size:16px;">Instructions</div>
+            <div style="width: 24px;"></div> <!-- Invisible spacer keeps the title perfectly centered -->
+        </div>
+        <div style="padding: 20px; flex-grow: 1; overflow-y: auto; background: var(--card-bg);">
+            <h2 id="inst-topic" style="font-size: 18px; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Topic Name</h2>
+            
+            <div style="display:flex; justify-content:space-between; margin-bottom: 24px;">
+                <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
+                    <div id="inst-qcount" style="font-size:18px; font-weight:700;">10</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Questions</div>
+                </div>
+                <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
+                    <div id="inst-marks" style="font-size:18px; font-weight:700;">10</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Max Marks</div>
+                </div>
+                <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
+                    <div id="inst-time" style="font-size:18px; font-weight:700;">5</div>
+                    <div style="font-size:11px; color:var(--text-muted);">Mins</div>
+                </div>
+            </div>
+            
+            <div style="font-size:14px; line-height:1.6; color:var(--text-dark);">
+                <p style="font-weight:600; margin-bottom:12px;">Please read the following instructions very carefully:</p>
+                <ul style="padding-left:16px; margin:0;">
+                    <li style="margin-bottom:8px;">You have <span id="inst-time-text" style="font-weight:600;">5 Minutes</span> to complete the test.</li>
+                    <li style="margin-bottom:8px;">The test contains a total of <span id="inst-qcount-text" style="font-weight:600;">10</span> Questions.</li>
+                    <li style="margin-bottom:8px;">There is only one correct answer to each question. Click on the most appropriate option to mark it.</li>
+                    <li style="margin-bottom:8px;">There is 1/4 penalty for each wrong answer (-0.25 marks).</li>
+                    <li style="margin-bottom:8px;">You can change your answer by clicking on some other option, or unmark it by clicking "Clear Response".</li>
+                    <li style="margin-bottom:8px;">A Number list of all questions appears at the right-hand side of the screen. You can jump to any question using this grid.</li>
+                    <li style="margin-bottom:8px;">Do not click "Submit test" before completing. A test once submitted cannot be resumed.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="padding: 16px; background: var(--card-bg); border-top: 1px solid var(--border-color); display:flex; gap:12px;">
+            <div style="flex:1; position:relative;">
+                 <button onclick="openSettingsModal()" style="width:100%; padding:14px; border-radius:8px; font-size:14px; font-weight:600; background:#f8f9fa; border:1px solid var(--border-color); color:var(--brand-blue); display:flex; justify-content:center; align-items:center; gap:6px; cursor:pointer;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg> 
+                    English (Aa)
+                </button>
+            </div>
+            <button style="flex:1; padding:14px; border-radius:8px; font-size:15px; font-weight:600; background:var(--brand-red); color:white; border:none; cursor:pointer;" onclick="beginTest()">Start Test</button>
+        </div>
+    </div>
+
+    <!-- 🟢 WRAPPER STARTS HERE -->
+    <div id="live-test-container" style="display: none; flex-direction: column; height: 100vh;">
+        <!-- Dual Header -->
+        <div class="top-header" id="main-header">
+            <div id="live-nav" style="display: flex; align-items: center; gap: 12px; width: 100%;">
+                <div class="pause-btn">||</div>
+                <div class="header-info">
+                    <div class="header-title" id="display-title">Loading Topic...</div>
+                    <div class="timer-text" id="live-timer-container">Total Time left: <span class="timer-countdown" id="timer-display">00:00</span></div>
+                </div>
+                <div class="header-icons" id="live-icons">
+                    <svg onclick="openSettingsModal()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                        <path d="M4 20l5-16 5 16"></path>
+                        <path d="M6 14h6"></path>
+                        <circle cx="18" cy="16" r="3"></circle>
+                        <path d="M21 13v7"></path>
+                    </svg>
+                    <span onclick="openPalette()" style="font-size:24px; margin-left:8px; cursor:pointer;">☰</span>
+                </div>
+            </div>
+            
+            <div id="review-nav" style="display: none; align-items: center; justify-content: space-between; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <svg onclick="goBackFromResult()" class="icon-btn" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    <div class="header-title" id="review-title" style="font-size: 16px;">Quiz Review</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--text-muted);">
+                    Re-Attempt
+                    <label class="switch">
+                        <input type="checkbox" id="reattempt-toggle" onchange="toggleReattemptMode()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-section-strip" id="review-section-strip" style="display: none;">
+            <span class="review-section-title" id="review-section-title">English</span>
+            <div class="review-strip-icons">
+                <svg onclick="openSettingsModal()" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                    <path d="M4 20l5-16 5 16"></path>
+                    <path d="M6 14h6"></path>
+                    <circle cx="18" cy="16" r="3"></circle>
+                    <path d="M21 13v7"></path>
+                </svg>
+                <svg onclick="openReviewPalette()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Sub Header & Stats Bar -->
+        <div style="background: var(--bg-main);">
+            <div class="stats-row" id="review-stats-bar" style="display: none;">
+                <div class="stat-pill" id="review-time-pill">Avg: 00:00</div>
+                <div class="stat-pill green-tint" id="review-acc-pill">👥 0% Answered correctly</div>
+            </div>
+        </div>
+
+        <!-- Question Content -->
+        <div class="scroll-area">
+            <div class="q-meta">
+                <div style="display: flex; align-items: center;">
+                    <div class="q-num-box" id="q-num">1</div>
+                    <div class="inst-title">Instructions</div>
+                </div>
+                <div class="marks-container">
+                    <div class="marks-badge marks-plus">+1.0</div>
+                    <div class="marks-badge marks-minus">-0.25</div>
+                </div>
+            </div>
+
+            <div class="passage-block" id="passage-block" style="display: none;">
+                <div class="inst-text" id="inst-text">Read the following passage and answer the given questions.</div>
+                <div class="passage-text collapsed" id="passage-text"></div>
+                <div class="view-more-btn" id="view-more-btn" onclick="togglePassage()">...View more</div>
+            </div>
+
+            <div class="q-label" id="q-label">Question</div>
+            <div class="q-text" id="q-text"></div>
+            
+            <div class="unattempted-warning" id="unattempted-warning">*You did not attempt this question</div>
+            <div id="options-container"></div>
+            
+            <!-- Updated with haptic trigger -->
+        <div class="solution-accordion" id="solution-box">
+            <div class="acc-header" onclick="triggerHaptic('light'); document.getElementById('acc-body').classList.toggle('show');">
+                    <span style="display: flex; align-items: center; gap: 6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> View Solution</span>
+                    <span>⌄</span>
+                </div>
+                <div class="acc-body" id="acc-body"></div>
+            </div>
+        </div>
+
+        <!-- Live Bottom Bar -->
+        <div class="bottom-bar" id="live-bottom-bar">
+            <div class="action-row">
+                <button class="btn-half btn-report">⚑ Report</button>
+                <button class="btn-half" onclick="clearResponse()">Clear Response</button>
+            </div>
+            <div class="action-row" style="margin-bottom: 0;">
+                <button class="btn-half btn-mark" onclick="markAndNext()">Mark & Next</button>
+                <button class="btn-half btn-save-next" id="btn-next" onclick="saveAndNext()">Save & Next</button>
+            </div>
+        </div>
+
+        <!-- Review Bottom Bar -->
+        <div class="bottom-bar" id="review-bottom-bar" style="display: none; padding-top: 12px;">
+            <div class="action-row" style="margin-bottom: 8px;">
+                <button class="btn-half" style="border: 1px solid var(--border-color);" onclick="reviewNavigate(-1)">❮ Previous</button>
+                <button class="btn-half" style="border: 1px solid var(--border-color);" onclick="reviewNavigate(1)">Next ❯</button>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <button class="btn-half btn-report" style="flex: 0.4;">⚑ Report</button>
+                <button class="btn-main" style="background: white; color: var(--brand-blue); border: 1px solid var(--brand-blue); flex: 1;" onclick="openReviewPalette()">Test Summary</button>
+            </div>
+        </div>
+    </div>
+    <!-- 🟢 WRAPPER ENDS HERE -->
+    
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="bottom-sheet" style="padding-bottom: 20px;">
+            <div class="sheet-header">
+                <h3 style="font-size: 18px;">Select Font Size & Language</h3>
+                <span class="close-icon" onclick="closeModal('settings-modal')">×</span>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; font-weight: 500;">Font Size</div>
+                
+                <label class="radio-label" style="font-size:14px;">
+                    <input type="radio" name="fontsize" value="small" class="radio-input" onchange="applyFontSize('small')"> Small
+                </label>
+                <label class="radio-label" style="font-size:16px;">
+                    <input type="radio" name="fontsize" value="normal" class="radio-input" onchange="applyFontSize('normal')" checked> Normal (Default)
+                </label>
+                <label class="radio-label" style="font-size:18px;">
+                    <input type="radio" name="fontsize" value="large" class="radio-input" onchange="applyFontSize('large')"> Large
+                </label>
+                <label class="radio-label" style="font-size:20px;">
+                    <input type="radio" name="fontsize" value="xlarge" class="radio-input" onchange="applyFontSize('xlarge')"> Extra Large
+                </label>
+            </div>
+            
+            <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; font-weight: 500;">Language</div>
+                <label class="radio-label" style="font-size:16px;">
+                    <input type="radio" name="lang" value="en" class="radio-input" checked> English <span style="color:var(--text-muted); font-size:12px; margin-left:6px;">(ENGLISH)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+   <!-- Palette Modal (Question Navigation) -->
+    <div class="modal-overlay" id="palette-modal" onclick="closeModal('palette-modal')">
+        <div class="bottom-sheet" style="padding-bottom: 20px;" onclick="event.stopPropagation()">
+            <!-- Modal Top Bar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                <span style="font-size: 15px; font-weight: 700; color: var(--text-dark);">
+                    Questions: <span id="pal-total">15</span>
+                </span>
+                <div style="display: flex; align-items: center; gap: 14px;">
+                    <span style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid #6b7280; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #4b5563; font-family: serif; cursor: pointer;" title="Question Legend">i</span>
+                    <span class="close-icon" onclick="closeModal('palette-modal')" style="font-size: 22px; line-height: 1;">×</span>
+                </div>
+            </div>
+
+            <!-- Scrollable Question Number Grid -->
+            <div class="palette-scroll-wrap">
+                <div class="palette-grid" id="palette-grid"></div>
+            </div>
+
+            <!-- 5-State Legend -->
+            <div class="palette-legend-grid">
+                <div class="legend-item">
+                    <span class="leg-icon leg-answered">✓</span>
+                    <span>Answered</span>
+                </div>
+                <div class="legend-item">
+                    <span class="leg-icon leg-not-answered"></span>
+                    <span>Not Answered</span>
+                </div>
+                <div class="legend-item">
+                    <span class="leg-icon leg-review">✓</span>
+                    <span>Marked for Review</span>
+                </div>
+                <div class="legend-item">
+                    <span class="leg-icon leg-not-visited">✓</span>
+                    <span>Not visited</span>
+                </div>
+                <div class="legend-item" style="grid-column: span 2;">
+                    <span class="leg-icon leg-review-answered">✓</span>
+                    <span>Marked for Review and Answered</span>
+                </div>
+            </div>
+
+            <button class="btn-main submit" onclick="openSubmitModal()" style="margin-top: 14px; width: 100%;">Submit Test</button>
+        </div>
+    </div>
+
+    <!-- Review Summary (Bottom Sheet) -->
+    <div class="modal-overlay" id="review-palette-modal" onclick="closeModal('review-palette-modal')">
+        <div class="bottom-sheet" style="padding-bottom: 20px; position: relative;" onclick="event.stopPropagation()">
+            
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 4px;">
+                <span class="close-icon" onclick="closeModal('review-palette-modal')" style="font-size: 24px; line-height: 1;">×</span>
+            </div>
+            
+            <div class="review-tab-header" id="review-tab-name">English</div>
+            
+            <div class="review-meta-bar">
+                <span>Questions: <span id="pal-total-rev">0</span> | Attempted: <span id="pal-att-rev">0</span></span>
+                
+                <div class="filter-btn-trigger" onclick="toggleReviewFilterMenu(event)">
+                    <span>FILTER</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="21" x2="4" y2="14"></line>
+                        <line x1="4" y1="10" x2="4" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12" y2="3"></line>
+                        <line x1="20" y1="21" x2="20" y2="16"></line>
+                        <line x1="20" y1="12" x2="20" y2="3"></line>
+                        <line x1="1" y1="14" x2="7" y2="14"></line>
+                        <line x1="9" y1="8" x2="15" y2="8"></line>
+                        <line x1="17" y1="16" x2="23" y2="16"></line>
+                    </svg>
+                </div>
+
+                <div class="filter-popover" id="filter-popover" style="display: none;" onclick="event.stopPropagation()">
+                    <label class="filter-pop-row">
+                        <div class="filter-left-tag">
+                            <span class="filter-color-dot" style="background:#2563eb;">✓</span>
+                            <span>All</span>
+                        </div>
+                        <input type="checkbox" id="flt-all" class="filter-checkbox" checked onchange="handleFilterCheckboxChange('all')">
+                    </label>
+                    <label class="filter-pop-row">
+                        <div class="filter-left-tag">
+                            <span class="filter-color-dot" style="background:#10b981;">✓</span>
+                            <span>Correct</span>
+                        </div>
+                        <input type="checkbox" id="flt-correct" class="filter-checkbox" checked onchange="handleFilterCheckboxChange('correct')">
+                    </label>
+                    <label class="filter-pop-row">
+                        <div class="filter-left-tag">
+                            <span class="filter-color-dot" style="background:#ef4444;">✓</span>
+                            <span>Incorrect</span>
+                        </div>
+                        <input type="checkbox" id="flt-incorrect" class="filter-checkbox" checked onchange="handleFilterCheckboxChange('incorrect')">
+                    </label>
+                    <label class="filter-pop-row">
+                        <div class="filter-left-tag">
+                            <span class="filter-color-dot" style="background:#cbd5e1; color:#475569;">✓</span>
+                            <span>Unattempted</span>
+                        </div>
+                        <input type="checkbox" id="flt-unattempted" class="filter-checkbox" checked onchange="handleFilterCheckboxChange('unattempted')">
+                    </label>
+
+                    <!-- Apply Button Below Unattempted -->
+                    <button type="button" class="btn-filter-apply" onclick="applyReviewFilters(event)">Apply</button>
+                </div>
+            </div>
+
+            <div class="rev-pal-grid" id="review-palette-grid"></div>
+
+            <div class="speed-indicator-wrap">
+                <div class="speed-label-title">Speed Indicator</div>
+                <div class="speed-badges-row">
+                    <div class="speed-item" style="color: #059669;">⏱ Fast</div>
+                    <div class="speed-item" style="color: #d97706;">⏱ On Time</div>
+                    <div class="speed-item" style="color: #dc2626;">⏱ Slow</div>
+                </div>
+            </div>
+
+            <div class="review-legend-grid">
+                <div class="rev-leg-item">
+                    <span class="rev-leg-dot" style="background:#10b981;">✓</span>
+                    <span>Correct</span>
+                </div>
+                <div class="rev-leg-item">
+                    <span class="rev-leg-dot" style="background:#ef4444;">✓</span>
+                    <span>Incorrect</span>
+                </div>
+                <div class="rev-leg-item">
+                    <span class="rev-leg-dot" style="background:#cbd5e1; color:#475569;">✓</span>
+                    <span>Unattempted</span>
+                </div>
+                <div class="rev-leg-item">
+                    <span class="rev-leg-dot" style="background:#fde047; color:#854d0e;">✓</span>
+                    <span>Unevaluated</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 14px;">
+                <button class="btn-half" onclick="reviewNavigate(-1); closeModal('review-palette-modal');" style="flex:1; border: 1.5px solid var(--border-color);">Previous</button>
+                <button class="btn-main submit" onclick="reviewNavigate(1); closeModal('review-palette-modal');" style="flex:1; padding: 12px; border-radius: 8px;">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Confirmation Modal -->
+    <div class="modal-overlay" id="submit-modal">
+        <div class="bottom-sheet">
+            <div style="text-align: center; margin-bottom: 16px;">
+                <h2 style="margin: 0 0 4px 0; font-size: 18px;">Test Summary</h2>
+                <p style="margin: 0; color: var(--text-muted); font-size: 14px;">Your responses are saved successfully!</p>
+            </div>
+            
+            <table class="submit-table">
+                <tr><th>Section</th><th>Answered</th></tr>
+                <tr><td id="summary-topic">Topic Trial</td><td id="summary-answered">0</td></tr>
+                <tr><td style="font-weight: 700;">Total</td><td style="font-weight: 700;" id="summary-total">0</td></tr>
+            </table>
+
+            <div class="warning-box">
+                <span>⚠️</span> Are you sure you want to submit the test?
+            </div>
+            
+            <div style="display: flex; gap: 12px;">
+                <button class="btn-half" onclick="closeModal('submit-modal')">No</button>
+                <button class="btn-main" onclick="submitQuiz()">Submit Test</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🛡️ TEST MODE SAFETY POPUP -->
+    <div class="modal-overlay" id="test-mode-modal" onclick="closeTestModeModal(event)">
+        <div class="bottom-sheet" style="padding-bottom: 24px;" onclick="event.stopPropagation()">
+            <!-- Pull Handle -->
+            <div class="close-indicator" onclick="closeTestModeModal(null, true)"></div>
+            
+            <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: var(--text-dark);">Test Mode</h3>
+
+            <!-- Mode Option Card -->
+            <div class="test-mode-card">
+                <div class="test-mode-info">
+                    <div class="test-mode-title">Normal Mode</div>
+                    <div class="test-mode-desc">Get to know where you stand with intelligently designed test interface.</div>
+                </div>
+                <div class="custom-radio"></div>
+            </div>
+
+            <!-- Start CTA -->
+            <button class="btn-main" onclick="proceedToInstructions()" style="background: var(--brand-red); width: 100%; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700;">
+                Start Test
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Native Telegram WebApp Haptic Helper
+        function triggerHaptic(type = 'light') {
+            if (localStorage.getItem('app_vibration') === 'false') return;
+            const haptic = window.Telegram?.WebApp?.HapticFeedback;
+            if (!haptic) return;
+
+            try {
+                if (['light', 'medium', 'heavy', 'rigid', 'soft'].includes(type)) {
+                    haptic.impactOccurred(type);
+                } else if (['success', 'warning', 'error'].includes(type)) {
+                    haptic.notificationOccurred(type);
+                } else if (type === 'selection') {
+                    haptic.selectionChanged();
+                }
+            } catch(e) {}
+        }
+
+        const tg = window.Telegram?.WebApp;
+        if (tg?.expand) tg.expand();
+        const userId = (typeof getActiveUserId === 'function' ? getActiveUserId() : 0) || tg?.initDataUnsafe?.user?.id || 123456789;
+        const urlParams = new URLSearchParams(window.location.search);
+        const quizId = urlParams.get('quiz_id');
+        const attemptIdParam = urlParams.get('attempt_id');
+        const isPractice = urlParams.get('practice') === 'true'; 
+        const isReviewMode = urlParams.get('mode') === 'review';
+
+        let attemptId = null;
+        let questions = [];
+        let currentIndex = 0;
+        let isPassageExpanded = false;
+        let responses = {}; 
+        let reattemptResponses = {}; 
+        let reviewStatus = {};
+        let visitedQuestions = {};
+        let questionTimeSpent = {}; // Tracks exact seconds per question
+        let currentQuestionStartTime = Date.now();
+        let reviewFilters = {
+            all: true,
+            correct: true,
+            incorrect: true,
+            unattempted: true
+        }; 
+        let timerInterval = null;
+        let initialDuration = 0;
+        let timeRemaining = 0;
+        let topicName = "Test";
+        let isSubmitting = false;
+        let endTime = 0; 
+        let reattemptModeActive = false;
+
+        function goBackFromResult() {
+            triggerHaptic('light');
+            const dayParam = new URLSearchParams(window.location.search).get('day');
+            const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+            
+            if (isPractice) window.location.href = `result.html?practice=true${dayQuery}`;
+            else window.location.href = `result.html?attempt_id=${attemptIdParam}${dayQuery}`;
+        }
+
+        function exitTestEarly() {
+            triggerHaptic('light');
+            
+            // Read the exact day they came from
+            const urlParams = new URLSearchParams(window.location.search);
+            const dayParam = urlParams.get('day');
+            
+            // Explicitly route them back to that specific day
+            if (dayParam !== null) {
+                window.location.href = `app.html?view=day&day=${dayParam}`;
+            } else {
+                window.location.href = 'app.html?view=day';
+            }
+        }
+
+        function proceedToInstructions() {
+            triggerHaptic('light');
+            document.getElementById('test-mode-modal').style.display = 'none';
+            // Open the Instructions screen ONLY after clicking Start Test on the popup
+            document.getElementById('instructions-screen').style.display = 'flex';
+        }
+
+        function closeTestModeModal(e, force = false) {
+            if (force || (e && e.target.id === 'test-mode-modal')) {
+                triggerHaptic('soft');
+                document.getElementById('test-mode-modal').style.display = 'none';
+                exitTestEarly(); // Safely return user back to topics screen
+            }
+        }
+
+        async function startQuiz() {
+            try {
+                if (isReviewMode) {
+                    document.getElementById('loading-screen').innerText = "Loading Analytics...";
+                    document.getElementById('live-test-container').style.display = 'flex'; // Show container for review
+                    document.getElementById('live-nav').style.display = 'none';
+                    document.getElementById('review-nav').style.display = 'flex';
+                    document.getElementById('live-bottom-bar').style.display = 'none';
+                    document.getElementById('review-bottom-bar').style.display = 'block';
+                    document.getElementById('review-stats-bar').style.display = 'flex';
+                    document.getElementById('review-section-strip').style.display = 'flex'; // 🟢 ADD THIS LINE
+                    
+                    let data;
+                    if (isPractice) {
+                        data = JSON.parse(sessionStorage.getItem('practiceResult'));
+                    } else {
+                        const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptIdParam}`, {
+                            headers: getAuthHeaders()
+                        });
+                        data = await res.json();
+                    }
+                    
+                    if(!data || data.error) throw new Error(data?.error || "Failed to load review data");
+
+                    questions = data.solutions || [];
+                    buildReviewPalette();
+                    loadQuestion(0);
+                    
+                    document.getElementById('loading-screen').style.display = 'none';
+                    return;
+                }
+
+                // Live Test Initialization
+                const homeRes = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`, {
+                    headers: getAuthHeaders()
+                });
+                const homeData = await homeRes.json();
+                const allQuizzes = [...(homeData.quizzes?.Today || []), ...(homeData.quizzes?.Pending || [])];
+                const currentQuizMeta = allQuizzes.find(q => q.id == quizId);
+                
+                if(currentQuizMeta) {
+                    topicName = currentQuizMeta.topic;
+                    initialDuration = currentQuizMeta.duration_seconds;
+                    let qCount = currentQuizMeta.question_count;
+                    
+                    const setSafeText = (id, val) => {
+                        const el = document.getElementById(id);
+                        if (el) el.innerText = val;
+                    };
+                    
+                    setSafeText('display-title', topicName);
+                    setSafeText('summary-topic', topicName);
+                    setSafeText('inst-topic', topicName);
+                    
+                    setSafeText('pal-total', qCount);
+                    setSafeText('inst-qcount', qCount);
+                    setSafeText('inst-qcount-text', qCount);
+                    setSafeText('inst-marks', qCount);
+                    
+                    let minutes = Math.floor(initialDuration / 60);
+                    setSafeText('inst-time', minutes);
+                    setSafeText('inst-time-text', `${minutes} Minutes`);
+                } else if (isPractice) {
+                    const instTop = document.getElementById('inst-topic');
+                    if (instTop) instTop.innerText = "Practice Trial";
+                    const dispTop = document.getElementById('display-title');
+                    if (dispTop) dispTop.innerText = "Practice Trial";
+                }
+
+                document.getElementById('loading-screen').style.display = 'none';
+                // Show ONLY the Test Mode popup over a clean background
+                document.getElementById('test-mode-modal').style.display = 'flex';
+                
+            } catch (err) {
+                alert("Failed to initialize quiz.");
+                window.location.href = 'app.html';
+            }
+        }
+
+        async function beginTest() {
+            triggerHaptic('medium');
+            
+            document.getElementById('loading-screen').innerText = "Starting Timer...";
+            document.getElementById('loading-screen').style.display = 'flex';
+
+            try {
+                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/start`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ user_id: userId, quiz_set_id: quizId, is_practice: isPractice })
+                });
+                
+                const data = await res.json();
+                
+                // If the test was completed/expired, forward immediately to the results page
+                if (data.completed) {
+                    const dayParam = new URLSearchParams(window.location.search).get('day');
+                    const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+                    window.location.href = `result.html?attempt_id=${data.attempt_id}${dayQuery}`;
+                    return;
+                }
+
+                if (data.error) { 
+                    alert(data.error); 
+                    window.location.href = 'app.html'; 
+                    return; 
+                }
+
+                attemptId = data.attempt_id;
+                questions = data.questions || [];
+                initialDuration = data.duration_seconds;
+                
+                // Sync timer with exact remaining seconds from server
+                timeRemaining = data.remaining_seconds || initialDuration;
+                
+                buildPalette();
+                loadQuestion(0);
+                
+                document.getElementById('instructions-screen').style.display = 'none';
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('live-test-container').style.display = 'flex';
+                
+                endTime = Date.now() + (timeRemaining * 1000);
+                startTimer();
+                
+            } catch (err) {
+                alert("Failed to connect. Please check your internet connection.");
+                window.location.href = 'app.html';
+            }
+        }
+
+        function togglePassage() {
+            triggerHaptic('light');
+            const passageEl = document.getElementById('passage-text');
+            const btnEl = document.getElementById('view-more-btn');
+            
+            if (passageEl.classList.contains('collapsed')) {
+                passageEl.classList.remove('collapsed');
+                btnEl.innerText = "View less";
+                isPassageExpanded = true; // Track that it is now open
+            } else {
+                passageEl.classList.add('collapsed');
+                btnEl.innerText = "...View more";
+                isPassageExpanded = false; // Track that it is now closed
+            }
+        }
+
+        function loadQuestion(index) {
+            // ⏱️ Record elapsed time on the previous question during live test
+            if (!isReviewMode && questions[currentIndex]) {
+                const prevQId = questions[currentIndex].question_id || questions[currentIndex].id;
+                const elapsedSec = Math.max(1, Math.round((Date.now() - currentQuestionStartTime) / 1000));
+                questionTimeSpent[prevQId] = (questionTimeSpent[prevQId] || 0) + elapsedSec;
+            }
+            currentQuestionStartTime = Date.now();
+
+            currentIndex = index;
+            const q = questions[index];
+            if (!q) return;
+
+            const qId = q.question_id || q.id;
+            visitedQuestions[qId] = true;
+            document.getElementById('q-num').innerText = index + 1;
+
+            // 1. Update Community Stats Pills & Time Trap Engine
+            if (isReviewMode) {
+                // Fetch user time from cache or practice session
+                let savedTimes = {};
+                try {
+                    const cacheKey = 'quiz_times_' + (attemptIdParam || quizId || 'temp');
+                    savedTimes = JSON.parse(localStorage.getItem(cacheKey)) || {};
+                } catch(e) {}
+
+                const userSec = q.user_time_spent || savedTimes[qId] || questionTimeSpent[qId] || 0;
+                const avgSec = q.global_avg_time || 15;
+
+                const formatTimeDigits = (sec) => {
+                    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+                    const s = (sec % 60).toString().padStart(2, '0');
+                    return `${m}:${s}`;
+                };
+
+                const timePill = document.getElementById('review-time-pill');
+
+                if (userSec > 0) {
+                    const isTimeTrap = (userSec >= avgSec * 1.5 && userSec >= 18) || (userSec >= 35 && !q.is_correct);
+                    const isFast = userSec <= avgSec * 0.75;
+
+                    if (isTimeTrap) {
+                        timePill.className = 'stat-pill red-tint';
+                        timePill.innerHTML = `🚨 Time Trap: ${formatTimeDigits(userSec)} <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
+                    } else if (isFast) {
+                        timePill.className = 'stat-pill green-tint';
+                        timePill.innerHTML = `⚡ ${formatTimeDigits(userSec)} <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
+                    } else {
+                        timePill.className = 'stat-pill';
+                        timePill.innerHTML = `⏱ ${formatTimeDigits(userSec)} <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
+                    }
+                } else {
+                    // Distinct label when the user skipped or did not attempt the question
+                    timePill.className = 'stat-pill';
+                    timePill.innerHTML = `⏱ Skipped <span style="opacity:0.75; font-size:10.5px;">(Avg: ${formatTimeDigits(avgSec)})</span>`;
+                }
+                
+                // Accuracy Pill
+                const accPill = document.getElementById('review-acc-pill');
+                if (isPractice) {
+                    accPill.innerText = `👥 Practice Mode`;
+                    accPill.className = 'stat-pill green-tint';
+                } else {
+                    const currentAcc = q.global_accuracy || 0;
+                    accPill.innerText = `👥 ${currentAcc}% Answered correctly`;
+                    accPill.className = currentAcc < 50 ? 'stat-pill red-tint' : 'stat-pill green-tint';
+                }
+            }
+
+            // 2. Safely parse metadata payload (options, passage, instruction)
+            let opts = q.options;
+            let passage = "";
+            let instruction = "";
+            
+            if (typeof opts === 'string') {
+                try { opts = JSON.parse(opts); } catch(e) { }
+            }
+            if (typeof opts === 'string') {
+                try { opts = JSON.parse(opts); } catch(e) { }
+            }
+            
+            if (opts && typeof opts === 'object' && !Array.isArray(opts)) {
+                passage = opts.passage || "";
+                instruction = opts.instruction || "";
+                opts = opts.options || [];
+                
+                if (typeof opts === 'string') {
+                    try { opts = JSON.parse(opts); } catch(e) { }
+                }
+            }
+
+            if (!Array.isArray(opts)) {
+                opts = [];
+            }
+
+            // 3. Independent Handling for Instructions & Reading Passages
+            const passageBlock = document.getElementById('passage-block');
+            const instText = document.getElementById('inst-text');
+            const passageText = document.getElementById('passage-text');
+            const viewMoreBtn = document.getElementById('view-more-btn');
+
+            const hasInstruction = Boolean(instruction && instruction.trim() !== "");
+            const hasPassage = Boolean(passage && passage.trim() !== "");
+
+            if (hasInstruction || hasPassage) {
+                passageBlock.style.display = 'block';
+
+                if (hasInstruction) {
+                    instText.style.display = 'block';
+                    instText.innerText = instruction;
+                } else {
+                    instText.style.display = 'none';
+                }
+
+                if (hasPassage) {
+                    passageText.style.display = 'block';
+                    passageText.innerText = passage;
+                    
+                    // Check user preference instead of forcing collapse
+                    if (isPassageExpanded) {
+                        passageText.classList.remove('collapsed');
+                        viewMoreBtn.innerText = "View less";
+                    } else {
+                        passageText.classList.add('collapsed');
+                        viewMoreBtn.innerText = "...View more";
+                    }
+                    
+                    viewMoreBtn.style.display = 'inline-block';
+                } else {
+                    passageText.style.display = 'none';
+                    viewMoreBtn.style.display = 'none';
+                }
+            } else {
+                passageBlock.style.display = 'none';
+            }
+
+            // 4. Set Question Text
+            let rawQText = q.text || q.question_text || '';
+            document.getElementById('q-text').innerText = rawQText;
+
+            const optsContainer = document.getElementById('options-container');
+            optsContainer.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D', 'E'];
+            
+            const isReviewState = isReviewMode && !reattemptModeActive;
+            const reattemptAnswer = reattemptResponses[qId];
+
+            if (isReviewMode) {
+                document.getElementById('solution-box').style.display = 'block';
+                document.getElementById('acc-body').innerHTML = q.explanation ? q.explanation.replace(/\n/g, '<br/>') : "No detailed explanation available.";
+                document.getElementById('acc-body').classList.remove('show');
+                
+                if (q.user_selected_index === null && reattemptAnswer === undefined) {
+                    document.getElementById('unattempted-warning').style.display = 'block';
+                } else {
+                    document.getElementById('unattempted-warning').style.display = 'none';
+                }
+            } else {
+                document.getElementById('solution-box').style.display = 'none';
+                document.getElementById('unattempted-warning').style.display = 'none';
+            }
+
+            // 5. Render Options
+            opts.forEach((optText, i) => {
+                const optDiv = document.createElement('div');
+                optDiv.className = `option`;
+                
+                if (isReviewState) {
+                    let badge = '';
+                    let isUserChoice = (i === q.user_selected_index);
+                    
+                    if (i === q.correct_index) {
+                        optDiv.classList.add('correct-reveal');
+                        badge = `<div class="opt-badge badge-correct">${isUserChoice ? '✅ Your Choice' : '✓ Correct'}</div>`;
+                    } else if (isUserChoice) {
+                        optDiv.classList.add('wrong-reveal');
+                        badge = '<div class="opt-badge badge-wrong">✗ Your Choice</div>';
+                    }
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${optText}</div>${badge}`;
+                    optDiv.style.cursor = 'default';
+                } else if (isReviewMode && reattemptModeActive) {
+                    let badge = '';
+                    if (reattemptAnswer !== undefined) {
+                        if (i === q.correct_index) {
+                            optDiv.classList.add('correct-reveal');
+                            badge = `<div class="opt-badge badge-correct">${reattemptAnswer === i ? '✅ Correct!' : '✓ Correct'}</div>`;
+                        } else if (i === reattemptAnswer) {
+                            optDiv.classList.add('wrong-reveal');
+                            badge = '<div class="opt-badge badge-wrong">✗ Incorrect</div>';
+                        }
+                    } else if (responses[qId] === i) {
+                        optDiv.classList.add('selected');
+                    }
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${optText}</div>${badge}`;
+                    optDiv.onclick = () => selectOption(i, optDiv);
+                } else {
+                    if (responses[qId] === i) optDiv.classList.add('selected');
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${optText}</div>`;
+                    optDiv.onclick = () => selectOption(i, optDiv);
+                }
+                
+                optsContainer.appendChild(optDiv);
+            });
+
+            if (!isReviewMode) {
+                const nextBtn = document.getElementById('btn-next');
+                if (index === questions.length - 1) {
+                    nextBtn.innerText = "Submit Test";
+                    nextBtn.onclick = openSubmitModal;
+                } else {
+                    nextBtn.innerText = "Save & Next";
+                    nextBtn.onclick = saveAndNext;
+                }
+                updatePaletteColors();
+            }
+        }
+
+        function selectOption(optIndex, element) {
+            triggerHaptic('selection'); 
+            const qId = questions[currentIndex].question_id || questions[currentIndex].id;
+            
+            if (isReviewMode) reattemptResponses[qId] = optIndex;
+            else responses[qId] = optIndex;
+            
+            loadQuestion(currentIndex);
+        }
+
+        function toggleReattemptMode() {
+            reattemptModeActive = document.getElementById('reattempt-toggle').checked;
+            triggerHaptic(reattemptModeActive ? 'success' : 'light');
+            loadQuestion(currentIndex);
+        }
+
+        function toggleReviewFilterMenu(e) {
+            if (e) e.stopPropagation();
+            triggerHaptic('light');
+            const menu = document.getElementById('filter-popover');
+            if (menu) menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        // 🟢 PASTE THIS REPLACEMENT BLOCK INSTEAD:
+        function handleFilterCheckboxChange(type) {
+            triggerHaptic('light');
+            const allCb = document.getElementById('flt-all');
+            const corCb = document.getElementById('flt-correct');
+            const incCb = document.getElementById('flt-incorrect');
+            const unaCb = document.getElementById('flt-unattempted');
+
+            if (type === 'all') {
+                const checked = allCb.checked;
+                corCb.checked = checked;
+                incCb.checked = checked;
+                unaCb.checked = checked;
+            } else {
+                const allChecked = corCb.checked && incCb.checked && unaCb.checked;
+                allCb.checked = allChecked;
+            }
+        }
+
+        function getFilteredQuestionIndices() {
+            const indices = [];
+            questions.forEach((q, idx) => {
+                const isUnattempted = (q.user_selected_index === null || q.user_selected_index === undefined);
+                const isCorrect = q.is_correct === true;
+                const isIncorrect = (!isUnattempted && !isCorrect);
+
+                if (reviewFilters.all) {
+                    indices.push(idx);
+                } else if (isCorrect && reviewFilters.correct) {
+                    indices.push(idx);
+                } else if (isIncorrect && reviewFilters.incorrect) {
+                    indices.push(idx);
+                } else if (isUnattempted && reviewFilters.unattempted) {
+                    indices.push(idx);
+                }
+            });
+            return indices;
+        }
+
+        function applyReviewFilters(e) {
+            if (e) e.stopPropagation();
+            triggerHaptic('medium');
+
+            const allCb = document.getElementById('flt-all');
+            const corCb = document.getElementById('flt-correct');
+            const incCb = document.getElementById('flt-incorrect');
+            const unaCb = document.getElementById('flt-unattempted');
+
+            // Default to all if everything is unchecked
+            if (!allCb.checked && !corCb.checked && !incCb.checked && !unaCb.checked) {
+                allCb.checked = true;
+                corCb.checked = true;
+                incCb.checked = true;
+                unaCb.checked = true;
+            }
+
+            reviewFilters.all = allCb.checked;
+            reviewFilters.correct = corCb.checked;
+            reviewFilters.incorrect = incCb.checked;
+            reviewFilters.unattempted = unaCb.checked;
+
+            // Close the filter popup window
+            const popover = document.getElementById('filter-popover');
+            if (popover) popover.style.display = 'none';
+
+            // Refresh the palette
+            buildReviewPalette();
+
+            // Navigate to the first filtered question if current is hidden
+            const filteredIndices = getFilteredQuestionIndices();
+            if (filteredIndices.length > 0) {
+                if (!filteredIndices.includes(currentIndex)) {
+                    loadQuestion(filteredIndices[0]);
+                }
+            } else {
+                alert("No questions found for the selected filter.");
+            }
+        }
+
+        function buildReviewPalette() {
+            const grid = document.getElementById('review-palette-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            const filteredIndices = getFilteredQuestionIndices();
+            
+            const palTotal = document.getElementById('pal-total-rev');
+            const palAtt = document.getElementById('pal-att-rev');
+            if (palTotal) palTotal.innerText = filteredIndices.length;
+
+            let attemptedInFilter = 0;
+
+            if (filteredIndices.length === 0) {
+                grid.innerHTML = `<div style="grid-column: span 5; text-align: center; color: var(--text-muted); padding: 24px 0; font-size: 13px; font-weight: 500;">No questions match this filter.</div>`;
+                if (palAtt) palAtt.innerText = 0;
+                return;
+            }
+
+            filteredIndices.forEach((idx) => {
+                const q = questions[idx];
+                const isUnattempted = (q.user_selected_index === null || q.user_selected_index === undefined);
+                const isCorrect = q.is_correct === true;
+
+                if (!isUnattempted) attemptedInFilter++;
+
+                const btn = document.createElement('div');
+                btn.className = 'rev-pal-item';
+                btn.innerText = idx + 1;
+
+                if (isUnattempted) {
+                    btn.classList.add('rev-unattempted');
+                } else if (isCorrect) {
+                    btn.classList.add('rev-correct');
+                } else {
+                    btn.classList.add('rev-incorrect');
+                }
+
+                if (idx === currentIndex) {
+                    btn.classList.add('current');
+                }
+
+                btn.onclick = () => {
+                    triggerHaptic('selection');
+                    loadQuestion(idx);
+                    closeModal('review-palette-modal');
+                };
+                grid.appendChild(btn);
+            });
+
+            if (palAtt) palAtt.innerText = attemptedInFilter;
+        }
+
+        function openReviewPalette() {
+            triggerHaptic('medium');
+            const menu = document.getElementById('filter-popover');
+            if (menu) menu.style.display = 'none';
+            buildReviewPalette();
+            document.getElementById('review-palette-modal').style.display = 'flex';
+        }
+
+        function reviewNavigate(direction) {
+            triggerHaptic('light');
+            const filteredIndices = getFilteredQuestionIndices();
+            if (filteredIndices.length === 0) return;
+
+            const currentPos = filteredIndices.indexOf(currentIndex);
+            let targetPos = -1;
+
+            if (currentPos !== -1) {
+                targetPos = currentPos + direction;
+            } else {
+                if (direction > 0) {
+                    targetPos = filteredIndices.findIndex(idx => idx > currentIndex);
+                    if (targetPos === -1) targetPos = filteredIndices.length - 1;
+                } else {
+                    targetPos = filteredIndices.slice().reverse().findIndex(idx => idx < currentIndex);
+                    if (targetPos !== -1) targetPos = filteredIndices.length - 1 - targetPos;
+                    else targetPos = 0;
+                }
+            }
+
+            if (targetPos >= 0 && targetPos < filteredIndices.length) {
+                loadQuestion(filteredIndices[targetPos]);
+            }
+        }
+
+        function markAndNext() {
+            triggerHaptic('light');
+            const qId = questions[currentIndex].question_id || questions[currentIndex].id;
+            reviewStatus[qId] = true;
+            
+            if (currentIndex < questions.length - 1) {
+                loadQuestion(currentIndex + 1);
+            } else {
+                openSubmitModal();
+            }
+        }
+
+        function clearResponse() {
+            triggerHaptic('light');
+            const qId = questions[currentIndex].question_id || questions[currentIndex].id;
+            delete responses[qId];
+            delete reviewStatus[qId];
+            document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+            updatePaletteColors();
+        }
+
+        function saveAndNext() {
+            triggerHaptic('light');
+            const qId = questions[currentIndex].question_id || questions[currentIndex].id;
+            delete reviewStatus[qId]; // Clear review status when explicitly saved
+            if (currentIndex < questions.length - 1) {
+                loadQuestion(currentIndex + 1);
+            }
+        }
+
+        function buildPalette() {
+            const grid = document.getElementById('palette-grid');
+            grid.innerHTML = '';
+            questions.forEach((q, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'pal-btn not-visited';
+                btn.id = `pal-${index}`;
+                btn.innerText = index + 1;
+                btn.onclick = () => {
+                    triggerHaptic('selection');
+                    loadQuestion(index);
+                    closeModal('palette-modal');
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function updatePaletteColors() {
+            questions.forEach((q, index) => {
+                const qId = q.question_id || q.id;
+                const btn = document.getElementById(`pal-${index}`);
+                if (!btn) return;
+
+                const isAnswered = responses[qId] !== undefined;
+                const isMarked = reviewStatus[qId] === true;
+                const isVisited = visitedQuestions[qId] === true;
+
+                btn.className = 'pal-btn';
+
+                if (isMarked && isAnswered) {
+                    btn.classList.add('review-answered');
+                } else if (isMarked) {
+                    btn.classList.add('review');
+                } else if (isAnswered) {
+                    btn.classList.add('answered');
+                } else if (isVisited) {
+                    btn.classList.add('not-answered');
+                } else {
+                    btn.classList.add('not-visited');
+                }
+
+                if (index === currentIndex) {
+                    btn.classList.add('current');
+                }
+            });
+        }
+
+        function openPalette() {
+            triggerHaptic('medium');
+            
+            // 🟢 FIX: Route to the correct modal based on the mode!
+            if (isReviewMode) {
+                openReviewPalette(); 
+            } else {
+                updatePaletteColors();
+                document.getElementById('palette-modal').style.display = 'flex';
+            }
+        }
+        
+        function openSettingsModal() {
+            triggerHaptic('medium');
+            document.getElementById('settings-modal').style.display = 'flex';
+        }
+        
+        function applyFontSize(size) {
+            triggerHaptic('light');
+            document.body.classList.remove('font-small', 'font-large', 'font-xlarge');
+            if(size !== 'normal') document.body.classList.add(`font-${size}`);
+        }
+        
+        function openSubmitModal() {
+            triggerHaptic('warning');
+            const answeredCount = Object.keys(responses).length;
+            document.getElementById('summary-answered').innerText = answeredCount;
+            document.getElementById('summary-total').innerText = answeredCount;
+            document.getElementById('submit-modal').style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            triggerHaptic('soft');
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+                let m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+                let s = (timeRemaining % 60).toString().padStart(2, '0');
+                document.getElementById('timer-display').innerText = `${m}:${s}`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
+
+        async function submitQuiz() {
+            if (isSubmitting) return; 
+            isSubmitting = true;
+            triggerHaptic('heavy');
+            
+            clearInterval(timerInterval);
+
+            // 🟢 1. RECORD TIME SPENT ON THE CURRENT (LAST) QUESTION BEFORE CLOSING
+            if (questions[currentIndex]) {
+                const lastQId = questions[currentIndex].question_id || questions[currentIndex].id;
+                const elapsedSec = Math.max(1, Math.round((Date.now() - currentQuestionStartTime) / 1000));
+                questionTimeSpent[lastQId] = (questionTimeSpent[lastQId] || 0) + elapsedSec;
+            }
+
+            document.getElementById('submit-modal').style.display = 'none';
+            document.getElementById('loading-screen').innerText = 'Submitting Test...';
+            document.getElementById('loading-screen').style.display = 'flex';
+
+            // 🟢 Calculate exact seconds spent on this quiz
+            const timeSpent = initialDuration - Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+
+            // 🟢 Cache exact time spent locally for instant UI updates on Home & Progress
+            try {
+                if (attemptId) localStorage.setItem('attempt_duration_' + attemptId, timeSpent);
+                if (quizId) localStorage.setItem('quiz_duration_' + quizId, timeSpent);
+            } catch(e) {}
+
+            // Practice Mode Submission Handling
+            if (attemptId === "practice_mode") {
+                let correctCount = 0, wrongCount = 0, unattemptedCount = 0;
+                let score = 0;
+                
+                let localSolutions = questions.map(q => {
+                    let qId = q.question_id || q.id;
+                    let uIdx = responses[qId] !== undefined ? responses[qId] : null;
+                    let isCorr = false;
+                    
+                    if (uIdx === null) {
+                        unattemptedCount++;
+                    } else if (uIdx === q.correct_index) {
+                        isCorr = true; correctCount++; score += 1.0;
+                    } else {
+                        wrongCount++; score -= 0.25;
+                    }
+                    
+                    return {
+                        question_id: qId, text: q.text || q.question_text, options: q.options,
+                        correct_index: q.correct_index, explanation: q.explanation,
+                        user_selected_index: uIdx, is_correct: isCorr,
+                        user_time_spent: questionTimeSpent[qId] || 0
+                    };
+                });
+                
+                let accuracy = (correctCount + wrongCount) > 0 ? (correctCount / (correctCount + wrongCount) * 100) : 0;
+                
+                let practiceResult = {
+                    quiz_set_id: quizId,
+                    summary: {
+                        score: score, rank: "-", total_participants: "-", percentile: "-",
+                        accuracy: Math.round(accuracy), time_spent_seconds: timeSpent,
+                        correct: correctCount, wrong: wrongCount, unattempted: unattemptedCount
+                    },
+                    solutions: localSolutions
+                };
+                
+                sessionStorage.setItem("practiceResult", JSON.stringify(practiceResult));
+
+                // 🟢 PERSIST TIMINGS FOR PRACTICE MODE REVIEW
+                try {
+                    const cacheKey = 'quiz_times_' + quizId;
+                    localStorage.setItem(cacheKey, JSON.stringify(questionTimeSpent));
+                } catch(e) {}
+
+                const dayParam = new URLSearchParams(window.location.search).get('day');
+                const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+                window.location.href = `result.html?practice=true${dayQuery}`;
+                return;
+            }
+
+            // Replace this block in submitQuiz() in test.html:
+            const formattedResponses = questions.map(q => {
+                const qId = q.question_id || q.id;
+                return {
+                    question_id: qId,
+                    selected_index: responses[qId] !== undefined ? responses[qId] : null,
+                    time_spent: questionTimeSpent[qId] || 0 // 🟢 Send the actual seconds spent on this question
+                };
+            });
+
+            try {
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/submit`, {
+                    method: 'POST',
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ 
+                        attempt_id: attemptId, 
+                        responses: formattedResponses,
+                        time_spent_seconds: timeSpent // 🟢 Send exact time to backend
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.status !== 200) {
+                    document.getElementById('loading-screen').style.display = 'none';
+                    alert(`Submission Rejected: ${data.error}`);
+                    isSubmitting = false; 
+                    return; 
+                }
+
+                // 🟢 3. PERSIST TIMINGS FOR LIVE ATTEMPT REVIEW
+                try {
+                    const cacheKey = 'quiz_times_' + attemptId;
+                    localStorage.setItem(cacheKey, JSON.stringify(questionTimeSpent));
+                } catch(e) {}
+
+                const dayParam = new URLSearchParams(window.location.search).get('day');
+                const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+                window.location.href = `result.html?attempt_id=${attemptId}${dayQuery}`;
+            } catch (err) {
+                alert("Submission failed. Please check your connection.");
+                document.getElementById('loading-screen').style.display = 'none';
+                isSubmitting = false; 
+            }
+        }
+
+        startQuiz();
+    </script>
+</body>
+</html>
