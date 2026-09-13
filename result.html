@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Quiz Results</title>
     <script>
         (function() {
@@ -640,6 +640,92 @@
         html.is-desktop .fixed-bottom-bar {
             padding: 6px 12px 10px 12px;
         }
+    
+        /* ==========================================================================
+           🟢 RESPONSIVE RESULT DASHBOARD (@media min-width: 768px and 1024px)
+           ========================================================================== */
+        .results-dashboard-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                padding: 0 24px 90px 24px;
+            }
+            #result-content {
+                max-width: 760px;
+                margin: 16px auto;
+            }
+            .hero-banner-card {
+                padding: 18px 24px;
+                border-radius: 20px;
+            }
+            .res-card {
+                padding: 18px 20px;
+                border-radius: 18px;
+            }
+            .fixed-bottom-bar {
+                max-width: 760px;
+                margin: 0 auto;
+                left: 0;
+                right: 0;
+                border-radius: 18px 18px 0 0;
+                padding: 12px 24px max(14px, env(safe-area-inset-bottom, 0px)) 24px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            #result-content {
+                max-width: 1160px;
+                margin: 24px auto;
+            }
+
+            .results-dashboard-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                align-items: start;
+            }
+
+            .res-col-left, .res-col-right {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .hero-banner-card {
+                margin-top: 0;
+                margin-bottom: 0;
+                padding: 24px 28px;
+            }
+
+            .hero-status-heading {
+                font-size: 16px;
+            }
+
+            .hero-big-marks {
+                font-size: 28px;
+            }
+
+            /* 2-Column Key Metrics Subgrid on Desktop */
+            .res-col-left .metric-row {
+                padding: 12px 0;
+            }
+
+            .fixed-bottom-bar {
+                max-width: 1160px;
+                padding: 14px 32px;
+                box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.12);
+            }
+
+            .btn-bottom-share, .btn-bottom-review {
+                font-size: 14px;
+                padding: 13px 20px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -648,6 +734,8 @@
 
     <div id="result-content" style="display: none;">
         
+        <div class="results-dashboard-grid">
+            <div class="res-col-left">
         <!-- 1. Top Red Hero Card (Quiz Complete) -->
         <div class="hero-banner-card">
             <div class="hero-top-nav">
@@ -715,8 +803,10 @@
                 </div>
             </div>
         </div>
+            </div>
+            <div class="res-col-right">
+                <!-- 3. Question Distribution Card -->
 
-        <!-- 3. Question Distribution Card -->
         <div class="res-card">
             <div class="res-card-title">Question Distribution</div>
             
@@ -806,7 +896,8 @@
                 </div>
             </div>
         </div>
-
+            </div>
+        </div>
     </div>
 
     <!-- 6. Frozen Bottom Action Bar -->

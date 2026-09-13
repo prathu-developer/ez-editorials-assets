@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Ez Editorials App</title>
     
     <!-- 🟢 FORCE MOBILE WEBVIEWS TO NEVER CACHE THE HTML -->
@@ -3814,6 +3814,208 @@
             bottom: calc(60px + env(safe-area-inset-bottom, 0px));
             padding: 6px 10px;
         }
+    
+        /* ==========================================================================
+           🟢 DESKTOP NAVBAR & MULTI-COLUMN DASHBOARDS (@media min-width: 1024px)
+           ========================================================================== */
+        .desktop-navbar {
+            display: none;
+        }
+
+        /* Safe area support for mobile bottom nav */
+        .bottom-nav {
+            padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+        }
+
+        @media (min-width: 768px) {
+            /* Centered modal dialogs on Tablet and Desktop */
+            .modal-overlay, [id$="ModalOverlay"] {
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 24px !important;
+            }
+            .modal-content, .bottom-sheet, .digest-modal-sheet, [id$="ModalOverlay"] > div {
+                width: 100% !important;
+                max-width: 520px !important;
+                border-radius: 20px !important;
+                max-height: 85vh !important;
+                margin: auto !important;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3) !important;
+            }
+
+            /* Responsive test cards grid on Day view */
+            #api-quiz-container {
+                display: grid !important;
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+                gap: 16px !important;
+            }
+
+            #view-profile {
+                max-width: 760px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            body {
+                background-color: var(--bg-body);
+            }
+
+            /* 1. Desktop Top Navigation Bar */
+            .desktop-navbar {
+                display: block;
+                position: sticky;
+                top: 0;
+                z-index: 500;
+                background: var(--bg-card);
+                border-bottom: 1px solid var(--border-light);
+                box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            }
+            .desktop-nav-inner {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 24px;
+                height: 64px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .desktop-nav-brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-weight: 800;
+                font-size: 19px;
+                color: var(--text-main);
+                cursor: pointer;
+            }
+            .desktop-brand-icon {
+                font-size: 26px;
+            }
+            .desktop-nav-links {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .desktop-nav-btn {
+                background: transparent;
+                border: none;
+                padding: 8px 14px;
+                border-radius: 10px;
+                font-size: 13.5px;
+                font-weight: 600;
+                color: var(--text-muted);
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                transition: all 0.15s ease;
+            }
+            .desktop-nav-btn:hover {
+                background: rgba(0, 0, 0, 0.04);
+                color: var(--text-main);
+            }
+            .desktop-nav-btn.active {
+                background: #eff6ff;
+                color: #2563eb;
+                font-weight: 700;
+            }
+            .dark-mode .desktop-nav-btn.active {
+                background: #1e3a8a;
+                color: #93c5fd;
+            }
+            .desktop-nav-tools {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .desktop-tool-btn {
+                background: var(--bg-card);
+                border: 1px solid var(--border-light);
+                border-radius: 10px;
+                padding: 7px 12px;
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--text-main);
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .desktop-tool-btn:hover {
+                background: rgba(0, 0, 0, 0.04);
+            }
+            .desk-logout-btn {
+                color: #dc2626;
+                border-color: #fca5a5;
+                background: #fef2f2;
+            }
+            .dark-mode .desk-logout-btn {
+                background: #450a0a;
+                border-color: #991b1b;
+                color: #fca5a5;
+            }
+
+            /* Hide Mobile Bottom Nav on Laptop/Desktop */
+            .bottom-nav {
+                display: none !important;
+            }
+
+            .view-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 24px 24px 60px 24px !important;
+            }
+
+            /* 2. Responsive Home Screen (2-Column Balanced Dashboard) */
+            #view-home.active {
+                display: grid;
+                grid-template-columns: 1.15fr 0.85fr;
+                gap: 20px;
+                align-items: start;
+            }
+            #view-home .top-header,
+            #view-home .greeting-wrapper {
+                grid-column: 1 / -1;
+            }
+
+            /* 3. Responsive Weekly Cup */
+            #view-cup {
+                max-width: 960px;
+                margin: 0 auto;
+            }
+            .cup-hero-dark-card {
+                padding: 24px;
+                border-radius: 20px;
+            }
+
+            /* 4. Responsive Progress Dashboard */
+            #view-progress.active {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                align-items: start;
+            }
+            #view-progress .progress-top-header,
+            #view-progress .recent-attempts-section,
+            #view-progress .progress-insight-banner {
+                grid-column: 1 / -1;
+            }
+
+            /* 5. Responsive Daily Digest (Editorial 2-Column Reader) */
+            #view-digest.active {
+                display: grid;
+                grid-template-columns: 1.25fr 0.75fr;
+                gap: 24px;
+                align-items: start;
+            }
+            #view-digest .top-header,
+            #view-digest .digest-hero-banner,
+            #view-digest .digest-bottom-banner {
+                grid-column: 1 / -1;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -3862,6 +4064,46 @@
     <!-- ==========================================
          VIEW 1: HOME SCREEN
          ========================================== -->
+        <!-- 🟢 DESKTOP TOP NAVIGATION BAR (@media min-width: 1024px) -->
+    <header class="desktop-navbar">
+        <div class="desktop-nav-inner">
+            <div class="desktop-nav-brand" onclick="switchView('view-home')">
+                <span class="desktop-brand-icon">📚</span>
+                <span class="desktop-brand-title">Ez Editorials</span>
+            </div>
+            
+            <nav class="desktop-nav-links">
+                <button class="desktop-nav-btn active" id="desk-nav-home" onclick="switchView('view-home')">
+                    <span class="desk-nav-icon">🏠</span> Home
+                </button>
+                <button class="desktop-nav-btn" id="desk-nav-cup" onclick="switchView('view-cup')">
+                    <span class="desk-nav-icon">🏆</span> Weekly Cup
+                </button>
+                <button class="desktop-nav-btn" id="desk-nav-progress" onclick="switchView('view-progress')">
+                    <span class="desk-nav-icon">📈</span> Progress
+                </button>
+                <button class="desktop-nav-btn" id="desk-nav-digest" onclick="switchView('view-digest')">
+                    <span class="desk-nav-icon">📰</span> Daily Digest
+                </button>
+                <button class="desktop-nav-btn" id="desk-nav-profile" onclick="switchView('view-profile')">
+                    <span class="desk-nav-icon">👤</span> Profile
+                </button>
+            </nav>
+
+            <div class="desktop-nav-tools">
+                <button class="desktop-tool-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+                    <span>🌙</span>
+                </button>
+                <button class="desktop-tool-btn" onclick="openSubModal('settingsModalOverlay')" title="Settings">
+                    <span>⚙️</span>
+                </button>
+                <button class="desktop-tool-btn desk-logout-btn" onclick="logOut()" title="Log Out">
+                    <span>🚪 Log Out</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
     <div id="view-home" class="view-container active">
         <div class="top-header">
             <!-- Left icon (Coming Soon) -->
@@ -4723,6 +4965,18 @@
                 </div>
                 <div class="p-item-right"><span class="p-item-arrow">›</span></div>
             </div>
+
+            <!-- 10. Log Out -->
+            <div class="p-card-item" onclick="logOut()" style="border-top: 1px solid var(--border-light); margin-top: 4px;">
+                <div class="p-item-left">
+                    <div class="p-item-icon-box" style="background:#fee2e2; color:#dc2626;">🚪</div>
+                    <div class="p-item-text">
+                        <div class="p-item-title" style="color: #dc2626;">Log Out</div>
+                        <div class="p-item-sub">Switch account or end current session</div>
+                    </div>
+                </div>
+                <div class="p-item-right"><span class="p-item-arrow" style="color: #dc2626;">›</span></div>
+            </div>
         </div>
 
         <!-- Profile Bottom Motivation & Percentile Banner -->
@@ -5420,8 +5674,8 @@
                 <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'settingsModalOverlay', true)">×</span>
                 <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">⚙️ Settings</h3>
             </div>
-            <div style="padding: 20px 24px 40px 24px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <div style="padding: 20px 24px 32px 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <span style="font-size: 15px; font-weight: 600; color: var(--text-main);">🌙 Dark Mode</span>
                     <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
                         <input type="checkbox" onchange="toggleDarkMode()" style="opacity: 0; width: 0; height: 0;">
@@ -5438,6 +5692,20 @@
                             <span id="vibToggleBall" style="position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s;"></span>
                         </span>
                     </label>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border-light);">
+                    <div>
+                        <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">🧹 Storage & Cache</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Clear cached tests & leaderboard data</div>
+                    </div>
+                    <button onclick="clearAppCache()" style="padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border-light); background: var(--bg-card); font-size: 13px; font-weight: 600; color: var(--text-main); cursor: pointer;">Clear Cache</button>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border-light);">
+                    <div>
+                        <div style="font-size: 15px; font-weight: 600; color: #dc2626;">🚪 Log Out</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Sign out of your account</div>
+                    </div>
+                    <button onclick="logOut()" style="padding: 7px 16px; border-radius: 8px; border: 1px solid #fca5a5; background: #fee2e2; color: #b91c1c; font-size: 13px; font-weight: 700; cursor: pointer;">Log Out</button>
                 </div>
             </div>
         </div>
@@ -7773,6 +8041,20 @@
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             window.scrollTo(0, 0);
+
+            // Sync Desktop Nav Active State
+            const deskNavMap = {
+                'view-home': 'desk-nav-home',
+                'view-cup': 'desk-nav-cup',
+                'view-progress': 'desk-nav-progress',
+                'view-digest': 'desk-nav-digest',
+                'view-profile': 'desk-nav-profile'
+            };
+            document.querySelectorAll('.desktop-nav-btn').forEach(b => b.classList.remove('active'));
+            if (deskNavMap[viewId]) {
+                const db = document.getElementById(deskNavMap[viewId]);
+                if (db) db.classList.add('active');
+            }
 
             // 🟢 Toggle Native Telegram Back Button
             if (tgApp?.BackButton) {

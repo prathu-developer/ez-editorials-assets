@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Active Test</title>
     <script>
         (function() {
@@ -740,29 +740,254 @@
             padding: 6px 14px;
         }
 
-        html.is-desktop .scroll-area {
-            padding: 12px 14px 120px 14px;
+
+        /* ==========================================================================
+           🟢 CBT DUAL-PANE DESKTOP & TABLET ADAPTATIONS (@media min-width: 1024px)
+           ========================================================================== */
+        .cbt-workspace-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+            height: 100%;
+            position: relative;
         }
 
-        html.is-desktop .option {
-            padding: 10px 14px;
-            margin-bottom: 8px;
-            border-radius: 10px;
+        .cbt-left-pane {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
         }
 
-        html.is-desktop .bottom-bar {
-            padding: 6px 12px 12px 12px;
+        .cbt-right-sidebar {
+            display: none;
         }
 
-        html.is-desktop .action-row {
-            gap: 6px;
-            margin-bottom: 6px;
+        @media (min-width: 1024px) {
+            #live-test-container {
+                max-width: 1440px;
+                margin: 0 auto;
+                width: 100%;
+                border-left: 1px solid var(--border-color);
+                border-right: 1px solid var(--border-color);
+                box-shadow: 0 0 40px rgba(0,0,0,0.06);
+            }
+
+            .cbt-workspace-wrapper {
+                flex-direction: row;
+                height: calc(100vh - 58px);
+            }
+
+            .cbt-left-pane {
+                flex: 0 0 68%;
+                max-width: 68%;
+                border-right: 1px solid var(--border-color);
+            }
+
+            .cbt-left-pane .scroll-area {
+                padding: 24px 36px 120px 36px;
+            }
+
+            .cbt-left-pane .passage-block {
+                background: rgba(0,0,0,0.02);
+                border: 1px solid var(--border-color);
+                border-radius: 10px;
+                padding: 16px 20px;
+            }
+
+            .dark-mode .cbt-left-pane .passage-block {
+                background: #18181b;
+            }
+
+            .cbt-left-pane .passage-text.collapsed {
+                max-height: none !important;
+                display: block !important;
+                -webkit-line-clamp: unset !important;
+            }
+
+            .cbt-left-pane #view-more-btn {
+                display: none !important;
+            }
+
+            .cbt-left-pane .bottom-bar {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--card-bg);
+                border-top: 1px solid var(--border-color);
+                padding: 14px 28px;
+                box-shadow: 0 -4px 14px rgba(0,0,0,0.05);
+            }
+
+            .cbt-right-sidebar {
+                display: flex;
+                flex-direction: column;
+                flex: 0 0 32%;
+                max-width: 32%;
+                background: var(--card-bg);
+                overflow-y: auto;
+                padding: 16px;
+                gap: 12px;
+                box-sizing: border-box;
+            }
+
+            .cbt-sidebar-card {
+                background: var(--bg-main);
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                padding: 14px;
+            }
+
+            .candidate-info-card {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .cbt-avatar-box {
+                width: 44px;
+                height: 44px;
+                border-radius: 10px;
+                background: #eff6ff;
+                border: 1px solid #bfdbfe;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+            }
+
+            .cbt-user-name {
+                font-size: 15px;
+                font-weight: 700;
+                color: var(--text-dark);
+            }
+
+            .cbt-user-sub {
+                font-size: 12px;
+                color: var(--text-muted);
+            }
+
+            .cbt-card-header {
+                font-size: 12px;
+                font-weight: 700;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .cbt-timer-clock {
+                font-size: 30px;
+                font-weight: 900;
+                color: var(--brand-red);
+                text-align: center;
+                font-variant-numeric: tabular-nums;
+                letter-spacing: 1px;
+                padding: 4px 0;
+            }
+
+            .cbt-timer-clock.timer-warning {
+                color: #dc2626;
+                animation: timerPulse 1.2s infinite;
+            }
+
+            @keyframes timerPulse {
+                0%, 100% { transform: scale(1); opacity: 1; }
+                50% { transform: scale(1.03); opacity: 0.85; }
+            }
+
+            .cbt-legend-stats-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                font-size: 11.5px;
+                font-weight: 600;
+                color: var(--text-dark);
+            }
+
+            .cbt-stat-item {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .cbt-badge {
+                width: 22px;
+                height: 22px;
+                border-radius: 5px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                font-weight: 800;
+                flex-shrink: 0;
+            }
+
+            .bg-answered { background: #3b82f6; color: #fff; }
+            .bg-not-answered { background: #cbd5e1; color: #1e293b; }
+            .bg-review { background: #fef08a; border: 1px solid #facc15; color: #854d0e; }
+            .bg-review-answered { background: #fef08a; border: 2px solid #3b82f6; color: #1e3a8a; }
+            .bg-not-visited { background: #fff; border: 1.5px solid #94a3b8; color: #64748b; }
+
+            .dark-mode .bg-not-visited { background: #27272a; border-color: #4b5563; color: #9ca3af; }
+            .dark-mode .bg-not-answered { background: #3f3f46; color: #e4e4e7; }
+            .dark-mode .cbt-sidebar-card { background: #1e1e1e; border-color: #2e2e38; }
+
+            .cbt-palette-scroll {
+                max-height: 220px;
+                overflow-y: auto;
+                padding-right: 4px;
+            }
+
+            .cbt-right-sidebar .palette-grid,
+            .cbt-right-sidebar .rev-pal-grid {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
+            }
+
+            /* Hide redundant modal trigger in header on desktop */
+            .top-header #live-icons span[onclick*="openPalette"] {
+                display: none;
+            }
+
+            /* Auto-show solution accordion in review mode on desktop */
+            .solution-accordion .acc-body {
+                display: block !important;
+            }
         }
 
-        html.is-desktop .btn-half {
-            padding: 8px 10px;
-            font-size: 12px;
+        /* Centered Dialog Modals on Tablet & Desktop */
+        @media (min-width: 768px) {
+            .modal-overlay {
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 24px !important;
+            }
+            .bottom-sheet {
+                width: 100% !important;
+                max-width: 520px !important;
+                border-radius: 18px !important;
+                max-height: 85vh !important;
+                margin: auto !important;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.3) !important;
+            }
+            .top-header {
+                padding: 14px 24px;
+            }
+            .header-title {
+                max-width: 400px;
+                font-size: 16px;
+            }
         }
+
     </style>
 </head>
 <body>
@@ -886,63 +1111,113 @@
             </div>
         </div>
 
-        <!-- Question Content -->
-        <div class="scroll-area">
-            <div class="q-meta">
-                <div style="display: flex; align-items: center;">
-                    <div class="q-num-box" id="q-num">1</div>
-                    <div class="inst-title">Instructions</div>
+                <!-- Dual-Pane CBT Layout -->
+        <div class="cbt-workspace-wrapper">
+            <div class="cbt-left-pane">
+                <!-- Question Content -->
+                <div class="scroll-area">
+                    <div class="q-meta">
+                        <div style="display: flex; align-items: center;">
+                            <div class="q-num-box" id="q-num">1</div>
+                            <div class="inst-title">Instructions</div>
+                        </div>
+                        <div class="marks-container">
+                            <div class="marks-badge marks-plus">+1.0</div>
+                            <div class="marks-badge marks-minus">-0.25</div>
+                        </div>
+                    </div>
+
+                    <div class="passage-block" id="passage-block" style="display: none;">
+                        <div class="inst-text" id="inst-text">Read the following passage and answer the given questions.</div>
+                        <div class="passage-text collapsed" id="passage-text"></div>
+                        <div class="view-more-btn" id="view-more-btn" onclick="togglePassage()">...View more</div>
+                    </div>
+
+                    <div class="q-label" id="q-label">Question</div>
+                    <div class="q-text" id="q-text"></div>
+                    
+                    <div class="unattempted-warning" id="unattempted-warning">*You did not attempt this question</div>
+                    <div id="options-container"></div>
+                    
+                    <!-- Solution Accordion -->
+                    <div class="solution-accordion" id="solution-box">
+                        <div class="acc-header" onclick="triggerHaptic('light'); document.getElementById('acc-body').classList.toggle('show');">
+                            <span style="display: flex; align-items: center; gap: 6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> View Solution</span>
+                            <span>⌄</span>
+                        </div>
+                        <div class="acc-body" id="acc-body"></div>
+                    </div>
                 </div>
-                <div class="marks-container">
-                    <div class="marks-badge marks-plus">+1.0</div>
-                    <div class="marks-badge marks-minus">-0.25</div>
+
+                <!-- Live Bottom Bar -->
+                <div class="bottom-bar" id="live-bottom-bar">
+                    <div class="action-row">
+                        <button class="btn-half btn-report">⚑ Report</button>
+                        <button class="btn-half" onclick="clearResponse()">Clear Response</button>
+                    </div>
+                    <div class="action-row" style="margin-bottom: 0;">
+                        <button class="btn-half btn-mark" onclick="markAndNext()">Mark & Next</button>
+                        <button class="btn-half btn-save-next" id="btn-next" onclick="saveAndNext()">Save & Next</button>
+                    </div>
+                </div>
+
+                <!-- Review Bottom Bar -->
+                <div class="bottom-bar" id="review-bottom-bar" style="display: none; padding-top: 12px;">
+                    <div class="action-row" style="margin-bottom: 8px;">
+                        <button class="btn-half" style="border: 1px solid var(--border-color);" onclick="reviewNavigate(-1)">❮ Previous</button>
+                        <button class="btn-half" style="border: 1px solid var(--border-color);" onclick="reviewNavigate(1)">Next ❯</button>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <button class="btn-half btn-report" style="flex: 0.4;">⚑ Report</button>
+                        <button class="btn-main" style="background: white; color: var(--brand-blue); border: 1px solid var(--brand-blue); flex: 1;" onclick="openReviewPalette()">Test Summary</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="passage-block" id="passage-block" style="display: none;">
-                <div class="inst-text" id="inst-text">Read the following passage and answer the given questions.</div>
-                <div class="passage-text collapsed" id="passage-text"></div>
-                <div class="view-more-btn" id="view-more-btn" onclick="togglePassage()">...View more</div>
-            </div>
-
-            <div class="q-label" id="q-label">Question</div>
-            <div class="q-text" id="q-text"></div>
-            
-            <div class="unattempted-warning" id="unattempted-warning">*You did not attempt this question</div>
-            <div id="options-container"></div>
-            
-            <!-- Updated with haptic trigger -->
-        <div class="solution-accordion" id="solution-box">
-            <div class="acc-header" onclick="triggerHaptic('light'); document.getElementById('acc-body').classList.toggle('show');">
-                    <span style="display: flex; align-items: center; gap: 6px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> View Solution</span>
-                    <span>⌄</span>
+            <!-- CBT Right Sidebar (Desktop & Laptop) -->
+            <aside class="cbt-right-sidebar" id="cbt-right-sidebar">
+                <div class="cbt-sidebar-card candidate-info-card">
+                    <div class="cbt-avatar-box">👨‍🎓</div>
+                    <div class="cbt-user-meta">
+                        <div class="cbt-user-name" id="cbt-user-name">Candidate</div>
+                        <div class="cbt-user-sub" id="cbt-user-sub">Ez Editorials Student</div>
+                    </div>
                 </div>
-                <div class="acc-body" id="acc-body"></div>
-            </div>
-        </div>
 
-        <!-- Live Bottom Bar -->
-        <div class="bottom-bar" id="live-bottom-bar">
-            <div class="action-row">
-                <button class="btn-half btn-report">⚑ Report</button>
-                <button class="btn-half" onclick="clearResponse()">Clear Response</button>
-            </div>
-            <div class="action-row" style="margin-bottom: 0;">
-                <button class="btn-half btn-mark" onclick="markAndNext()">Mark & Next</button>
-                <button class="btn-half btn-save-next" id="btn-next" onclick="saveAndNext()">Save & Next</button>
-            </div>
-        </div>
+                <div class="cbt-sidebar-card timer-summary-card" id="cbt-timer-box">
+                    <div class="cbt-card-header">Time Remaining</div>
+                    <div class="cbt-timer-clock" id="cbt-timer-clock">00:00</div>
+                </div>
 
-        <!-- Review Bottom Bar -->
-        <div class="bottom-bar" id="review-bottom-bar" style="display: none; padding-top: 12px;">
-            <div class="action-row" style="margin-bottom: 8px;">
-                <button class="btn-half" style="border: 1px solid var(--border-color);" onclick="reviewNavigate(-1)">❮ Previous</button>
-                <button class="btn-half" style="border: 1px solid var(--border-color);" onclick="reviewNavigate(1)">Next ❯</button>
-            </div>
-            <div style="display: flex; gap: 12px; align-items: center;">
-                <button class="btn-half btn-report" style="flex: 0.4;">⚑ Report</button>
-                <button class="btn-main" style="background: white; color: var(--brand-blue); border: 1px solid var(--brand-blue); flex: 1;" onclick="openReviewPalette()">Test Summary</button>
-            </div>
+                <div class="cbt-sidebar-card palette-legend-card" id="cbt-legend-box">
+                    <div class="cbt-card-header">Question Status</div>
+                    <div class="cbt-legend-stats-grid">
+                        <div class="cbt-stat-item"><span class="cbt-badge bg-answered" id="cbt-cnt-answered">0</span> Answered</div>
+                        <div class="cbt-stat-item"><span class="cbt-badge bg-not-answered" id="cbt-cnt-not-answered">0</span> Not Answered</div>
+                        <div class="cbt-stat-item"><span class="cbt-badge bg-review" id="cbt-cnt-review">0</span> Marked Review</div>
+                        <div class="cbt-stat-item"><span class="cbt-badge bg-review-answered" id="cbt-cnt-review-answered">0</span> Ans & Marked</div>
+                        <div class="cbt-stat-item"><span class="cbt-badge bg-not-visited" id="cbt-cnt-not-visited">0</span> Not Visited</div>
+                    </div>
+                </div>
+
+                <div class="cbt-sidebar-card palette-card">
+                    <div class="cbt-card-header">
+                        <span>Question Palette (<span id="cbt-q-total">0</span>)</span>
+                    </div>
+                    <div class="cbt-palette-scroll">
+                        <div class="palette-grid" id="cbt-palette-grid"></div>
+                        <div class="rev-pal-grid" id="cbt-review-palette-grid" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <div class="cbt-sidebar-card cbt-sidebar-actions" id="cbt-sidebar-actions" style="margin-top: auto;">
+                    <button class="btn-main submit" onclick="openSubmitModal()" style="width: 100%;">Submit Test</button>
+                </div>
+                
+                <div class="cbt-sidebar-card cbt-sidebar-actions" id="cbt-review-sidebar-actions" style="display: none; margin-top: auto;">
+                    <button class="btn-main" style="background:var(--brand-blue); color:white; width: 100%;" onclick="goBackFromResult()">Back to Results</button>
+                </div>
+            </aside>
         </div>
     </div>
     <!-- 🟢 WRAPPER ENDS HERE -->
@@ -1178,6 +1453,22 @@
     </div>
 
     <script>
+
+        // 🔒 Exam Hall Fidelity: Block browser action keys (Space, Enter, Tab, Backspace)
+        window.addEventListener('keydown', function(e) {
+            const liveContainer = document.getElementById('live-test-container');
+            if (liveContainer && liveContainer.style.display !== 'none') {
+                const target = e.target;
+                if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return;
+                const blocked = ['Space', ' ', 'Enter', 'Tab', 'Backspace'];
+                if (blocked.includes(e.key) || blocked.includes(e.code)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            }
+        }, { capture: true, passive: false });
+
         // Native Telegram WebApp Haptic Helper
         function triggerHaptic(type = 'light') {
             if (localStorage.getItem('app_vibration') === 'false') return;
@@ -1271,13 +1562,45 @@
             try {
                 if (isReviewMode) {
                     document.getElementById('loading-screen').innerText = "Loading Analytics...";
-                    document.getElementById('live-test-container').style.display = 'flex'; // Show container for review
+                    document.getElementById('live-test-container').style.display = 'flex';
+
+                // Setup Candidate Profile in Desktop Sidebar
+                try {
+                    const savedU = (typeof getSavedUser === 'function') ? getSavedUser() : null;
+                    const nameEl = document.getElementById('cbt-user-name');
+                    const subEl = document.getElementById('cbt-user-sub');
+                    if (nameEl) {
+                        if (savedU && (savedU.first_name || savedU.username)) {
+                            nameEl.innerText = savedU.first_name ? `${savedU.first_name} ${savedU.last_name || ''}`.trim() : savedU.username;
+                            if (subEl && savedU.id) subEl.innerText = `Roll / ID: ${savedU.id}`;
+                        } else {
+                            nameEl.innerText = `Student #${userId || 101}`;
+                            if (subEl) subEl.innerText = 'Ez Editorials Candidate';
+                        }
+                    }
+                } catch(e) {}
+ // Show container for review
                     document.getElementById('live-nav').style.display = 'none';
                     document.getElementById('review-nav').style.display = 'flex';
                     document.getElementById('live-bottom-bar').style.display = 'none';
                     document.getElementById('review-bottom-bar').style.display = 'block';
                     document.getElementById('review-stats-bar').style.display = 'flex';
-                    document.getElementById('review-section-strip').style.display = 'flex'; // 🟢 ADD THIS LINE
+                    document.getElementById('review-section-strip').style.display = 'flex';
+
+                    // Configure desktop sidebar for Review mode
+                    const cbtPal = document.getElementById('cbt-palette-grid');
+                    const cbtRevPal = document.getElementById('cbt-review-palette-grid');
+                    const cbtTimer = document.getElementById('cbt-timer-box');
+                    const cbtLegend = document.getElementById('cbt-legend-box');
+                    const cbtActions = document.getElementById('cbt-sidebar-actions');
+                    const cbtRevActions = document.getElementById('cbt-review-sidebar-actions');
+                    if (cbtPal) cbtPal.style.display = 'none';
+                    if (cbtRevPal) cbtRevPal.style.display = 'grid';
+                    if (cbtTimer) cbtTimer.style.display = 'none';
+                    if (cbtLegend) cbtLegend.style.display = 'none';
+                    if (cbtActions) cbtActions.style.display = 'none';
+                    if (cbtRevActions) cbtRevActions.style.display = 'block';
+ // 🟢 ADD THIS LINE
                     
                     let data;
                     if (isPractice) {
@@ -1395,6 +1718,23 @@
                 document.getElementById('instructions-screen').style.display = 'none';
                 document.getElementById('loading-screen').style.display = 'none';
                 document.getElementById('live-test-container').style.display = 'flex';
+
+                // Setup Candidate Profile in Desktop Sidebar
+                try {
+                    const savedU = (typeof getSavedUser === 'function') ? getSavedUser() : null;
+                    const nameEl = document.getElementById('cbt-user-name');
+                    const subEl = document.getElementById('cbt-user-sub');
+                    if (nameEl) {
+                        if (savedU && (savedU.first_name || savedU.username)) {
+                            nameEl.innerText = savedU.first_name ? `${savedU.first_name} ${savedU.last_name || ''}`.trim() : savedU.username;
+                            if (subEl && savedU.id) subEl.innerText = `Roll / ID: ${savedU.id}`;
+                        } else {
+                            nameEl.innerText = `Student #${userId || 101}`;
+                            if (subEl) subEl.innerText = 'Ez Editorials Candidate';
+                        }
+                    }
+                } catch(e) {}
+
                 
                 endTime = Date.now() + (timeRemaining * 1000);
                 startTimer();
@@ -1741,53 +2081,61 @@
         }
 
         function buildReviewPalette() {
-            const grid = document.getElementById('review-palette-grid');
-            if (!grid) return;
-            grid.innerHTML = '';
-
+            const grids = [
+                { el: document.getElementById('review-palette-grid'), prefix: 'rev-pal-' },
+                { el: document.getElementById('cbt-review-palette-grid'), prefix: 'cbt-rev-pal-' }
+            ];
+            
             const filteredIndices = getFilteredQuestionIndices();
             
             const palTotal = document.getElementById('pal-total-rev');
             const palAtt = document.getElementById('pal-att-rev');
+            const cbtTotal = document.getElementById('cbt-q-total');
             if (palTotal) palTotal.innerText = filteredIndices.length;
+            if (cbtTotal) cbtTotal.innerText = filteredIndices.length;
 
             let attemptedInFilter = 0;
 
-            if (filteredIndices.length === 0) {
-                grid.innerHTML = `<div style="grid-column: span 5; text-align: center; color: var(--text-muted); padding: 24px 0; font-size: 13px; font-weight: 500;">No questions match this filter.</div>`;
-                if (palAtt) palAtt.innerText = 0;
-                return;
-            }
+            grids.forEach(({ el, prefix }) => {
+                if (!el) return;
+                el.innerHTML = '';
 
-            filteredIndices.forEach((idx) => {
-                const q = questions[idx];
-                const isUnattempted = (q.user_selected_index === null || q.user_selected_index === undefined);
-                const isCorrect = q.is_correct === true;
-
-                if (!isUnattempted) attemptedInFilter++;
-
-                const btn = document.createElement('div');
-                btn.className = 'rev-pal-item';
-                btn.innerText = idx + 1;
-
-                if (isUnattempted) {
-                    btn.classList.add('rev-unattempted');
-                } else if (isCorrect) {
-                    btn.classList.add('rev-correct');
-                } else {
-                    btn.classList.add('rev-incorrect');
+                if (filteredIndices.length === 0) {
+                    el.innerHTML = `<div style="grid-column: span 5; text-align: center; color: var(--text-muted); padding: 24px 0; font-size: 13px; font-weight: 500;">No questions match this filter.</div>`;
+                    return;
                 }
 
-                if (idx === currentIndex) {
-                    btn.classList.add('current');
-                }
+                filteredIndices.forEach((idx) => {
+                    const q = questions[idx];
+                    const isUnattempted = (q.user_selected_index === null || q.user_selected_index === undefined);
+                    const isCorrect = q.is_correct === true;
 
-                btn.onclick = () => {
-                    triggerHaptic('selection');
-                    loadQuestion(idx);
-                    closeModal('review-palette-modal');
-                };
-                grid.appendChild(btn);
+                    if (!isUnattempted && prefix === 'rev-pal-') attemptedInFilter++;
+
+                    const btn = document.createElement('div');
+                    btn.className = 'rev-pal-item';
+                    btn.id = `${prefix}${idx}`;
+                    btn.innerText = idx + 1;
+
+                    if (isUnattempted) {
+                        btn.classList.add('rev-unattempted');
+                    } else if (isCorrect) {
+                        btn.classList.add('rev-correct');
+                    } else {
+                        btn.classList.add('rev-incorrect');
+                    }
+
+                    if (idx === currentIndex) {
+                        btn.classList.add('current');
+                    }
+
+                    btn.onclick = () => {
+                        triggerHaptic('selection');
+                        loadQuestion(idx);
+                        closeModal('review-palette-modal');
+                    };
+                    el.appendChild(btn);
+                });
             });
 
             if (palAtt) palAtt.innerText = attemptedInFilter;
@@ -1858,50 +2206,91 @@
         }
 
         function buildPalette() {
-            const grid = document.getElementById('palette-grid');
-            grid.innerHTML = '';
-            questions.forEach((q, index) => {
-                const btn = document.createElement('div');
-                btn.className = 'pal-btn not-visited';
-                btn.id = `pal-${index}`;
-                btn.innerText = index + 1;
-                btn.onclick = () => {
-                    triggerHaptic('selection');
-                    loadQuestion(index);
-                    closeModal('palette-modal');
-                };
-                grid.appendChild(btn);
+            const grids = [
+                { el: document.getElementById('palette-grid'), prefix: 'pal-' },
+                { el: document.getElementById('cbt-palette-grid'), prefix: 'cbt-pal-' }
+            ];
+            const palTotal = document.getElementById('pal-total');
+            const cbtTotal = document.getElementById('cbt-q-total');
+            if (palTotal) palTotal.innerText = questions.length;
+            if (cbtTotal) cbtTotal.innerText = questions.length;
+
+            grids.forEach(({ el, prefix }) => {
+                if (!el) return;
+                el.innerHTML = '';
+                questions.forEach((q, index) => {
+                    const btn = document.createElement('div');
+                    btn.className = 'pal-btn not-visited';
+                    btn.id = `${prefix}${index}`;
+                    btn.innerText = index + 1;
+                    btn.onclick = () => {
+                        triggerHaptic('selection');
+                        loadQuestion(index);
+                        closeModal('palette-modal');
+                    };
+                    el.appendChild(btn);
+                });
             });
+            updatePaletteColors();
         }
 
         function updatePaletteColors() {
+            let cntAnswered = 0;
+            let cntNotAnswered = 0;
+            let cntReview = 0;
+            let cntReviewAnswered = 0;
+            let cntNotVisited = 0;
+
             questions.forEach((q, index) => {
                 const qId = q.question_id || q.id;
-                const btn = document.getElementById(`pal-${index}`);
-                if (!btn) return;
+                const btns = [
+                    document.getElementById(`pal-${index}`),
+                    document.getElementById(`cbt-pal-${index}`)
+                ].filter(Boolean);
+
+                if (btns.length === 0) return;
 
                 const isAnswered = responses[qId] !== undefined;
                 const isMarked = reviewStatus[qId] === true;
                 const isVisited = visitedQuestions[qId] === true;
 
-                btn.className = 'pal-btn';
-
+                let stateClass = 'not-visited';
                 if (isMarked && isAnswered) {
-                    btn.classList.add('review-answered');
+                    stateClass = 'review-answered';
+                    cntReviewAnswered++;
                 } else if (isMarked) {
-                    btn.classList.add('review');
+                    stateClass = 'review';
+                    cntReview++;
                 } else if (isAnswered) {
-                    btn.classList.add('answered');
+                    stateClass = 'answered';
+                    cntAnswered++;
                 } else if (isVisited) {
-                    btn.classList.add('not-answered');
+                    stateClass = 'not-answered';
+                    cntNotAnswered++;
                 } else {
-                    btn.classList.add('not-visited');
+                    stateClass = 'not-visited';
+                    cntNotVisited++;
                 }
 
-                if (index === currentIndex) {
-                    btn.classList.add('current');
-                }
+                btns.forEach(btn => {
+                    btn.className = 'pal-btn ' + stateClass;
+                    if (index === currentIndex) {
+                        btn.classList.add('current');
+                    }
+                });
             });
+
+            // Update Desktop Sidebar live counts
+            const elAns = document.getElementById('cbt-cnt-answered');
+            const elNotAns = document.getElementById('cbt-cnt-not-answered');
+            const elRev = document.getElementById('cbt-cnt-review');
+            const elRevAns = document.getElementById('cbt-cnt-review-answered');
+            const elNotVis = document.getElementById('cbt-cnt-not-visited');
+            if (elAns) elAns.innerText = cntAnswered;
+            if (elNotAns) elNotAns.innerText = cntNotAnswered;
+            if (elRev) elRev.innerText = cntReview;
+            if (elRevAns) elRevAns.innerText = cntReviewAnswered;
+            if (elNotVis) elNotVis.innerText = cntNotVisited;
         }
 
         function openPalette() {
@@ -1945,7 +2334,20 @@
                 timeRemaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
                 let m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
                 let s = (timeRemaining % 60).toString().padStart(2, '0');
-                document.getElementById('timer-display').innerText = `${m}:${s}`;
+                const timeStr = `${m}:${s}`;
+                
+                const timerDisplay = document.getElementById('timer-display');
+                if (timerDisplay) timerDisplay.innerText = timeStr;
+                
+                const cbtClock = document.getElementById('cbt-timer-clock');
+                if (cbtClock) {
+                    cbtClock.innerText = timeStr;
+                    if (timeRemaining <= 300) {
+                        cbtClock.classList.add('timer-warning');
+                    } else {
+                        cbtClock.classList.remove('timer-warning');
+                    }
+                }
 
                 if (timeRemaining <= 0) {
                     clearInterval(timerInterval);
