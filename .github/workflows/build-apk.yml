@@ -91,10 +91,22 @@ jobs:
 
       - name: Send APK to Telegram Topic 12916
         run: |
+          CAPTION="🚀 <b>Ez Editorials for Android • v1.0 Launch</b>
+
+          Level up your prep with the official native app! Everything you need to crack vocabulary, reading comprehension, and daily editorial trials is now in one place.
+
+          ✨ <b>What’s Inside:</b>
+          • 📰 Daily Curated Editorials & Insights
+          • ⏱ Timed Topic Trials & Instant Analytics
+          • 🏆 Live Weekly Cup Rankings & League Badges
+          • ⚡ Lightning-fast, distraction-free performance
+
+          📲 <b>Tap the file above to download and install v1.0!</b>"
+
           curl --fail-with-body \
                -F "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
                -F "message_thread_id=12916" \
                -F "document=@android/app/build/outputs/apk/release/EzEditorials.apk" \
-               -F "caption=📘 <b>Ez Editorials for Android</b>%0A%0AInstall this release to study daily editorials, practice quizzes, and track rankings offline.%0A%0A⚡ <i>Tap the file above to download and install.</i>" \
+               -F "caption=${CAPTION}" \
                -F "parse_mode=HTML" \
                https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendDocument
