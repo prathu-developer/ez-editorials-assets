@@ -622,7 +622,7 @@
 
         /* 🟢 LAPTOP & TELEGRAM DESKTOP PROPORTIONAL SCALING */
         html.is-desktop body {
-            zoom: 0.82;
+            /* zoom removed */
             padding: 0 12px 75px 12px;
         }
 
@@ -684,8 +684,8 @@
 
             .results-dashboard-grid {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 20px;
+                grid-template-columns: 40% calc(60% - 24px);
+                gap: 24px;
                 align-items: start;
             }
 

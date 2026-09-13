@@ -3768,7 +3768,7 @@
 
         /* 🟢 LAPTOP & TELEGRAM WEB DESKTOP ADAPTIVE OVERRIDES */
         html.is-desktop body {
-            zoom: 0.82;
+            /* zoom removed */
         }
 
         html.is-desktop .view-container {
@@ -4016,6 +4016,333 @@
             }
         }
 
+    
+        /* ==========================================================================
+           🟢 TASK 2: 3-COLUMN DESKTOP WORKSPACE CSS (@media min-width: 1024px)
+           ========================================================================== */
+        .app-layout-root {
+            display: block;
+            width: 100%;
+        }
+
+        .left-nav-rail {
+            display: none;
+        }
+
+        .right-performance-rail {
+            display: none;
+        }
+
+        .center-workspace-pane {
+            width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .app-layout-root {
+                display: grid !important;
+                grid-template-columns: 240px minmax(0, 1fr) 340px !important;
+                gap: 24px !important;
+                max-width: 1600px !important;
+                margin: 0 auto !important;
+                padding: 20px 24px 60px 24px !important;
+                min-height: calc(100vh - 65px) !important;
+                box-sizing: border-box !important;
+            }
+
+            .left-nav-rail {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 240px !important;
+                position: sticky !important;
+                top: 80px !important;
+                height: calc(100vh - 100px) !important;
+                background: var(--bg-card) !important;
+                border: 1px solid var(--border-light) !important;
+                border-radius: 16px !important;
+                padding: 16px 12px !important;
+                box-sizing: border-box !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
+            }
+
+            .left-nav-rail .brand-block {
+                display: flex !important;
+                align-items: center !important;
+                gap: 10px !important;
+                padding: 8px 12px 16px 12px !important;
+                border-bottom: 1px solid var(--border-light) !important;
+                margin-bottom: 12px !important;
+                font-weight: 800 !important;
+                font-size: 17px !important;
+                color: var(--text-main) !important;
+                cursor: pointer !important;
+            }
+
+            .nav-links-group {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 4px !important;
+                flex: 1 !important;
+                overflow-y: auto !important;
+            }
+
+            .nav-rail-btn {
+                background: transparent !important;
+                border: none !important;
+                width: 100% !important;
+                text-align: left !important;
+                padding: 10px 14px !important;
+                border-radius: 10px !important;
+                font-size: 14px !important;
+                font-weight: 600 !important;
+                color: var(--text-muted) !important;
+                cursor: pointer !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 12px !important;
+                transition: all 0.15s ease !important;
+            }
+
+            .nav-rail-btn:hover {
+                background: rgba(0, 0, 0, 0.04) !important;
+                color: var(--text-main) !important;
+            }
+
+            .nav-rail-btn.active {
+                background: #eff6ff !important;
+                color: #2563eb !important;
+                font-weight: 700 !important;
+            }
+
+            .dark-mode .nav-rail-btn.active {
+                background: #1e3a8a !important;
+                color: #93c5fd !important;
+            }
+
+            .nav-rail-footer {
+                border-top: 1px solid var(--border-light) !important;
+                padding-top: 10px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 4px !important;
+            }
+
+            .nav-rail-btn.text-danger {
+                color: #dc2626 !important;
+            }
+
+            .nav-rail-btn.text-danger:hover {
+                background: #fef2f2 !important;
+            }
+
+            .dark-mode .nav-rail-btn.text-danger:hover {
+                background: #450a0a !important;
+            }
+
+            .center-workspace-pane {
+                display: block !important;
+                min-width: 0 !important;
+            }
+
+            .center-workspace-pane .view-container {
+                padding: 0 !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .right-performance-rail {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 340px !important;
+                position: sticky !important;
+                top: 80px !important;
+                gap: 16px !important;
+                box-sizing: border-box !important;
+            }
+
+            .rail-card {
+                background: var(--bg-card) !important;
+                border: 1px solid var(--border-light) !important;
+                border-radius: 16px !important;
+                padding: 18px !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
+                cursor: pointer !important;
+                transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+            }
+
+            .rail-card:hover {
+                transform: translateY(-2px) !important;
+                box-shadow: 0 6px 16px rgba(0,0,0,0.06) !important;
+            }
+
+            .rail-card-header {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                margin-bottom: 12px !important;
+            }
+
+            .rail-card-title {
+                font-size: 14px !important;
+                font-weight: 700 !important;
+                color: var(--text-main) !important;
+            }
+
+            .rail-badge {
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                padding: 3px 8px !important;
+                border-radius: 12px !important;
+                background: #eff6ff !important;
+                color: #2563eb !important;
+            }
+
+            .dark-mode .rail-badge {
+                background: #1e3a8a !important;
+                color: #93c5fd !important;
+            }
+
+            .rail-link-btn {
+                font-size: 11.5px !important;
+                font-weight: 600 !important;
+                color: #2563eb !important;
+            }
+
+            .rail-cup-stats {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px !important;
+                background: var(--bg-body) !important;
+                padding: 12px !important;
+                border-radius: 10px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .rail-stat-col {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 2px !important;
+            }
+
+            .rail-stat-label {
+                font-size: 11px !important;
+                color: var(--text-muted) !important;
+                font-weight: 500 !important;
+            }
+
+            .rail-stat-val {
+                font-size: 16px !important;
+                font-weight: 800 !important;
+                color: var(--text-main) !important;
+            }
+
+            .rail-cutoff-gap {
+                font-size: 12px !important;
+                color: #16a34a !important;
+                font-weight: 600 !important;
+                line-height: 1.4 !important;
+            }
+
+            .rail-exam-name {
+                font-size: 15px !important;
+                font-weight: 700 !important;
+                color: var(--text-main) !important;
+                margin-bottom: 6px !important;
+            }
+
+            .rail-countdown-badge {
+                font-size: 12.5px !important;
+                font-weight: 600 !important;
+                color: #b45309 !important;
+                background: #fef3c7 !important;
+                padding: 5px 10px !important;
+                border-radius: 8px !important;
+                display: inline-block !important;
+            }
+
+            .dark-mode .rail-countdown-badge {
+                background: #78350f !important;
+                color: #fde68a !important;
+            }
+
+            .rail-wotd-word {
+                font-size: 20px !important;
+                font-weight: 800 !important;
+                color: #2563eb !important;
+                margin-bottom: 4px !important;
+                text-transform: capitalize !important;
+            }
+
+            .dark-mode .rail-wotd-word {
+                color: #60a5fa !important;
+            }
+
+            .rail-wotd-sub {
+                font-size: 12.5px !important;
+                color: var(--text-muted) !important;
+                line-height: 1.4 !important;
+            }
+
+            .target-exam-pill {
+                background: #f1f5f9;
+                color: #334155;
+                border: 1px solid #cbd5e1;
+                padding: 6px 14px;
+                border-radius: 20px;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .dark-mode .target-exam-pill {
+                background: #27272a;
+                color: #e2e8f0;
+                border-color: #3f3f46;
+            }
+
+            .streak-pill {
+                background: #fff7ed;
+                color: #c2410c;
+                border: 1px solid #fed7aa;
+                padding: 6px 14px;
+                border-radius: 20px;
+                font-size: 13px;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            .dark-mode .streak-pill {
+                background: #431407;
+                color: #fdba74;
+                border-color: #9a3412;
+            }
+
+            .desk-avatar-btn {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                background: #eff6ff;
+                border: 1.5px solid #3b82f6;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                cursor: pointer;
+            }
+
+            /* Tablet & small desktop optimization: at 1024-1279px, hide right rail or let it flow gracefully */
+            @media (max-width: 1279px) {
+                .app-layout-root {
+                    grid-template-columns: 220px minmax(0, 1fr) !important;
+                }
+                .right-performance-rail {
+                    display: none !important;
+                }
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -4064,7 +4391,7 @@
     <!-- ==========================================
          VIEW 1: HOME SCREEN
          ========================================== -->
-        <!-- 🟢 DESKTOP TOP NAVIGATION BAR (@media min-width: 1024px) -->
+        <!-- 🟢 GLOBAL NAV BAR: Brand | Target Exam Pill | Daily Streak | Theme Toggle | Profile Avatar -->
     <header class="desktop-navbar">
         <div class="desktop-nav-inner">
             <div class="desktop-nav-brand" onclick="switchView('view-home')">
@@ -4072,39 +4399,64 @@
                 <span class="desktop-brand-title">Ez Editorials</span>
             </div>
             
-            <nav class="desktop-nav-links">
-                <button class="desktop-nav-btn active" id="desk-nav-home" onclick="switchView('view-home')">
-                    <span class="desk-nav-icon">🏠</span> Home
-                </button>
-                <button class="desktop-nav-btn" id="desk-nav-cup" onclick="switchView('view-cup')">
-                    <span class="desk-nav-icon">🏆</span> Weekly Cup
-                </button>
-                <button class="desktop-nav-btn" id="desk-nav-progress" onclick="switchView('view-progress')">
-                    <span class="desk-nav-icon">📈</span> Progress
-                </button>
-                <button class="desktop-nav-btn" id="desk-nav-digest" onclick="switchView('view-digest')">
-                    <span class="desk-nav-icon">📰</span> Daily Digest
-                </button>
-                <button class="desktop-nav-btn" id="desk-nav-profile" onclick="switchView('view-profile')">
-                    <span class="desk-nav-icon">👤</span> Profile
-                </button>
-            </nav>
-
             <div class="desktop-nav-tools">
+                <div class="target-exam-pill" onclick="openSubModal('targetModalOverlay')" title="Change Target Exam">
+                    <span>🎯</span> <span id="desk-target-exam-title">Target Exam</span> ▾
+                </div>
+                <div class="streak-pill" title="Daily Streak">
+                    <span>🔥</span> <span id="desk-streak-badge">Streak Active</span>
+                </div>
                 <button class="desktop-tool-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode">
                     <span>🌙</span>
                 </button>
-                <button class="desktop-tool-btn" onclick="openSubModal('settingsModalOverlay')" title="Settings">
-                    <span>⚙️</span>
-                </button>
-                <button class="desktop-tool-btn desk-logout-btn" onclick="logOut()" title="Log Out">
-                    <span>🚪 Log Out</span>
-                </button>
+                <div class="desk-avatar-btn" onclick="switchView('view-profile')" title="My Profile">
+                    <span>👨‍🎓</span>
+                </div>
             </div>
         </div>
     </header>
 
-    <div id="view-home" class="view-container active">
+        <!-- 🟢 TASK 2: 3-COLUMN DESKTOP WORKSPACE ROOT -->
+    <div class="app-layout-root">
+        <!-- Left Navigation Rail (Desktop persistent, Mobile hidden) -->
+        <aside class="left-nav-rail">
+            <div class="brand-block" onclick="switchView('view-home')">
+                <span class="brand-icon">📚</span>
+                <span class="brand-name">Ez Editorials</span>
+            </div>
+            <nav class="nav-links-group">
+                <button class="nav-rail-btn active" id="rail-nav-home" onclick="switchView('view-home')">
+                    <span>🏠</span> Home
+                </button>
+                <button class="nav-rail-btn" id="rail-nav-day" onclick="switchView('view-day')">
+                    <span>🎯</span> Topic Trials
+                </button>
+                <button class="nav-rail-btn" id="rail-nav-cup" onclick="switchView('view-cup')">
+                    <span>🏆</span> Weekly Cup
+                </button>
+                <button class="nav-rail-btn" id="rail-nav-progress" onclick="switchView('view-progress')">
+                    <span>📈</span> Progress
+                </button>
+                <button class="nav-rail-btn" id="rail-nav-digest" onclick="switchView('view-digest')">
+                    <span>📰</span> Daily Digest
+                </button>
+                <button class="nav-rail-btn" onclick="openSubModal('archiveModalOverlay')">
+                    <span>📜</span> Archives
+                </button>
+            </nav>
+            <div class="nav-rail-footer">
+                <button class="nav-rail-btn" onclick="openSubModal('settingsModalOverlay')">
+                    <span>⚙️</span> Settings
+                </button>
+                <button class="nav-rail-btn text-danger" onclick="logOut()">
+                    <span>🚪</span> Log Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- Center Workspace Pane (Dynamic views render here) -->
+        <main class="center-workspace-pane">
+            <div id="view-home" class="view-container active">
         <div class="top-header">
             <!-- Left icon (Coming Soon) -->
             <svg class="icon-btn" onclick="alert('Menu features coming soon!')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -5495,6 +5847,54 @@
             </div>
         </div>
     </div>
+    </div> <!-- /End of view-digest -->
+        </main>
+
+        <!-- Right Performance Rail (Contextual widgets) -->
+        <aside class="right-performance-rail">
+            <!-- 1. Live Weekly Cup Widget -->
+            <div class="rail-card weekly-cup-widget" onclick="switchView('view-cup')">
+                <div class="rail-card-header">
+                    <span class="rail-card-title">🏆 Live Weekly Cup</span>
+                    <span class="rail-badge" id="rail-cup-badge">Ranked</span>
+                </div>
+                <div class="rail-cup-stats">
+                    <div class="rail-stat-col">
+                        <span class="rail-stat-label">Current Rank</span>
+                        <span class="rail-stat-val" id="rail-cup-rank">#--</span>
+                    </div>
+                    <div class="rail-stat-col">
+                        <span class="rail-stat-label">Total Points</span>
+                        <span class="rail-stat-val" id="rail-cup-pts">0 pts</span>
+                    </div>
+                </div>
+                <div class="rail-cutoff-gap" id="rail-cup-gap">
+                    🚀 Practice trials daily to climb into promotion tier!
+                </div>
+            </div>
+
+            <!-- 2. Target Exam Countdowns -->
+            <div class="rail-card exam-countdown-widget" onclick="openSubModal('examsModalOverlay')">
+                <div class="rail-card-header">
+                    <span class="rail-card-title">📅 Target Exam</span>
+                    <span class="rail-link-btn">All Exams ›</span>
+                </div>
+                <div class="rail-exam-name" id="rail-target-exam-name">SSC CGL 2026</div>
+                <div class="rail-countdown-badge" id="rail-exam-countdown">⏱ Loading countdown...</div>
+            </div>
+
+            <!-- 3. Word of the Day & Foreign Expression Card -->
+            <div class="rail-card wotd-widget" onclick="switchView('view-digest')">
+                <div class="rail-card-header">
+                    <span class="rail-card-title">📖 Word of the Day</span>
+                    <span class="rail-badge">Vocabulary</span>
+                </div>
+                <div class="rail-wotd-word" id="rail-wotd-display">Loading...</div>
+                <div class="rail-wotd-sub" id="rail-wotd-meaning">Tap to explore usage, synonyms & editorial passage ›</div>
+            </div>
+        </aside>
+    </div> <!-- /End of app-layout-root -->
+
     
     <!-- Digest Reading Modal -->
     <div id="digestModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeDigestModal(event)">
@@ -5702,10 +6102,18 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border-light);">
                     <div>
-                        <div style="font-size: 15px; font-weight: 600; color: #dc2626;">🚪 Log Out</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">Sign out of your account</div>
+                        <div style="font-size: 15px; font-weight: 600; color: var(--text-main);">🚪 Log Out</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Sign out of current account</div>
                     </div>
                     <button onclick="logOut()" style="padding: 7px 16px; border-radius: 8px; border: 1px solid #fca5a5; background: #fee2e2; color: #b91c1c; font-size: 13px; font-weight: 700; cursor: pointer;">Log Out</button>
+                </div>
+                <!-- 🟢 GOOGLE PLAY COMPLIANCE: Account Deletion -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-light);">
+                    <div>
+                        <div style="font-size: 15px; font-weight: 600; color: #dc2626;">⚠️ Delete Account & Wipe Data</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Permanently remove account & all test history</div>
+                    </div>
+                    <button onclick="deleteAccount()" style="padding: 7px 14px; border-radius: 8px; border: 1px solid #dc2626; background: #dc2626; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;">Delete Account</button>
                 </div>
             </div>
         </div>
@@ -6826,6 +7234,32 @@
                     if (elOvertakeFill) elOvertakeFill.style.width = `10%`;
                 }
             }
+
+            // 🟢 Sync Desktop Right Performance Rail Weekly Cup Widget
+            try {
+                const elRailRank = document.getElementById('rail-cup-rank');
+                const elRailPts = document.getElementById('rail-cup-pts');
+                const elRailBadge = document.getElementById('rail-cup-badge');
+                const elRailGap = document.getElementById('rail-cup-gap');
+
+                if (elRailRank) elRailRank.innerText = (!isNaN(rankNum) && rankNum > 0) ? `#${rankNum}` : '#--';
+                if (elRailPts) elRailPts.innerText = `${scoreVal} pts`;
+                if (elRailBadge && elRailGap) {
+                    if (rankNum === 1) {
+                        elRailBadge.innerText = 'Leader 👑';
+                        elRailGap.innerText = '👑 1st Place! Leading this week\'s tournament!';
+                    } else if (rankNum <= 10) {
+                        elRailBadge.innerText = 'Top 10 🔥';
+                        elRailGap.innerText = `🔥 Rank #${rankNum} of ${total} • Defending your Elite promotion spot!`;
+                    } else if (rankNum > 0) {
+                        elRailBadge.innerText = 'Ranked';
+                        elRailGap.innerText = `🚀 Rank #${rankNum} of ${total} • Complete daily trials to enter Top 10!`;
+                    } else {
+                        elRailBadge.innerText = 'Unranked';
+                        elRailGap.innerText = '🚀 Practice trials daily to climb into promotion tier!';
+                    }
+                }
+            } catch(e) {}
         }
 
         // 🟢 Live Cup Leaderboard, Real Battle Neighbors & Vibrant Avatars
@@ -7177,8 +7611,12 @@
                 fetch('https://ez-editorials-bot.onrender.com/api/word-of-day')
                     .then(r => r.json())
                     .then(data => {
-                        if(data.word_of_the_day && document.getElementById('home-wotd')) {
-                            document.getElementById('home-wotd').innerText = data.word_of_the_day;
+                        if(data.word_of_the_day) {
+                            if (document.getElementById('home-wotd')) document.getElementById('home-wotd').innerText = data.word_of_the_day;
+                            if (document.getElementById('rail-wotd-display')) document.getElementById('rail-wotd-display').innerText = data.word_of_the_day;
+                            if (data.meaning && document.getElementById('rail-wotd-meaning')) {
+                                document.getElementById('rail-wotd-meaning').innerText = data.meaning;
+                            }
                         }
                     });
                 
@@ -7419,6 +7857,78 @@
         // --- MASTER SPEC: SECTION 4 (Upcoming Exams & Timers) ---
         let examTimers = [];
 
+        // 🟢 Desktop Right Rail: Target Exam Countdown Sync
+        async function syncTargetExamCountdown(cachedExams) {
+            try {
+                const targetExam = localStorage.getItem('user_exam') || localStorage.getItem('ez_target_exam') || 'SSC CGL';
+                const railExamName = document.getElementById('rail-target-exam-name');
+                const railCountdown = document.getElementById('rail-exam-countdown');
+                const deskExamPill = document.getElementById('desk-target-exam-title');
+
+                if (railExamName) railExamName.innerText = targetExam;
+                if (deskExamPill) deskExamPill.innerText = targetExam;
+
+                let exams = cachedExams;
+                if (!exams || exams.length === 0) {
+                    const response = await fetch(`https://ez-editorials-bot.onrender.com/api/upcoming-exams`);
+                    const data = await response.json();
+                    exams = data.exams || [];
+                }
+
+                if (!exams || exams.length === 0) {
+                    if (railCountdown) railCountdown.innerText = '⏱ Dates TBA';
+                    return;
+                }
+
+                const categoryMapping = {
+                    'SSC': ['SSC'],
+                    'Bank': ['IBPS', 'SBI'],
+                    'RBI': ['RBI'],
+                    'Ins': ['LIC', 'NIACL', 'NICL', 'UIIC', 'GIC'],
+                    'Reg': ['SEBI', 'NABARD', 'IRDAI', 'PFRDA', 'IFSCA'],
+                    'EPFO': ['EPFO', 'ESIC'],
+                    'Intel': ['IB ACIO'],
+                    'FCI': ['FCI'],
+                    'Rail': ['RRB NTPC'],
+                    'Def': ['CDS', 'AFCAT', 'CAPF'],
+                    'UPSC': ['UPSC Civil'],
+                    'PSC': ['PSC']
+                };
+
+                const prefixes = categoryMapping[targetExam] || [targetExam];
+                const matched = exams.filter(e => prefixes.some(p => e.name && e.name.toLowerCase().includes(p.toLowerCase())));
+
+                const istNow = getIST();
+                istNow.setHours(0, 0, 0, 0);
+
+                let earliestUpcoming = null;
+                for (const ex of matched) {
+                    if (ex.exam_date && !ex.display_date.toLowerCase().includes('to be announced')) {
+                        const d = new Date(ex.exam_date + 'T00:00:00+05:30');
+                        if (d >= istNow) {
+                            if (!earliestUpcoming || d < earliestUpcoming.date) {
+                                earliestUpcoming = { name: ex.name, date: d, display: ex.display_date };
+                            }
+                        }
+                    }
+                }
+
+                if (earliestUpcoming && railCountdown) {
+                    const diffMs = earliestUpcoming.date.getTime() - Date.now();
+                    const days = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
+                    const hours = Math.max(0, Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+                    railCountdown.innerText = `⏱ ${days} Days ${hours}h Left`;
+                    if (railExamName) railExamName.innerText = earliestUpcoming.name;
+                } else if (matched.length > 0 && railCountdown) {
+                    railCountdown.innerText = `⏱ Date To Be Announced`;
+                } else if (railCountdown) {
+                    railCountdown.innerText = `⏱ Tap to set Target`;
+                }
+            } catch(e) {
+                console.error("Error syncing target exam countdown", e);
+            }
+        }
+
         async function loadUpcomingExams() {
             try {
                 const response = await fetch(`https://ez-editorials-bot.onrender.com/api/upcoming-exams`);
@@ -7426,6 +7936,7 @@
                 const container = document.getElementById('profile-exams-container');
                 
                 if (data.exams && data.exams.length > 0) {
+                    syncTargetExamCountdown(data.exams);
                     
                     // 🟢 NEW: Filter exams based on Target Exam Selection
                     const targetExam = localStorage.getItem('user_exam');
@@ -7797,6 +8308,22 @@
             }
         }
 
+        // 🟢 Audio helper for individual word pronunciation
+        function speakWord(word, e) {
+            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+            if (!word) {
+                playWordSpeech('wotd');
+                return;
+            }
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
         // 🟢 Populate the "Today's Insights" Cards
         function populateDigestInsightsCards() {
             if (!digestItems || digestItems.length === 0) return;
@@ -7818,6 +8345,20 @@
                 if (elExample) {
                     elExample.innerText = parsedWOTD.context || (parsedWOTD.synonyms?.length ? `Synonyms: ${parsedWOTD.synonyms.slice(0, 3).join(', ')}` : "Tap to read editorial context.");
                 }
+
+                // 🟢 Sync Desktop Right Performance Rail Word of the Day Widget
+                try {
+                    const railWotd = document.getElementById('rail-wotd-display');
+                    const railMeaning = document.getElementById('rail-wotd-meaning');
+                    if (railWotd) {
+                        const cleanWord = (parsedWOTD.word || "Word of the Day").replace(/'/g, "\\'");
+                        railWotd.innerHTML = `<span style="text-transform: capitalize;">${parsedWOTD.word || "Word of the Day"}</span> <button onclick="speakWord('${cleanWord}', event)" title="Listen pronunciation" style="background:none; border:none; cursor:pointer; font-size:16px; vertical-align:middle; padding:2px 6px;">🔊</button>`;
+                    }
+                    if (railMeaning) {
+                        const posStr = parsedWOTD.pos ? `(${parsedWOTD.pos}) ` : '';
+                        railMeaning.innerText = `${posStr}${parsedWOTD.meaning || "Tap to explore usage, synonyms & passage ›"}`;
+                    }
+                } catch(e) {}
             }
 
             // 2. Populate Foreign Expression Card
@@ -8003,6 +8544,11 @@
             } else if (headerExamTag) {
                 headerExamTag.style.display = 'none';
             }
+
+            // Sync Desktop Target Exam Countdown
+            if (typeof syncTargetExamCountdown === 'function') {
+                syncTargetExamCountdown();
+            }
         }
 
         function renderQuizCard(quiz, container) {
@@ -8043,18 +8589,34 @@
             window.scrollTo(0, 0);
 
             // Sync Desktop Nav Active State
-            const deskNavMap = {
-                'view-home': 'desk-nav-home',
-                'view-cup': 'desk-nav-cup',
-                'view-progress': 'desk-nav-progress',
-                'view-digest': 'desk-nav-digest',
-                'view-profile': 'desk-nav-profile'
+            const railNavMap = {
+                'view-home': 'rail-nav-home',
+                'view-day': 'rail-nav-day',
+                'view-cup': 'rail-nav-cup',
+                'view-progress': 'rail-nav-progress',
+                'view-digest': 'rail-nav-digest',
+                'view-profile': 'rail-nav-profile'
             };
-            document.querySelectorAll('.desktop-nav-btn').forEach(b => b.classList.remove('active'));
-            if (deskNavMap[viewId]) {
-                const db = document.getElementById(deskNavMap[viewId]);
-                if (db) db.classList.add('active');
+            document.querySelectorAll('.nav-rail-btn').forEach(b => b.classList.remove('active'));
+            if (railNavMap[viewId]) {
+                const rb = document.getElementById(railNavMap[viewId]);
+                if (rb) rb.classList.add('active');
             }
+            
+            // Sync Global Nav Pills (Target Exam & Streak)
+            try {
+                const tExam = localStorage.getItem('ez_target_exam') || 'SSC CGL 2026';
+                const pillExam = document.getElementById('desk-target-exam-title');
+                const railExam = document.getElementById('rail-target-exam-name');
+                if (pillExam) pillExam.innerText = tExam;
+                if (railExam) railExam.innerText = tExam;
+
+                const streakEl = document.getElementById('desk-streak-badge');
+                if (streakEl) {
+                    const u = (typeof getSavedUser === 'function') ? getSavedUser() : null;
+                    streakEl.innerText = (u && u.streak_days) ? `${u.streak_days} Days Streak` : 'Active Streak';
+                }
+            } catch(e) {}
 
             // 🟢 Toggle Native Telegram Back Button
             if (tgApp?.BackButton) {
@@ -8193,9 +8755,10 @@
                 openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();
             }
             
-            try { loadRealCupData(); } catch(e) { console.error(e); } // 👈 ADD THIS LINE
+            try { loadRealCupData(); } catch(e) { console.error(e); }
             try { loadQuizzes(); } catch(e) { console.error(e); }
             try { loadDailyDigest(); } catch(e) { console.error(e); }
+            try { syncTargetExamCountdown(); } catch(e) { console.error(e); }
             
             // 🟢 THE INTERCEPTOR: Catch app_v8.js updates and force the top cards to sync!
             if (typeof renderLeaderboardData === 'function') {

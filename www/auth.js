@@ -256,56 +256,69 @@ function setupNetworkListeners() {
 
 // 12. Native Android Hardware Back Button Handling (Capacitor)
 let lastBackPressTime = 0;
+let isBackButtonListenerAttached = false;
+
 function setupAndroidBackButton() {
-    if (!window.Capacitor) return;
+    const CapApp = window.Capacitor?.Plugins?.App;
+    if (!CapApp || typeof CapApp.addListener !== 'function' || isBackButtonListenerAttached) return;
     
-    const CapApp = window.Capacitor.Plugins?.App;
-    if (CapApp && typeof CapApp.addListener === 'function') {
-        CapApp.addListener('backButton', () => {
-            // Priority 1: If any modal overlay is active, close it!
-            const activeModals = document.querySelectorAll('.modal-overlay, [id$="ModalOverlay"], [id$="-modal"]');
-            for (let m of activeModals) {
-                if (m && m.style.display !== 'none' && getComputedStyle(m).display !== 'none') {
-                    m.style.display = 'none';
-                    return;
-                }
+    isBackButtonListenerAttached = true;
+    CapApp.addListener('backButton', () => {
+        // Priority 1: Dismiss active modal overlays & restore scroll
+        const activeModals = document.querySelectorAll(
+            '.modal-overlay, [id$="ModalOverlay"], [id$="-modal"]'
+        );
+        let dismissedModal = false;
+        for (let m of activeModals) {
+            if (m && m.style.display !== 'none' && getComputedStyle(m).display !== 'none') {
+                m.style.display = 'none';
+                dismissedModal = true;
             }
+        }
+        if (dismissedModal) {
+            document.body.style.overflow = '';
+            return;
+        }
 
-            // Priority 2: In app.html, if not on view-home, return to view-home
-            const homeView = document.getElementById('view-home');
-            if (homeView && typeof switchView === 'function' && !homeView.classList.contains('active')) {
-                switchView('view-home');
-                return;
+        // Priority 2: Confirm before aborting an active test
+        if (window.location.pathname.includes('test.html')) {
+            if (confirm("Are you sure you want to exit? Responses recorded so far will be submitted.")) {
+                window.location.href = 'app.html?view=day';
             }
+            return;
+        }
 
-            // Priority 3: On test.html, prompt before quitting test
-            if (window.location.pathname.includes('test.html')) {
-                if (confirm("Are you sure you want to exit the test? Unsubmitted answers may be lost.")) {
-                    window.location.href = 'app.html';
-                }
-                return;
-            }
-
-            // Priority 4: On result.html, go back to tests
-            if (window.location.pathname.includes('result.html')) {
-                if (typeof goBackToTopics === 'function') {
-                    goBackToTopics();
-                } else {
-                    window.location.href = 'app.html';
-                }
-                return;
-            }
-
-            // Priority 5: Double tap to exit on Home screen
-            const now = Date.now();
-            if (now - lastBackPressTime < 2000) {
-                CapApp.exitApp();
+        // Priority 3: On result.html, navigate back to daily trials
+        if (window.location.pathname.includes('result.html')) {
+            if (typeof goBackToTopics === 'function') {
+                goBackToTopics();
             } else {
-                lastBackPressTime = now;
-                showToast("Press back again to exit");
+                window.location.href = 'app.html?view=day';
             }
-        });
-    }
+            return;
+        }
+
+        // Priority 4: Navigate from Sub-views back to Home
+        const homeView = document.getElementById('view-home');
+        if (homeView && typeof switchView === 'function' && !homeView.classList.contains('active')) {
+            switchView('view-home');
+            return;
+        }
+
+        // Priority 5: Double-tap on Home screen to exit app
+        const now = Date.now();
+        if (now - lastBackPressTime < 2000) {
+            CapApp.exitApp();
+        } else {
+            lastBackPressTime = now;
+            showToast("Press back again to exit");
+        }
+    });
+}
+
+// Attach immediately if Capacitor is already ready
+if (window.Capacitor?.Plugins?.App) {
+    setupAndroidBackButton();
 }
 
 // 13. Toast notification utility
@@ -368,5 +381,31 @@ function clearAppCache() {
         
         showToast("Cache cleared successfully! Reloading...");
         setTimeout(() => { window.location.reload(); }, 600);
+    }
+}
+
+// 16. Google Play Compliance: Account Deletion
+async function deleteAccount() {
+    const confirmation = prompt("⚠️ WARNING: This will permanently delete your Ez Editorials account, test attempts, streaks, and all personal data. This action cannot be undone.\n\nType 'DELETE' to confirm:");
+    if (confirmation !== 'DELETE') {
+        if (confirmation !== null) alert("Account deletion cancelled. Confirmation word did not match.");
+        return;
+    }
+
+    try {
+        const res = await authFetch('https://ez-editorials-bot.onrender.com/api/user/delete-account', {
+            method: 'POST'
+        });
+        const data = await res.json();
+        if (data.success) {
+            alert("Your account and all associated data have been permanently wiped.");
+            localStorage.clear();
+            sessionStorage.clear();
+            window.location.reload();
+        } else {
+            alert("Failed to delete account: " + (data.error || "Unknown server error"));
+        }
+    } catch(e) {
+        alert("Failed to reach server. Please check your network.");
     }
 }

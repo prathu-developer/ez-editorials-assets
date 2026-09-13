@@ -412,3 +412,33 @@
         .act-stats { flex: 1; display: flex; gap: 15px; justify-content: center; }
 
         .text-green { color: #10b981; } .text-red { color: #ef4444; } .text-blue { color: #3b82f6; }
+
+/* ==========================================================================
+   🟢 TASK 3: RESPONSIVE DIALOGUE & MODAL MODERNISATION (@media min-width: 768px)
+   ========================================================================== */
+@media (min-width: 768px) {
+    .modal-overlay,
+    [id$="ModalOverlay"] {
+        display: none;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 24px !important;
+    }
+
+    .modal-content,
+    .bottom-sheet,
+    .digest-modal-sheet,
+    [id$="ModalOverlay"] > div {
+        width: 100% !important;
+        max-width: 520px !important;
+        border-radius: 18px !important;
+        margin: auto !important;
+        transform: translateY(0) !important;
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* Hide the mobile drag indicator handle on desktop/tablet */
+    .close-indicator {
+        display: none !important;
+    }
+}
