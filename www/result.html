@@ -4,26 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Quiz Results</title>
-    <script>
-        (function() {
-            if (localStorage.getItem('app_dark_mode') === 'true') {
-                document.documentElement.classList.add('dark-mode');
-            }
-            try {
-                const ua = navigator.userAgent || '';
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-                const tgPlatform = window.Telegram?.WebApp?.platform || '';
-                const isTgDesktop = ['tdesktop', 'macos', 'web', 'weba', 'webk'].includes(tgPlatform);
-                const isLaptopScreen = window.screen.width >= 768;
-
-                if (isTgDesktop || (!isMobile && isLaptopScreen)) {
-                    document.documentElement.classList.add('is-desktop');
-                }
-            } catch (e) {}
-        })();
-    </script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="tokens.css">
+    <link rel="stylesheet" href="shell.css">
     <script src="auth.js"></script>
+    <script src="shell.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -575,7 +560,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: #ffffff;
+            background: var(--bg-card, #ffffff);
             padding: 8px 14px calc(8px + env(safe-area-inset-bottom, 0px)) 14px;
             box-shadow: 0 -3px 12px rgba(0,0,0,0.05);
             display: flex;
@@ -597,6 +582,8 @@
             align-items: center;
             justify-content: center;
             gap: 5px;
+            min-height: 44px;
+            box-sizing: border-box;
         }
         .btn-bottom-review {
             flex: 1.4;
@@ -611,6 +598,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 44px;
+            box-sizing: border-box;
+        }
+
+        /* Tactile Active States & Accessibility Focus */
+        button:active,
+        .btn-bottom-share:active,
+        .btn-bottom-review:active {
+            transform: scale(0.98);
+            transition: transform 0.08s ease;
+        }
+
+        button:focus-visible,
+        .btn-bottom-share:focus-visible,
+        .btn-bottom-review:focus-visible {
+            outline: 2px solid var(--brand-blue, #1c64f2);
+            outline-offset: 2px;
         }
 
         #loading {
@@ -669,58 +673,70 @@
             .fixed-bottom-bar {
                 max-width: 760px;
                 margin: 0 auto;
-                left: 0;
-                right: 0;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                width: 100%;
+                box-sizing: border-box;
                 border-radius: 18px 18px 0 0;
                 padding: 12px 24px max(14px, env(safe-area-inset-bottom, 0px)) 24px;
             }
         }
 
         @media (min-width: 1024px) {
-            #result-content {
+            html.is-desktop body {
+                padding: 0 32px 100px 32px;
+            }
+
+            html.is-desktop #result-content {
                 max-width: 1160px;
                 margin: 24px auto;
             }
 
-            .results-dashboard-grid {
+            html.is-desktop .results-dashboard-grid {
                 display: grid;
                 grid-template-columns: 40% calc(60% - 24px);
                 gap: 24px;
                 align-items: start;
             }
 
-            .res-col-left, .res-col-right {
+            html.is-desktop .res-col-left,
+            html.is-desktop .res-col-right {
                 display: flex;
                 flex-direction: column;
                 gap: 16px;
             }
 
-            .hero-banner-card {
+            html.is-desktop .hero-banner-card {
                 margin-top: 0;
                 margin-bottom: 0;
                 padding: 24px 28px;
             }
 
-            .hero-status-heading {
+            html.is-desktop .hero-status-heading {
                 font-size: 16px;
             }
 
-            .hero-big-marks {
+            html.is-desktop .hero-big-marks {
                 font-size: 28px;
             }
 
             /* 2-Column Key Metrics Subgrid on Desktop */
-            .res-col-left .metric-row {
+            html.is-desktop .res-col-left .metric-row {
                 padding: 12px 0;
             }
 
-            .fixed-bottom-bar {
+            html.is-desktop .fixed-bottom-bar {
                 max-width: 1160px;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
                 padding: 14px 32px;
                 box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.12);
             }
 
-            .btn-bottom-share, .btn-bottom-review {
+            html.is-desktop .btn-bottom-share,
+            html.is-desktop .btn-bottom-review {
                 font-size: 14px;
                 padding: 13px 20px;
             }

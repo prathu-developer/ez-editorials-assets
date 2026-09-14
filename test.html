@@ -4,29 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Active Test</title>
-    <script>
-        (function() {
-            if (localStorage.getItem('app_dark_mode') === 'true') {
-                document.documentElement.classList.add('dark-mode');
-                window.addEventListener('DOMContentLoaded', () => {
-                    if (document.body) document.body.classList.add('dark-mode');
-                });
-            }
-            try {
-                const ua = navigator.userAgent || '';
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-                const tgPlatform = window.Telegram?.WebApp?.platform || '';
-                const isTgDesktop = ['tdesktop', 'macos', 'web', 'weba', 'webk'].includes(tgPlatform);
-                const isLaptopScreen = window.screen.width >= 768;
-
-                if (isTgDesktop || (!isMobile && isLaptopScreen)) {
-                    document.documentElement.classList.add('is-desktop');
-                }
-            } catch (e) {}
-        })();
-    </script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="tokens.css">
+    <link rel="stylesheet" href="shell.css">
     <script src="auth.js"></script>
+    <script src="shell.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
@@ -151,13 +133,21 @@
         }
 
         /* Instructions Screen Overrides for Hardcoded Inlines */
+        .dark-mode #instructions-screen,
+        .dark-mode .instructions-card-dialog {
+            background: var(--bg-main) !important;
+        }
+        .dark-mode .instructions-card-dialog > div:nth-child(2),
         .dark-mode #instructions-screen > div:nth-child(2) {
             background: var(--card-bg) !important;
         }
         .dark-mode #instructions-screen [style*="background:#f8f9fa"],
-        .dark-mode #instructions-screen [style*="background: #f8f9fa"] {
+        .dark-mode #instructions-screen [style*="background: #f8f9fa"],
+        .dark-mode .instructions-card-dialog [style*="background:#f8f9fa"],
+        .dark-mode .instructions-card-dialog [style*="background: #f8f9fa"] {
             background: #27272a !important;
         }
+        .dark-mode .instructions-card-dialog div:last-child,
         .dark-mode #instructions-screen div:last-child {
             background: var(--card-bg) !important;
             border-color: var(--border-color) !important;
@@ -240,7 +230,7 @@
         body.font-xlarge .q-text { font-size: 20px; } body.font-xlarge .opt-text { font-size: 17px; }
 
         /* Top Header */
-        .top-header { background: var(--card-bg); padding: 12px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); z-index: 10; }
+        .top-header { background: var(--card-bg); padding: max(12px, env(safe-area-inset-top, 0px)) 16px 12px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); z-index: 10; }
         .pause-btn { background: var(--brand-red); color: white; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; cursor: pointer; }
         .header-info { flex-grow: 1; }
         .header-title { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
@@ -283,7 +273,7 @@
         .opt-text { font-size: 14px; font-weight: 500; color: var(--text-dark); transition: font-size 0.2s; flex-grow: 1; }
 
         /* Compact Bottom Bar */
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); padding: 8px 14px 14px 14px; box-shadow: 0 -4px 12px rgba(0,0,0,0.06); z-index: 20; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); padding: 8px 14px max(14px, env(safe-area-inset-bottom, 0px)) 14px; box-shadow: 0 -4px 12px rgba(0,0,0,0.06); z-index: 20; }
         .action-row { display: flex; gap: 8px; margin-bottom: 8px; }
         .btn-half { flex: 1; padding: 10px 8px; border-radius: 8px; font-size: 13px; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer; color: var(--text-dark); display: flex; justify-content: center; align-items: center; gap: 4px; transition: all 0.15s ease; }
         .btn-half:active { transform: scale(0.97); }
@@ -749,7 +739,7 @@
 
 
         /* ==========================================================================
-           🟢 CBT DUAL-PANE DESKTOP & TABLET ADAPTATIONS (@media min-width: 1024px)
+           🟢 CBT BASE WORKSPACE LAYOUT (< 768px Base Mobile)
            ========================================================================== */
         .cbt-workspace-wrapper {
             display: flex;
@@ -773,8 +763,111 @@
             display: none;
         }
 
-        @media (min-width: 1024px) {
+        /* Mobile-first Instructions Screen */
+        #instructions-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-main);
+            z-index: 50;
+            display: none;
+            flex-direction: column;
+        }
+
+        .instructions-card-dialog {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           🟢 TABLET SINGLE-PANE ERGONOMICS (@media min-width: 768px)
+           ========================================================================== */
+        @media (min-width: 768px) {
+            .modal-overlay {
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 24px !important;
+            }
+
+            .bottom-sheet {
+                width: 100% !important;
+                max-width: 520px !important;
+                border-radius: 18px !important;
+                max-height: 85vh !important;
+                margin: auto !important;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.3) !important;
+            }
+
+            .top-header {
+                padding: 14px 24px;
+            }
+
+            .header-title {
+                max-width: 400px;
+                font-size: 16px;
+            }
+
+            /* Ticket 2.8: Tablet Single-Pane Container & Reading Typography */
             #live-test-container {
+                max-width: var(--container-tablet, 768px);
+                margin: 0 auto;
+                border-left: 1px solid var(--border-color);
+                border-right: 1px solid var(--border-color);
+                box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+            }
+
+            .cbt-left-pane .scroll-area {
+                padding: 24px 32px 120px 32px !important;
+            }
+
+            .question-text {
+                font-size: 17px !important;
+                line-height: 1.65 !important;
+            }
+
+            .opt-item {
+                padding: 14px 18px !important;
+                border-radius: 12px !important;
+                min-height: 48px !important;
+            }
+
+            /* Tablet Centered Bottom Actions Bar */
+            .bottom-bar {
+                max-width: var(--container-tablet, 768px);
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%);
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            /* Centered Instructions Dialog Card */
+            #instructions-screen {
+                align-items: center !important;
+                justify-content: center !important;
+                background: rgba(0, 0, 0, 0.45) !important;
+                padding: 24px !important;
+            }
+
+            .instructions-card-dialog {
+                max-width: 640px !important;
+                height: auto !important;
+                max-height: 90vh !important;
+                background: var(--card-bg) !important;
+                border-radius: 16px !important;
+                overflow: hidden !important;
+                border: 1px solid var(--border-color) !important;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.25) !important;
+            }
+        }
+
+        /* ==========================================================================
+           🟢 CBT DUAL-PANE DESKTOP ADAPTATIONS (@media min-width: 1024px & html.is-desktop)
+           Ground Rule 4: Telegram Desktop narrow iframe (~420px) NEVER receives dual-pane
+           ========================================================================== */
+        @media (min-width: 1024px) {
+            html.is-desktop #live-test-container {
                 max-width: 1440px;
                 margin: 0 auto;
                 width: 100%;
@@ -783,67 +876,70 @@
                 box-shadow: 0 0 40px rgba(0,0,0,0.06);
             }
 
-            .cbt-workspace-wrapper {
+            html.is-desktop .cbt-workspace-wrapper {
                 flex-direction: row;
                 height: calc(100vh - 58px);
             }
 
-            .cbt-left-pane {
+            html.is-desktop .cbt-left-pane {
                 flex: 0 0 68%;
                 max-width: 68%;
                 border-right: 1px solid var(--border-color);
             }
 
-            .cbt-left-pane .scroll-area {
-                padding: 24px 36px 120px 36px;
+            html.is-desktop .cbt-left-pane .scroll-area {
+                padding: 24px 36px 120px 36px !important;
             }
 
-            .cbt-left-pane .passage-block {
+            html.is-desktop .cbt-left-pane .passage-block {
                 background: rgba(0,0,0,0.02);
                 border: 1px solid var(--border-color);
                 border-radius: 10px;
                 padding: 16px 20px;
             }
 
-            .dark-mode .cbt-left-pane .passage-block {
+            .dark-mode html.is-desktop .cbt-left-pane .passage-block {
                 background: #18181b;
             }
 
-            .cbt-left-pane .passage-text.collapsed {
+            html.is-desktop .cbt-left-pane .passage-text.collapsed {
                 max-height: none !important;
                 display: block !important;
                 -webkit-line-clamp: unset !important;
             }
 
-            .cbt-left-pane #view-more-btn {
+            html.is-desktop .cbt-left-pane #view-more-btn {
                 display: none !important;
             }
 
-            .cbt-left-pane .bottom-bar {
+            html.is-desktop .cbt-left-pane .bottom-bar {
                 position: absolute;
                 bottom: 0;
-                left: 0;
-                right: 0;
+                left: 0 !important;
+                right: 0 !important;
+                transform: none !important;
+                max-width: 100% !important;
+                width: 100%;
                 background: var(--card-bg);
                 border-top: 1px solid var(--border-color);
                 padding: 12px 28px;
                 box-shadow: 0 -4px 14px rgba(0,0,0,0.05);
             }
 
-            .cbt-left-pane #live-bottom-bar {
+            html.is-desktop .cbt-left-pane #live-bottom-bar {
                 display: flex !important;
                 align-items: center !important;
                 justify-content: space-between !important;
             }
 
-            .cbt-left-pane #live-bottom-bar .action-row {
+            html.is-desktop .cbt-left-pane #live-bottom-bar .action-row {
                 margin-bottom: 0 !important;
                 gap: 12px !important;
                 display: flex !important;
                 align-items: center !important;
             }
 
-            .cbt-left-pane #live-bottom-bar .btn-half {
+            html.is-desktop .cbt-left-pane #live-bottom-bar .btn-half {
                 flex: initial !important;
                 min-width: 140px !important;
                 padding: 11px 20px !important;
@@ -851,23 +947,23 @@
                 cursor: pointer !important;
             }
 
-            .cbt-left-pane #live-bottom-bar .btn-save-next {
+            html.is-desktop .cbt-left-pane #live-bottom-bar .btn-save-next {
                 min-width: 160px !important;
             }
 
-            .cbt-left-pane #review-bottom-bar {
+            html.is-desktop .cbt-left-pane #review-bottom-bar {
                 display: flex !important;
                 align-items: center !important;
                 justify-content: space-between !important;
                 padding: 12px 28px !important;
             }
 
-            .cbt-left-pane #review-bottom-bar .action-row {
+            html.is-desktop .cbt-left-pane #review-bottom-bar .action-row {
                 margin-bottom: 0 !important;
                 gap: 12px !important;
             }
 
-            .cbt-right-sidebar {
+            html.is-desktop .cbt-right-sidebar {
                 display: flex;
                 flex-direction: column;
                 flex: 0 0 32%;
@@ -879,20 +975,20 @@
                 box-sizing: border-box;
             }
 
-            .cbt-sidebar-card {
+            html.is-desktop .cbt-sidebar-card {
                 background: var(--bg-main);
                 border: 1px solid var(--border-color);
                 border-radius: 12px;
                 padding: 14px;
             }
 
-            .candidate-info-card {
+            html.is-desktop .candidate-info-card {
                 display: flex;
                 align-items: center;
                 gap: 12px;
             }
 
-            .cbt-avatar-box {
+            html.is-desktop .cbt-avatar-box {
                 width: 44px;
                 height: 44px;
                 border-radius: 10px;
@@ -904,18 +1000,18 @@
                 font-size: 22px;
             }
 
-            .cbt-user-name {
+            html.is-desktop .cbt-user-name {
                 font-size: 15px;
                 font-weight: 700;
                 color: var(--text-dark);
             }
 
-            .cbt-user-sub {
+            html.is-desktop .cbt-user-sub {
                 font-size: 12px;
                 color: var(--text-muted);
             }
 
-            .cbt-card-header {
+            html.is-desktop .cbt-card-header {
                 font-size: 12px;
                 font-weight: 700;
                 color: var(--text-muted);
@@ -927,7 +1023,7 @@
                 align-items: center;
             }
 
-            .cbt-timer-clock {
+            html.is-desktop .cbt-timer-clock {
                 font-size: 30px;
                 font-weight: 900;
                 color: var(--brand-red);
@@ -937,17 +1033,12 @@
                 padding: 4px 0;
             }
 
-            .cbt-timer-clock.timer-warning {
+            html.is-desktop .cbt-timer-clock.timer-warning {
                 color: #dc2626;
                 animation: timerPulse 1.2s infinite;
             }
 
-            @keyframes timerPulse {
-                0%, 100% { transform: scale(1); opacity: 1; }
-                50% { transform: scale(1.03); opacity: 0.85; }
-            }
-
-            .cbt-legend-stats-grid {
+            html.is-desktop .cbt-legend-stats-grid {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 8px;
@@ -956,13 +1047,13 @@
                 color: var(--text-dark);
             }
 
-            .cbt-stat-item {
+            html.is-desktop .cbt-stat-item {
                 display: flex;
                 align-items: center;
                 gap: 6px;
             }
 
-            .cbt-badge {
+            html.is-desktop .cbt-badge {
                 width: 22px;
                 height: 22px;
                 border-radius: 5px;
@@ -974,61 +1065,37 @@
                 flex-shrink: 0;
             }
 
-            .bg-answered { background: #10b981; color: #fff; }
-            .bg-not-answered { background: #ef4444; color: #fff; }
-            .bg-review { background: #8b5cf6; color: #fff; }
-            .bg-review-answered { background: #8b5cf6; border: 2px solid #10b981; color: #fff; }
-            .bg-not-visited { background: #fff; border: 1.5px solid #94a3b8; color: #64748b; }
+            html.is-desktop .bg-answered { background: #10b981; color: #fff; }
+            html.is-desktop .bg-not-answered { background: #ef4444; color: #fff; }
+            html.is-desktop .bg-review { background: #8b5cf6; color: #fff; }
+            html.is-desktop .bg-review-answered { background: #8b5cf6; border: 2px solid #10b981; color: #fff; }
+            html.is-desktop .bg-not-visited { background: #fff; border: 1.5px solid #94a3b8; color: #64748b; }
 
-            .dark-mode .bg-not-visited { background: #27272a; border-color: #4b5563; color: #9ca3af; }
-            .dark-mode .bg-not-answered { background: #3f3f46; color: #e4e4e7; }
-            .dark-mode .cbt-sidebar-card { background: #1e1e1e; border-color: #2e2e38; }
+            .dark-mode html.is-desktop .bg-not-visited { background: #27272a; border-color: #4b5563; color: #9ca3af; }
+            .dark-mode html.is-desktop .bg-not-answered { background: #3f3f46; color: #e4e4e7; }
+            .dark-mode html.is-desktop .cbt-sidebar-card { background: #1e1e1e; border-color: #2e2e38; }
 
-            .cbt-palette-scroll {
+            html.is-desktop .cbt-palette-scroll {
                 max-height: 220px;
                 overflow-y: auto;
                 padding-right: 4px;
             }
 
-            .cbt-right-sidebar .palette-grid,
-            .cbt-right-sidebar .rev-pal-grid {
+            html.is-desktop .cbt-right-sidebar .palette-grid,
+            html.is-desktop .cbt-right-sidebar .rev-pal-grid {
                 display: grid;
                 grid-template-columns: repeat(5, 1fr);
                 gap: 8px;
             }
 
             /* Hide redundant modal trigger in header on desktop */
-            .top-header #live-icons span[onclick*="openPalette"] {
+            html.is-desktop .top-header #live-icons span[onclick*="openPalette"] {
                 display: none;
             }
 
             /* Auto-show solution accordion in review mode on desktop */
-            .solution-accordion .acc-body {
+            html.is-desktop .solution-accordion .acc-body {
                 display: block !important;
-            }
-        }
-
-        /* Centered Dialog Modals on Tablet & Desktop */
-        @media (min-width: 768px) {
-            .modal-overlay {
-                align-items: center !important;
-                justify-content: center !important;
-                padding: 24px !important;
-            }
-            .bottom-sheet {
-                width: 100% !important;
-                max-width: 520px !important;
-                border-radius: 18px !important;
-                max-height: 85vh !important;
-                margin: auto !important;
-                box-shadow: 0 20px 50px rgba(0,0,0,0.3) !important;
-            }
-            .top-header {
-                padding: 14px 24px;
-            }
-            .header-title {
-                max-width: 400px;
-                font-size: 16px;
             }
         }
 
@@ -1039,58 +1106,60 @@
     <div id="loading-screen">Authenticating Test...</div>
 
     <!-- Instructions Pre-Screen -->
-    <div id="instructions-screen" style="position:fixed; inset:0; background:var(--bg-main); z-index:50; display:none; flex-direction:column;">
-        <div class="top-header" style="justify-content:space-between;">
-            <svg onclick="exitTestEarly()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer; color: var(--text-dark);">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            <div class="header-title" style="font-size:16px;">Instructions</div>
-            <div style="width: 24px;"></div> <!-- Invisible spacer keeps the title perfectly centered -->
-        </div>
-        <div style="padding: 20px; flex-grow: 1; overflow-y: auto; background: var(--card-bg);">
-            <h2 id="inst-topic" style="font-size: 18px; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Topic Name</h2>
-            
-            <div style="display:flex; justify-content:space-between; margin-bottom: 24px;">
-                <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
-                    <div id="inst-qcount" style="font-size:18px; font-weight:700;">10</div>
-                    <div style="font-size:11px; color:var(--text-muted);">Questions</div>
+    <div id="instructions-screen" style="display:none;">
+        <div class="instructions-card-dialog">
+            <div class="top-header" style="justify-content:space-between;">
+                <svg onclick="exitTestEarly()" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer; color: var(--text-dark);">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <div class="header-title" style="font-size:16px;">Instructions</div>
+                <div style="width: 24px;"></div> <!-- Invisible spacer keeps the title perfectly centered -->
+            </div>
+            <div style="padding: 20px; flex-grow: 1; overflow-y: auto; background: var(--card-bg);">
+                <h2 id="inst-topic" style="font-size: 18px; margin-top: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">Topic Name</h2>
+                
+                <div style="display:flex; justify-content:space-between; margin-bottom: 24px;">
+                    <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
+                        <div id="inst-qcount" style="font-size:18px; font-weight:700;">10</div>
+                        <div style="font-size:11px; color:var(--text-muted);">Questions</div>
+                    </div>
+                    <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
+                        <div id="inst-marks" style="font-size:18px; font-weight:700;">10</div>
+                        <div style="font-size:11px; color:var(--text-muted);">Max Marks</div>
+                    </div>
+                    <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
+                        <div id="inst-time" style="font-size:18px; font-weight:700;">5</div>
+                        <div style="font-size:11px; color:var(--text-muted);">Mins</div>
+                    </div>
                 </div>
-                <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
-                    <div id="inst-marks" style="font-size:18px; font-weight:700;">10</div>
-                    <div style="font-size:11px; color:var(--text-muted);">Max Marks</div>
-                </div>
-                <div style="text-align:center; background:#f8f9fa; padding:10px; border-radius:8px; flex:1; margin:0 4px;">
-                    <div id="inst-time" style="font-size:18px; font-weight:700;">5</div>
-                    <div style="font-size:11px; color:var(--text-muted);">Mins</div>
+                
+                <div style="font-size:14px; line-height:1.6; color:var(--text-dark);">
+                    <p style="font-weight:600; margin-bottom:12px;">Please read the following instructions very carefully:</p>
+                    <ul style="padding-left:16px; margin:0;">
+                        <li style="margin-bottom:8px;">You have <span id="inst-time-text" style="font-weight:600;">5 Minutes</span> to complete the test.</li>
+                        <li style="margin-bottom:8px;">The test contains a total of <span id="inst-qcount-text" style="font-weight:600;">10</span> Questions.</li>
+                        <li style="margin-bottom:8px;">There is only one correct answer to each question. Click on the most appropriate option to mark it.</li>
+                        <li style="margin-bottom:8px;">There is 1/4 penalty for each wrong answer (-0.25 marks).</li>
+                        <li style="margin-bottom:8px;">You can change your answer by clicking on some other option, or unmark it by clicking "Clear Response".</li>
+                        <li style="margin-bottom:8px;">A Number list of all questions appears at the right-hand side of the screen. You can jump to any question using this grid.</li>
+                        <li style="margin-bottom:8px;">Do not click "Submit test" before completing. A test once submitted cannot be resumed.</li>
+                    </ul>
                 </div>
             </div>
             
-            <div style="font-size:14px; line-height:1.6; color:var(--text-dark);">
-                <p style="font-weight:600; margin-bottom:12px;">Please read the following instructions very carefully:</p>
-                <ul style="padding-left:16px; margin:0;">
-                    <li style="margin-bottom:8px;">You have <span id="inst-time-text" style="font-weight:600;">5 Minutes</span> to complete the test.</li>
-                    <li style="margin-bottom:8px;">The test contains a total of <span id="inst-qcount-text" style="font-weight:600;">10</span> Questions.</li>
-                    <li style="margin-bottom:8px;">There is only one correct answer to each question. Click on the most appropriate option to mark it.</li>
-                    <li style="margin-bottom:8px;">There is 1/4 penalty for each wrong answer (-0.25 marks).</li>
-                    <li style="margin-bottom:8px;">You can change your answer by clicking on some other option, or unmark it by clicking "Clear Response".</li>
-                    <li style="margin-bottom:8px;">A Number list of all questions appears at the right-hand side of the screen. You can jump to any question using this grid.</li>
-                    <li style="margin-bottom:8px;">Do not click "Submit test" before completing. A test once submitted cannot be resumed.</li>
-                </ul>
+            <div style="padding: 16px; background: var(--card-bg); border-top: 1px solid var(--border-color); display:flex; gap:12px;">
+                <div style="flex:1; position:relative;">
+                     <button onclick="openSettingsModal()" style="width:100%; padding:14px; border-radius:8px; font-size:14px; font-weight:600; background:#f8f9fa; border:1px solid var(--border-color); color:var(--brand-blue); display:flex; justify-content:center; align-items:center; gap:6px; cursor:pointer;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg> 
+                        English (Aa)
+                    </button>
+                </div>
+                <button style="flex:1; padding:14px; border-radius:8px; font-size:15px; font-weight:600; background:var(--brand-red); color:white; border:none; cursor:pointer;" onclick="beginTest()">Start Test</button>
             </div>
-        </div>
-        
-        <div style="padding: 16px; background: var(--card-bg); border-top: 1px solid var(--border-color); display:flex; gap:12px;">
-            <div style="flex:1; position:relative;">
-                 <button onclick="openSettingsModal()" style="width:100%; padding:14px; border-radius:8px; font-size:14px; font-weight:600; background:#f8f9fa; border:1px solid var(--border-color); color:var(--brand-blue); display:flex; justify-content:center; align-items:center; gap:6px; cursor:pointer;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                    </svg> 
-                    English (Aa)
-                </button>
-            </div>
-            <button style="flex:1; padding:14px; border-radius:8px; font-size:15px; font-weight:600; background:var(--brand-red); color:white; border:none; cursor:pointer;" onclick="beginTest()">Start Test</button>
         </div>
     </div>
 
@@ -1516,24 +1585,8 @@
             }
         });
 
-        // Native Telegram WebApp Haptic Helper
-        function triggerHaptic(type = 'light') {
-            if (localStorage.getItem('app_vibration') === 'false') return;
-            const haptic = window.Telegram?.WebApp?.HapticFeedback;
-            if (!haptic) return;
-
-            try {
-                if (['light', 'medium', 'heavy', 'rigid', 'soft'].includes(type)) {
-                    haptic.impactOccurred(type);
-                } else if (['success', 'warning', 'error'].includes(type)) {
-                    haptic.notificationOccurred(type);
-                } else if (type === 'selection') {
-                    haptic.selectionChanged();
-                }
-            } catch(e) {}
-        }
-
-        const tg = window.Telegram?.WebApp;
+        // Unified Haptic Feedback & Platform App (from auth.js)
+        const tg = (typeof getTelegramApp === 'function' ? getTelegramApp() : null);
         if (tg?.expand) tg.expand();
         const userId = (typeof getActiveUserId === 'function' ? getActiveUserId() : 0) || tg?.initDataUnsafe?.user?.id || 123456789;
         const urlParams = new URLSearchParams(window.location.search);

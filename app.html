@@ -11,25 +11,10 @@
     <meta http-equiv="Expires" content="0">
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="tokens.css">
+    <link rel="stylesheet" href="shell.css">
     <script src="auth.js"></script>
-    <script>
-        (function() {
-            if (localStorage.getItem('app_dark_mode') === 'true') {
-                document.documentElement.classList.add('dark-mode');
-            }
-            try {
-                const ua = navigator.userAgent || '';
-                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-                const tgPlatform = window.Telegram?.WebApp?.platform || '';
-                const isTgDesktop = ['tdesktop', 'macos', 'web', 'weba', 'webk'].includes(tgPlatform);
-                const isLaptopScreen = window.screen.width >= 768;
-
-                if (isTgDesktop || (!isMobile && isLaptopScreen)) {
-                    document.documentElement.classList.add('is-desktop');
-                }
-            } catch (e) {}
-        })();
-    </script>
+    <script src="shell.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- ⚡ HOSTED DIRECTLY ON CLOUDFLARE PAGES -->
     <link rel="stylesheet" href="style.css?v=2.7">
@@ -3815,6 +3800,73 @@
             padding: 6px 10px;
         }
     
+        /* 🟢 Mobile-first styles for Home Stat Grid */
+        .home-stat-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 0 16px 14px 16px;
+        }
+
+        .home-stat-grid .weekly-cup-card,
+        .home-stat-grid .daily-stats-card,
+        .home-stat-grid .days-tracker-card,
+        .home-stat-grid .highlights-section {
+            margin: 0 !important;
+        }
+
+        /* 🟢 Mobile-first styles for Secondary Views wrappers */
+        .cup-desktop-grid,
+        .cup-left-col,
+        .cup-right-col,
+        .profile-desktop-grid,
+        .profile-left-col,
+        .profile-right-col {
+            display: contents;
+        }
+
+        .progress-stat-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        /* 🟢 Leaderboard User Highlight & Dark Mode */
+        .cup-rank-row-item.cup-rank-row-me {
+            background: #f7f4ff;
+            border: 1.5px solid #dcd3ff;
+        }
+        .dark-mode .cup-rank-row-item.cup-rank-row-me {
+            background: #241454 !important;
+            border-color: #553399 !important;
+        }
+
+        /* 🟢 Safe area top padding for mobile app headers */
+        .top-header,
+        .cup-top-header,
+        .progress-top-header,
+        .profile-top-header {
+            padding-top: max(12px, env(safe-area-inset-top, 0px)) !important;
+        }
+
+        /* Enforce minimum touch targets (≥ 44px) */
+        button, .btn, [role="button"], .p-card-item, .nav-item, .nav-rail-btn,
+        .cup-header-back-btn, .cup-analytics-btn, .progress-chart-btn, .profile-settings-btn {
+            min-height: 44px;
+            box-sizing: border-box;
+        }
+
+        .cup-header-back-btn,
+        .cup-analytics-btn,
+        .progress-chart-btn,
+        .profile-settings-btn {
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    
         /* ==========================================================================
            🟢 DESKTOP NAVBAR & MULTI-COLUMN DASHBOARDS (@media min-width: 1024px)
            ========================================================================== */
@@ -3850,9 +3902,89 @@
                 gap: 16px !important;
             }
 
+            /* Ticket 2.3, 2.5, 2.6: Tablet Max-Width for Secondary Views */
+            #view-cup,
+            #view-progress,
             #view-profile {
-                max-width: 760px;
-                margin: 0 auto;
+                max-width: var(--container-tablet, 768px) !important;
+                margin: 0 auto !important;
+            }
+
+            /* Ticket 2.4: Tablet Reading Measure for view-digest */
+            #view-digest {
+                max-width: var(--max-reading-width, 680px) !important;
+                margin: 0 auto !important;
+            }
+
+            /* Ticket 2.3: Tablet Centered Sticky Self-Rank Bar */
+            .cup-sticky-self-bar {
+                max-width: var(--container-tablet, 768px) !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
+                width: calc(100% - 32px) !important;
+            }
+
+            /* Ticket 2.1: Tablet Grid for view-home (768px - 1023px) */
+            #view-home {
+                max-width: var(--container-tablet, 768px) !important;
+                margin: 0 auto !important;
+                padding: 0 16px 80px 16px !important;
+            }
+
+            .greeting-wrapper {
+                padding: 16px 0 16px 0 !important;
+            }
+
+            .timer-hero-card {
+                margin: 0 0 16px 0 !important;
+            }
+
+            .home-stat-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 16px !important;
+                margin: 0 0 16px 0 !important;
+            }
+
+            .home-stat-grid .weekly-cup-card,
+            .home-stat-grid .daily-stats-card,
+            .home-stat-grid .days-tracker-card,
+            .home-stat-grid .highlights-section {
+                margin: 0 !important;
+                height: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-between !important;
+            }
+
+            .home-stat-grid .daily-stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+            }
+
+            .journey-section {
+                margin: 0 0 16px 0 !important;
+            }
+
+            .motivation-banner {
+                margin: 0 0 24px 0 !important;
+            }
+
+            /* Ticket 2.2: Tablet Reading Measure for view-day */
+            #view-day {
+                max-width: var(--max-reading-width, 680px) !important;
+                margin: 0 auto !important;
+                padding: 0 16px 80px 16px !important;
+            }
+
+            #view-day .time-left-sm {
+                margin: 0 0 16px 0 !important;
+            }
+
+            #view-day .progress-bar-container {
+                max-width: 100% !important;
+                margin: 16px 0 !important;
             }
         }
 
@@ -4147,6 +4279,195 @@
                 padding: 0 !important;
                 max-width: 100% !important;
                 margin: 0 !important;
+            }
+
+            .center-workspace-pane #view-home {
+                max-width: var(--container-desktop, 960px) !important;
+                margin: 0 auto !important;
+                padding-bottom: 60px !important;
+            }
+
+            .center-workspace-pane #view-day {
+                max-width: var(--max-reading-width, 680px) !important;
+                margin: 0 auto !important;
+                padding-bottom: 60px !important;
+            }
+
+            .center-workspace-pane .home-stat-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 16px !important;
+                margin: 0 0 16px 0 !important;
+            }
+
+            /* Ticket 2.3: Desktop Dual-Column Leaderboard for view-cup */
+            html.is-desktop .center-workspace-pane #view-cup {
+                max-width: var(--container-desktop, 960px) !important;
+                margin: 0 auto !important;
+                padding-bottom: 60px !important;
+            }
+
+            html.is-desktop .cup-desktop-grid {
+                display: grid !important;
+                grid-template-columns: 380px minmax(0, 1fr) !important;
+                gap: 20px !important;
+                align-items: start !important;
+            }
+
+            html.is-desktop .cup-left-col,
+            html.is-desktop .cup-right-col {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 16px !important;
+            }
+
+            html.is-desktop .cup-left-col {
+                position: sticky !important;
+                top: 80px !important;
+            }
+
+            html.is-desktop .cup-sticky-self-bar {
+                display: none !important;
+            }
+
+            html.is-desktop .cup-rank-row-item:hover {
+                background: var(--bg-subtle, #f8fafc) !important;
+                transform: translateX(3px);
+                transition: all 0.15s ease;
+            }
+
+            html.is-desktop.dark-mode .cup-rank-row-item:hover,
+            html.dark-mode.is-desktop .cup-rank-row-item:hover {
+                background: #27272a !important;
+            }
+
+            /* Ticket 2.4: Desktop Reading Measure & 2-Column Insights for view-digest */
+            html.is-desktop .center-workspace-pane #view-digest {
+                max-width: var(--max-reading-width, 680px) !important;
+                margin: 0 auto !important;
+                padding-bottom: 60px !important;
+            }
+
+            html.is-desktop .digest-cards-list {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 16px !important;
+            }
+
+            /* Ticket 2.5: Desktop Dual-Column Profile for view-profile */
+            html.is-desktop .center-workspace-pane #view-profile {
+                max-width: var(--container-desktop, 960px) !important;
+                margin: 0 auto !important;
+                padding-bottom: 60px !important;
+            }
+
+            html.is-desktop .profile-desktop-grid {
+                display: grid !important;
+                grid-template-columns: 360px minmax(0, 1fr) !important;
+                gap: 20px !important;
+                align-items: start !important;
+            }
+
+            html.is-desktop .profile-left-col,
+            html.is-desktop .profile-right-col {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 16px !important;
+            }
+
+            html.is-desktop .profile-left-col {
+                position: sticky !important;
+                top: 80px !important;
+            }
+
+            /* Ticket 2.6: Desktop 2-Column Stat Grid for view-progress */
+            html.is-desktop .center-workspace-pane #view-progress {
+                max-width: var(--container-desktop, 960px) !important;
+                margin: 0 auto !important;
+                padding-bottom: 60px !important;
+            }
+
+            html.is-desktop .progress-stat-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 16px !important;
+                align-items: stretch !important;
+            }
+
+            html.is-desktop .progress-hero-card,
+            html.is-desktop .progress-metrics-card {
+                margin: 0 !important;
+                height: 100% !important;
+            }
+
+            /* Persistent Calendar Rail Widget */
+            .calendar-rail-widget {
+                cursor: default !important;
+            }
+
+            .calendar-rail-widget:hover {
+                transform: none !important;
+            }
+
+            .rail-calendar-pills {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                margin-top: 8px;
+            }
+
+            .rail-day-pill {
+                padding: 8px 4px;
+                border-radius: 10px;
+                border: 1px solid var(--border-light, #e2e8f0);
+                background: var(--bg-card, #ffffff);
+                color: var(--text-main, #1e293b);
+                font-size: 12px;
+                font-weight: 600;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.15s ease;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 3px;
+                box-sizing: border-box;
+                min-height: 44px;
+            }
+
+            .rail-day-pill:hover:not(.locked) {
+                border-color: #3b82f6;
+                background: #f0fdf4;
+            }
+
+            .rail-day-pill.active {
+                background: #eff6ff !important;
+                border-color: #2563eb !important;
+                color: #2563eb !important;
+                font-weight: 700 !important;
+                box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2) !important;
+            }
+
+            .rail-day-pill.done {
+                border-color: #86efac;
+            }
+
+            .rail-day-pill.locked {
+                opacity: 0.55;
+                cursor: not-allowed;
+                background: var(--bg-subtle, #f8fafc);
+            }
+
+            .dark-mode .rail-day-pill {
+                background: #1e293b;
+                border-color: #334155;
+                color: #f1f5f9;
+            }
+
+            .dark-mode .rail-day-pill.active {
+                background: #1e3a8a !important;
+                border-color: #3b82f6 !important;
+                color: #93c5fd !important;
             }
 
             .right-performance-rail {
@@ -4565,113 +4886,153 @@
             </button>
         </div>
 
-        <!-- Weekly Cup Card -->
-        <div class="weekly-cup-card">
-            <!-- Header Row -->
-            <div class="cup-header-row">
-                <div class="cup-title-group">
-                    <span class="cup-trophy-icon">🏆</span>
-                    <h3 class="cup-title-text">Weekly Cup <span class="cup-title-crown">👑</span></h3>
+        <!-- Home Stat Cards Grid (Tablet 2-col, Desktop 2-col, Mobile flex-col) -->
+        <div class="home-stat-grid">
+            <!-- 1. Weekly Cup Card (Row 1 Col 1) -->
+            <div class="weekly-cup-card">
+                <!-- Header Row -->
+                <div class="cup-header-row">
+                    <div class="cup-title-group">
+                        <span class="cup-trophy-icon">🏆</span>
+                        <h3 class="cup-title-text">Weekly Cup <span class="cup-title-crown">👑</span></h3>
+                    </div>
+                    <button class="cup-live-pill" onclick="switchView('view-cup')">Live Leaderboard</button>
                 </div>
-                <button class="cup-live-pill" onclick="switchView('view-cup')">Live Leaderboard</button>
+
+                <!-- Metrics Row (Rank Pill, Score, Percentile) -->
+                <div class="cup-metrics-flex">
+                    <!-- Rank Pill Box -->
+                    <div class="cup-rank-pill-box">
+                        <div class="cup-rank-label">Rank</div>
+                        <div class="cup-rank-number" id="home-rank">#--</div>
+                    </div>
+
+                    <div class="cup-metric-divider"></div>
+
+                    <!-- Score Box -->
+                    <div class="cup-score-box">
+                        <div class="cup-score-label">Score</div>
+                        <div class="cup-score-number" id="home-score">--</div>
+                    </div>
+
+                    <div class="cup-metric-divider"></div>
+
+                    <!-- Percentile Box (Maintained % functionality) -->
+                    <div class="cup-pct-box">
+                        <div class="cup-pct-number" id="home-top-pct">Top --%</div>
+                        <div class="cup-pct-subtext" id="home-top-msg">Keep pushing! 💪</div>
+                    </div>
+                </div>
+
+                <!-- Cup Progress Bar -->
+                <div class="cup-progress-track">
+                    <div class="cup-progress-fill" id="home-cup-progress-fill" style="width: 0%;"></div>
+                </div>
+
+                <!-- Footer Row: Season Meta & View Link -->
+                <div class="cup-footer-row">
+                    <div class="cup-season-meta">
+                        🔥 <span id="home-cup-season-text">Season -- • -- Active Challengers</span>
+                    </div>
+                    <div class="cup-view-link" onclick="switchView('view-cup')">
+                        View Leaderboard <span>›</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Metrics Row (Rank Pill, Score, Percentile) -->
-            <div class="cup-metrics-flex">
-                <!-- Rank Pill Box -->
-                <div class="cup-rank-pill-box">
-                    <div class="cup-rank-label">Rank</div>
-                    <div class="cup-rank-number" id="home-rank">#--</div>
-                </div>
+            <!-- 2. Daily Activity & Study Time Stats Card (Row 1 Col 2) -->
+            <div class="daily-stats-card">
+                <div class="daily-stats-grid">
+                    <!-- 1. Quizzes -->
+                    <div class="stat-item-col">
+                        <div class="stat-icon-wrap stat-icon-purple">📄</div>
+                        <div class="stat-label-title">Quizzes</div>
+                        <div class="stat-main-number" id="stat-today-quizzes">0</div>
+                        <div class="stat-sub-caption">Today</div>
+                    </div>
 
-                <div class="cup-metric-divider"></div>
+                    <!-- 2. Accuracy -->
+                    <div class="stat-item-col">
+                        <div class="stat-icon-wrap stat-icon-green">🎯</div>
+                        <div class="stat-label-title">Accuracy</div>
+                        <div class="stat-main-number" id="stat-today-accuracy">--%</div>
+                        <div class="stat-sub-caption">Today</div>
+                    </div>
 
-                <!-- Score Box -->
-                <div class="cup-score-box">
-                    <div class="cup-score-label">Score</div>
-                    <div class="cup-score-number" id="home-score">--</div>
-                </div>
+                    <!-- 3. Best Streak -->
+                    <div class="stat-item-col">
+                        <div class="stat-icon-wrap stat-icon-orange">🔥</div>
+                        <div class="stat-label-title">Streak</div>
+                        <div class="stat-main-number" id="stat-best-streak">Soon</div>
+                        <div class="stat-sub-caption">Days</div>
+                    </div>
 
-                <div class="cup-metric-divider"></div>
-
-                <!-- Percentile Box (Maintained % functionality) -->
-                <div class="cup-pct-box">
-                    <div class="cup-pct-number" id="home-top-pct">Top --%</div>
-                    <div class="cup-pct-subtext" id="home-top-msg">Keep pushing! 💪</div>
-                </div>
-            </div>
-
-            <!-- Cup Progress Bar -->
-            <div class="cup-progress-track">
-                <div class="cup-progress-fill" id="home-cup-progress-fill" style="width: 0%;"></div>
-            </div>
-
-            <!-- Footer Row: Season Meta & View Link -->
-            <div class="cup-footer-row">
-                <div class="cup-season-meta">
-                    🔥 <span id="home-cup-season-text">Season -- • -- Active Challengers</span>
-                </div>
-                <div class="cup-view-link" onclick="switchView('view-cup')">
-                    View Leaderboard <span>›</span>
+                    <!-- 4. Study Time -->
+                    <div class="stat-item-col">
+                        <div class="stat-icon-wrap stat-icon-blue">⏱</div>
+                        <div class="stat-label-title">Study Time</div>
+                        <div class="stat-main-number" id="stat-today-study-time">0m</div>
+                        <div class="stat-sub-caption">Today</div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Days Timeline Card Section -->
-        <div class="days-tracker-card">
-            <div class="days-header-row">
-                <div class="days-title-group">
-                    <div class="days-icon-badge">📅</div>
-                    <h3 class="days-title">Weekly Schedule</h3>
+            <!-- 3. Days Timeline Card Section (Row 2 Col 1) -->
+            <div class="days-tracker-card">
+                <div class="days-header-row">
+                    <div class="days-title-group">
+                        <div class="days-icon-badge">📅</div>
+                        <h3 class="days-title">Weekly Schedule</h3>
+                    </div>
+                    <span class="days-sub-badge" id="days-summary-badge">Day --</span>
                 </div>
-                <span class="days-sub-badge" id="days-summary-badge">Day --</span>
-            </div>
-            
-            <div class="days-row">
-                <!-- Dynamically populated by updateDynamicTracker() -->
-            </div>
-        </div>
-
-        <!-- Daily Activity & Study Time Stats Card -->
-        <div class="daily-stats-card">
-            <div class="daily-stats-grid">
                 
-                <!-- 1. Quizzes -->
-                <div class="stat-item-col">
-                    <div class="stat-icon-wrap stat-icon-purple">📄</div>
-                    <div class="stat-label-title">Quizzes</div>
-                    <div class="stat-main-number" id="stat-today-quizzes">0</div>
-                    <div class="stat-sub-caption">Today</div>
+                <div class="days-row">
+                    <!-- Dynamically populated by updateDynamicTracker() -->
                 </div>
+            </div>
 
-                <!-- 2. Accuracy -->
-                <div class="stat-item-col">
-                    <div class="stat-icon-wrap stat-icon-green">🎯</div>
-                    <div class="stat-label-title">Accuracy</div>
-                    <div class="stat-main-number" id="stat-today-accuracy">--%</div>
-                    <div class="stat-sub-caption">Today</div>
+            <!-- 4. Today's Highlights Card (Row 2 Col 2) -->
+            <div class="highlights-section">
+                <h3 class="highlights-title">Today's Highlights</h3>
+                
+                <div class="highlights-card">
+                    <!-- 1. Word of the Day (Navigates to Digest Tab) -->
+                    <div class="highlight-row" onclick="switchView('view-digest')">
+                        <div class="highlight-left">
+                            <div class="highlight-icon-box hl-purple">📖</div>
+                            <div class="highlight-text-content">
+                                <div class="highlight-tag">⭐ Word of the Day</div>
+                                <div class="highlight-main-line">
+                                    <span class="highlight-word" id="hl-wotd-word">Loading...</span>
+                                    <span class="highlight-meaning" id="hl-wotd-meaning">Tap to read</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="highlight-arrow">›</div>
+                    </div>
+
+                    <div class="highlight-row-divider"></div>
+
+                    <!-- 2. Foreign Expression (Navigates to Digest Tab) -->
+                    <div class="highlight-row" onclick="switchView('view-digest')">
+                        <div class="highlight-left">
+                            <div class="highlight-icon-box hl-green">🌍</div>
+                            <div class="highlight-text-content">
+                                <div class="highlight-tag">🎭 Foreign Expression</div>
+                                <div class="highlight-main-line">
+                                    <span class="highlight-word" id="hl-foreign-word">Loading...</span>
+                                    <span class="highlight-meaning" id="hl-foreign-meaning">Tap to read</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="highlight-arrow">›</div>
+                    </div>
                 </div>
-
-                <!-- 3. Best Streak -->
-                <div class="stat-item-col">
-                    <div class="stat-icon-wrap stat-icon-orange">🔥</div>
-                    <div class="stat-label-title">Streak</div>
-                    <div class="stat-main-number" id="stat-best-streak">Soon</div>
-                    <div class="stat-sub-caption">Days</div>
-                </div>
-
-                <!-- 4. Study Time -->
-                <div class="stat-item-col">
-                    <div class="stat-icon-wrap stat-icon-blue">⏱</div>
-                    <div class="stat-label-title">Study Time</div>
-                    <div class="stat-main-number" id="stat-today-study-time">0m</div>
-                    <div class="stat-sub-caption">Today</div>
-                </div>
-
             </div>
         </div>
 
-        <!-- Continue Your Journey Section -->
+        <!-- Continue Your Journey Section (Full width) -->
         <div class="journey-section">
             <div class="journey-header-row">
                 <h3 class="journey-title">Continue Your Journey</h3>
@@ -4680,45 +5041,6 @@
 
             <div class="journey-scroll-container" id="journey-cards-container">
                 <!-- Dynamically rendered by updateJourneySection() -->
-            </div>
-        </div>
-
-        <!-- Today's Highlights Card -->
-        <div class="highlights-section">
-            <h3 class="highlights-title">Today's Highlights</h3>
-            
-            <div class="highlights-card">
-                <!-- 1. Word of the Day (Navigates to Digest Tab) -->
-                <div class="highlight-row" onclick="switchView('view-digest')">
-                    <div class="highlight-left">
-                        <div class="highlight-icon-box hl-purple">📖</div>
-                        <div class="highlight-text-content">
-                            <div class="highlight-tag">⭐ Word of the Day</div>
-                            <div class="highlight-main-line">
-                                <span class="highlight-word" id="hl-wotd-word">Loading...</span>
-                                <span class="highlight-meaning" id="hl-wotd-meaning">Tap to read</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="highlight-arrow">›</div>
-                </div>
-
-                <div class="highlight-row-divider"></div>
-
-                <!-- 2. Foreign Expression (Navigates to Digest Tab) -->
-                <div class="highlight-row" onclick="switchView('view-digest')">
-                    <div class="highlight-left">
-                        <div class="highlight-icon-box hl-green">🌍</div>
-                        <div class="highlight-text-content">
-                            <div class="highlight-tag">🎭 Foreign Expression</div>
-                            <div class="highlight-main-line">
-                                <span class="highlight-word" id="hl-foreign-word">Loading...</span>
-                                <span class="highlight-meaning" id="hl-foreign-meaning">Tap to read</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="highlight-arrow">›</div>
-                </div>
             </div>
         </div>
 
@@ -4842,109 +5164,116 @@
             </div>
         </div>
         
-        <!-- 1. Deep Violet Compact Hero Card -->
-        <div class="cup-hero-dark-card">
-            <div class="cup-hero-grid">
-                <!-- Left: Rank & Overtake Goal -->
-                <div class="cup-hero-left">
-                    <div class="cup-hero-tag">YOUR STATUS</div>
-                    <div class="cup-hero-sub-label">You are</div>
-                    
-                    <div class="cup-rank-row">
-                        <span class="cup-hero-big-rank" id="cup-tab-rank">#--</span>
-                        <div class="cup-rank-delta-pill" id="cup-rank-delta-badge">
-                            <span id="cup-rank-delta-icon">↑</span>
-                            <span id="cup-rank-delta-val">1</span>
-                        </div>
-                        <span class="cup-rank-vs-text" id="cup-rank-vs-text">vs yesterday</span>
-                    </div>
+        <!-- Desktop 2-Column Grid Wrapper (Transparent on mobile/tablet via display:contents) -->
+        <div class="cup-desktop-grid">
+            <div class="cup-left-col">
+                <!-- 1. Deep Violet Compact Hero Card -->
+                <div class="cup-hero-dark-card">
+                    <div class="cup-hero-grid">
+                        <!-- Left: Rank & Overtake Goal -->
+                        <div class="cup-hero-left">
+                            <div class="cup-hero-tag">YOUR STATUS</div>
+                            <div class="cup-hero-sub-label">You are</div>
+                            
+                            <div class="cup-rank-row">
+                                <span class="cup-hero-big-rank" id="cup-tab-rank">#--</span>
+                                <div class="cup-rank-delta-pill" id="cup-rank-delta-badge">
+                                    <span id="cup-rank-delta-icon">↑</span>
+                                    <span id="cup-rank-delta-val">1</span>
+                                </div>
+                                <span class="cup-rank-vs-text" id="cup-rank-vs-text">vs yesterday</span>
+                            </div>
 
-                    <!-- Target Overtake Pill -->
-                    <div class="cup-overtake-pill-btn" onclick="openProfile(appUserId)">
-                        <span id="cup-overtake-text">-- pts to overtake #--</span>
-                        <span>›</span>
-                    </div>
+                            <!-- Target Overtake Pill -->
+                            <div class="cup-overtake-pill-btn" onclick="openProfile(appUserId)">
+                                <span id="cup-overtake-text">-- pts to overtake #--</span>
+                                <span>›</span>
+                            </div>
 
-                    <!-- Mini Position Slider -->
-                    <div class="cup-overtake-track-wrap">
-                        <div class="cup-overtake-track">
-                            <div class="cup-overtake-fill" id="cup-overtake-fill" style="width: 50%;">
-                                <div class="cup-overtake-thumb"></div>
+                            <!-- Mini Position Slider -->
+                            <div class="cup-overtake-track-wrap">
+                                <div class="cup-overtake-track">
+                                    <div class="cup-overtake-fill" id="cup-overtake-fill" style="width: 50%;">
+                                        <div class="cup-overtake-thumb"></div>
+                                    </div>
+                                </div>
+                                <div class="cup-overtake-labels">
+                                    <span id="cup-overtake-lower">#--</span>
+                                    <span id="cup-overtake-higher">#--</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="cup-overtake-labels">
-                            <span id="cup-overtake-lower">#--</span>
-                            <span id="cup-overtake-higher">#--</span>
+
+                        <!-- Vertical Divider -->
+                        <div class="cup-hero-divider"></div>
+
+                        <!-- Middle: Score & Percentile -->
+                        <div class="cup-hero-score-col">
+                            <div class="cup-score-label">Your Score</div>
+                            <div class="cup-hero-score-num" id="cup-tab-score">--</div>
+                            <div class="cup-hero-pct-pill" id="cup-tab-pct-pill">Top --%</div>
+                        </div>
+
+                        <!-- Right: 3D Gold Trophy + Shield + Star + Laurel Vector -->
+                        <div class="cup-hero-crest-illus">
+                            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 55L13.5 50L18.5 51L13.5 52L12 57L10.5 52L5.5 51L10.5 50L12 55Z" fill="#fbbf24" opacity="0.8"/>
+                                <path d="M108 48L109.5 43L114.5 44L109.5 45L108 50L106.5 45L101.5 44L106.5 43L108 48Z" fill="#fbbf24" opacity="0.8"/>
+                                <path d="M26 88C18 74 22 56 30 48" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
+                                <path d="M94 88C102 74 98 56 90 48" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
+                                <path d="M18 78C20 74 25 74 28 78C25 82 20 82 18 78Z" fill="#a78bfa"/>
+                                <path d="M22 64C24 60 29 60 32 64C29 68 24 68 22 64Z" fill="#818cf8"/>
+                                <path d="M102 78C100 74 95 74 92 78C95 82 100 82 102 78Z" fill="#a78bfa"/>
+                                <path d="M98 64C96 60 91 60 88 64C91 68 96 68 98 64Z" fill="#818cf8"/>
+                                <!-- Shield Body -->
+                                <path d="M60 40L34 49V72C34 88 48 98 60 102C72 98 86 88 86 72V49L60 40Z" fill="#43189a" stroke="#8b5cf6" stroke-width="2.5"/>
+                                <path d="M60 44L38 52V71C38 85 50 94 60 97C70 94 82 85 82 71V52L60 44Z" fill="url(#cupShieldGrad)"/>
+                                <!-- Star -->
+                                <polygon points="60,56 63.5,66 74,66 65.5,72.5 68.5,83 60,76.5 51.5,83 54.5,72.5 46,66 56.5,66" fill="#f8fafc"/>
+                                <!-- Trophy -->
+                                <path d="M49 20H71V31C71 37 66 41 60 41C54 41 49 37 49 31V20Z" fill="url(#goldTrophyGrad)"/>
+                                <path d="M49 24H44C41 24 40 28 42 32C44 35 47 35 49 34" stroke="#facc15" stroke-width="2"/>
+                                <path d="M71 24H76C79 24 80 28 78 32C76 35 73 35 71 34" stroke="#facc15" stroke-width="2"/>
+                                <rect x="56" y="39" width="8" height="5" fill="#ca8a04"/>
+                                <rect x="52" y="43" width="16" height="3" rx="1.5" fill="#eab308"/>
+                                <defs>
+                                    <linearGradient id="cupShieldGrad" x1="38" y1="44" x2="82" y2="97" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#7c3aed"/>
+                                        <stop offset="1" stop-color="#4c1d95"/>
+                                    </linearGradient>
+                                    <linearGradient id="goldTrophyGrad" x1="49" y1="20" x2="71" y2="41" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#fde047"/>
+                                        <stop offset="0.6" stop-color="#eab308"/>
+                                        <stop offset="1" stop-color="#ca8a04"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
                         </div>
                     </div>
                 </div>
 
-                <!-- Vertical Divider -->
-                <div class="cup-hero-divider"></div>
-
-                <!-- Middle: Score & Percentile -->
-                <div class="cup-hero-score-col">
-                    <div class="cup-score-label">Your Score</div>
-                    <div class="cup-hero-score-num" id="cup-tab-score">--</div>
-                    <div class="cup-hero-pct-pill" id="cup-tab-pct-pill">Top --%</div>
-                </div>
-
-                <!-- Right: 3D Gold Trophy + Shield + Star + Laurel Vector -->
-                <div class="cup-hero-crest-illus">
-                    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 55L13.5 50L18.5 51L13.5 52L12 57L10.5 52L5.5 51L10.5 50L12 55Z" fill="#fbbf24" opacity="0.8"/>
-                        <path d="M108 48L109.5 43L114.5 44L109.5 45L108 50L106.5 45L101.5 44L106.5 43L108 48Z" fill="#fbbf24" opacity="0.8"/>
-                        <path d="M26 88C18 74 22 56 30 48" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M94 88C102 74 98 56 90 48" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
-                        <path d="M18 78C20 74 25 74 28 78C25 82 20 82 18 78Z" fill="#a78bfa"/>
-                        <path d="M22 64C24 60 29 60 32 64C29 68 24 68 22 64Z" fill="#818cf8"/>
-                        <path d="M102 78C100 74 95 74 92 78C95 82 100 82 102 78Z" fill="#a78bfa"/>
-                        <path d="M98 64C96 60 91 60 88 64C91 68 96 68 98 64Z" fill="#818cf8"/>
-                        <!-- Shield Body -->
-                        <path d="M60 40L34 49V72C34 88 48 98 60 102C72 98 86 88 86 72V49L60 40Z" fill="#43189a" stroke="#8b5cf6" stroke-width="2.5"/>
-                        <path d="M60 44L38 52V71C38 85 50 94 60 97C70 94 82 85 82 71V52L60 44Z" fill="url(#cupShieldGrad)"/>
-                        <!-- Star -->
-                        <polygon points="60,56 63.5,66 74,66 65.5,72.5 68.5,83 60,76.5 51.5,83 54.5,72.5 46,66 56.5,66" fill="#f8fafc"/>
-                        <!-- Trophy -->
-                        <path d="M49 20H71V31C71 37 66 41 60 41C54 41 49 37 49 31V20Z" fill="url(#goldTrophyGrad)"/>
-                        <path d="M49 24H44C41 24 40 28 42 32C44 35 47 35 49 34" stroke="#facc15" stroke-width="2"/>
-                        <path d="M71 24H76C79 24 80 28 78 32C76 35 73 35 71 34" stroke="#facc15" stroke-width="2"/>
-                        <rect x="56" y="39" width="8" height="5" fill="#ca8a04"/>
-                        <rect x="52" y="43" width="16" height="3" rx="1.5" fill="#eab308"/>
-                        <defs>
-                            <linearGradient id="cupShieldGrad" x1="38" y1="44" x2="82" y2="97" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#7c3aed"/>
-                                <stop offset="1" stop-color="#4c1d95"/>
-                            </linearGradient>
-                            <linearGradient id="goldTrophyGrad" x1="49" y1="20" x2="71" y2="41" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#fde047"/>
-                                <stop offset="0.6" stop-color="#eab308"/>
-                                <stop offset="1" stop-color="#ca8a04"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
+                <!-- 2. Battle Around You Block -->
+                <div class="cup-section-wrap" id="cup-battle-section">
+                    <div class="cup-section-header">
+                        <span class="cup-section-title">BATTLE AROUND YOU</span>
+                    </div>
+                    <div class="battle-around-card" id="cup-battle-container">
+                        <p style="text-align:center; color:var(--text-muted); font-size: 11px; width: 100%;">Calculating rivals...</p>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- 2. Battle Around You Block -->
-        <div class="cup-section-wrap" id="cup-battle-section">
-            <div class="cup-section-header">
-                <span class="cup-section-title">BATTLE AROUND YOU</span>
+            <div class="cup-right-col">
+                <!-- 3. Top 3 Podium Grid -->
+                <div class="cup-podium-grid" id="cup-podium-container">
+                    <!-- Populated dynamically by renderCupLeaderboard() -->
+                </div>
+
+                <!-- 4. Leaderboard Rows (#4+) with Red Demotion Line -->
+                <div class="cup-ranks-list" id="cup-ranks-list-container">
+                    <p style="text-align:center; color:var(--text-muted); font-size: 12px;">Loading leaderboard...</p>
+                </div>
             </div>
-            <div class="battle-around-card" id="cup-battle-container">
-                <p style="text-align:center; color:var(--text-muted); font-size: 11px; width: 100%;">Calculating rivals...</p>
-            </div>
-        </div>
-
-        <!-- 3. Top 3 Podium Grid -->
-        <div class="cup-podium-grid" id="cup-podium-container">
-            <!-- Populated dynamically by renderCupLeaderboard() -->
-        </div>
-
-        <!-- 4. Leaderboard Rows (#4+) with Red Demotion Line -->
-        <div class="cup-ranks-list" id="cup-ranks-list-container">
-            <p style="text-align:center; color:var(--text-muted); font-size: 12px;">Loading leaderboard...</p>
         </div>
 
         <!-- Hidden Compatibility Anchors for Legacy JS Scripts -->
@@ -4994,71 +5323,74 @@
             </div>
         </div>
         
-        <!-- 1. Hero Card: Score, Radial Accuracy, Rank -->
-        <div class="progress-hero-card">
-            <!-- Left: Your Score -->
-            <div class="prog-hero-col">
-                <div class="prog-col-label">Your Score</div>
-                <div class="prog-col-val" id="prog-hero-score">--</div>
-                <div class="prog-hero-pill pill-purple-soft" id="prog-hero-pct-pill">Top --% of participants</div>
-            </div>
+        <!-- Progress Stat Grid (2-column on desktop) -->
+        <div class="progress-stat-grid">
+            <!-- 1. Hero Card: Score, Radial Accuracy, Rank -->
+            <div class="progress-hero-card">
+                <!-- Left: Your Score -->
+                <div class="prog-hero-col">
+                    <div class="prog-col-label">Your Score</div>
+                    <div class="prog-col-val" id="prog-hero-score">--</div>
+                    <div class="prog-hero-pill pill-purple-soft" id="prog-hero-pct-pill">Top --% of participants</div>
+                </div>
 
-            <!-- Center: Radial Accuracy Ring -->
-            <div class="prog-hero-col">
-                <div class="prog-radial-wrap">
-                    <svg viewBox="0 0 100 100">
-                        <circle class="prog-radial-bg" cx="50" cy="50" r="38"></circle>
-                        <circle class="prog-radial-fill" id="prog-radial-fill" cx="50" cy="50" r="38"></circle>
-                    </svg>
-                    <div class="prog-radial-center">
-                        <div class="prog-radial-val" id="prog-radial-val">0%</div>
-                        <div class="prog-radial-sub">
-                            <span>🎯</span> Overall<br/>Accuracy
+                <!-- Center: Radial Accuracy Ring -->
+                <div class="prog-hero-col">
+                    <div class="prog-radial-wrap">
+                        <svg viewBox="0 0 100 100">
+                            <circle class="prog-radial-bg" cx="50" cy="50" r="38"></circle>
+                            <circle class="prog-radial-fill" id="prog-radial-fill" cx="50" cy="50" r="38"></circle>
+                        </svg>
+                        <div class="prog-radial-center">
+                            <div class="prog-radial-val" id="prog-radial-val">0%</div>
+                            <div class="prog-radial-sub">
+                                <span>🎯</span> Overall<br/>Accuracy
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Right: Your Rank -->
+                <div class="prog-hero-col">
+                    <div class="prog-col-label">Your Rank</div>
+                    <div class="prog-col-val" id="prog-hero-rank">#--</div>
+                    <div class="prog-hero-pill pill-purple-soft" id="prog-hero-rank-pill">Keep pushing! 💪</div>
+                </div>
             </div>
 
-            <!-- Right: Your Rank -->
-            <div class="prog-hero-col">
-                <div class="prog-col-label">Your Rank</div>
-                <div class="prog-col-val" id="prog-hero-rank">#--</div>
-                <div class="prog-hero-pill pill-purple-soft" id="prog-hero-rank-pill">Keep pushing! 💪</div>
-            </div>
-        </div>
+            <!-- 2. Metrics Strip: Attempts, Correct Answers, Streak, Study Time -->
+            <div class="progress-metrics-card">
+                <!-- 1. Total Attempts -->
+                <div class="prog-metric-col">
+                    <div class="prog-icon-box pico-purple">📄</div>
+                    <div class="prog-stat-label">Total Attempts</div>
+                    <div class="prog-stat-num" id="prog-total-attempts">0</div>
+                    <div class="prog-stat-sub">Quizzes</div>
+                </div>
 
-        <!-- 2. Metrics Strip: Attempts, Correct Answers, Streak, Study Time -->
-        <div class="progress-metrics-card">
-            <!-- 1. Total Attempts -->
-            <div class="prog-metric-col">
-                <div class="prog-icon-box pico-purple">📄</div>
-                <div class="prog-stat-label">Total Attempts</div>
-                <div class="prog-stat-num" id="prog-total-attempts">0</div>
-                <div class="prog-stat-sub">Quizzes</div>
-            </div>
+                <!-- 2. Correct Answers -->
+                <div class="prog-metric-col">
+                    <div class="prog-icon-box pico-green">🎯</div>
+                    <div class="prog-stat-label">Correct Answers</div>
+                    <div class="prog-stat-num" id="prog-correct-answers">0</div>
+                    <div class="prog-stat-sub" id="prog-correct-pct">0%</div>
+                </div>
 
-            <!-- 2. Correct Answers -->
-            <div class="prog-metric-col">
-                <div class="prog-icon-box pico-green">🎯</div>
-                <div class="prog-stat-label">Correct Answers</div>
-                <div class="prog-stat-num" id="prog-correct-answers">0</div>
-                <div class="prog-stat-sub" id="prog-correct-pct">0%</div>
-            </div>
+                <!-- 3. Best Streak -->
+                <div class="prog-metric-col">
+                    <div class="prog-icon-box pico-orange">🔥</div>
+                    <div class="prog-stat-label">Best Streak</div>
+                    <div class="prog-stat-num" id="prog-best-streak">0</div>
+                    <div class="prog-stat-sub">Days</div>
+                </div>
 
-            <!-- 3. Best Streak -->
-            <div class="prog-metric-col">
-                <div class="prog-icon-box pico-orange">🔥</div>
-                <div class="prog-stat-label">Best Streak</div>
-                <div class="prog-stat-num" id="prog-best-streak">0</div>
-                <div class="prog-stat-sub">Days</div>
-            </div>
-
-            <!-- 4. Study Time -->
-            <div class="prog-metric-col">
-                <div class="prog-icon-box pico-blue">⏱</div>
-                <div class="prog-stat-label">Study Time</div>
-                <div class="prog-stat-num" id="prog-study-time">0m</div>
-                <div class="prog-stat-sub">This Week</div>
+                <!-- 4. Study Time -->
+                <div class="prog-metric-col">
+                    <div class="prog-icon-box pico-blue">⏱</div>
+                    <div class="prog-stat-label">Study Time</div>
+                    <div class="prog-stat-num" id="prog-study-time">0m</div>
+                    <div class="prog-stat-sub">This Week</div>
+                </div>
             </div>
         </div>
 
@@ -5142,226 +5474,233 @@
             </div>
         </div>
 
-        <!-- Hero Profile Card -->
-        <div class="profile-hero-card">
-            <!-- User Info: Avatar + Meta -->
-            <div class="profile-user-row">
-                <div class="profile-avatar-outer">
-                    <div class="profile-avatar-ring">
-                        <div class="avatar" id="avatar-initial" style="width: 100%; height: 100%; font-size: 30px; margin: 0;">P</div>
+        <!-- Desktop 2-Column Grid (Transparent on mobile/tablet via display:contents) -->
+        <div class="profile-desktop-grid">
+            <div class="profile-left-col">
+                <!-- Hero Profile Card -->
+                <div class="profile-hero-card">
+                    <!-- User Info: Avatar + Meta -->
+                    <div class="profile-user-row">
+                        <div class="profile-avatar-outer">
+                            <div class="profile-avatar-ring">
+                                <div class="avatar" id="avatar-initial" style="width: 100%; height: 100%; font-size: 30px; margin: 0;">P</div>
+                            </div>
+                            <!-- Pencil Icon button to update target exam/state -->
+                            <div class="avatar-edit-badge" onclick="openSubModal('targetModalOverlay')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 20h9"></path>
+                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="profile-user-meta">
+                            <h2 class="profile-display-name" id="profile-name">Student</h2>
+                            
+                            <!-- Target Tags (State & Exam) + Standalone League Badge -->
+                            <div class="profile-target-tag-row" id="header-target-tags">
+                                <span id="header-state-tag" class="profile-tag-pill tag-state" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
+                                <span id="header-exam-tag" class="profile-tag-pill tag-exam" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
+                                <div id="header-league-tag" style="display: none; cursor: pointer;" onclick="openSubModal('guideModalOverlay')"></div>
+                            </div>
+
+                            <!-- Motto -->
+                            <div class="profile-motto-text">
+                                <span>✨</span> Learn more. Score higher. Win together.
+                            </div>
+                        </div>
                     </div>
-                    <!-- Pencil Icon button to update target exam/state -->
-                    <div class="avatar-edit-badge" onclick="openSubModal('targetModalOverlay')">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 20h9"></path>
-                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+
+                    <!-- Nested 3-Column Metrics Strip -->
+                    <div class="profile-nested-metrics">
+                        <!-- 1. Rank -->
+                        <div class="p-metric-item">
+                            <div class="p-metric-top-row">
+                                <div class="p-metric-icon p-icon-purple">🏆</div>
+                                <div class="p-metric-text">
+                                    <div class="p-metric-label">Rank</div>
+                                    <div class="p-metric-value p-val-purple" id="profile-rank">#--</div>
+                                </div>
+                            </div>
+                            <div class="p-metric-subpill subpill-purple" id="profile-rank-pill">Top --%</div>
+                        </div>
+
+                        <div class="p-metric-divider"></div>
+
+                        <!-- 2. Accuracy -->
+                        <div class="p-metric-item">
+                            <div class="p-metric-top-row">
+                                <div class="p-metric-icon p-icon-green">🎯</div>
+                                <div class="p-metric-text">
+                                    <div class="p-metric-label">Accuracy</div>
+                                    <div class="p-metric-value" id="profile-accuracy-val">0%</div>
+                                </div>
+                            </div>
+                            <div class="p-metric-subpill subpill-green" id="profile-acc-pill">Keep going!</div>
+                        </div>
+
+                        <div class="p-metric-divider"></div>
+
+                        <!-- 3. Score -->
+                        <div class="p-metric-item">
+                            <div class="p-metric-top-row">
+                                <div class="p-metric-icon p-icon-blue">📈</div>
+                                <div class="p-metric-text">
+                                    <div class="p-metric-label">Score</div>
+                                    <div class="p-metric-value" id="profile-score">--</div>
+                                </div>
+                            </div>
+                            <div class="p-metric-subpill subpill-amber" id="profile-score-pill">Keep pushing! 💪</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Bottom Motivation & Percentile Banner -->
+                <div class="profile-bottom-banner" onclick="switchView('view-cup')">
+                    <div class="pb-badge-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Ribbon -->
+                            <path d="M35 70L24 92L38 86L50 94L46 72" fill="#f43f5e"/>
+                            <path d="M65 70L76 92L62 86L50 94L54 72" fill="#e11d48"/>
+                            <!-- Hexagon Badge Body -->
+                            <polygon points="50,14 82,32 82,68 50,86 18,68 18,32" fill="url(#pBadgeGrad)" stroke="#f43f5e" stroke-width="2.5"/>
+                            <!-- Star -->
+                            <path d="M50 36L53.5 44H62L55 49.5L57.5 58L50 52.5L42.5 58L45 49.5L38 44H46.5L50 36Z" fill="#fbbf24"/>
+                            <defs>
+                                <linearGradient id="pBadgeGrad" x1="18" y1="14" x2="82" y2="86" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#4338ca"/>
+                                    <stop offset="1" stop-color="#1e1b4b"/>
+                                </linearGradient>
+                            </defs>
                         </svg>
                     </div>
-                </div>
 
-                <div class="profile-user-meta">
-                    <h2 class="profile-display-name" id="profile-name">Student</h2>
-                    
-                    <!-- Target Tags (State & Exam) + Standalone League Badge -->
-                    <div class="profile-target-tag-row" id="header-target-tags">
-                        <span id="header-state-tag" class="profile-tag-pill tag-state" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
-                        <span id="header-exam-tag" class="profile-tag-pill tag-exam" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
-                        <div id="header-league-tag" style="display: none; cursor: pointer;" onclick="openSubModal('guideModalOverlay')"></div>
-                    </div>
-
-                    <!-- Motto -->
-                    <div class="profile-motto-text">
-                        <span>✨</span> Learn more. Score higher. Win together.
-                    </div>
-                </div>
-            </div>
-
-            <!-- Nested 3-Column Metrics Strip -->
-            <div class="profile-nested-metrics">
-                <!-- 1. Rank -->
-                <div class="p-metric-item">
-                    <div class="p-metric-top-row">
-                        <div class="p-metric-icon p-icon-purple">🏆</div>
-                        <div class="p-metric-text">
-                            <div class="p-metric-label">Rank</div>
-                            <div class="p-metric-value p-val-purple" id="profile-rank">#--</div>
+                    <div class="pb-content">
+                        <div class="pb-title" id="profile-banner-pct-title">You're in the Top --% of all learners!</div>
+                        <div class="pb-sub">Consistency today, success tomorrow.</div>
+                        <div class="pb-progress-track">
+                            <div class="pb-progress-fill" id="profile-banner-fill" style="width: 0%;"></div>
                         </div>
                     </div>
-                    <div class="p-metric-subpill subpill-purple" id="profile-rank-pill">Top --%</div>
+
+                    <div class="pb-right">
+                        <span class="pb-pill-badge" id="profile-banner-pct-pill">Top --%</span>
+                        <span class="p-item-arrow">›</span>
+                    </div>
                 </div>
+            </div>
 
-                <div class="p-metric-divider"></div>
-
-                <!-- 2. Accuracy -->
-                <div class="p-metric-item">
-                    <div class="p-metric-top-row">
-                        <div class="p-metric-icon p-icon-green">🎯</div>
-                        <div class="p-metric-text">
-                            <div class="p-metric-label">Accuracy</div>
-                            <div class="p-metric-value" id="profile-accuracy-val">0%</div>
+            <div class="profile-right-col">
+                <!-- Profile Menu Card -->
+                <div class="profile-menu-card">
+                    <!-- 1. Detailed Performance -->
+                    <div class="p-card-item" onclick="openProfile(appUserId)">
+                        <div class="p-item-left">
+                            <div class="p-item-icon-box ico-purple">📊</div>
+                            <div class="p-item-text">
+                                <div class="p-item-title">Detailed Performance</div>
+                                <div class="p-item-sub">Analyze your accuracy, attempts & growth</div>
+                            </div>
                         </div>
+                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-                    <div class="p-metric-subpill subpill-green" id="profile-acc-pill">Keep going!</div>
-                </div>
 
-                <div class="p-metric-divider"></div>
-
-                <!-- 3. Score -->
-                <div class="p-metric-item">
-                    <div class="p-metric-top-row">
-                        <div class="p-metric-icon p-icon-blue">📈</div>
-                        <div class="p-metric-text">
-                            <div class="p-metric-label">Score</div>
-                            <div class="p-metric-value" id="profile-score">--</div>
+                    <!-- 2. Toppers' Rankings -->
+                    <div class="p-card-item" onclick="openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();">
+                        <div class="p-item-left">
+                            <div class="p-item-icon-box ico-amber">👑</div>
+                            <div class="p-item-text">
+                                <div class="p-item-title">Toppers' Rankings</div>
+                                <div class="p-item-sub">See how you rank among the best</div>
+                            </div>
                         </div>
+                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-                    <div class="p-metric-subpill subpill-amber" id="profile-score-pill">Keep pushing! 💪</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Profile Menu Card -->
-        <div class="profile-menu-card">
-            <!-- 1. Detailed Performance -->
-            <div class="p-card-item" onclick="openProfile(appUserId)">
-                <div class="p-item-left">
-                    <div class="p-item-icon-box ico-purple">📊</div>
-                    <div class="p-item-text">
-                        <div class="p-item-title">Detailed Performance</div>
-                        <div class="p-item-sub">Analyze your accuracy, attempts & growth</div>
-                    </div>
-                </div>
-                <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-            </div>
 
-            <!-- 2. Toppers' Rankings -->
-            <div class="p-card-item" onclick="openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();">
-                <div class="p-item-left">
-                    <div class="p-item-icon-box ico-amber">👑</div>
-                    <div class="p-item-text">
-                        <div class="p-item-title">Toppers' Rankings</div>
-                        <div class="p-item-sub">See how you rank among the best</div>
+                    <!-- 3. Weekly-Cup Results (Archive) -->
+                    <div class="p-card-item" onclick="openSubModal('archiveModalOverlay')">
+                        <div class="p-item-left">
+                            <div class="p-item-icon-box ico-green">📜</div>
+                            <div class="p-item-text">
+                                <div class="p-item-title">Weekly-Cup Results (Archive)</div>
+                                <div class="p-item-sub">View past results & your journey</div>
+                            </div>
+                        </div>
+                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-                </div>
-                <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-            </div>
 
-            <!-- 3. Weekly-Cup Results (Archive) -->
-            <div class="p-card-item" onclick="openSubModal('archiveModalOverlay')">
-                <div class="p-item-left">
-                    <div class="p-item-icon-box ico-green">📜</div>
-                    <div class="p-item-text">
-                        <div class="p-item-title">Weekly-Cup Results (Archive)</div>
-                        <div class="p-item-sub">View past results & your journey</div>
+                    <!-- 4. Guide: Scoring, Leagues & Elo -->
+                    <div class="p-card-item" onclick="openSubModal('guideModalOverlay')">
+                        <div class="p-item-left">
+                            <div class="p-item-icon-box ico-blue">ℹ️</div>
+                            <div class="p-item-text">
+                                <div class="p-item-title">Guide: Scoring, Leagues & Elo</div>
+                                <div class="p-item-sub">Understand how everything works</div>
+                            </div>
+                        </div>
+                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-                </div>
-                <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-            </div>
 
-            <!-- 4. Guide: Scoring, Leagues & Elo -->
-            <div class="p-card-item" onclick="openSubModal('guideModalOverlay')">
-                <div class="p-item-left">
-                    <div class="p-item-icon-box ico-blue">ℹ️</div>
-                    <div class="p-item-text">
-                        <div class="p-item-title">Guide: Scoring, Leagues & Elo</div>
-                        <div class="p-item-sub">Understand how everything works</div>
+                    <!-- 6. Upcoming Exams -->
+                    <div class="p-card-item" onclick="openSubModal('examsModalOverlay')">
+                        <div class="p-item-left">
+                            <div class="p-item-icon-box ico-rose">📅</div>
+                            <div class="p-item-text">
+                                <div class="p-item-title">Upcoming Exams</div>
+                                <div class="p-item-sub">Stay ahead with important exam dates</div>
+                            </div>
+                        </div>
+                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-                </div>
-                <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-            </div>
 
-            <!-- 6. Upcoming Exams -->
-            <div class="p-card-item" onclick="openSubModal('examsModalOverlay')">
-                <div class="p-item-left">
-                    <div class="p-item-icon-box ico-rose">📅</div>
-                    <div class="p-item-text">
-                        <div class="p-item-title">Upcoming Exams</div>
-                        <div class="p-item-sub">Stay ahead with important exam dates</div>
+                    <!-- 7. Bookmarks -->
+                    <div class="p-card-item" onclick="alert('Bookmarks feature coming soon!')">
+                        <div class="p-item-left">
+                            <div class="p-item-icon-box ico-yellow">🔖</div>
+                            <div class="p-item-text">
+                                <div class="p-item-title">Bookmarks</div>
+                                <div class="p-item-sub">Your saved words, articles & insights</div>
+                            </div>
+                        </div>
+                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-                </div>
-                <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-            </div>
 
-            <!-- 7. Bookmarks -->
-            <div class="p-card-item" onclick="alert('Bookmarks feature coming soon!')">
-                <div class="p-item-left">
-                    <div class="p-item-icon-box ico-yellow">🔖</div>
-                    <div class="p-item-text">
-                        <div class="p-item-title">Bookmarks</div>
-                        <div class="p-item-sub">Your saved words, articles & insights</div>
+                    <!-- 8. Privacy -->
+                    <div class="p-card-item" onclick="window.location.href='privacy.html'">
+                        <div class="p-item-left">
+                            <div class="p-item-icon-box ico-teal">🛡️</div>
+                            <div class="p-item-text">
+                                <div class="p-item-title">Privacy Policy</div>
+                                <div class="p-item-sub">Learn how your data is protected</div>
+                            </div>
+                        </div>
+                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-                </div>
-                <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-            </div>
 
-            <!-- 8. Privacy -->
-            <div class="p-card-item" onclick="window.location.href='privacy.html'">
-                <div class="p-item-left">
-                    <div class="p-item-icon-box ico-teal">🛡️</div>
-                    <div class="p-item-text">
-                        <div class="p-item-title">Privacy Policy</div>
-                        <div class="p-item-sub">Learn how your data is protected</div>
+                    <!-- 9. Help & Support -->
+                    <div class="p-card-item" onclick="openExternalTelegramLink('https://t.me/ezeditorialgroup/12103')">
+                        <div class="p-item-left">
+                            <div class="p-item-icon-box ico-sky">💬</div>
+                            <div class="p-item-text">
+                                <div class="p-item-title">Help & Support</div>
+                                <div class="p-item-sub">Join community & get quick support</div>
+                            </div>
+                        </div>
+                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
+                    </div>
+
+                    <!-- 10. Log Out -->
+                    <div class="p-card-item" onclick="logOut()" style="border-top: 1px solid var(--border-light); margin-top: 4px;">
+                        <div class="p-item-left">
+                            <div class="p-item-icon-box" style="background:#fee2e2; color:#dc2626;">🚪</div>
+                            <div class="p-item-text">
+                                <div class="p-item-title" style="color: #dc2626;">Log Out</div>
+                                <div class="p-item-sub">Switch account or end current session</div>
+                            </div>
+                        </div>
+                        <div class="p-item-right"><span class="p-item-arrow" style="color: #dc2626;">›</span></div>
                     </div>
                 </div>
-                <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-            </div>
-
-            <!-- 9. Help & Support -->
-            <div class="p-card-item" onclick="tgApp.openTelegramLink('https://t.me/ezeditorialgroup/12103')">
-                <div class="p-item-left">
-                    <div class="p-item-icon-box ico-sky">💬</div>
-                    <div class="p-item-text">
-                        <div class="p-item-title">Help & Support</div>
-                        <div class="p-item-sub">Join community & get quick support</div>
-                    </div>
-                </div>
-                <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-            </div>
-
-            <!-- 10. Log Out -->
-            <div class="p-card-item" onclick="logOut()" style="border-top: 1px solid var(--border-light); margin-top: 4px;">
-                <div class="p-item-left">
-                    <div class="p-item-icon-box" style="background:#fee2e2; color:#dc2626;">🚪</div>
-                    <div class="p-item-text">
-                        <div class="p-item-title" style="color: #dc2626;">Log Out</div>
-                        <div class="p-item-sub">Switch account or end current session</div>
-                    </div>
-                </div>
-                <div class="p-item-right"><span class="p-item-arrow" style="color: #dc2626;">›</span></div>
-            </div>
-        </div>
-
-        <!-- Profile Bottom Motivation & Percentile Banner -->
-        <div class="profile-bottom-banner" onclick="switchView('view-cup')">
-            <div class="pb-badge-icon">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Ribbon -->
-                    <path d="M35 70L24 92L38 86L50 94L46 72" fill="#f43f5e"/>
-                    <path d="M65 70L76 92L62 86L50 94L54 72" fill="#e11d48"/>
-                    <!-- Hexagon Badge Body -->
-                    <polygon points="50,14 82,32 82,68 50,86 18,68 18,32" fill="url(#pBadgeGrad)" stroke="#f43f5e" stroke-width="2.5"/>
-                    <!-- Star -->
-                    <path d="M50 36L53.5 44H62L55 49.5L57.5 58L50 52.5L42.5 58L45 49.5L38 44H46.5L50 36Z" fill="#fbbf24"/>
-                    <defs>
-                        <linearGradient id="pBadgeGrad" x1="18" y1="14" x2="82" y2="86" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#4338ca"/>
-                            <stop offset="1" stop-color="#1e1b4b"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-
-            <div class="pb-content">
-                <div class="pb-title" id="profile-banner-pct-title">You're in the Top --% of all learners!</div>
-                <div class="pb-sub">Consistency today, success tomorrow.</div>
-                <div class="pb-progress-track">
-                    <div class="pb-progress-fill" id="profile-banner-fill" style="width: 0%;"></div>
-                </div>
-            </div>
-
-            <div class="pb-right">
-                <span class="pb-pill-badge" id="profile-banner-pct-pill">Top --%</span>
-                <span class="p-item-arrow">›</span>
             </div>
         </div>
     </div> <!-- /End of view-profile -->
@@ -5529,18 +5868,18 @@
     </div>
     
     <!-- History Sub-Modal -->
-    <div class="modal-overlay" id="historyModalOverlay" onclick="closeHistoryModal(event)" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 600; align-items: center; justify-content: center;">
-        <div class="modal-content" onclick="event.stopPropagation()" style="background: #ffffff; margin: auto; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 90%; max-width: 350px; box-sizing: border-box;">
+    <div class="modal-overlay" id="historyModalOverlay" onclick="closeHistoryModal(event)" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-overlay, rgba(0,0,0,0.5)); z-index: 600; align-items: center; justify-content: center;">
+        <div class="modal-content" onclick="event.stopPropagation()" style="background: var(--bg-card); color: var(--text-main); margin: auto; border-radius: 20px; padding: 25px; box-shadow: var(--shadow-dialog, 0 10px 25px rgba(0,0,0,0.1)); width: 90%; max-width: 380px; box-sizing: border-box; border: 1px solid var(--border-light);">
             <div style="text-align: center; margin-bottom: 15px;">
-                <div style="font-size: 2.5em; margin-bottom: 10px;">📜</div><h3 style="margin: 0; color: #0f172a; font-size: 1.3em;">Week <span id="histWeek"></span> Archive</h3>
+                <div style="font-size: 2.5em; margin-bottom: 10px;">📜</div><h3 style="margin: 0; color: var(--text-main); font-size: 1.3em;">Week <span id="histWeek"></span> Archive</h3>
             </div>
-            <div style="background: #f8fafc; border-radius: 12px; padding: 15px; margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: #64748b; font-weight: 500;">Rank</span><span style="font-weight: 700; color: #3b82f6; font-size: 1.1em;" id="histRank"></span></div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: #64748b; font-weight: 500;">Score</span><span style="font-weight: 700; color: #0f172a;" id="histScore"></span></div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: #64748b; font-weight: 500;">Accuracy</span><span style="font-weight: 700; color: #10b981;" id="histAcc"></span></div>
-                <div style="display: flex; justify-content: space-between;"><span style="color: #64748b; font-weight: 500;">Correct Answers</span><span style="font-weight: 700; color: #0f172a;" id="histCorrect"></span></div>
+            <div style="background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Rank</span><span style="font-weight: 700; color: #3b82f6; font-size: 1.1em;" id="histRank"></span></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Score</span><span style="font-weight: 700; color: var(--text-main);" id="histScore"></span></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Accuracy</span><span style="font-weight: 700; color: #10b981;" id="histAcc"></span></div>
+                <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-muted); font-weight: 500;">Correct Answers</span><span style="font-weight: 700; color: var(--text-main);" id="histCorrect"></span></div>
             </div>
-            <button class="btn-massive" onclick="closeHistoryModal(null, true)" style="background: #e2e8f0; color: #0f172a; font-weight: 700;">Close Archive</button>
+            <button class="btn-massive" onclick="closeHistoryModal(null, true)" style="background: var(--bg-subtle); color: var(--text-main); border: 1px solid var(--border-light); font-weight: 700; width: 100%; border-radius: 12px; padding: 12px; cursor: pointer;">Close Archive</button>
         </div>
     </div>
 
@@ -5892,6 +6231,17 @@
                 <div class="rail-wotd-word" id="rail-wotd-display">Loading...</div>
                 <div class="rail-wotd-sub" id="rail-wotd-meaning">Tap to explore usage, synonyms & editorial passage ›</div>
             </div>
+
+            <!-- 4. Persistent Weekly Schedule Widget -->
+            <div class="rail-card calendar-rail-widget" id="rail-calendar-widget">
+                <div class="rail-card-header" style="cursor: pointer;" onclick="openSubModal('calendarModalOverlay')">
+                    <span class="rail-card-title">📅 Weekly Schedule</span>
+                    <span class="rail-link-btn">All Days ›</span>
+                </div>
+                <div class="rail-calendar-pills" id="rail-calendar-pills">
+                    <!-- Populated dynamically by updateDynamicTracker() -->
+                </div>
+            </div>
         </aside>
     </div> <!-- /End of app-layout-root -->
 
@@ -5954,7 +6304,7 @@
                 <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">🌍 Global Elo Rankings</h3>
             </div>
             <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
-            <div id="eloFooter" style="padding: 15px 20px; background: #0f172a; color: white;"></div>
+            <div id="eloFooter" style="padding: 15px 20px; background: var(--bg-card); color: var(--text-main); border-top: 1px solid var(--border-light);"></div>
         </div>
     </div>
 
@@ -6156,8 +6506,8 @@
     <script>
         let lastFetchTimes = { cup: 0, progress: 0, digest: 0 };
 
-        // 1. Initialize Telegram & User (Renamed to avoid colliding with app_v8.js)
-        const tgApp = window.Telegram?.WebApp;
+        // 1. Initialize User & Platform App from auth.js
+        const tgApp = (typeof getTelegramApp === 'function' ? getTelegramApp() : null);
         if (tgApp?.expand) tgApp.expand();
         const appUserId = (typeof getActiveUserId === 'function' ? getActiveUserId() : 0) || tgApp?.initDataUnsafe?.user?.id || 123456789;
 
@@ -6202,22 +6552,8 @@
             }
         }
 
-        // 🟢 TELEGRAM NATIVE HAPTIC FEEDBACK ENGINE
-        function triggerHaptic(type = 'light') {
-            if (localStorage.getItem('app_vibration') === 'false') return;
-            const haptic = window.Telegram?.WebApp?.HapticFeedback;
-            if (!haptic) return;
-
-            try {
-                if (['light', 'medium', 'heavy', 'rigid', 'soft'].includes(type)) {
-                    haptic.impactOccurred(type);
-                } else if (['success', 'warning', 'error'].includes(type)) {
-                    haptic.notificationOccurred(type);
-                } else if (type === 'selection') {
-                    haptic.selectionChanged();
-                }
-            } catch (e) {}
-        }
+        // 🟢 HAPTIC FEEDBACK ENGINE (Lives centrally in auth.js)
+        // triggerHaptic(type) is provided by auth.js
 
         function toggleVibration() {
             window.vibrationEnabled = !window.vibrationEnabled;
@@ -6333,13 +6669,13 @@
                     footer.innerHTML = `
                         <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
                             <div style="display: flex; align-items: center; gap: 12px;">
-                                <div style="font-weight: 900; color: #cbd5e1; font-size: 16px;">${myRankDisplay}</div>
+                                <div style="font-weight: 900; color: var(--text-muted); font-size: 16px;">${myRankDisplay}</div>
                                 <div>
-                                    <div style="font-weight: bold; font-size: 15px;">You</div>
-                                    <div style="font-size: 0.75em; color: #94a3b8;">Intelligence Rating</div>
+                                    <div style="font-weight: bold; font-size: 15px; color: var(--text-main);">You</div>
+                                    <div style="font-size: 0.75em; color: var(--text-muted);">Intelligence Rating</div>
                                 </div>
                             </div>
-                            <div style="font-weight: 800; color: #60a5fa; font-size: 16px;">🧠 ${myEloDisplay}</div>
+                            <div style="font-weight: 800; color: #3b82f6; font-size: 16px;">🧠 ${myEloDisplay}</div>
                         </div>
                     `;
                 }
@@ -6437,8 +6773,8 @@
         });
         
         // 🟢 Bind the native back button
-        if (tgApp?.BackButton?.onClick) {
-            tgApp.BackButton.onClick(() => {
+        if (typeof setTelegramBackButton === 'function') {
+            setTelegramBackButton(false, () => {
                 switchView('view-home');
             });
         }
@@ -6801,6 +7137,9 @@
             const calendarGrid = document.getElementById('calendar-grid');
             if (calendarGrid) calendarGrid.innerHTML = '';
 
+            const railPills = document.getElementById('rail-calendar-pills');
+            if (railPills) railPills.innerHTML = '';
+
             let hasAnyPendingQuiz = false;
 
             for(let i = 0; i < 6; i++) {
@@ -6866,6 +7205,30 @@
                         </button>
                     `;
                 }
+
+                // Desktop Right Rail Calendar Pills
+                if (railPills) {
+                    let isActiveView = (i === window.currentViewingDayIndex);
+                    let pillCls = `rail-day-pill ${isActiveView ? 'active' : ''} ${isLocked ? 'locked' : ''} ${cls.includes('done') ? 'done' : ''}`.trim();
+                    railPills.innerHTML += `
+                        <button class="${pillCls}" data-day-index="${i}" ${isLocked ? `onclick="alert('Day ${dayNum} is locked until it arrives!')"` : `onclick="switchView('view-day'); filterByDay(${i});"`}>
+                            <span>Day ${dayNum}</span>
+                            <span style="font-size: 11px; display:inline-flex; align-items:center;">${chk || (isLocked ? '🔒' : '•')}</span>
+                        </button>
+                    `;
+                }
+            }
+
+            // Desktop Right Rail Sunday Wrap-Up Pill
+            if (railPills) {
+                let isSundayLocked = (liveDayIndex < 6);
+                let isSunActive = (window.currentViewingDayIndex === 6);
+                let sunCls = `rail-day-pill ${isSunActive ? 'active' : ''} ${isSundayLocked ? 'locked' : ''}`.trim();
+                railPills.innerHTML += `
+                    <button class="${sunCls}" data-day-index="6" ${isSundayLocked ? `onclick="alert('Sunday Wrap-Up unlocks on Sunday!')"` : `onclick="switchView('view-day'); filterByDay(6);"`} style="grid-column: span 3;">
+                        <span>Sunday Wrap-Up</span>
+                    </button>
+                `;
             }
 
             const calBadge = document.getElementById('calendar-badge');
@@ -6886,6 +7249,17 @@
             const headerText = document.getElementById('day-detail-header');
             if (headerText) headerText.innerText = `Day ${targetDay}`;
             
+            // Sync Desktop Rail Calendar Active State
+            const railPillBtns = document.querySelectorAll('#rail-calendar-pills .rail-day-pill');
+            railPillBtns.forEach(btn => {
+                const bIdx = parseInt(btn.getAttribute('data-day-index'), 10);
+                if (bIdx === dayIndex) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
             const ist = getIST();
             let actualCurrentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
             
@@ -7402,7 +7776,7 @@
                         let deltaIcon = deltaNum > 0 ? '↑' : (deltaNum < 0 ? '↓' : '–');
                         let avatarHtml = getAvatarMarkup(u, false, 'cup-row-avatar-img');
 
-                        let bgStyle = isMe ? 'background: #f7f4ff; border: 1.5px solid #dcd3ff;' : '';
+                        let meClass = isMe ? ' cup-rank-row-me' : '';
 
                         // Insert Demotion Red Line when passing below class average
                         if (!demotionLineRendered && targetAvg > 0 && scoreNum < targetAvg) {
@@ -7417,7 +7791,7 @@
                         }
 
                         rowsHtml += `
-                            <div class="cup-rank-row-item" style="${bgStyle}" onclick="openProfile(${u.id})">
+                            <div class="cup-rank-row-item${meClass}" onclick="openProfile(${u.id})">
                                 <div class="cup-row-left">
                                     <span class="cup-row-rank-num">#${u.rank}</span>
                                     <div class="cup-row-avatar-wrap">
@@ -8618,13 +8992,12 @@
                 }
             } catch(e) {}
 
-            // 🟢 Toggle Native Telegram Back Button
-            if (tgApp?.BackButton) {
-                if (viewId === 'view-home') {
-                    tgApp.BackButton.hide();
-                } else {
-                    tgApp.BackButton.show();
-                }
+            // 🟢 Toggle Native Telegram Back Button & Sync Layout Shell
+            if (typeof setTelegramBackButton === 'function') {
+                setTelegramBackButton(viewId !== 'view-home');
+            }
+            if (typeof syncNavState === 'function') {
+                syncNavState(viewId);
             }
 
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));

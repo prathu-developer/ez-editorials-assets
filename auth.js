@@ -11,9 +11,36 @@ function isCapacitorApp() {
     return Boolean(window.Capacitor && (window.Capacitor.isNativePlatform?.() || window.Capacitor.platform === 'android'));
 }
 
+function isTgDesktop() {
+    const tgPlatform = window.Telegram?.WebApp?.platform || '';
+    return ['tdesktop', 'macos', 'web', 'weba', 'webk'].includes(tgPlatform);
+}
+
+function getPlatform() {
+    if (isTelegramMiniApp()) return 'telegram';
+    if (isCapacitorApp()) return 'capacitor';
+    return 'web';
+}
+
+function isDesktopWeb() {
+    // Ground Rule 4: Telegram Desktop client renders in a narrow iframe (~420px), NOT browser desktop!
+    if (isTgDesktop() || isTelegramMiniApp()) return false;
+    const ua = navigator.userAgent || '';
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+    return !isMobile && window.innerWidth >= 1024;
+}
+
+function isTabletView() {
+    if (isDesktopWeb()) return false;
+    const ua = navigator.userAgent || '';
+    return (window.innerWidth >= 768 && window.innerWidth < 1024) || (/iPad|Tablet|PlayBook/i.test(ua));
+}
+
 // Automatically tag documentElement with platform classes
-(function initPlatformTags() {
+function applyPlatformTags() {
     const doc = document.documentElement;
+    doc.classList.remove('platform-telegram', 'platform-capacitor', 'platform-android-app', 'platform-web', 'is-desktop', 'is-tablet');
+
     if (isTelegramMiniApp()) {
         doc.classList.add('platform-telegram');
     } else if (isCapacitorApp()) {
@@ -23,21 +50,87 @@ function isCapacitorApp() {
     }
 
     try {
-        const ua = navigator.userAgent || '';
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-        const tgPlatform = window.Telegram?.WebApp?.platform || '';
-        const isTgDesktop = ['tdesktop', 'macos', 'web', 'weba', 'webk'].includes(tgPlatform);
-        const isLaptopScreen = window.innerWidth >= 1024;
-        const isTablet = (window.innerWidth >= 768 && window.innerWidth < 1024) || (/iPad|Tablet|PlayBook/i.test(ua));
-
-        if (isTgDesktop || (!isMobile && isLaptopScreen)) {
+        // Ground Rule 4: Telegram Desktop client != browser desktop.
+        // Never add 'is-desktop' when isTgDesktop() is true!
+        if (isDesktopWeb()) {
             doc.classList.add('is-desktop');
-        }
-        if (isTablet) {
+        } else if (isTabletView() && !isTgDesktop()) {
             doc.classList.add('is-tablet');
         }
     } catch (e) {}
-})();
+}
+
+// Initialize platform tags immediately
+applyPlatformTags();
+
+// Keep layout classes synced on window resize
+window.addEventListener('resize', () => {
+    applyPlatformTags();
+});
+
+// Safe Telegram WebApp Accessors & Wrappers (Keeps direct window.Telegram logic inside auth.js)
+function getTelegramApp() {
+    return window.Telegram?.WebApp || null;
+}
+
+function triggerHaptic(type = 'light', style = 'light') {
+    try {
+        if (localStorage.getItem('app_vibration') === 'false') return;
+        const tgHaptic = window.Telegram?.WebApp?.HapticFeedback;
+        if (tgHaptic) {
+            if (['light', 'medium', 'heavy', 'rigid', 'soft'].includes(type)) {
+                tgHaptic.impactOccurred(type);
+            } else if (['success', 'warning', 'error'].includes(type)) {
+                tgHaptic.notificationOccurred(type);
+            } else if (type === 'selection') {
+                tgHaptic.selectionChanged();
+            } else if (type === 'impact') {
+                tgHaptic.impactOccurred(style || 'light');
+            } else if (type === 'notification') {
+                tgHaptic.notificationOccurred(style || 'success');
+            }
+            return;
+        }
+        if (navigator.vibrate) {
+            navigator.vibrate(type === 'selection' ? 15 : (type === 'heavy' ? 40 : 25));
+        }
+    } catch (e) {}
+}
+
+function openExternalTelegramLink(url) {
+    const tg = getTelegramApp();
+    if (tg && typeof tg.openTelegramLink === 'function') {
+        tg.openTelegramLink(url);
+    } else {
+        window.open(url, '_blank');
+    }
+}
+
+function setTelegramBackButton(visible, callback) {
+    const tg = getTelegramApp();
+    if (!tg || !tg.BackButton) return;
+    if (visible) {
+        tg.BackButton.show();
+        if (callback) {
+            tg.BackButton.onClick(callback);
+        }
+    } else {
+        tg.BackButton.hide();
+    }
+}
+
+// Global exports for all pages
+window.isTelegramMiniApp = isTelegramMiniApp;
+window.isCapacitorApp = isCapacitorApp;
+window.isTgDesktop = isTgDesktop;
+window.getPlatform = getPlatform;
+window.isDesktopWeb = isDesktopWeb;
+window.isTabletView = isTabletView;
+window.applyPlatformTags = applyPlatformTags;
+window.getTelegramApp = getTelegramApp;
+window.triggerHaptic = triggerHaptic;
+window.openExternalTelegramLink = openExternalTelegramLink;
+window.setTelegramBackButton = setTelegramBackButton;
 
 // 2. Returns headers for Render API calls
 function getAuthHeaders(customHeaders = {}) {
