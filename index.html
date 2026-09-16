@@ -4342,7 +4342,8 @@
             }
 
             /* Ticket 2.4: Desktop Reading Measure & 2-Column Insights for view-digest */
-            html.is-desktop .center-workspace-pane #view-digest {
+            html.is-desktop .center-workspace-pane #view-digest,
+            html.is-desktop .center-workspace-pane #view-magazine {
                 max-width: var(--max-reading-width, 680px) !important;
                 margin: 0 auto !important;
                 padding-bottom: 60px !important;
@@ -6057,11 +6058,11 @@
                         <div class="card-title-row">
                             <span class="card-main-title">Weekly Editorial Magazine</span>
                         </div>
-                        <div class="card-pos-pill pos-blue" style="background:var(--brand-light); color:var(--brand-blue); border:none;">Current Week</div>
-                        <div class="card-short-def">Read today's curated editorials with Evidence Lens statistics</div>
+                        <div class="card-pos-pill pos-blue" id="digest-mag-badge" style="background:var(--brand-light); color:var(--brand-blue); border:none;">Current Week</div>
+                        <div class="card-short-def" id="digest-mag-desc">Read today's curated editorials with Evidence Lens statistics</div>
                         <div class="card-inner-divider"></div>
                         <div class="card-extra-row">
-                            <strong style="color:var(--brand-blue);">Live:</strong> <span>Instant reader, day navigation & read tracking ›</span>
+                            <strong style="color:var(--brand-blue);">Live:</strong> <span id="digest-mag-live-label">Instant reader, day navigation & read tracking ›</span>
                         </div>
                     </div>
 
@@ -9058,9 +9059,9 @@
         }
 
         function getMagazineISTDate() {
-            const now = new Date();
-            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            return new Date(utc + (3600000 * 5.5)); // UTC+5:30
+            return (typeof getIST === 'function') 
+                ? getIST() 
+                : new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
         }
 
         function formatMagazineDateStr(d) {
@@ -9101,7 +9102,34 @@
             if (Date.now() - magazineState.lastFetch > 30000 || !magazineState.weekData) {
                 await fetchMagazineData();
             } else {
+                updateDigestMagazineCard();
                 renderMagazineUI();
+            }
+        }
+
+        function updateDigestMagazineCard() {
+            const badgeEl = document.getElementById('digest-mag-badge');
+            const descEl = document.getElementById('digest-mag-desc');
+            const liveEl = document.getElementById('digest-mag-live-label');
+            if (!magazineState.weekData) return;
+
+            const todayStr = formatMagazineDateStr(getMagazineISTDate());
+            const todayArticles = magazineState.weekData[todayStr] || [];
+
+            if (todayArticles.length > 0) {
+                if (badgeEl) {
+                    badgeEl.style.background = '#10b981';
+                    badgeEl.style.color = '#ffffff';
+                    badgeEl.innerText = `Today Ready (${todayArticles.length})`;
+                }
+                if (descEl) {
+                    descEl.innerHTML = `<strong>Today's Edition:</strong> ${todayArticles.length} curated editorials with Evidence Lens statistics`;
+                }
+                if (liveEl) {
+                    liveEl.innerText = `Tap to open today's ${todayArticles.length} editorials ›`;
+                }
+            } else if (magazineState.currentWeekNum) {
+                if (badgeEl) badgeEl.innerText = `Week ${magazineState.currentWeekNum}`;
             }
         }
 
@@ -9110,7 +9138,8 @@
             magazineState.weekDays = computeCurrentWeekDays();
 
             try {
-                const weekRes = await fetch('https://ez-editorials-bot.onrender.com/api/magazine/week', {
+                const weekRes = await fetch(`https://ez-editorials-bot.onrender.com/api/magazine/week?_t=${Date.now()}`, {
+                    cache: 'no-cache',
                     headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {}
                 });
                 if (weekRes.ok) {
@@ -9123,7 +9152,8 @@
             }
 
             try {
-                const readRes = await fetch('https://ez-editorials-bot.onrender.com/api/magazine/read-status', {
+                const readRes = await fetch(`https://ez-editorials-bot.onrender.com/api/magazine/read-status?_t=${Date.now()}`, {
+                    cache: 'no-cache',
                     headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {}
                 });
                 if (readRes.ok) {
@@ -9150,6 +9180,7 @@
                 magazineState.selectedDate = magazineState.weekDays[0] ? magazineState.weekDays[0].dateStr : todayStr;
             }
 
+            updateDigestMagazineCard();
             renderMagazineUI();
         }
 
@@ -9406,6 +9437,7 @@
                     loadDailyDigest();
                     lastFetchTimes.digest = Date.now();
                 }
+                initMagazineView();
             }
             if(viewId === 'view-magazine') {
                 navId = 'nav-digest';
