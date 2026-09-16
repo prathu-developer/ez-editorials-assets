@@ -4761,6 +4761,9 @@
                 <button class="nav-rail-btn" id="rail-nav-digest" onclick="switchView('view-digest')">
                     <span>📰</span> Daily Digest
                 </button>
+                <button class="nav-rail-btn" id="rail-nav-magazine" onclick="switchView('view-magazine')">
+                    <span>📖</span> Magazine
+                </button>
                 <button class="nav-rail-btn" onclick="openSubModal('archiveModalOverlay')">
                     <span>📜</span> Archives
                 </button>
@@ -6125,6 +6128,31 @@
                     <!-- Right: Arrow Button -->
                     <button class="card-arrow-circle arrow-green">›</button>
                 </div>
+
+                <!-- 3. In-App Weekly Magazine Card -->
+                <div class="digest-detail-card card-theme-blue" onclick="switchView('view-magazine')" style="cursor: pointer;">
+                    <!-- Left: Magazine Icon Illustration -->
+                    <div class="card-illus-box box-blue" style="display:flex; align-items:center; justify-content:center;">
+                        <span style="font-size: 38px;">📰</span>
+                    </div>
+
+                    <!-- Middle: Magazine Details -->
+                    <div class="card-content-wrap">
+                        <div class="card-category-tag tag-blue">📰 IN-APP MAGAZINE</div>
+                        <div class="card-title-row">
+                            <span class="card-main-title">Weekly Editorial Magazine</span>
+                        </div>
+                        <div class="card-pos-pill pos-blue" style="background:var(--brand-light); color:var(--brand-blue); border:none;">Current Week</div>
+                        <div class="card-short-def">Read today's curated editorials with Evidence Lens statistics</div>
+                        <div class="card-inner-divider"></div>
+                        <div class="card-extra-row">
+                            <strong style="color:var(--brand-blue);">Live:</strong> <span>Instant reader, day navigation & read tracking ›</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Arrow Button -->
+                    <button class="card-arrow-circle arrow-blue">›</button>
+                </div>
             </div>
         </div>
 
@@ -6187,6 +6215,56 @@
         </div>
     </div>
     </div> <!-- /End of view-digest -->
+
+    <!-- ==========================================
+         VIEW 7: IN-APP WEEKLY MAGAZINE (Section 6)
+         ========================================== -->
+    <div id="view-magazine" class="view-container">
+        <!-- Top Header Bar -->
+        <div class="top-header">
+            <button class="back-btn" onclick="switchView('view-home')" style="background:none; border:none; font-size:24px; color:var(--text-main); cursor:pointer; padding:0 8px;">‹</button>
+            <span class="font-bold">Weekly Editorial Magazine</span>
+            <span class="magazine-badge" id="mag-week-badge">Week --</span>
+        </div>
+
+        <div class="magazine-container">
+            <!-- Hero Summary Card -->
+            <div class="magazine-hero">
+                <div class="magazine-hero-header">
+                    <span class="magazine-badge">📰 Live Editorial Stream</span>
+                    <span class="magazine-progress-text" id="mag-read-progress">0 of 6 days read</span>
+                </div>
+                <div style="font-size: var(--font-sm, 13px); color: var(--text-muted); line-height: 1.5;">
+                    Curated editorials with <strong>Evidence Lens</strong> numeric highlights and analysis.
+                </div>
+            </div>
+
+            <!-- Day Navigation Pills (Monday - Saturday) -->
+            <div class="magazine-day-nav" id="mag-day-nav">
+                <!-- Injected dynamically via renderMagazineDayNav() -->
+            </div>
+
+            <!-- Day Header & Status -->
+            <div id="mag-day-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom: var(--space-md, 12px);">
+                <div>
+                    <h2 style="font-size: var(--font-lg, 18px); font-weight: 800; color: var(--text-main); margin:0;" id="mag-active-date-heading">Today's Edition</h2>
+                    <span style="font-size: var(--font-xs, 11px); color: var(--text-muted);" id="mag-articles-count">Loading articles...</span>
+                </div>
+                <div id="mag-read-badge" style="display:none; align-items:center; gap:4px; font-size:var(--font-xs, 11px); font-weight:700; color:var(--color-success); background:var(--color-success-bg); padding:3px 8px; border-radius:var(--radius-full, 9999px);">
+                    ✓ Read
+                </div>
+            </div>
+
+            <!-- Articles Stream Container -->
+            <div id="mag-articles-container">
+                <div class="mag-empty-state">
+                    <div class="mag-empty-icon">⏳</div>
+                    <div class="mag-empty-title">Loading weekly edition...</div>
+                    <div class="mag-empty-desc">Fetching the latest editorials from edge cache.</div>
+                </div>
+            </div>
+        </div>
+    </div>
         </main>
 
         <!-- Right Performance Rail (Contextual widgets) -->
@@ -8955,6 +9033,298 @@
             `;
         }
 
+        // ==============================================================================
+        // 📰 IN-APP WEEKLY MAGAZINE LOGIC (P1)
+        // ==============================================================================
+        let magazineState = {
+            weekData: null,
+            currentWeekNum: null,
+            readDates: new Set(),
+            selectedDate: null,
+            weekDays: [],
+            isLoading: false,
+            lastFetch: 0
+        };
+
+        function escapeMagHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
+        }
+
+        function getMagazineISTDate() {
+            const now = new Date();
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            return new Date(utc + (3600000 * 5.5)); // UTC+5:30
+        }
+
+        function formatMagazineDateStr(d) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+
+        function computeCurrentWeekDays() {
+            const ist = getMagazineISTDate();
+            const dayOfWeek = ist.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+            const diffToMon = (dayOfWeek === 0) ? -6 : (1 - dayOfWeek);
+            const monday = new Date(ist);
+            monday.setDate(ist.getDate() + diffToMon);
+
+            const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const days = [];
+            const todayStr = formatMagazineDateStr(ist);
+
+            for (let i = 0; i < 6; i++) {
+                const cur = new Date(monday);
+                cur.setDate(monday.getDate() + i);
+                const dateStr = formatMagazineDateStr(cur);
+                days.push({
+                    dayName: dayNames[i],
+                    dateStr: dateStr,
+                    dayNum: cur.getDate(),
+                    monthShort: cur.toLocaleDateString('en-US', { month: 'short' }),
+                    isToday: dateStr === todayStr,
+                    isFuture: cur > ist && (dateStr !== todayStr)
+                });
+            }
+            return days;
+        }
+
+        async function initMagazineView() {
+            if (Date.now() - magazineState.lastFetch > 30000 || !magazineState.weekData) {
+                await fetchMagazineData();
+            } else {
+                renderMagazineUI();
+            }
+        }
+
+        async function fetchMagazineData() {
+            magazineState.isLoading = true;
+            magazineState.weekDays = computeCurrentWeekDays();
+
+            try {
+                const weekRes = await fetch('https://ez-editorials-bot.onrender.com/api/magazine/week', {
+                    headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {}
+                });
+                if (weekRes.ok) {
+                    const data = await weekRes.json();
+                    magazineState.weekData = data.week || {};
+                    magazineState.currentWeekNum = data.current_week || null;
+                }
+            } catch (err) {
+                console.error("Failed to load magazine week:", err);
+            }
+
+            try {
+                const readRes = await fetch('https://ez-editorials-bot.onrender.com/api/magazine/read-status', {
+                    headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {}
+                });
+                if (readRes.ok) {
+                    const readData = await readRes.json();
+                    magazineState.readDates = new Set(readData.read_dates || []);
+                }
+            } catch (err) {
+                console.warn("Could not fetch magazine read status:", err);
+            }
+
+            magazineState.isLoading = false;
+            magazineState.lastFetch = Date.now();
+
+            // Resolve default selected day
+            const todayStr = formatMagazineDateStr(getMagazineISTDate());
+            const availableDates = Object.keys(magazineState.weekData || {}).filter(d => Array.isArray(magazineState.weekData[d]) && magazineState.weekData[d].length > 0);
+
+            if (magazineState.weekData && magazineState.weekData[todayStr] && magazineState.weekData[todayStr].length > 0) {
+                magazineState.selectedDate = todayStr;
+            } else if (availableDates.length > 0) {
+                availableDates.sort();
+                magazineState.selectedDate = availableDates[availableDates.length - 1];
+            } else {
+                magazineState.selectedDate = magazineState.weekDays[0] ? magazineState.weekDays[0].dateStr : todayStr;
+            }
+
+            renderMagazineUI();
+        }
+
+        function renderMagazineUI() {
+            const badgeEl = document.getElementById('mag-week-badge');
+            if (badgeEl && magazineState.currentWeekNum) {
+                badgeEl.innerText = `Week ${magazineState.currentWeekNum}`;
+            }
+
+            const progressEl = document.getElementById('mag-read-progress');
+            if (progressEl) {
+                let readCount = 0;
+                magazineState.weekDays.forEach(d => {
+                    if (magazineState.readDates.has(d.dateStr)) readCount++;
+                });
+                progressEl.innerText = `${readCount} of 6 days read`;
+            }
+
+            renderMagazineDayNav();
+            renderMagazineArticles(magazineState.selectedDate);
+        }
+
+        function renderMagazineDayNav() {
+            const navEl = document.getElementById('mag-day-nav');
+            if (!navEl) return;
+
+            let html = '';
+            magazineState.weekDays.forEach(day => {
+                const isActive = day.dateStr === magazineState.selectedDate;
+                const hasArticles = magazineState.weekData && Array.isArray(magazineState.weekData[day.dateStr]) && magazineState.weekData[day.dateStr].length > 0;
+                const isRead = magazineState.readDates.has(day.dateStr);
+                const isDisabled = !hasArticles && day.isFuture;
+
+                let classes = ['mag-day-pill'];
+                if (isActive) classes.push('active');
+                if (isDisabled) classes.push('disabled');
+                if (isRead) classes.push('has-read');
+
+                html += `
+                    <button class="${classes.join(' ')}" 
+                            onclick="selectMagazineDay('${day.dateStr}')" 
+                            title="${day.dayName}, ${day.monthShort} ${day.dayNum}">
+                        <span class="mag-pill-day">${day.dayName}</span>
+                        <span class="mag-pill-date">${day.dayNum}</span>
+                        ${isRead ? '<span class="mag-read-dot" title="Read"></span>' : ''}
+                    </button>
+                `;
+            });
+            navEl.innerHTML = html;
+        }
+
+        function selectMagazineDay(dateStr) {
+            triggerHaptic('selection');
+            magazineState.selectedDate = dateStr;
+            renderMagazineDayNav();
+            renderMagazineArticles(dateStr);
+        }
+
+        function renderMagazineArticles(dateStr) {
+            const container = document.getElementById('mag-articles-container');
+            const headingEl = document.getElementById('mag-active-date-heading');
+            const countEl = document.getElementById('mag-articles-count');
+            const readBadgeEl = document.getElementById('mag-read-badge');
+            if (!container) return;
+
+            const dayObj = magazineState.weekDays.find(d => d.dateStr === dateStr);
+            const formattedDate = dayObj ? `${dayObj.dayName}, ${dayObj.dayNum} ${dayObj.monthShort}` : dateStr;
+
+            if (headingEl) headingEl.innerText = formattedDate;
+
+            const articles = (magazineState.weekData && magazineState.weekData[dateStr]) ? magazineState.weekData[dateStr] : [];
+
+            if (countEl) {
+                countEl.innerText = `${articles.length} editorial${articles.length === 1 ? '' : 's'}`;
+            }
+
+            const isRead = magazineState.readDates.has(dateStr);
+            if (readBadgeEl) {
+                readBadgeEl.style.display = isRead ? 'inline-flex' : 'none';
+            }
+
+            if (!articles || articles.length === 0) {
+                container.innerHTML = `
+                    <div class="mag-empty-state">
+                        <div class="mag-empty-icon">☕</div>
+                        <div class="mag-empty-title">No Edition Yet</div>
+                        <div class="mag-empty-desc">
+                            The daily editorial magazine for ${formattedDate} is either being compiled or has not been published yet.
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            articles.forEach((art, idx) => {
+                const statsChips = (art.stats && art.stats.length > 0)
+                    ? `
+                        <div class="mag-stats-summary">
+                            <div class="mag-stats-title">🔍 Evidence Lens Key Figures (${art.stats.length})</div>
+                            <div class="mag-stats-list">
+                                ${art.stats.map(s => `<span class="mag-stat-chip">${escapeMagHtml(s)}</span>`).join('')}
+                            </div>
+                        </div>
+                    ` : '';
+
+                html += `
+                    <article class="magazine-article-card" id="mag-article-${idx}">
+                        <div class="mag-meta-row">
+                            <span class="mag-source-pill">${escapeMagHtml(art.newspaper || 'Editorial')}</span>
+                            <span class="mag-topic-pill">${escapeMagHtml(art.topic || 'General Studies')}</span>
+                            <span class="mag-time">⏱️ ${escapeMagHtml(art.reading_time || '3 min')}</span>
+                        </div>
+
+                        <h3 class="mag-title">${escapeMagHtml(art.title || '')}</h3>
+                        ${art.subtitle ? `<div class="mag-subtitle">${escapeMagHtml(art.subtitle)}</div>` : ''}
+
+                        ${art.tone ? `
+                            <div class="mag-tone-badge">
+                                <span>⚖️</span>
+                                <strong>Tone:</strong> ${escapeMagHtml(art.tone)}
+                                ${art.tone_explanation ? `<span>— ${escapeMagHtml(art.tone_explanation)}</span>` : ''}
+                            </div>
+                        ` : ''}
+
+                        <div class="mag-passage">
+                            ${art.passage_html || ''}
+                        </div>
+
+                        ${statsChips}
+                    </article>
+                `;
+            });
+
+            container.innerHTML = html;
+
+            // Automatically trigger mark-as-read tracking for this day
+            markMagazineDayRead(dateStr);
+        }
+
+        async function markMagazineDayRead(dateStr) {
+            if (!dateStr || magazineState.readDates.has(dateStr)) return;
+
+            magazineState.readDates.add(dateStr);
+            const readBadgeEl = document.getElementById('mag-read-badge');
+            if (readBadgeEl) readBadgeEl.style.display = 'inline-flex';
+            renderMagazineDayNav();
+
+            const progressEl = document.getElementById('mag-read-progress');
+            if (progressEl) {
+                let readCount = 0;
+                magazineState.weekDays.forEach(d => {
+                    if (magazineState.readDates.has(d.dateStr)) readCount++;
+                });
+                progressEl.innerText = `${readCount} of 6 days read`;
+            }
+
+            try {
+                await fetch('https://ez-editorials-bot.onrender.com/api/digest/mark-read', {
+                    method: 'POST',
+                    headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders({'Content-Type': 'application/json'}) : {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        content_type: 'magazine_' + dateStr
+                    })
+                });
+            } catch (e) {
+                console.warn("Error marking magazine day as read:", e);
+            }
+
+            // Sprint 3.5: Synchronize read count to Telegram post's interactive button
+            try {
+                fetch('https://ez-editorials-bot.onrender.com/api/magazine/sync-read-receipt', {
+                    method: 'POST',
+                    headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders({'Content-Type': 'application/json'}) : {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ date: dateStr })
+                }).catch(() => {}); // best-effort — never block the app's own read tracking
+            } catch (e) {}
+        }
+
         // --- MASTER SPEC: TAB SWITCHER ---
         function switchView(viewId) {
             triggerHaptic('selection');
@@ -8969,6 +9339,7 @@
                 'view-cup': 'rail-nav-cup',
                 'view-progress': 'rail-nav-progress',
                 'view-digest': 'rail-nav-digest',
+                'view-magazine': 'rail-nav-magazine',
                 'view-profile': 'rail-nav-profile'
             };
             document.querySelectorAll('.nav-rail-btn').forEach(b => b.classList.remove('active'));
@@ -9032,8 +9403,13 @@
                     lastFetchTimes.digest = Date.now();
                 }
             }
+            if(viewId === 'view-magazine') {
+                navId = 'nav-digest';
+                initMagazineView();
+            }
             
-            document.getElementById(navId).classList.add('active');
+            const targetNavEl = document.getElementById(navId);
+            if (targetNavEl) targetNavEl.classList.add('active');
         }
 
         // 6. TOP TIMER (IST BOUND) - UNIFIED END-OF-DAY COUNTDOWN
