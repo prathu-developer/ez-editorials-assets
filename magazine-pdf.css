@@ -1,0 +1,2427 @@
+  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Montserrat:wght@500;700;800;900&family=Inter:wght@400;600;700;800;900&family=Noto+Sans+Devanagari:wght@600;700&display=swap');
+
+  @page {
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #fafaf9;
+    color: #1e293b;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    counter-reset: page-num 2;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .devanagari {
+    font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+  }
+
+  /* Compact Continuation Header for Page 2 (Frosted Glass Skin) */
+  .p1-cont-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-left: 4px solid #1e40af;
+    box-shadow: 0 6px 16px -6px rgba(30, 64, 175, 0.15);
+    padding: 4px 9px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 6px;
+  }
+  .p1-cont-title {
+    font-size: 8.5px;
+    font-weight: 800;
+    color: #0f2b48;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .p1-cont-badge {
+    font-size: 7.5px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #1e40af 0%, #0b1e36 100%);
+    color: #ffffff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(30, 64, 175, 0.25);
+  }
+
+  /* Sidebar styles unified under Section 3 (Phase 2 Frosted Glass Skin) */
+
+  /* =========================================================
+     DYNAMIC MULTI-PAGE FLOW & PRINT GEOMETRY
+     ========================================================= */
+  .page {
+    width: 210mm;
+    background: #ffffff;
+    position: relative;
+  }
+
+  .cover-page {
+    height: 297mm;
+    max-height: 297mm;
+    overflow: hidden;
+    padding: 0;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* =========================================================
+     FRONT COVER: ENLARGED TOP-RIGHT CORNER & DIGITAL BUTTONS
+     ========================================================= */
+  .front-header-card {
+    position: absolute;
+    top: 6mm;    /* Reduced to pull it UP towards the top edge */
+    right: 8mm;  /* Reduced to pull it RIGHT towards the side edge */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    z-index: 20;
+  }
+
+  .front-date-display {
+    font-size: 13px;
+    font-weight: 900;
+    color: #0b1e36;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-left: 5px solid #d97706;
+    padding: 6px 14px;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px -10px rgba(15, 43, 72, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .front-calendar-icon {
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .front-edition-tag {
+    font-size: 8.5px;
+    font-weight: 800;
+    color: #854d0e;
+    background: linear-gradient(135deg, rgba(254, 240, 138, 0.95) 0%, rgba(253, 224, 71, 0.9) 100%);
+    padding: 3.5px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(253, 224, 71, 0.9);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px -4px rgba(217, 119, 6, 0.25);
+  }
+
+  /* Bottom Interactive Telegram Buttons */
+  .front-footer-bar-bottom {
+    position: absolute;
+    bottom: 3.2mm;
+    left: 10mm;
+    right: 10mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 25;
+  }
+
+  .front-tg-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 9.5px;
+    font-weight: 900;
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(15, 43, 72, 0.92), rgba(30, 64, 175, 0.92));
+    padding: 5px 16px;
+    border-radius: 24px;
+    border: 1px solid rgba(254, 240, 138, 0.7);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+  }
+
+  .front-tg-icon {
+    width: 14px;
+    height: 14px;
+    fill: #38bdf8;
+    flex-shrink: 0;
+  }
+
+  /* =========================================================
+     TABLE OF CONTENTS: FROSTED GLASS OVERLAYS
+     ========================================================= */
+  .toc-header-date {
+    position: absolute;
+    top: 9mm;
+    right: 12mm;
+    font-size: 12px;
+    font-weight: 900;
+    color: #0b1e36;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    border-left: 5px solid #d97706;
+    padding: 6px 16px;
+    border-radius: 10px;
+    box-shadow: 0 10px 24px -10px rgba(15, 43, 72, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    z-index: 20;
+  }
+
+  .toc-date-icon {
+    font-size: 13px;
+  }
+
+  .toc-list-container {
+    position: absolute;
+    top: 95mm;
+    left: 101.5mm; /* Shifted right to create clear gap from the yellow numbers */
+    width: 98mm;   /* Calibrated width to prevent right-edge clipping */
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+  }
+
+  .toc-row {
+    height: 21.6mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 1mm;
+  }
+
+  .toc-article-title {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f2b48;
+    line-height: 1.22;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .toc-article-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+  }
+
+  .toc-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .toc-newspaper-pill {
+    font-size: 8.5px;
+    font-weight: 800;
+    padding: 2.5px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .pill-hindu {
+    background: rgba(239, 246, 255, 0.85);
+    color: #1e40af;
+    border: 1px solid rgba(191, 219, 254, 0.9);
+  }
+  .pill-express {
+    background: rgba(254, 242, 242, 0.85);
+    color: #991b1b;
+    border: 1px solid rgba(254, 202, 202, 0.9);
+  }
+
+  .toc-topic-pill {
+    font-size: 8.5px;
+    font-weight: 700;
+    color: #334155;
+    background: rgba(255, 255, 255, 0.75);
+    padding: 2.5px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 4px rgba(15, 43, 72, 0.05);
+  }
+
+  .toc-page-pill {
+    font-size: 9.5px;
+    font-weight: 900;
+    color: #ffffff;
+    background: linear-gradient(135deg, #1e40af 0%, #0b1e36 100%);
+    padding: 2.5px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.4px;
+    box-shadow: 0 3px 8px -2px rgba(30, 64, 175, 0.35);
+  }
+
+  /* Centered in the dark navy bottom banner */
+  .toc-footer-container {
+    position: absolute;
+    bottom: 7.2mm; 
+    left: 10mm;
+    right: 10mm;
+    text-align: center;
+    z-index: 25;
+  }
+
+  .toc-tg-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 9.5px;
+    font-weight: 900;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(15, 43, 72, 0.92), rgba(30, 64, 175, 0.92));
+    padding: 5.5px 20px;
+    border-radius: 24px;
+    border: 1px solid rgba(254, 240, 138, 0.75);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.4);
+    text-decoration: none !important;
+  }
+
+  /* =========================================================
+     DYNAMIC MULTI-PAGE FLOW & PRINT GEOMETRY
+     ========================================================= */
+  .inner-page {
+    width: 210mm;
+    height: auto;
+    max-height: none;
+    padding: 8mm 12mm 0 12mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    box-sizing: border-box;
+    z-index: 1;
+    background: var(--page-bg);
+  }
+
+  /* Prevent Any Card or Block from Getting Cut Across Pages */
+  .lex-ribbon-row,
+  .grammar-matrix-grid,
+  .grammar-col-card,
+  .study-tip-card,
+  .p2-analysis-card,
+  .p1-sidebar,
+  .p1-header,
+  .p2-header {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Optimized Watermark Layer (Vector-safe with ambient mesh) */
+  .inner-page-watermark {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: 300px;
+    background-position: center top;
+    background-repeat: repeat-y;
+    opacity: 0.065;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .inner-content-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 2mm;
+  }
+
+  /* ============== THEME VARIABLES (BASE / LIGHT) ============== */
+  :root, body {
+    --page-bg: #fafaf9;
+    --panel-bg: linear-gradient(135deg, #fef3c7 0%, #fafaf9 30%, #dbeafe 70%, #fce7f3 100%);
+    --glass-bg: rgba(255, 255, 255, 0.92);
+    --glass-bg-strong: rgba(255, 255, 255, 0.98);
+    --glass-border: rgba(255, 255, 255, 0.9);
+    --glass-shadow: 0 8px 16px -8px rgba(15, 43, 72, 0.2);
+    --text-hi: #0b1e36;
+    --text-mid: #1e293b;
+    --text-lo: #64748b;
+    --accent: #b45309;
+    --accent-2: #92400e;
+    --accent-text-on: #fff7ed;
+    --tag-bg: rgba(255, 255, 255, 0.65);
+    --divider-line: rgba(180, 83, 9, 0.35);
+    --hindi-color: #0d9488;
+    --hook-color: #0284c7;
+    --hook-bg: rgba(2, 132, 199, 0.10);
+  }
+
+  /* SVG Icon Helpers */
+  .icon-svg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: -2px;
+  }
+  .icon-svg svg {
+    display: block;
+    width: 1em;
+    height: 1em;
+  }
+
+  /* =========================================================
+     INNER PAGE FOOTER (FROSTED GLASS PILL & RIM LIGHT)
+     ========================================================= */
+  .footer-wrap {
+    width: 100%;
+    margin-top: 5mm;
+    margin-bottom: 3.5mm;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    z-index: 50;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .footer-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 30px;
+    padding: 4.5px 6px 4.5px 16px;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  /* Signature Ambient Rim-Light */
+  .footer-pill::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+
+  .footer-brand {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-lo);
+    letter-spacing: 0.2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: var(--accent-text-on) !important;
+    font-size: 8.5px;
+    font-weight: 800;
+    padding: 4.5px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    text-decoration: none !important;
+    box-shadow: 0 4px 12px -3px rgba(180, 83, 9, 0.35);
+    white-space: nowrap;
+  }
+
+  .footer-page {
+    background: var(--glass-bg-strong);
+    color: var(--accent);
+    font-size: 8.5px;
+    font-weight: 900;
+    padding: 4px 11px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  /* =========================================================
+     SECTION 3: EDITORIAL READER (GLASS PANEL, MASTHEAD & BODY)
+     ========================================================= */
+  .reader-panel {
+    background: var(--panel-bg);
+    border-radius: 18px;
+    padding: 16px 18px;
+    box-shadow: 0 10px 20px -10px rgba(15, 43, 72, 0.25);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
+    box-sizing: border-box;
+    margin-bottom: 2mm;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .reader-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+
+  .rd-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .rd-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--tag-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    font-size: 8.5px;
+    font-weight: 800;
+    color: var(--accent);
+    padding: 4px 11px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .rd-source {
+    font-size: 8.5px;
+    font-weight: 700;
+    color: var(--text-lo);
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.92;
+  }
+
+  .rd-title {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--text-hi);
+    line-height: 1.22;
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+  }
+
+  .rd-quote {
+    background: rgba(180, 131, 9, 0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(180, 131, 9, 0.2);
+    border-radius: 12px;
+    padding: 9px 14px;
+    margin-bottom: 12px;
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .rd-quote-mark {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 24px;
+    line-height: 0.4;
+    color: var(--accent);
+    opacity: 0.55;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* Restored Evidence Lens Spans */
+  :root {
+    --evidence-text-color: #0f766e;
+  }
+  .evidence-hl {
+    color: var(--evidence-text-color, #0f766e);
+    font-weight: inherit;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+  }
+  .evidence-hl .vocab-hl, .evidence-hl .rd-vocab {
+    color: inherit;
+    font-weight: 700;
+  }
+
+  .rd-meta {
+    font-size: 8px;
+    color: var(--text-lo);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 6px;
+  }
+  .meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+  }
+  .meta-sep {
+    color: var(--text-lo);
+    opacity: 0.55;
+  }
+
+  .continued-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    margin-bottom: 12px;
+    font-size: 8.5px;
+    color: var(--text-lo);
+    font-weight: 700;
+    position: relative;
+  }
+  .continued-bar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+  .continued-bar b {
+    color: var(--accent);
+  }
+
+  .rd-layout {
+    display: grid;
+    grid-template-columns: 1fr 58mm;
+    gap: 6mm;
+    align-items: stretch;
+    flex-grow: 1;
+  }
+
+  .rd-body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11.2px;
+    font-weight: 500;
+    line-height: 1.62;
+    letter-spacing: 0.012em;
+    color: var(--text-mid);
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    word-break: break-word;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .rd-body p {
+    margin-bottom: 9px;
+  }
+
+  /* 1) Drop Cap (Light Skin) */
+  .rd-body p:first-of-type::first-letter {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    line-height: 0.8;
+    float: left;
+    margin-top: 2px;
+    margin-right: 6px;
+    margin-bottom: -2px;
+    padding: 4px 7px;
+    background: linear-gradient(135deg, #1e40af 0%, #0b1e36 100%);
+    color: #ffffff;
+    border-radius: 6px;
+    font-weight: 800;
+    box-shadow: 0 6px 16px -4px rgba(30, 64, 175, 0.4);
+  }
+
+  /* 2) In-passage Vocabulary Highlights */
+  .vocab-hl, .rd-vocab {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #1e40af !important;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    display: inline;
+  }
+  .v-idx, .rd-vocab sup {
+    font-family: 'Inter', sans-serif;
+    font-size: 6.5px !important;
+    font-weight: 800;
+    color: #b45309 !important;
+    vertical-align: super;
+    line-height: 0;
+    margin-left: 1px;
+    margin-right: 1.5px;
+  }
+
+  /* 3) Article Passage Source Bar */
+  .rd-citation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+    padding-top: 7px;
+    border-top: 1px dashed var(--glass-border);
+    font-size: 7.8px;
+    color: var(--text-lo);
+  }
+  .rd-citation-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none !important;
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border);
+    color: var(--accent) !important;
+    font-size: 7.5px;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 16px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px -2px rgba(15, 43, 72, 0.12);
+  }
+
+  /* =========================================================
+     VOCABULARY 101: FROSTED GLASS SIDEBAR
+     ========================================================= */
+  .rd-sidebar {
+    background: var(--glass-bg);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 14px;
+    padding: 10px 11px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    min-height: 100%;
+    position: relative;
+    overflow: visible;
+    box-sizing: border-box;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .rd-sidebar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+
+  .rd-sb-title {
+    font-size: 9.5px;
+    font-weight: 900;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .rd-sb-list {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .rd-sb-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 3px 0 3.5px 0;
+    border-bottom: 1px dashed var(--glass-border);
+  }
+  .rd-sb-row:last-child {
+    border-bottom: none;
+  }
+
+  .rd-sb-num {
+    font-family: 'Inter', sans-serif;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #93c5fd 0%, #1e40af 100%) !important;
+    color: #ffffff !important;
+    border-radius: 5px;
+    font-size: 8px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    box-shadow: 0 2px 4px rgba(30, 64, 175, 0.25);
+  }
+
+  .rd-sb-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .rd-sb-word-line {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    line-height: 1.2;
+    flex-wrap: wrap;
+  }
+
+  .rd-sb-word {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 800;
+    color: #0b1e36 !important;
+    line-height: 1.15;
+    word-break: break-word;
+  }
+
+  .rd-sb-pos {
+    font-family: 'Inter', sans-serif;
+    font-size: 6.8px;
+    font-weight: 600;
+    color: var(--text-lo);
+    letter-spacing: 0.2px;
+  }
+
+  .rd-sb-def {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.4px;
+    font-weight: 700;
+    color: #b45309 !important;
+    line-height: 1.35;
+    word-break: break-word;
+  }
+
+  .rd-sb-hi {
+    font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+    font-size: 7.8px;
+    font-weight: 700;
+    color: #0d9488 !important;
+    line-height: 1.55;
+  }
+
+  /* Deep Analysis Mini-Card */
+  .deep-analysis-card {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    padding: 6px 8px;
+    position: relative;
+    box-sizing: border-box;
+    break-inside: avoid !important;
+  }
+  .deep-analysis-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+
+  .deep-analysis-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-text-on);
+    flex-shrink: 0;
+  }
+
+  .deep-analysis-text {
+    font-size: 7.5px;
+    color: var(--text-lo);
+    line-height: 1.25;
+  }
+  .deep-analysis-text strong {
+    color: var(--text-hi);
+    font-size: 8px;
+    display: block;
+  }
+
+  /* Action CTA Buttons */
+  .open-vocab-lab-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    text-decoration: none !important;
+    margin-top: 6px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: var(--accent-text-on) !important;
+    font-size: 8.5px;
+    font-weight: 800;
+    padding: 6px 8px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 10px -2px rgba(180, 83, 9, 0.35);
+  }
+
+  /* =========================================================
+     VOCAB LAB: MASTHEAD (FROSTED GLASS PANEL)
+     ========================================================= */
+  .vlab-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    position: relative;
+    box-sizing: border-box;
+    break-inside: avoid !important;
+  }
+  .vlab-page-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+
+  .vlab-page-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .vlab-page-header-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-text-on);
+    flex-shrink: 0;
+  }
+
+  .vlab-page-header-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    color: var(--text-hi);
+    letter-spacing: 0.3px;
+  }
+
+  .vlab-page-header-article {
+    font-size: 8.5px;
+    color: var(--text-lo);
+    margin-top: 1.5px;
+    max-width: 105mm;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .vlab-page-header-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .topic-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--tag-bg);
+    border: 1px solid var(--glass-border);
+    font-size: 8px;
+    font-weight: 800;
+    color: var(--text-mid);
+    padding: 3.5px 10px;
+    border-radius: 16px;
+    letter-spacing: 0.3px;
+  }
+
+  /* =========================================================
+     VOCAB LAB: STANCE / PERSPECTIVE / WORD TONE MIX GRID
+     ========================================================= */
+  .stance-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    align-items: stretch;
+    break-inside: avoid !important;
+  }
+
+  /* 1. Stance Card */
+  .stance-card {
+    flex: 1 1 200px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--tone-a) 22%, transparent), color-mix(in srgb, var(--tone-b) 16%, transparent));
+    border: 1px solid color-mix(in srgb, var(--tone-a) 40%, transparent);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .stance-blob-a {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    /* Figma-style fix: Native soft vector gradient instead of expensive blur mask */
+    background: radial-gradient(circle, color-mix(in srgb, var(--tone-a) 40%, transparent) 0%, color-mix(in srgb, var(--tone-a) 5%, transparent) 45%, transparent 70%);
+    border-radius: 50%;
+    top: -45px;
+    right: -35px;
+  }
+  .stance-blob-b {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--tone-b) 30%, transparent) 0%, color-mix(in srgb, var(--tone-b) 5%, transparent) 45%, transparent 70%);
+    border-radius: 50%;
+    bottom: -30px;
+    left: -20px;
+  }
+  .stance-watermark {
+    position: absolute;
+    right: -8px;
+    bottom: -10px;
+    width: 74px;
+    height: 74px;
+    opacity: 0.14;
+    z-index: 0;
+    color: var(--tone-a);
+    pointer-events: none;
+  }
+  .stance-content {
+    position: relative;
+    z-index: 2;
+  }
+  .stance-label {
+    font-size: 8.5px;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--tone-a);
+    margin-bottom: 5px;
+  }
+  .stance-value {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 17px;
+    color: var(--text-hi);
+    line-height: 1.1;
+    margin-bottom: 5px;
+  }
+  .stance-sub {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 10px;
+    color: var(--text-mid);
+    line-height: 1.35;
+  }
+
+  /* Tone Shape Variations */
+  .stance-card.shape-jagged .stance-blob-a {
+    clip-path: polygon(50% 0%, 70% 25%, 100% 20%, 80% 45%, 100% 70%, 65% 65%, 50% 100%, 40% 60%, 10% 75%, 25% 45%, 0% 25%, 35% 30%);
+  }
+  .stance-card.shape-wave .stance-blob-a {
+    border-radius: 62% 38% 55% 45% / 45% 60% 40% 55%;
+  }
+  .stance-card.shape-wave .stance-blob-b {
+    border-radius: 40% 60% 45% 55% / 55% 40% 60% 45%;
+  }
+
+  /* 2. Perspective Card */
+  .persp-card {
+    flex: 2 1 290px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 14px;
+    padding: 12px 14px;
+    border-left: 3px solid var(--tone-a);
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .persp-blob-a {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--tone-a) 30%, transparent) 0%, color-mix(in srgb, var(--tone-a) 5%, transparent) 45%, transparent 70%);
+    border-radius: 50%;
+    top: -45px;
+    right: -35px;
+    z-index: 0;
+  }
+  .persp-quote-watermark {
+    position: absolute;
+    right: 8px;
+    bottom: 4px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.08;
+    color: var(--tone-a);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .persp-icon-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    margin-bottom: 5px;
+    background: linear-gradient(135deg, var(--tone-a), var(--tone-b));
+    color: #0b1220;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+  .persp-label {
+    font-size: 8.5px;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--tone-a);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+  }
+  .persp-text {
+    font-size: 10px;
+    color: var(--text-mid);
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+  .persp-text::first-letter {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--tone-a);
+  }
+
+  /* 3. Word Tone Mix Card */
+  .tone-bar-card {
+    flex: 1 1 100%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative;
+    box-sizing: border-box;
+  }
+  .tone-bar-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+  .tone-bar-label {
+    font-size: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-lo);
+  }
+  .tone-bar-track {
+    flex: 1;
+    min-width: 140px;
+    height: 7px;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    background: rgba(148, 163, 184, 0.15);
+  }
+  .tone-seg-pos {
+    background: linear-gradient(90deg, #10b981, #059669);
+    height: 100%;
+  }
+  .tone-seg-neu {
+    background: linear-gradient(90deg, #94a3b8, #64748b);
+    height: 100%;
+  }
+  .tone-seg-neg {
+    background: linear-gradient(90deg, #f43f5e, #e11d48);
+    height: 100%;
+  }
+  .tone-bar-legend {
+    display: flex;
+    gap: 10px;
+    font-size: 7.8px;
+    font-weight: 700;
+    color: var(--text-lo);
+  }
+  .tone-bar-legend span.dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 3px;
+  }
+
+  /* =========================================================
+     VOCAB LAB: CATEGORY GLASS ISLANDS & CARD GRIDS
+     ========================================================= */
+  .vlab-category {
+    margin-bottom: 14px;
+    padding: 13px 14px 14px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    position: relative;
+    box-sizing: border-box;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .vlab-category::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+  .vlab-category::after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    opacity: 0.25;
+    top: -80px;
+    right: -60px;
+    z-index: 0;
+    pointer-events: none;
+  }
+  /* Figma-style fix: Bake the blur directly into a soft vector radial-gradient */
+  .vlab-category.c1::after { background: radial-gradient(circle, #d97706 0%, rgba(217, 119, 6, 0) 70%); }
+  .vlab-category.c2::after { background: radial-gradient(circle, #0f766e 0%, rgba(15, 118, 110, 0) 70%); }
+  .vlab-category.c3::after { background: radial-gradient(circle, #1e40af 0%, rgba(30, 64, 175, 0) 70%); }
+  .vlab-category.c4::after { background: radial-gradient(circle, #6d28d9 0%, rgba(109, 40, 217, 0) 70%); }
+  .vlab-category.c5::after { background: radial-gradient(circle, #e11d48 0%, rgba(225, 29, 72, 0) 70%); }
+  .vlab-category.c6::after { background: radial-gradient(circle, #15803d 0%, rgba(21, 128, 61, 0) 70%); }
+  .vlab-category > * { position: relative; z-index: 1; }
+
+  /* Pill Headers for Categories */
+  .vlab-cat-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 10px;
+    letter-spacing: 0.4px;
+    padding: 5px 13px;
+    border-radius: 20px;
+    margin-bottom: 9px;
+    box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.22);
+    break-after: avoid;
+  }
+  .vlab-cat-header.c1 { background: linear-gradient(135deg, #fde047, #d97706); color: #1e1206; }
+  .vlab-cat-header.c2 { background: linear-gradient(135deg, #5eead4, #0f766e); color: #04241f; }
+  .vlab-cat-header.c3 { background: linear-gradient(135deg, #93c5fd, #1e40af); color: #ffffff; }
+  .vlab-cat-header.c4 { background: linear-gradient(135deg, #c4b5fd, #6d28d9); color: #ffffff; }
+  .vlab-cat-header.c5 { background: linear-gradient(135deg, #f9a8d4, #e11d48); color: #ffffff; }
+  .vlab-cat-header.c6 { background: linear-gradient(135deg, #86efac, #15803d); color: #ffffff; }
+
+  /* 3-Column Card Layout Grid */
+  .vlab-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+    margin-top: 3px;
+  }
+
+  /* Universal Lexical Card */
+  .vcard {
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 10px 11px;
+    box-shadow: var(--glass-shadow);
+    position: relative;
+    box-sizing: border-box;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .vcard::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+
+  /* Card Variants */
+  .vcard-featured {
+    border-left: 2.5px solid var(--accent);
+    padding-left: 11px;
+  }
+  .vcard-ows {
+    min-height: 100%;
+    text-align: left;
+  }
+
+  /* Card Internals */
+  .vcard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  .vcard-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    font-weight: 900;
+    color: var(--text-lo);
+  }
+  .vcard-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 6.8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 1.5px 6px;
+    border-radius: 8px;
+    letter-spacing: 0.3px;
+  }
+  .tag-pos {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+  }
+  .tag-neg {
+    background: rgba(244, 63, 94, 0.15);
+    color: #f43f5e;
+  }
+  .tag-neu {
+    background: rgba(148, 163, 184, 0.18);
+    color: var(--text-lo);
+  }
+
+  .vcard-word {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 12.5px;
+    color: var(--text-hi);
+    margin-bottom: 2px;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  .vcard-pos {
+    font-family: 'Inter', sans-serif;
+    font-size: 7.8px;
+    color: var(--text-lo);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+  }
+  .vcard-hi {
+    color: var(--hindi-color);
+    font-weight: 700;
+    text-transform: none;
+  }
+  .vcard-def {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.8px;
+    color: var(--text-mid);
+    line-height: 1.4;
+    margin-bottom: 6px;
+    min-height: 32px;
+  }
+
+  /* Memory Hook */
+  .vcard-hook {
+    font-size: 8px;
+    color: var(--hook-color);
+    font-style: italic;
+    background: var(--hook-bg);
+    border-left: 2px solid var(--hook-color);
+    padding: 4px 6px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+  .vcard-hook-label {
+    display: block;
+    font-size: 6.5px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--hook-color);
+    margin-bottom: 1.5px;
+    opacity: 0.9;
+    font-style: normal;
+  }
+
+  /* Synonym & Antonym Chips */
+  .vcard-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 3px;
+  }
+  .chip-syn {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7px;
+    font-weight: 700;
+    padding: 1.5px 5.5px;
+    border-radius: 6px;
+    background: rgba(20, 184, 166, 0.13);
+    color: #14b8a6;
+  }
+  .chip-ant {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7px;
+    font-weight: 700;
+    padding: 1.5px 5.5px;
+    border-radius: 6px;
+    background: rgba(244, 63, 94, 0.13);
+    color: #f43f5e;
+  }
+
+  /* Category Number Tab Gradient Gradients */
+  .hdr-vocab + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #1e40af 0%, #0b1e36 100%) !important; }
+  .hdr-ows + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%) !important; }
+  .hdr-prep + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%) !important; }
+  .hdr-phr + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important; }
+  .hdr-idm + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%) !important; }
+  .hdr-foreign + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important; }
+
+  /* Col 2: Term & Part of Speech */
+  .ribbon-col-word {
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .ribbon-term {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    color: #0b1e36;
+    line-height: 1.2;
+    letter-spacing: -0.2px !important;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .ribbon-pos {
+    font-size: 7px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #64748b;
+    letter-spacing: 0.3px;
+  }
+
+  .ribbon-connot {
+    font-size: 6.8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 8px;
+    width: fit-content;
+    letter-spacing: 0.3px;
+    margin-top: 1px;
+  }
+  .connot-negative { background: rgba(220, 38, 38, 0.12); color: #dc2626; }
+  .connot-positive { background: rgba(16, 185, 129, 0.14); color: #047857; }
+  .connot-neutral  { background: rgba(2, 132, 199, 0.12); color: #0284c7; }
+
+  /* Col 3: Meaning & Hindi Clearance */
+  .ribbon-col-def {
+    padding: 6px 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+  }
+
+  .ribbon-def-text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .ribbon-def-hindi {
+    color: #0284c7;
+    font-weight: 700;
+    font-size: 8.8px;
+    line-height: 1.35;
+    padding: 0;
+  }
+
+  .ribbon-def-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5px;
+    font-weight: 600;
+    color: #0f172a;
+    line-height: 1.38;
+  }
+
+  /* Col 4: Memory Hook */
+  .ribbon-col-hook {
+    padding: 6px 8px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-start;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .hook-content-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3px;
+    flex: 1;
+  }
+
+  .hook-header-title {
+    font-size: 8.5px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #1e40af;
+    letter-spacing: 0.4px;
+    line-height: 1.35;
+    padding: 0;
+  }
+
+  .hook-text-content {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5px;
+    font-weight: 600;
+    color: #0f172a;
+    line-height: 1.38;
+  }
+
+  /* Col 5 & 6: Synonyms & Antonyms */
+  .ribbon-col-syn, .ribbon-col-ant {
+    padding: 5px 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.4);
+    min-width: 0;
+    width: 100%;
+  }
+  .ribbon-col-ant {
+    border-right: none;
+  }
+
+  .ribbon-pill-tag {
+    font-size: 6.8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 8px;
+    width: fit-content;
+    margin-bottom: 3.5px;
+    letter-spacing: 0.3px;
+  }
+  .tag-syn { background: rgba(16, 185, 129, 0.14); color: #047857; }
+  .tag-ant { background: rgba(220, 38, 38, 0.12); color: #b91c1c; }
+
+  .ribbon-bullet-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7.4px;
+    font-weight: 600;
+    color: #0f172a;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .bullet-item {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    text-align: center;
+    line-height: 1.25;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  /* =========================================================
+     CATEGORY-SPECIFIC CARD IDENTITIES (LIGHT SKIN)
+     ========================================================= */
+
+  /* 1. Fixed Prepositions — Base Word Linked to Preposition */
+  .connector-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+  .connector-base {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 11.5px;
+    color: var(--text-hi);
+  }
+  .connector-dot {
+    color: var(--text-lo);
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .connector-prep {
+    background: rgba(30, 64, 175, 0.15);
+    color: #1e40af;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 10.5px;
+    padding: 2px 7px;
+    border-radius: 7px;
+  }
+
+  /* 2. Phrasal Verbs — Verb + Particle Linked Chips */
+  .duo-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+  .duo-chip {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 10.5px;
+    padding: 3px 9px;
+    border-radius: 8px;
+  }
+  .duo-verb {
+    background: rgba(109, 40, 217, 0.14);
+    color: #6d28d9;
+  }
+  .duo-particle {
+    background: rgba(109, 40, 217, 0.25);
+    color: #4c1d95;
+  }
+  .duo-arrow {
+    color: #6d28d9;
+    opacity: 0.7;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* 3. Foreign Words — Passport Stamp Appearance */
+  .vcard-stamp {
+    text-align: center;
+    transform: rotate(-1deg);
+    border-style: dashed !important;
+    border-width: 1.4px !important;
+  }
+  .stamp-word {
+    font-style: italic;
+  }
+
+  /* 4. Idioms & Phrases — Gradient Aura Border */
+  .vcard-idiom {
+    position: relative;
+    border-radius: 14px;
+    padding: 2px;
+    background: linear-gradient(120deg, #f472b6, #fbbf24, #5eead4, #a78bfa);
+    box-sizing: border-box;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .vcard-idiom-inner {
+    background: var(--page-bg);
+    border-radius: 12px;
+    padding: 10px 11px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .idiom-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 20px;
+    margin-bottom: 2px;
+  }
+  .idiom-mark-num {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+  }
+  .quote-mark-inline {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.65;
+  }
+  .vcard-idiom-inner .vcard-word {
+    font-family: 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 12px;
+    margin-top: 3px;
+    margin-bottom: 2px;
+    color: var(--text-hi);
+  }
+  .vcard-idiom-inner .vcard-pos {
+    margin-bottom: 3px;
+    font-size: 7.5px;
+    color: var(--text-lo);
+  }
+  .vcard-idiom-inner .vcard-def {
+    font-size: 8.8px;
+    color: var(--text-mid);
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+  .vcard-idiom-inner .vcard-hi {
+    display: block;
+    font-size: 8px;
+    margin-bottom: 5px;
+    color: var(--hindi-color);
+    font-weight: 700;
+  }
+
+  /* Single-Card Left Alignment Helper */
+  .vlab-grid-single {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: none;
+  }
+  .vlab-grid-single > .vcard:only-child,
+  .vlab-grid-single > .vcard-idiom:only-child {
+    grid-column: 1;
+  }
+
+  /* =========================================================
+     NEXT EDITORIAL NAVIGATOR (FROSTED GLASS BANNER)
+     ========================================================= */
+  .next-editorial-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.12), rgba(109, 40, 217, 0.10));
+    border: 1px solid rgba(147, 197, 253, 0.35);
+    border-radius: 14px;
+    padding: 11px 16px;
+    margin-top: 14px;
+    text-decoration: none !important;
+    position: relative;
+    box-sizing: border-box;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  .next-editorial-banner::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+  }
+  .next-ed-label {
+    font-size: 8.5px;
+    font-weight: 900;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-lo);
+    margin-bottom: 2px;
+  }
+  .next-ed-title {
+    font-family: 'Lora', Georgia, serif;
+    font-weight: 700;
+    font-size: 12px;
+    color: var(--text-hi);
+    line-height: 1.25;
+    max-width: 140mm;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .next-ed-arrow {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-text-on);
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px -2px rgba(180, 83, 9, 0.35);
+  }
+
+  .next-ed-end-state {
+    background: var(--glass-bg) !important;
+    border: 1.2px dashed var(--glass-border) !important;
+    justify-content: center;
+    box-shadow: none !important;
+  }
+  .next-ed-end-text {
+    font-size: 8.5px;
+    font-weight: 800;
+    color: var(--text-lo);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  /* =========================================================
+     CLICKABLE TOC & INTERNAL NAVIGATION
+     ========================================================= */
+  a.toc-row {
+    height: 21.6mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 1mm;
+    text-decoration: none !important;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  a.toc-row * {
+    text-decoration: none !important;
+  }
+
+  /* =========================================================
+     BACK COVER: CALIBRATED STAY CONNECTED OVERLAY
+     ========================================================= */
+  .back-cover-container {
+    position: relative;
+    width: 210mm;
+    height: 297mm;
+    overflow: hidden;
+  }
+
+  /* Pinned strictly to the right side of the cards */
+  .back-connect-overlay {
+    position: absolute;
+    top: 118.2mm;
+    right: 11.5mm; /* Anchors the button against the right edge of the white card */
+    width: 24mm;
+    display: flex;
+    flex-direction: column;
+    gap: 4.8mm;
+    z-index: 30;
+  }
+
+  /* Hitbox for each button aligned cleanly to the right */
+  .back-card-link {
+    height: 14mm;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    text-decoration: none !important;
+  }
+
+  /* Compact, high-precision frosted glass badge button */
+  .back-join-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 7.2px;
+    font-weight: 900;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, rgba(15, 43, 72, 0.95), rgba(30, 64, 175, 0.95));
+    padding: 2.5px 8.5px;
+    border-radius: 14px;
+    border: 1px solid rgba(254, 240, 138, 0.8);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px -2px rgba(11, 30, 54, 0.35);
+    white-space: nowrap;
+  }
+
+  .back-join-badge svg {
+    width: 9px;
+    height: 9px;
+    fill: #38bdf8;
+    flex-shrink: 0;
+  }
+
+  .back-join-badge.badge-contact {
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.95), rgba(13, 148, 136, 0.95));
+    border-color: rgba(167, 243, 208, 0.85);
+    box-shadow: 0 4px 10px -2px rgba(15, 118, 110, 0.35);
+  }
+
+  .back-join-badge.badge-contact svg {
+    fill: #ffffff;
+  }
+
+  /* Clickable hotspot over signature */
+  .back-signature-link {
+    position: absolute;
+    top: 206mm;
+    right: 18mm;
+    width: 38mm;
+    height: 20mm;
+    z-index: 30;
+    text-decoration: none !important;
+  }
+
+  /* =========================================================
+   PREMIUM MIDNIGHT DARK MODE (AMBIENT GLOW MESH)
+   ========================================================= */
+  body.dark-theme {
+    background-color: #0b1220 !important;
+    color: #cbd5e1 !important;
+  }
+
+  body.dark-theme .inner-page {
+    background: var(--page-bg) !important;
+  }
+
+  /* Clean watermark visibility across dark gradients */
+  body.dark-theme .inner-page-watermark {
+    opacity: 0.045 !important;
+  }
+
+  /* ---------------------------------------------------------
+     TOC RESTORATION & GLASS PILLS (PRESERVES ARTWORK BACKGROUND)
+     --------------------------------------------------------- */
+  body.dark-theme .toc-article-title {
+    color: #0b1f36 !important; /* Retains dark navy on the light artwork card */
+  }
+  body.dark-theme .toc-topic-pill {
+    background: rgba(255, 255, 255, 0.85) !important;
+    color: #334155 !important;
+    border: 1px solid rgba(203, 213, 225, 0.9) !important;
+  }
+  body.dark-theme .toc-page-pill {
+    background: linear-gradient(135deg, #1e40af 0%, #0b1e36 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 3px 8px -2px rgba(30, 64, 175, 0.35) !important;
+  }
+
+  /* ---------------------------------------------------------
+     FROSTED DARK READER OVERRIDES
+     --------------------------------------------------------- */
+  body.dark-theme .tag-hindu {
+    background: rgba(30, 64, 175, 0.22) !important;
+    color: #93c5fd !important;
+    border: 1px solid rgba(96, 165, 250, 0.35) !important;
+  }
+  body.dark-theme .tag-express {
+    background: rgba(153, 27, 27, 0.22) !important;
+    color: #fca5a5 !important;
+    border: 1px solid rgba(248, 113, 113, 0.35) !important;
+  }
+  body.dark-theme .p1-topic-chip {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #e2e8f0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.5) !important;
+  }
+  body.dark-theme .p1-topic-chip .chip-dot {
+    background: #fbbf24 !important;
+  }
+
+  /* Reader Panel & Header (Dark Skin) */
+  body.dark-theme .reader-panel {
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.6) !important;
+  }
+  body.dark-theme .rd-quote {
+    background: rgba(251, 191, 36, 0.08) !important;
+    border-color: rgba(251, 191, 36, 0.25) !important;
+    border-left-color: #d97706 !important;
+  }
+
+  /* Drop Cap (Dark Skin) */
+  body.dark-theme .rd-body p:first-of-type::first-letter {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+    color: #0b1220 !important;
+    box-shadow: 0 0 20px -2px rgba(251, 191, 36, 0.5) !important;
+  }
+
+  /* In-passage Vocabulary Highlights (Dark Skin) */
+  body.dark-theme .vocab-hl, body.dark-theme .rd-vocab {
+    color: #fbbf24 !important;
+    text-shadow: none !important;
+  }
+  body.dark-theme .v-idx, body.dark-theme .rd-vocab sup {
+    color: #fde047 !important;
+  }
+  body.dark-theme .evidence-hl {
+    color: #2dd4bf !important;
+  }
+
+  /* Citation & Source Button (Dark Skin) */
+  body.dark-theme .rd-citation {
+    border-top-color: rgba(255, 255, 255, 0.12) !important;
+  }
+  body.dark-theme .rd-citation-btn {
+    background: rgba(255, 255, 255, 0.07) !important;
+    color: #38bdf8 !important;
+    border-color: rgba(56, 189, 248, 0.35) !important;
+  }
+
+  /* Vocabulary 101 Sidebar (Dark Skin) */
+  body.dark-theme .rd-sidebar {
+    background: var(--glass-bg) !important;
+    border-color: var(--glass-border) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  }
+  body.dark-theme .rd-sb-num {
+    background: linear-gradient(135deg, #fde047 0%, #d97706 100%) !important;
+    color: #1e1206 !important;
+    box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3) !important;
+  }
+  body.dark-theme .rd-sb-word {
+    color: #ffffff !important;
+  }
+  body.dark-theme .rd-sb-pos {
+    color: #94a3b8 !important;
+  }
+  body.dark-theme .rd-sb-def {
+    color: #fbbf24 !important;
+  }
+  body.dark-theme .rd-sb-hi {
+    color: #2dd4bf !important;
+  }
+  body.dark-theme .deep-analysis-card {
+    background: rgba(26, 23, 13, 0.75) !important;
+    border-color: rgba(120, 53, 15, 0.7) !important;
+  }
+  body.dark-theme .deep-analysis-text strong {
+    color: #fef08a !important;
+  }
+  body.dark-theme .deep-analysis-text {
+    color: #fde68a !important;
+  }
+  body.dark-theme .open-vocab-lab-btn {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+    color: #1e1206 !important;
+    box-shadow: 0 0 16px -2px rgba(251, 191, 36, 0.4) !important;
+  }
+
+  /* =========================================================
+     DARK VOCAB LAB: MASTHEAD, ANALYSIS & RIBBONS (FROSTED GLASS)
+     ========================================================= */
+  body.dark-theme .p2-header {
+    border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+  }
+  body.dark-theme .p2-title-main {
+    color: #ffffff !important;
+  }
+  body.dark-theme .p2-title-highlight {
+    color: #a5b4fc !important;
+  }
+  body.dark-theme .p2-header-breadcrumb {
+    color: #94a3b8 !important;
+  }
+  body.dark-theme .p2-bc-title {
+    color: #cbd5e1 !important;
+  }
+  body.dark-theme .p2-newspaper-badge {
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important;
+    color: #93c5fd !important;
+  }
+  body.dark-theme .p2-topic-badge {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+  }
+
+  /* =========================================================
+     DARK VOCAB LAB: STANCE & PERSPECTIVE ELEVATION
+     ========================================================= */
+  body.dark-theme .stance-card {
+    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  }
+
+  body.dark-theme .persp-card {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* Category Islands & Cards (Dark Skin) */
+  body.dark-theme .vlab-category {
+    background: var(--glass-bg) !important;
+    border-color: var(--glass-border) !important;
+    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.6) !important;
+  }
+  body.dark-theme .vcard {
+    background: var(--glass-bg) !important;
+    border-color: var(--glass-border) !important;
+    box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.5) !important;
+  }
+  body.dark-theme .vcard-word {
+    color: #ffffff !important;
+  }
+  body.dark-theme .vcard-def {
+    color: #cbd5e1 !important;
+  }
+  body.dark-theme .vcard-pos {
+    color: #94a3b8 !important;
+  }
+  body.dark-theme .vcard-hi {
+    color: var(--hindi-color) !important;
+  }
+  body.dark-theme .vcard-hook {
+    background: rgba(56, 189, 248, 0.1) !important;
+    color: #38bdf8 !important;
+    border-left-color: #38bdf8 !important;
+  }
+  body.dark-theme .vcard-hook-label {
+    color: #38bdf8 !important;
+  }
+  body.dark-theme .chip-syn {
+    background: rgba(20, 184, 166, 0.2) !important;
+    color: #2dd4bf !important;
+  }
+  body.dark-theme .chip-ant {
+    background: rgba(244, 63, 94, 0.2) !important;
+    color: #fb7185 !important;
+  }
+  body.dark-theme .tag-pos {
+    background: rgba(16, 185, 129, 0.25) !important;
+    color: #34d399 !important;
+  }
+  body.dark-theme .tag-neg {
+    background: rgba(244, 63, 94, 0.25) !important;
+    color: #fb7185 !important;
+  }
+  body.dark-theme .tag-neu {
+    background: rgba(148, 163, 184, 0.22) !important;
+    color: #cbd5e1 !important;
+  }
+
+  /* Page 2 Categories & Navigator (Dark Skin) */
+  body.dark-theme .connector-prep {
+    background: rgba(30, 64, 175, 0.25) !important;
+    color: #60a5fa !important;
+  }
+  body.dark-theme .duo-verb {
+    background: rgba(109, 40, 217, 0.22) !important;
+    color: #a78bfa !important;
+  }
+  body.dark-theme .duo-particle {
+    background: rgba(109, 40, 217, 0.38) !important;
+    color: #c4b5fd !important;
+  }
+  body.dark-theme .duo-arrow {
+    color: #a78bfa !important;
+  }
+  body.dark-theme .vcard-idiom-inner {
+    background: var(--page-bg) !important;
+  }
+  body.dark-theme .vcard-idiom-inner .vcard-word {
+    color: #ffffff !important;
+  }
+
+  /* Next Editorial Navigator (Dark Skin) */
+  body.dark-theme .next-editorial-banner {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 58, 138, 0.5) 100%) !important;
+    border-color: rgba(56, 189, 248, 0.35) !important;
+    box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.6) !important;
+  }
+  body.dark-theme .next-ed-title {
+    color: #ffffff !important;
+  }
+  body.dark-theme .next-ed-arrow {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2)) !important;
+    color: var(--accent-text-on) !important;
+    box-shadow: 0 0 14px -2px rgba(251, 191, 36, 0.45) !important;
+  }
+  body.dark-theme .next-ed-end-state {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.16) !important;
+  }
+  body.dark-theme .next-ed-end-text {
+    color: #94a3b8 !important;
+  }
+  /* ============== THEME VARIABLES (DARK OVERRIDES) ============== */
+  body.dark-theme {
+    --page-bg: #050810;
+    --panel-bg: linear-gradient(160deg, #111a2c 0%, #0a101b 50%, #0f1722 100%);
+    --glass-bg: rgba(18, 26, 43, 0.85);
+    --glass-bg-strong: rgba(18, 26, 43, 0.95);
+    --glass-border: rgba(255, 255, 255, 0.14);
+    --glass-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.6);
+    --text-hi: #ffffff;
+    --text-mid: #cbd5e1;
+    --text-lo: #94a3b8;
+    --accent: #fbbf24;
+    --accent-2: #d97706;
+    --accent-text-on: #1e1206;
+    --tag-bg: rgba(255, 255, 255, 0.08);
+    --divider-line: rgba(251, 191, 36, 0.4);
+    --hindi-color: #2dd4bf;
+    --hook-color: #38bdf8;
+    --hook-bg: rgba(56, 189, 248, 0.10);
+  }
+
+  body.dark-theme .footer-cta {
+    box-shadow: 0 0 16px -2px rgba(251, 191, 36, 0.45);
+  }
+
+  /* =========================================================
+     PDF RENDER PERFORMANCE OVERRIDES (ANTI-LAG)
+     Restores the premium visual theme using Figma-style vector math
+     ========================================================= */
+
+  /* 1. Global Anti-Lag: Kill live CPU blurs and frosted glass */
+  * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+  }
+
+  /* 2. Restore 3D Shadows (Vector-Safe Threshold)
+     Instead of removing shadows, we tighten them so Chromium draws native vectors instead of laggy raster masks */
+  .reader-panel { box-shadow: 0 6px 12px rgba(15, 43, 72, 0.12) !important; }
+  body.dark-theme .reader-panel { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4) !important; }
+
+  .vcard, .rd-sidebar, .footer-pill, .vlab-category {
+    box-shadow: 0 4px 6px rgba(15, 43, 72, 0.08) !important;
+  }
+  body.dark-theme .vcard, body.dark-theme .rd-sidebar, body.dark-theme .footer-pill, body.dark-theme .vlab-category {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  /* 3. Restore Glowing Blobs (Figma-Style Vector Gradients)
+     Bakes the softness directly into a fading radial-gradient, bypassing the heavy filter: blur() */
+  .stance-blob-a {
+    background: radial-gradient(circle, color-mix(in srgb, var(--tone-a) 40%, transparent) 0%, color-mix(in srgb, var(--tone-a) 5%, transparent) 45%, transparent 70%) !important;
+    display: block !important;
+  }
+  .stance-blob-b {
+    background: radial-gradient(circle, color-mix(in srgb, var(--tone-b) 30%, transparent) 0%, color-mix(in srgb, var(--tone-b) 5%, transparent) 45%, transparent 70%) !important;
+    display: block !important;
+  }
+  .persp-blob-a {
+    background: radial-gradient(circle, color-mix(in srgb, var(--tone-a) 30%, transparent) 0%, color-mix(in srgb, var(--tone-a) 5%, transparent) 45%, transparent 70%) !important;
+    display: block !important;
+  }
+
+  /* 4. Restore Category Background Glows */
+  .vlab-category::after { opacity: 0.25 !important; display: block !important; }
+  .vlab-category.c1::after { background: radial-gradient(circle, #d97706 0%, rgba(217, 119, 6, 0) 70%) !important; }
+  .vlab-category.c2::after { background: radial-gradient(circle, #0f766e 0%, rgba(15, 118, 110, 0) 70%) !important; }
+  .vlab-category.c3::after { background: radial-gradient(circle, #1e40af 0%, rgba(30, 64, 175, 0) 70%) !important; }
+  .vlab-category.c4::after { background: radial-gradient(circle, #6d28d9 0%, rgba(109, 40, 217, 0) 70%) !important; }
+  .vlab-category.c5::after { background: radial-gradient(circle, #e11d48 0%, rgba(225, 29, 72, 0) 70%) !important; }
+  .vlab-category.c6::after { background: radial-gradient(circle, #15803d 0%, rgba(21, 128, 61, 0) 70%) !important; }
+
+  /* 5. Non-tiled watermark optimization (Keep this excellent fix from the dev audit) */
+  .inner-page-watermark {
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-size: 160mm !important;
+  }
+
+  /* =========================================================
+     WEB & SCREEN READING ENHANCEMENTS (LAPTOP / DESKTOP / APP)
+     ========================================================= */
+  @media screen {
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #0b1329 !important;
+      margin: 0 !important;
+      padding: 24px 0 60px 0 !important;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+      -webkit-font-smoothing: subpixel-antialiased;
+    }
+    body.dark-theme {
+      background-color: #040813 !important;
+    }
+    .page {
+      margin: 22px auto !important;
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.45), 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+      border-radius: 6px !important;
+      overflow: hidden !important;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .page:hover {
+      box-shadow: 0 24px 52px -8px rgba(0, 0, 0, 0.55), 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+    }
+    .toc-row, .open-vocab-lab-btn, .rd-citation-btn, .footer-cta, .front-tg-btn, .back-card-link {
+      cursor: pointer;
+    }
+    .toc-row:hover .toc-article-title {
+      color: #1e40af;
+      text-decoration: underline;
+    }
+    body.dark-theme .toc-row:hover .toc-article-title {
+      color: #38bdf8;
+    }
+    @media (max-width: 820px) {
+      body {
+        padding: 10px 0 !important;
+      }
+      .page {
+        width: 96vw !important;
+        margin: 12px auto !important;
+      }
+      .inner-page {
+        padding: 6mm 6mm 0 6mm !important;
+      }
+    }
+  }
+
+  @media print {
+    body {
+      background: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .page {
+      margin: 0 !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+    }
+  }

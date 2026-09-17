@@ -4342,9 +4342,15 @@
             }
 
             /* Ticket 2.4: Desktop Reading Measure & 2-Column Insights for view-digest */
-            html.is-desktop .center-workspace-pane #view-digest,
-            html.is-desktop .center-workspace-pane #view-magazine {
+            html.is-desktop .center-workspace-pane #view-digest {
                 max-width: var(--max-reading-width, 680px) !important;
+                margin: 0 auto !important;
+                padding-bottom: 60px !important;
+            }
+
+            html.is-desktop .center-workspace-pane #view-magazine {
+                max-width: 1060px !important;
+                width: 100% !important;
                 margin: 0 auto !important;
                 padding-bottom: 60px !important;
             }
@@ -6257,6 +6263,37 @@
                 </div>
                 <div id="mag-read-badge" style="display:none; align-items:center; gap:4px; font-size:var(--font-xs, 11px); font-weight:700; color:var(--color-success); background:var(--color-success-bg); padding:3px 8px; border-radius:var(--radius-full, 9999px);">
                     ✓ Read
+                </div>
+            </div>
+
+            <!-- Magazine Reader Toolbar (Laptop / Mobile Responsive) -->
+            <div class="mag-toolbar" id="mag-toolbar">
+                <div class="mag-toolbar-group">
+                    <button class="mag-tool-btn active" id="mag-btn-mode-replica" onclick="setMagazineViewMode('replica')" title="Read as full digital magazine pages (exact PDF layout)">
+                        <span>📖</span>
+                        <span>Magazine View</span>
+                    </button>
+                    <button class="mag-tool-btn" id="mag-btn-mode-cards" onclick="setMagazineViewMode('cards')" title="Read as modular article cards">
+                        <span>📋</span>
+                        <span>Cards View</span>
+                    </button>
+                </div>
+
+                <div class="mag-toolbar-group">
+                    <button class="mag-tool-btn" id="mag-btn-theme" onclick="toggleMagazineTheme()" title="Toggle Light / Dark magazine skin">
+                        <span id="mag-theme-icon">🌙</span>
+                        <span id="mag-theme-label">Dark Mode</span>
+                    </button>
+
+                    <button class="mag-tool-btn" onclick="openMagazineFullscreen()" title="Open magazine in a new tab for distraction-free full window reading on laptop">
+                        <span>↗️</span>
+                        <span>Open in New Tab</span>
+                    </button>
+
+                    <a class="mag-tool-btn" id="mag-btn-tg-post" href="#" target="_blank" rel="noopener noreferrer" style="display:none; text-decoration:none;" title="Open PDF broadcast in Telegram group">
+                        <span style="color:#38bdf8;">✈️</span>
+                        <span>Telegram Post</span>
+                    </a>
                 </div>
             </div>
 
@@ -9048,7 +9085,10 @@
             selectedDate: null,
             weekDays: [],
             isLoading: false,
-            lastFetch: 0
+            lastFetch: 0,
+            viewMode: 'replica',
+            themeMode: (document.documentElement.classList.contains('dark-mode')) ? 'dark' : 'light',
+            htmlCache: {}
         };
 
         function escapeMagHtml(str) {
@@ -9239,7 +9279,923 @@
             renderMagazineArticles(dateStr);
         }
 
-        function renderMagazineArticles(dateStr) {
+        function setMagazineViewMode(mode) {
+            triggerHaptic('selection');
+            magazineState.viewMode = mode;
+            const repBtn = document.getElementById('mag-btn-mode-replica');
+            const cardBtn = document.getElementById('mag-btn-mode-cards');
+            if (repBtn) repBtn.classList.toggle('active', mode === 'replica');
+            if (cardBtn) cardBtn.classList.toggle('active', mode === 'cards');
+            renderMagazineArticles(magazineState.selectedDate);
+        }
+
+        function toggleMagazineTheme() {
+            triggerHaptic('selection');
+            magazineState.themeMode = (magazineState.themeMode === 'dark') ? 'light' : 'dark';
+            updateMagazineThemeButton();
+            if (magazineState.viewMode === 'replica') {
+                renderMagazineArticles(magazineState.selectedDate);
+            }
+        }
+
+        function updateMagazineThemeButton() {
+            const icon = document.getElementById('mag-theme-icon');
+            const label = document.getElementById('mag-theme-label');
+            const isDark = magazineState.themeMode === 'dark';
+            if (icon) icon.innerText = isDark ? '☀️' : '🌙';
+            if (label) label.innerText = isDark ? 'Light Mode' : 'Dark Mode';
+        }
+
+        function openMagazineFullscreen() {
+            triggerHaptic('selection');
+            if (!magazineState.selectedDate) return;
+            const articles = (magazineState.weekData && magazineState.weekData[magazineState.selectedDate]) ? magazineState.weekData[magazineState.selectedDate] : [];
+            if (!articles || articles.length === 0) return;
+            const html = generateMagazineReplicaHtml(magazineState.selectedDate, articles, magazineState.themeMode);
+            const blob = new Blob([html], { type: 'text/html' });
+            const blobUrl = URL.createObjectURL(blob);
+            window.open(blobUrl, '_blank');
+        }
+
+        function updateTelegramPostButton(dateStr) {
+            const btn = document.getElementById('mag-btn-tg-post');
+            if (!btn) return;
+            const metaObj = magazineState.weekData && magazineState.weekData._meta;
+            const msgId = metaObj && metaObj[dateStr] && metaObj[dateStr].telegram_message_id;
+            if (msgId) {
+                btn.href = `https://t.me/ezeditorialgroup/${msgId}`;
+                btn.style.display = 'inline-flex';
+            } else {
+                btn.style.display = 'none';
+            }
+        }
+
+        function generateMagazineReplicaHtml(dateStr, articles, themeMode) {
+            const isDark = themeMode === 'dark';
+            const dayDate = new Date(dateStr + 'T00:00:00');
+            const optionsLong = { month: 'long', day: 'numeric', year: 'numeric' };
+            const formattedDateLong = isNaN(dayDate.getTime()) 
+                ? dateStr 
+                : dayDate.toLocaleDateString('en-US', optionsLong);
+
+            const baseHref = (typeof window !== 'undefined' && window.location && window.location.href) 
+                ? window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1) 
+                : '';
+
+            function getStanceTheme(toneStr) {
+                const t = (toneStr || '').toLowerCase();
+                if (['critical', 'pessimistic', 'disapproving', 'sarcastic', 'cynical', 'hostile', 'admonitory'].some(k => t.includes(k))) {
+                    return { tone_a: "#f43f5e", tone_b: "#e11d48", shape: "shape-jagged" };
+                } else if (['cautious', 'concerned', 'cautionary', 'sceptical', 'skeptical'].some(k => t.includes(k))) {
+                    return { tone_a: "#f59e0b", tone_b: "#d97706", shape: "shape-wave" };
+                } else if (['optimistic', 'appreciative', 'empathetic', 'conciliatory'].some(k => t.includes(k))) {
+                    return { tone_a: "#10b981", tone_b: "#059669", shape: "shape-circle" };
+                } else {
+                    return { tone_a: "#38bdf8", tone_b: "#0ea5e9", shape: "shape-circle" };
+                }
+            }
+
+            function computeWordToneMix(vocabItems) {
+                let pos = 0, neu = 0, neg = 0;
+                (vocabItems || []).forEach(v => {
+                    const c = String(v.connotation || '').toLowerCase();
+                    if (c.includes('pos')) pos++;
+                    else if (c.includes('neg')) neg++;
+                    else neu++;
+                });
+                const total = pos + neu + neg;
+                if (total === 0) {
+                    return { pos_count: 0, neu_count: 0, neg_count: 0, pos_pct: 0, neu_pct: 100, neg_pct: 0, total: 0 };
+                }
+                const pos_pct = Math.round((pos / total) * 100);
+                const neu_pct = Math.round((neu / total) * 100);
+                const neg_pct = Math.max(0, 100 - (pos_pct + neu_pct));
+                return { pos_count: pos, neu_count: neu, neg_count: neg, pos_pct, neu_pct, neg_pct, total };
+            }
+
+            function categorizeVocab(vocabItems) {
+                const cats = {
+                    core_vocab: [],
+                    one_word_subs: [],
+                    fixed_prepositions: [],
+                    phrasal_verbs: [],
+                    foreign_words: [],
+                    idioms: []
+                };
+                (vocabItems || []).forEach(item => {
+                    const cat = String(item.category || '').toLowerCase();
+                    if (cat.includes('one_word') || cat.includes('substitution') || cat === 'ows') {
+                        cats.one_word_subs.push(item);
+                    } else if (cat.includes('fixed_prep') || cat.includes('preposition')) {
+                        cats.fixed_prepositions.push(item);
+                    } else if (cat.includes('phrasal') || cat.includes('verb_phrase')) {
+                        cats.phrasal_verbs.push(item);
+                    } else if (cat.includes('foreign')) {
+                        cats.foreign_words.push(item);
+                    } else if (cat.includes('idiom') || cat.includes('phrase')) {
+                        cats.idioms.push(item);
+                    } else {
+                        cats.core_vocab.push(item);
+                    }
+                });
+                return cats;
+            }
+
+            let pageCounter = 3;
+            const processed = (articles || []).map((art) => {
+                const vocabList = art.vocabulary || art.editorial_vocabulary || [];
+                const cats = categorizeVocab(vocabList);
+                const toneData = art.analysis || {
+                    tone: art.tone || 'Analytical',
+                    tone_simple_explanation: art.tone_explanation || '',
+                    analysis_summary: art.analysis_summary || ''
+                };
+                const stanceTheme = getStanceTheme(toneData.tone);
+                const toneMix = toneData.word_tone_mix || computeWordToneMix(vocabList);
+
+                const readerPageNum = pageCounter;
+                pageCounter++;
+
+                const labPage1Num = pageCounter;
+                pageCounter++;
+
+                const hasPage2 = (cats.fixed_prepositions.length > 0 || cats.phrasal_verbs.length > 0 || cats.foreign_words.length > 0 || cats.idioms.length > 0);
+                let labPage2Num = null;
+                if (hasPage2) {
+                    labPage2Num = pageCounter;
+                    pageCounter++;
+                }
+
+                return {
+                    art,
+                    vocabList,
+                    cats,
+                    toneData,
+                    stanceTheme,
+                    toneMix,
+                    readerPageNum,
+                    labPage1Num,
+                    labPage2Num,
+                    hasPage2
+                };
+            });
+
+            const tocRowsHtml = processed.map(p => {
+                const a = p.art;
+                const isHindu = (a.newspaper || '').includes('Hindu');
+                const pillClass = isHindu ? 'pill-hindu' : 'pill-express';
+                const pagePill = `Page ${String(p.readerPageNum).padStart(2, '0')}`;
+                return `
+                    <a href="#article-p${p.readerPageNum}" class="toc-row">
+                        <div class="toc-article-title">${escapeMagHtml(a.title)}</div>
+                        <div class="toc-article-meta">
+                            <div class="toc-meta-left">
+                                <span class="toc-newspaper-pill ${pillClass}">
+                                    ${escapeMagHtml(a.newspaper || 'Editorial')}
+                                </span>
+                                ${(a.topic || (a.editorial_metadata && a.editorial_metadata.topic)) ? `<span class="toc-topic-pill">${escapeMagHtml(a.topic || a.editorial_metadata.topic)}</span>` : ''}
+                            </div>
+                            <span class="toc-page-pill">${pagePill}</span>
+                        </div>
+                    </a>
+                `;
+            }).join('\n');
+
+            let articlesHtml = '';
+            processed.forEach((p, idx) => {
+                const a = p.art;
+                const isLastArt = idx === processed.length - 1;
+                const nextArtProc = isLastArt ? null : processed[idx + 1];
+
+                let bodyContent = '';
+                if (a.passage_html && a.passage_html.trim()) {
+                    bodyContent = a.passage_html;
+                } else if (a.passage) {
+                    const paras = String(a.passage).split(/\r?\n+/).map(s => s.trim()).filter(Boolean);
+                    bodyContent = paras.map((para, pIdx) => `<p>¶ ${pIdx + 1} ${escapeMagHtml(para)}</p>`).join('\n');
+                } else {
+                    bodyContent = `<p>Editorial text being processed.</p>`;
+                }
+
+                const sidebarVocabHtml = (p.vocabList || []).map((item, vIdx) => {
+                    const num = item.order_index || (vIdx + 1);
+                    const pos = item.part_of_speech ? `(${escapeMagHtml(item.part_of_speech)})` : '';
+                    return `
+                        <div class="rd-sb-row">
+                            <div class="rd-sb-num">${num}</div>
+                            <div class="rd-sb-details">
+                                <div class="rd-sb-word-line">
+                                    <span class="rd-sb-word">${escapeMagHtml(item.word_or_phrase || '')}</span>
+                                    ${pos ? `<span class="rd-sb-pos">${pos}</span>` : ''}
+                                </div>
+                                <div class="rd-sb-def">
+                                    ${escapeMagHtml(item.easy_synonym || item.concise_meaning || '')}
+                                    ${item.hindi_meaning ? ` · <span class="rd-sb-hi devanagari">${escapeMagHtml(item.hindi_meaning)}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('\n');
+
+                const subtitle = a.subtitle || (a.editorial_metadata && a.editorial_metadata.subtitle);
+                const subtitleHtml = subtitle ? `
+                    <div class="rd-quote">
+                        <span class="rd-quote-mark">“</span>
+                        <span>${escapeMagHtml(subtitle)}</span>
+                    </div>
+                ` : '';
+
+                articlesHtml += `
+                    <!-- ================= ARTICLE ${idx + 1} READER SPREAD ================= -->
+                    <div class="page inner-page">
+                        <div class="inner-page-watermark" style="background-image: url('assets/magazine/watermark.png');"></div>
+                        <div class="inner-content-wrapper">
+                            <a id="article-p${p.readerPageNum}" name="article-p${p.readerPageNum}" style="position: absolute; top: -8mm; left: 0;"></a>
+                            <div class="reader-panel">
+                                <div class="rd-top-row">
+                                    <div class="rd-tag">
+                                        <span class="icon-svg" style="width: 12px; height: 12px; color: currentColor;">
+                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="14" rx="1.2" width="13" x="3.5" y="5"></rect><path d="M16.5 8.5h4V17a2 2 0 0 1-2 2h-2"></path><path d="M6.5 8.5h7M6.5 11.5h7M6.5 14.5h4"></path></svg>
+                                        </span>
+                                        <span>${escapeMagHtml(a.newspaper || 'Editorial')} · ${escapeMagHtml(a.topic || (a.editorial_metadata && a.editorial_metadata.topic) || 'General Studies')}</span>
+                                    </div>
+                                    ${a.link ? `
+                                        <a class="rd-source" href="${escapeMagHtml(a.link)}" target="_blank" rel="noopener noreferrer">
+                                            <span>Original Source</span>
+                                            <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
+                                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                                            </span>
+                                        </a>
+                                    ` : ''}
+                                </div>
+
+                                <h1 class="rd-title">${escapeMagHtml(a.title)}</h1>
+                                ${subtitleHtml}
+
+                                <div class="rd-meta">
+                                    <span class="meta-item">
+                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
+                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="15" rx="1.8" width="17" x="3.5" y="5"></rect><path d="M7 3.5v4M17 3.5v4M3.5 9h17"></path></svg>
+                                        </span>
+                                        <span>${formattedDateLong}</span>
+                                    </span>
+                                    <span class="meta-sep">·</span>
+                                    <span class="meta-item">
+                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
+                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.3"></circle><path d="M5 20c.7-3.5 3-5.4 7-5.4s6.3 1.9 7 5.4"></path></svg>
+                                        </span>
+                                        <span>Daily Editorial Reader</span>
+                                    </span>
+                                    <span class="meta-sep">·</span>
+                                    <span class="meta-item">
+                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
+                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>
+                                        </span>
+                                        <span>${escapeMagHtml(a.reading_time || '3 min read')}</span>
+                                    </span>
+                                </div>
+
+                                <div class="rd-layout">
+                                    <div class="rd-body">
+                                        <div>${bodyContent}</div>
+                                        <div class="rd-citation">
+                                            <span>Source: ${escapeMagHtml(a.newspaper || 'Editorial')} · Published: ${escapeMagHtml(a.published_at || '')}</span>
+                                            ${a.link ? `
+                                                <a class="rd-citation-btn" href="${escapeMagHtml(a.link)}" target="_blank" rel="noopener noreferrer">
+                                                    <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
+                                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"></path><path d="M11 6.5 13 4.5a3.5 3.5 0 0 1 5 5l-2 2"></path><path d="M13 17.5l-2 2a3.5 3.5 0 0 1-5-5l2-2"></path></svg>
+                                                    </span>
+                                                    <span>Original Source</span>
+                                                </a>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+
+                                    <div class="rd-sidebar">
+                                        <div>
+                                            <div class="rd-sb-title">
+                                                <span class="icon-svg" style="width: 12px; height: 12px; color: currentColor;">
+                                                    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5Z"></path><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5Z"></path></svg>
+                                                </span>
+                                                <span>Vocabulary 101</span>
+                                            </div>
+                                            <div class="rd-sb-list">
+                                                ${sidebarVocabHtml}
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <div class="deep-analysis-card">
+                                                <div class="deep-analysis-icon">
+                                                    <span class="icon-svg" style="width: 14px; height: 14px; color: currentColor;">
+                                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"></path><path d="M12 3a6 6 0 0 0-3.2 11.1c.6.4 1 1 1.1 1.7l.1.7h4l.1-.7c.1-.7.5-1.3 1.1-1.7A6 6 0 0 0 12 3Z"></path></svg>
+                                                    </span>
+                                                </div>
+                                                <div class="deep-analysis-text">
+                                                    <strong>Deep Analysis</strong>
+                                                    Mnemonics &amp; applied grammar rules in Vocab Lab.
+                                                </div>
+                                            </div>
+                                            <a href="#vocab-p${p.labPage1Num}" class="open-vocab-lab-btn">
+                                                <span>Open Vocab Lab</span>
+                                                <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
+                                                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer-wrap">
+                            <div class="footer-pill">
+                                <span class="footer-brand">Today's Editorials Series · ${formattedDateLong}</span>
+                                <a href="https://t.me/ezeditorialgroup/" target="_blank" class="footer-cta">
+                                    <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path></svg>
+                                    </span>
+                                    <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
+                                </a>
+                                <span class="footer-page">Page ${String(p.readerPageNum).padStart(2, '0')}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                function renderVocabCard(item, num) {
+                    const connot = String(item.connotation || '').toLowerCase();
+                    let tagClass = 'tag-neu';
+                    if (connot.includes('pos')) tagClass = 'tag-pos';
+                    else if (connot.includes('neg')) tagClass = 'tag-neg';
+
+                    const synChips = (item.british_synonyms || []).map(s => `<span class="chip-syn">${escapeMagHtml(s)}</span>`).join('');
+                    const antChips = (item.british_antonyms || []).map(a => `<span class="chip-ant">${escapeMagHtml(a)}</span>`).join('');
+                    const chipsBlock = (synChips || antChips) ? `<div class="vcard-chips">${synChips}${antChips}</div>` : '';
+
+                    return `
+                        <div class="vcard vcard-featured">
+                            <div>
+                                <div class="vcard-top">
+                                    <span class="vcard-num">${String(num).padStart(2, '0')}</span>
+                                    ${item.connotation ? `<span class="vcard-tag ${tagClass}">${escapeMagHtml(item.connotation)}</span>` : ''}
+                                </div>
+                                <div class="vcard-word">${escapeMagHtml(item.word_or_phrase || '')}</div>
+                                <div class="vcard-pos">
+                                    ${item.part_of_speech ? `${escapeMagHtml(item.part_of_speech)} · ` : ''}
+                                    <span class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</span>
+                                </div>
+                                <div class="vcard-def">${escapeMagHtml(item.concise_meaning || item.easy_synonym || '')}</div>
+                                ${item.mnemonic_trick ? `
+                                    <div class="vcard-hook">
+                                        <span class="vcard-hook-label">Memory Hook</span>
+                                        ${escapeMagHtml(item.mnemonic_trick)}
+                                    </div>
+                                ` : ''}
+                            </div>
+                            ${chipsBlock}
+                        </div>
+                    `;
+                }
+
+                function renderFixedPrepCard(item, num) {
+                    const parts = String(item.word_or_phrase || '').trim().split(/\s+/);
+                    const base = parts.length > 1 ? parts.slice(0, -1).join(' ') : item.word_or_phrase;
+                    const prep = parts.length > 1 ? parts[parts.length - 1] : '';
+
+                    return `
+                        <div class="vcard">
+                            <div>
+                                <div class="vcard-top">
+                                    <span class="vcard-num">${String(num).padStart(2, '0')}</span>
+                                    ${item.connotation ? `<span class="vcard-tag tag-neu">${escapeMagHtml(item.connotation)}</span>` : ''}
+                                </div>
+                                <div class="connector-row">
+                                    <span class="connector-base">${escapeMagHtml(base)}</span>
+                                    ${prep ? `<span class="connector-dot">···</span><span class="connector-prep">${escapeMagHtml(prep)}</span>` : ''}
+                                </div>
+                                <div class="vcard-pos" style="text-align: center;">
+                                    ${item.part_of_speech ? `${escapeMagHtml(item.part_of_speech)} · ` : ''}
+                                    <span class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</span>
+                                </div>
+                                <div class="vcard-def">${escapeMagHtml(item.concise_meaning || '')}</div>
+                                ${item.mnemonic_trick ? `
+                                    <div class="vcard-hook">
+                                        <span class="vcard-hook-label">Memory Hook</span>
+                                        ${escapeMagHtml(item.mnemonic_trick)}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                function renderPhrasalCard(item, num) {
+                    const parts = String(item.word_or_phrase || '').trim().split(/\s+/);
+                    const verb = parts.length > 1 ? parts.slice(0, -1).join(' ') : item.word_or_phrase;
+                    const particle = parts.length > 1 ? parts[parts.length - 1] : '';
+
+                    return `
+                        <div class="vcard">
+                            <div>
+                                <div class="vcard-top">
+                                    <span class="vcard-num">${String(num).padStart(2, '0')}</span>
+                                    ${item.connotation ? `<span class="vcard-tag tag-neu">${escapeMagHtml(item.connotation)}</span>` : ''}
+                                </div>
+                                <div class="duo-row">
+                                    <span class="duo-chip duo-verb">${escapeMagHtml(verb)}</span>
+                                    ${particle ? `
+                                        <span class="duo-arrow">
+                                            <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
+                                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                                            </span>
+                                        </span>
+                                        <span class="duo-chip duo-particle">${escapeMagHtml(particle)}</span>
+                                    ` : ''}
+                                </div>
+                                <div class="vcard-pos" style="text-align: center;">
+                                    ${item.part_of_speech ? `${escapeMagHtml(item.part_of_speech)} · ` : ''}
+                                    <span class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</span>
+                                </div>
+                                <div class="vcard-def">${escapeMagHtml(item.concise_meaning || '')}</div>
+                                ${item.mnemonic_trick ? `
+                                    <div class="vcard-hook">
+                                        <span class="vcard-hook-label">Memory Hook</span>
+                                        ${escapeMagHtml(item.mnemonic_trick)}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                function renderForeignCard(item, num) {
+                    return `
+                        <div class="vcard vcard-stamp vcard-foreign">
+                            <div>
+                                <div class="vcard-top">
+                                    <span class="vcard-num">${String(num).padStart(2, '0')}</span>
+                                </div>
+                                <div class="vcard-word stamp-word">${escapeMagHtml(item.word_or_phrase || '')}</div>
+                                <div class="vcard-pos">
+                                    ${item.part_of_speech ? `${escapeMagHtml(item.part_of_speech)} · ` : ''}
+                                    <span class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</span>
+                                </div>
+                                <div class="vcard-def">${escapeMagHtml(item.concise_meaning || '')}</div>
+                                ${item.mnemonic_trick ? `
+                                    <div class="vcard-hook">
+                                        <span class="vcard-hook-label">Memory Hook</span>
+                                        ${escapeMagHtml(item.mnemonic_trick)}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                function renderIdiomCard(item, num) {
+                    return `
+                        <div class="vcard-idiom">
+                            <div class="vcard-idiom-inner">
+                                <div>
+                                    <div class="idiom-top">
+                                        <div class="idiom-mark-num">
+                                            <span class="quote-mark-inline">“</span>
+                                            <span class="vcard-num">${String(num).padStart(2, '0')}</span>
+                                        </div>
+                                        ${item.connotation ? `<span class="vcard-tag tag-neu">${escapeMagHtml(item.connotation)}</span>` : ''}
+                                    </div>
+                                    <div class="vcard-word">${escapeMagHtml(item.word_or_phrase || '')}</div>
+                                    <div class="vcard-def">${escapeMagHtml(item.concise_meaning || '')}</div>
+                                    <div class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</div>
+                                    ${item.mnemonic_trick ? `
+                                        <div class="vcard-hook">
+                                            <span class="vcard-hook-label">Memory Hook</span>
+                                            ${escapeMagHtml(item.mnemonic_trick)}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                let lab1CategoriesHtml = '';
+                if (p.cats.core_vocab.length > 0) {
+                    lab1CategoriesHtml += `
+                        <div class="vlab-category c1">
+                            <div class="vlab-cat-header c1">
+                                <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
+                                    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5Z"></path><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5Z"></path></svg>
+                                </span>
+                                <span>Vocabulary · ${p.cats.core_vocab.length} words</span>
+                            </div>
+                            <div class="vlab-grid">
+                                ${p.cats.core_vocab.map((v, i) => renderVocabCard(v, i + 1)).join('\n')}
+                            </div>
+                        </div>
+                    `;
+                }
+                if (p.cats.one_word_subs.length > 0) {
+                    lab1CategoriesHtml += `
+                        <div class="vlab-category c2">
+                            <div class="vlab-cat-header c2">
+                                <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
+                                    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 12.5 12.5 20 4 11.5V4h7.5L20 12.5Z"></path><circle cx="8" cy="8" fill="currentColor" r="1.4" stroke="none"></circle></svg>
+                                </span>
+                                <span>One-Word Substitutions · ${p.cats.one_word_subs.length} words</span>
+                            </div>
+                            <div class="vlab-grid">
+                                ${p.cats.one_word_subs.map((v, i) => renderVocabCard(v, i + 1)).join('\n')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (!p.hasPage2) {
+                    if (p.cats.fixed_prepositions.length > 0) {
+                        lab1CategoriesHtml += `
+                            <div class="vlab-category c3">
+                                <div class="vlab-cat-header c3">
+                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
+                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"></path><path d="M11 6.5 13 4.5a3.5 3.5 0 0 1 5 5l-2 2"></path><path d="M13 17.5l-2 2a3.5 3.5 0 0 1-5-5l2-2"></path></svg>
+                                    </span>
+                                    <span>Fixed Prepositions · ${p.cats.fixed_prepositions.length} words</span>
+                                </div>
+                                <div class="vlab-grid">
+                                    ${p.cats.fixed_prepositions.map((v, i) => renderFixedPrepCard(v, i + 1)).join('\n')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    if (p.cats.phrasal_verbs.length > 0) {
+                        lab1CategoriesHtml += `
+                            <div class="vlab-category c4">
+                                <div class="vlab-cat-header c4">
+                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
+                                        <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"></path></svg>
+                                    </span>
+                                    <span>Phrasal Verbs · ${p.cats.phrasal_verbs.length} words</span>
+                                </div>
+                                <div class="vlab-grid">
+                                    ${p.cats.phrasal_verbs.map((v, i) => renderPhrasalCard(v, i + 1)).join('\n')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+
+                const nextEditorialHtml = (!p.hasPage2) ? `
+                    ${nextArtProc ? `
+                        <a href="#article-p${nextArtProc.readerPageNum}" class="next-editorial-banner">
+                            <div>
+                                <div class="next-ed-label">Read Next Editorial · Page ${String(nextArtProc.readerPageNum).padStart(2, '0')}</div>
+                                <div class="next-ed-title">${escapeMagHtml(nextArtProc.art.title)}</div>
+                            </div>
+                            <div class="next-ed-arrow">
+                                <span class="icon-svg" style="width: 15px; height: 15px; color: currentColor;">
+                                    <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                                </span>
+                            </div>
+                        </a>
+                    ` : `
+                        <div class="next-editorial-banner next-ed-end-state">
+                            <span class="next-ed-end-text">🏁 You have reached the end of today's editorials</span>
+                        </div>
+                    `}
+                ` : '';
+
+                articlesHtml += `
+                    <!-- ================= ARTICLE ${idx + 1} VOCABULARY LAB (PAGE 1) ================= -->
+                    <div class="page inner-page">
+                        <div class="inner-page-watermark" style="background-image: url('assets/magazine/watermark.png');"></div>
+                        <div class="inner-content-wrapper">
+                            <a id="vocab-p${p.labPage1Num}" name="vocab-p${p.labPage1Num}" style="position: absolute; top: -8mm; left: 0;"></a>
+                            
+                            <div class="vlab-page-header">
+                                <div class="vlab-page-header-left">
+                                    <div class="vlab-page-header-icon">
+                                        <span class="icon-svg" style="width: 16px; height: 16px; color: currentColor;">
+                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5.5 9.5A1.5 1.5 0 0 0 5.8 21h12.4a1.5 1.5 0 0 0 1.3-2.5L14 9V3"></path><path d="M8 15h8"></path></svg>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <div class="vlab-page-header-title">Editorial Analysis &amp; Vocabulary Lab</div>
+                                        <div class="vlab-page-header-article">Article: ${escapeMagHtml(a.title)}</div>
+                                    </div>
+                                </div>
+                                <div class="vlab-page-header-tags">
+                                    <span class="rd-tag">
+                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
+                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="14" rx="1.2" width="13" x="3.5" y="5"></rect><path d="M16.5 8.5h4V17a2 2 0 0 1-2 2h-2"></path><path d="M6.5 8.5h7M6.5 11.5h7M6.5 14.5h4"></path></svg>
+                                        </span>
+                                        <span>${escapeMagHtml(a.newspaper || 'Editorial')}</span>
+                                    </span>
+                                    <span class="topic-chip">${escapeMagHtml(a.topic || (a.editorial_metadata && a.editorial_metadata.topic) || 'General Studies')}</span>
+                                </div>
+                            </div>
+
+                            <div class="stance-row" style="--tone-a: ${p.stanceTheme.tone_a}; --tone-b: ${p.stanceTheme.tone_b};">
+                                <div class="stance-card ${p.stanceTheme.shape}">
+                                    <div class="stance-blob-a"></div>
+                                    <div class="stance-blob-b"></div>
+                                    <div class="stance-watermark">
+                                        <span class="icon-svg" style="width: 74px; height: 74px; color: currentColor;">
+                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M20 20l-4.8-4.8"></path></svg>
+                                        </span>
+                                    </div>
+                                    <div class="stance-content">
+                                        <div class="stance-label">Editorial Stance</div>
+                                        <div class="stance-value">${escapeMagHtml(p.toneData.tone || 'Analytical')}</div>
+                                        ${p.toneData.tone_simple_explanation ? `<div class="stance-sub">“${escapeMagHtml(p.toneData.tone_simple_explanation)}”</div>` : ''}
+                                    </div>
+                                </div>
+
+                                <div class="persp-card">
+                                    <div class="persp-blob-a"></div>
+                                    <div class="persp-quote-watermark">
+                                        <span class="icon-svg" style="width: 48px; height: 48px; color: currentColor;">
+                                            <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M4 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H8v4H4V8Z"></path><path d="M13 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H17v4h-4V8Z"></path></svg>
+                                        </span>
+                                    </div>
+                                    <div class="persp-icon-badge">
+                                        <span class="icon-svg" style="width: 14px; height: 14px; color: currentColor;">
+                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-2 6-4 2 2-6 4-2Z"></path></svg>
+                                        </span>
+                                    </div>
+                                    <div class="persp-label">Editorial Perspective</div>
+                                    <div class="persp-text">${escapeMagHtml(p.toneData.analysis_summary || '')}</div>
+                                </div>
+
+                                <div class="tone-bar-card">
+                                    <div class="tone-bar-label">Word Tone Mix</div>
+                                    <div class="tone-bar-track">
+                                        ${p.toneMix.pos_pct > 0 ? `<div class="tone-seg-pos" style="width: ${p.toneMix.pos_pct}%;"></div>` : ''}
+                                        ${p.toneMix.neu_pct > 0 ? `<div class="tone-seg-neu" style="width: ${p.toneMix.neu_pct}%;"></div>` : ''}
+                                        ${p.toneMix.neg_pct > 0 ? `<div class="tone-seg-neg" style="width: ${p.toneMix.neg_pct}%;"></div>` : ''}
+                                    </div>
+                                    <div class="tone-bar-legend">
+                                        <span><span class="dot" style="background: #10b981;"></span>${p.toneMix.pos_count} Positive</span>
+                                        <span><span class="dot" style="background: #94a3b8;"></span>${p.toneMix.neu_count} Neutral</span>
+                                        <span><span class="dot" style="background: #f43f5e;"></span>${p.toneMix.neg_count} Negative</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            ${lab1CategoriesHtml}
+                            ${nextEditorialHtml}
+                        </div>
+
+                        <div class="footer-wrap">
+                            <div class="footer-pill">
+                                <span class="footer-brand">Today's Editorials Series · ${formattedDateLong}</span>
+                                <a href="https://t.me/ezeditorialgroup/" target="_blank" class="footer-cta">
+                                    <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
+                                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path></svg>
+                                    </span>
+                                    <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
+                                </a>
+                                <span class="footer-page">Page ${String(p.labPage1Num).padStart(2, '0')}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                if (p.hasPage2) {
+                    let lab2CategoriesHtml = '';
+                    if (p.cats.fixed_prepositions.length > 0) {
+                        lab2CategoriesHtml += `
+                            <div class="vlab-category c3">
+                                <div class="vlab-cat-header c3">
+                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
+                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"></path><path d="M11 6.5 13 4.5a3.5 3.5 0 0 1 5 5l-2 2"></path><path d="M13 17.5l-2 2a3.5 3.5 0 0 1-5-5l2-2"></path></svg>
+                                    </span>
+                                    <span>Fixed Prepositions · ${p.cats.fixed_prepositions.length} words</span>
+                                </div>
+                                <div class="vlab-grid">
+                                    ${p.cats.fixed_prepositions.map((v, i) => renderFixedPrepCard(v, i + 1)).join('\n')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    if (p.cats.phrasal_verbs.length > 0) {
+                        lab2CategoriesHtml += `
+                            <div class="vlab-category c4">
+                                <div class="vlab-cat-header c4">
+                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
+                                        <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"></path></svg>
+                                    </span>
+                                    <span>Phrasal Verbs · ${p.cats.phrasal_verbs.length} words</span>
+                                </div>
+                                <div class="vlab-grid">
+                                    ${p.cats.phrasal_verbs.map((v, i) => renderPhrasalCard(v, i + 1)).join('\n')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    if (p.cats.foreign_words.length > 0) {
+                        lab2CategoriesHtml += `
+                            <div class="vlab-category c6">
+                                <div class="vlab-cat-header c6">
+                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
+                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17M12 3.5c2.5 2.5 2.5 15 0 17M12 3.5c-2.5 2.5-2.5 15 0 17"></path></svg>
+                                    </span>
+                                    <span>Foreign Words · ${p.cats.foreign_words.length} words</span>
+                                </div>
+                                <div class="vlab-grid">
+                                    ${p.cats.foreign_words.map((v, i) => renderForeignCard(v, i + 1)).join('\n')}
+                                </div>
+                            </div>
+                        `;
+                    }
+                    if (p.cats.idioms.length > 0) {
+                        lab2CategoriesHtml += `
+                            <div class="vlab-category c5">
+                                <div class="vlab-cat-header c5">
+                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
+                                        <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M4 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H8v4H4V8Z"></path><path d="M13 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H17v4h-4V8Z"></path></svg>
+                                    </span>
+                                    <span>Idioms &amp; Phrases · ${p.cats.idioms.length} words</span>
+                                </div>
+                                <div class="vlab-grid">
+                                    ${p.cats.idioms.map((v, i) => renderIdiomCard(v, i + 1)).join('\n')}
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    const nextEdPage2 = `
+                        ${nextArtProc ? `
+                            <a href="#article-p${nextArtProc.readerPageNum}" class="next-editorial-banner">
+                                <div>
+                                    <div class="next-ed-label">Read Next Editorial · Page ${String(nextArtProc.readerPageNum).padStart(2, '0')}</div>
+                                    <div class="next-ed-title">${escapeMagHtml(nextArtProc.art.title)}</div>
+                                </div>
+                                <div class="next-ed-arrow">
+                                    <span class="icon-svg" style="width: 15px; height: 15px; color: currentColor;">
+                                        <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                                    </span>
+                                </div>
+                            </a>
+                        ` : `
+                            <div class="next-editorial-banner next-ed-end-state">
+                                <span class="next-ed-end-text">🏁 You have reached the end of today's editorials</span>
+                            </div>
+                        `}
+                    `;
+
+                    articlesHtml += `
+                        <!-- ================= ARTICLE ${idx + 1} VOCABULARY LAB (PAGE 2) ================= -->
+                        <div class="page inner-page">
+                            <div class="inner-page-watermark" style="background-image: url('assets/magazine/watermark.png');"></div>
+                            <div class="inner-content-wrapper">
+                                <div class="continued-bar">
+                                    <span class="icon-svg" style="width: 12px; height: 12px; color: currentColor;">
+                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5Z"></path><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5Z"></path></svg>
+                                    </span>
+                                    <span>Vocab Lab continued · <b>${escapeMagHtml(a.title)}</b> · Part 02</span>
+                                </div>
+                                ${lab2CategoriesHtml}
+                                ${nextEdPage2}
+                            </div>
+
+                            <div class="footer-wrap">
+                                <div class="footer-pill">
+                                    <span class="footer-brand">Today's Editorials Series · ${formattedDateLong}</span>
+                                    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="footer-cta">
+                                        <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path></svg>
+                                        </span>
+                                        <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
+                                    </a>
+                                    <span class="footer-page">Page ${String(p.labPage2Num).padStart(2, '0')}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${formattedDateLong} · Ez Editorials Magazine</title>
+${baseHref ? `<base href="${baseHref}">` : ''}
+<link rel="stylesheet" href="magazine-pdf.css">
+<style>
+  .cover-page[data-bg="front"] { background-image: url('assets/magazine/front_cover_bg.jpg'); }
+  .cover-page[data-bg="toc"] { background-image: url('assets/magazine/toc_bg.jpg'); }
+  .cover-page[data-bg="back"] { background-image: url('assets/magazine/back_cover_bg.jpg'); }
+  .inner-page-watermark { background-image: url('assets/magazine/watermark.png'); }
+</style>
+</head>
+<body class="${isDark ? 'dark-theme' : ''}">
+
+<!-- ================= PAGE 1: FRONT COVER ================= -->
+<div class="page cover-page" data-bg="front" style="background-image: url('assets/magazine/front_cover_bg.jpg');">
+  <div class="front-header-card">
+    <div class="front-date-display">
+      <span class="front-calendar-icon">📅</span>
+      <span>${formattedDateLong}</span>
+    </div>
+    <div class="front-edition-tag">
+      ⚡ DIGITAL EDITION &nbsp;·&nbsp; ${articles.length} EDITORIALS
+    </div>
+  </div>
+  <div class="front-footer-bar-bottom">
+    <a href="https://t.me/Prathuadhe" target="_blank" class="front-tg-btn">
+      <svg class="front-tg-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+      </svg>
+      <span>Made by Lixie 🤖 · Built by Prathu</span>
+    </a>
+    <a href="https://t.me/Contact_ez" target="_blank" class="front-tg-btn">
+      <svg class="front-tg-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+      </svg>
+      <span>Community Head · Ez</span>
+    </a>
+  </div>
+</div>
+
+<!-- ================= PAGE 2: TABLE OF CONTENTS ================= -->
+<div class="page cover-page" data-bg="toc" style="background-image: url('assets/magazine/toc_bg.jpg');">
+  <div class="toc-header-date">
+    <span class="toc-date-icon">📅</span>
+    <span>${formattedDateLong}</span>
+  </div>
+  <div class="toc-list-container">
+    ${tocRowsHtml}
+  </div>
+  <div class="toc-footer-container">
+    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="toc-tg-btn">
+      <svg class="front-tg-icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+      </svg>
+      <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
+    </a>
+  </div>
+</div>
+
+<!-- ================= EDITORIAL READER & VOCAB LAB PAGES ================= -->
+${articlesHtml}
+
+<!-- ================= LAST PAGE: BACK COVER ================= -->
+<div class="page cover-page back-cover-container" data-bg="back" style="background-image: url('assets/magazine/back_cover_bg.jpg');">
+  <div class="toc-header-date">
+    <span class="toc-date-icon">📅</span>
+    <span>${formattedDateLong}</span>
+  </div>
+  <div class="back-connect-overlay">
+    <a href="https://t.me/ezeditorialgroup/3" target="_blank" class="back-card-link">
+      <span class="back-join-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        <span>JOIN</span>
+      </span>
+    </a>
+    <a href="https://t.me/EzSSC" target="_blank" class="back-card-link">
+      <span class="back-join-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        <span>JOIN</span>
+      </span>
+    </a>
+    <a href="https://t.me/EzBanking" target="_blank" class="back-card-link">
+      <span class="back-join-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        <span>JOIN</span>
+      </span>
+    </a>
+    <a href="https://t.me/Prathuadhe" target="_blank" class="back-card-link">
+      <span class="back-join-badge badge-contact">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+        <span>TALK</span>
+      </span>
+    </a>
+  </div>
+  <a href="https://t.me/Prathuadhe" target="_blank" class="back-signature-link" title="Curated by Prathu"></a>
+</div>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const targetId = a.getAttribute('href').replace('#', '');
+        const el = document.getElementById(targetId) || document.querySelector('[name="' + targetId + '"]');
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>`;
+        }
+
+        async function renderMagazineArticles(dateStr) {
             const container = document.getElementById('mag-articles-container');
             const headingEl = document.getElementById('mag-active-date-heading');
             const countEl = document.getElementById('mag-articles-count');
@@ -9250,6 +10206,8 @@
             const formattedDate = dayObj ? `${dayObj.dayName}, ${dayObj.dayNum} ${dayObj.monthShort}` : dateStr;
 
             if (headingEl) headingEl.innerText = formattedDate;
+            updateMagazineThemeButton();
+            updateTelegramPostButton(dateStr);
 
             const articles = (magazineState.weekData && magazineState.weekData[dateStr]) ? magazineState.weekData[dateStr] : [];
 
@@ -9275,17 +10233,86 @@
                 return;
             }
 
-            let html = '';
+            // 1. REPLICA VIEW (EXACT CLIENT-GENERATED A4 PDF PUBLICATION LAYOUT)
+            if (magazineState.viewMode === 'replica') {
+                const cacheKey = `${dateStr}_${magazineState.themeMode}`;
+                let htmlContent = magazineState.htmlCache[cacheKey];
+                if (!htmlContent) {
+                    htmlContent = generateMagazineReplicaHtml(dateStr, articles, magazineState.themeMode);
+                    magazineState.htmlCache[cacheKey] = htmlContent;
+                }
+                renderIframeMagazine(container, htmlContent, dateStr);
+                markMagazineDayRead(dateStr);
+                return;
+            }
+
+            // 2. MODULAR CARDS VIEW
+            renderCardsMagazine(container, articles, false);
+            markMagazineDayRead(dateStr);
+        }
+
+        function renderIframeMagazine(container, htmlContent, dateStr) {
+            container.innerHTML = `
+                <div class="mag-reader-viewport">
+                    <iframe id="mag-frame-${dateStr}" class="mag-reader-iframe" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                </div>
+            `;
+
+            const frame = document.getElementById(`mag-frame-${dateStr}`);
+            if (frame) {
+                frame.srcdoc = htmlContent;
+            }
+        }
+
+        function renderCardsMagazine(container, articles, isFallback) {
+            let notice = isFallback ? `
+                <div style="background:var(--brand-light, #eff6ff); border:1px solid var(--brand-blue, #2563eb); border-radius:var(--radius-base, 10px); padding:10px 14px; margin-bottom:14px; font-size:12px; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+                    <span>ℹ️</span>
+                    <span>Full A4 PDF replica not yet available for this archive date. Showing modular Articles View.</span>
+                </div>
+            ` : '';
+
+            let html = notice;
             articles.forEach((art, idx) => {
                 const statsChips = (art.stats && art.stats.length > 0)
                     ? `
-                        <div class="mag-stats-summary">
+                        <div class="mag-stats-summary" style="margin-top:14px;">
                             <div class="mag-stats-title">🔍 Evidence Lens Key Figures (${art.stats.length})</div>
                             <div class="mag-stats-list">
                                 ${art.stats.map(s => `<span class="mag-stat-chip">${escapeMagHtml(s)}</span>`).join('')}
                             </div>
                         </div>
                     ` : '';
+
+                // Vocabulary Lab Section for Cards View
+                let vocabSection = '';
+                if (art.vocabulary && art.vocabulary.length > 0) {
+                    vocabSection = `
+                        <div style="margin-top:18px; padding-top:14px; border-top:1px solid var(--border-color);">
+                            <div style="font-size:13px; font-weight:800; color:var(--brand-blue, #2563eb); margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+                                <span>📚</span>
+                                <span>Vocabulary Lab (${art.vocabulary.length} terms)</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px;">
+                                ${art.vocabulary.map(v => `
+                                    <div style="background:var(--bg-surface, #fff); border:1px solid var(--border-color); border-radius:8px; padding:10px 12px;">
+                                        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
+                                            <strong style="font-size:14px; color:var(--text-main);">${escapeMagHtml(v.word_or_phrase || '')}</strong>
+                                            ${v.part_of_speech ? `<span style="font-size:10px; font-weight:700; color:var(--brand-blue, #2563eb); background:var(--brand-light, #eff6ff); padding:2px 6px; border-radius:6px;">${escapeMagHtml(v.part_of_speech)}</span>` : ''}
+                                        </div>
+                                        ${v.hindi_meaning ? `<div style="font-size:12px; color:#0d9488; font-weight:600; margin-bottom:3px;">${escapeMagHtml(v.hindi_meaning)}</div>` : ''}
+                                        <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">${escapeMagHtml(v.concise_meaning || v.easy_synonym || '')}</div>
+                                        ${v.mnemonic_trick ? `
+                                            <div style="font-size:10.5px; background:rgba(2,132,199,0.08); color:#0284c7; padding:4px 8px; border-radius:6px; margin-top:6px; border-left:3px solid #0284c7;">
+                                                <strong>🧠 Memory Hook:</strong> ${escapeMagHtml(v.mnemonic_trick)}
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
 
                 html += `
                     <article class="magazine-article-card" id="mag-article-${idx}">
@@ -9311,14 +10338,12 @@
                         </div>
 
                         ${statsChips}
+                        ${vocabSection}
                     </article>
                 `;
             });
 
             container.innerHTML = html;
-
-            // Automatically trigger mark-as-read tracking for this day
-            markMagazineDayRead(dateStr);
         }
 
         async function markMagazineDayRead(dateStr) {

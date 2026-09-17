@@ -175,9 +175,79 @@ html.dark-mode select option {
 
 /* Magazine Container & Layout */
 .magazine-container {
-    max-width: var(--max-reading-width, 680px);
+    max-width: 1060px;
     margin: 0 auto;
     padding: var(--space-base, 16px);
+}
+
+.mag-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-base, 12px);
+    padding: 10px 14px;
+    margin-bottom: var(--space-md, 14px);
+    box-shadow: var(--shadow-sm);
+}
+
+.mag-toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.mag-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius-md, 8px);
+    border: 1px solid var(--border-color);
+    background: var(--bg-surface, #fff);
+    color: var(--text-main);
+    font-size: var(--font-xs, 12px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mag-tool-btn:hover {
+    background: var(--brand-light, #eff6ff);
+    color: var(--brand-blue, #2563eb);
+    border-color: var(--brand-blue, #2563eb);
+}
+
+.mag-tool-btn.active {
+    background: var(--brand-blue, #2563eb);
+    color: #fff;
+    border-color: var(--brand-blue, #2563eb);
+}
+
+.mag-reader-viewport {
+    width: 100%;
+    min-height: 750px;
+    height: 86vh;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-base, 12px);
+    overflow: hidden;
+    background: #0b1329;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.mag-reader-iframe {
+    width: 100%;
+    flex: 1;
+    border: none;
+    display: block;
+    background: transparent;
 }
 
 .magazine-hero {

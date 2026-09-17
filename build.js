@@ -25,4 +25,10 @@ fs.readdirSync('.').forEach(file => {
     }
 });
 
+// 4. Copy assets directory recursively to www/assets
+if (fs.existsSync('assets')) {
+    fs.cpSync('assets', path.join('www', 'assets'), { recursive: true });
+    console.log('✅ assets/ copied recursively to www/assets/');
+}
+
 console.log('✅ Web assets copied to www/ successfully!');
