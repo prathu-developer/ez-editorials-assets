@@ -4747,11 +4747,14 @@
     </div>
 
     <!-- 🔐 EXTERNAL TELEGRAM LOGIN MODAL (Web & Android) -->
-    <div id="externalLoginOverlay" style="display:none; position:fixed; inset:0; z-index:99998; background:var(--bg-body, #ffffff); flex-direction:column; align-items:center; justify-content:center; padding:24px; text-align:center;">
-        <div style="max-width:340px; width:100%;">
+    <div id="externalLoginOverlay" style="display:none; position:fixed; inset:0; z-index:99998; background:rgba(0,0,0,0.65); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:24px; text-align:center;">
+        <div style="max-width:380px; width:100%; background:var(--bg-card, #ffffff); border-radius:20px; padding:28px 24px; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.3); border:1px solid var(--border-color, #e5e7eb);">
+            <!-- Dismiss / Close modal button -->
+            <button type="button" onclick="closeExternalLoginOverlay()" aria-label="Close" style="position:absolute; top:14px; right:14px; background:transparent; border:none; font-size:20px; color:var(--text-muted, #9ca3af); cursor:pointer; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:50%; line-height:1;">✕</button>
+
             <div style="font-size:46px; margin-bottom:12px;">📘</div>
             <h2 style="margin:0 0 6px; font-size:22px; font-weight:800; color:var(--text-main, #111827);">Ez Editorials</h2>
-            <p style="color:var(--text-muted, #6b7280); font-size:13.5px; line-height:1.5; margin:0 0 24px;">
+            <p style="color:var(--text-muted, #6b7280); font-size:13.5px; line-height:1.5; margin:0 0 20px;">
                 Sign in with your Telegram account to sync your test scores, leagues, and daily reading progress.
             </p>
 
@@ -4762,7 +4765,7 @@
             </button>
 
             <!-- Desktop Web Widget -->
-            <div style="margin-top:20px;">
+            <div style="margin-top:16px;">
                 <script async src="https://telegram.org/js/telegram-widget.js?22" 
                         data-telegram-login="Ez_vocab_bot" 
                         data-size="large" 
@@ -4770,21 +4773,41 @@
                         data-request-access="write"></script>
             </div>
 
-            <p id="login-status-msg" style="margin-top:16px; font-size:12px; color:var(--text-muted, #6b7280); min-height:18px;"></p>
+            <!-- Continue as Guest / Read Free button -->
+            <button type="button" onclick="closeExternalLoginOverlay()" style="margin-top:16px; background:transparent; border:1px solid var(--border-subtle, #e5e7eb); color:var(--text-main, #374151); font-size:13.5px; font-weight:600; padding:10px 16px; border-radius:10px; cursor:pointer; width:100%;">
+                Continue as Guest (Read Magazine Free)
+            </button>
+
+            <p id="login-status-msg" style="margin-top:14px; font-size:12px; color:var(--text-muted, #6b7280); min-height:18px; margin-bottom:0;"></p>
         </div>
     </div>
 
     <!-- ==========================================
          VIEW 1: HOME SCREEN
          ========================================== -->
-        <!-- 🟢 GLOBAL NAV BAR: Brand | Target Exam Pill | Daily Streak | Theme Toggle | Profile Avatar -->
+    <!-- 🟢 GLOBAL NAV BAR: Brand | Navigation Links | Target Exam Pill | Daily Streak | Theme Toggle | Profile Avatar -->
     <header class="desktop-navbar">
         <div class="desktop-nav-inner">
-            <div class="desktop-nav-brand" onclick="switchView('view-home')">
+            <div class="desktop-nav-brand" onclick="switchView('view-magazine')">
                 <span class="desktop-brand-icon">📚</span>
                 <span class="desktop-brand-title">Ez Editorials</span>
             </div>
             
+            <nav class="desktop-nav-links">
+                <button class="desktop-nav-btn active" id="top-nav-magazine" onclick="switchView('view-magazine')">
+                    <span>📖</span> Magazine
+                </button>
+                <button class="desktop-nav-btn" id="top-nav-day" onclick="switchView('view-day')">
+                    <span>📝</span> Tests &amp; Trials
+                </button>
+                <button class="desktop-nav-btn" id="top-nav-cup" onclick="switchView('view-cup')">
+                    <span>🏆</span> Rankings &amp; Cup
+                </button>
+                <button class="desktop-nav-btn" id="top-nav-home" onclick="switchView('view-home')">
+                    <span>🏠</span> Daily Dashboard
+                </button>
+            </nav>
+
             <div class="desktop-nav-tools">
                 <div class="target-exam-pill" onclick="openSubModal('targetModalOverlay')" title="Change Target Exam">
                     <span>🎯</span> <span id="desk-target-exam-title">Target Exam</span> ▾
@@ -10787,7 +10810,7 @@ ${articlesHtml}
                 appRoot.classList.toggle('magazine-mode', viewId === 'view-magazine');
             }
 
-            // Sync Desktop Nav Active State
+            // Sync Desktop Left Rail Nav Active State
             const railNavMap = {
                 'view-home': 'rail-nav-home',
                 'view-day': 'rail-nav-day',
@@ -10800,6 +10823,19 @@ ${articlesHtml}
             if (railNavMap[viewId]) {
                 const rb = document.getElementById(railNavMap[viewId]);
                 if (rb) rb.classList.add('active');
+            }
+
+            // Sync Desktop Top Navbar Active State
+            const topNavMap = {
+                'view-home': 'top-nav-home',
+                'view-day': 'top-nav-day',
+                'view-cup': 'top-nav-cup',
+                'view-magazine': 'top-nav-magazine'
+            };
+            document.querySelectorAll('.desktop-nav-btn').forEach(b => b.classList.remove('active'));
+            if (topNavMap[viewId]) {
+                const tb = document.getElementById(topNavMap[viewId]);
+                if (tb) tb.classList.add('active');
             }
             
             // Sync Global Nav Pills (Target Exam & Streak)
@@ -10945,9 +10981,21 @@ ${articlesHtml}
             // 🟢 Load Target & State Tags
             updateTargetTags();
             
-            // 🟢 URL Router: Open specific tabs from external pages
+            // 🟢 URL Router: Open specific tabs from external pages or default to Magazine on Web
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('view') === 'day') switchView('view-day');
+            const reqView = urlParams.get('view');
+            if (reqView === 'day' || reqView === 'view-day') {
+                switchView('view-day');
+            } else if (reqView === 'cup' || reqView === 'view-cup') {
+                switchView('view-cup');
+            } else if (reqView === 'magazine' || reqView === 'view-magazine') {
+                switchView('view-magazine');
+            } else if (reqView === 'home' || reqView === 'view-home') {
+                switchView('view-home');
+            } else if (!isTelegramMiniApp()) {
+                // Standard desktop/mobile browser: open directly into the Magazine publication!
+                switchView('view-magazine');
+            }
 
             // ✨ ADD THESE TWO LINES TO PRESERVE THE ELO DEEP LINK
             if (tgApp.initDataUnsafe?.start_param === 'elo') {

@@ -223,6 +223,7 @@ function showLoginOverlay() {
     } else {
         window.location.href = 'app.html';
     }
+    window.showLoginOverlay = showLoginOverlay;
 }
 
 // 8. Mobile Deep-Link Login (Android App & Mobile Web)
@@ -299,9 +300,28 @@ window.onTelegramAuth = async function(user) {
     }
 };
 
-// 10. Auto-Mount Login Screen if Unauthenticated
+// 10. Login Screen Overlay Controls
+function closeExternalLoginOverlay() {
+    const overlay = document.getElementById('externalLoginOverlay');
+    if (overlay) {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+window.closeExternalLoginOverlay = closeExternalLoginOverlay;
+
+function openExternalLoginOverlay() {
+    const overlay = document.getElementById('externalLoginOverlay');
+    if (overlay) {
+        overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+window.openExternalLoginOverlay = openExternalLoginOverlay;
+
+// Auto-mount login screen only for native app where Telegram MiniApp/Web isn't available
 window.addEventListener('DOMContentLoaded', () => {
-    if (!isAuthenticated()) {
+    if (!isAuthenticated() && isCapacitorApp()) {
         const overlay = document.getElementById('externalLoginOverlay');
         if (overlay) {
             overlay.style.display = 'flex';

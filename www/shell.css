@@ -45,6 +45,44 @@ html.is-desktop .desktop-navbar {
     user-select: none;
 }
 
+.desktop-nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs, 6px);
+}
+
+.desktop-nav-btn {
+    background: transparent;
+    border: none;
+    padding: 8px 14px;
+    border-radius: var(--radius-md, 10px);
+    font-size: var(--font-sm, 13.5px);
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+}
+
+.desktop-nav-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--text-main);
+}
+
+.desktop-nav-btn.active {
+    background: var(--brand-light, #eff6ff);
+    color: var(--brand-blue, #2563eb);
+    font-weight: 700;
+}
+
+html.dark .desktop-nav-btn.active,
+.dark-mode .desktop-nav-btn.active {
+    background: #1e3a8a;
+    color: #93c5fd;
+}
+
 .desktop-nav-tools {
     display: flex;
     align-items: center;
