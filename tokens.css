@@ -230,13 +230,13 @@ html.dark-mode select option {
 
 .mag-reader-viewport {
     width: 100%;
-    min-height: 750px;
-    height: 86vh;
-    border: 1px solid var(--border-color);
+    min-height: 600px;
+    height: auto;
+    border: none;
     border-radius: var(--radius-base, 12px);
-    overflow: hidden;
-    background: #0b1329;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.2);
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -244,10 +244,11 @@ html.dark-mode select option {
 
 .mag-reader-iframe {
     width: 100%;
-    flex: 1;
+    min-height: 800px;
     border: none;
     display: block;
     background: transparent;
+    border-radius: var(--radius-base, 12px);
 }
 
 .magazine-hero {

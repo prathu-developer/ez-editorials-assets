@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Editorial Magazine · Ez Editorials</title>
+    <link rel="stylesheet" href="tokens.css">
+    <link rel="stylesheet" href="magazine-pdf.css">
+    <script src="auth.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pub-nav-height: 64px;
+            --page-bg: #f1f5f9;
+            --text-nav: #0f172a;
+        }
+
+        body.dark-theme {
+            --page-bg: #0b0f17;
+            --text-nav: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--page-bg);
+            color: var(--text-nav);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        /* Top Sticky Publication Navbar */
+        .pub-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--pub-nav-height);
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid #e2e8f0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+        }
+
+        body.dark-theme .pub-header {
+            background: rgba(15, 23, 42, 0.94);
+            border-bottom-color: #1e293b;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .pub-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .pub-brand-logo {
+            font-size: 24px;
+        }
+
+        .pub-brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pub-brand-title {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+            color: inherit;
+        }
+
+        .pub-brand-sub {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        body.dark-theme .pub-brand-sub {
+            color: #94a3b8;
+        }
+
+        /* Day Navigation Pills */
+        .pub-days-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.04);
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        body.dark-theme .pub-days-nav {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .pub-day-btn {
+            border: none;
+            background: transparent;
+            color: #64748b;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        body.dark-theme .pub-day-btn {
+            color: #94a3b8;
+        }
+
+        .pub-day-btn:hover:not(.disabled) {
+            color: #1e293b;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark-theme .pub-day-btn:hover:not(.disabled) {
+            color: #f8fafc;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .pub-day-btn.active {
+            background: #2563eb !important;
+            color: #ffffff !important;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+        }
+
+        .pub-day-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Actions Bar */
+        .pub-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pub-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 9px;
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #1e293b;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        body.dark-theme .pub-btn {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+
+        .pub-btn:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .pub-btn-primary {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+
+        .pub-btn-primary:hover {
+            background: #1d4ed8;
+            color: #ffffff;
+        }
+
+        /* Main Publication Content Container */
+        .pub-main-viewport {
+            width: 100%;
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 32px 16px 80px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .pub-iframe-sheet {
+            width: 100%;
+            border: none;
+            background: transparent;
+            min-height: 800px;
+        }
+
+        .pub-loading {
+            text-align: center;
+            padding: 80px 20px;
+            color: #64748b;
+        }
+
+        .pub-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #cbd5e1;
+            border-top-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+            margin: 0 auto 16px auto;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 860px) {
+            .pub-header {
+                padding: 0 12px;
+                height: auto;
+                flex-wrap: wrap;
+                gap: 10px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .pub-days-nav {
+                order: 3;
+                width: 100%;
+                justify-content: space-around;
+                overflow-x: auto;
+            }
+            .pub-main-viewport {
+                padding: 16px 8px 60px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="pub-header">
+        <a href="app.html" class="pub-brand" title="Back to App Dashboard">
+            <span class="pub-brand-logo">📚</span>
+            <div class="pub-brand-text">
+                <span class="pub-brand-title">Ez Editorials</span>
+                <span class="pub-brand-sub" id="pub-week-badge">Digital Publication</span>
+            </div>
+        </a>
+
+        <nav class="pub-days-nav" id="pub-day-nav">
+            <!-- Day pills populated via JS -->
+        </nav>
+
+        <div class="pub-actions">
+            <button class="pub-btn" id="pub-btn-theme" onclick="toggleTheme()" title="Toggle Dark / Light Mode">
+                <span id="pub-theme-icon">🌙</span>
+                <span id="pub-theme-text">Dark</span>
+            </button>
+            <a href="app.html" class="pub-btn pub-btn-primary">
+                <span>🏠 Dashboard</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="pub-main-viewport" id="pub-viewport">
+        <div class="pub-loading">
+            <div class="pub-spinner"></div>
+            <p style="font-size: 15px; font-weight: 600;">Opening digital publication...</p>
+        </div>
+    </main>
+
+    <script>
+        const state = {
+            weekData: null,
+            weekDays: [],
+            selectedDate: null,
+            themeMode: 'light'
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const queryDate = urlParams.get('date');
+        const queryTheme = urlParams.get('theme');
+        if (queryTheme === 'dark' || queryTheme === 'light') {
+            state.themeMode = queryTheme;
+        }
+
+        function applyTheme() {
+            const isDark = state.themeMode === 'dark';
+            document.body.classList.toggle('dark-theme', isDark);
+            const icon = document.getElementById('pub-theme-icon');
+            const text = document.getElementById('pub-theme-text');
+            if (icon) icon.innerText = isDark ? '☀️' : '🌙';
+            if (text) text.innerText = isDark ? 'Light' : 'Dark';
+        }
+
+        function toggleTheme() {
+            state.themeMode = (state.themeMode === 'dark') ? 'light' : 'dark';
+            applyTheme();
+            renderSelectedDay();
+        }
+
+        async function initPublication() {
+            applyTheme();
+            try {
+                const res = await fetch('https://ez-editorials-bot.onrender.com/api/magazine/week', {
+                    headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {}
+                });
+                if (res.ok) {
+                    state.weekData = await res.json();
+                }
+            } catch (err) {
+                console.warn('Network error loading week data, using local state:', err);
+            }
+
+            buildWeekCalendar();
+            renderDayNav();
+            renderSelectedDay();
+        }
+
+        function buildWeekCalendar() {
+            const days = [];
+            const now = new Date();
+            const currentDayOfWeek = now.getDay();
+            const mondayOffset = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + mondayOffset);
+            monday.setHours(0, 0, 0, 0);
+
+            const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const todayStr = String(now.getFullYear()) + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+
+            for (let i = 0; i < 6; i++) {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                const dateStr = String(d.getFullYear()) + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+                const hasData = Boolean(state.weekData && state.weekData[dateStr] && state.weekData[dateStr].length > 0);
+                days.push({
+                    dayName: dayNames[i],
+                    dayNum: d.getDate(),
+                    monthShort: d.toLocaleString('en-US', { month: 'short' }),
+                    dateStr: dateStr,
+                    isToday: dateStr === todayStr,
+                    hasData: hasData
+                });
+            }
+            state.weekDays = days;
+
+            if (queryDate && days.some(d => d.dateStr === queryDate)) {
+                state.selectedDate = queryDate;
+            } else {
+                const todayObj = days.find(d => d.isToday);
+                if (todayObj && todayObj.hasData) {
+                    state.selectedDate = todayObj.dateStr;
+                } else {
+                    const withData = days.filter(d => d.hasData);
+                    state.selectedDate = withData.length > 0 ? withData[withData.length - 1].dateStr : days[0].dateStr;
+                }
+            }
+        }
+
+        function renderDayNav() {
+            const navEl = document.getElementById('pub-day-nav');
+            if (!navEl) return;
+            navEl.innerHTML = state.weekDays.map(d => {
+                const isActive = d.dateStr === state.selectedDate;
+                const disabled = !d.hasData && !d.isToday;
+                return '<button class="pub-day-btn ' + (isActive ? 'active' : '') + ' ' + (disabled ? 'disabled' : '') + '" ' +
+                    (disabled ? '' : 'onclick="selectDay(\'' + d.dateStr + '\')"') + ' title="' + d.dayName + ', ' + d.dayNum + ' ' + d.monthShort + '">' +
+                    '<span>' + d.dayName + '</span>' +
+                    '<span style="font-size: 11px; opacity: 0.85;">' + d.dayNum + '</span>' +
+                    '</button>';
+            }).join('');
+        }
+
+        function selectDay(dateStr) {
+            state.selectedDate = dateStr;
+            renderDayNav();
+            renderSelectedDay();
+        }
+
+        function renderSelectedDay() {
+            const viewport = document.getElementById('pub-viewport');
+            if (!viewport || !state.selectedDate) return;
+
+            const articles = (state.weekData && state.weekData[state.selectedDate]) ? state.weekData[state.selectedDate] : [];
+            if (articles.length === 0) {
+                viewport.innerHTML = '<div style="text-align:center; padding: 80px 20px; color:#64748b;">' +
+                    '<div style="font-size: 48px; margin-bottom: 12px;">☕</div>' +
+                    '<h2 style="font-size: 20px; font-weight: 700; margin-bottom: 6px; color: var(--text-nav);">No Edition Published</h2>' +
+                    '<p style="font-size: 14px; max-width: 400px; margin: 0 auto;">The editorial magazine for this date has not been compiled or published yet.</p>' +
+                    '</div>';
+                return;
+            }
+
+            const isDark = state.themeMode === 'dark';
+            const replicaHtml = buildStandaloneReplicaHtml(state.selectedDate, articles, isDark);
+            
+            viewport.innerHTML = '<iframe id="pub-frame" class="pub-iframe-sheet" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>';
+
+            const frame = document.getElementById('pub-frame');
+            if (frame) {
+                const syncHeight = () => {
+                    try {
+                        const innerDoc = frame.contentDocument || frame.contentWindow?.document;
+                        if (innerDoc && innerDoc.documentElement) {
+                            const scrollH = Math.max(
+                                innerDoc.body ? innerDoc.body.scrollHeight : 0,
+                                innerDoc.documentElement.scrollHeight,
+                                innerDoc.body ? innerDoc.body.offsetHeight : 0,
+                                800
+                            );
+                            frame.style.height = (scrollH + 60) + 'px';
+                        }
+                    } catch (e) {}
+                };
+
+                frame.onload = () => {
+                    syncHeight();
+                    try {
+                        const win = frame.contentWindow;
+                        if (win && win.ResizeObserver && win.document.body) {
+                            const observer = new win.ResizeObserver(() => syncHeight());
+                            observer.observe(win.document.body);
+                        }
+                    } catch (e) {}
+                    setTimeout(syncHeight, 200);
+                    setTimeout(syncHeight, 600);
+                    setTimeout(syncHeight, 1500);
+                    setTimeout(syncHeight, 3000);
+                };
+
+                frame.srcdoc = replicaHtml;
+            }
+        }
+
+        function escapeMagHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function extractEvidenceSpansJs(text) {
+            if (!text) return [];
+            const exclusions = [];
+            const noiseRegex = /\b(?:Article|Section|Schedule|Clause|Rule|Form|Order|Act)\s+[\dA-Za-z()]+\b/gi;
+            const dateRegex = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:,\s+\d{4})?\b|\b\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+\d{4})?\b|\b\d{1,2}:\d{2}(?:\s*(?:AM|PM|IST))?\b/gi;
+            const yearRegex = /\b(19\d\d|20\d\d)\b/g;
+
+            let m;
+            while ((m = noiseRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+            while ((m = dateRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+            while ((m = yearRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+
+            const isExcluded = (start, end) => {
+                for (let i = 0; i < exclusions.length; i++) {
+                    const [exStart, exEnd] = exclusions[i];
+                    if (!(end <= exStart || start >= exEnd)) return true;
+                }
+                return false;
+            };
+
+            const patterns = [
+                /(?:(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])\s*\d+[\d.,]*(?:\s*(?:to|-|and)\s*(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])?\s*\d+[\d.,]*)?(?:\s*(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion))?(?:\s*(?:per|\/)\s*(?:kg|tonne|quintal|barrel|litre|annum|month|year|capita|unit|ration\s+card))?)|(?:\b\d+[\d.,]*\s*(?:lakh\s+crore|crore|lakh|million|billion|trillion)\s*(?:economy|outlay|budget|package|capex|revenue)\b)/gi,
+                /(?:\b\d+[\d.,]*\s*(?:%|per\s*cent|percent)(?:\s*(?:to|-|and)\s*\d+[\d.,]*\s*(?:%|per\s*cent|percent))?(?:\s+of\s+GDP)?(?!\w))|(?:\b\d+[\d.,]*(?:%|per\s*cent)?\s*(?:to|-)\s*\d+[\d.,]*\s*(?:%|per\s*cent|percent)(?!\w))|(?:\b\d+[\d.,]*\s*(?:-|to|\s+)?(?:basis\s+points|bps)\b)/gi,
+                /\b\d+[\d.,]*\s+(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion)\b(?:\s+(?:additional\s+)?(?:people|citizens|electors|voters|civilians|men|women|residents|beneficiaries|households|families|candidates|seats|homes|appeals|cases|tonnes|mt|jobs|farmers|indians))?/gi,
+                /\b\d+[\d.,]*\s*(?:°C|degrees?\s+celsius|degrees|centimetres|cm|kilometres|km|sq\s*km|square\s+kilometres|hectares|acres|metres|GW|MW|gigawatts|megawatts|tonnes|mt|quintal|cusecs)\b/gi,
+                /\b\d+\s*-\s*\d+\s+(?:lead|series|victory|draw|win)\b|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+out\s+of\s+(?:the\s+)?(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\b|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+of\s+(?:[A-Za-z’'-]+\s+){0,2}\d+\b|\b(?:two-thirds|three-quarters|a\s+quarter|a\s+third|a\s+tenth|a\s+fifth|half|sixfold)\b/gi,
+                /\b\d+(?:-|\s+)(?:day|month|year|hour|minute|quarter|round|judge|member|test|time|point)-(?:old|high|streak|window|limit|curfew|drop|cut|hike|surge|bench|titlist|finalist|edition|deficit)\b|\b(?:under-18|two-hour|24-hour|best-of-five)\b/gi,
+                /\b\d+[\d.,]*\s+(?:people|indians|voters|electors|civilians|residents|newborns|babies|bridges|roads|appeals|tribunals|colleges|institutions|launches|protesters|cases|seats|candidates|graduates|states|countries|drones|rockets|firms|points|runs)\b|\b\d{1,3}(?:,\d{2,3})+(?:\.\d+)?\b/gi
+            ];
+
+            const rawSpans = [];
+            patterns.forEach(regex => {
+                let match;
+                while ((match = regex.exec(text)) !== null) {
+                    const start = match.index;
+                    const end = start + match[0].length;
+                    if (!isExcluded(start, end)) {
+                        rawSpans.push({ start, end, text: match[0].trim() });
+                    }
+                }
+            });
+
+            if (rawSpans.length === 0) return [];
+            rawSpans.sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start));
+            const merged = [rawSpans[0]];
+            for (let i = 1; i < rawSpans.length; i++) {
+                const cur = rawSpans[i];
+                const last = merged[merged.length - 1];
+                if (cur.start <= last.end) {
+                    if (cur.end > last.end) last.end = cur.end;
+                } else {
+                    merged.push(cur);
+                }
+            }
+            return merged;
+        }
+
+        function cleanAndHighlightPassageJs(passageTextOrHtml, vocabItems) {
+            if (!passageTextOrHtml) return '<p>Editorial passage text being processed.</p>';
+            let rawText = String(passageTextOrHtml)
+                .replace(/\$\\overline\{7\}/g, '₹')
+                .replace(/\$\\approx/g, '₹~')
+                .replace(/\$(?:\\overline\{7\}|\\approx)/g, '₹')
+                .replace(/\\overline\{7\}/g, '₹');
+
+            const rawParas = rawText
+                .replace(/<\/?p>/gi, '\n')
+                .replace(/<span[^>]*>/gi, '')
+                .replace(/<\/span>/gi, '')
+                .replace(/<sup[^>]*>[^<]*<\/sup>/gi, '')
+                .split(/\r?\n+/)
+                .map(p => p.trim())
+                .filter(Boolean);
+
+            const sortedVocab = (vocabItems || []).slice().sort((a, b) => {
+                const lenA = (a.word_or_phrase || '').length;
+                const lenB = (b.word_or_phrase || '').length;
+                return lenB - lenA;
+            });
+
+            const cleanedParas = [];
+            rawParas.forEach(p => {
+                if (/^(Published|Updated|- ?[A-Za-z]+|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b)/i.test(p)) return;
+                if (/^[\w\s()-]+(\s+\/\s+[\w\s()-]+){2,}$/.test(p) || (p.split(' / ').length - 1) >= 3) return;
+                p = p.replace(/(\s+\/\s+[\w\s()-]+){2,}$/, '').trim();
+                if (!p) return;
+
+                const vocabSpans = [];
+                const claimed = new Array(p.length).fill(false);
+
+                sortedVocab.forEach((item, vIdx) => {
+                    const term = (item.word_or_phrase || '').trim();
+                    const idx = item.order_index || (vIdx + 1);
+                    if (!term) return;
+
+                    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const pattern = new RegExp('(?<![A-Za-z0-9])(' + escaped + ')(?![A-Za-z0-9])', 'gi');
+                    let m;
+                    while ((m = pattern.exec(p)) !== null) {
+                        const start = m.index;
+                        const end = start + m[0].length;
+                        let alreadyClaimed = false;
+                        for (let k = start; k < end; k++) {
+                            if (claimed[k]) { alreadyClaimed = true; break; }
+                        }
+                        if (!alreadyClaimed) {
+                            for (let k = start; k < end; k++) claimed[k] = true;
+                            vocabSpans.push({ start, end, idx });
+                        }
+                    }
+                });
+
+                const rawEvidence = extractEvidenceSpansJs(p);
+                const cleanEvidence = [];
+                rawEvidence.forEach(e => {
+                    let e_start = e.start, e_end = e.end;
+                    vocabSpans.forEach(v => {
+                        if (e_start < v.start && v.start < e_end && e_end < v.end) {
+                            e_end = v.start;
+                        } else if (v.start < e_start && e_start < v.end && v.end < e_end) {
+                            e_start = v.end;
+                        }
+                    });
+                    if (e_start < e_end) {
+                        cleanEvidence.push({ start: e_start, end: e_end });
+                    }
+                });
+
+                const tagsByPos = {};
+                const addTag = (pos, order, str) => {
+                    if (!tagsByPos[pos]) tagsByPos[pos] = [];
+                    tagsByPos[pos].push({ order, str });
+                };
+
+                vocabSpans.forEach(v => {
+                    addTag(v.end, 1, '<sup class="v-idx">' + v.idx + '</sup></span>');
+                    addTag(v.start, 4, '<span class="vocab-hl">');
+                });
+
+                cleanEvidence.forEach(e => {
+                    addTag(e.end, 2, '</span>');
+                    addTag(e.start, 3, '<span class="evidence-hl">');
+                });
+
+                const sortedPositions = Object.keys(tagsByPos).map(Number).sort((a, b) => a - b);
+                let annotated = '';
+                let lastIdx = 0;
+                sortedPositions.forEach(pos => {
+                    annotated += escapeMagHtml(p.substring(lastIdx, pos));
+                    const tags = tagsByPos[pos].sort((a, b) => a.order - b.order);
+                    tags.forEach(t => { annotated += t.str; });
+                    lastIdx = pos;
+                });
+                annotated += escapeMagHtml(p.substring(lastIdx));
+                cleanedParas.push('<p>' + annotated + '</p>');
+            });
+
+            return cleanedParas.join('\n');
+        }
+
+        function categorizeVocab(vocabItems) {
+            const cats = {
+                core_vocab: [],
+                one_word_subs: [],
+                fixed_prepositions: [],
+                phrasal_verbs: [],
+                foreign_words: [],
+                idioms: []
+            };
+            (vocabItems || []).forEach(item => {
+                const cat = String(item.category || '').toLowerCase();
+                if (cat.includes('one_word') || cat.includes('substitution') || cat === 'ows') {
+                    cats.one_word_subs.push(item);
+                } else if (cat.includes('fixed_prep') || cat.includes('preposition')) {
+                    cats.fixed_prepositions.push(item);
+                } else if (cat.includes('phrasal') || cat.includes('verb_phrase')) {
+                    cats.phrasal_verbs.push(item);
+                } else if (cat.includes('foreign')) {
+                    cats.foreign_words.push(item);
+                } else if (cat.includes('idiom') || cat.includes('phrase')) {
+                    cats.idioms.push(item);
+                } else {
+                    cats.core_vocab.push(item);
+                }
+            });
+            return cats;
+        }
+
+        function buildStandaloneReplicaHtml(dateStr, articles, isDark) {
+            const dayDate = new Date(dateStr + 'T00:00:00');
+            const optionsLong = { month: 'long', day: 'numeric', year: 'numeric' };
+            const formattedDateLong = isNaN(dayDate.getTime()) ? dateStr : dayDate.toLocaleDateString('en-US', optionsLong);
+
+            let pageCounter = 3;
+            const processed = (articles || []).map((art) => {
+                const vocabList = art.vocabulary || art.editorial_vocabulary || [];
+                const cats = categorizeVocab(vocabList);
+                const readerPageNum = pageCounter++;
+                const labPage1Num = pageCounter++;
+                const hasPage2 = (cats.fixed_prepositions.length > 0 || cats.phrasal_verbs.length > 0 || cats.foreign_words.length > 0 || cats.idioms.length > 0);
+                let labPage2Num = hasPage2 ? pageCounter++ : null;
+
+                return {
+                    art,
+                    vocabList,
+                    cats,
+                    readerPageNum,
+                    labPage1Num,
+                    labPage2Num,
+                    hasPage2
+                };
+            });
+
+            let articlesHtml = '';
+            processed.forEach((p, idx) => {
+                const a = p.art;
+                const bodyContent = cleanAndHighlightPassageJs(a.passage_html || a.passage || '', p.vocabList);
+                const sidebarVocabHtml = (p.vocabList || []).map((item, vIdx) => {
+                    const num = item.order_index || (vIdx + 1);
+                    const pos = item.part_of_speech ? '(' + escapeMagHtml(item.part_of_speech) + ')' : '';
+                    return '<div class="rd-sb-row">' +
+                        '<div class="rd-sb-num">' + num + '</div>' +
+                        '<div class="rd-sb-details">' +
+                            '<div class="rd-sb-word-line">' +
+                                '<span class="rd-sb-word">' + escapeMagHtml(item.word_or_phrase || '') + '</span>' +
+                                (pos ? '<span class="rd-sb-pos">' + pos + '</span>' : '') +
+                            '</div>' +
+                            '<div class="rd-sb-def">' +
+                                escapeMagHtml(item.easy_synonym || item.concise_meaning || '') +
+                                (item.hindi_meaning ? ' · <span class="rd-sb-hi devanagari">' + escapeMagHtml(item.hindi_meaning) + '</span>' : '') +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+                }).join('\n');
+
+                articlesHtml += '<div class="page inner-page">' +
+                    '<div class="inner-page-watermark" style="background-image: url(\'assets/magazine/watermark.png\');"></div>' +
+                    '<div class="inner-content-wrapper">' +
+                        '<a id="article-p' + p.readerPageNum + '" name="article-p' + p.readerPageNum + '"></a>' +
+                        '<div class="reader-panel">' +
+                            '<div class="rd-top-row">' +
+                                '<div class="rd-tag">' +
+                                    '<span>' + escapeMagHtml(a.newspaper || 'Editorial') + ' · ' + escapeMagHtml(a.topic || (a.editorial_metadata && a.editorial_metadata.topic) || 'General Studies') + '</span>' +
+                                '</div>' +
+                                (a.link ? '<a class="rd-source" href="' + escapeMagHtml(a.link) + '" target="_blank" rel="noopener noreferrer">Original Source ↗</a>' : '') +
+                            '</div>' +
+                            '<h1 class="rd-title">' + escapeMagHtml(a.title) + '</h1>' +
+                            (a.subtitle ? '<div class="rd-quote">“' + escapeMagHtml(a.subtitle) + '”</div>' : '') +
+                            '<div class="rd-meta">' +
+                                '<span>📅 ' + formattedDateLong + '</span>' +
+                                '<span>·</span>' +
+                                '<span>⏱ ' + escapeMagHtml(a.reading_time || '3 min read') + '</span>' +
+                            '</div>' +
+                            '<div class="rd-layout">' +
+                                '<div class="rd-body">' +
+                                    '<div>' + bodyContent + '</div>' +
+                                    '<div class="rd-citation">' +
+                                        '<span>Source: ' + escapeMagHtml(a.newspaper || 'Editorial') + '</span>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="rd-sidebar">' +
+                                    '<div class="rd-sb-header">' +
+                                        '<span>VOCAB LAB QUICK LOOK</span>' +
+                                        '<span>' + p.vocabList.length + ' WORDS</span>' +
+                                    '</div>' +
+                                    '<div class="rd-sb-list">' +
+                                        sidebarVocabHtml +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="page-footer-strip">' +
+                        '<span>Ez Editorials · Intelligence</span>' +
+                        '<span>Page ' + String(p.readerPageNum).padStart(2, '0') + '</span>' +
+                    '</div>' +
+                '</div>';
+            });
+
+            return '<!DOCTYPE html>' +
+'<html lang="en">' +
+'<head>' +
+'<meta charset="UTF-8">' +
+'<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+'<title>' + formattedDateLong + ' · Ez Editorials Magazine</title>' +
+'<link rel="stylesheet" href="magazine-pdf.css">' +
+'<style>' +
+'  html, body {' +
+'    margin: 0;' +
+'    padding: 0;' +
+'    background-color: ' + (isDark ? '#0b0f17' : '#f8fafc') + ';' +
+'    color: ' + (isDark ? '#e2e8f0' : '#1e293b') + ';' +
+'    font-family: \'Inter\', -apple-system, BlinkMacSystemFont, sans-serif;' +
+'    display: flex;' +
+'    flex-direction: column;' +
+'    align-items: center;' +
+'    overflow-x: hidden;' +
+'  }' +
+'  .inner-page-watermark { opacity: 0.03; pointer-events: none; }' +
+'  .page {' +
+'    width: 210mm;' +
+'    max-width: 100%;' +
+'    margin: 0 auto 36px auto;' +
+'    box-shadow: ' + (isDark ? '0 12px 40px rgba(0,0,0,0.6)' : '0 8px 30px rgba(0,0,0,0.08)') + ';' +
+'    border-radius: 6px;' +
+'    overflow: hidden;' +
+'    position: relative;' +
+'    background: ' + (isDark ? '#161e2e' : '#ffffff') + ';' +
+'    transition: box-shadow 0.2s ease;' +
+'  }' +
+'  @media (max-width: 840px) {' +
+'    .page {' +
+'      width: 100% !important;' +
+'      margin: 0 0 20px 0 !important;' +
+'      border-radius: 0 !important;' +
+'      box-shadow: none !important;' +
+'    }' +
+'  }' +
+'</style>' +
+'</head>' +
+'<body class="' + (isDark ? 'dark-theme' : '') + '">' +
+
+'<!-- FRONT COVER -->' +
+'<div class="page cover-page pure-front-cover">' +
+'  <div class="pfc-top-bar">' +
+'    <div class="pfc-brand-badge">' +
+'      <span>📚</span>' +
+'      <span>Ez Editorials · Intelligence</span>' +
+'    </div>' +
+'    <div class="pfc-date-pill">' +
+'      <span>📅</span>' +
+'      <span>' + formattedDateLong + '</span>' +
+'    </div>' +
+'  </div>' +
+'  <div class="pfc-hero">' +
+'    <div class="pfc-edition-tag">⚡ DIGITAL EDITION &nbsp;·&nbsp; ' + articles.length + ' EDITORIALS</div>' +
+'    <h1 class="pfc-title-main">DAILY EDITORIAL</h1>' +
+'    <h2 class="pfc-title-sub">DIGEST &amp; ANALYSIS</h2>' +
+'    <p class="pfc-desc">In-depth reading comprehension, Evidence Lens statistics, and structured vocabulary lab designed for competitive exam aspirants.</p>' +
+'  </div>' +
+'  <div class="pfc-features-grid">' +
+'    <div class="pfc-feature-card">' +
+'      <div class="pfc-feature-icon">🔍</div>' +
+'      <div class="pfc-feature-title">Evidence Lens</div>' +
+'      <div class="pfc-feature-desc">Numeric highlights, economic shifts &amp; statistics.</div>' +
+'    </div>' +
+'    <div class="pfc-feature-card">' +
+'      <div class="pfc-feature-icon">🧠</div>' +
+'      <div class="pfc-feature-title">Vocab Lab</div>' +
+'      <div class="pfc-feature-desc">Mnemonics, connotations &amp; Hindi meanings.</div>' +
+'    </div>' +
+'    <div class="pfc-feature-card">' +
+'      <div class="pfc-feature-icon">🎯</div>' +
+'      <div class="pfc-feature-title">Exam Precision</div>' +
+'      <div class="pfc-feature-desc">Targeted for UPSC, SSC CGL, Banking &amp; State PSC.</div>' +
+'    </div>' +
+'  </div>' +
+'  <div class="pfc-footer-strip">' +
+'    <span>Volume 2 · Daily Digital Edition</span>' +
+'    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="pfc-footer-btn">' +
+'      <span>Join Telegram Group ↗</span>' +
+'    </a>' +
+'  </div>' +
+'</div>' +
+
+articlesHtml +
+
+'<!-- BACK COVER -->' +
+'<div class="page cover-page pure-back-cover">' +
+'  <div class="pbc-header">' +
+'    <div class="pbc-tag">Official Knowledge Hubs</div>' +
+'    <div class="pbc-title">STAY CONNECTED &amp; KEEP EXCELLING</div>' +
+'  </div>' +
+'  <div class="pbc-grid">' +
+'    <a href="https://t.me/ezeditorialgroup/3" target="_blank" class="pbc-card">' +
+'      <div>' +
+'        <div class="pbc-card-title"><span>📰</span> Daily Editorials &amp; PDF</div>' +
+'        <div class="pbc-card-desc">Daily editorial passage breakdowns, vocabulary drops, and high-res PDF magazines.</div>' +
+'      </div>' +
+'      <span class="pbc-btn">Join Telegram ↗</span>' +
+'    </a>' +
+'    <a href="https://t.me/EzSSC" target="_blank" class="pbc-card">' +
+'      <div>' +
+'        <div class="pbc-card-title"><span>🎯</span> EzSSC Official</div>' +
+'        <div class="pbc-card-desc">Curated SSC CGL &amp; CHSL quizzes, PYQs, and English speed trials.</div>' +
+'      </div>' +
+'      <span class="pbc-btn">Join Channel ↗</span>' +
+'    </a>' +
+'  </div>' +
+'  <div class="pbc-quote">' +
+'    “Small daily efforts lead to monumental achievements. Consistency in reading is the cornerstone of linguistic mastery.”' +
+'  </div>' +
+'  <div class="pbc-footer">' +
+'    <span>Ez Editorials Publication · Built for Aspirants</span>' +
+'    <span>Edition · ' + formattedDateLong + '</span>' +
+'  </div>' +
+'</div>' +
+'</body>' +
+'</html>';
+        }
+
+        window.addEventListener('DOMContentLoaded', initPublication);
+    </script>
+</body>
+</html>

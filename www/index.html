@@ -3751,21 +3751,32 @@
             color: var(--text-main) !important;
         }
 
-        /* 🟢 LAPTOP & TELEGRAM WEB DESKTOP ADAPTIVE OVERRIDES */
+        /* 🟢 LAPTOP & DESKTOP WEB ADAPTIVE OVERRIDES */
         html.is-desktop body {
-            /* zoom removed */
+            background-color: var(--bg-body);
         }
 
         html.is-desktop .view-container {
-            padding-bottom: 70px;
+            padding-bottom: 50px;
+        }
+
+        /* Hide duplicate mobile headers & back buttons on desktop */
+        html.is-desktop #view-home > .top-header,
+        html.is-desktop #view-magazine > .top-header {
+            display: none !important;
+        }
+
+        html.is-desktop .back-btn,
+        html.is-desktop .cup-header-back-btn {
+            display: none !important;
         }
 
         html.is-desktop .top-header {
-            padding: 10px 16px 4px 16px;
+            padding: 14px 0 16px 0;
         }
 
         html.is-desktop .greeting-wrapper {
-            padding: 0 14px 8px 14px;
+            padding: 0 0 16px 0;
         }
 
         html.is-desktop .timer-hero-card,
@@ -3775,29 +3786,19 @@
         html.is-desktop .journey-section,
         html.is-desktop .highlights-section,
         html.is-desktop .motivation-banner {
-            margin-left: 14px;
-            margin-right: 14px;
-            margin-bottom: 10px;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            margin-bottom: 16px !important;
+            width: 100% !important;
         }
 
+        /* Bottom nav must NEVER show on desktop */
         html.is-desktop .bottom-nav {
-            padding: 8px 0 12px 0;
-        }
-
-        html.is-desktop .nav-item {
-            font-size: 10px;
-            width: 52px;
-            gap: 2px;
-        }
-
-        html.is-desktop .nav-icon {
-            width: 22px;
-            height: 22px;
+            display: none !important;
         }
 
         html.is-desktop .cup-sticky-self-bar {
-            bottom: calc(60px + env(safe-area-inset-bottom, 0px));
-            padding: 6px 10px;
+            display: none !important;
         }
     
         /* 🟢 Mobile-first styles for Home Stat Grid */
@@ -4179,6 +4180,28 @@
                 padding: 20px 24px 60px 24px !important;
                 min-height: calc(100vh - 65px) !important;
                 box-sizing: border-box !important;
+                transition: grid-template-columns 0.2s ease !important;
+            }
+
+            /* Contextual Desktop Layout: Hide 340px right rail on reading & focused views */
+            .app-layout-root.focus-mode,
+            .app-layout-root.magazine-mode,
+            .app-layout-root:has(#view-magazine.active),
+            .app-layout-root:has(#view-cup.active),
+            .app-layout-root:has(#view-day.active),
+            .app-layout-root:has(#view-progress.active),
+            .app-layout-root:has(#view-profile.active) {
+                grid-template-columns: 240px minmax(0, 1fr) !important;
+            }
+
+            .app-layout-root.focus-mode .right-performance-rail,
+            .app-layout-root.magazine-mode .right-performance-rail,
+            .app-layout-root:has(#view-magazine.active) .right-performance-rail,
+            .app-layout-root:has(#view-cup.active) .right-performance-rail,
+            .app-layout-root:has(#view-day.active) .right-performance-rail,
+            .app-layout-root:has(#view-progress.active) .right-performance-rail,
+            .app-layout-root:has(#view-profile.active) .right-performance-rail {
+                display: none !important;
             }
 
             .left-nav-rail {
@@ -4349,10 +4372,41 @@
             }
 
             html.is-desktop .center-workspace-pane #view-magazine {
-                max-width: 1060px !important;
+                max-width: 1100px !important;
                 width: 100% !important;
                 margin: 0 auto !important;
                 padding-bottom: 60px !important;
+            }
+
+            html.is-desktop #view-magazine .magazine-container {
+                max-width: 1100px !important;
+                padding: 0 !important;
+            }
+
+            html.is-desktop .magazine-hero {
+                padding: 24px 28px !important;
+                border-radius: 16px !important;
+                margin-bottom: 20px !important;
+                background: var(--bg-card) !important;
+                border: 1px solid var(--border-color) !important;
+                box-shadow: var(--shadow-sm) !important;
+            }
+
+            html.is-desktop .magazine-day-nav {
+                gap: 8px !important;
+                margin-bottom: 20px !important;
+            }
+
+            html.is-desktop .mag-day-pill {
+                min-height: 52px !important;
+                border-radius: 10px !important;
+                padding: 8px 4px !important;
+            }
+
+            html.is-desktop .mag-toolbar {
+                padding: 12px 18px !important;
+                border-radius: 12px !important;
+                margin-bottom: 24px !important;
             }
 
             html.is-desktop .digest-cards-list {
@@ -6250,11 +6304,12 @@
             <!-- Hero Summary Card -->
             <div class="magazine-hero">
                 <div class="magazine-hero-header">
-                    <span class="magazine-badge">📰 Live Editorial Stream</span>
+                    <span class="magazine-badge" id="mag-edition-pill">📰 Live Editorial Stream</span>
                     <span class="magazine-progress-text" id="mag-read-progress">0 of 6 days read</span>
                 </div>
+                <h1 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 6px 0 4px 0; letter-spacing: -0.3px;">Weekly Editorial Publication</h1>
                 <div style="font-size: var(--font-sm, 13px); color: var(--text-muted); line-height: 1.5;">
-                    Curated editorials with <strong>Evidence Lens</strong> numeric highlights and analysis.
+                    Curated daily editorials with precision <strong>Evidence Lens</strong> data metrics, structured vocabulary lab, and comprehension analysis.
                 </div>
             </div>
 
@@ -6293,9 +6348,9 @@
                         <span id="mag-theme-label">Dark Mode</span>
                     </button>
 
-                    <button class="mag-tool-btn" onclick="openMagazineFullscreen()" title="Open magazine in a new tab for distraction-free full window reading on laptop">
+                    <button class="mag-tool-btn" onclick="openMagazineFullscreen()" title="Open magazine in a dedicated web reader tab for distraction-free reading">
                         <span>↗️</span>
-                        <span>Open in New Tab</span>
+                        <span>Open Web Reader</span>
                     </button>
 
                     <a class="mag-tool-btn" id="mag-btn-tg-post" href="#" target="_blank" rel="noopener noreferrer" style="display:none; text-decoration:none;" title="Open PDF broadcast in Telegram group">
@@ -9330,12 +9385,8 @@
         function openMagazineFullscreen() {
             triggerHaptic('selection');
             if (!magazineState.selectedDate) return;
-            const articles = (magazineState.weekData && magazineState.weekData[magazineState.selectedDate]) ? magazineState.weekData[magazineState.selectedDate] : [];
-            if (!articles || articles.length === 0) return;
-            const html = generateMagazineReplicaHtml(magazineState.selectedDate, articles, magazineState.themeMode);
-            const blob = new Blob([html], { type: 'text/html' });
-            const blobUrl = URL.createObjectURL(blob);
-            window.open(blobUrl, '_blank');
+            const targetUrl = `magazine.html?date=${encodeURIComponent(magazineState.selectedDate)}&theme=${encodeURIComponent(magazineState.themeMode)}`;
+            window.open(targetUrl, '_blank');
         }
 
         function updateTelegramPostButton(dateStr) {
@@ -10272,7 +10323,37 @@
 ${baseHref ? `<base href="${baseHref}">` : ''}
 <link rel="stylesheet" href="magazine-pdf.css">
 <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: ${isDark ? '#0b0f17' : '#f8fafc'};
+    color: ${isDark ? '#e2e8f0' : '#1e293b'};
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
   .inner-page-watermark { opacity: 0.03; pointer-events: none; }
+  .page {
+    width: 210mm;
+    max-width: 100%;
+    margin: 0 auto 36px auto;
+    box-shadow: ${isDark ? '0 12px 40px rgba(0,0,0,0.6)' : '0 8px 30px rgba(0,0,0,0.08)'};
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    background: ${isDark ? '#161e2e' : '#ffffff'};
+    transition: box-shadow 0.2s ease;
+  }
+  @media (max-width: 840px) {
+    .page {
+      width: 100% !important;
+      margin: 0 0 20px 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+  }
 </style>
 </head>
 <body class="${isDark ? 'dark-theme' : ''}">
@@ -10524,12 +10605,42 @@ ${articlesHtml}
         function renderIframeMagazine(container, htmlContent, dateStr) {
             container.innerHTML = `
                 <div class="mag-reader-viewport">
-                    <iframe id="mag-frame-${dateStr}" class="mag-reader-iframe" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                    <iframe id="mag-frame-${dateStr}" class="mag-reader-iframe" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                 </div>
             `;
 
             const frame = document.getElementById(`mag-frame-${dateStr}`);
             if (frame) {
+                const syncHeight = () => {
+                    try {
+                        const innerDoc = frame.contentDocument || frame.contentWindow?.document;
+                        if (innerDoc && innerDoc.documentElement) {
+                            const scrollH = Math.max(
+                                innerDoc.body ? innerDoc.body.scrollHeight : 0,
+                                innerDoc.documentElement.scrollHeight,
+                                innerDoc.body ? innerDoc.body.offsetHeight : 0,
+                                750
+                            );
+                            frame.style.height = `${scrollH + 40}px`;
+                        }
+                    } catch (e) {}
+                };
+
+                frame.onload = () => {
+                    syncHeight();
+                    try {
+                        const win = frame.contentWindow;
+                        if (win && win.ResizeObserver && win.document.body) {
+                            const observer = new win.ResizeObserver(() => syncHeight());
+                            observer.observe(win.document.body);
+                        }
+                    } catch (e) {}
+                    setTimeout(syncHeight, 250);
+                    setTimeout(syncHeight, 750);
+                    setTimeout(syncHeight, 1500);
+                    setTimeout(syncHeight, 3000);
+                };
+
                 frame.srcdoc = htmlContent;
             }
         }
@@ -10667,6 +10778,14 @@ ${articlesHtml}
             const targetContainer = document.getElementById(viewId);
             if (targetContainer) targetContainer.classList.add('active');
             window.scrollTo(0, 0);
+
+            // Adapt desktop layout: hide right performance rail on focused views (magazine, cup, day, progress, profile)
+            const appRoot = document.querySelector('.app-layout-root');
+            if (appRoot) {
+                const isFocused = ['view-magazine', 'view-cup', 'view-day', 'view-progress', 'view-profile'].includes(viewId);
+                appRoot.classList.toggle('focus-mode', isFocused);
+                appRoot.classList.toggle('magazine-mode', viewId === 'view-magazine');
+            }
 
             // Sync Desktop Nav Active State
             const railNavMap = {
