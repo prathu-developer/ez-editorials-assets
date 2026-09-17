@@ -4760,17 +4760,14 @@
                 <button class="nav-rail-btn active" id="rail-nav-home" onclick="switchView('view-home')">
                     <span>🏠</span> Home
                 </button>
-                <button class="nav-rail-btn" id="rail-nav-day" onclick="switchView('view-day')">
-                    <span>🎯</span> Topic Trials
-                </button>
-                <button class="nav-rail-btn" id="rail-nav-digest" onclick="switchView('view-digest')">
-                    <span>📰</span> Daily Digest
-                </button>
                 <button class="nav-rail-btn" id="rail-nav-magazine" onclick="switchView('view-magazine')">
                     <span>📖</span> Magazine
                 </button>
+                <button class="nav-rail-btn" id="rail-nav-day" onclick="switchView('view-day')">
+                    <span>🎯</span> Tests &amp; Trials
+                </button>
                 <button class="nav-rail-btn" id="rail-nav-cup" onclick="switchView('view-cup')">
-                    <span>🏆</span> Weekly Cup
+                    <span>🏆</span> Rankings &amp; Cup
                 </button>
                 <button class="nav-rail-btn" id="rail-nav-progress" onclick="switchView('view-progress')">
                     <span>📈</span> Progress
@@ -4780,6 +4777,9 @@
                 </button>
             </nav>
             <div class="nav-rail-footer">
+                <button class="nav-rail-btn" id="rail-nav-theme-toggle" onclick="toggleDarkMode()">
+                    <span class="theme-toggle-icon">🌙</span> Dark Mode
+                </button>
                 <button class="nav-rail-btn" onclick="openSubModal('settingsModalOverlay')">
                     <span>⚙️</span> Settings
                 </button>
@@ -4793,13 +4793,21 @@
         <main class="center-workspace-pane">
             <div id="view-home" class="view-container active">
         <div class="top-header">
-            <!-- Left icon (Coming Soon) -->
-            <svg class="icon-btn" onclick="alert('Menu features coming soon!')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:20px;">📚</span>
+                <span style="font-weight:800; font-size:16px; color:var(--text-main); letter-spacing:-0.2px;">Ez Editorials</span>
+            </div>
             
-            <!-- Right Bell icon (Hooked to Notification Modal) -->
-            <div style="position: relative;" onclick="openSubModal('notificationModalOverlay')">
-                <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                <div id="header-bell-badge" style="display:none; position:absolute; top:-2px; right:2px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <!-- Quick Dark Mode Toggle -->
+                <button onclick="toggleDarkMode()" style="background:none; border:none; font-size:18px; cursor:pointer; padding:4px; display:inline-flex; align-items:center; justify-content:center;" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">
+                    <span class="theme-toggle-icon">🌙</span>
+                </button>
+                <!-- Right Bell icon (Hooked to Notification Modal) -->
+                <div style="position: relative; cursor:pointer; display:inline-flex; align-items:center;" onclick="openSubModal('notificationModalOverlay')">
+                    <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <div id="header-bell-badge" style="display:none; position:absolute; top:-2px; right:2px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
+                </div>
             </div>
         </div>
 
@@ -5008,18 +5016,18 @@
 
             <!-- 4. Today's Highlights Card (Row 2 Col 2) -->
             <div class="highlights-section">
-                <h3 class="highlights-title">Today's Highlights</h3>
+                <h3 class="highlights-title">Daily Study Pillars</h3>
                 
                 <div class="highlights-card">
-                    <!-- 1. Word of the Day (Navigates to Digest Tab) -->
-                    <div class="highlight-row" onclick="switchView('view-digest')">
+                    <!-- 1. Editorial Magazine (Navigates to Magazine View) -->
+                    <div class="highlight-row" onclick="switchView('view-magazine')" style="cursor: pointer;">
                         <div class="highlight-left">
                             <div class="highlight-icon-box hl-purple">📖</div>
                             <div class="highlight-text-content">
-                                <div class="highlight-tag">⭐ Word of the Day</div>
+                                <div class="highlight-tag">📰 Live Editorial Magazine</div>
                                 <div class="highlight-main-line">
-                                    <span class="highlight-word" id="hl-wotd-word">Loading...</span>
-                                    <span class="highlight-meaning" id="hl-wotd-meaning">Tap to read</span>
+                                    <span class="highlight-word" id="hl-mag-title">Today's Digital Edition</span>
+                                    <span class="highlight-meaning">Evidence Lens &amp; Vocab Lab</span>
                                 </div>
                             </div>
                         </div>
@@ -5028,15 +5036,15 @@
 
                     <div class="highlight-row-divider"></div>
 
-                    <!-- 2. Foreign Expression (Navigates to Digest Tab) -->
-                    <div class="highlight-row" onclick="switchView('view-digest')">
+                    <!-- 2. Daily Test & Topic Trials (Navigates to Tests) -->
+                    <div class="highlight-row" onclick="switchView('view-day')" style="cursor: pointer;">
                         <div class="highlight-left">
-                            <div class="highlight-icon-box hl-green">🌍</div>
+                            <div class="highlight-icon-box hl-green">🎯</div>
                             <div class="highlight-text-content">
-                                <div class="highlight-tag">🎭 Foreign Expression</div>
+                                <div class="highlight-tag">📝 Daily Test &amp; Trials</div>
                                 <div class="highlight-main-line">
-                                    <span class="highlight-word" id="hl-foreign-word">Loading...</span>
-                                    <span class="highlight-meaning" id="hl-foreign-meaning">Tap to read</span>
+                                    <span class="highlight-word">Topic Practice Test</span>
+                                    <span class="highlight-meaning">Solve 10 questions &amp; climb rank</span>
                                 </div>
                             </div>
                         </div>
@@ -6342,14 +6350,14 @@
                 <div class="rail-countdown-badge" id="rail-exam-countdown">⏱ Loading countdown...</div>
             </div>
 
-            <!-- 3. Word of the Day & Foreign Expression Card -->
-            <div class="rail-card wotd-widget" onclick="switchView('view-digest')">
+            <!-- 3. Daily Editorial Magazine Widget -->
+            <div class="rail-card wotd-widget" onclick="switchView('view-magazine')">
                 <div class="rail-card-header">
-                    <span class="rail-card-title">📖 Word of the Day</span>
-                    <span class="rail-badge">Vocabulary</span>
+                    <span class="rail-card-title">📖 Editorial Magazine</span>
+                    <span class="rail-badge">Today</span>
                 </div>
-                <div class="rail-wotd-word" id="rail-wotd-display">Loading...</div>
-                <div class="rail-wotd-sub" id="rail-wotd-meaning">Tap to explore usage, synonyms & editorial passage ›</div>
+                <div class="rail-wotd-word" id="rail-wotd-display">Daily Digital Edition</div>
+                <div class="rail-wotd-sub" id="rail-wotd-meaning">Tap to open full magazine reader, Evidence Lens &amp; Vocab Lab ›</div>
             </div>
 
             <!-- 4. Persistent Weekly Schedule Widget -->
@@ -6597,22 +6605,18 @@
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
             <span>Home</span>
         </div>
-        <div class="nav-item" onclick="switchView('view-digest')" id="nav-digest" style="position: relative;">
+        <div class="nav-item" onclick="switchView('view-magazine')" id="nav-magazine" style="position: relative;">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-            <span>Digest</span>
-            <div id="digest-badge" style="display:none; position:absolute; top:-2px; right:12px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
+            <span>Magazine</span>
+            <div id="mag-badge" style="display:none; position:absolute; top:-2px; right:12px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
+        </div>
+        <div class="nav-item" onclick="switchView('view-day')" id="nav-day">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+            <span>Tests</span>
         </div>
         <div class="nav-item" onclick="switchView('view-cup')" id="nav-cup">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10M5 4h14a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8V6a2 2 0 0 1 2-2z"></path></svg>
-            <span>Cup</span>
-        </div>
-        <div class="nav-item" onclick="switchView('view-progress')" id="nav-progress">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="20" x2="18" y2="10"></line>
-                <line x1="12" y1="20" x2="12" y2="4"></line>
-                <line x1="6" y1="20" x2="6" y2="14"></line>
-            </svg>
-            <span>Progress</span>
+            <span>Rankings</span>
         </div>
         <div class="nav-item" onclick="switchView('view-profile')" id="nav-profile">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -6686,6 +6690,23 @@
             const isDark = document.body.classList.toggle('dark-mode');
             localStorage.setItem('app_dark_mode', isDark);
             updateToggleUI('darkToggleBall', 'darkToggleBg', isDark);
+            
+            // Sync theme toggle icons across header, rail & toolbar
+            document.querySelectorAll('.theme-toggle-icon').forEach(icon => {
+                icon.innerText = isDark ? '☀️' : '🌙';
+            });
+            const railText = document.getElementById('rail-theme-text');
+            if (railText) railText.innerText = isDark ? 'Light Mode' : 'Dark Mode';
+
+            // Sync active magazine theme mode if magazine reader is initialized
+            if (typeof magazineState !== 'undefined') {
+                magazineState.themeMode = isDark ? 'dark' : 'light';
+                if (typeof updateMagazineThemeButton === 'function') updateMagazineThemeButton();
+                if (magazineState.selectedDate && typeof renderMagazineArticles === 'function') {
+                    renderMagazineArticles(magazineState.selectedDate);
+                }
+            }
+
             triggerHaptic('light');
         }
 
@@ -9342,6 +9363,179 @@
                 ? window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1) 
                 : '';
 
+            function extractEvidenceSpansJs(text) {
+                if (!text) return [];
+                const exclusions = [];
+                const noiseRegex = /\b(?:Article|Section|Schedule|Clause|Rule|Form|Order|Act)\s+[\dA-Za-z()]+\b/gi;
+                const dateRegex = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:,\s+\d{4})?\b|\b\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+\d{4})?\b|\b\d{1,2}:\d{2}(?:\s*(?:AM|PM|IST))?\b/gi;
+                const yearRegex = /\b(19\d\d|20\d\d)\b/g;
+
+                let m;
+                while ((m = noiseRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+                while ((m = dateRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+                while ((m = yearRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+
+                const isExcluded = (start, end) => {
+                    for (let i = 0; i < exclusions.length; i++) {
+                        const [exStart, exEnd] = exclusions[i];
+                        if (!(end <= exStart || start >= exEnd)) return true;
+                    }
+                    return false;
+                };
+
+                const patterns = [
+                    /(?:(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])\s*\d+[\d.,]*(?:\s*(?:to|-|and)\s*(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])?\s*\d+[\d.,]*)?(?:\s*(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion))?(?:\s*(?:per|\/)\s*(?:kg|tonne|quintal|barrel|litre|annum|month|year|capita|unit|ration\s+card))?)|(?:\b\d+[\d.,]*\s*(?:lakh\s+crore|crore|lakh|million|billion|trillion)\s*(?:economy|outlay|budget|package|capex|revenue)\b)/gi,
+                    /(?:\b\d+[\d.,]*\s*(?:%|per\s*cent|percent)(?:\s*(?:to|-|and)\s*\d+[\d.,]*\s*(?:%|per\s*cent|percent))?(?:\s+of\s+GDP)?(?!\w))|(?:\b\d+[\d.,]*(?:%|per\s*cent)?\s*(?:to|-)\s*\d+[\d.,]*\s*(?:%|per\s*cent|percent)(?!\w))|(?:\b\d+[\d.,]*\s*(?:-|to|\s+)?(?:basis\s+points|bps)\b)/gi,
+                    /\b\d+[\d.,]*\s+(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion)\b(?:\s+(?:additional\s+)?(?:people|citizens|electors|voters|civilians|men|women|residents|beneficiaries|households|families|candidates|seats|homes|appeals|cases|tonnes|mt|jobs|farmers|indians))?/gi,
+                    /\b\d+[\d.,]*\s*(?:°C|degrees?\s+celsius|degrees|centimetres|cm|kilometres|km|sq\s*km|square\s+kilometres|hectares|acres|metres|GW|MW|gigawatts|megawatts|tonnes|mt|quintal|cusecs)\b/gi,
+                    /\b\d+\s*-\s*\d+\s+(?:lead|series|victory|draw|win)\b|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+out\s+of\s+(?:the\s+)?(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\b|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+of\s+(?:[A-Za-z’'-]+\s+){0,2}\d+\b|\b(?:two-thirds|three-quarters|a\s+quarter|a\s+third|a\s+tenth|a\s+fifth|half|sixfold)\b/gi,
+                    /\b\d+(?:-|\s+)(?:day|month|year|hour|minute|quarter|round|judge|member|test|time|point)-(?:old|high|streak|window|limit|curfew|drop|cut|hike|surge|bench|titlist|finalist|edition|deficit)\b|\b(?:under-18|two-hour|24-hour|best-of-five)\b/gi,
+                    /\b\d+[\d.,]*\s+(?:people|indians|voters|electors|civilians|residents|newborns|babies|bridges|roads|appeals|tribunals|colleges|institutions|launches|protesters|cases|seats|candidates|graduates|states|countries|drones|rockets|firms|points|runs)\b|\b\d{1,3}(?:,\d{2,3})+(?:\.\d+)?\b/gi
+                ];
+
+                const rawSpans = [];
+                patterns.forEach(regex => {
+                    let match;
+                    while ((match = regex.exec(text)) !== null) {
+                        const start = match.index;
+                        const end = start + match[0].length;
+                        if (!isExcluded(start, end)) {
+                            rawSpans.push({ start, end, text: match[0].trim() });
+                        }
+                    }
+                });
+
+                if (rawSpans.length === 0) return [];
+                rawSpans.sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start));
+                const merged = [rawSpans[0]];
+                for (let i = 1; i < rawSpans.length; i++) {
+                    const cur = rawSpans[i];
+                    const last = merged[merged.length - 1];
+                    if (cur.start <= last.end) {
+                        if (cur.end > last.end) last.end = cur.end;
+                    } else {
+                        merged.push(cur);
+                    }
+                }
+                return merged;
+            }
+
+            function cleanAndHighlightPassageJs(passageTextOrHtml, vocabItems) {
+                if (!passageTextOrHtml) return '<p>Editorial passage text being processed.</p>';
+                
+                // Clean broken math / currency strings
+                let rawText = String(passageTextOrHtml)
+                    .replace(/\$\\overline\{7\}/g, '₹')
+                    .replace(/\$\\approx/g, '₹~')
+                    .replace(/\$(?:\\overline\{7\}|\\approx)/g, '₹')
+                    .replace(/\\overline\{7\}/g, '₹');
+
+                // Strip existing html tags safely to get pure paragraph strings
+                const rawParas = rawText
+                    .replace(/<\/?p>/gi, '\n')
+                    .replace(/<span[^>]*>/gi, '')
+                    .replace(/<\/span>/gi, '')
+                    .replace(/<sup[^>]*>[^<]*<\/sup>/gi, '')
+                    .split(/\r?\n+/)
+                    .map(p => p.trim())
+                    .filter(Boolean);
+
+                const sortedVocab = (vocabItems || []).slice().sort((a, b) => {
+                    const lenA = (a.word_or_phrase || '').length;
+                    const lenB = (b.word_or_phrase || '').length;
+                    return lenB - lenA;
+                });
+
+                const cleanedParas = [];
+                rawParas.forEach(p => {
+                    // Skip scraper timestamps & metadata
+                    if (/^(Published|Updated|- ?[A-Za-z]+|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b)/i.test(p)) {
+                        return;
+                    }
+                    // Skip dedicated tag/taxonomy lines
+                    if (/^[\w\s()-]+(\s+\/\s+[\w\s()-]+){2,}$/.test(p) || (p.split(' / ').length - 1) >= 3) {
+                        return;
+                    }
+                    // Strip trailing category tags
+                    p = p.replace(/(\s+\/\s+[\w\s()-]+){2,}$/, '').trim();
+                    if (!p) return;
+
+                    // Reserve claimed segments to prevent duplicate sub-token matching
+                    const vocabSpans = [];
+                    const claimed = new Array(p.length).fill(false);
+
+                    sortedVocab.forEach((item, vIdx) => {
+                        const term = (item.word_or_phrase || '').trim();
+                        const idx = item.order_index || (vIdx + 1);
+                        if (!term) return;
+
+                        const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        const pattern = new RegExp(`(?<![A-Za-z0-9])(${escaped})(?![A-Za-z0-9])`, 'gi');
+                        let m;
+                        while ((m = pattern.exec(p)) !== null) {
+                            const start = m.index;
+                            const end = start + m[0].length;
+                            let alreadyClaimed = false;
+                            for (let k = start; k < end; k++) {
+                                if (claimed[k]) { alreadyClaimed = true; break; }
+                            }
+                            if (!alreadyClaimed) {
+                                for (let k = start; k < end; k++) claimed[k] = true;
+                                vocabSpans.push({ start, end, idx });
+                            }
+                        }
+                    });
+
+                    // Extract Evidence Lens spans
+                    const rawEvidence = extractEvidenceSpansJs(p);
+                    const cleanEvidence = [];
+                    rawEvidence.forEach(e => {
+                        let e_start = e.start, e_end = e.end;
+                        vocabSpans.forEach(v => {
+                            if (e_start < v.start && v.start < e_end && e_end < v.end) {
+                                e_end = v.start;
+                            } else if (v.start < e_start && e_start < v.end && v.end < e_end) {
+                                e_start = v.end;
+                            }
+                        });
+                        if (e_start < e_end) {
+                            cleanEvidence.push({ start: e_start, end: e_end });
+                        }
+                    });
+
+                    // Nesting order: Vocab Close (1), Evidence Close (2), Evidence Open (3), Vocab Open (4)
+                    const tagsByPos = {};
+                    const addTag = (pos, order, str) => {
+                        if (!tagsByPos[pos]) tagsByPos[pos] = [];
+                        tagsByPos[pos].push({ order, str });
+                    };
+
+                    vocabSpans.forEach(v => {
+                        addTag(v.end, 1, `<sup class="v-idx">${v.idx}</sup></span>`);
+                        addTag(v.start, 4, '<span class="vocab-hl">');
+                    });
+
+                    cleanEvidence.forEach(e => {
+                        addTag(e.end, 2, '</span>');
+                        addTag(e.start, 3, '<span class="evidence-hl">');
+                    });
+
+                    const sortedPositions = Object.keys(tagsByPos).map(Number).sort((a, b) => a - b);
+                    let annotated = '';
+                    let lastIdx = 0;
+                    sortedPositions.forEach(pos => {
+                        annotated += escapeMagHtml(p.substring(lastIdx, pos));
+                        const tags = tagsByPos[pos].sort((a, b) => a.order - b.order);
+                        tags.forEach(t => { annotated += t.str; });
+                        lastIdx = pos;
+                    });
+                    annotated += escapeMagHtml(p.substring(lastIdx));
+                    cleanedParas.push(`<p>${annotated}</p>`);
+                });
+
+                return cleanedParas.join('\n');
+            }
+
             function getStanceTheme(toneStr) {
                 const t = (toneStr || '').toLowerCase();
                 if (['critical', 'pessimistic', 'disapproving', 'sarcastic', 'cynical', 'hostile', 'admonitory'].some(k => t.includes(k))) {
@@ -9467,15 +9661,8 @@
                 const isLastArt = idx === processed.length - 1;
                 const nextArtProc = isLastArt ? null : processed[idx + 1];
 
-                let bodyContent = '';
-                if (a.passage_html && a.passage_html.trim()) {
-                    bodyContent = a.passage_html;
-                } else if (a.passage) {
-                    const paras = String(a.passage).split(/\r?\n+/).map(s => s.trim()).filter(Boolean);
-                    bodyContent = paras.map((para, pIdx) => `<p>¶ ${pIdx + 1} ${escapeMagHtml(para)}</p>`).join('\n');
-                } else {
-                    bodyContent = `<p>Editorial text being processed.</p>`;
-                }
+                const rawPassage = a.passage_html || a.passage || '';
+                const bodyContent = cleanAndHighlightPassageJs(rawPassage, p.vocabList);
 
                 const sidebarVocabHtml = (p.vocabList || []).map((item, vIdx) => {
                     const num = item.order_index || (vIdx + 1);
@@ -10085,56 +10272,115 @@
 ${baseHref ? `<base href="${baseHref}">` : ''}
 <link rel="stylesheet" href="magazine-pdf.css">
 <style>
-  .cover-page[data-bg="front"] { background-image: url('assets/magazine/front_cover_bg.jpg'); }
-  .cover-page[data-bg="toc"] { background-image: url('assets/magazine/toc_bg.jpg'); }
-  .cover-page[data-bg="back"] { background-image: url('assets/magazine/back_cover_bg.jpg'); }
-  .inner-page-watermark { background-image: url('assets/magazine/watermark.png'); }
+  .inner-page-watermark { opacity: 0.03; pointer-events: none; }
 </style>
 </head>
 <body class="${isDark ? 'dark-theme' : ''}">
 
-<!-- ================= PAGE 1: FRONT COVER ================= -->
-<div class="page cover-page" data-bg="front" style="background-image: url('assets/magazine/front_cover_bg.jpg');">
-  <div class="front-header-card">
-    <div class="front-date-display">
-      <span class="front-calendar-icon">📅</span>
+<!-- ================= PAGE 1: PURE VECTOR FRONT COVER ================= -->
+<div class="page cover-page pure-front-cover">
+  <div class="pfc-top-bar">
+    <div class="pfc-brand-badge">
+      <span>📚</span>
+      <span>Ez Editorials · Intelligence</span>
+    </div>
+    <div class="pfc-date-pill">
+      <span>📅</span>
       <span>${formattedDateLong}</span>
     </div>
-    <div class="front-edition-tag">
-      ⚡ DIGITAL EDITION &nbsp;·&nbsp; ${articles.length} EDITORIALS
+  </div>
+
+  <div class="pfc-hero">
+    <div class="pfc-edition-tag">⚡ DIGITAL EDITION &nbsp;·&nbsp; ${articles.length} EDITORIALS</div>
+    <h1 class="pfc-title-main">DAILY EDITORIAL</h1>
+    <h2 class="pfc-title-sub">DIGEST &amp; ANALYSIS</h2>
+    <p class="pfc-desc">In-depth reading comprehension, Evidence Lens statistics, and structured vocabulary lab designed for competitive exam aspirants.</p>
+  </div>
+
+  <div class="pfc-features-grid">
+    <div class="pfc-feature-card">
+      <div class="pfc-feature-icon">🔍</div>
+      <div class="pfc-feature-title">Evidence Lens</div>
+      <div class="pfc-feature-desc">Numeric highlights, economic shifts &amp; statistics.</div>
+    </div>
+    <div class="pfc-feature-card">
+      <div class="pfc-feature-icon">🧠</div>
+      <div class="pfc-feature-title">Vocab Lab</div>
+      <div class="pfc-feature-desc">Mnemonics, connotations &amp; Hindi meanings.</div>
+    </div>
+    <div class="pfc-feature-card">
+      <div class="pfc-feature-icon">📊</div>
+      <div class="pfc-feature-title">Stance &amp; Tone</div>
+      <div class="pfc-feature-desc">Editorial perspective &amp; word-tone distribution.</div>
     </div>
   </div>
-  <div class="front-footer-bar-bottom">
-    <a href="https://t.me/Prathuadhe" target="_blank" class="front-tg-btn">
-      <svg class="front-tg-icon" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-      </svg>
-      <span>Made by Lixie 🤖 · Built by Prathu</span>
-    </a>
-    <a href="https://t.me/Contact_ez" target="_blank" class="front-tg-btn">
-      <svg class="front-tg-icon" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-      </svg>
-      <span>Community Head · Ez</span>
+
+  <div class="pfc-articles-preview">
+    <div class="pfc-ap-header">
+      <span>In Today's Edition</span>
+      <span>${articles.length} Articles</span>
+    </div>
+    <div class="pfc-ap-list">
+      ${articles.map((art, aIdx) => `
+        <div class="pfc-ap-item">
+          <span style="display:flex; align-items:center; gap:8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:80%;">
+            <strong style="color:#38bdf8;">0${aIdx + 1}</strong>
+            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeMagHtml(art.title)}</span>
+          </span>
+          <span style="font-size:10px; color:#94a3b8; white-space:nowrap;">${escapeMagHtml(art.reading_time || '3 min')}</span>
+        </div>
+      `).join('\n')}
+    </div>
+  </div>
+
+  <div class="pfc-footer">
+    <div class="pfc-footer-credits">Made by Lixie 🤖 · Curated by Prathu</div>
+    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="pfc-footer-btn">
+      <span>Join Telegram</span>
+      <span>›</span>
     </a>
   </div>
 </div>
 
-<!-- ================= PAGE 2: TABLE OF CONTENTS ================= -->
-<div class="page cover-page" data-bg="toc" style="background-image: url('assets/magazine/toc_bg.jpg');">
-  <div class="toc-header-date">
-    <span class="toc-date-icon">📅</span>
-    <span>${formattedDateLong}</span>
+<!-- ================= PAGE 2: PURE VECTOR TABLE OF CONTENTS ================= -->
+<div class="page cover-page pure-toc-cover">
+  <div class="ptoc-header">
+    <div class="ptoc-header-sub">Official Navigation Index</div>
+    <div class="ptoc-header-title">
+      <span>TABLE OF CONTENTS</span>
+      <span class="ptoc-date">📅 ${formattedDateLong}</span>
+    </div>
   </div>
-  <div class="toc-list-container">
-    ${tocRowsHtml}
+
+  <div class="ptoc-list">
+    ${processed.map((p, pIdx) => {
+      const a = p.art;
+      const isHindu = (a.newspaper || '').includes('Hindu');
+      const badgeClass = isHindu ? 'ptoc-badge-hindu' : 'ptoc-badge-express';
+      return `
+        <div class="ptoc-item">
+          <div class="ptoc-num">0${pIdx + 1}</div>
+          <div class="ptoc-info">
+            <div class="ptoc-title">${escapeMagHtml(a.title)}</div>
+            <div class="ptoc-meta">
+              <span class="ptoc-badge ${badgeClass}">${escapeMagHtml(a.newspaper || 'Editorial')}</span>
+              ${(a.topic || (a.editorial_metadata && a.editorial_metadata.topic)) ? `<span class="ptoc-badge" style="background:rgba(100,116,139,0.15); color:inherit;">${escapeMagHtml(a.topic || a.editorial_metadata.topic)}</span>` : ''}
+              <span style="font-size:10px; color:var(--text-muted, #64748b);">⏱ ${escapeMagHtml(a.reading_time || '3 min read')}</span>
+            </div>
+          </div>
+          <div class="ptoc-pills">
+            <a href="#article-p${p.readerPageNum}" class="ptoc-pill-btn">📖 Page ${String(p.readerPageNum).padStart(2, '0')}</a>
+            <a href="#vocab-p${p.labPage1Num}" class="ptoc-pill-btn" style="background:#eff6ff; color:#1d4ed8; border-color:#93c5fd;">🧪 Vocab Lab</a>
+          </div>
+        </div>
+      `;
+    }).join('\n')}
   </div>
-  <div class="toc-footer-container">
-    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="toc-tg-btn">
-      <svg class="front-tg-icon" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-      </svg>
-      <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
+
+  <div class="ptoc-footer">
+    <span style="font-size:10.5px; color:#64748b;">Ez Editorials Digital Publication · Tap any row or pill to jump directly to article</span>
+    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="pfc-footer-btn" style="font-size:9.5px; padding:4px 10px;">
+      <span>Channel Updates ›</span>
     </a>
   </div>
 </div>
@@ -10142,39 +10388,63 @@ ${baseHref ? `<base href="${baseHref}">` : ''}
 <!-- ================= EDITORIAL READER & VOCAB LAB PAGES ================= -->
 ${articlesHtml}
 
-<!-- ================= LAST PAGE: BACK COVER ================= -->
-<div class="page cover-page back-cover-container" data-bg="back" style="background-image: url('assets/magazine/back_cover_bg.jpg');">
-  <div class="toc-header-date">
-    <span class="toc-date-icon">📅</span>
-    <span>${formattedDateLong}</span>
+<!-- ================= LAST PAGE: PURE VECTOR BACK COVER ================= -->
+<div class="page cover-page pure-back-cover">
+  <div class="pbc-header">
+    <div class="pbc-tag">Official Knowledge Hubs</div>
+    <div class="pbc-title">STAY CONNECTED &amp; KEEP EXCELLING</div>
   </div>
-  <div class="back-connect-overlay">
-    <a href="https://t.me/ezeditorialgroup/3" target="_blank" class="back-card-link">
-      <span class="back-join-badge">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-        <span>JOIN</span>
-      </span>
+
+  <div class="pbc-grid">
+    <a href="https://t.me/ezeditorialgroup/3" target="_blank" class="pbc-card">
+      <div>
+        <div class="pbc-card-title">
+          <span>📰</span> Daily Editorials &amp; PDF
+        </div>
+        <div class="pbc-card-desc">Daily editorial passage breakdowns, high-yield vocabulary drops, and high-res PDF magazines.</div>
+      </div>
+      <span class="pbc-btn">Join Telegram ↗</span>
     </a>
-    <a href="https://t.me/EzSSC" target="_blank" class="back-card-link">
-      <span class="back-join-badge">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-        <span>JOIN</span>
-      </span>
+
+    <a href="https://t.me/EzSSC" target="_blank" class="pbc-card">
+      <div>
+        <div class="pbc-card-title">
+          <span>🎯</span> EzSSC Official
+        </div>
+        <div class="pbc-card-desc">Curated SSC CGL &amp; CHSL quizzes, previous year questions, and English speed trials.</div>
+      </div>
+      <span class="pbc-btn">Join Channel ↗</span>
     </a>
-    <a href="https://t.me/EzBanking" target="_blank" class="back-card-link">
-      <span class="back-join-badge">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-        <span>JOIN</span>
-      </span>
+
+    <a href="https://t.me/EzBanking" target="_blank" class="pbc-card">
+      <div>
+        <div class="pbc-card-title">
+          <span>🏦</span> EzBanking Official
+        </div>
+        <div class="pbc-card-desc">Targeted RC passages, banking cloze tests, and financial editorial vocabulary drills.</div>
+      </div>
+      <span class="pbc-btn">Join Channel ↗</span>
     </a>
-    <a href="https://t.me/Prathuadhe" target="_blank" class="back-card-link">
-      <span class="back-join-badge badge-contact">
-        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-        <span>TALK</span>
-      </span>
+
+    <a href="https://t.me/Prathuadhe" target="_blank" class="pbc-card">
+      <div>
+        <div class="pbc-card-title">
+          <span>💬</span> Mentorship &amp; Creator
+        </div>
+        <div class="pbc-card-desc">Direct feedback, study schedule queries, and community suggestions directly with the creator.</div>
+      </div>
+      <span class="pbc-btn" style="background:#059669;">Connect ↗</span>
     </a>
   </div>
-  <a href="https://t.me/Prathuadhe" target="_blank" class="back-signature-link" title="Curated by Prathu"></a>
+
+  <div class="pbc-quote">
+    “Small daily efforts lead to monumental achievements. Consistency in reading is the cornerstone of linguistic mastery.”
+  </div>
+
+  <div class="pbc-footer">
+    <span>Ez Editorials Publication · Built for Aspirants</span>
+    <span>Edition · ${formattedDateLong}</span>
+  </div>
 </div>
 
 ` + '<' + 'script>' + `
@@ -10387,9 +10657,15 @@ ${articlesHtml}
 
         // --- MASTER SPEC: TAB SWITCHER ---
         function switchView(viewId) {
+            // Auto-alias legacy view-digest directly to view-magazine
+            if (viewId === 'view-digest') {
+                viewId = 'view-magazine';
+            }
+
             triggerHaptic('selection');
             document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
+            const targetContainer = document.getElementById(viewId);
+            if (targetContainer) targetContainer.classList.add('active');
             window.scrollTo(0, 0);
 
             // Sync Desktop Nav Active State
@@ -10398,7 +10674,6 @@ ${articlesHtml}
                 'view-day': 'rail-nav-day',
                 'view-cup': 'rail-nav-cup',
                 'view-progress': 'rail-nav-progress',
-                'view-digest': 'rail-nav-digest',
                 'view-magazine': 'rail-nav-magazine',
                 'view-profile': 'rail-nav-profile'
             };
@@ -10434,6 +10709,13 @@ ${articlesHtml}
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             let navId = 'nav-home';
             
+            if(viewId === 'view-magazine') {
+                navId = 'nav-magazine';
+                initMagazineView();
+            }
+            if(viewId === 'view-day') {
+                navId = 'nav-day';
+            }
             if(viewId === 'view-cup') { 
                 navId = 'nav-cup'; 
                 if (Date.now() - lastFetchTimes.cup > 30000) {
@@ -10455,18 +10737,6 @@ ${articlesHtml}
                 }
                 loadWeeklyResults();
                 loadUpcomingExams(); 
-            }
-            if(viewId === 'view-digest') {
-                navId = 'nav-digest';
-                if (Date.now() - lastFetchTimes.digest > 30000) {
-                    loadDailyDigest();
-                    lastFetchTimes.digest = Date.now();
-                }
-                initMagazineView();
-            }
-            if(viewId === 'view-magazine') {
-                navId = 'nav-digest';
-                initMagazineView();
             }
             
             const targetNavEl = document.getElementById(navId);
