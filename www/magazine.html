@@ -324,12 +324,39 @@
 
         async function initPublication() {
             applyTheme();
+
+            // 1. Instant Cache Hydration (0ms render from app.html handover or prior visit)
             try {
-                const res = await fetch('https://ez-editorials-bot.onrender.com/api/magazine/week', {
+                const cachedRaw = sessionStorage.getItem('ez_magazine_week_cache') || localStorage.getItem('ez_magazine_week_cache');
+                if (cachedRaw) {
+                    const cached = JSON.parse(cachedRaw);
+                    state.weekData = (cached && cached.week) ? cached.week : cached;
+                    if (state.weekData && typeof state.weekData === 'object' && Object.keys(state.weekData).length > 0) {
+                        buildWeekCalendar();
+                        renderDayNav();
+                        renderSelectedDay();
+                    }
+                }
+            } catch (e) {}
+
+            // 2. Fetch fresh publication data with timeout
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/magazine/week?_t=${Date.now()}`, {
+                    cache: 'no-cache',
+                    signal: controller.signal,
                     headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {}
                 });
+                clearTimeout(timeoutId);
+
                 if (res.ok) {
-                    state.weekData = await res.json();
+                    const payload = await res.json();
+                    state.weekData = (payload && payload.week) ? payload.week : payload;
+                    try {
+                        sessionStorage.setItem('ez_magazine_week_cache', JSON.stringify(state.weekData));
+                    } catch (e) {}
                 }
             } catch (err) {
                 console.warn('Network error loading week data, using local state:', err);
@@ -406,12 +433,22 @@
             const viewport = document.getElementById('pub-viewport');
             if (!viewport || !state.selectedDate) return;
 
+            if (!state.weekData) {
+                viewport.innerHTML = '<div style="text-align:center; padding: 80px 20px; color:#64748b;">' +
+                    '<div style="font-size: 40px; margin-bottom: 12px;">⏳</div>' +
+                    '<h2 style="font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text-nav);">Loading Edition...</h2>' +
+                    '<p style="font-size: 13px; max-width: 400px; margin: 0 auto; color: var(--text-sub);">Fetching editorial publication from server...</p>' +
+                    '</div>';
+                return;
+            }
+
             const articles = (state.weekData && state.weekData[state.selectedDate]) ? state.weekData[state.selectedDate] : [];
             if (articles.length === 0) {
                 viewport.innerHTML = '<div style="text-align:center; padding: 80px 20px; color:#64748b;">' +
                     '<div style="font-size: 48px; margin-bottom: 12px;">☕</div>' +
                     '<h2 style="font-size: 20px; font-weight: 700; margin-bottom: 6px; color: var(--text-nav);">No Edition Published</h2>' +
-                    '<p style="font-size: 14px; max-width: 400px; margin: 0 auto;">The editorial magazine for this date has not been compiled or published yet.</p>' +
+                    '<p style="font-size: 14px; max-width: 400px; margin: 0 auto 16px auto;">The editorial magazine for this date has not been compiled or published yet.</p>' +
+                    '<button onclick="initPublication()" style="padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border-nav); background: var(--bg-card); color: var(--text-nav); font-size: 13px; font-weight: 600; cursor: pointer;">🔄 Check Updates</button>' +
                     '</div>';
                 return;
             }

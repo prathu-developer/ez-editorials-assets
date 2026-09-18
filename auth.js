@@ -211,7 +211,8 @@ function logOut() {
             return;
         }
 
-        showLoginOverlay();
+        if (typeof syncAuthUI === 'function') syncAuthUI();
+        window.location.reload();
     }
 }
 
@@ -223,8 +224,48 @@ function showLoginOverlay() {
     } else {
         window.location.href = 'app.html';
     }
-    window.showLoginOverlay = showLoginOverlay;
 }
+window.showLoginOverlay = showLoginOverlay;
+
+// Dynamic Auth UI synchronization across navbar, left rail, and cards
+function syncAuthUI() {
+    try {
+        const token = localStorage.getItem('ez_session_token');
+        const user = (typeof getSavedUser === 'function') ? getSavedUser() : null;
+        const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe) ? window.Telegram.WebApp.initDataUnsafe.user : null;
+        const isAuthed = Boolean(token || (tgUser && tgUser.id));
+        const activeUser = user || tgUser;
+
+        const deskSignInBtn = document.getElementById('desk-signin-btn');
+        const deskAvatarBtn = document.getElementById('desk-avatar-btn');
+        const railLoginBtn = document.getElementById('rail-auth-login-btn');
+        const railLogoutBtn = document.getElementById('rail-auth-logout-btn');
+        const guestBanner = document.getElementById('guest-home-banner');
+
+        if (isAuthed && activeUser) {
+            if (deskSignInBtn) deskSignInBtn.style.display = 'none';
+            if (deskAvatarBtn) deskAvatarBtn.style.display = 'flex';
+            if (railLoginBtn) railLoginBtn.style.display = 'none';
+            if (railLogoutBtn) railLogoutBtn.style.display = 'flex';
+            if (guestBanner) guestBanner.style.display = 'none';
+
+            const name = activeUser.first_name || activeUser.name || 'Scholar';
+            const userEl = document.getElementById('user-name');
+            if (userEl) userEl.innerText = name;
+            const profileNameEl = document.getElementById('profile-name');
+            if (profileNameEl) profileNameEl.innerText = name;
+        } else {
+            if (deskSignInBtn) deskSignInBtn.style.display = 'inline-flex';
+            if (deskAvatarBtn) deskAvatarBtn.style.display = 'none';
+            if (railLoginBtn) railLoginBtn.style.display = 'flex';
+            if (railLogoutBtn) railLogoutBtn.style.display = 'none';
+            if (guestBanner) guestBanner.style.display = 'flex';
+        }
+    } catch(e) {
+        console.warn('[Auth] syncAuthUI error:', e);
+    }
+}
+window.syncAuthUI = syncAuthUI;
 
 // 8. Mobile Deep-Link Login (Android App & Mobile Web)
 let pollTimer = null;
@@ -321,6 +362,8 @@ window.openExternalLoginOverlay = openExternalLoginOverlay;
 
 // Auto-mount login screen only for native app where Telegram MiniApp/Web isn't available
 window.addEventListener('DOMContentLoaded', () => {
+    syncAuthUI();
+
     if (!isAuthenticated() && isCapacitorApp()) {
         const overlay = document.getElementById('externalLoginOverlay');
         if (overlay) {

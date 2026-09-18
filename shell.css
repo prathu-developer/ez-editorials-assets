@@ -325,3 +325,8 @@ select,
     min-height: 44px;
     box-sizing: border-box;
 }
+
+/* Hide duplicate desktop performance rail */
+.right-performance-rail {
+    display: none !important;
+}

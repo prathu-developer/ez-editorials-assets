@@ -4148,34 +4148,17 @@
         @media (min-width: 1024px) {
             .app-layout-root {
                 display: grid !important;
-                grid-template-columns: 240px minmax(0, 1fr) 340px !important;
-                gap: 24px !important;
-                max-width: 1600px !important;
+                grid-template-columns: 240px minmax(0, 1fr) !important;
+                gap: 28px !important;
+                max-width: 1440px !important;
                 margin: 0 auto !important;
                 padding: 20px 24px 60px 24px !important;
                 min-height: calc(100vh - 65px) !important;
                 box-sizing: border-box !important;
-                transition: grid-template-columns 0.2s ease !important;
             }
 
-            /* Contextual Desktop Layout: Hide 340px right rail on reading & focused views */
-            .app-layout-root.focus-mode,
-            .app-layout-root.magazine-mode,
-            .app-layout-root:has(#view-magazine.active),
-            .app-layout-root:has(#view-cup.active),
-            .app-layout-root:has(#view-day.active),
-            .app-layout-root:has(#view-progress.active),
-            .app-layout-root:has(#view-profile.active) {
-                grid-template-columns: 240px minmax(0, 1fr) !important;
-            }
-
-            .app-layout-root.focus-mode .right-performance-rail,
-            .app-layout-root.magazine-mode .right-performance-rail,
-            .app-layout-root:has(#view-magazine.active) .right-performance-rail,
-            .app-layout-root:has(#view-cup.active) .right-performance-rail,
-            .app-layout-root:has(#view-day.active) .right-performance-rail,
-            .app-layout-root:has(#view-progress.active) .right-performance-rail,
-            .app-layout-root:has(#view-profile.active) .right-performance-rail {
+            .app-layout-root .right-performance-rail,
+            .right-performance-rail {
                 display: none !important;
             }
 
@@ -4280,22 +4263,36 @@
             }
 
             .center-workspace-pane #view-home {
-                max-width: var(--container-desktop, 960px) !important;
+                max-width: 1060px !important;
+                width: 100% !important;
                 margin: 0 auto !important;
                 padding-bottom: 60px !important;
             }
 
             .center-workspace-pane #view-day {
-                max-width: var(--max-reading-width, 680px) !important;
+                max-width: 800px !important;
                 margin: 0 auto !important;
                 padding-bottom: 60px !important;
             }
 
             .center-workspace-pane .home-stat-grid {
                 display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
-                gap: 16px !important;
-                margin: 0 0 16px 0 !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                gap: 20px !important;
+                margin: 0 0 20px 0 !important;
+                align-items: stretch !important;
+            }
+
+            .center-workspace-pane .home-stat-grid .highlights-section {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            .center-workspace-pane .home-stat-grid .highlights-section .highlights-card {
+                flex: 1 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: space-around !important;
             }
 
             /* Ticket 2.3: Desktop Dual-Column Leaderboard for view-cup */
@@ -4505,13 +4502,7 @@
             }
 
             .right-performance-rail {
-                display: flex !important;
-                flex-direction: column !important;
-                width: 340px !important;
-                position: sticky !important;
-                top: 80px !important;
-                gap: 16px !important;
-                box-sizing: border-box !important;
+                display: none !important;
             }
 
             .rail-card {
@@ -4817,28 +4808,155 @@
             cursor: not-allowed;
         }
 
-        /* In-Page Magazine Fullscreen Mode */
+        /* In-Page Magazine Fullscreen Mode - Distraction-Free Digital Publication */
         body.mag-inpage-fullscreen #view-magazine {
             position: fixed !important;
             inset: 0 !important;
             z-index: 99999 !important;
             background: var(--bg-body, #ffffff) !important;
             overflow-y: auto !important;
-            padding: 20px 24px 80px 24px !important;
-            max-width: 100% !important;
-            width: 100% !important;
+            padding: 0 0 60px 0 !important;
+            max-width: 100vw !important;
+            width: 100vw !important;
             height: 100vh !important;
             box-sizing: border-box !important;
         }
         body.mag-inpage-fullscreen #view-magazine .magazine-container {
-            max-width: 1050px !important;
-            margin: 0 auto !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
         }
         body.mag-inpage-fullscreen .desktop-navbar,
         body.mag-inpage-fullscreen .left-nav-rail,
         body.mag-inpage-fullscreen .right-performance-rail,
-        body.mag-inpage-fullscreen .bottom-nav {
+        body.mag-inpage-fullscreen .bottom-nav,
+        body.mag-inpage-fullscreen #view-magazine > .top-header,
+        body.mag-inpage-fullscreen .magazine-hero,
+        body.mag-inpage-fullscreen #mag-day-header {
             display: none !important;
+        }
+        body.mag-inpage-fullscreen .mag-toolbar {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+            background: var(--bg-card, #ffffff) !important;
+            border-bottom: 1px solid var(--border-light, #e2e8f0) !important;
+            padding: 10px 24px !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.06) !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+        }
+        body.dark-mode.mag-inpage-fullscreen .mag-toolbar,
+        body.mag-inpage-fullscreen.dark-mode .mag-toolbar {
+            background: #18181b !important;
+            border-bottom-color: #27272a !important;
+        }
+        body.mag-inpage-fullscreen .magazine-day-nav {
+            max-width: 960px !important;
+            margin: 10px auto 0 auto !important;
+            padding: 0 16px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        body.mag-inpage-fullscreen #mag-articles-container {
+            max-width: 960px !important;
+            margin: 0 auto !important;
+            padding: 16px 20px 60px 20px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        body.mag-inpage-fullscreen .mag-reader-viewport {
+            box-shadow: 0 10px 36px rgba(0,0,0,0.15) !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+        }
+
+        /* Student Sign In & Auth UI Components */
+        .desktop-signin-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #ffffff;
+            font-size: 13.5px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(79, 70, 229, 0.3);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .desktop-signin-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+        }
+        .rail-login-btn {
+            background: rgba(90, 50, 250, 0.08) !important;
+            color: var(--brand, #5a32fa) !important;
+            font-weight: 700 !important;
+        }
+        .rail-login-btn:hover {
+            background: rgba(90, 50, 250, 0.15) !important;
+        }
+        .guest-signin-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-radius: 16px;
+            margin: 0 0 16px 0;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .guest-signin-banner:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.15);
+        }
+        .guest-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .guest-banner-icon {
+            font-size: 30px;
+            flex-shrink: 0;
+        }
+        .guest-banner-title {
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+        .guest-banner-sub {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+        .guest-banner-btn {
+            padding: 9px 18px;
+            border-radius: 10px;
+            background: var(--brand, #5a32fa);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(90, 50, 250, 0.3);
+        }
+        .dark-mode .guest-signin-banner {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(168, 85, 247, 0.12) 100%);
+            border-color: rgba(99, 102, 241, 0.35);
         }
 
         /* Dark Mode Overrides for Day View Navigation */
@@ -4887,26 +5005,40 @@
         </div>
     </div>
 
-    <!-- 🔐 EXTERNAL TELEGRAM LOGIN MODAL (Web & Android) -->
-    <div id="externalLoginOverlay" style="display:none; position:fixed; inset:0; z-index:99998; background:rgba(0,0,0,0.65); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:24px; text-align:center;">
-        <div style="max-width:380px; width:100%; background:var(--bg-card, #ffffff); border-radius:20px; padding:28px 24px; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.3); border:1px solid var(--border-color, #e5e7eb);">
+    <!-- 🔐 ACADEMIC STUDENT PORTAL TELEGRAM LOGIN MODAL -->
+    <div id="externalLoginOverlay" style="display:none; position:fixed; inset:0; z-index:99998; background:rgba(0,0,0,0.72); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); align-items:center; justify-content:center; padding:20px; text-align:center;">
+        <div style="max-width:440px; width:100%; background:var(--bg-card, #ffffff); border-radius:24px; padding:32px 26px; position:relative; box-shadow:0 24px 60px rgba(0,0,0,0.35); border:1px solid var(--border-light, #e2e8f0); text-align:center;">
             <!-- Dismiss / Close modal button -->
-            <button type="button" onclick="closeExternalLoginOverlay()" aria-label="Close" style="position:absolute; top:14px; right:14px; background:transparent; border:none; font-size:20px; color:var(--text-muted, #9ca3af); cursor:pointer; width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:50%; line-height:1;">✕</button>
+            <button type="button" onclick="closeExternalLoginOverlay()" aria-label="Close" style="position:absolute; top:16px; right:16px; background:rgba(0,0,0,0.05); border:none; font-size:18px; color:var(--text-muted, #9ca3af); cursor:pointer; width:34px; height:34px; display:flex; align-items:center; justify-content:center; border-radius:50%; line-height:1; transition:background 0.15s ease;">✕</button>
 
-            <div style="font-size:46px; margin-bottom:12px;">📘</div>
-            <h2 style="margin:0 0 6px; font-size:22px; font-weight:800; color:var(--text-main, #111827);">Ez Editorials</h2>
-            <p style="color:var(--text-muted, #6b7280); font-size:13.5px; line-height:1.5; margin:0 0 20px;">
-                Sign in with your Telegram account to sync your test scores, leagues, and daily reading progress.
+            <!-- Academic Brand Badge -->
+            <div style="display:inline-flex; align-items:center; gap:6px; background:rgba(90,50,250,0.08); border:1px solid rgba(90,50,250,0.2); padding:5px 14px; border-radius:9999px; font-size:12px; font-weight:700; color:var(--brand, #5a32fa); margin-bottom:14px;">
+                <span>🎓</span> <span>Academic Student Portal</span>
+            </div>
+
+            <h2 style="margin:0 0 8px 0; font-size:23px; font-weight:800; color:var(--text-main, #111827); letter-spacing:-0.4px;">Sign in to Ez Editorials</h2>
+            <p style="color:var(--text-muted, #6b7280); font-size:13.5px; line-height:1.55; margin:0 0 20px 0;">
+                Connect via Telegram to sync your daily test scores, compete on national leaderboards, and track your target exam preparation.
             </p>
 
-            <!-- One-Tap Button for Mobile Browser & Android APK -->
-            <button type="button" onclick="startMobileTelegramLogin()" style="width:100%; padding:14px; border:none; border-radius:12px; background:#5a32fa; color:#ffffff; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 14px rgba(90,50,250,0.25);">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                Login via Telegram
-            </button>
+            <!-- Student Value Highlights -->
+            <div style="background:var(--bg-subtle, #f8fafc); border:1px solid var(--border-light, #e2e8f0); border-radius:14px; padding:14px 16px; margin-bottom:20px; text-align:left; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--text-main, #334155);">
+                    <span style="font-size:16px; flex-shrink:0;">🏆</span>
+                    <span><strong>Weekly Cup &amp; ELO</strong> • Real-time ranks across thousands of aspirants</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--text-main, #334155);">
+                    <span style="font-size:16px; flex-shrink:0;">📊</span>
+                    <span><strong>Precision Analytics</strong> • Daily test accuracy, study speed &amp; vocab mastery</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--text-main, #334155);">
+                    <span style="font-size:16px; flex-shrink:0;">🔄</span>
+                    <span><strong>Cross-Device Sync</strong> • Instant resume across Laptop, Phone &amp; App</span>
+                </div>
+            </div>
 
-            <!-- Desktop Web Widget -->
-            <div style="margin-top:16px;">
+            <!-- Instant Telegram Web Widget (Primary on Web) -->
+            <div style="margin-bottom:14px; display:flex; justify-content:center;">
                 <script async src="https://telegram.org/js/telegram-widget.js?22" 
                         data-telegram-login="Ez_vocab_bot" 
                         data-size="large" 
@@ -4914,12 +5046,28 @@
                         data-request-access="write"></script>
             </div>
 
+            <!-- One-Tap Button for Mobile Browser & Direct Bot Launch -->
+            <button type="button" onclick="startMobileTelegramLogin()" style="width:100%; padding:12px 18px; border:none; border-radius:12px; background:linear-gradient(135deg, #2563eb, #7c3aed); color:#ffffff; font-size:14px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 14px rgba(37,99,235,0.25); transition:transform 0.1s ease;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                Launch @Ez_vocab_bot to Sign In
+            </button>
+
+            <p id="login-status-msg" style="margin-top:10px; font-size:12px; color:var(--text-muted, #6b7280); min-height:18px; margin-bottom:0;"></p>
+
+            <div style="display:flex; align-items:center; gap:12px; margin:16px 0 12px 0;">
+                <div style="flex:1; height:1px; background:var(--border-light, #e2e8f0);"></div>
+                <span style="font-size:12px; color:var(--text-muted, #94a3b8); text-transform:uppercase; letter-spacing:0.5px;">or</span>
+                <div style="flex:1; height:1px; background:var(--border-light, #e2e8f0);"></div>
+            </div>
+
             <!-- Continue as Guest / Read Free button -->
-            <button type="button" onclick="closeExternalLoginOverlay()" style="margin-top:16px; background:transparent; border:1px solid var(--border-subtle, #e5e7eb); color:var(--text-main, #374151); font-size:13.5px; font-weight:600; padding:10px 16px; border-radius:10px; cursor:pointer; width:100%;">
+            <button type="button" onclick="closeExternalLoginOverlay()" style="background:transparent; border:1px solid var(--border-light, #e2e8f0); color:var(--text-main, #374151); font-size:13px; font-weight:600; padding:10px 16px; border-radius:10px; cursor:pointer; width:100%; transition:background 0.15s ease;">
                 Continue as Guest (Read Magazine Free)
             </button>
 
-            <p id="login-status-msg" style="margin-top:14px; font-size:12px; color:var(--text-muted, #6b7280); min-height:18px; margin-bottom:0;"></p>
+            <div style="margin-top:14px; font-size:11.5px; color:var(--text-muted, #94a3b8); display:flex; align-items:center; justify-content:center; gap:5px;">
+                <span>🔒</span> <span>Zero Password Setup • Official Telegram Authentication</span>
+            </div>
         </div>
     </div>
 
@@ -4929,7 +5077,7 @@
     <!-- 🟢 GLOBAL NAV BAR: Brand | Navigation Links | Target Exam Pill | Daily Streak | Theme Toggle | Profile Avatar -->
     <header class="desktop-navbar">
         <div class="desktop-nav-inner">
-            <div class="desktop-nav-brand" onclick="switchView('view-magazine')">
+            <div class="desktop-nav-brand" onclick="switchView('view-home')" style="cursor: pointer;">
                 <span class="desktop-brand-icon">📚</span>
                 <span class="desktop-brand-title">Ez Editorials</span>
             </div>
@@ -4944,7 +5092,10 @@
                 <button class="desktop-tool-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode">
                     <span>🌙</span>
                 </button>
-                <div class="desk-avatar-btn" onclick="switchView('view-profile')" title="My Profile">
+                <button class="desktop-signin-btn" id="desk-signin-btn" onclick="openExternalLoginOverlay()" title="Sign in with Telegram" style="display:none;">
+                    <span>✈️</span> <span>Sign In</span>
+                </button>
+                <div class="desk-avatar-btn" id="desk-avatar-btn" onclick="switchView('view-profile')" title="My Profile" style="display:none;">
                     <span>👨‍🎓</span>
                 </div>
             </div>
@@ -4986,7 +5137,10 @@
                 <button class="nav-rail-btn" onclick="openSubModal('settingsModalOverlay')">
                     <span>⚙️</span> Settings
                 </button>
-                <button class="nav-rail-btn text-danger" onclick="logOut()">
+                <button class="nav-rail-btn rail-login-btn text-brand" id="rail-auth-login-btn" onclick="openExternalLoginOverlay()" style="display:none;">
+                    <span>✈️</span> Student Sign In
+                </button>
+                <button class="nav-rail-btn text-danger" id="rail-auth-logout-btn" onclick="logOut()">
                     <span>🚪</span> Log Out
                 </button>
             </div>
@@ -5029,6 +5183,18 @@
                 <div class="streak-val">🔥 Streak</div>
                 <div class="streak-sub">Soon</div>
             </div>
+        </div>
+
+        <!-- Guest Aspirant Welcome Banner (Visible when logged out) -->
+        <div class="guest-signin-banner" id="guest-home-banner" style="display:none;" onclick="openExternalLoginOverlay()">
+            <div class="guest-banner-content">
+                <div class="guest-banner-icon">🎓</div>
+                <div class="guest-banner-text">
+                    <div class="guest-banner-title">Welcome to Ez Editorials!</div>
+                    <div class="guest-banner-sub">Sign in via Telegram to sync quiz attempts, track ELO ratings, and climb the Weekly Cup.</div>
+                </div>
+            </div>
+            <button class="guest-banner-btn" type="button">Sign In ✈️</button>
         </div>
 
         <!-- 3D Hourglass Timer Card -->
@@ -9385,7 +9551,6 @@
 
         function toggleInPageFullscreen() {
             triggerHaptic('selection');
-            const magView = document.getElementById('view-magazine');
             const fsIcon = document.getElementById('mag-fs-icon');
             const fsLabel = document.getElementById('mag-fs-label');
             const isCurrentlyFs = document.body.classList.contains('mag-inpage-fullscreen');
@@ -9395,8 +9560,8 @@
                 if (fsIcon) fsIcon.innerText = '🗗';
                 if (fsLabel) fsLabel.innerText = 'Exit Fullscreen';
                 try {
-                    if (magView && magView.requestFullscreen && !document.fullscreenElement) {
-                        magView.requestFullscreen().catch(() => {});
+                    if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(() => {});
                     }
                 } catch (e) {}
             } else {
@@ -9446,6 +9611,12 @@
         function openMagazineFullscreen() {
             triggerHaptic('selection');
             if (!magazineState.selectedDate) return;
+            try {
+                if (magazineState.weekData) {
+                    sessionStorage.setItem('ez_magazine_week_cache', JSON.stringify(magazineState.weekData));
+                    localStorage.setItem('ez_magazine_week_cache', JSON.stringify(magazineState.weekData));
+                }
+            } catch (e) {}
             const targetUrl = `magazine.html?date=${encodeURIComponent(magazineState.selectedDate)}&theme=${encodeURIComponent(magazineState.themeMode)}`;
             window.open(targetUrl, '_blank');
         }
@@ -10883,6 +11054,11 @@ ${articlesHtml}
                 }
             } catch(e) {}
 
+            // 🟢 Sync Dynamic Student Auth State across top bar & rail
+            if (typeof syncAuthUI === 'function') {
+                syncAuthUI();
+            }
+
             // 🟢 Toggle Native Telegram Back Button & Sync Layout Shell
             if (typeof setTelegramBackButton === 'function') {
                 setTelegramBackButton(viewId !== 'view-home');
@@ -11020,7 +11196,10 @@ ${articlesHtml}
             // 🟢 Load Target & State Tags
             updateTargetTags();
             
-            // 🟢 URL Router: Open specific tabs from external pages or default to Magazine on Web
+            // 🟢 Sync Student Auth UI
+            if (typeof syncAuthUI === 'function') syncAuthUI();
+
+            // 🟢 URL Router: Open specific tabs from query parameters or default to Home
             const urlParams = new URLSearchParams(window.location.search);
             const reqView = urlParams.get('view');
             if (reqView === 'day' || reqView === 'view-day') {
@@ -11029,11 +11208,13 @@ ${articlesHtml}
                 switchView('view-cup');
             } else if (reqView === 'magazine' || reqView === 'view-magazine') {
                 switchView('view-magazine');
-            } else if (reqView === 'home' || reqView === 'view-home') {
+            } else if (reqView === 'progress' || reqView === 'view-progress') {
+                switchView('view-progress');
+            } else if (reqView === 'profile' || reqView === 'view-profile') {
+                switchView('view-profile');
+            } else {
+                // Default: Always open Home view first!
                 switchView('view-home');
-            } else if (!isTelegramMiniApp()) {
-                // Standard desktop/mobile browser: open directly into the Magazine publication!
-                switchView('view-magazine');
             }
 
             // ✨ ADD THESE TWO LINES TO PRESERVE THE ELO DEEP LINK
