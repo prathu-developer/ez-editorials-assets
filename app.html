@@ -4696,6 +4696,178 @@
                     display: none !important;
                 }
             }
+        /* ==========================================================================
+           🟢 DAY VIEW NAVIGATION BAR & PILLS
+           ========================================================================== */
+        .day-view-nav-box {
+            background: var(--bg-card, #ffffff);
+            border: 1px solid var(--border-light, #e2e8f0);
+            border-radius: var(--radius-lg, 16px);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .day-view-nav-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .day-view-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .day-view-calendar-icon {
+            font-size: 24px;
+            line-height: 1;
+        }
+        .day-view-heading {
+            margin: 0;
+            font-size: var(--font-lg, 18px);
+            font-weight: 800;
+            color: var(--text-main, #1e293b);
+            letter-spacing: -0.3px;
+        }
+        .day-view-subtext {
+            font-size: var(--font-xs, 12px);
+            color: var(--text-muted, #64748b);
+        }
+        .day-view-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .day-nav-btn {
+            background: var(--bg-subtle, rgba(0,0,0,0.04));
+            border: 1px solid var(--border-light, #e2e8f0);
+            border-radius: var(--radius-md, 10px);
+            padding: 8px 14px;
+            font-size: var(--font-xs, 12.5px);
+            font-weight: 700;
+            color: var(--text-main, #1e293b);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+        .day-nav-btn:hover:not(:disabled) {
+            background: var(--brand-light, #eff6ff);
+            border-color: var(--brand, #2563eb);
+            color: var(--brand, #2563eb);
+        }
+        .day-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .day-view-pills {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+        .day-view-pills::-webkit-scrollbar {
+            display: none;
+        }
+        .day-view-pill {
+            background: var(--bg-subtle, rgba(0,0,0,0.03));
+            border: 1px solid var(--border-light, #e2e8f0);
+            border-radius: var(--radius-md, 10px);
+            padding: 8px 14px;
+            font-size: var(--font-xs, 12.5px);
+            font-weight: 600;
+            color: var(--text-muted, #64748b);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+        .day-view-pill:hover:not(.locked) {
+            background: var(--bg-card, #ffffff);
+            color: var(--text-main, #1e293b);
+            border-color: var(--border-color, #cbd5e1);
+        }
+        .day-view-pill.active {
+            background: var(--brand, #5a32fa) !important;
+            border-color: var(--brand, #5a32fa) !important;
+            color: #ffffff !important;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(90, 50, 250, 0.25);
+        }
+        .day-view-pill.active .pill-day-icon svg,
+        .day-view-pill.active svg {
+            stroke: #ffffff !important;
+        }
+        .day-view-pill.done:not(.active) {
+            border-color: rgba(16, 185, 129, 0.35);
+            color: var(--text-main, #1e293b);
+        }
+        .day-view-pill.locked {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        /* In-Page Magazine Fullscreen Mode */
+        body.mag-inpage-fullscreen #view-magazine {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 99999 !important;
+            background: var(--bg-body, #ffffff) !important;
+            overflow-y: auto !important;
+            padding: 20px 24px 80px 24px !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            height: 100vh !important;
+            box-sizing: border-box !important;
+        }
+        body.mag-inpage-fullscreen #view-magazine .magazine-container {
+            max-width: 1050px !important;
+            margin: 0 auto !important;
+        }
+        body.mag-inpage-fullscreen .desktop-navbar,
+        body.mag-inpage-fullscreen .left-nav-rail,
+        body.mag-inpage-fullscreen .right-performance-rail,
+        body.mag-inpage-fullscreen .bottom-nav {
+            display: none !important;
+        }
+
+        /* Dark Mode Overrides for Day View Navigation */
+        .dark-mode .day-view-nav-box {
+            background: var(--bg-card, #18181b);
+            border-color: var(--border-light, #27272a);
+        }
+        .dark-mode .day-nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #27272a;
+            color: #f4f4f5;
+        }
+        .dark-mode .day-nav-btn:hover:not(:disabled) {
+            background: #1e3a8a;
+            border-color: #3b82f6;
+            color: #93c5fd;
+        }
+        .dark-mode .day-view-pill {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: #27272a;
+            color: #a1a1aa;
+        }
+        .dark-mode .day-view-pill:hover:not(.locked) {
+            background: #27272a;
+            color: #ffffff;
+        }
+        .dark-mode .day-view-pill.active {
+            background: var(--brand, #5a32fa) !important;
+            color: #ffffff !important;
         }
 
     </style>
@@ -5165,22 +5337,39 @@
          VIEW 2: DAY DETAILS (Topic List)
          ========================================== -->
     <div id="view-day" class="view-container">
-        <div class="top-header">
-            <span style="width: 24px;"></span>
-            
-            <!-- Day Header (Arrows Removed) -->
-            <span class="font-bold" id="day-detail-header" style="font-size: 16px;">Day</span>
-            
-            <!-- Calendar Icon with Notification Badge -->
-            <div style="position: relative; display: flex; align-items: center;" onclick="openSubModal('calendarModalOverlay')">
-                <svg class="icon-btn" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                <div id="calendar-badge" style="display:none; position:absolute; top:-2px; right:-2px; width:8px; height:8px; background:#e73b50; border-radius:50%; box-shadow: 0 0 0 1.5px var(--bg-card);"></div>
+        <!-- Dedicated Day View Navigation Header (Desktop & Mobile) -->
+        <div class="day-view-nav-box">
+            <div class="day-view-nav-top-row">
+                <div class="day-view-title-group">
+                    <span class="day-view-calendar-icon">📅</span>
+                    <div>
+                        <h2 class="day-view-heading" id="day-view-heading-text">Day Practice</h2>
+                        <span class="day-view-subtext" id="day-view-subtext-date">Weekly Practice Schedule</span>
+                    </div>
+                </div>
+
+                <div class="day-view-nav-actions">
+                    <button type="button" class="day-nav-btn day-nav-btn-prev" id="day-nav-prev" onclick="navDayPrev()" title="Go to previous day">
+                        <span>‹</span> <span>Previous Day</span>
+                    </button>
+                    <button type="button" class="day-nav-btn day-nav-btn-cal" onclick="openSubModal('calendarModalOverlay')" title="Jump to any day">
+                        <span>📅</span> <span>All Days</span>
+                    </button>
+                    <button type="button" class="day-nav-btn day-nav-btn-next" id="day-nav-next" onclick="navDayNext()" title="Go to next day">
+                        <span>Next Day</span> <span>›</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Day Selector Pills Row -->
+            <div class="day-view-pills" id="day-view-pills">
+                <!-- Injected dynamically via updateDynamicTracker() -->
             </div>
         </div>
 
         <div class="time-left-sm">
-            <p>Time Left</p>
-            <h2 id="detail-timer">06 : 42 : 18</h2>
+            <p>Time Left Today</p>
+            <h2 id="detail-timer">00 : 00 : 00</h2>
         </div>
 
         <div class="quiz-list" id="api-quiz-container">
@@ -6056,25 +6245,26 @@
             <!-- Magazine Reader Toolbar (Laptop / Mobile Responsive) -->
             <div class="mag-toolbar" id="mag-toolbar">
                 <div class="mag-toolbar-group">
-                    <button class="mag-tool-btn active" id="mag-btn-mode-replica" onclick="setMagazineViewMode('replica')" title="Read as full digital magazine pages (exact PDF layout)">
+                    <span class="mag-edition-indicator" style="display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:13px; color:var(--text-main); padding:6px 12px; background:var(--bg-subtle, rgba(0,0,0,0.03)); border:1px solid var(--border-light, rgba(0,0,0,0.08)); border-radius:10px;">
                         <span>📖</span>
-                        <span>Magazine View</span>
-                    </button>
-                    <button class="mag-tool-btn" id="mag-btn-mode-cards" onclick="setMagazineViewMode('cards')" title="Read as modular article cards">
-                        <span>📋</span>
-                        <span>Cards View</span>
-                    </button>
+                        <span>Digital Magazine View</span>
+                    </span>
                 </div>
 
                 <div class="mag-toolbar-group">
-                    <button class="mag-tool-btn" id="mag-btn-theme" onclick="toggleMagazineTheme()" title="Toggle Light / Dark magazine skin">
-                        <span id="mag-theme-icon">🌙</span>
-                        <span id="mag-theme-label">Dark Mode</span>
+                    <button class="mag-tool-btn" id="mag-btn-inpage-fs" onclick="toggleInPageFullscreen()" title="Read full screen on this page">
+                        <span id="mag-fs-icon">⛶</span>
+                        <span id="mag-fs-label">Fullscreen</span>
                     </button>
 
                     <button class="mag-tool-btn" onclick="openMagazineFullscreen()" title="Open magazine in a dedicated web reader tab for distraction-free reading">
                         <span>↗️</span>
                         <span>Open Web Reader</span>
+                    </button>
+
+                    <button class="mag-tool-btn" id="mag-btn-theme" onclick="toggleMagazineTheme()" title="Toggle Light / Dark magazine skin">
+                        <span id="mag-theme-icon">🌙</span>
+                        <span id="mag-theme-label">Dark Mode</span>
                     </button>
 
                     <a class="mag-tool-btn" id="mag-btn-tg-post" href="#" target="_blank" rel="noopener noreferrer" style="display:none; text-decoration:none;" title="Open PDF broadcast in Telegram group">
@@ -7060,6 +7250,9 @@
             const railPills = document.getElementById('rail-calendar-pills');
             if (railPills) railPills.innerHTML = '';
 
+            const dayViewPills = document.getElementById('day-view-pills');
+            if (dayViewPills) dayViewPills.innerHTML = '';
+
             let hasAnyPendingQuiz = false;
 
             for(let i = 0; i < 6; i++) {
@@ -7137,6 +7330,18 @@
                         </button>
                     `;
                 }
+
+                // Dedicated Day View Selector Pills (For accessing previous days on Laptop & Mobile)
+                if (dayViewPills) {
+                    let isActiveView = (i === window.currentViewingDayIndex);
+                    let pillCls = `day-view-pill ${isActiveView ? 'active' : ''} ${isLocked ? 'locked' : ''} ${cls.includes('done') ? 'done' : ''}`.trim();
+                    dayViewPills.innerHTML += `
+                        <button class="${pillCls}" data-day-index="${i}" ${isLocked ? `onclick="alert('Day ${dayNum} is locked until it arrives!')"` : `onclick="filterByDay(${i});"`}>
+                            <span class="pill-day-label">Day ${dayNum}</span>
+                            <span class="pill-day-icon">${chk || (isLocked ? '🔒' : '•')}</span>
+                        </button>
+                    `;
+                }
             }
 
             // Desktop Right Rail Sunday Wrap-Up Pill
@@ -7151,6 +7356,18 @@
                 `;
             }
 
+            // Dedicated Day View Sunday Wrap-Up Pill
+            if (dayViewPills) {
+                let isSundayLocked = (liveDayIndex < 6);
+                let isSunActive = (window.currentViewingDayIndex === 6);
+                let sunCls = `day-view-pill ${isSunActive ? 'active' : ''} ${isSundayLocked ? 'locked' : ''}`.trim();
+                dayViewPills.innerHTML += `
+                    <button class="${sunCls}" data-day-index="6" ${isSundayLocked ? `onclick="alert('Sunday Wrap-Up unlocks on Sunday!')"` : `onclick="filterByDay(6);"`}>
+                        <span class="pill-day-label">Sunday Wrap-Up</span>
+                    </button>
+                `;
+            }
+
             const calBadge = document.getElementById('calendar-badge');
             if (calBadge) {
                 calBadge.style.display = hasAnyPendingQuiz ? 'block' : 'none';
@@ -7160,6 +7377,22 @@
         // 🟢 TIMELINE FILTER & NAVIGATION LOGIC
         window.currentViewingDayIndex = 0;
 
+        function navDayPrev() {
+            triggerHaptic('selection');
+            if (window.currentViewingDayIndex > 0) {
+                filterByDay(window.currentViewingDayIndex - 1);
+            }
+        }
+
+        function navDayNext() {
+            triggerHaptic('selection');
+            const ist = getIST();
+            let liveDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1;
+            if (window.currentViewingDayIndex < liveDayIndex && window.currentViewingDayIndex < 5) {
+                filterByDay(window.currentViewingDayIndex + 1);
+            }
+        }
+
         function filterByDay(dayIndex) {
             if (!window.masterQuizData) return;
             
@@ -7168,20 +7401,38 @@
             
             const headerText = document.getElementById('day-detail-header');
             if (headerText) headerText.innerText = `Day ${targetDay}`;
+
+            const headingText = document.getElementById('day-view-heading-text');
+            if (headingText) {
+                headingText.innerText = (targetDay <= 6) ? `Day ${targetDay} Practice` : `Sunday Wrap-Up`;
+            }
+
+            const ist = getIST();
+            let actualCurrentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1;
+
+            const subdateText = document.getElementById('day-view-subtext-date');
+            if (subdateText) {
+                subdateText.innerText = (dayIndex === actualCurrentDayIndex) ? `Today's Active Trials` : `Day ${targetDay} Practice Archive`;
+            }
+
+            const prevBtn = document.getElementById('day-nav-prev');
+            const nextBtn = document.getElementById('day-nav-next');
+            if (prevBtn) prevBtn.disabled = (dayIndex <= 0);
+            if (nextBtn) nextBtn.disabled = (dayIndex >= actualCurrentDayIndex || dayIndex >= 5);
             
             // Sync Desktop Rail Calendar Active State
             const railPillBtns = document.querySelectorAll('#rail-calendar-pills .rail-day-pill');
             railPillBtns.forEach(btn => {
                 const bIdx = parseInt(btn.getAttribute('data-day-index'), 10);
-                if (bIdx === dayIndex) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+                btn.classList.toggle('active', bIdx === dayIndex);
             });
 
-            const ist = getIST();
-            let actualCurrentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
+            // Sync Day View Pills Active State
+            const dayPillBtns = document.querySelectorAll('#day-view-pills .day-view-pill');
+            dayPillBtns.forEach(btn => {
+                const bIdx = parseInt(btn.getAttribute('data-day-index'), 10);
+                btn.classList.toggle('active', bIdx === dayIndex);
+            });
             
             const leftArrow = document.getElementById('nav-arrow-left');
             const rightArrow = document.getElementById('nav-arrow-right');
@@ -9128,22 +9379,60 @@
         }
 
         function setMagazineViewMode(mode) {
-            triggerHaptic('selection');
-            magazineState.viewMode = mode;
-            const repBtn = document.getElementById('mag-btn-mode-replica');
-            const cardBtn = document.getElementById('mag-btn-mode-cards');
-            if (repBtn) repBtn.classList.toggle('active', mode === 'replica');
-            if (cardBtn) cardBtn.classList.toggle('active', mode === 'cards');
+            magazineState.viewMode = 'replica'; // Replica is the exclusive view mode
             renderMagazineArticles(magazineState.selectedDate);
         }
+
+        function toggleInPageFullscreen() {
+            triggerHaptic('selection');
+            const magView = document.getElementById('view-magazine');
+            const fsIcon = document.getElementById('mag-fs-icon');
+            const fsLabel = document.getElementById('mag-fs-label');
+            const isCurrentlyFs = document.body.classList.contains('mag-inpage-fullscreen');
+
+            if (!isCurrentlyFs) {
+                document.body.classList.add('mag-inpage-fullscreen');
+                if (fsIcon) fsIcon.innerText = '🗗';
+                if (fsLabel) fsLabel.innerText = 'Exit Fullscreen';
+                try {
+                    if (magView && magView.requestFullscreen && !document.fullscreenElement) {
+                        magView.requestFullscreen().catch(() => {});
+                    }
+                } catch (e) {}
+            } else {
+                document.body.classList.remove('mag-inpage-fullscreen');
+                if (fsIcon) fsIcon.innerText = '⛶';
+                if (fsLabel) fsLabel.innerText = 'Fullscreen';
+                try {
+                    if (document.fullscreenElement && document.exitFullscreen) {
+                        document.exitFullscreen().catch(() => {});
+                    }
+                } catch (e) {}
+            }
+        }
+
+        // Listen for Esc key or native fullscreen exit
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && document.body.classList.contains('mag-inpage-fullscreen')) {
+                document.body.classList.remove('mag-inpage-fullscreen');
+                const fsIcon = document.getElementById('mag-fs-icon');
+                const fsLabel = document.getElementById('mag-fs-label');
+                if (fsIcon) fsIcon.innerText = '⛶';
+                if (fsLabel) fsLabel.innerText = 'Fullscreen';
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.body.classList.contains('mag-inpage-fullscreen')) {
+                toggleInPageFullscreen();
+            }
+        });
 
         function toggleMagazineTheme() {
             triggerHaptic('selection');
             magazineState.themeMode = (magazineState.themeMode === 'dark') ? 'light' : 'dark';
             updateMagazineThemeButton();
-            if (magazineState.viewMode === 'replica') {
-                renderMagazineArticles(magazineState.selectedDate);
-            }
+            renderMagazineArticles(magazineState.selectedDate);
         }
 
         function updateMagazineThemeButton() {
@@ -10383,35 +10672,39 @@ ${articlesHtml}
 
             const frame = document.getElementById(`mag-frame-${dateStr}`);
             if (frame) {
+                let lastSyncedHeight = 0;
                 const syncHeight = () => {
                     try {
                         const innerDoc = frame.contentDocument || frame.contentWindow?.document;
-                        if (innerDoc && innerDoc.documentElement) {
-                            const scrollH = Math.max(
-                                innerDoc.body ? innerDoc.body.scrollHeight : 0,
-                                innerDoc.documentElement.scrollHeight,
-                                innerDoc.body ? innerDoc.body.offsetHeight : 0,
-                                750
-                            );
-                            frame.style.height = `${scrollH + 40}px`;
+                        if (innerDoc && innerDoc.body) {
+                            const pages = innerDoc.querySelectorAll('.page');
+                            let targetHeight = 850;
+                            if (pages.length > 0) {
+                                const lastPage = pages[pages.length - 1];
+                                // Exact bottom of the last page + neat bottom margin
+                                targetHeight = Math.ceil(lastPage.offsetTop + lastPage.offsetHeight + 28);
+                            } else {
+                                targetHeight = Math.max(innerDoc.body.scrollHeight, 850);
+                            }
+                            
+                            // Guard against runaway loops: only update if height changed by more than 10px
+                            if (Math.abs(targetHeight - lastSyncedHeight) > 10) {
+                                lastSyncedHeight = targetHeight;
+                                frame.style.height = `${targetHeight}px`;
+                            }
                         }
                     } catch (e) {}
                 };
 
                 frame.onload = () => {
                     syncHeight();
-                    try {
-                        const win = frame.contentWindow;
-                        if (win && win.ResizeObserver && win.document.body) {
-                            const observer = new win.ResizeObserver(() => syncHeight());
-                            observer.observe(win.document.body);
-                        }
-                    } catch (e) {}
-                    setTimeout(syncHeight, 250);
-                    setTimeout(syncHeight, 750);
-                    setTimeout(syncHeight, 1500);
-                    setTimeout(syncHeight, 3000);
+                    setTimeout(syncHeight, 200);
+                    setTimeout(syncHeight, 600);
+                    setTimeout(syncHeight, 1200);
                 };
+
+                // Sync height on parent window resize
+                window.addEventListener('resize', syncHeight, { passive: true });
 
                 frame.srcdoc = htmlContent;
             }
@@ -10607,6 +10900,15 @@ ${articlesHtml}
             }
             if(viewId === 'view-day') {
                 navId = 'nav-day';
+                try {
+                    updateDynamicTracker();
+                    if (window.masterQuizData) {
+                        const ist = getIST();
+                        let liveDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1;
+                        let viewIdx = (typeof window.currentViewingDayIndex === 'number') ? window.currentViewingDayIndex : Math.min(liveDayIndex, 5);
+                        filterByDay(viewIdx);
+                    }
+                } catch(e) {}
             }
             if(viewId === 'view-cup') { 
                 navId = 'nav-cup'; 

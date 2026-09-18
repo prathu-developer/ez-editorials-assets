@@ -423,35 +423,36 @@
 
             const frame = document.getElementById('pub-frame');
             if (frame) {
+                let lastSyncedHeight = 0;
                 const syncHeight = () => {
                     try {
                         const innerDoc = frame.contentDocument || frame.contentWindow?.document;
-                        if (innerDoc && innerDoc.documentElement) {
-                            const scrollH = Math.max(
-                                innerDoc.body ? innerDoc.body.scrollHeight : 0,
-                                innerDoc.documentElement.scrollHeight,
-                                innerDoc.body ? innerDoc.body.offsetHeight : 0,
-                                800
-                            );
-                            frame.style.height = (scrollH + 60) + 'px';
+                        if (innerDoc && innerDoc.body) {
+                            const pages = innerDoc.querySelectorAll('.page');
+                            let targetHeight = 850;
+                            if (pages.length > 0) {
+                                const lastPage = pages[pages.length - 1];
+                                targetHeight = Math.ceil(lastPage.offsetTop + lastPage.offsetHeight + 28);
+                            } else {
+                                targetHeight = Math.max(innerDoc.body.scrollHeight, 850);
+                            }
+
+                            if (Math.abs(targetHeight - lastSyncedHeight) > 10) {
+                                lastSyncedHeight = targetHeight;
+                                frame.style.height = `${targetHeight}px`;
+                            }
                         }
                     } catch (e) {}
                 };
 
                 frame.onload = () => {
                     syncHeight();
-                    try {
-                        const win = frame.contentWindow;
-                        if (win && win.ResizeObserver && win.document.body) {
-                            const observer = new win.ResizeObserver(() => syncHeight());
-                            observer.observe(win.document.body);
-                        }
-                    } catch (e) {}
                     setTimeout(syncHeight, 200);
                     setTimeout(syncHeight, 600);
-                    setTimeout(syncHeight, 1500);
-                    setTimeout(syncHeight, 3000);
+                    setTimeout(syncHeight, 1200);
                 };
+
+                window.addEventListener('resize', syncHeight, { passive: true });
 
                 frame.srcdoc = replicaHtml;
             }
