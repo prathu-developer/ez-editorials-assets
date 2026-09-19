@@ -119,6 +119,20 @@ function setTelegramBackButton(visible, callback) {
     }
 }
 
+function setTelegramMainButton(visible, text, callback) {
+    const tg = getTelegramApp();
+    if (!tg || !tg.MainButton) return;
+    if (visible) {
+        if (text) tg.MainButton.setText(text);
+        tg.MainButton.show();
+        if (callback) {
+            tg.MainButton.onClick(callback);
+        }
+    } else {
+        tg.MainButton.hide();
+    }
+}
+
 // Global exports for all pages
 window.isTelegramMiniApp = isTelegramMiniApp;
 window.isCapacitorApp = isCapacitorApp;
@@ -131,6 +145,7 @@ window.getTelegramApp = getTelegramApp;
 window.triggerHaptic = triggerHaptic;
 window.openExternalTelegramLink = openExternalTelegramLink;
 window.setTelegramBackButton = setTelegramBackButton;
+window.setTelegramMainButton = setTelegramMainButton;
 
 // 2. Returns headers for Render API calls
 function getAuthHeaders(customHeaders = {}) {

@@ -11422,7 +11422,16 @@ ${articlesHtml}
 
             // 🟢 Toggle Native Telegram Back Button & Sync Layout Shell
             if (typeof setTelegramBackButton === 'function') {
-                setTelegramBackButton(viewId !== 'view-home');
+                setTelegramBackButton(viewId !== 'view-home', () => {
+                    switchView('view-home');
+                });
+            }
+            if (typeof setTelegramMainButton === 'function') {
+                if (viewId === 'view-home') {
+                    setTelegramMainButton(true, "Read Today's Editorial 📖", () => switchView('view-magazine'));
+                } else {
+                    setTelegramMainButton(false);
+                }
             }
             if (typeof syncNavState === 'function') {
                 syncNavState(viewId);
