@@ -14,9 +14,9 @@
     --brand-dark: #1e3a8a;
 
     /* --- SEMANTIC COLORS --- */
-    --color-success: #10b981;
+    --color-success: #047857;
     --color-success-bg: #def7ec;
-    --color-success-border: #059669;
+    --color-success-border: #047857;
     --color-success-text: #03543f;
 
     --color-warning: #f59e0b;
@@ -42,8 +42,8 @@
     /* --- TEXT COLORS --- */
     --text-main: #1a1a1a;
     --text-dark: #1a1a1a;
-    --text-muted: #6b7280;
-    --text-subtle: #94a3b8;
+    --text-muted: #475569;
+    --text-subtle: #64748b;
     --text-inverse: #ffffff;
 
     /* --- BACKGROUNDS & SURFACES --- */
@@ -115,7 +115,7 @@ body.dark-mode {
     --text-main: #f3f4f6;
     --text-dark: #f3f4f6;
     --text-muted: #9ca3af;
-    --text-subtle: #6b7280;
+    --text-subtle: #94a3b8;
 
     --bg-body: #121212;
     --bg-main: #121212;
@@ -348,7 +348,7 @@ html.dark-mode select option {
 }
 
 .mag-pill-day {
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
 }

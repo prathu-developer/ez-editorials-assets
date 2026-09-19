@@ -4,7 +4,7 @@
         .header-title { font-size: 1.4em; }
         .timer-sub-header { font-size: 0.7em; color: #bae6fd; margin-top: 6px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
 
-        .active-count-pill { position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.15); font-size: 0.6em; padding: 4px 8px; border-radius: 12px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255, 255, 255, 0.2); color: #e0f2fe; }
+        .active-count-pill { position: absolute; top: 15px; right: 15px; background: rgba(255, 255, 255, 0.15); font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; border: 1px solid rgba(255, 255, 255, 0.2); color: #e0f2fe; }
 
         .leaderboard-container {
             flex: 1;
@@ -112,15 +112,15 @@
         /* Base Leagues */
         .bg-unranked {
             background: #e2e8f0; /* Lighter, flat grey so it doesn't match Silver */
-            color: #64748b;
+            color: #475569;
             border: 1px solid #cbd5e1;
         }
         .bg-bronze { background: #b45309; border: 1px solid #d97706; color: white; }
         .bg-silver { background: #64748b; border: 1px solid #94a3b8; color: white; }
         .bg-gold { background: #eab308; border: 1px solid #fde047; color: black; }
-        .bg-plat { background: #0d9488; border: 1px solid #2dd4bf; color: white; }
+        .bg-plat { background: #0f766e; border: 1px solid #2dd4bf; color: white; }
         .bg-dia {
-            background: linear-gradient(135deg, #0284c7, #38bdf8);
+            background: linear-gradient(135deg, #075985, #0369a1);
             border: 1px solid #bae6fd;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
             color: white;
@@ -133,7 +133,7 @@
         }
 
         /* Premium Expansion Leagues */
-        .bg-master { background: linear-gradient(135deg, #064e3b, #059669); border: 1px solid #6ee7b7; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
+        .bg-master { background: linear-gradient(135deg, #064e3b, #047857); border: 1px solid #6ee7b7; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
         .bg-elite { background: linear-gradient(135deg, #881337, #e11d48); border: 1px solid #fda4af; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
         .bg-legend { background: linear-gradient(135deg, #1e1b4b, #4338ca); border: 1px solid #a5b4fc; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
         .bg-mythic { background: linear-gradient(135deg, #083344, #0e7490); border: 1px solid #67e8f9; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
@@ -143,7 +143,7 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
             color: #ffffff;
         }
-        .bg-celestial { background: linear-gradient(135deg, #1e3a8a, #3b82f6); border: 1px solid #bfdbfe; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); color: #ffffff; }
+        .bg-celestial { background: linear-gradient(135deg, #1e3a8a, #1c64f2); border: 1px solid #bfdbfe; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); color: #ffffff; }
         .bg-zenith { background: linear-gradient(135deg, #18181b, #27272a); border: 1px solid #eab308; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); color: #fef08a; }
         
         /* 🌌 14. Ascendant */
@@ -367,7 +367,7 @@
         .act-day { width: 60px; font-weight: 600; color: #0f172a;}
         .act-stats { flex: 1; display: flex; gap: 15px; justify-content: center; }
 
-        .text-green { color: #10b981; } .text-red { color: #ef4444; } .text-blue { color: #3b82f6; }
+        .text-green { color: #047857; } .text-red { color: #b91c1c; } .text-blue { color: var(--brand-blue, #1c64f2); }
 
 /* ==========================================================================
    🟢 TASK 3: RESPONSIVE DIALOGUE & MODAL MODERNISATION (@media min-width: 768px)

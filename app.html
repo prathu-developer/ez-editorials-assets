@@ -28,9 +28,9 @@
             --bg-body: #ffffff;
             --bg-card: #ffffff;
             --text-main: #111827;
-            --text-muted: #6b7280;
+            --text-muted: #475569;
             --border-light: #f3f4f6;
-            --success: #10b981;
+            --success: #047857;
         }
 
         /* 🟢 Dark Mode Variables */
@@ -156,12 +156,12 @@
             line-height: 1;
         }
         .streak-sub {
-            font-size: 8.5px;
+            font-size: 11px;
             color: #9a3412;
             font-weight: 800;
             background: #fed7aa;
-            padding: 1px 5px;
-            border-radius: 5px;
+            padding: 1px 6px;
+            border-radius: 6px;
             margin-top: 2px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
@@ -215,7 +215,7 @@
         .timer-sub-labels {
             display: flex;
             gap: clamp(15px, 4.5vw, 24px);
-            font-size: 8.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 700;
             margin-top: 3px;
@@ -235,8 +235,11 @@
             height: 100%;
             background: var(--brand-blue, #1c64f2);
             border-radius: 5px;
-            width: 0%;
-            transition: width 0.4s ease;
+            width: 100%;
+            transform-origin: left center;
+            transform: scaleX(0);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
         .daily-goal-text {
             font-size: 11px;
@@ -379,7 +382,7 @@
             padding: 0 4px;
         }
         .cup-score-label {
-            font-size: 10px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
             margin-bottom: 2px;
@@ -396,11 +399,11 @@
         .cup-pct-number {
             font-size: clamp(14px, 4vw, 16px);
             font-weight: 800;
-            color: #10b981;
+            color: #047857;
             line-height: 1.1;
         }
         .cup-pct-subtext {
-            font-size: 10px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 500;
             margin-top: 2px;
@@ -419,8 +422,11 @@
             height: 100%;
             background: var(--brand-blue, #1c64f2);
             border-radius: 5px;
-            width: 0%;
-            transition: width 0.4s ease;
+            width: 100%;
+            transform-origin: left center;
+            transform: scaleX(0);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
         .cup-footer-row {
             display: flex;
@@ -558,7 +564,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 10px;
+            font-size: 11px;
         }
 
         /* 5. 4-Metric Daily Activity Strip */
@@ -610,9 +616,9 @@
             margin-bottom: 3px;
             flex-shrink: 0;
         }
-        .stat-icon-purple { background: #f3e8ff; color: #7c3aed; }
-        .stat-icon-green  { background: #def7ec; color: #0e9f6e; }
-        .stat-icon-orange { background: #ffedd5; color: #ea580c; }
+        .stat-icon-purple { background: #f3e8ff; color: #6b21a8; }
+        .stat-icon-green  { background: #def7ec; color: #03543f; }
+        .stat-icon-orange { background: #ffedd5; color: #9a3412; }
         .stat-icon-blue   { background: #e1effe; color: #1c64f2; }
 
         .stat-label-title {
@@ -634,7 +640,7 @@
             white-space: nowrap;
         }
         .stat-sub-caption {
-            font-size: 8.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 500;
             line-height: 1;
@@ -731,8 +737,11 @@
         .journey-progress-fill {
             height: 100%;
             border-radius: 4px;
-            width: 0%;
-            transition: width 0.4s ease;
+            width: 100%;
+            transform-origin: left center;
+            transform: scaleX(0);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
         .journey-footer-row {
             display: flex;
@@ -763,8 +772,8 @@
         /* 1. Purple (Vocab) */
         .card-theme-purple { background: #faf8ff; border-color: #ede9fe; }
         .icon-bg-purple    { background: #ede9fe; }
-        .fill-purple       { background: #7c3aed; }
-        .arrow-btn-purple  { background: #ffffff; color: #7c3aed; }
+        .fill-purple       { background: #6b21a8; }
+        .arrow-btn-purple  { background: #ffffff; color: #6b21a8; }
 
         body.dark-mode .card-theme-purple { background: #1b1738; border-color: #312e81; }
         body.dark-mode .icon-bg-purple    { background: #2e1065; }
@@ -774,8 +783,8 @@
         /* 2. Green (Error Detection) */
         .card-theme-green { background: #f6fcf8; border-color: #dcfce7; }
         .icon-bg-green    { background: #dcfce7; }
-        .fill-green       { background: #10b981; }
-        .arrow-btn-green  { background: #ffffff; color: #059669; }
+        .fill-green       { background: #047857; }
+        .arrow-btn-green  { background: #ffffff; color: #047857; }
 
         body.dark-mode .card-theme-green { background: #062818; border-color: #14532d; }
         body.dark-mode .icon-bg-green    { background: #0d3822; }
@@ -785,8 +794,8 @@
         /* 3. Orange (Sentence Improvement) */
         .card-theme-orange { background: #fffaf5; border-color: #ffedd5; }
         .icon-bg-orange    { background: #ffedd5; }
-        .fill-orange       { background: #f97316; }
-        .arrow-btn-orange  { background: #ffffff; color: #ea580c; }
+        .fill-orange       { background: #c2410c; }
+        .arrow-btn-orange  { background: #ffffff; color: #9a3412; }
 
         body.dark-mode .card-theme-orange { background: #2e1808; border-color: #7c2d12; }
         body.dark-mode .icon-bg-orange    { background: #431407; }
@@ -796,8 +805,8 @@
         /* 4. Teal (Fill in the Blank) */
         .card-theme-teal { background: #f0fdfa; border-color: #ccfbf1; }
         .icon-bg-teal    { background: #ccfbf1; }
-        .fill-teal       { background: #0d9488; }
-        .arrow-btn-teal  { background: #ffffff; color: #0f766e; }
+        .fill-teal       { background: #0f766e; }
+        .arrow-btn-teal  { background: #ffffff; color: #042f2e; }
 
         body.dark-mode .card-theme-teal { background: #042928; border-color: #115e59; }
         body.dark-mode .icon-bg-teal    { background: #134e4a; }
@@ -807,8 +816,8 @@
         /* 5. Blue (Reading Comprehension) */
         .card-theme-blue { background: #f0f9ff; border-color: #e0f2fe; }
         .icon-bg-blue    { background: #e0f2fe; }
-        .fill-blue       { background: #0284c7; }
-        .arrow-btn-blue  { background: #ffffff; color: #0369a1; }
+        .fill-blue       { background: var(--brand-blue, #1c64f2); }
+        .arrow-btn-blue  { background: #ffffff; color: #1e40af; }
 
         body.dark-mode .card-theme-blue { background: #08253a; border-color: #0369a1; }
         body.dark-mode .icon-bg-blue    { background: #0c4a6e; }
@@ -895,15 +904,15 @@
             font-size: 16px;
             flex-shrink: 0;
         }
-        .hl-purple { background: #f3e8ff; color: #7c3aed; }
-        .hl-green  { background: #def7ec; color: #0e9f6e; }
+        .hl-purple { background: #f3e8ff; color: #6b21a8; }
+        .hl-green  { background: #def7ec; color: #03543f; }
 
         .highlight-text-content {
             min-width: 0;
             flex: 1;
         }
         .highlight-tag {
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-muted);
             display: flex;
@@ -934,7 +943,7 @@
         }
         .highlight-arrow {
             font-size: 16px;
-            color: #94a3b8;
+            color: var(--text-muted, #475569);
             font-weight: 600;
             flex-shrink: 0;
         }
@@ -1011,12 +1020,12 @@
             flex-direction: column;
         }
         .banner-pct-sub {
-            font-size: 9px;
-            color: #6b7280;
+            font-size: 11px;
+            color: var(--text-muted, #475569);
             font-weight: 500;
             line-height: 1;
         }
-        body.dark-mode .banner-pct-sub { color: #94a3b8; }
+        body.dark-mode .banner-pct-sub { color: var(--text-muted, #9ca3af); }
         .banner-pct-val {
             font-size: clamp(12.5px, 3.6vw, 14.5px);
             font-weight: 800;
@@ -1082,6 +1091,7 @@
             margin: 0 14px 14px 14px;
             padding: 14px 12px;
             border-radius: 20px;
+            background-color: #0f172a;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-top: 1px solid rgba(255, 255, 255, 0.16);
@@ -1212,7 +1222,7 @@
             text-align: center;
             min-width: 0;
         }
-        .cup-score-label {
+        .cup-hero-dark-card .cup-score-label {
             font-size: 11px;
             color: #cbd5e1;
             font-weight: 600;
@@ -1312,7 +1322,7 @@
             max-width: 90px;
         }
         .battle-user-pts {
-            font-size: 10.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
             white-space: nowrap;
@@ -1347,8 +1357,8 @@
             font-weight: 800;
             padding: 0 4px;
         }
-        .indicator-left { color: #ef4444; }
-        .indicator-right { color: #10b981; }
+        .indicator-left { color: #b91c1c; }
+        .indicator-right { color: #047857; }
 
         /* 3. Top 3 Podium Grid (Mobile Compact) */
         .cup-podium-grid {
@@ -1576,14 +1586,14 @@
         body.dark-mode .cup-row-pts { color: #60a5fa; }
 
         .cup-row-delta {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             min-width: 18px;
             text-align: right;
         }
-        .delta-up { color: #10b981; }
-        .delta-down { color: #ef4444; }
-        .delta-same { color: #94a3b8; }
+        .delta-up { color: #047857; }
+        .delta-down { color: #b91c1c; }
+        .delta-same { color: var(--text-muted, #475569); }
 
         /* 5. Sleek Red Demotion Line */
         .cup-demotion-divider {
@@ -1600,9 +1610,9 @@
             border-radius: 2px;
         }
         .demotion-badge {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
-            color: #dc2626;
+            color: #b91c1c;
             background: #fef2f2;
             border: 1px solid #fecaca;
             padding: 3px 8px;
@@ -1867,13 +1877,13 @@
             margin-bottom: 4px;
             flex-shrink: 0;
         }
-        .pico-purple { background: #f3e8ff; color: #7c3aed; }
-        .pico-green  { background: #def7ec; color: #0e9f6e; }
-        .pico-orange { background: #ffedd5; color: #ea580c; }
-        .pico-blue   { background: #e0f2fe; color: #0284c7; }
+        .pico-purple { background: #f3e8ff; color: #6b21a8; }
+        .pico-green  { background: #def7ec; color: #03543f; }
+        .pico-orange { background: #ffedd5; color: #9a3412; }
+        .pico-blue   { background: #e0f2fe; color: #0369a1; }
 
         .prog-stat-label {
-            font-size: clamp(9px, 2.5vw, 10px);
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-muted);
             line-height: 1.15;
@@ -1944,7 +1954,7 @@
             top: 50%;
             transform: translateY(-50%);
             pointer-events: none;
-            font-size: 10px;
+            font-size: 11px;
             color: var(--brand-blue, #1c64f2);
             font-weight: bold;
         }
@@ -2000,14 +2010,14 @@
             font-size: 18px;
             flex-shrink: 0;
         }
-        .att-ico-purple { background: #f3e8ff; color: #7c3aed; }
-        .att-ico-green  { background: #def7ec; color: #0e9f6e; }
-        .att-ico-orange { background: #ffedd5; color: #ea580c; }
-        .att-ico-blue   { background: #e0f2fe; color: #0284c7; }
-        .att-ico-pink   { background: #fce7f3; color: #db2777; }
-        .att-ico-teal   { background: #ccfbf1; color: #0d9488; }
-        .att-ico-indigo { background: #e0e7ff; color: #4f46e5; }
-        .att-ico-rose   { background: #ffe4e6; color: #e11d48; }
+        .att-ico-purple { background: #f3e8ff; color: #6b21a8; }
+        .att-ico-green  { background: #def7ec; color: #03543f; }
+        .att-ico-orange { background: #ffedd5; color: #9a3412; }
+        .att-ico-blue   { background: #e0f2fe; color: #0369a1; }
+        .att-ico-pink   { background: #fce7f3; color: #9f1239; }
+        .att-ico-teal   { background: #ccfbf1; color: #0f766e; }
+        .att-ico-indigo { background: #e0e7ff; color: #3730a3; }
+        .att-ico-rose   { background: #ffe4e6; color: #9f1239; }
 
         .attempt-text-meta {
             min-width: 0;
@@ -2024,7 +2034,7 @@
             text-overflow: ellipsis;
         }
         .attempt-date-time {
-            font-size: clamp(10.5px, 2.9vw, 12px);
+            font-size: clamp(11px, 2.9vw, 12px);
             color: var(--text-muted);
             font-weight: 500;
             display: flex;
@@ -2053,7 +2063,7 @@
             white-space: nowrap;
         }
         .score-positive { color: var(--brand-blue, #1c64f2); }
-        .score-negative { color: #ef4444; }
+        .score-negative { color: #b91c1c; }
         .score-zero     { color: var(--brand-blue, #1c64f2); }
         body.dark-mode .score-positive, 
         body.dark-mode .score-zero { color: #60a5fa; }
@@ -2067,7 +2077,7 @@
             white-space: nowrap;
         }
         .pill-status-purple { background: #eff6ff; color: var(--brand-blue, #1c64f2); }
-        .pill-status-red    { background: #fee2e2; color: #ef4444; }
+        .pill-status-red    { background: #fee2e2; color: #b91c1c; }
         body.dark-mode .pill-status-purple { background: #1e293b; color: #60a5fa; }
         body.dark-mode .pill-status-red    { background: #450a0a; color: #f87171; }
 
@@ -2081,7 +2091,7 @@
             align-items: center;
             justify-content: center;
             font-size: 13px;
-            color: #94a3b8;
+            color: var(--text-muted, #475569);
             cursor: pointer;
             flex-shrink: 0;
         }
@@ -2219,8 +2229,8 @@
             margin-bottom: 1px;
         }
         .digest-hero-motto {
-            font-size: clamp(10px, 2.8vw, 11px);
-            color: #4b5563;
+            font-size: 11px;
+            color: var(--text-muted, #475569);
             font-weight: 500;
             line-height: 1.25;
             margin-bottom: 4px;
@@ -2363,7 +2373,7 @@
             flex-direction: column;
         }
         .card-category-tag {
-            font-size: 9px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -2374,7 +2384,7 @@
         }
         .tag-purple { background: #eff6ff; color: var(--brand-blue, #1c64f2); }
         body.dark-mode .tag-purple { background: #1e293b; color: #60a5fa; }
-        .tag-green { background: #dcfce7; color: #059669; }
+        .tag-green { background: #dcfce7; color: #047857; }
         body.dark-mode .tag-green { background: #14532d; color: #6ee7b7; }
 
         .card-title-row {
@@ -2391,15 +2401,15 @@
             line-height: 1.15;
         }
         .card-audio-btn {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             background: rgba(28, 100, 242, 0.1);
             color: var(--brand-blue, #1c64f2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 11px;
             border: none;
             cursor: pointer;
             flex-shrink: 0;
@@ -2419,7 +2429,7 @@
         }
         .pos-purple { background: #eff6ff; color: var(--brand-blue, #1c64f2); }
         body.dark-mode .pos-purple { background: #1e293b; color: #60a5fa; }
-        .pos-green { background: #def7ec; color: #0d9488; }
+        .pos-green { background: #def7ec; color: #0f766e; }
         body.dark-mode .pos-green { background: #042f2e; color: #5eead4; }
 
         .card-short-def {
@@ -2440,7 +2450,7 @@
         body.dark-mode .card-inner-divider { background: rgba(255, 255, 255, 0.07); }
 
         .card-extra-row {
-            font-size: clamp(10px, 2.8vw, 11.5px);
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 500;
             line-height: 1.3;
@@ -2451,7 +2461,7 @@
         }
         .purple-accent { color: var(--brand-blue, #1c64f2); }
         body.dark-mode .purple-accent { color: #60a5fa; }
-        .green-accent { color: #059669; }
+        .green-accent { color: #047857; }
         body.dark-mode .green-accent { color: #34d399; }
 
         .card-arrow-circle {
@@ -2468,7 +2478,7 @@
         }
         .arrow-purple { background: #eff6ff; color: var(--brand-blue, #1c64f2); }
         body.dark-mode .arrow-purple { background: #1e293b; color: #60a5fa; }
-        .arrow-green { background: #dcfce7; color: #059669; }
+        .arrow-green { background: #dcfce7; color: #047857; }
         body.dark-mode .arrow-green { background: #14532d; color: #34d399; }
 
         /* 4. Bottom Motivational Banner */
@@ -2710,7 +2720,7 @@
         /* 2. Exam Pill (Sky Blue) */
         .tag-exam {
             background: #e0f2fe;
-            color: #0284c7;
+            color: #0369a1;
             border: 1px solid rgba(2, 132, 199, 0.18);
         }
         body.dark-mode .tag-exam {
@@ -2748,7 +2758,7 @@
         /* 2. Exam Pill (Sky Blue) */
         .tag-exam {
             background: #e0f2fe;
-            color: #0284c7;
+            color: #0369a1;
             border: 1px solid rgba(2, 132, 199, 0.18);
         }
         body.dark-mode .tag-exam {
@@ -2781,17 +2791,18 @@
 
         /* --- FULLY RESPONSIVE 3-COLUMN METRICS STRIP --- */
         .profile-nested-metrics {
-            background: #ffffff;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-light);
             border-radius: 16px;
             padding: 10px 8px;
             display: grid;
             grid-template-columns: 1fr auto 1fr auto 1fr;
             align-items: center;
             gap: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
         }
         body.dark-mode .profile-nested-metrics {
-            background: var(--bg-card);
+            background: rgba(255, 255, 255, 0.02);
+            border-color: var(--border-light);
         }
 
         .p-metric-item {
@@ -2821,9 +2832,9 @@
             font-size: 13px;
             flex-shrink: 0;
         }
-        .p-icon-purple { background: #f3e8ff; color: #7c3aed; }
-        .p-icon-green  { background: #def7ec; color: #0e9f6e; }
-        .p-icon-blue   { background: #e0f2fe; color: #0284c7; }
+        .p-icon-purple { background: #f3e8ff; color: #6b21a8; }
+        .p-icon-green  { background: #def7ec; color: #03543f; }
+        .p-icon-blue   { background: #e0f2fe; color: #0369a1; }
 
         .p-metric-text {
             min-width: 0;
@@ -2858,8 +2869,8 @@
             margin-top: 4px;
             box-sizing: border-box;
         }
-        .subpill-purple { background: #f3e8ff; color: #7c3aed; }
-        .subpill-green  { background: #def7ec; color: #0e9f6e; }
+        .subpill-purple { background: #f3e8ff; color: #6b21a8; }
+        .subpill-green  { background: #def7ec; color: #03543f; }
         .subpill-amber  { background: #eff6ff; color: var(--brand-blue, #1c64f2); }
 
         .p-metric-divider {
@@ -2925,14 +2936,14 @@
             flex-shrink: 0;
         }
         /* Pastel Icon Colors */
-        .ico-purple { background: #f3e8ff; color: #7c3aed; }
-        .ico-amber  { background: #fef3c7; color: #d97706; }
-        .ico-green  { background: #def7ec; color: #0e9f6e; }
-        .ico-blue   { background: #e0f2fe; color: #0284c7; }
-        .ico-indigo { background: #e0e7ff; color: #4f46e5; }
-        .ico-rose   { background: #ffe4e6; color: #e11d48; }
-        .ico-yellow { background: #fef9c3; color: #ca8a04; }
-        .ico-teal   { background: #ccfbf1; color: #0d9488; }
+        .ico-purple { background: #f3e8ff; color: #6b21a8; }
+        .ico-amber  { background: #fef3c7; color: #b45309; }
+        .ico-green  { background: #def7ec; color: #03543f; }
+        .ico-blue   { background: #e0f2fe; color: #0369a1; }
+        .ico-indigo { background: #e0e7ff; color: #3730a3; }
+        .ico-rose   { background: #ffe4e6; color: #9f1239; }
+        .ico-yellow { background: #fef9c3; color: #a16207; }
+        .ico-teal   { background: #ccfbf1; color: #0f766e; }
         .ico-sky    { background: #e0f2fe; color: #0369a1; }
 
         .p-item-text {
@@ -2967,7 +2978,7 @@
         }
         .p-item-arrow {
             font-size: 18px;
-            color: #94a3b8;
+            color: var(--text-muted, #475569);
             font-weight: 600;
             line-height: 1;
         }
@@ -3037,8 +3048,11 @@
             height: 100%;
             background: var(--brand-blue, #1c64f2);
             border-radius: 6px;
-            width: 0%;
-            transition: width 0.4s ease;
+            width: 100%;
+            transform-origin: left center;
+            transform: scaleX(0);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
         }
 
         .pb-right {
@@ -3388,22 +3402,21 @@
             background: #374151;
         }
 
-        /* 1. Modal Top Profile Header */
-        .perf-header-card {
-            background: #ffffff;
-            border: 1px solid var(--border-light, #e2e8f0);
-            border-radius: 20px;
-            padding: 14px 16px;
+        /* 1. Modal Top Profile Header (Flattened Hierarchy) */
+        .perf-header-card, .perf-header-row {
+            background: transparent;
+            border: none;
+            padding: 4px 2px 14px 2px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
             box-sizing: border-box;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
         }
-        body.dark-mode .perf-header-card {
-            background: var(--bg-card, #1e293b);
-            border-color: #334155;
+        body.dark-mode .perf-header-card,
+        body.dark-mode .perf-header-row {
+            background: transparent;
+            border: none;
         }
 
         .perf-user-left {
@@ -3488,9 +3501,9 @@
             font-size: 13px;
         }
         .p-ico-purple { background: #eff6ff; color: var(--brand-blue, #1c64f2); }
-        .p-ico-green  { background: #def7ec; color: #0e9f6e; }
-        .p-ico-blue   { background: #e0f2fe; color: #0284c7; }
-        .p-ico-amber  { background: #fef3c7; color: #d97706; }
+        .p-ico-green  { background: #def7ec; color: #03543f; }
+        .p-ico-blue   { background: #e0f2fe; color: #0369a1; }
+        .p-ico-amber  { background: #fef3c7; color: #b45309; }
 
         .perf-stat-label {
             font-size: 11px;
@@ -3506,25 +3519,25 @@
             color: var(--text-main);
         }
         .col-purple { color: var(--brand-blue, #1c64f2); }
-        .col-green  { color: #10b981; }
-        .col-blue   { color: #0284c7; }
-        .col-amber  { color: #ea580c; }
+        .col-green  { color: #047857; }
+        .col-blue   { color: #0369a1; }
+        .col-amber  { color: #9a3412; }
         body.dark-mode .col-purple { color: #60a5fa; }
         body.dark-mode .col-blue   { color: #38bdf8; }
 
-        /* 3. Reusable Dashboard Card */
-        .dash-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 16px 14px;
-            margin-bottom: 14px;
-            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.02);
-            border: 1px solid var(--border-light);
+        /* 3. Reusable Dashboard Section (Flattened Hierarchy) */
+        .dash-card, .dash-section {
+            background: transparent;
+            padding: 14px 2px;
+            margin-bottom: 8px;
+            border: none;
+            border-top: 1px solid var(--border-light);
             box-sizing: border-box;
         }
-        body.dark-mode .dash-card {
-            background: #1f1f24;
-            border-color: #2e2e38;
+        body.dark-mode .dash-card,
+        body.dark-mode .dash-section {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.08);
         }
 
         .section-title {
@@ -3564,7 +3577,7 @@
             gap: 2px;
         }
         .cs-label {
-            font-size: 9.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
         }
@@ -3618,23 +3631,21 @@
             color: var(--text-muted);
         }
 
-        /* 6. Topper Banner */
-        .topper-banner {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border: 1px solid #fde047;
-            border-radius: 14px;
-            padding: 10px 14px;
-            margin-top: 14px;
+        /* 6. Topper Callout Strip (Flattened Callout Strip) */
+        .topper-callout {
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-top: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
         }
-        body.dark-mode .topper-banner {
-            background: linear-gradient(135deg, #2d1806 0%, #1f1003 100%);
-            border-color: rgba(245, 158, 11, 0.3);
+        body.dark-mode .topper-callout {
+            background: rgba(245, 158, 11, 0.12);
         }
-        .topper-banner-title {
+        .topper-callout-title {
             display: flex;
             align-items: center;
             gap: 6px;
@@ -3643,15 +3654,15 @@
             color: #b45309;
             text-transform: uppercase;
         }
-        body.dark-mode .topper-banner-title {
+        body.dark-mode .topper-callout-title {
             color: #fbbf24;
         }
-        .topper-banner-info {
+        .topper-callout-info {
             font-weight: 700;
             font-size: 11.5px;
             color: #92400e;
         }
-        body.dark-mode .topper-banner-info {
+        body.dark-mode .topper-callout-info {
             color: #fde68a;
         }
 
@@ -4076,7 +4087,7 @@
                 background: rgba(0, 0, 0, 0.04);
             }
             .desk-logout-btn {
-                color: #dc2626;
+                color: #b91c1c;
                 border-color: #fca5a5;
                 background: #fef2f2;
             }
@@ -4240,7 +4251,7 @@
             }
 
             .nav-rail-btn.text-danger {
-                color: #dc2626 !important;
+                color: #b91c1c !important;
             }
 
             .nav-rail-btn.text-danger:hover {
@@ -4583,7 +4594,7 @@
 
             .rail-cutoff-gap {
                 font-size: 12px !important;
-                color: #16a34a !important;
+                color: #047857 !important;
                 font-weight: 600 !important;
                 line-height: 1.4 !important;
             }
@@ -4666,16 +4677,20 @@
             }
 
             .desk-avatar-btn {
-                width: 36px;
-                height: 36px;
+                width: 40px;
+                height: 40px;
+                min-width: 40px;
+                min-height: 40px;
                 border-radius: 50%;
                 background: #eff6ff;
-                border: 1.5px solid #3b82f6;
+                border: 1.5px solid var(--brand-blue, #1c64f2);
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 18px;
+                font-size: 16px;
                 cursor: pointer;
+                padding: 8px;
+                box-sizing: border-box;
             }
 
             /* Tablet & small desktop optimization: at 1024-1279px, hide right rail or let it flow gracefully */
@@ -4726,7 +4741,7 @@
         }
         .day-view-subtext {
             font-size: var(--font-xs, 12px);
-            color: var(--text-muted, #64748b);
+            color: var(--text-muted, #475569);
         }
         .day-view-nav-actions {
             display: flex;
@@ -4784,7 +4799,7 @@
             min-height: 48px;
             font-size: var(--font-xs, 12px);
             font-weight: 600;
-            color: var(--text-muted, #64748b);
+            color: var(--text-muted, #475569);
             cursor: pointer;
             display: inline-flex;
             flex-direction: column;
@@ -4796,11 +4811,11 @@
             box-sizing: border-box;
         }
         .day-view-pill .pill-day-name {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            color: var(--text-muted, #64748b);
+            color: var(--text-muted, #475569);
         }
         .day-view-pill .pill-day-label {
             font-size: 12px;
@@ -4808,7 +4823,7 @@
             color: var(--text-main, #1e293b);
         }
         .day-view-pill .pill-day-icon {
-            font-size: 10px;
+            font-size: 11px;
             display: inline-flex;
             align-items: center;
         }
@@ -4971,15 +4986,19 @@
         }
         .mobile-avatar-btn {
             display: none;
-            width: 32px;
-            height: 32px;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
             border-radius: 50%;
             background: rgba(28, 100, 242, 0.1);
             border: 1px solid rgba(28, 100, 242, 0.25);
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 18px;
             cursor: pointer;
+            padding: 4px;
+            box-sizing: border-box;
         }
         .rail-login-btn {
             background: rgba(28, 100, 242, 0.08) !important;
@@ -5077,15 +5096,20 @@
             color: #ffffff !important;
         }
 
-        /* ♿ ACCESSIBILITY & HARDENING SAFEGUARDS */
+        /* ♿ ACCESSIBILITY & HARDENING SAFEGUARDS: Refined reduced motion preserves state transitions */
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
             *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
+            }
+            *,
+            *::before,
+            *::after {
+                transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow !important;
+                transition-duration: 0.15s !important;
             }
         }
 
@@ -5360,7 +5384,7 @@
                     </div>
                     
                     <div class="daily-goal-track">
-                        <div class="daily-goal-fill" id="daily-goal-fill" style="width: 0%;"></div>
+                        <div class="daily-goal-fill" id="daily-goal-fill" style="width: 100%; transform: scaleX(0);"></div>
                     </div>
                     <div class="daily-goal-text" id="daily-goal-text">0% of daily goal completed</div>
                 </div>
@@ -5459,7 +5483,7 @@
 
                 <!-- Cup Progress Bar -->
                 <div class="cup-progress-track">
-                    <div class="cup-progress-fill" id="home-cup-progress-fill" style="width: 0%;"></div>
+                    <div class="cup-progress-fill" id="home-cup-progress-fill" style="width: 100%; transform: scaleX(0);"></div>
                 </div>
 
                 <!-- Footer Row: Season Meta & View Link -->
@@ -6067,7 +6091,7 @@
                         <div class="pb-title" id="profile-banner-pct-title">You're in the Top --% of all learners!</div>
                         <div class="pb-sub">Consistency today, success tomorrow.</div>
                         <div class="pb-progress-track">
-                            <div class="pb-progress-fill" id="profile-banner-fill" style="width: 0%;"></div>
+                            <div class="pb-progress-fill" id="profile-banner-fill" style="width: 100%; transform: scaleX(0);"></div>
                         </div>
                     </div>
 
@@ -6180,13 +6204,13 @@
                     <!-- 10. Log Out -->
                     <div class="p-card-item" role="button" tabindex="0" onclick="logOut()" onkeydown="if(event.key==='Enter'||event.key===' ')logOut()" aria-label="Log Out" style="border-top: 1px solid var(--border-light); margin-top: 4px;">
                         <div class="p-item-left">
-                            <div class="p-item-icon-box" style="background:#fee2e2; color:#dc2626;">🚪</div>
+                            <div class="p-item-icon-box" style="background:#fee2e2; color:#b91c1c;">🚪</div>
                             <div class="p-item-text">
-                                <div class="p-item-title" style="color: #dc2626;">Log Out</div>
+                                <div class="p-item-title" style="color: #b91c1c;">Log Out</div>
                                 <div class="p-item-sub">Switch account or end current session</div>
                             </div>
                         </div>
-                        <div class="p-item-right"><span class="p-item-arrow" style="color: #dc2626;">›</span></div>
+                        <div class="p-item-right"><span class="p-item-arrow" style="color: #b91c1c;">›</span></div>
                     </div>
                 </div>
             </div>
@@ -6205,7 +6229,7 @@
             <div class="close-indicator" onclick="closeModal(null, true)"></div>
 
             <!-- 1. Header: Name, League Badge, Elo Rating -->
-            <div class="perf-header-card">
+            <div class="perf-header-row">
                 <div class="perf-user-left">
                     <div class="perf-user-name" id="modalStudentName">Student Name</div>
                     <div class="perf-user-league" id="modalStudentHouse"></div>
@@ -6256,7 +6280,7 @@
             </div>
 
             <!-- 3. Weekly Progress Chart -->
-            <div class="dash-card">
+            <div class="dash-section">
                 <div class="section-title">
                     <span>📊 Weekly Progress</span>
                     <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">Mon - Sun</span>
@@ -6271,11 +6295,11 @@
                     </div>
                     <div class="cs-item">
                         <span class="cs-label">✅ Correct</span>
-                        <span class="cs-val" style="color:#10b981;" id="csCorrect">0</span>
+                        <span class="cs-val" style="color:#047857;" id="csCorrect">0</span>
                     </div>
                     <div class="cs-item">
                         <span class="cs-label">❌ Wrong</span>
-                        <span class="cs-val" style="color:#ef4444;" id="csWrong">0</span>
+                        <span class="cs-val" style="color:#b91c1c;" id="csWrong">0</span>
                     </div>
                     <div class="cs-item">
                         <span class="cs-label">🎯 Accuracy</span>
@@ -6285,7 +6309,7 @@
             </div>
 
             <!-- 4. Performance Overview & Benchmarking -->
-            <div class="dash-card">
+            <div class="dash-section">
                 <div class="section-title">
                     <span>🎯 Performance Overview</span>
                 </div>
@@ -6332,19 +6356,19 @@
                     </div>
                 </div>
 
-                <!-- Topper Banner -->
-                <div class="topper-banner">
-                    <div class="topper-banner-title">
+                <!-- Topper Callout Strip -->
+                <div class="topper-callout">
+                    <div class="topper-callout-title">
                         <span>👑</span> <span id="bannerTopperName">Topper</span>
                     </div>
-                    <div class="topper-banner-info" id="bannerTopperInfo">
+                    <div class="topper-callout-info" id="bannerTopperInfo">
                         0 pts • 0% Accuracy
                     </div>
                 </div>
             </div>
 
             <!-- 5. Previous Rank History -->
-            <div class="dash-card">
+            <div class="dash-section">
                 <div class="section-title">
                     <span>📜 Previous Rank History</span>
                 </div>
@@ -6362,9 +6386,9 @@
                 <div style="font-size: 2.5em; margin-bottom: 10px;">📜</div><h3 style="margin: 0; color: var(--text-main); font-size: 1.3em;">Week <span id="histWeek"></span> Archive</h3>
             </div>
             <div style="background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Rank</span><span style="font-weight: 700; color: #3b82f6; font-size: 1.1em;" id="histRank"></span></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Rank</span><span style="font-weight: 700; color: var(--brand-blue, #1c64f2); font-size: 1.1em;" id="histRank"></span></div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Score</span><span style="font-weight: 700; color: var(--text-main);" id="histScore"></span></div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Accuracy</span><span style="font-weight: 700; color: #10b981;" id="histAcc"></span></div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Accuracy</span><span style="font-weight: 700; color: #047857;" id="histAcc"></span></div>
                 <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-muted); font-weight: 500;">Correct Answers</span><span style="font-weight: 700; color: var(--text-main);" id="histCorrect"></span></div>
             </div>
             <button class="btn-massive" onclick="closeHistoryModal(null, true)" style="background: var(--bg-subtle); color: var(--text-main); border: 1px solid var(--border-light); font-weight: 700; width: 100%; border-radius: 12px; padding: 12px; cursor: pointer;">Close Archive</button>
@@ -6683,29 +6707,29 @@
                             <th style="padding: 6px; border-radius: 0 6px 0 0;">Wrong</th>
                         </tr>
                         <tr>
-                            <td style="padding: 6px; font-weight:bold; color: #10b981;">T1 (Very Easy)</td>
+                            <td style="padding: 6px; font-weight:bold; color: #047857;">T1 (Very Easy)</td>
                             <td style="padding: 6px;">+1.0</td>
-                            <td style="padding: 6px; color:#ef4444;">-0.42</td>
+                            <td style="padding: 6px; color:#b91c1c;">-0.42</td>
                         </tr>
                         <tr style="background: #f8fafc;">
-                            <td style="padding: 6px; font-weight:bold; color: #3b82f6;">T2 (Easy)</td>
+                            <td style="padding: 6px; font-weight:bold; color: #1c64f2;">T2 (Easy)</td>
                             <td style="padding: 6px;">+2.0</td>
-                            <td style="padding: 6px; color:#ef4444;">-0.60</td>
+                            <td style="padding: 6px; color:#b91c1c;">-0.60</td>
                         </tr>
                         <tr>
-                            <td style="padding: 6px; font-weight:bold; color: #f59e0b;">T3 (Moderate)</td>
+                            <td style="padding: 6px; font-weight:bold; color: #b45309;">T3 (Moderate)</td>
                             <td style="padding: 6px;">+3.0</td>
-                            <td style="padding: 6px; color:#ef4444;">-0.75</td>
+                            <td style="padding: 6px; color:#b91c1c;">-0.75</td>
                         </tr>
                         <tr style="background: #f8fafc;">
-                            <td style="padding: 6px; font-weight:bold; color: #f97316;">T4 (Hard)</td>
+                            <td style="padding: 6px; font-weight:bold; color: #c2410c;">T4 (Hard)</td>
                             <td style="padding: 6px;">+4.0</td>
-                            <td style="padding: 6px; color:#ef4444;">-0.60</td>
+                            <td style="padding: 6px; color:#b91c1c;">-0.60</td>
                         </tr>
                         <tr>
-                            <td style="padding: 6px; font-weight:bold; color: #ef4444; border-radius: 0 0 0 6px;">T5 (Boss)</td>
+                            <td style="padding: 6px; font-weight:bold; color: #b91c1c; border-radius: 0 0 0 6px;">T5 (Boss)</td>
                             <td style="padding: 6px;">+5.0</td>
-                            <td style="padding: 6px; color:#ef4444; border-radius: 0 0 6px 0;">-0.42</td>
+                            <td style="padding: 6px; color:#b91c1c; border-radius: 0 0 6px 0;">-0.42</td>
                         </tr>
                     </table>
                 </div>
@@ -6739,9 +6763,9 @@
                     </div>
 
                     <div class="cut-off-alert">
-                        <div><b style="color: #10b981;">▲ PROMOTION:</b> Stay above the <b>Class Average</b> to be promoted by one league. Finish in the <b>Top 10</b> for a <b>Double Promotion</b>, or secure <b>1st Place</b> for a massive <b>Triple Promotion</b>!</div>
+                        <div><b style="color: #047857;">▲ PROMOTION:</b> Stay above the <b>Class Average</b> to be promoted by one league. Finish in the <b>Top 10</b> for a <b>Double Promotion</b>, or secure <b>1st Place</b> for a massive <b>Triple Promotion</b>!</div>
                         <div style="height: 1px; background: #e2e8f0; width: 100%;"></div>
-                        <div><b style="color: #ef4444;">▼ DEMOTION:</b> Dropping below the class average means your badge will be demoted.</div>
+                        <div><b style="color: #b91c1c;">▼ DEMOTION:</b> Dropping below the class average means your badge will be demoted.</div>
                     </div>
                 </div>
 
@@ -6803,10 +6827,10 @@
                 <!-- 🟢 GOOGLE PLAY COMPLIANCE: Account Deletion -->
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-light);">
                     <div>
-                        <div style="font-size: 15px; font-weight: 600; color: #dc2626;">⚠️ Delete Account & Wipe Data</div>
+                        <div style="font-size: 15px; font-weight: 600; color: #b91c1c;">⚠️ Delete Account & Wipe Data</div>
                         <div style="font-size: 12px; color: var(--text-muted);">Permanently remove account & all test history</div>
                     </div>
-                    <button onclick="deleteAccount()" style="padding: 7px 14px; border-radius: 8px; border: 1px solid #dc2626; background: #dc2626; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;">Delete Account</button>
+                    <button onclick="deleteAccount()" style="padding: 7px 14px; border-radius: 8px; border: 1px solid #b91c1c; background: #b91c1c; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;">Delete Account</button>
                 </div>
             </div>
         </div>
@@ -7028,16 +7052,16 @@
                                 <div style="font-weight: 900; color: var(--text-muted); font-size: 16px;">${myRankDisplay}</div>
                                 <div>
                                     <div style="font-weight: bold; font-size: 15px; color: var(--text-main);">You</div>
-                                    <div style="font-size: 0.75em; color: var(--text-muted);">Intelligence Rating</div>
+                                    <div style="font-size: 11px; color: var(--text-muted);">Intelligence Rating</div>
                                 </div>
                             </div>
-                            <div style="font-weight: 800; color: #3b82f6; font-size: 16px;">🧠 ${myEloDisplay}</div>
+                            <div style="font-weight: 800; color: var(--brand-blue, #1c64f2); font-size: 16px;">🧠 ${myEloDisplay}</div>
                         </div>
                     `;
                 }
             } catch (error) {
                 console.error("Elo Fetch Error:", error);
-                container.innerHTML = '<p style="text-align:center; color:#ef4444; font-size:13px; margin-top:20px;">Failed to connect to Elo servers.</p>';
+                container.innerHTML = '<p style="text-align:center; color:#b91c1c; font-size:13px; margin-top:20px;">Failed to connect to Elo servers.</p>';
             }
         };
 
@@ -7194,7 +7218,10 @@
             
             const fill = document.getElementById('daily-goal-fill');
             const txt = document.getElementById('daily-goal-text');
-            if (fill) fill.style.width = `${pct}%`;
+            if (fill) {
+                fill.style.transform = `scaleX(${pct / 100})`;
+                fill.style.width = '100%';
+            }
             if (txt) txt.innerText = `${pct}% of daily goal completed`;
         }
 
@@ -7424,7 +7451,7 @@
                         </div>
                         <div class="journey-card-bottom">
                             <div class="journey-progress-track">
-                                <div class="journey-progress-fill fill-${topic.theme}" style="width: ${percentage}%;"></div>
+                                <div class="journey-progress-fill fill-${topic.theme}" style="width: 100%; transform: scaleX(${percentage / 100});"></div>
                             </div>
                             <div class="journey-footer-row">
                                 <span class="journey-fraction-text">${completedCount}/${totalAvailable}</span>
@@ -7823,7 +7850,8 @@
                 let userScore = parseFloat(cu.score) || 0;
                 let progressPct = targetAvg > 0 ? Math.min(100, Math.max(5, Math.round((userScore / targetAvg) * 100))) : 50;
                 if (userScore <= 0) progressPct = 5;
-                cupProgressFill.style.width = `${progressPct}%`;
+                cupProgressFill.style.transform = `scaleX(${progressPct / 100})`;
+                cupProgressFill.style.width = '100%';
             }
 
             // 3. Percentile Calculation
@@ -7835,19 +7863,19 @@
                     if (bannerTopPct) bannerTopPct.innerText = `Top ${topPercentage}%`;
 
                     if (topPercentage <= 5) {
-                        homeTopPct.style.color = '#10b981';
+                        homeTopPct.style.color = '#047857';
                         homeTopMsg.innerHTML = `Dominating! 👑`;
                     } else if (topPercentage <= 15) {
-                        homeTopPct.style.color = '#10b981';
+                        homeTopPct.style.color = '#047857';
                         homeTopMsg.innerHTML = `Elite Tier! 🌟`;
                     } else if (topPercentage <= 30) {
-                        homeTopPct.style.color = '#10b981';
+                        homeTopPct.style.color = '#047857';
                         homeTopMsg.innerHTML = `Top Tier! 🔥`;
                     } else if (topPercentage <= 50) {
-                        homeTopPct.style.color = '#3b82f6';
+                        homeTopPct.style.color = 'var(--brand-blue, #1c64f2)';
                         homeTopMsg.innerHTML = `Keep pushing! 💪`;
                     } else {
-                        homeTopPct.style.color = '#f59e0b';
+                        homeTopPct.style.color = '#b45309';
                         homeTopMsg.innerHTML = `Climb higher! ⚡`;
                     }
                 } else {
@@ -7905,13 +7933,19 @@
                 
                 if (rankPill) rankPill.innerText = `Top ${topPct}%`;
                 if (bannerTitle) bannerTitle.innerText = `You're in the Top ${topPct}% of all learners!`;
-                if (bannerPill) bannerPill.innerText = `Top ${topPct}%`;
-                if (bannerFill) bannerFill.style.width = `${Math.min(100, Math.max(8, 100 - topPct + 10))}%`;
+                let bPct = Math.min(100, Math.max(8, 100 - topPct + 10));
+                if (bannerFill) {
+                    bannerFill.style.transform = `scaleX(${bPct / 100})`;
+                    bannerFill.style.width = '100%';
+                }
             } else {
                 if (rankPill) rankPill.innerText = `Unranked`;
                 if (bannerTitle) bannerTitle.innerText = `Attempt a trial to unlock your percentile!`;
                 if (bannerPill) bannerPill.innerText = `Unranked`;
-                if (bannerFill) bannerFill.style.width = `0%`;
+                if (bannerFill) {
+                    bannerFill.style.transform = 'scaleX(0)';
+                    bannerFill.style.width = '100%';
+                }
             }
 
             // Dynamic Accuracy Pill
@@ -8107,12 +8141,12 @@
 
             // Palette for dynamic avatar backgrounds
             const avatarGradients = [
-                'linear-gradient(135deg, #6366f1, #a855f7)',
-                'linear-gradient(135deg, #3b82f6, #06b6d4)',
-                'linear-gradient(135deg, #ec4899, #f43f5e)',
-                'linear-gradient(135deg, #10b981, #059669)',
-                'linear-gradient(135deg, #f59e0b, #d97706)',
-                'linear-gradient(135deg, #8b5cf6, #ec4899)'
+                'linear-gradient(135deg, #1c64f2, #1e40af)', // Academic Cobalt
+                'linear-gradient(135deg, #0f766e, #065f46)', // Editorial Teal
+                'linear-gradient(135deg, #b45309, #92400e)', // Evidence Amber
+                'linear-gradient(135deg, #1e293b, #0f172a)', // Midnight Slate
+                'linear-gradient(135deg, #b91c1c, #991b1b)', // Classic Crimson
+                'linear-gradient(135deg, #2563eb, #1d4ed8)'  // Clear Cobalt
             ];
 
             function getAvatarMarkup(u, isPodium = false, customClass = '') {
@@ -10743,7 +10777,7 @@ ${baseHref ? `<base href="${baseHref}">` : ''}
             <strong style="color:#38bdf8;">0${aIdx + 1}</strong>
             <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeMagHtml(art.title)}</span>
           </span>
-          <span style="font-size:10px; color:#94a3b8; white-space:nowrap;">${escapeMagHtml(art.reading_time || '3 min')}</span>
+          <span style="font-size:11px; color:var(--text-muted, #94a3b8); white-space:nowrap;">${escapeMagHtml(art.reading_time || '3 min')}</span>
         </div>
       `).join('\n')}
     </div>
@@ -10781,7 +10815,7 @@ ${baseHref ? `<base href="${baseHref}">` : ''}
             <div class="ptoc-meta">
               <span class="ptoc-badge ${badgeClass}">${escapeMagHtml(a.newspaper || 'Editorial')}</span>
               ${(a.topic || (a.editorial_metadata && a.editorial_metadata.topic)) ? `<span class="ptoc-badge" style="background:rgba(100,116,139,0.15); color:inherit;">${escapeMagHtml(a.topic || a.editorial_metadata.topic)}</span>` : ''}
-              <span style="font-size:10px; color:var(--text-muted, #64748b);">⏱ ${escapeMagHtml(a.reading_time || '3 min read')}</span>
+              <span style="font-size:11px; color:var(--text-muted, #475569);">⏱ ${escapeMagHtml(a.reading_time || '3 min read')}</span>
             </div>
           </div>
           <div class="ptoc-pills">
@@ -10794,8 +10828,8 @@ ${baseHref ? `<base href="${baseHref}">` : ''}
   </div>
 
   <div class="ptoc-footer">
-    <span style="font-size:10.5px; color:#64748b;">Ez Editorials Digital Publication · Tap any row or pill to jump directly to article</span>
-    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="pfc-footer-btn" style="font-size:9.5px; padding:4px 10px;">
+    <span style="font-size:11px; color:var(--text-muted, #475569);">Ez Editorials Digital Publication · Tap any row or pill to jump directly to article</span>
+    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="pfc-footer-btn" style="font-size:11px; padding:4px 10px;">
       <span>Channel Updates ›</span>
     </a>
   </div>
@@ -10849,7 +10883,7 @@ ${articlesHtml}
         </div>
         <div class="pbc-card-desc">Direct feedback, study schedule queries, and community suggestions directly with the creator.</div>
       </div>
-      <span class="pbc-btn" style="background:#059669;">Connect ↗</span>
+      <span class="pbc-btn" style="background:#047857;">Connect ↗</span>
     </a>
   </div>
 
@@ -11018,12 +11052,12 @@ ${articlesHtml}
                                     <div style="background:var(--bg-surface, #fff); border:1px solid var(--border-color); border-radius:8px; padding:10px 12px;">
                                         <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px;">
                                             <strong style="font-size:14px; color:var(--text-main);">${escapeMagHtml(v.word_or_phrase || '')}</strong>
-                                            ${v.part_of_speech ? `<span style="font-size:10px; font-weight:700; color:var(--brand-blue, #2563eb); background:var(--brand-light, #eff6ff); padding:2px 6px; border-radius:6px;">${escapeMagHtml(v.part_of_speech)}</span>` : ''}
+                                            ${v.part_of_speech ? `<span style="font-size:11px; font-weight:700; color:var(--brand-blue, #1c64f2); background:var(--brand-light, #eff6ff); padding:2px 6px; border-radius:6px;">${escapeMagHtml(v.part_of_speech)}</span>` : ''}
                                         </div>
                                         ${v.hindi_meaning ? `<div style="font-size:12px; color:#0d9488; font-weight:600; margin-bottom:3px;">${escapeMagHtml(v.hindi_meaning)}</div>` : ''}
                                         <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">${escapeMagHtml(v.concise_meaning || v.easy_synonym || '')}</div>
                                         ${v.mnemonic_trick ? `
-                                            <div style="font-size:10.5px; background:rgba(2,132,199,0.08); color:#0284c7; padding:4px 8px; border-radius:6px; margin-top:6px; border-left:3px solid #0284c7;">
+                                            <div style="font-size:11px; background:rgba(3,105,161,0.08); color:#0369a1; padding:4px 8px; border-radius:6px; margin-top:6px; border-left:3px solid #0369a1;">
                                                 <strong>🧠 Memory Hook:</strong> ${escapeMagHtml(v.mnemonic_trick)}
                                             </div>
                                         ` : ''}
