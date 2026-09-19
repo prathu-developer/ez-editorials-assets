@@ -271,20 +271,6 @@
         .opt-letter { width: 30px; height: 30px; border-radius: 50%; background: #f3f4f6; color: var(--text-muted); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px; flex-shrink: 0; }
         .option.selected .opt-letter { background: var(--brand-blue); color: white; }
         .opt-text { font-size: 14px; font-weight: 500; color: var(--text-dark); transition: font-size 0.2s; flex-grow: 1; }
-        .opt-kbd-hint {
-            display: none;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: var(--bg-main);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            margin-left: auto;
-        }
-        .desktop-cbt-kbd-hint {
-            display: none;
-        }
 
         /* Compact Bottom Bar */
         .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card-bg); padding: 8px 14px max(14px, env(safe-area-inset-bottom, 0px)) 14px; box-shadow: 0 -4px 12px rgba(0,0,0,0.06); z-index: 20; }
@@ -977,17 +963,6 @@
                 gap: 12px !important;
             }
 
-            html.is-desktop .desktop-cbt-kbd-hint {
-                display: inline-flex !important;
-                align-items: center;
-                gap: 6px;
-            }
-
-            html.is-desktop .opt-kbd-hint {
-                display: inline-block !important;
-            }
-
-
             html.is-desktop .cbt-right-sidebar {
                 display: flex;
                 flex-direction: column;
@@ -1195,10 +1170,7 @@
             <div id="live-nav" style="display: flex; align-items: center; gap: 12px; width: 100%;">
                 <div class="pause-btn">||</div>
                 <div class="header-info">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div class="header-title" id="display-title">Loading Topic...</div>
-                        <span class="desktop-cbt-kbd-hint" style="font-size:11px; color:var(--text-muted); background:var(--bg-main); border:1px solid var(--border-color); padding:3px 8px; border-radius:8px; font-weight:600;">⌨️ 1-4: Select • Enter: Next • P: Prev • M: Mark</span>
-                    </div>
+                    <div class="header-title" id="display-title">Loading Topic...</div>
                     <div class="timer-text" id="live-timer-container">Total Time left: <span class="timer-countdown" id="timer-display">00:00</span></div>
                 </div>
                 <div class="header-icons" id="live-icons">
@@ -1595,89 +1567,15 @@
 
     <script>
 
-        // CBT Exam Environment: Active Keyboard Shortcuts & Anti-Refresh Guard
+        // Strict Exam Environment: Suppress all keyboard inputs
         window.addEventListener('keydown', function (e) {
             const isLive = document.getElementById('live-test-container')?.style.display !== 'none';
             if (!isLive) return;
 
-            // Block browser refresh / history navigation
-            if (e.key === 'F5' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r') || (e.altKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight'))) {
-                e.preventDefault();
-                return false;
-            }
-
-            const key = e.key.toLowerCase();
-
-            // 1. Select Options: Number keys 1-4 or letters A-D
-            if (['1', '2', '3', '4'].includes(e.key)) {
-                e.preventDefault();
-                const optIndex = parseInt(e.key, 10) - 1;
-                if (typeof selectOption === 'function') selectOption(optIndex);
-                return;
-            }
-
-            if (['a', 'b', 'c', 'd'].includes(key) && !e.ctrlKey && !e.metaKey) {
-                e.preventDefault();
-                const optIndex = ['a', 'b', 'c', 'd'].indexOf(key);
-                if (typeof selectOption === 'function') selectOption(optIndex);
-                return;
-            }
-
-            // 2. Next / Save & Next: Enter or 'N'
-            if (e.key === 'Enter' || key === 'n') {
-                e.preventDefault();
-                const submitModal = document.getElementById('submit-modal');
-                if (submitModal && submitModal.style.display === 'flex') {
-                    if (typeof submitQuiz === 'function') submitQuiz();
-                } else if (currentIndex === questions.length - 1) {
-                    if (typeof openSubmitModal === 'function') openSubmitModal();
-                } else {
-                    if (typeof saveAndNext === 'function') saveAndNext();
-                }
-                return;
-            }
-
-            // 3. Previous Question: 'P' or Left Arrow
-            if (key === 'p' || e.key === 'ArrowLeft') {
-                e.preventDefault();
-                if (currentIndex > 0 && typeof loadQuestion === 'function') {
-                    loadQuestion(currentIndex - 1);
-                }
-                return;
-            }
-
-            // 4. Next Question: Right Arrow
-            if (e.key === 'ArrowRight') {
-                e.preventDefault();
-                if (currentIndex < questions.length - 1 && typeof loadQuestion === 'function') {
-                    loadQuestion(currentIndex + 1);
-                }
-                return;
-            }
-
-            // 5. Mark for Review: 'M'
-            if (key === 'm') {
-                e.preventDefault();
-                if (typeof markAndNext === 'function') markAndNext();
-                return;
-            }
-
-            // 6. Clear Response: 'C' or Backspace / Delete
-            if (key === 'c' || e.key === 'Backspace' || e.key === 'Delete') {
-                e.preventDefault();
-                if (typeof clearResponse === 'function') clearResponse();
-                return;
-            }
-
-            // 7. Escape: Close open modals
-            if (e.key === 'Escape') {
-                if (typeof closeModal === 'function') {
-                    closeModal('palette-modal');
-                    closeModal('submit-modal');
-                    closeModal('settings-modal');
-                }
-                return;
-            }
+            // Suppress F5, Ctrl+R, Space, Tab, Backspace, Enter, Esc, Alt, Function keys
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }, { capture: true, passive: false });
 
         // Suppress right-click context menu in live test
@@ -2162,7 +2060,7 @@
                     optDiv.onclick = () => selectOption(i, optDiv);
                 } else {
                     if (responses[qId] === i) optDiv.classList.add('selected');
-                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${optText}</div><kbd class="opt-kbd-hint">${i + 1}</kbd>`;
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${optText}</div>`;
                     optDiv.onclick = () => selectOption(i, optDiv);
                 }
                 
@@ -2174,15 +2072,9 @@
                 if (index === questions.length - 1) {
                     nextBtn.innerText = "Submit Test";
                     nextBtn.onclick = openSubmitModal;
-                    if (typeof setTelegramMainButton === 'function') {
-                        setTelegramMainButton(true, "Submit Test ✓", openSubmitModal);
-                    }
                 } else {
                     nextBtn.innerText = "Save & Next";
                     nextBtn.onclick = saveAndNext;
-                    if (typeof setTelegramMainButton === 'function') {
-                        setTelegramMainButton(true, "Save & Next ➔", saveAndNext);
-                    }
                 }
                 updatePaletteColors();
             }
