@@ -847,3 +847,268 @@ select,
     border-top-color: #334155;
     color: #94a3b8;
 }
+
+/* ==========================================================================
+   8. DEEP READING & EVIDENCE LENS ENHANCEMENTS
+   ========================================================================== */
+.mag-reader-font-group {
+    display: inline-flex;
+    align-items: center;
+    background: var(--bg-card, #ffffff);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 10px;
+    padding: 2px 4px;
+    gap: 2px;
+}
+
+.mag-font-step-btn {
+    background: transparent;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-main, #1a1a1a);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.12s ease;
+}
+
+.mag-font-step-btn:hover {
+    background: var(--bg-subtle, #f1f5f9);
+}
+
+.mag-font-indicator {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted, #64748b);
+    min-width: 32px;
+    text-align: center;
+}
+
+/* Serif font override when enabled */
+.magazine-container.reader-font-serif .rd-body,
+.magazine-container.reader-font-serif .rd-body p {
+    font-family: 'Lora', Georgia, 'Times New Roman', serif !important;
+}
+
+/* Dynamic Font Size variables */
+.magazine-container {
+    --reader-font-size: 16px;
+}
+
+.magazine-container .rd-body,
+.magazine-container .rd-body p {
+    font-size: var(--reader-font-size) !important;
+    line-height: 1.75 !important;
+}
+
+/* Interactive Vocabulary Highlights in Reader */
+.magazine-container .vocab-hl {
+    border-bottom: 1.5px dotted var(--brand-blue, #1c64f2) !important;
+    cursor: pointer !important;
+    border-radius: 2px !important;
+    transition: background 0.12s ease, color 0.12s ease !important;
+}
+
+.magazine-container .vocab-hl:hover,
+.magazine-container .vocab-hl:focus {
+    background: var(--brand-light, #eff6ff) !important;
+    color: var(--brand-blue, #1c64f2) !important;
+}
+
+.dark-mode .magazine-container .vocab-hl:hover,
+.dark-mode .magazine-container .vocab-hl:focus {
+    background: #1e3a8a !important;
+    color: #93c5fd !important;
+}
+
+/* Interactive Evidence Lens Highlights in Reader */
+.magazine-container .evidence-hl {
+    border-bottom: 1.5px dotted #d97706 !important;
+    cursor: pointer !important;
+    border-radius: 2px !important;
+    transition: background 0.12s ease, color 0.12s ease !important;
+}
+
+.magazine-container .evidence-hl:hover,
+.magazine-container .evidence-hl:focus {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+}
+
+.dark-mode .magazine-container .evidence-hl:hover,
+.dark-mode .magazine-container .evidence-hl:focus {
+    background: #78350f !important;
+    color: #fde68a !important;
+}
+
+/* Sidecar Vocabulary Drawer */
+.reader-vocab-drawer {
+    position: fixed;
+    right: 24px;
+    top: 120px;
+    width: 340px;
+    z-index: 1500;
+    box-sizing: border-box;
+    animation: sidecarSlideIn 0.18s ease-out;
+}
+
+@keyframes sidecarSlideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.reader-vocab-card {
+    background: var(--bg-card, #ffffff);
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
+}
+
+.reader-vocab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.drawer-close-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: var(--text-muted, #64748b);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+}
+
+.reader-vocab-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-main, #1a1a1a);
+    margin: 0;
+    text-transform: capitalize;
+}
+
+/* Mobile & TMA Adaptation for Sidecar Drawer */
+@media (max-width: 768px) {
+    .reader-vocab-drawer {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        animation: sidecarSlideUp 0.18s ease-out;
+    }
+
+    @keyframes sidecarSlideUp {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+
+    .reader-vocab-card {
+        border-radius: 20px 20px 0 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25);
+        padding: 20px 20px 36px 20px;
+    }
+}
+
+/* Evidence Lens Tooltip Popover */
+.evidence-tooltip-popover {
+    position: fixed;
+    z-index: 1600;
+    background: var(--bg-card, #ffffff);
+    border: 1px solid var(--border-color, #cbd5e1);
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+    padding: 12px 14px;
+    max-width: 320px;
+    box-sizing: border-box;
+    animation: popoverFadeIn 0.12s ease-out;
+}
+
+@keyframes popoverFadeIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.evidence-popover-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.evidence-category-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.evidence-close-btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: var(--text-muted, #64748b);
+    cursor: pointer;
+    padding: 2px;
+}
+
+.evidence-popover-body {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main, #1a1a1a);
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.evidence-popover-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    border-top: 1px solid var(--border-light, #f1f5f9);
+    padding-top: 6px;
+}
+
+.evidence-copy-btn {
+    background: var(--brand-light, #eff6ff);
+    color: var(--brand-blue, #1c64f2);
+    border: 1px solid var(--border-color, #cbd5e1);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Dark mode for drawer and popover */
+.dark-mode .reader-vocab-card,
+.dark-mode .evidence-tooltip-popover {
+    background: #0f172a;
+    border-color: #334155;
+}
+
+.dark-mode .reader-vocab-title,
+.dark-mode .evidence-popover-body {
+    color: #f8fafc;
+}
+
+.dark-mode .evidence-popover-footer {
+    border-top-color: #334155;
+}
+
+.dark-mode .evidence-copy-btn {
+    background: #1e3a8a;
+    color: #93c5fd;
+    border-color: #3b82f6;
+}
+

@@ -6539,8 +6539,29 @@
                 <div class="mag-toolbar-group">
                     <span class="mag-edition-indicator" style="display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:13px; color:var(--text-main); padding:6px 12px; background:var(--bg-subtle, rgba(0,0,0,0.03)); border:1px solid var(--border-light, rgba(0,0,0,0.08)); border-radius:10px;">
                         <span>📖</span>
-                        <span>Digital Magazine View</span>
+                        <span>Digital Magazine</span>
                     </span>
+
+                    <!-- Reading Typography Controls -->
+                    <div class="mag-reader-font-group" title="Adjust text size">
+                        <button type="button" class="mag-font-step-btn" onclick="adjustReaderFontSize(-1)" aria-label="Decrease font size">A-</button>
+                        <span id="reader-font-indicator" class="mag-font-indicator">16px</span>
+                        <button type="button" class="mag-font-step-btn" onclick="adjustReaderFontSize(1)" aria-label="Increase font size">A+</button>
+                    </div>
+
+                    <button type="button" class="mag-tool-btn" id="reader-font-family-btn" onclick="toggleReaderFontFamily()" title="Toggle Serif (Lora) / Sans (Inter)">
+                        <span id="reader-font-family-icon">🔤</span>
+                        <span id="reader-font-family-label">Serif</span>
+                    </button>
+
+                    <!-- Text-To-Speech Listen Controls -->
+                    <button type="button" class="mag-tool-btn" id="reader-tts-btn" onclick="toggleReaderSpeech()" title="Listen to current editorial">
+                        <span id="reader-tts-icon">🔊</span>
+                        <span id="reader-tts-label">Listen</span>
+                    </button>
+                    <button type="button" class="mag-tool-btn" id="reader-tts-rate-btn" onclick="cycleReaderSpeechRate()" style="display:none;" title="Audio speed">
+                        <span id="reader-tts-rate-label">1.0x</span>
+                    </button>
                 </div>
 
                 <div class="mag-toolbar-group">
@@ -6572,6 +6593,48 @@
                     <div class="mag-empty-icon">⏳</div>
                     <div class="mag-empty-title">Loading weekly edition...</div>
                     <div class="mag-empty-desc">Fetching the latest editorials from edge cache.</div>
+                </div>
+            </div>
+
+            <!-- Interactive Sidecar Vocabulary Drawer / Bottom Sheet -->
+            <div id="readerVocabDrawer" class="reader-vocab-drawer" style="display:none;" role="dialog" aria-modal="false" aria-label="Vocabulary Assistant">
+                <div class="reader-vocab-card">
+                    <div class="reader-vocab-header">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span class="badge-pill badge-pos" id="reader-vocab-pos">NOUN</span>
+                            <span style="font-size:11px; color:var(--text-muted); font-weight:700;">Lexical Assistant</span>
+                        </div>
+                        <button type="button" class="drawer-close-btn" onclick="closeSidecarVocab()" aria-label="Close drawer">✕</button>
+                    </div>
+
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                        <h3 id="reader-vocab-word" class="reader-vocab-title">Word</h3>
+                        <button type="button" id="reader-vocab-speak-btn" onclick="speakCurrentSidecarWord()" title="Listen pronunciation" style="background:var(--brand-light, #eff6ff); border:1px solid var(--border-color); border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:16px; display:inline-flex; align-items:center; justify-content:center;">🔊</button>
+                    </div>
+
+                    <div id="reader-vocab-hindi" class="vocab-hindi-meaning" style="margin-bottom:8px;">हिंदी अर्थ</div>
+                    <div id="reader-vocab-def" class="vocab-def-text" style="margin-bottom:10px; font-size:13.5px; line-height:1.5;">Definition</div>
+
+                    <div id="reader-vocab-hook-box" class="vocab-trick-box" style="margin-bottom:10px;">
+                        <span style="font-weight:700;">💡 Memory Hook:</span> <span id="reader-vocab-hook">Trick</span>
+                    </div>
+
+                    <div style="display:flex; gap:8px; margin-top:12px;">
+                        <button type="button" class="btn-primary" style="flex:1; padding:8px 12px; font-size:12px; font-weight:700; border-radius:8px; border:none; background:var(--brand-blue, #1c64f2); color:#fff; cursor:pointer;" onclick="jumpToVocabLabFromReader()">Open in Vocab Lab ↗</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Evidence Lens Tooltip Popover -->
+            <div id="evidenceTooltipOverlay" class="evidence-tooltip-popover" style="display:none;" role="tooltip">
+                <div class="evidence-popover-header">
+                    <span id="evidence-popover-category" class="evidence-category-badge">📊 Economic Indicator</span>
+                    <button type="button" class="evidence-close-btn" onclick="closeEvidenceTooltip()" aria-label="Close tooltip">✕</button>
+                </div>
+                <div id="evidence-popover-text" class="evidence-popover-body">12.5% of GDP</div>
+                <div class="evidence-popover-footer">
+                    <span style="font-size:11px; color:var(--text-muted);">High-yield evidence metric</span>
+                    <button type="button" class="evidence-copy-btn" id="evidenceCopyBtn" onclick="copyEvidenceText()">📋 Copy Metric</button>
                 </div>
             </div>
         </div>
@@ -10052,7 +10115,7 @@
                             }
                             if (!alreadyClaimed) {
                                 for (let k = start; k < end; k++) claimed[k] = true;
-                                vocabSpans.push({ start, end, idx });
+                                vocabSpans.push({ start, end, idx, item });
                             }
                         }
                     });
@@ -10082,13 +10145,22 @@
                     };
 
                     vocabSpans.forEach(v => {
+                        const itemData = v.item || {};
+                        const safeWord = (itemData.word_or_phrase || '').replace(/"/g, '&quot;');
+                        const safeDef = (itemData.concise_meaning || itemData.easy_synonym || itemData.definition || '').replace(/"/g, '&quot;');
+                        const safeHindi = (itemData.hindi_meaning || '').replace(/"/g, '&quot;');
+                        const safeTrick = (itemData.mnemonic_trick || '').replace(/"/g, '&quot;');
+                        const safePos = (itemData.part_of_speech || '').replace(/"/g, '&quot;');
+
                         addTag(v.end, 1, `<sup class="v-idx">${v.idx}</sup></span>`);
-                        addTag(v.start, 4, '<span class="vocab-hl">');
+                        addTag(v.start, 4, `<span class="vocab-hl" role="button" tabindex="0" data-word="${safeWord}" data-meaning="${safeDef}" data-hindi="${safeHindi}" data-trick="${safeTrick}" data-pos="${safePos}" onclick="openSidecarVocab(this, event)" onkeydown="if(event.key==='Enter'||event.key===' ')openSidecarVocab(this, event)">`);
                     });
 
                     cleanEvidence.forEach(e => {
+                        const evText = p.substring(e.start, e.end);
+                        const safeEv = evText.replace(/"/g, '&quot;');
                         addTag(e.end, 2, '</span>');
-                        addTag(e.start, 3, '<span class="evidence-hl">');
+                        addTag(e.start, 3, `<span class="evidence-hl" role="button" tabindex="0" data-evidence="${safeEv}" onclick="showEvidenceLensTooltip(this, event)" onkeydown="if(event.key==='Enter'||event.key===' ')showEvidenceLensTooltip(this, event)">`);
                     });
 
                     const sortedPositions = Object.keys(tagsByPos).map(Number).sort((a, b) => a - b);
@@ -11984,6 +12056,298 @@ ${articlesHtml}
                 else if (e.key === '3') switchView('view-vocab');
                 else if (e.key === '4') switchView('view-day');
                 else if (e.key === '5') switchView('view-cup');
+            }
+        });
+
+        // ==========================================
+        // 📖 DEEP READING & EVIDENCE LENS ENGINE
+        // ==========================================
+        let readerState = {
+            fontSize: parseInt(localStorage.getItem('ez_reader_font_size') || '16', 10),
+            isSerif: localStorage.getItem('ez_reader_font_family') === 'serif',
+            isSpeaking: false,
+            speechRate: 1.0,
+            activeSidecarWord: null,
+            activeEvidenceText: ''
+        };
+
+        function initReaderPreferences() {
+            try {
+                const magContainer = document.querySelector('.magazine-container');
+                if (magContainer) {
+                    magContainer.style.setProperty('--reader-font-size', `${readerState.fontSize}px`);
+                    magContainer.classList.toggle('reader-font-serif', readerState.isSerif);
+                }
+                const fontIndicator = document.getElementById('reader-font-indicator');
+                if (fontIndicator) fontIndicator.innerText = `${readerState.fontSize}px`;
+
+                const fontBtnLabel = document.getElementById('reader-font-family-label');
+                if (fontBtnLabel) fontBtnLabel.innerText = readerState.isSerif ? 'Sans' : 'Serif';
+            } catch(e) {}
+        }
+
+        // Initialize reader settings on startup
+        setTimeout(initReaderPreferences, 300);
+
+        function adjustReaderFontSize(delta) {
+            triggerHaptic('selection');
+            const sizes = [13, 14, 16, 18, 20, 22];
+            let curIdx = sizes.indexOf(readerState.fontSize);
+            if (curIdx === -1) curIdx = 2; // default 16px
+            let nextIdx = Math.max(0, Math.min(sizes.length - 1, curIdx + delta));
+            readerState.fontSize = sizes[nextIdx];
+
+            const magContainer = document.querySelector('.magazine-container');
+            if (magContainer) {
+                magContainer.style.setProperty('--reader-font-size', `${readerState.fontSize}px`);
+            }
+            const fontIndicator = document.getElementById('reader-font-indicator');
+            if (fontIndicator) fontIndicator.innerText = `${readerState.fontSize}px`;
+
+            localStorage.setItem('ez_reader_font_size', String(readerState.fontSize));
+        }
+
+        function toggleReaderFontFamily() {
+            triggerHaptic('selection');
+            readerState.isSerif = !readerState.isSerif;
+
+            const magContainer = document.querySelector('.magazine-container');
+            if (magContainer) {
+                magContainer.classList.toggle('reader-font-serif', readerState.isSerif);
+            }
+            const fontBtnLabel = document.getElementById('reader-font-family-label');
+            if (fontBtnLabel) fontBtnLabel.innerText = readerState.isSerif ? 'Sans' : 'Serif';
+
+            localStorage.setItem('ez_reader_font_family', readerState.isSerif ? 'serif' : 'sans');
+        }
+
+        // Text-to-Speech Reader Controls
+        function toggleReaderSpeech() {
+            triggerHaptic('selection');
+            if (!('speechSynthesis' in window)) {
+                alert("Speech synthesis is not supported on this device/browser.");
+                return;
+            }
+
+            const ttsBtn = document.getElementById('reader-tts-btn');
+            const ttsLabel = document.getElementById('reader-tts-label');
+            const ttsRateBtn = document.getElementById('reader-tts-rate-btn');
+
+            if (window.speechSynthesis.speaking) {
+                if (window.speechSynthesis.paused) {
+                    window.speechSynthesis.resume();
+                    readerState.isSpeaking = true;
+                    if (ttsLabel) ttsLabel.innerText = 'Pause';
+                } else {
+                    window.speechSynthesis.pause();
+                    readerState.isSpeaking = false;
+                    if (ttsLabel) ttsLabel.innerText = 'Resume';
+                }
+                return;
+            }
+
+            // Start speaking current active article passage
+            const activePassageEl = document.querySelector('#mag-articles-container .rd-body');
+            if (!activePassageEl) {
+                alert("No active editorial found to read aloud.");
+                return;
+            }
+
+            const textToSpeak = activePassageEl.innerText.replace(/\s+/g, ' ').trim();
+            if (!textToSpeak) return;
+
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'en-US';
+            utterance.rate = readerState.speechRate;
+
+            utterance.onstart = () => {
+                readerState.isSpeaking = true;
+                if (ttsLabel) ttsLabel.innerText = 'Pause';
+                if (ttsRateBtn) ttsRateBtn.style.display = 'inline-flex';
+            };
+
+            utterance.onend = () => {
+                readerState.isSpeaking = false;
+                if (ttsLabel) ttsLabel.innerText = 'Listen';
+                if (ttsRateBtn) ttsRateBtn.style.display = 'none';
+            };
+
+            utterance.onerror = () => {
+                readerState.isSpeaking = false;
+                if (ttsLabel) ttsLabel.innerText = 'Listen';
+                if (ttsRateBtn) ttsRateBtn.style.display = 'none';
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function cycleReaderSpeechRate() {
+            triggerHaptic('selection');
+            const rates = [1.0, 1.25, 1.5];
+            const currentIdx = rates.indexOf(readerState.speechRate);
+            readerState.speechRate = rates[(currentIdx + 1) % rates.length];
+
+            const rateLabel = document.getElementById('reader-tts-rate-label');
+            if (rateLabel) rateLabel.innerText = `${readerState.speechRate}x`;
+
+            if (window.speechSynthesis.speaking) {
+                toggleReaderSpeech();
+                toggleReaderSpeech();
+            }
+        }
+
+        function stopReaderSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            readerState.isSpeaking = false;
+            const ttsLabel = document.getElementById('reader-tts-label');
+            const ttsRateBtn = document.getElementById('reader-tts-rate-btn');
+            if (ttsLabel) ttsLabel.innerText = 'Listen';
+            if (ttsRateBtn) ttsRateBtn.style.display = 'none';
+        }
+
+        // Sidecar Vocabulary Drawer Controls
+        function openSidecarVocab(el, event) {
+            if (event && typeof event.stopPropagation === 'function') event.stopPropagation();
+            triggerHaptic('selection');
+
+            const word = el.dataset.word || el.innerText || '';
+            const meaning = el.dataset.meaning || '';
+            const hindi = el.dataset.hindi || '';
+            const trick = el.dataset.trick || '';
+            const pos = el.dataset.pos || 'VOCAB';
+
+            readerState.activeSidecarWord = word;
+
+            const drawer = document.getElementById('readerVocabDrawer');
+            const wordEl = document.getElementById('reader-vocab-word');
+            const posEl = document.getElementById('reader-vocab-pos');
+            const hindiEl = document.getElementById('reader-vocab-hindi');
+            const defEl = document.getElementById('reader-vocab-def');
+            const hookBox = document.getElementById('reader-vocab-hook-box');
+            const hookEl = document.getElementById('reader-vocab-hook');
+
+            if (!drawer) return;
+
+            if (wordEl) wordEl.innerText = word;
+            if (posEl) posEl.innerText = pos.toUpperCase();
+            if (defEl) defEl.innerText = meaning || "Tap 'Open in Vocab Lab' for full lexical notes.";
+            
+            if (hindiEl) {
+                if (hindi) {
+                    hindiEl.style.display = 'inline-block';
+                    hindiEl.innerHTML = `हिंदी: <strong>${hindi}</strong>`;
+                } else {
+                    hindiEl.style.display = 'none';
+                }
+            }
+
+            if (hookBox && hookEl) {
+                if (trick) {
+                    hookBox.style.display = 'block';
+                    hookEl.innerText = trick;
+                } else {
+                    hookBox.style.display = 'none';
+                }
+            }
+
+            drawer.style.display = 'block';
+        }
+
+        function closeSidecarVocab() {
+            triggerHaptic('selection');
+            const drawer = document.getElementById('readerVocabDrawer');
+            if (drawer) drawer.style.display = 'none';
+            readerState.activeSidecarWord = null;
+        }
+
+        function speakCurrentSidecarWord() {
+            if (readerState.activeSidecarWord) {
+                speakWord(readerState.activeSidecarWord);
+            }
+        }
+
+        function jumpToVocabLabFromReader() {
+            const word = readerState.activeSidecarWord;
+            closeSidecarVocab();
+            switchView('view-vocab');
+            if (word) {
+                const searchInput = document.getElementById('vocabSearchInput');
+                if (searchInput) searchInput.value = word;
+                filterVocabLabSearch(word);
+            }
+        }
+
+        // Evidence Lens Tooltip Popover Controls
+        function showEvidenceLensTooltip(el, event) {
+            if (event && typeof event.stopPropagation === 'function') event.stopPropagation();
+            triggerHaptic('selection');
+
+            const text = (el.dataset.evidence || el.innerText || '').trim();
+            readerState.activeEvidenceText = text;
+
+            const popover = document.getElementById('evidenceTooltipOverlay');
+            const catBadge = document.getElementById('evidence-popover-category');
+            const bodyEl = document.getElementById('evidence-popover-text');
+            const copyBtn = document.getElementById('evidenceCopyBtn');
+
+            if (!popover || !catBadge || !bodyEl) return;
+
+            // Classify evidence
+            let cat = '📊 Economic Metric';
+            if (/(?:Article|Section|Schedule|Clause|Rule|Act|Order)\b/i.test(text)) {
+                cat = '🏛 Constitutional / Legal Provision';
+            } else if (/(?:%|percent|per cent|GDP|bps|basis points)\b/i.test(text)) {
+                cat = '📈 Macro Ratio / Growth Metric';
+            } else if (/(?:Rs\.?|USD|EUR|INR|[₹$€£]|lakh crore|crore|capex|budget)\b/i.test(text)) {
+                cat = '💰 Fiscal / Budget Outlay';
+            } else if (/(?:people|citizens|voters|electors|residents|beneficiaries|jobs|farmers|indians)\b/i.test(text)) {
+                cat = '👥 Demographic / Census Data';
+            }
+
+            catBadge.innerText = cat;
+            bodyEl.innerText = text;
+            if (copyBtn) copyBtn.innerText = '📋 Copy Metric';
+
+            // Position tooltip nicely relative to target element
+            const rect = el.getBoundingClientRect();
+            let top = rect.bottom + 8;
+            let left = Math.max(16, Math.min(window.innerWidth - 330, rect.left));
+
+            if (top + 120 > window.innerHeight) {
+                top = Math.max(16, rect.top - 110);
+            }
+
+            popover.style.top = `${top}px`;
+            popover.style.left = `${left}px`;
+            popover.style.display = 'block';
+        }
+
+        function closeEvidenceTooltip() {
+            const popover = document.getElementById('evidenceTooltipOverlay');
+            if (popover) popover.style.display = 'none';
+            readerState.activeEvidenceText = '';
+        }
+
+        function copyEvidenceText() {
+            triggerHaptic('selection');
+            if (readerState.activeEvidenceText) {
+                navigator.clipboard.writeText(readerState.activeEvidenceText).then(() => {
+                    const copyBtn = document.getElementById('evidenceCopyBtn');
+                    if (copyBtn) copyBtn.innerText = '✓ Copied!';
+                    setTimeout(() => {
+                        closeEvidenceTooltip();
+                    }, 900);
+                }).catch(() => {});
+            }
+        }
+
+        // Close popovers on click outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#evidenceTooltipOverlay') && !e.target.closest('.evidence-hl')) {
+                closeEvidenceTooltip();
             }
         });
 
