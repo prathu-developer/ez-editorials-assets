@@ -4160,7 +4160,7 @@
             .app-layout-root {
                 display: grid !important;
                 grid-template-columns: 240px minmax(0, 1fr) !important;
-                gap: 28px !important;
+                gap: 24px !important;
                 max-width: 1440px !important;
                 margin: 0 auto !important;
                 padding: 20px 24px 60px 24px !important;
@@ -4170,7 +4170,25 @@
 
             .app-layout-root .right-performance-rail,
             .right-performance-rail {
-                display: none !important;
+                display: none;
+            }
+
+            @media (min-width: 1280px) {
+                .app-layout-root:not(.focus-mode) {
+                    grid-template-columns: 240px minmax(0, 1fr) 340px !important;
+                }
+
+                .app-layout-root:not(.focus-mode) .right-performance-rail {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    gap: 16px !important;
+                    width: 340px !important;
+                    position: sticky !important;
+                    top: 80px !important;
+                    height: calc(100vh - 100px) !important;
+                    overflow-y: auto !important;
+                    box-sizing: border-box !important;
+                }
             }
 
             .left-nav-rail {
@@ -4510,10 +4528,6 @@
                 background: #1e3a8a !important;
                 border-color: #3b82f6 !important;
                 color: #93c5fd !important;
-            }
-
-            .right-performance-rail {
-                display: none !important;
             }
 
             .rail-card {
@@ -5248,6 +5262,11 @@
             </div>
             
             <div class="desktop-nav-tools">
+                <button class="desktop-search-btn" onclick="openSearchModal()" title="Quick Search (Ctrl + K)" aria-label="Quick Search">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <span>Search</span>
+                    <kbd class="desk-kbd-hint">⌘K</kbd>
+                </button>
                 <div class="target-exam-pill" role="button" tabindex="0" onclick="openSubModal('targetModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('targetModalOverlay')" aria-haspopup="dialog" aria-label="Change Target Exam" title="Change Target Exam">
                     <span>🎯</span> <span id="desk-target-exam-title">Target Exam</span> ▾
                 </div>
@@ -5277,22 +5296,25 @@
             </div>
             <nav class="nav-links-group">
                 <button class="nav-rail-btn active" id="rail-nav-home" onclick="switchView('view-home')">
-                    <span>🏠</span> Home
+                    <span>🏠</span> Daily Sanctum
                 </button>
                 <button class="nav-rail-btn" id="rail-nav-magazine" onclick="switchView('view-magazine')">
-                    <span>📖</span> Magazine
+                    <span>📖</span> Daily Editorials
+                </button>
+                <button class="nav-rail-btn" id="rail-nav-vocab" onclick="switchView('view-vocab')">
+                    <span>📚</span> Vocabulary Lab
                 </button>
                 <button class="nav-rail-btn" id="rail-nav-day" onclick="switchView('view-day')">
-                    <span>🎯</span> Tests &amp; Trials
+                    <span>🎯</span> Practice &amp; Trials
                 </button>
                 <button class="nav-rail-btn" id="rail-nav-cup" onclick="switchView('view-cup')">
                     <span>🏆</span> Rankings &amp; Cup
                 </button>
                 <button class="nav-rail-btn" id="rail-nav-progress" onclick="switchView('view-progress')">
-                    <span>📈</span> Progress
+                    <span>📈</span> Analytics &amp; Progress
                 </button>
-                <button class="nav-rail-btn" onclick="openSubModal('archiveModalOverlay')">
-                    <span>📜</span> Archives
+                <button class="nav-rail-btn" onclick="openSearchModal()">
+                    <span>🔍</span> Search &amp; Archives
                 </button>
             </nav>
             <div class="nav-rail-footer">
@@ -6554,6 +6576,87 @@
             </div>
         </div>
     </div>
+
+    <!-- ==========================================
+         VIEW 8: VOCABULARY LAB (Lexical Mastery)
+         ========================================== -->
+    <div id="view-vocab" class="view-container">
+        <!-- Top Header Bar (Mobile) -->
+        <div class="top-header">
+            <button class="back-btn" onclick="switchView('view-home')" style="background:none; border:none; font-size:24px; color:var(--text-main); cursor:pointer; padding:0 8px;">‹</button>
+            <span class="font-bold">Vocabulary Lab</span>
+            <span class="magazine-badge" id="vocab-edition-badge">Active Edition</span>
+        </div>
+
+        <div class="vocab-container" style="max-width: 960px; margin: 0 auto; padding: 16px 0;">
+            <!-- Hero Introduction Banner -->
+            <div class="magazine-hero" style="margin-bottom: 20px;">
+                <div class="magazine-hero-header">
+                    <span class="magazine-badge" style="background: var(--brand-light, #eff6ff); color: var(--brand-blue, #1c64f2); font-weight: 700;">📚 Lexical Mastery</span>
+                    <span class="magazine-progress-text" id="vocab-total-badge">Editorial Word Bank</span>
+                </div>
+                <h1 style="font-size: 22px; font-weight: 800; color: var(--text-main); margin: 6px 0 4px 0; letter-spacing: -0.3px;">Editorial Vocabulary &amp; Memory Hooks</h1>
+                <div style="font-size: var(--font-sm, 13px); color: var(--text-muted); line-height: 1.5;">
+                    Master high-yield editorial terms with phonetic pronunciation, Hindi translations (हिंदी अर्थ), and mnemonic hooks designed for competitive exam retention.
+                </div>
+            </div>
+
+            <!-- Vocabulary Filter & Search Bar -->
+            <div style="display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom: 20px; flex-wrap:wrap;">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <button class="mag-tool-btn active" id="vocab-tab-all" onclick="setVocabLabTab('all')">All Terms</button>
+                    <button class="mag-tool-btn" id="vocab-tab-wotd" onclick="setVocabLabTab('wotd')">⭐ Word of the Day</button>
+                    <button class="mag-tool-btn" id="vocab-tab-flashcard" onclick="setVocabLabTab('flashcard')">🗂 Flashcard Drill</button>
+                </div>
+                <div style="position:relative; flex:1; max-width:280px; min-width:200px;">
+                    <input type="text" id="vocabSearchInput" oninput="filterVocabLabSearch(this.value)" placeholder="Search words or meanings..." style="width:100%; padding:8px 12px 8px 32px; border-radius:10px; border:1px solid var(--border-color); background:var(--bg-card); color:var(--text-main); font-size:13px; box-sizing:border-box;">
+                    <span style="position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:13px; opacity:0.6;">🔍</span>
+                </div>
+            </div>
+
+            <!-- Tab 1: Word of the Day & Editorial List -->
+            <div id="vocab-content-list">
+                <!-- Featured Word of the Day Card -->
+                <div id="vocab-wotd-featured-card" style="margin-bottom: 24px;">
+                    <!-- Injected by populateVocabLab() -->
+                </div>
+
+                <!-- Editorial Word Bank Section -->
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px;">
+                    <h2 style="font-size: var(--font-lg, 18px); font-weight: 800; color: var(--text-main); margin: 0; display:flex; align-items:center; gap:8px;">
+                        <span>📖</span> <span>Today's Editorial Word Bank</span>
+                    </h2>
+                    <span style="font-size: 12px; color: var(--text-muted);" id="vocab-active-count">Loading terms...</span>
+                </div>
+                <div id="vocab-cards-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px;">
+                    <!-- Injected dynamically -->
+                </div>
+            </div>
+
+            <!-- Tab 2: Flashcard Recall Drill -->
+            <div id="vocab-content-flashcard" style="display:none;">
+                <div class="dash-card" style="padding: 32px 24px; text-align: center; max-width: 600px; margin: 0 auto;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+                        <span class="badge-pill badge-pos" style="font-size: 11px;">Active Recall Mode</span>
+                        <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;" id="vocab-drill-counter">Card 1 of 1</span>
+                    </div>
+
+                    <div id="vocab-drill-card" onclick="flipVocabDrillCard()" role="button" tabindex="0" style="min-height: 220px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 24px; border: 1.5px dashed var(--border-color); border-radius: var(--radius-base, 12px); background: var(--bg-subtle); cursor: pointer; transition: all 0.2s ease;">
+                        <!-- Flashcard dynamic content -->
+                    </div>
+
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">
+                        Tap card or press <kbd style="font-size: 11px; background: var(--bg-card); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--border-color);">Space</kbd> to flip
+                    </div>
+
+                    <div style="display:flex; justify-content:center; gap: 12px; margin-top: 20px;">
+                        <button type="button" class="btn-primary" style="background: var(--color-danger, #ef4444); padding: 10px 20px; font-weight: 700; border-radius: 8px; border:none; color:white; cursor:pointer;" onclick="nextVocabDrillCard(false)">Review Later ↺</button>
+                        <button type="button" class="btn-primary" style="background: var(--color-success, #047857); padding: 10px 20px; font-weight: 700; border-radius: 8px; border:none; color:white; cursor:pointer;" onclick="nextVocabDrillCard(true)">Mastered ✓</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
         </main>
 
         <!-- Right Performance Rail (Contextual widgets) -->
@@ -6630,6 +6733,54 @@
                 border-radius: 12px; 
                 border: 1px solid #e2e8f0;
             "></div>
+        </div>
+    </div>
+
+    <!-- 🔍 GLOBAL COMMAND PALETTE / SEARCH MODAL -->
+    <div id="searchModalOverlay" class="search-modal-overlay" style="display: none;" onclick="closeSearchModal(event)">
+        <div class="search-modal-card" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-label="Global Search and Command Palette">
+            <div class="search-input-wrapper">
+                <span class="search-input-icon">🔍</span>
+                <input type="text" id="globalSearchInput" placeholder="Search editorials, vocabulary, concepts, topics..." oninput="executeGlobalSearch(this.value)" autocomplete="off" spellcheck="false">
+                <button type="button" class="search-clear-btn" id="searchClearBtn" onclick="clearGlobalSearch()" style="display:none;" aria-label="Clear search">✕</button>
+                <kbd class="search-esc-hint" onclick="closeSearchModal(null, true)">ESC</kbd>
+            </div>
+
+            <div class="search-filter-row">
+                <button type="button" class="search-filter-chip active" id="search-filter-all" data-filter="all" onclick="setSearchFilter('all')">All Results</button>
+                <button type="button" class="search-filter-chip" id="search-filter-editorials" data-filter="editorials" onclick="setSearchFilter('editorials')">📰 Editorials</button>
+                <button type="button" class="search-filter-chip" id="search-filter-vocab" data-filter="vocab" onclick="setSearchFilter('vocab')">📚 Vocabulary</button>
+                <button type="button" class="search-filter-chip" id="search-filter-quizzes" data-filter="quizzes" onclick="setSearchFilter('quizzes')">🎯 Practice Tests</button>
+            </div>
+
+            <!-- Suggested / Quick Jump Tags -->
+            <div class="search-quick-tags" id="searchQuickTags">
+                <span class="search-quick-label">Quick Jumps:</span>
+                <button type="button" class="quick-tag-btn" onclick="quickSearchTag('Word of the Day')">⭐ Word of the Day</button>
+                <button type="button" class="quick-tag-btn" onclick="quickSearchTag('Economy')">📈 Economy</button>
+                <button type="button" class="quick-tag-btn" onclick="quickSearchTag('Polity')">🏛 Constitution</button>
+                <button type="button" class="quick-tag-btn" onclick="quickSearchTag('Geopolitics')">🌐 Geopolitics</button>
+                <button type="button" class="quick-tag-btn" onclick="quickSearchTag('Banking')">🏦 Banking</button>
+            </div>
+
+            <!-- Dynamic Search Results -->
+            <div class="search-results-container" id="searchResultsContainer">
+                <div class="search-initial-state" id="searchInitialState">
+                    <div style="font-size: 32px; margin-bottom: 8px;">🔍</div>
+                    <div style="font-weight: 700; font-size: 14px; color: var(--text-main); margin-bottom: 4px;">Instant Editorial &amp; Lexical Search</div>
+                    <p style="margin: 0; color: var(--text-muted); font-size: 13px;">Type words, topics, or exam concepts to navigate directly to daily editions, word cards, or practice tests.</p>
+                </div>
+                <div class="search-results-list" id="searchResultsList" style="display:none;"></div>
+            </div>
+
+            <div class="search-modal-footer">
+                <div class="search-footer-shortcuts">
+                    <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+                    <span><kbd>↵</kbd> Select</span>
+                    <span><kbd>Esc</kbd> Close</span>
+                </div>
+                <span class="search-footer-brand">Ez Editorials Workstation</span>
+            </div>
         </div>
     </div>
 
@@ -11167,7 +11318,8 @@ ${articlesHtml}
                 'view-cup': 'rail-nav-cup',
                 'view-progress': 'rail-nav-progress',
                 'view-magazine': 'rail-nav-magazine',
-                'view-profile': 'rail-nav-profile'
+                'view-profile': 'rail-nav-profile',
+                'view-vocab': 'rail-nav-vocab'
             };
             document.querySelectorAll('.nav-rail-btn').forEach(b => b.classList.remove('active'));
             if (railNavMap[viewId]) {
@@ -11211,6 +11363,9 @@ ${articlesHtml}
                 navId = 'nav-magazine';
                 initMagazineView();
             }
+            if(viewId === 'view-vocab') {
+                populateVocabLab();
+            }
             if(viewId === 'view-day') {
                 navId = 'nav-day';
                 try {
@@ -11249,6 +11404,588 @@ ${articlesHtml}
             const targetNavEl = document.getElementById(navId);
             if (targetNavEl) targetNavEl.classList.add('active');
         }
+
+        // ==========================================
+        // 📚 VOCABULARY LAB (Lexical Mastery) ENGINE
+        // ==========================================
+        let vocabLabState = {
+            currentTab: 'all',
+            terms: [],
+            drillDeck: [],
+            drillIndex: 0,
+            drillFlipped: false,
+            searchQuery: ''
+        };
+
+        async function populateVocabLab() {
+            // 1. Ensure magazine week data is loaded
+            if (!magazineState.weekData || Object.keys(magazineState.weekData).length === 0) {
+                await fetchMagazineData();
+            }
+
+            const termsMap = new Map();
+
+            // Collect terms from magazine articles
+            if (magazineState.weekData) {
+                const dates = Object.keys(magazineState.weekData).filter(d => d !== '_meta');
+                dates.forEach(dateStr => {
+                    const articles = magazineState.weekData[dateStr] || [];
+                    articles.forEach(art => {
+                        const vocabList = art.vocabulary || art.editorial_vocabulary || [];
+                        vocabList.forEach(item => {
+                            if (!item || !item.word) return;
+                            const key = item.word.trim().toLowerCase();
+                            if (!termsMap.has(key)) {
+                                termsMap.set(key, {
+                                    word: item.word.trim(),
+                                    pos: item.pos || item.part_of_speech || 'noun',
+                                    definition: item.definition || item.meaning || '',
+                                    hindi: item.hindi || item.hindi_meaning || item.meaning_hindi || '',
+                                    trick: item.trick || item.mnemonic || '',
+                                    example: item.example || (item.context || ''),
+                                    sourceArticle: art.title || 'Editorial Analysis',
+                                    dateStr: dateStr
+                                });
+                            }
+                        });
+                    });
+                });
+            }
+
+            // Also check Daily Digest for WOTD
+            if (typeof digestItems !== 'undefined' && digestItems && digestItems.length > 0) {
+                const wotdItem = digestItems.find(i => i.id === 'wotd');
+                if (wotdItem && wotdItem.content && typeof parseWOTDString === 'function') {
+                    const parsedWOTD = parseWOTDString(wotdItem.content);
+                    if (parsedWOTD && parsedWOTD.word) {
+                        const key = parsedWOTD.word.trim().toLowerCase();
+                        if (!termsMap.has(key)) {
+                            termsMap.set(key, {
+                                word: parsedWOTD.word.trim(),
+                                pos: parsedWOTD.pos || 'noun',
+                                definition: parsedWOTD.meaning || '',
+                                hindi: parsedWOTD.hindi || '',
+                                trick: parsedWOTD.trick || '',
+                                example: parsedWOTD.context || '',
+                                isWotd: true
+                            });
+                        } else {
+                            const existing = termsMap.get(key);
+                            existing.isWotd = true;
+                            if (!existing.hindi && parsedWOTD.hindi) existing.hindi = parsedWOTD.hindi;
+                            if (!existing.trick && parsedWOTD.trick) existing.trick = parsedWOTD.trick;
+                        }
+                    }
+                }
+            }
+
+            vocabLabState.terms = Array.from(termsMap.values());
+            vocabLabState.drillDeck = [...vocabLabState.terms];
+            vocabLabState.drillIndex = 0;
+            vocabLabState.drillFlipped = false;
+
+            // Update badge counts
+            const totalBadge = document.getElementById('vocab-total-badge');
+            if (totalBadge) totalBadge.innerText = `${vocabLabState.terms.length} High-Yield Words`;
+
+            const activeCount = document.getElementById('vocab-active-count');
+            if (activeCount) activeCount.innerText = `${vocabLabState.terms.length} terms cataloged`;
+
+            renderVocabWotdFeatured();
+            renderVocabCardsGrid(vocabLabState.terms);
+            renderVocabDrillCard();
+        }
+
+        function renderVocabWotdFeatured() {
+            const featuredContainer = document.getElementById('vocab-wotd-featured-card');
+            if (!featuredContainer) return;
+
+            const wotd = vocabLabState.terms.find(t => t.isWotd) || vocabLabState.terms[0];
+            if (!wotd) {
+                featuredContainer.innerHTML = '';
+                return;
+            }
+
+            const cleanWord = wotd.word.replace(/'/g, "\\'");
+            featuredContainer.innerHTML = `
+                <div class="dash-card" style="padding: 20px; border-left: 4px solid var(--brand-blue, #1c64f2); background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-subtle) 100%);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                        <span class="badge-pill badge-pos" style="font-weight:700; font-size:11px;">⭐ Today's Core Word</span>
+                        <span class="vocab-pos-pill">${wotd.pos}</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap: 10px; margin-bottom: 8px;">
+                        <h2 style="font-size: 24px; font-weight: 800; color: var(--text-main); margin: 0; text-transform: capitalize;">${wotd.word}</h2>
+                        <button type="button" onclick="speakWord('${cleanWord}', event)" title="Listen pronunciation" style="background:var(--brand-light, #eff6ff); border:1px solid var(--border-color); border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:16px; display:inline-flex; align-items:center; justify-content:center;">🔊</button>
+                    </div>
+                    ${wotd.hindi ? `<div class="vocab-hindi-meaning" style="margin-bottom: 10px;">हिंदी अर्थ: <strong>${wotd.hindi}</strong></div>` : ''}
+                    <div class="vocab-def-text" style="font-size: 14px; margin-bottom: 10px; color: var(--text-main);">
+                        ${wotd.definition}
+                    </div>
+                    ${wotd.trick ? `
+                        <div class="vocab-trick-box" style="margin-bottom: 10px;">
+                            <strong>💡 Memory Hook / Mnemonic:</strong> ${wotd.trick}
+                        </div>
+                    ` : ''}
+                    ${wotd.example ? `
+                        <div class="vocab-example-text">
+                            <strong>Context:</strong> "${wotd.example}"
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderVocabCardsGrid(termsToRender) {
+            const grid = document.getElementById('vocab-cards-grid');
+            if (!grid) return;
+
+            if (!termsToRender || termsToRender.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 36px 16px; color: var(--text-muted);">
+                        <div style="font-size: 28px; margin-bottom: 8px;">📚</div>
+                        <div style="font-weight: 700;">No vocabulary words found</div>
+                        <div style="font-size: 12px; margin-top: 4px;">Try a different keyword or check back with the next edition.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = termsToRender.map(t => {
+                const cleanWord = t.word.replace(/'/g, "\\'");
+                return `
+                    <div class="vocab-term-card">
+                        <div class="vocab-card-top">
+                            <span class="vocab-word-title">
+                                ${t.word}
+                                <button type="button" onclick="speakWord('${cleanWord}', event)" title="Listen" style="background:none; border:none; cursor:pointer; font-size:14px; padding:0 2px;">🔊</button>
+                            </span>
+                            <span class="vocab-pos-pill">${t.pos}</span>
+                        </div>
+                        ${t.hindi ? `<div class="vocab-hindi-meaning">${t.hindi}</div>` : ''}
+                        <div class="vocab-def-text">${t.definition}</div>
+                        ${t.trick ? `<div class="vocab-trick-box"><strong>💡 Hook:</strong> ${t.trick}</div>` : ''}
+                        ${t.example ? `<div class="vocab-example-text">"${t.example}"</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function setVocabLabTab(tab) {
+            triggerHaptic('selection');
+            vocabLabState.currentTab = tab;
+
+            ['all', 'wotd', 'flashcard'].forEach(t => {
+                const btn = document.getElementById(`vocab-tab-${t}`);
+                if (btn) btn.classList.toggle('active', t === tab);
+            });
+
+            const listSection = document.getElementById('vocab-content-list');
+            const flashSection = document.getElementById('vocab-content-flashcard');
+
+            if (tab === 'flashcard') {
+                if (listSection) listSection.style.display = 'none';
+                if (flashSection) flashSection.style.display = 'block';
+                renderVocabDrillCard();
+            } else if (tab === 'wotd') {
+                if (listSection) listSection.style.display = 'block';
+                if (flashSection) flashSection.style.display = 'none';
+                const wotdTerms = vocabLabState.terms.filter(t => t.isWotd);
+                renderVocabCardsGrid(wotdTerms.length > 0 ? wotdTerms : vocabLabState.terms.slice(0, 3));
+            } else {
+                if (listSection) listSection.style.display = 'block';
+                if (flashSection) flashSection.style.display = 'none';
+                filterVocabLabSearch(document.getElementById('vocabSearchInput')?.value || '');
+            }
+        }
+
+        function filterVocabLabSearch(query) {
+            vocabLabState.searchQuery = (query || '').trim().toLowerCase();
+            if (!vocabLabState.searchQuery) {
+                renderVocabCardsGrid(vocabLabState.terms);
+                const activeCount = document.getElementById('vocab-active-count');
+                if (activeCount) activeCount.innerText = `${vocabLabState.terms.length} terms cataloged`;
+                return;
+            }
+
+            const filtered = vocabLabState.terms.filter(t => 
+                t.word.toLowerCase().includes(vocabLabState.searchQuery) ||
+                t.definition.toLowerCase().includes(vocabLabState.searchQuery) ||
+                (t.hindi && t.hindi.toLowerCase().includes(vocabLabState.searchQuery)) ||
+                (t.trick && t.trick.toLowerCase().includes(vocabLabState.searchQuery))
+            );
+
+            renderVocabCardsGrid(filtered);
+            const activeCount = document.getElementById('vocab-active-count');
+            if (activeCount) activeCount.innerText = `${filtered.length} matching terms`;
+        }
+
+        function renderVocabDrillCard() {
+            const card = document.getElementById('vocab-drill-card');
+            const counter = document.getElementById('vocab-drill-counter');
+            if (!card || !vocabLabState.drillDeck || vocabLabState.drillDeck.length === 0) {
+                if (card) card.innerHTML = '<div style="color:var(--text-muted);">No flashcards available.</div>';
+                return;
+            }
+
+            const current = vocabLabState.drillDeck[vocabLabState.drillIndex];
+            if (!current) return;
+
+            if (counter) counter.innerText = `Card ${vocabLabState.drillIndex + 1} of ${vocabLabState.drillDeck.length}`;
+
+            const cleanWord = current.word.replace(/'/g, "\\'");
+
+            if (!vocabLabState.drillFlipped) {
+                // Front: Word + Part of Speech + Pronounce Prompt
+                card.innerHTML = `
+                    <span class="vocab-pos-pill" style="margin-bottom: 12px;">${current.pos}</span>
+                    <h3 style="font-size: 32px; font-weight: 800; color: var(--text-main); margin: 0 0 12px 0; text-transform: capitalize;">
+                        ${current.word}
+                    </h3>
+                    <div style="display:flex; gap: 8px; align-items:center; color: var(--text-muted); font-size: 13px;">
+                        <span>Click card to reveal meaning &amp; memory hook</span>
+                        <button type="button" onclick="speakWord('${cleanWord}', event)" style="background:none; border:none; cursor:pointer; font-size:16px;">🔊</button>
+                    </div>
+                `;
+            } else {
+                // Back: Hindi + Meaning + Mnemonic Hook + Example
+                card.innerHTML = `
+                    <div style="font-size: 18px; font-weight: 800; color: var(--brand-blue, #1c64f2); text-transform: capitalize; margin-bottom: 6px;">
+                        ${current.word}
+                    </div>
+                    ${current.hindi ? `<div class="vocab-hindi-meaning" style="margin: 0 auto 10px auto;">हिंदी: ${current.hindi}</div>` : ''}
+                    <div style="font-size: 15px; line-height: 1.5; color: var(--text-main); max-width: 480px; margin-bottom: 10px;">
+                        ${current.definition}
+                    </div>
+                    ${current.trick ? `
+                        <div class="vocab-trick-box" style="text-align:left; max-width: 460px; margin-bottom: 8px;">
+                            <strong>💡 Memory Hook:</strong> ${current.trick}
+                        </div>
+                    ` : ''}
+                    ${current.example ? `
+                        <div class="vocab-example-text" style="max-width: 460px;">
+                            "${current.example}"
+                        </div>
+                    ` : ''}
+                `;
+            }
+        }
+
+        function flipVocabDrillCard() {
+            triggerHaptic('selection');
+            vocabLabState.drillFlipped = !vocabLabState.drillFlipped;
+            renderVocabDrillCard();
+        }
+
+        function nextVocabDrillCard(mastered) {
+            triggerHaptic('selection');
+            vocabLabState.drillFlipped = false;
+            if (vocabLabState.drillDeck.length > 0) {
+                vocabLabState.drillIndex = (vocabLabState.drillIndex + 1) % vocabLabState.drillDeck.length;
+            }
+            renderVocabDrillCard();
+        }
+
+        // ==========================================
+        // 🔍 GLOBAL COMMAND PALETTE & SEARCH ENGINE
+        // ==========================================
+        let searchModalState = {
+            isOpen: false,
+            activeFilter: 'all',
+            selectedIndex: -1,
+            results: []
+        };
+
+        function openSearchModal() {
+            triggerHaptic('selection');
+            const overlay = document.getElementById('searchModalOverlay');
+            if (!overlay) return;
+            overlay.style.display = 'flex';
+            searchModalState.isOpen = true;
+            searchModalState.selectedIndex = -1;
+
+            const input = document.getElementById('globalSearchInput');
+            if (input) {
+                input.value = '';
+                setTimeout(() => input.focus(), 50);
+            }
+            clearGlobalSearch();
+        }
+
+        function closeSearchModal(e, force) {
+            if (force || (e && e.target && e.target.id === 'searchModalOverlay')) {
+                const overlay = document.getElementById('searchModalOverlay');
+                if (overlay) overlay.style.display = 'none';
+                searchModalState.isOpen = false;
+            }
+        }
+
+        function clearGlobalSearch() {
+            const input = document.getElementById('globalSearchInput');
+            if (input) input.value = '';
+            const clearBtn = document.getElementById('searchClearBtn');
+            if (clearBtn) clearBtn.style.display = 'none';
+            const initialState = document.getElementById('searchInitialState');
+            if (initialState) initialState.style.display = 'block';
+            const resultsList = document.getElementById('searchResultsList');
+            if (resultsList) {
+                resultsList.style.display = 'none';
+                resultsList.innerHTML = '';
+            }
+            searchModalState.results = [];
+            searchModalState.selectedIndex = -1;
+        }
+
+        function setSearchFilter(filter) {
+            triggerHaptic('selection');
+            searchModalState.activeFilter = filter;
+            ['all', 'editorials', 'vocab', 'quizzes'].forEach(f => {
+                const chip = document.getElementById(`search-filter-${f}`);
+                if (chip) chip.classList.toggle('active', f === filter);
+            });
+            const input = document.getElementById('globalSearchInput');
+            if (input && input.value.trim()) {
+                executeGlobalSearch(input.value);
+            }
+        }
+
+        function quickSearchTag(tag) {
+            triggerHaptic('selection');
+            const input = document.getElementById('globalSearchInput');
+            if (input) {
+                input.value = tag;
+                executeGlobalSearch(tag);
+                input.focus();
+            }
+        }
+
+        function executeGlobalSearch(query) {
+            const q = (query || '').trim().toLowerCase();
+            const clearBtn = document.getElementById('searchClearBtn');
+            if (clearBtn) clearBtn.style.display = q ? 'block' : 'none';
+
+            const initialState = document.getElementById('searchInitialState');
+            const resultsList = document.getElementById('searchResultsList');
+            if (!initialState || !resultsList) return;
+
+            if (!q) {
+                initialState.style.display = 'block';
+                resultsList.style.display = 'none';
+                resultsList.innerHTML = '';
+                searchModalState.results = [];
+                return;
+            }
+
+            initialState.style.display = 'none';
+            resultsList.style.display = 'block';
+
+            const results = [];
+            const filter = searchModalState.activeFilter;
+
+            // 1. Search Magazine Articles
+            if ((filter === 'all' || filter === 'editorials') && magazineState.weekData) {
+                const dates = Object.keys(magazineState.weekData).filter(d => d !== '_meta');
+                dates.forEach(dateStr => {
+                    const articles = magazineState.weekData[dateStr] || [];
+                    articles.forEach(art => {
+                        const titleMatch = (art.title || '').toLowerCase().includes(q);
+                        const topicMatch = (art.topic || '').toLowerCase().includes(q);
+                        const summaryMatch = (art.summary || art.analysis_summary || '').toLowerCase().includes(q);
+                        const passageMatch = (art.passage || '').toLowerCase().includes(q);
+
+                        if (titleMatch || topicMatch || summaryMatch || passageMatch) {
+                            results.push({
+                                type: 'editorial',
+                                title: art.title || 'Daily Editorial',
+                                meta: `${dateStr} • ${art.topic || 'General Editorial'} • Tone: ${art.tone || 'Analytical'}`,
+                                snippet: art.summary ? art.summary.substring(0, 110) + '...' : '',
+                                action: () => {
+                                    closeSearchModal(null, true);
+                                    switchView('view-magazine');
+                                    if (typeof selectMagazineDay === 'function') {
+                                        selectMagazineDay(dateStr);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+            }
+
+            // 2. Search Vocabulary Terms
+            if (filter === 'all' || filter === 'vocab') {
+                if (vocabLabState.terms.length === 0) {
+                    populateVocabLab();
+                }
+
+                vocabLabState.terms.forEach(t => {
+                    const wordMatch = t.word.toLowerCase().includes(q);
+                    const defMatch = (t.definition || '').toLowerCase().includes(q);
+                    const hindiMatch = (t.hindi || '').toLowerCase().includes(q);
+                    const trickMatch = (t.trick || '').toLowerCase().includes(q);
+
+                    if (wordMatch || defMatch || hindiMatch || trickMatch) {
+                        results.push({
+                            type: 'vocab',
+                            title: `${t.word} (${t.pos})`,
+                            meta: t.hindi ? `हिंदी: ${t.hindi}` : 'Editorial Term',
+                            snippet: t.definition ? `${t.definition.substring(0, 100)}...` : '',
+                            action: () => {
+                                closeSearchModal(null, true);
+                                switchView('view-vocab');
+                                const searchInput = document.getElementById('vocabSearchInput');
+                                if (searchInput) searchInput.value = t.word;
+                                filterVocabLabSearch(t.word);
+                            }
+                        });
+                    }
+                });
+            }
+
+            // 3. Search Practice & Quizzes
+            if (filter === 'all' || filter === 'quizzes') {
+                if (window.masterQuizData) {
+                    (window.masterQuizData.days || []).forEach((d, idx) => {
+                        const dayTitle = d.title || `Day ${idx + 1}`;
+                        const tests = d.tests || [];
+                        tests.forEach(test => {
+                            const nameMatch = (test.name || '').toLowerCase().includes(q);
+                            const catMatch = (test.category || '').toLowerCase().includes(q);
+                            if (nameMatch || catMatch) {
+                                results.push({
+                                    type: 'test',
+                                    title: test.name || 'Practice Test',
+                                    meta: `${dayTitle} • ${test.category || 'Trial'} • ${test.total_questions || 10} Questions`,
+                                    snippet: 'High-yield exam practice set with timed scoring.',
+                                    action: () => {
+                                        closeSearchModal(null, true);
+                                        switchView('view-day');
+                                        if (typeof filterByDay === 'function') {
+                                            filterByDay(idx);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+            }
+
+            searchModalState.results = results.slice(0, 20);
+
+            if (searchModalState.results.length === 0) {
+                resultsList.innerHTML = `
+                    <div class="search-empty-state">
+                        <div style="font-size: 24px; margin-bottom: 6px;">🔍</div>
+                        <div style="font-weight: 700; color: var(--text-main);">No matching results found</div>
+                        <div style="font-size: 12px; margin-top: 4px;">Try searching for a different word, author, or exam topic.</div>
+                    </div>
+                `;
+                return;
+            }
+
+            resultsList.innerHTML = searchModalState.results.map((r, idx) => {
+                const badgeClass = r.type === 'editorial' ? 'search-badge-editorial' : (r.type === 'vocab' ? 'search-badge-vocab' : 'search-badge-test');
+                const badgeLabel = r.type === 'editorial' ? 'Editorial' : (r.type === 'vocab' ? 'Lexicon' : 'Quiz');
+                return `
+                    <div class="search-result-row" data-index="${idx}" onclick="executeSearchResultAction(${idx})" role="button" tabindex="0">
+                        <span class="search-result-badge ${badgeClass}">${badgeLabel}</span>
+                        <div class="search-result-content">
+                            <div class="search-result-title">${r.title}</div>
+                            <div class="search-result-meta">${r.meta}</div>
+                            ${r.snippet ? `<div style="font-size: 11.5px; color: var(--text-subtle); margin-top: 3px;">${r.snippet}</div>` : ''}
+                        </div>
+                        <span style="font-size: 14px; color: var(--text-subtle); align-self: center;">›</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function executeSearchResultAction(index) {
+            triggerHaptic('selection');
+            const item = searchModalState.results[index];
+            if (item && typeof item.action === 'function') {
+                item.action();
+            }
+        }
+
+        // ==========================================
+        // ⌨️ GLOBAL KEYBOARD SHORTCUT MANAGER
+        // ==========================================
+        document.addEventListener('keydown', (e) => {
+            const isTyping = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
+
+            // 1. Cmd/Ctrl + K or "/" opens Command Palette
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                e.preventDefault();
+                if (searchModalState.isOpen) {
+                    closeSearchModal(null, true);
+                } else {
+                    openSearchModal();
+                }
+                return;
+            }
+
+            if (e.key === '/' && !isTyping) {
+                e.preventDefault();
+                openSearchModal();
+                return;
+            }
+
+            // 2. Escape closes modals
+            if (e.key === 'Escape') {
+                if (searchModalState.isOpen) {
+                    closeSearchModal(null, true);
+                    return;
+                }
+            }
+
+            // 3. Arrow navigation inside search results
+            if (searchModalState.isOpen && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+                e.preventDefault();
+                const rows = document.querySelectorAll('.search-result-row');
+                if (rows.length === 0) return;
+
+                if (e.key === 'ArrowDown') {
+                    searchModalState.selectedIndex = (searchModalState.selectedIndex + 1) % rows.length;
+                } else {
+                    searchModalState.selectedIndex = (searchModalState.selectedIndex - 1 + rows.length) % rows.length;
+                }
+
+                rows.forEach((r, idx) => {
+                    r.classList.toggle('selected', idx === searchModalState.selectedIndex);
+                    if (idx === searchModalState.selectedIndex) {
+                        r.scrollIntoView({ block: 'nearest' });
+                    }
+                });
+                return;
+            }
+
+            // 4. Enter activates selected search result
+            if (searchModalState.isOpen && e.key === 'Enter' && searchModalState.selectedIndex >= 0) {
+                e.preventDefault();
+                executeSearchResultAction(searchModalState.selectedIndex);
+                return;
+            }
+
+            // 5. Space key in Flashcard Drill flips the card
+            if (e.key === ' ' && !isTyping && vocabLabState.currentTab === 'flashcard') {
+                const vocabView = document.getElementById('view-vocab');
+                if (vocabView && vocabView.classList.contains('active')) {
+                    e.preventDefault();
+                    flipVocabDrillCard();
+                    return;
+                }
+            }
+
+            // 6. Number keys 1-5 for quick tab switching (when not typing)
+            if (!isTyping && !e.ctrlKey && !e.metaKey && !searchModalState.isOpen) {
+                if (e.key === '1') switchView('view-home');
+                else if (e.key === '2') switchView('view-magazine');
+                else if (e.key === '3') switchView('view-vocab');
+                else if (e.key === '4') switchView('view-day');
+                else if (e.key === '5') switchView('view-cup');
+            }
+        });
 
         // 6. TOP TIMER (IST BOUND) - UNIFIED END-OF-DAY COUNTDOWN
         setInterval(() => {
