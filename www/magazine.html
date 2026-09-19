@@ -7,35 +7,23 @@
     <link rel="stylesheet" href="tokens.css">
     <link rel="stylesheet" href="magazine-pdf.css">
     <script src="auth.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@600;700;800;900&family=Noto+Sans+Devanagari:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --pub-nav-height: 64px;
             --page-bg: #f1f5f9;
             --text-nav: #0f172a;
-            --text-sub: #64748b;
-            --border-nav: #e2e8f0;
-            --bg-card: #ffffff;
-            --brand-blue: #1c64f2;
         }
 
         body.dark-theme {
             --page-bg: #0b0f17;
             --text-nav: #f8fafc;
-            --text-sub: #94a3b8;
-            --border-nav: #27272a;
-            --bg-card: #18181b;
-            --brand-blue: #3b82f6;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
@@ -59,7 +47,7 @@
             background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-nav);
+            border-bottom: 1px solid #e2e8f0;
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -70,21 +58,22 @@
         }
 
         body.dark-theme .pub-header {
-            background: rgba(18, 24, 38, 0.94);
+            background: rgba(15, 23, 42, 0.94);
             border-bottom-color: #1e293b;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .pub-brand {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             text-decoration: none;
             color: inherit;
+            cursor: pointer;
         }
 
         .pub-brand-logo {
-            font-size: 26px;
+            font-size: 24px;
         }
 
         .pub-brand-text {
@@ -93,17 +82,22 @@
         }
 
         .pub-brand-title {
-            font-weight: 800;
             font-size: 16px;
-            letter-spacing: -0.3px;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+            color: inherit;
         }
 
         .pub-brand-sub {
             font-size: 11px;
-            font-weight: 700;
-            color: var(--brand-blue);
+            color: #64748b;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+
+        body.dark-theme .pub-brand-sub {
+            color: #94a3b8;
         }
 
         /* Day Navigation Pills */
@@ -123,7 +117,7 @@
         .pub-day-btn {
             border: none;
             background: transparent;
-            color: var(--text-sub);
+            color: #64748b;
             padding: 6px 14px;
             border-radius: 8px;
             font-size: 12.5px;
@@ -150,9 +144,9 @@
         }
 
         .pub-day-btn.active {
-            background: var(--brand-blue) !important;
+            background: #2563eb !important;
             color: #ffffff !important;
-            box-shadow: 0 2px 6px rgba(28, 100, 242, 0.3);
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
         }
 
         .pub-day-btn.disabled {
@@ -173,9 +167,9 @@
             gap: 6px;
             padding: 8px 16px;
             border-radius: 9px;
-            border: 1px solid var(--border-nav);
-            background: var(--bg-card);
-            color: var(--text-nav);
+            border: 1px solid #cbd5e1;
+            background: #ffffff;
+            color: #1e293b;
             font-size: 13px;
             font-weight: 600;
             cursor: pointer;
@@ -183,20 +177,26 @@
             transition: all 0.15s ease;
         }
 
+        body.dark-theme .pub-btn {
+            background: #1e293b;
+            border-color: #334155;
+            color: #f1f5f9;
+        }
+
         .pub-btn:hover {
-            border-color: var(--brand-blue);
-            color: var(--brand-blue);
+            border-color: #2563eb;
+            color: #2563eb;
             transform: translateY(-1px);
         }
 
         .pub-btn-primary {
-            background: var(--brand-blue);
+            background: #2563eb;
             color: #ffffff;
-            border-color: var(--brand-blue);
+            border-color: #2563eb;
         }
 
         .pub-btn-primary:hover {
-            background: #1952c4;
+            background: #1d4ed8;
             color: #ffffff;
         }
 
@@ -212,78 +212,24 @@
             flex: 1;
         }
 
-        /* Native Page Overrides for Web Reader */
-        .inner-page-watermark { opacity: 0.03; pointer-events: none; }
-        .page {
-            width: 210mm;
-            max-width: 100%;
-            margin: 0 auto 36px auto;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-            border-radius: 6px;
-            overflow: hidden;
-            position: relative;
-            background: #ffffff;
-            transition: box-shadow 0.2s ease;
-        }
-        body.dark-theme .page {
-            background: #161e2e;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-        }
-
-        /* Distraction-Free Fullscreen Reading Mode */
-        body.pub-fullscreen .pub-header {
-            position: fixed;
-            top: -70px;
-            opacity: 0;
-            pointer-events: none;
-            transition: top 0.25s ease, opacity 0.25s ease;
-        }
-        body.pub-fullscreen .pub-header:hover,
-        body.pub-fullscreen .pub-header.peek {
-            top: 0;
-            opacity: 1;
-            pointer-events: auto;
-        }
-        body.pub-fullscreen .pub-fs-exit-fab {
-            display: flex;
-        }
-
-        .pub-fs-exit-fab {
-            display: none;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 9999;
-            background: rgba(15, 23, 42, 0.85);
-            color: #ffffff;
-            border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(8px);
-            padding: 8px 16px;
-            border-radius: 9999px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.15s ease, background 0.15s ease;
-        }
-        .pub-fs-exit-fab:hover {
-            background: rgba(15, 23, 42, 1);
-            transform: scale(1.04);
+        .pub-iframe-sheet {
+            width: 100%;
+            border: none;
+            background: transparent;
+            min-height: 800px;
         }
 
         .pub-loading {
             text-align: center;
             padding: 80px 20px;
-            color: var(--text-sub);
+            color: #64748b;
         }
 
         .pub-spinner {
             width: 36px;
             height: 36px;
-            border: 3px solid var(--border-nav);
-            border-top-color: var(--brand-blue);
+            border: 3px solid #cbd5e1;
+            border-top-color: #2563eb;
             border-radius: 50%;
             animation: spin 0.9s linear infinite;
             margin: 0 auto 16px auto;
@@ -311,38 +257,10 @@
             .pub-main-viewport {
                 padding: 16px 8px 60px 8px;
             }
-            .page {
-                width: 100% !important;
-                margin: 0 0 20px 0 !important;
-                border-radius: 0 !important;
-                box-shadow: none !important;
-            }
-        }
-
-        @media print {
-            .pub-header, .pub-fs-exit-fab {
-                display: none !important;
-            }
-            .pub-main-viewport {
-                padding: 0 !important;
-                margin: 0 !important;
-                max-width: 100% !important;
-            }
-            .page {
-                box-shadow: none !important;
-                margin: 0 !important;
-                border-radius: 0 !important;
-                page-break-after: always;
-            }
         }
     </style>
 </head>
 <body>
-    <button type="button" class="pub-fs-exit-fab" onclick="togglePubFullscreen()" title="Exit Fullscreen (Esc)">
-        <span>🗗</span>
-        <span>Exit Reader Mode</span>
-    </button>
-
     <header class="pub-header">
         <a href="app.html" class="pub-brand" title="Back to App Dashboard">
             <span class="pub-brand-logo">📚</span>
@@ -357,17 +275,9 @@
         </nav>
 
         <div class="pub-actions">
-            <button class="pub-btn" id="pub-btn-fs" onclick="togglePubFullscreen()" title="Distraction-free reading mode">
-                <span id="pub-fs-icon">⛶</span>
-                <span id="pub-fs-text">Fullscreen</span>
-            </button>
             <button class="pub-btn" id="pub-btn-theme" onclick="toggleTheme()" title="Toggle Dark / Light Mode">
                 <span id="pub-theme-icon">🌙</span>
                 <span id="pub-theme-text">Dark</span>
-            </button>
-            <button class="pub-btn" onclick="window.print()" title="Print / Export to PDF">
-                <span>🖨️</span>
-                <span>Print PDF</span>
             </button>
             <a href="app.html" class="pub-btn pub-btn-primary">
                 <span>🏠 Dashboard</span>
@@ -383,13 +293,6 @@
     </main>
 
     <script>
-        function escapeMagHtml(str) {
-            if (!str) return '';
-            return String(str).replace(/[&<>"']/g, m => ({
-                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-            }[m]));
-        }
-
         const state = {
             weekData: null,
             weekDays: [],
@@ -419,20 +322,6 @@
             renderSelectedDay();
         }
 
-        function togglePubFullscreen() {
-            const isFs = document.body.classList.toggle('pub-fullscreen');
-            const fsIcon = document.getElementById('pub-fs-icon');
-            const fsText = document.getElementById('pub-fs-text');
-            if (fsIcon) fsIcon.innerText = isFs ? '🗗' : '⛶';
-            if (fsText) fsText.innerText = isFs ? 'Exit' : 'Fullscreen';
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && document.body.classList.contains('pub-fullscreen')) {
-                togglePubFullscreen();
-            }
-        });
-
         async function initPublication() {
             applyTheme();
 
@@ -450,14 +339,15 @@
                 }
             } catch (e) {}
 
-            // 2. Fetch fresh publication data
+            // 2. Fetch fresh publication data with timeout
             try {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 12000);
 
                 const res = await fetch(`https://ez-editorials-bot.onrender.com/api/magazine/week?_t=${Date.now()}`, {
                     cache: 'no-cache',
-                    signal: controller.signal
+                    signal: controller.signal,
+                    headers: (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {}
                 });
                 clearTimeout(timeoutId);
 
@@ -466,11 +356,10 @@
                     state.weekData = (payload && payload.week) ? payload.week : payload;
                     try {
                         sessionStorage.setItem('ez_magazine_week_cache', JSON.stringify(state.weekData));
-                        localStorage.setItem('ez_magazine_week_cache', JSON.stringify(state.weekData));
                     } catch (e) {}
                 }
             } catch (err) {
-                console.warn('Network notice: using cached publication state', err);
+                console.warn('Network error loading week data, using local state:', err);
             }
 
             buildWeekCalendar();
@@ -478,38 +367,23 @@
             renderSelectedDay();
         }
 
-        function getISTDate() {
-            try {
-                return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
-            } catch (e) {
-                return new Date();
-            }
-        }
-
-        function formatPubDateStr(d) {
-            const y = d.getFullYear();
-            const m = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${y}-${m}-${day}`;
-        }
-
         function buildWeekCalendar() {
             const days = [];
-            const ist = getISTDate();
-            const dayOfWeek = ist.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
-            const mondayOffset = (dayOfWeek === 0) ? -6 : (1 - dayOfWeek);
+            const now = new Date();
+            const currentDayOfWeek = now.getDay();
+            const mondayOffset = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
 
-            const monday = new Date(ist);
-            monday.setDate(ist.getDate() + mondayOffset);
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + mondayOffset);
             monday.setHours(0, 0, 0, 0);
 
             const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            const todayStr = formatPubDateStr(ist);
+            const todayStr = String(now.getFullYear()) + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
 
             for (let i = 0; i < 6; i++) {
                 const d = new Date(monday);
                 d.setDate(monday.getDate() + i);
-                const dateStr = formatPubDateStr(d);
+                const dateStr = String(d.getFullYear()) + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
                 const hasData = Boolean(state.weekData && state.weekData[dateStr] && state.weekData[dateStr].length > 0);
                 days.push({
                     dayName: dayNames[i],
@@ -524,7 +398,7 @@
 
             if (queryDate && days.some(d => d.dateStr === queryDate)) {
                 state.selectedDate = queryDate;
-            } else if (!state.selectedDate) {
+            } else {
                 const todayObj = days.find(d => d.isToday);
                 if (todayObj && todayObj.hasData) {
                     state.selectedDate = todayObj.dateStr;
@@ -541,7 +415,7 @@
             navEl.innerHTML = state.weekDays.map(d => {
                 const isActive = d.dateStr === state.selectedDate;
                 const disabled = !d.hasData && !d.isToday;
-                return '<button type="button" class="pub-day-btn ' + (isActive ? 'active' : '') + ' ' + (disabled ? 'disabled' : '') + '" ' +
+                return '<button class="pub-day-btn ' + (isActive ? 'active' : '') + ' ' + (disabled ? 'disabled' : '') + '" ' +
                     (disabled ? '' : 'onclick="selectDay(\'' + d.dateStr + '\')"') + ' title="' + d.dayName + ', ' + d.dayNum + ' ' + d.monthShort + '">' +
                     '<span>' + d.dayName + '</span>' +
                     '<span style="font-size: 11px; opacity: 0.85;">' + d.dayNum + '</span>' +
@@ -560,309 +434,283 @@
             if (!viewport || !state.selectedDate) return;
 
             if (!state.weekData) {
-                viewport.innerHTML = '<div class="pub-loading">' +
-                    '<div class="pub-spinner"></div>' +
-                    '<h2 style="font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text-nav);">Opening Digital Edition...</h2>' +
-                    '<p style="font-size: 13px; max-width: 400px; margin: 0 auto; color: var(--text-sub);">Connecting to the high-performance editorial publication stream.</p>' +
+                viewport.innerHTML = '<div style="text-align:center; padding: 80px 20px; color:#64748b;">' +
+                    '<div style="font-size: 40px; margin-bottom: 12px;">⏳</div>' +
+                    '<h2 style="font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text-nav);">Loading Edition...</h2>' +
+                    '<p style="font-size: 13px; max-width: 400px; margin: 0 auto; color: var(--text-sub);">Fetching editorial publication from server...</p>' +
                     '</div>';
                 return;
             }
 
             const articles = (state.weekData && state.weekData[state.selectedDate]) ? state.weekData[state.selectedDate] : [];
             if (articles.length === 0) {
-                const dayObj = state.weekDays.find(d => d.dateStr === state.selectedDate);
-                const displayDate = dayObj ? (dayObj.dayName + ', ' + dayObj.dayNum + ' ' + dayObj.monthShort) : state.selectedDate;
                 viewport.innerHTML = '<div style="text-align:center; padding: 80px 20px; color:#64748b;">' +
                     '<div style="font-size: 48px; margin-bottom: 12px;">☕</div>' +
-                    '<h2 style="font-size: 20px; font-weight: 700; margin-bottom: 6px; color: var(--text-nav);">No Edition Published Yet</h2>' +
-                    '<p style="font-size: 14px; max-width: 400px; margin: 0 auto 16px auto; color: var(--text-sub);">The editorial magazine for ' + displayDate + ' has not been compiled or published yet.</p>' +
-                    '<button type="button" onclick="initPublication()" style="padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border-nav); background: var(--bg-card); color: var(--text-nav); font-size: 13px; font-weight: 600; cursor: pointer;">🔄 Check Updates</button>' +
+                    '<h2 style="font-size: 20px; font-weight: 700; margin-bottom: 6px; color: var(--text-nav);">No Edition Published</h2>' +
+                    '<p style="font-size: 14px; max-width: 400px; margin: 0 auto 16px auto;">The editorial magazine for this date has not been compiled or published yet.</p>' +
+                    '<button onclick="initPublication()" style="padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border-nav); background: var(--bg-card); color: var(--text-nav); font-size: 13px; font-weight: 600; cursor: pointer;">🔄 Check Updates</button>' +
                     '</div>';
                 return;
             }
 
             const isDark = state.themeMode === 'dark';
-            // Render native publication pages directly into the viewport (Zero iframe overhead!)
-            viewport.innerHTML = generateMagazinePagesHtml(state.selectedDate, articles, isDark);
-            window.scrollTo({ top: 0, behavior: 'instant' });
+            const replicaHtml = buildStandaloneReplicaHtml(state.selectedDate, articles, isDark);
+            
+            viewport.innerHTML = '<iframe id="pub-frame" class="pub-iframe-sheet" scrolling="no" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>';
+
+            const frame = document.getElementById('pub-frame');
+            if (frame) {
+                let lastSyncedHeight = 0;
+                const syncHeight = () => {
+                    try {
+                        const innerDoc = frame.contentDocument || frame.contentWindow?.document;
+                        if (innerDoc && innerDoc.body) {
+                            const pages = innerDoc.querySelectorAll('.page');
+                            let targetHeight = 850;
+                            if (pages.length > 0) {
+                                const lastPage = pages[pages.length - 1];
+                                targetHeight = Math.ceil(lastPage.offsetTop + lastPage.offsetHeight + 28);
+                            } else {
+                                targetHeight = Math.max(innerDoc.body.scrollHeight, 850);
+                            }
+
+                            if (Math.abs(targetHeight - lastSyncedHeight) > 10) {
+                                lastSyncedHeight = targetHeight;
+                                frame.style.height = `${targetHeight}px`;
+                            }
+                        }
+                    } catch (e) {}
+                };
+
+                frame.onload = () => {
+                    syncHeight();
+                    setTimeout(syncHeight, 200);
+                    setTimeout(syncHeight, 600);
+                    setTimeout(syncHeight, 1200);
+                };
+
+                window.addEventListener('resize', syncHeight, { passive: true });
+
+                frame.srcdoc = replicaHtml;
+            }
         }
 
-        function generateMagazinePagesHtml(dateStr, articles, themeMode) {
-            const isDark = themeMode === 'dark';
+        function escapeMagHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function extractEvidenceSpansJs(text) {
+            if (!text) return [];
+            const exclusions = [];
+            const noiseRegex = /\b(?:Article|Section|Schedule|Clause|Rule|Form|Order|Act)\s+[\dA-Za-z()]+\b/gi;
+            const dateRegex = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:,\s+\d{4})?\b|\b\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+\d{4})?\b|\b\d{1,2}:\d{2}(?:\s*(?:AM|PM|IST))?\b/gi;
+            const yearRegex = /\b(19\d\d|20\d\d)\b/g;
+
+            let m;
+            while ((m = noiseRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+            while ((m = dateRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+            while ((m = yearRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+
+            const isExcluded = (start, end) => {
+                for (let i = 0; i < exclusions.length; i++) {
+                    const [exStart, exEnd] = exclusions[i];
+                    if (!(end <= exStart || start >= exEnd)) return true;
+                }
+                return false;
+            };
+
+            const patterns = [
+                /(?:(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])\s*\d+[\d.,]*(?:\s*(?:to|-|and)\s*(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])?\s*\d+[\d.,]*)?(?:\s*(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion))?(?:\s*(?:per|\/)\s*(?:kg|tonne|quintal|barrel|litre|annum|month|year|capita|unit|ration\s+card))?)|(?:\b\d+[\d.,]*\s*(?:lakh\s+crore|crore|lakh|million|billion|trillion)\s*(?:economy|outlay|budget|package|capex|revenue)\b)/gi,
+                /(?:\b\d+[\d.,]*\s*(?:%|per\s*cent|percent)(?:\s*(?:to|-|and)\s*\d+[\d.,]*\s*(?:%|per\s*cent|percent))?(?:\s+of\s+GDP)?(?!\w))|(?:\b\d+[\d.,]*(?:%|per\s*cent)?\s*(?:to|-)\s*\d+[\d.,]*\s*(?:%|per\s*cent|percent)(?!\w))|(?:\b\d+[\d.,]*\s*(?:-|to|\s+)?(?:basis\s+points|bps)\b)/gi,
+                /\b\d+[\d.,]*\s+(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion)\b(?:\s+(?:additional\s+)?(?:people|citizens|electors|voters|civilians|men|women|residents|beneficiaries|households|families|candidates|seats|homes|appeals|cases|tonnes|mt|jobs|farmers|indians))?/gi,
+                /\b\d+[\d.,]*\s*(?:°C|degrees?\s+celsius|degrees|centimetres|cm|kilometres|km|sq\s*km|square\s+kilometres|hectares|acres|metres|GW|MW|gigawatts|megawatts|tonnes|mt|quintal|cusecs)\b/gi,
+                /\b\d+\s*-\s*\d+\s+(?:lead|series|victory|draw|win)\b|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+out\s+of\s+(?:the\s+)?(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\b|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+of\s+(?:[A-Za-z’'-]+\s+){0,2}\d+\b|\b(?:two-thirds|three-quarters|a\s+quarter|a\s+third|a\s+tenth|a\s+fifth|half|sixfold)\b/gi,
+                /\b\d+(?:-|\s+)(?:day|month|year|hour|minute|quarter|round|judge|member|test|time|point)-(?:old|high|streak|window|limit|curfew|drop|cut|hike|surge|bench|titlist|finalist|edition|deficit)\b|\b(?:under-18|two-hour|24-hour|best-of-five)\b/gi,
+                /\b\d+[\d.,]*\s+(?:people|indians|voters|electors|civilians|residents|newborns|babies|bridges|roads|appeals|tribunals|colleges|institutions|launches|protesters|cases|seats|candidates|graduates|states|countries|drones|rockets|firms|points|runs)\b|\b\d{1,3}(?:,\d{2,3})+(?:\.\d+)?\b/gi
+            ];
+
+            const rawSpans = [];
+            patterns.forEach(regex => {
+                let match;
+                while ((match = regex.exec(text)) !== null) {
+                    const start = match.index;
+                    const end = start + match[0].length;
+                    if (!isExcluded(start, end)) {
+                        rawSpans.push({ start, end, text: match[0].trim() });
+                    }
+                }
+            });
+
+            if (rawSpans.length === 0) return [];
+            rawSpans.sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start));
+            const merged = [rawSpans[0]];
+            for (let i = 1; i < rawSpans.length; i++) {
+                const cur = rawSpans[i];
+                const last = merged[merged.length - 1];
+                if (cur.start <= last.end) {
+                    if (cur.end > last.end) last.end = cur.end;
+                } else {
+                    merged.push(cur);
+                }
+            }
+            return merged;
+        }
+
+        function cleanAndHighlightPassageJs(passageTextOrHtml, vocabItems) {
+            if (!passageTextOrHtml) return '<p>Editorial passage text being processed.</p>';
+            let rawText = String(passageTextOrHtml)
+                .replace(/\$\\overline\{7\}/g, '₹')
+                .replace(/\$\\approx/g, '₹~')
+                .replace(/\$(?:\\overline\{7\}|\\approx)/g, '₹')
+                .replace(/\\overline\{7\}/g, '₹');
+
+            const rawParas = rawText
+                .replace(/<\/?p>/gi, '\n')
+                .replace(/<span[^>]*>/gi, '')
+                .replace(/<\/span>/gi, '')
+                .replace(/<sup[^>]*>[^<]*<\/sup>/gi, '')
+                .split(/\r?\n+/)
+                .map(p => p.trim())
+                .filter(Boolean);
+
+            const sortedVocab = (vocabItems || []).slice().sort((a, b) => {
+                const lenA = (a.word_or_phrase || '').length;
+                const lenB = (b.word_or_phrase || '').length;
+                return lenB - lenA;
+            });
+
+            const cleanedParas = [];
+            rawParas.forEach(p => {
+                if (/^(Published|Updated|- ?[A-Za-z]+|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b)/i.test(p)) return;
+                if (/^[\w\s()-]+(\s+\/\s+[\w\s()-]+){2,}$/.test(p) || (p.split(' / ').length - 1) >= 3) return;
+                p = p.replace(/(\s+\/\s+[\w\s()-]+){2,}$/, '').trim();
+                if (!p) return;
+
+                const vocabSpans = [];
+                const claimed = new Array(p.length).fill(false);
+
+                sortedVocab.forEach((item, vIdx) => {
+                    const term = (item.word_or_phrase || '').trim();
+                    const idx = item.order_index || (vIdx + 1);
+                    if (!term) return;
+
+                    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const pattern = new RegExp('(?<![A-Za-z0-9])(' + escaped + ')(?![A-Za-z0-9])', 'gi');
+                    let m;
+                    while ((m = pattern.exec(p)) !== null) {
+                        const start = m.index;
+                        const end = start + m[0].length;
+                        let alreadyClaimed = false;
+                        for (let k = start; k < end; k++) {
+                            if (claimed[k]) { alreadyClaimed = true; break; }
+                        }
+                        if (!alreadyClaimed) {
+                            for (let k = start; k < end; k++) claimed[k] = true;
+                            vocabSpans.push({ start, end, idx });
+                        }
+                    }
+                });
+
+                const rawEvidence = extractEvidenceSpansJs(p);
+                const cleanEvidence = [];
+                rawEvidence.forEach(e => {
+                    let e_start = e.start, e_end = e.end;
+                    vocabSpans.forEach(v => {
+                        if (e_start < v.start && v.start < e_end && e_end < v.end) {
+                            e_end = v.start;
+                        } else if (v.start < e_start && e_start < v.end && v.end < e_end) {
+                            e_start = v.end;
+                        }
+                    });
+                    if (e_start < e_end) {
+                        cleanEvidence.push({ start: e_start, end: e_end });
+                    }
+                });
+
+                const tagsByPos = {};
+                const addTag = (pos, order, str) => {
+                    if (!tagsByPos[pos]) tagsByPos[pos] = [];
+                    tagsByPos[pos].push({ order, str });
+                };
+
+                vocabSpans.forEach(v => {
+                    addTag(v.end, 1, '<sup class="v-idx">' + v.idx + '</sup></span>');
+                    addTag(v.start, 4, '<span class="vocab-hl">');
+                });
+
+                cleanEvidence.forEach(e => {
+                    addTag(e.end, 2, '</span>');
+                    addTag(e.start, 3, '<span class="evidence-hl">');
+                });
+
+                const sortedPositions = Object.keys(tagsByPos).map(Number).sort((a, b) => a - b);
+                let annotated = '';
+                let lastIdx = 0;
+                sortedPositions.forEach(pos => {
+                    annotated += escapeMagHtml(p.substring(lastIdx, pos));
+                    const tags = tagsByPos[pos].sort((a, b) => a.order - b.order);
+                    tags.forEach(t => { annotated += t.str; });
+                    lastIdx = pos;
+                });
+                annotated += escapeMagHtml(p.substring(lastIdx));
+                cleanedParas.push('<p>' + annotated + '</p>');
+            });
+
+            return cleanedParas.join('\n');
+        }
+
+        function categorizeVocab(vocabItems) {
+            const cats = {
+                core_vocab: [],
+                one_word_subs: [],
+                fixed_prepositions: [],
+                phrasal_verbs: [],
+                foreign_words: [],
+                idioms: []
+            };
+            (vocabItems || []).forEach(item => {
+                const cat = String(item.category || '').toLowerCase();
+                if (cat.includes('one_word') || cat.includes('substitution') || cat === 'ows') {
+                    cats.one_word_subs.push(item);
+                } else if (cat.includes('fixed_prep') || cat.includes('preposition')) {
+                    cats.fixed_prepositions.push(item);
+                } else if (cat.includes('phrasal') || cat.includes('verb_phrase')) {
+                    cats.phrasal_verbs.push(item);
+                } else if (cat.includes('foreign')) {
+                    cats.foreign_words.push(item);
+                } else if (cat.includes('idiom') || cat.includes('phrase')) {
+                    cats.idioms.push(item);
+                } else {
+                    cats.core_vocab.push(item);
+                }
+            });
+            return cats;
+        }
+
+        function buildStandaloneReplicaHtml(dateStr, articles, isDark) {
             const dayDate = new Date(dateStr + 'T00:00:00');
             const optionsLong = { month: 'long', day: 'numeric', year: 'numeric' };
-            const formattedDateLong = isNaN(dayDate.getTime()) 
-                ? dateStr 
-                : dayDate.toLocaleDateString('en-US', optionsLong);
-
-            const baseHref = (typeof window !== 'undefined' && window.location && window.location.href) 
-                ? window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1) 
-                : '';
-
-            function extractEvidenceSpansJs(text) {
-                if (!text) return [];
-                const exclusions = [];
-                const noiseRegex = /\b(?:Article|Section|Schedule|Clause|Rule|Form|Order|Act)\s+[\dA-Za-z()]+\b/gi;
-                const dateRegex = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:,\s+\d{4})?\b|\b\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+\d{4})?\b|\b\d{1,2}:\d{2}(?:\s*(?:AM|PM|IST))?\b/gi;
-                const yearRegex = /\b(19\d\d|20\d\d)\b/g;
-
-                let m;
-                while ((m = noiseRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
-                while ((m = dateRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
-                while ((m = yearRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
-
-                const isExcluded = (start, end) => {
-                    for (let i = 0; i < exclusions.length; i++) {
-                        const [exStart, exEnd] = exclusions[i];
-                        if (!(end <= exStart || start >= exEnd)) return true;
-                    }
-                    return false;
-                };
-
-                const patterns = [
-                    /(?:(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])\s*\d+[\d.,]*(?:\s*(?:to|-|and)\s*(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])?\s*\d+[\d.,]*)?(?:\s*(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion))?(?:\s*(?:per|\/)\s*(?:kg|tonne|quintal|barrel|litre|annum|month|year|capita|unit|ration\s+card))?)|(?:\b\d+[\d.,]*\s*(?:lakh\s+crore|crore|lakh|million|billion|trillion)\s*(?:economy|outlay|budget|package|capex|revenue)\b)/gi,
-                    /(?:\b\d+[\d.,]*\s*(?:%|per\s*cent|percent)(?:\s*(?:to|-|and)\s*\d+[\d.,]*\s*(?:%|per\s*cent|percent))?(?:\s+of\s+GDP)?(?!\w))|(?:\b\d+[\d.,]*(?:%|per\s*cent)?\s*(?:to|-)\s*\d+[\d.,]*\s*(?:%|per\s*cent|percent)(?!\w))|(?:\b\d+[\d.,]*\s*(?:-|to|\s+)?(?:basis\s+points|bps)\b)/gi,
-                    /\b\d+[\d.,]*\s+(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion)\b(?:\s+(?:additional\s+)?(?:people|citizens|electors|voters|civilians|men|women|residents|beneficiaries|households|families|candidates|seats|homes|appeals|cases|tonnes|mt|jobs|farmers|indians))?/gi,
-                    /\b\d+[\d.,]*\s*(?:°C|degrees?\s+celsius|degrees|centimetres|cm|kilometres|km|sq\s*km|square\s+kilometres|hectares|acres|metres|GW|MW|gigawatts|megawatts|tonnes|mt|quintal|cusecs)\b/gi,
-                    /\b\d+\s*-\s*\d+\s+(?:lead|series|victory|draw|win)\b|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+out\s+of\s+(?:the\s+)?(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\b|\b(?:one|two|three|four|five|six|seven|eight|nine|ten|\d+)\s+of\s+(?:[A-Za-z’'-]+\s+){0,2}\d+\b|\b(?:two-thirds|three-quarters|a\s+quarter|a\s+third|a\s+tenth|a\s+fifth|half|sixfold)\b/gi,
-                    /\b\d+(?:-|\s+)(?:day|month|year|hour|minute|quarter|round|judge|member|test|time|point)-(?:old|high|streak|window|limit|curfew|drop|cut|hike|surge|bench|titlist|finalist|edition|deficit)\b|\b(?:under-18|two-hour|24-hour|best-of-five)\b/gi,
-                    /\b\d+[\d.,]*\s+(?:people|indians|voters|electors|civilians|residents|newborns|babies|bridges|roads|appeals|tribunals|colleges|institutions|launches|protesters|cases|seats|candidates|graduates|states|countries|drones|rockets|firms|points|runs)\b|\b\d{1,3}(?:,\d{2,3})+(?:\.\d+)?\b/gi
-                ];
-
-                const rawSpans = [];
-                patterns.forEach(regex => {
-                    let match;
-                    while ((match = regex.exec(text)) !== null) {
-                        const start = match.index;
-                        const end = start + match[0].length;
-                        if (!isExcluded(start, end)) {
-                            rawSpans.push({ start, end, text: match[0].trim() });
-                        }
-                    }
-                });
-
-                if (rawSpans.length === 0) return [];
-                rawSpans.sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start));
-                const merged = [rawSpans[0]];
-                for (let i = 1; i < rawSpans.length; i++) {
-                    const cur = rawSpans[i];
-                    const last = merged[merged.length - 1];
-                    if (cur.start <= last.end) {
-                        if (cur.end > last.end) last.end = cur.end;
-                    } else {
-                        merged.push(cur);
-                    }
-                }
-                return merged;
-            }
-
-            function cleanAndHighlightPassageJs(passageTextOrHtml, vocabItems) {
-                if (!passageTextOrHtml) return '<p>Editorial passage text being processed.</p>';
-                
-                // Clean broken math / currency strings
-                let rawText = String(passageTextOrHtml)
-                    .replace(/\$\\overline\{7\}/g, '₹')
-                    .replace(/\$\\approx/g, '₹~')
-                    .replace(/\$(?:\\overline\{7\}|\\approx)/g, '₹')
-                    .replace(/\\overline\{7\}/g, '₹');
-
-                // Strip existing html tags safely to get pure paragraph strings
-                const rawParas = rawText
-                    .replace(/<\/?p>/gi, '\n')
-                    .replace(/<span[^>]*>/gi, '')
-                    .replace(/<\/span>/gi, '')
-                    .replace(/<sup[^>]*>[^<]*<\/sup>/gi, '')
-                    .split(/\r?\n+/)
-                    .map(p => p.trim())
-                    .filter(Boolean);
-
-                const sortedVocab = (vocabItems || []).slice().sort((a, b) => {
-                    const lenA = (a.word_or_phrase || '').length;
-                    const lenB = (b.word_or_phrase || '').length;
-                    return lenB - lenA;
-                });
-
-                const cleanedParas = [];
-                rawParas.forEach(p => {
-                    // Skip scraper timestamps & metadata
-                    if (/^(Published|Updated|- ?[A-Za-z]+|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b)/i.test(p)) {
-                        return;
-                    }
-                    // Skip dedicated tag/taxonomy lines
-                    if (/^[\w\s()-]+(\s+\/\s+[\w\s()-]+){2,}$/.test(p) || (p.split(' / ').length - 1) >= 3) {
-                        return;
-                    }
-                    // Strip trailing category tags
-                    p = p.replace(/(\s+\/\s+[\w\s()-]+){2,}$/, '').trim();
-                    if (!p) return;
-
-                    // Reserve claimed segments to prevent duplicate sub-token matching
-                    const vocabSpans = [];
-                    const claimed = new Array(p.length).fill(false);
-
-                    sortedVocab.forEach((item, vIdx) => {
-                        const term = (item.word_or_phrase || '').trim();
-                        const idx = item.order_index || (vIdx + 1);
-                        if (!term) return;
-
-                        const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                        const pattern = new RegExp(`(?<![A-Za-z0-9])(${escaped})(?![A-Za-z0-9])`, 'gi');
-                        let m;
-                        while ((m = pattern.exec(p)) !== null) {
-                            const start = m.index;
-                            const end = start + m[0].length;
-                            let alreadyClaimed = false;
-                            for (let k = start; k < end; k++) {
-                                if (claimed[k]) { alreadyClaimed = true; break; }
-                            }
-                            if (!alreadyClaimed) {
-                                for (let k = start; k < end; k++) claimed[k] = true;
-                                vocabSpans.push({ start, end, idx });
-                            }
-                        }
-                    });
-
-                    // Extract Evidence Lens spans
-                    const rawEvidence = extractEvidenceSpansJs(p);
-                    const cleanEvidence = [];
-                    rawEvidence.forEach(e => {
-                        let e_start = e.start, e_end = e.end;
-                        vocabSpans.forEach(v => {
-                            if (e_start < v.start && v.start < e_end && e_end < v.end) {
-                                e_end = v.start;
-                            } else if (v.start < e_start && e_start < v.end && v.end < e_end) {
-                                e_start = v.end;
-                            }
-                        });
-                        if (e_start < e_end) {
-                            cleanEvidence.push({ start: e_start, end: e_end });
-                        }
-                    });
-
-                    // Nesting order: Vocab Close (1), Evidence Close (2), Evidence Open (3), Vocab Open (4)
-                    const tagsByPos = {};
-                    const addTag = (pos, order, str) => {
-                        if (!tagsByPos[pos]) tagsByPos[pos] = [];
-                        tagsByPos[pos].push({ order, str });
-                    };
-
-                    vocabSpans.forEach(v => {
-                        addTag(v.end, 1, `<sup class="v-idx">${v.idx}</sup></span>`);
-                        addTag(v.start, 4, '<span class="vocab-hl">');
-                    });
-
-                    cleanEvidence.forEach(e => {
-                        addTag(e.end, 2, '</span>');
-                        addTag(e.start, 3, '<span class="evidence-hl">');
-                    });
-
-                    const sortedPositions = Object.keys(tagsByPos).map(Number).sort((a, b) => a - b);
-                    let annotated = '';
-                    let lastIdx = 0;
-                    sortedPositions.forEach(pos => {
-                        annotated += escapeMagHtml(p.substring(lastIdx, pos));
-                        const tags = tagsByPos[pos].sort((a, b) => a.order - b.order);
-                        tags.forEach(t => { annotated += t.str; });
-                        lastIdx = pos;
-                    });
-                    annotated += escapeMagHtml(p.substring(lastIdx));
-                    cleanedParas.push(`<p>${annotated}</p>`);
-                });
-
-                return cleanedParas.join('\n');
-            }
-
-            function getStanceTheme(toneStr) {
-                const t = (toneStr || '').toLowerCase();
-                if (['critical', 'pessimistic', 'disapproving', 'sarcastic', 'cynical', 'hostile', 'admonitory'].some(k => t.includes(k))) {
-                    return { tone_a: "#f43f5e", tone_b: "#e11d48", shape: "shape-jagged" };
-                } else if (['cautious', 'concerned', 'cautionary', 'sceptical', 'skeptical'].some(k => t.includes(k))) {
-                    return { tone_a: "#f59e0b", tone_b: "#d97706", shape: "shape-wave" };
-                } else if (['optimistic', 'appreciative', 'empathetic', 'conciliatory'].some(k => t.includes(k))) {
-                    return { tone_a: "#10b981", tone_b: "#059669", shape: "shape-circle" };
-                } else {
-                    return { tone_a: "#38bdf8", tone_b: "#0ea5e9", shape: "shape-circle" };
-                }
-            }
-
-            function computeWordToneMix(vocabItems) {
-                let pos = 0, neu = 0, neg = 0;
-                (vocabItems || []).forEach(v => {
-                    const c = String(v.connotation || '').toLowerCase();
-                    if (c.includes('pos')) pos++;
-                    else if (c.includes('neg')) neg++;
-                    else neu++;
-                });
-                const total = pos + neu + neg;
-                if (total === 0) {
-                    return { pos_count: 0, neu_count: 0, neg_count: 0, pos_pct: 0, neu_pct: 100, neg_pct: 0, total: 0 };
-                }
-                const pos_pct = Math.round((pos / total) * 100);
-                const neu_pct = Math.round((neu / total) * 100);
-                const neg_pct = Math.max(0, 100 - (pos_pct + neu_pct));
-                return { pos_count: pos, neu_count: neu, neg_count: neg, pos_pct, neu_pct, neg_pct, total };
-            }
-
-            function categorizeVocab(vocabItems) {
-                const cats = {
-                    core_vocab: [],
-                    one_word_subs: [],
-                    fixed_prepositions: [],
-                    phrasal_verbs: [],
-                    foreign_words: [],
-                    idioms: []
-                };
-                (vocabItems || []).forEach(item => {
-                    const cat = String(item.category || '').toLowerCase();
-                    if (cat.includes('one_word') || cat.includes('substitution') || cat === 'ows') {
-                        cats.one_word_subs.push(item);
-                    } else if (cat.includes('fixed_prep') || cat.includes('preposition')) {
-                        cats.fixed_prepositions.push(item);
-                    } else if (cat.includes('phrasal') || cat.includes('verb_phrase')) {
-                        cats.phrasal_verbs.push(item);
-                    } else if (cat.includes('foreign')) {
-                        cats.foreign_words.push(item);
-                    } else if (cat.includes('idiom') || cat.includes('phrase')) {
-                        cats.idioms.push(item);
-                    } else {
-                        cats.core_vocab.push(item);
-                    }
-                });
-                return cats;
-            }
+            const formattedDateLong = isNaN(dayDate.getTime()) ? dateStr : dayDate.toLocaleDateString('en-US', optionsLong);
 
             let pageCounter = 3;
             const processed = (articles || []).map((art) => {
                 const vocabList = art.vocabulary || art.editorial_vocabulary || [];
                 const cats = categorizeVocab(vocabList);
-                const toneData = art.analysis || {
-                    tone: art.tone || 'Analytical',
-                    tone_simple_explanation: art.tone_explanation || '',
-                    analysis_summary: art.analysis_summary || ''
-                };
-                const stanceTheme = getStanceTheme(toneData.tone);
-                const toneMix = toneData.word_tone_mix || computeWordToneMix(vocabList);
-
-                const readerPageNum = pageCounter;
-                pageCounter++;
-
-                const labPage1Num = pageCounter;
-                pageCounter++;
-
+                const readerPageNum = pageCounter++;
+                const labPage1Num = pageCounter++;
                 const hasPage2 = (cats.fixed_prepositions.length > 0 || cats.phrasal_verbs.length > 0 || cats.foreign_words.length > 0 || cats.idioms.length > 0);
-                let labPage2Num = null;
-                if (hasPage2) {
-                    labPage2Num = pageCounter;
-                    pageCounter++;
-                }
+                let labPage2Num = hasPage2 ? pageCounter++ : null;
 
                 return {
                     art,
                     vocabList,
                     cats,
-                    toneData,
-                    stanceTheme,
-                    toneMix,
                     readerPageNum,
                     labPage1Num,
                     labPage2Num,
@@ -870,805 +718,193 @@
                 };
             });
 
-            const tocRowsHtml = processed.map(p => {
-                const a = p.art;
-                const isHindu = (a.newspaper || '').includes('Hindu');
-                const pillClass = isHindu ? 'pill-hindu' : 'pill-express';
-                const pagePill = `Page ${String(p.readerPageNum).padStart(2, '0')}`;
-                return `
-                    <a href="#article-p${p.readerPageNum}" class="toc-row">
-                        <div class="toc-article-title">${escapeMagHtml(a.title)}</div>
-                        <div class="toc-article-meta">
-                            <div class="toc-meta-left">
-                                <span class="toc-newspaper-pill ${pillClass}">
-                                    ${escapeMagHtml(a.newspaper || 'Editorial')}
-                                </span>
-                                ${(a.topic || (a.editorial_metadata && a.editorial_metadata.topic)) ? `<span class="toc-topic-pill">${escapeMagHtml(a.topic || a.editorial_metadata.topic)}</span>` : ''}
-                            </div>
-                            <span class="toc-page-pill">${pagePill}</span>
-                        </div>
-                    </a>
-                `;
-            }).join('\n');
-
             let articlesHtml = '';
             processed.forEach((p, idx) => {
                 const a = p.art;
-                const isLastArt = idx === processed.length - 1;
-                const nextArtProc = isLastArt ? null : processed[idx + 1];
-
-                const rawPassage = a.passage_html || a.passage || '';
-                const bodyContent = cleanAndHighlightPassageJs(rawPassage, p.vocabList);
-
+                const bodyContent = cleanAndHighlightPassageJs(a.passage_html || a.passage || '', p.vocabList);
                 const sidebarVocabHtml = (p.vocabList || []).map((item, vIdx) => {
                     const num = item.order_index || (vIdx + 1);
-                    const pos = item.part_of_speech ? `(${escapeMagHtml(item.part_of_speech)})` : '';
-                    return `
-                        <div class="rd-sb-row">
-                            <div class="rd-sb-num">${num}</div>
-                            <div class="rd-sb-details">
-                                <div class="rd-sb-word-line">
-                                    <span class="rd-sb-word">${escapeMagHtml(item.word_or_phrase || '')}</span>
-                                    ${pos ? `<span class="rd-sb-pos">${pos}</span>` : ''}
-                                </div>
-                                <div class="rd-sb-def">
-                                    ${escapeMagHtml(item.easy_synonym || item.concise_meaning || '')}
-                                    ${item.hindi_meaning ? ` · <span class="rd-sb-hi devanagari">${escapeMagHtml(item.hindi_meaning)}</span>` : ''}
-                                </div>
-                            </div>
-                        </div>
-                    `;
+                    const pos = item.part_of_speech ? '(' + escapeMagHtml(item.part_of_speech) + ')' : '';
+                    return '<div class="rd-sb-row">' +
+                        '<div class="rd-sb-num">' + num + '</div>' +
+                        '<div class="rd-sb-details">' +
+                            '<div class="rd-sb-word-line">' +
+                                '<span class="rd-sb-word">' + escapeMagHtml(item.word_or_phrase || '') + '</span>' +
+                                (pos ? '<span class="rd-sb-pos">' + pos + '</span>' : '') +
+                            '</div>' +
+                            '<div class="rd-sb-def">' +
+                                escapeMagHtml(item.easy_synonym || item.concise_meaning || '') +
+                                (item.hindi_meaning ? ' · <span class="rd-sb-hi devanagari">' + escapeMagHtml(item.hindi_meaning) + '</span>' : '') +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
                 }).join('\n');
 
-                const subtitle = a.subtitle || (a.editorial_metadata && a.editorial_metadata.subtitle);
-                const subtitleHtml = subtitle ? `
-                    <div class="rd-quote">
-                        <span class="rd-quote-mark">“</span>
-                        <span>${escapeMagHtml(subtitle)}</span>
-                    </div>
-                ` : '';
-
-                articlesHtml += `
-                    <!-- ================= ARTICLE ${idx + 1} READER SPREAD ================= -->
-                    <div class="page inner-page">
-                        <div class="inner-page-watermark" style="background-image: url('assets/magazine/watermark.png');"></div>
-                        <div class="inner-content-wrapper">
-                            <a id="article-p${p.readerPageNum}" name="article-p${p.readerPageNum}" style="position: absolute; top: -8mm; left: 0;"></a>
-                            <div class="reader-panel">
-                                <div class="rd-top-row">
-                                    <div class="rd-tag">
-                                        <span class="icon-svg" style="width: 12px; height: 12px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="14" rx="1.2" width="13" x="3.5" y="5"></rect><path d="M16.5 8.5h4V17a2 2 0 0 1-2 2h-2"></path><path d="M6.5 8.5h7M6.5 11.5h7M6.5 14.5h4"></path></svg>
-                                        </span>
-                                        <span>${escapeMagHtml(a.newspaper || 'Editorial')} · ${escapeMagHtml(a.topic || (a.editorial_metadata && a.editorial_metadata.topic) || 'General Studies')}</span>
-                                    </div>
-                                    ${a.link ? `
-                                        <a class="rd-source" href="${escapeMagHtml(a.link)}" target="_blank" rel="noopener noreferrer">
-                                            <span>Original Source</span>
-                                            <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-                                            </span>
-                                        </a>
-                                    ` : ''}
-                                </div>
-
-                                <h1 class="rd-title">${escapeMagHtml(a.title)}</h1>
-                                ${subtitleHtml}
-
-                                <div class="rd-meta">
-                                    <span class="meta-item">
-                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="15" rx="1.8" width="17" x="3.5" y="5"></rect><path d="M7 3.5v4M17 3.5v4M3.5 9h17"></path></svg>
-                                        </span>
-                                        <span>${formattedDateLong}</span>
-                                    </span>
-                                    <span class="meta-sep">·</span>
-                                    <span class="meta-item">
-                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.3"></circle><path d="M5 20c.7-3.5 3-5.4 7-5.4s6.3 1.9 7 5.4"></path></svg>
-                                        </span>
-                                        <span>Daily Editorial Reader</span>
-                                    </span>
-                                    <span class="meta-sep">·</span>
-                                    <span class="meta-item">
-                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>
-                                        </span>
-                                        <span>${escapeMagHtml(a.reading_time || '3 min read')}</span>
-                                    </span>
-                                </div>
-
-                                <div class="rd-layout">
-                                    <div class="rd-body">
-                                        <div>${bodyContent}</div>
-                                        <div class="rd-citation">
-                                            <span>Source: ${escapeMagHtml(a.newspaper || 'Editorial')} · Published: ${escapeMagHtml(a.published_at || '')}</span>
-                                            ${a.link ? `
-                                                <a class="rd-citation-btn" href="${escapeMagHtml(a.link)}" target="_blank" rel="noopener noreferrer">
-                                                    <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"></path><path d="M11 6.5 13 4.5a3.5 3.5 0 0 1 5 5l-2 2"></path><path d="M13 17.5l-2 2a3.5 3.5 0 0 1-5-5l2-2"></path></svg>
-                                                    </span>
-                                                    <span>Original Source</span>
-                                                </a>
-                                            ` : ''}
-                                        </div>
-                                    </div>
-
-                                    <div class="rd-sidebar">
-                                        <div>
-                                            <div class="rd-sb-title">
-                                                <span class="icon-svg" style="width: 12px; height: 12px; color: currentColor;">
-                                                    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5Z"></path><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5Z"></path></svg>
-                                                </span>
-                                                <span>Vocabulary 101</span>
-                                            </div>
-                                            <div class="rd-sb-list">
-                                                ${sidebarVocabHtml}
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="deep-analysis-card">
-                                                <div class="deep-analysis-icon">
-                                                    <span class="icon-svg" style="width: 14px; height: 14px; color: currentColor;">
-                                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"></path><path d="M12 3a6 6 0 0 0-3.2 11.1c.6.4 1 1 1.1 1.7l.1.7h4l.1-.7c.1-.7.5-1.3 1.1-1.7A6 6 0 0 0 12 3Z"></path></svg>
-                                                    </span>
-                                                </div>
-                                                <div class="deep-analysis-text">
-                                                    <strong>Deep Analysis</strong>
-                                                    Mnemonics &amp; applied grammar rules in Vocab Lab.
-                                                </div>
-                                            </div>
-                                            <a href="#vocab-p${p.labPage1Num}" class="open-vocab-lab-btn">
-                                                <span>Open Vocab Lab</span>
-                                                <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="footer-wrap">
-                            <div class="footer-pill">
-                                <span class="footer-brand">Today's Editorials Series · ${formattedDateLong}</span>
-                                <a href="https://t.me/ezeditorialgroup/" target="_blank" class="footer-cta">
-                                    <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path></svg>
-                                    </span>
-                                    <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
-                                </a>
-                                <span class="footer-page">Page ${String(p.readerPageNum).padStart(2, '0')}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                function renderVocabCard(item, num) {
-                    const connot = String(item.connotation || '').toLowerCase();
-                    let tagClass = 'tag-neu';
-                    if (connot.includes('pos')) tagClass = 'tag-pos';
-                    else if (connot.includes('neg')) tagClass = 'tag-neg';
-
-                    const synChips = (item.british_synonyms || []).map(s => `<span class="chip-syn">${escapeMagHtml(s)}</span>`).join('');
-                    const antChips = (item.british_antonyms || []).map(a => `<span class="chip-ant">${escapeMagHtml(a)}</span>`).join('');
-                    const chipsBlock = (synChips || antChips) ? `<div class="vcard-chips">${synChips}${antChips}</div>` : '';
-
-                    return `
-                        <div class="vcard vcard-featured">
-                            <div>
-                                <div class="vcard-top">
-                                    <span class="vcard-num">${String(num).padStart(2, '0')}</span>
-                                    ${item.connotation ? `<span class="vcard-tag ${tagClass}">${escapeMagHtml(item.connotation)}</span>` : ''}
-                                </div>
-                                <div class="vcard-word">${escapeMagHtml(item.word_or_phrase || '')}</div>
-                                <div class="vcard-pos">
-                                    ${item.part_of_speech ? `${escapeMagHtml(item.part_of_speech)} · ` : ''}
-                                    <span class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</span>
-                                </div>
-                                <div class="vcard-def">${escapeMagHtml(item.concise_meaning || item.easy_synonym || '')}</div>
-                                ${item.mnemonic_trick ? `
-                                    <div class="vcard-hook">
-                                        <span class="vcard-hook-label">Memory Hook</span>
-                                        ${escapeMagHtml(item.mnemonic_trick)}
-                                    </div>
-                                ` : ''}
-                            </div>
-                            ${chipsBlock}
-                        </div>
-                    `;
-                }
-
-                function renderFixedPrepCard(item, num) {
-                    const parts = String(item.word_or_phrase || '').trim().split(/\s+/);
-                    const base = parts.length > 1 ? parts.slice(0, -1).join(' ') : item.word_or_phrase;
-                    const prep = parts.length > 1 ? parts[parts.length - 1] : '';
-
-                    return `
-                        <div class="vcard">
-                            <div>
-                                <div class="vcard-top">
-                                    <span class="vcard-num">${String(num).padStart(2, '0')}</span>
-                                    ${item.connotation ? `<span class="vcard-tag tag-neu">${escapeMagHtml(item.connotation)}</span>` : ''}
-                                </div>
-                                <div class="connector-row">
-                                    <span class="connector-base">${escapeMagHtml(base)}</span>
-                                    ${prep ? `<span class="connector-dot">···</span><span class="connector-prep">${escapeMagHtml(prep)}</span>` : ''}
-                                </div>
-                                <div class="vcard-pos" style="text-align: center;">
-                                    ${item.part_of_speech ? `${escapeMagHtml(item.part_of_speech)} · ` : ''}
-                                    <span class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</span>
-                                </div>
-                                <div class="vcard-def">${escapeMagHtml(item.concise_meaning || '')}</div>
-                                ${item.mnemonic_trick ? `
-                                    <div class="vcard-hook">
-                                        <span class="vcard-hook-label">Memory Hook</span>
-                                        ${escapeMagHtml(item.mnemonic_trick)}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    `;
-                }
-
-                function renderPhrasalCard(item, num) {
-                    const parts = String(item.word_or_phrase || '').trim().split(/\s+/);
-                    const verb = parts.length > 1 ? parts.slice(0, -1).join(' ') : item.word_or_phrase;
-                    const particle = parts.length > 1 ? parts[parts.length - 1] : '';
-
-                    return `
-                        <div class="vcard">
-                            <div>
-                                <div class="vcard-top">
-                                    <span class="vcard-num">${String(num).padStart(2, '0')}</span>
-                                    ${item.connotation ? `<span class="vcard-tag tag-neu">${escapeMagHtml(item.connotation)}</span>` : ''}
-                                </div>
-                                <div class="duo-row">
-                                    <span class="duo-chip duo-verb">${escapeMagHtml(verb)}</span>
-                                    ${particle ? `
-                                        <span class="duo-arrow">
-                                            <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-                                            </span>
-                                        </span>
-                                        <span class="duo-chip duo-particle">${escapeMagHtml(particle)}</span>
-                                    ` : ''}
-                                </div>
-                                <div class="vcard-pos" style="text-align: center;">
-                                    ${item.part_of_speech ? `${escapeMagHtml(item.part_of_speech)} · ` : ''}
-                                    <span class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</span>
-                                </div>
-                                <div class="vcard-def">${escapeMagHtml(item.concise_meaning || '')}</div>
-                                ${item.mnemonic_trick ? `
-                                    <div class="vcard-hook">
-                                        <span class="vcard-hook-label">Memory Hook</span>
-                                        ${escapeMagHtml(item.mnemonic_trick)}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    `;
-                }
-
-                function renderForeignCard(item, num) {
-                    return `
-                        <div class="vcard vcard-stamp vcard-foreign">
-                            <div>
-                                <div class="vcard-top">
-                                    <span class="vcard-num">${String(num).padStart(2, '0')}</span>
-                                </div>
-                                <div class="vcard-word stamp-word">${escapeMagHtml(item.word_or_phrase || '')}</div>
-                                <div class="vcard-pos">
-                                    ${item.part_of_speech ? `${escapeMagHtml(item.part_of_speech)} · ` : ''}
-                                    <span class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</span>
-                                </div>
-                                <div class="vcard-def">${escapeMagHtml(item.concise_meaning || '')}</div>
-                                ${item.mnemonic_trick ? `
-                                    <div class="vcard-hook">
-                                        <span class="vcard-hook-label">Memory Hook</span>
-                                        ${escapeMagHtml(item.mnemonic_trick)}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    `;
-                }
-
-                function renderIdiomCard(item, num) {
-                    return `
-                        <div class="vcard-idiom">
-                            <div class="vcard-idiom-inner">
-                                <div>
-                                    <div class="idiom-top">
-                                        <div class="idiom-mark-num">
-                                            <span class="quote-mark-inline">“</span>
-                                            <span class="vcard-num">${String(num).padStart(2, '0')}</span>
-                                        </div>
-                                        ${item.connotation ? `<span class="vcard-tag tag-neu">${escapeMagHtml(item.connotation)}</span>` : ''}
-                                    </div>
-                                    <div class="vcard-word">${escapeMagHtml(item.word_or_phrase || '')}</div>
-                                    <div class="vcard-def">${escapeMagHtml(item.concise_meaning || '')}</div>
-                                    <div class="vcard-hi devanagari">${escapeMagHtml(item.hindi_meaning || '')}</div>
-                                    ${item.mnemonic_trick ? `
-                                        <div class="vcard-hook">
-                                            <span class="vcard-hook-label">Memory Hook</span>
-                                            ${escapeMagHtml(item.mnemonic_trick)}
-                                        </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                let lab1CategoriesHtml = '';
-                if (p.cats.core_vocab.length > 0) {
-                    lab1CategoriesHtml += `
-                        <div class="vlab-category c1">
-                            <div class="vlab-cat-header c1">
-                                <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5Z"></path><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5Z"></path></svg>
-                                </span>
-                                <span>Vocabulary · ${p.cats.core_vocab.length} words</span>
-                            </div>
-                            <div class="vlab-grid">
-                                ${p.cats.core_vocab.map((v, i) => renderVocabCard(v, i + 1)).join('\n')}
-                            </div>
-                        </div>
-                    `;
-                }
-                if (p.cats.one_word_subs.length > 0) {
-                    lab1CategoriesHtml += `
-                        <div class="vlab-category c2">
-                            <div class="vlab-cat-header c2">
-                                <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 12.5 12.5 20 4 11.5V4h7.5L20 12.5Z"></path><circle cx="8" cy="8" fill="currentColor" r="1.4" stroke="none"></circle></svg>
-                                </span>
-                                <span>One-Word Substitutions · ${p.cats.one_word_subs.length} words</span>
-                            </div>
-                            <div class="vlab-grid">
-                                ${p.cats.one_word_subs.map((v, i) => renderVocabCard(v, i + 1)).join('\n')}
-                            </div>
-                        </div>
-                    `;
-                }
-
-                if (!p.hasPage2) {
-                    if (p.cats.fixed_prepositions.length > 0) {
-                        lab1CategoriesHtml += `
-                            <div class="vlab-category c3">
-                                <div class="vlab-cat-header c3">
-                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"></path><path d="M11 6.5 13 4.5a3.5 3.5 0 0 1 5 5l-2 2"></path><path d="M13 17.5l-2 2a3.5 3.5 0 0 1-5-5l2-2"></path></svg>
-                                    </span>
-                                    <span>Fixed Prepositions · ${p.cats.fixed_prepositions.length} words</span>
-                                </div>
-                                <div class="vlab-grid">
-                                    ${p.cats.fixed_prepositions.map((v, i) => renderFixedPrepCard(v, i + 1)).join('\n')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    if (p.cats.phrasal_verbs.length > 0) {
-                        lab1CategoriesHtml += `
-                            <div class="vlab-category c4">
-                                <div class="vlab-cat-header c4">
-                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                        <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"></path></svg>
-                                    </span>
-                                    <span>Phrasal Verbs · ${p.cats.phrasal_verbs.length} words</span>
-                                </div>
-                                <div class="vlab-grid">
-                                    ${p.cats.phrasal_verbs.map((v, i) => renderPhrasalCard(v, i + 1)).join('\n')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                }
-
-                const nextEditorialHtml = (!p.hasPage2) ? `
-                    ${nextArtProc ? `
-                        <a href="#article-p${nextArtProc.readerPageNum}" class="next-editorial-banner">
-                            <div>
-                                <div class="next-ed-label">Read Next Editorial · Page ${String(nextArtProc.readerPageNum).padStart(2, '0')}</div>
-                                <div class="next-ed-title">${escapeMagHtml(nextArtProc.art.title)}</div>
-                            </div>
-                            <div class="next-ed-arrow">
-                                <span class="icon-svg" style="width: 15px; height: 15px; color: currentColor;">
-                                    <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-                                </span>
-                            </div>
-                        </a>
-                    ` : `
-                        <div class="next-editorial-banner next-ed-end-state">
-                            <span class="next-ed-end-text">🏁 You have reached the end of today's editorials</span>
-                        </div>
-                    `}
-                ` : '';
-
-                articlesHtml += `
-                    <!-- ================= ARTICLE ${idx + 1} VOCABULARY LAB (PAGE 1) ================= -->
-                    <div class="page inner-page">
-                        <div class="inner-page-watermark" style="background-image: url('assets/magazine/watermark.png');"></div>
-                        <div class="inner-content-wrapper">
-                            <a id="vocab-p${p.labPage1Num}" name="vocab-p${p.labPage1Num}" style="position: absolute; top: -8mm; left: 0;"></a>
-                            
-                            <div class="vlab-page-header">
-                                <div class="vlab-page-header-left">
-                                    <div class="vlab-page-header-icon">
-                                        <span class="icon-svg" style="width: 16px; height: 16px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5.5 9.5A1.5 1.5 0 0 0 5.8 21h12.4a1.5 1.5 0 0 0 1.3-2.5L14 9V3"></path><path d="M8 15h8"></path></svg>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <div class="vlab-page-header-title">Editorial Analysis &amp; Vocabulary Lab</div>
-                                        <div class="vlab-page-header-article">Article: ${escapeMagHtml(a.title)}</div>
-                                    </div>
-                                </div>
-                                <div class="vlab-page-header-tags">
-                                    <span class="rd-tag">
-                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="14" rx="1.2" width="13" x="3.5" y="5"></rect><path d="M16.5 8.5h4V17a2 2 0 0 1-2 2h-2"></path><path d="M6.5 8.5h7M6.5 11.5h7M6.5 14.5h4"></path></svg>
-                                        </span>
-                                        <span>${escapeMagHtml(a.newspaper || 'Editorial')}</span>
-                                    </span>
-                                    <span class="topic-chip">${escapeMagHtml(a.topic || (a.editorial_metadata && a.editorial_metadata.topic) || 'General Studies')}</span>
-                                </div>
-                            </div>
-
-                            <div class="stance-row" style="--tone-a: ${p.stanceTheme.tone_a}; --tone-b: ${p.stanceTheme.tone_b};">
-                                <div class="stance-card ${p.stanceTheme.shape}">
-                                    <div class="stance-blob-a"></div>
-                                    <div class="stance-blob-b"></div>
-                                    <div class="stance-watermark">
-                                        <span class="icon-svg" style="width: 74px; height: 74px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M20 20l-4.8-4.8"></path></svg>
-                                        </span>
-                                    </div>
-                                    <div class="stance-content">
-                                        <div class="stance-label">Editorial Stance</div>
-                                        <div class="stance-value">${escapeMagHtml(p.toneData.tone || 'Analytical')}</div>
-                                        ${p.toneData.tone_simple_explanation ? `<div class="stance-sub">“${escapeMagHtml(p.toneData.tone_simple_explanation)}”</div>` : ''}
-                                    </div>
-                                </div>
-
-                                <div class="persp-card">
-                                    <div class="persp-blob-a"></div>
-                                    <div class="persp-quote-watermark">
-                                        <span class="icon-svg" style="width: 48px; height: 48px; color: currentColor;">
-                                            <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M4 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H8v4H4V8Z"></path><path d="M13 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H17v4h-4V8Z"></path></svg>
-                                        </span>
-                                    </div>
-                                    <div class="persp-icon-badge">
-                                        <span class="icon-svg" style="width: 14px; height: 14px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-2 6-4 2 2-6 4-2Z"></path></svg>
-                                        </span>
-                                    </div>
-                                    <div class="persp-label">Editorial Perspective</div>
-                                    <div class="persp-text">${escapeMagHtml(p.toneData.analysis_summary || '')}</div>
-                                </div>
-
-                                <div class="tone-bar-card">
-                                    <div class="tone-bar-label">Word Tone Mix</div>
-                                    <div class="tone-bar-track">
-                                        ${p.toneMix.pos_pct > 0 ? `<div class="tone-seg-pos" style="width: ${p.toneMix.pos_pct}%;"></div>` : ''}
-                                        ${p.toneMix.neu_pct > 0 ? `<div class="tone-seg-neu" style="width: ${p.toneMix.neu_pct}%;"></div>` : ''}
-                                        ${p.toneMix.neg_pct > 0 ? `<div class="tone-seg-neg" style="width: ${p.toneMix.neg_pct}%;"></div>` : ''}
-                                    </div>
-                                    <div class="tone-bar-legend">
-                                        <span><span class="dot" style="background: #10b981;"></span>${p.toneMix.pos_count} Positive</span>
-                                        <span><span class="dot" style="background: #94a3b8;"></span>${p.toneMix.neu_count} Neutral</span>
-                                        <span><span class="dot" style="background: #f43f5e;"></span>${p.toneMix.neg_count} Negative</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            ${lab1CategoriesHtml}
-                            ${nextEditorialHtml}
-                        </div>
-
-                        <div class="footer-wrap">
-                            <div class="footer-pill">
-                                <span class="footer-brand">Today's Editorials Series · ${formattedDateLong}</span>
-                                <a href="https://t.me/ezeditorialgroup/" target="_blank" class="footer-cta">
-                                    <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path></svg>
-                                    </span>
-                                    <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
-                                </a>
-                                <span class="footer-page">Page ${String(p.labPage1Num).padStart(2, '0')}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                if (p.hasPage2) {
-                    let lab2CategoriesHtml = '';
-                    if (p.cats.fixed_prepositions.length > 0) {
-                        lab2CategoriesHtml += `
-                            <div class="vlab-category c3">
-                                <div class="vlab-cat-header c3">
-                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"></path><path d="M11 6.5 13 4.5a3.5 3.5 0 0 1 5 5l-2 2"></path><path d="M13 17.5l-2 2a3.5 3.5 0 0 1-5-5l2-2"></path></svg>
-                                    </span>
-                                    <span>Fixed Prepositions · ${p.cats.fixed_prepositions.length} words</span>
-                                </div>
-                                <div class="vlab-grid">
-                                    ${p.cats.fixed_prepositions.map((v, i) => renderFixedPrepCard(v, i + 1)).join('\n')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    if (p.cats.phrasal_verbs.length > 0) {
-                        lab2CategoriesHtml += `
-                            <div class="vlab-category c4">
-                                <div class="vlab-cat-header c4">
-                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                        <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"></path></svg>
-                                    </span>
-                                    <span>Phrasal Verbs · ${p.cats.phrasal_verbs.length} words</span>
-                                </div>
-                                <div class="vlab-grid">
-                                    ${p.cats.phrasal_verbs.map((v, i) => renderPhrasalCard(v, i + 1)).join('\n')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    if (p.cats.foreign_words.length > 0) {
-                        lab2CategoriesHtml += `
-                            <div class="vlab-category c6">
-                                <div class="vlab-cat-header c6">
-                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17M12 3.5c2.5 2.5 2.5 15 0 17M12 3.5c-2.5 2.5-2.5 15 0 17"></path></svg>
-                                    </span>
-                                    <span>Foreign Words · ${p.cats.foreign_words.length} words</span>
-                                </div>
-                                <div class="vlab-grid">
-                                    ${p.cats.foreign_words.map((v, i) => renderForeignCard(v, i + 1)).join('\n')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    if (p.cats.idioms.length > 0) {
-                        lab2CategoriesHtml += `
-                            <div class="vlab-category c5">
-                                <div class="vlab-cat-header c5">
-                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                        <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M4 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H8v4H4V8Z"></path><path d="M13 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H17v4h-4V8Z"></path></svg>
-                                    </span>
-                                    <span>Idioms &amp; Phrases · ${p.cats.idioms.length} words</span>
-                                </div>
-                                <div class="vlab-grid">
-                                    ${p.cats.idioms.map((v, i) => renderIdiomCard(v, i + 1)).join('\n')}
-                                </div>
-                            </div>
-                        `;
-                    }
-
-                    const nextEdPage2 = `
-                        ${nextArtProc ? `
-                            <a href="#article-p${nextArtProc.readerPageNum}" class="next-editorial-banner">
-                                <div>
-                                    <div class="next-ed-label">Read Next Editorial · Page ${String(nextArtProc.readerPageNum).padStart(2, '0')}</div>
-                                    <div class="next-ed-title">${escapeMagHtml(nextArtProc.art.title)}</div>
-                                </div>
-                                <div class="next-ed-arrow">
-                                    <span class="icon-svg" style="width: 15px; height: 15px; color: currentColor;">
-                                        <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-                                    </span>
-                                </div>
-                            </a>
-                        ` : `
-                            <div class="next-editorial-banner next-ed-end-state">
-                                <span class="next-ed-end-text">🏁 You have reached the end of today's editorials</span>
-                            </div>
-                        `}
-                    `;
-
-                    articlesHtml += `
-                        <!-- ================= ARTICLE ${idx + 1} VOCABULARY LAB (PAGE 2) ================= -->
-                        <div class="page inner-page">
-                            <div class="inner-page-watermark" style="background-image: url('assets/magazine/watermark.png');"></div>
-                            <div class="inner-content-wrapper">
-                                <div class="continued-bar">
-                                    <span class="icon-svg" style="width: 12px; height: 12px; color: currentColor;">
-                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5Z"></path><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5Z"></path></svg>
-                                    </span>
-                                    <span>Vocab Lab continued · <b>${escapeMagHtml(a.title)}</b> · Part 02</span>
-                                </div>
-                                ${lab2CategoriesHtml}
-                                ${nextEdPage2}
-                            </div>
-
-                            <div class="footer-wrap">
-                                <div class="footer-pill">
-                                    <span class="footer-brand">Today's Editorials Series · ${formattedDateLong}</span>
-                                    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="footer-cta">
-                                        <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path></svg>
-                                        </span>
-                                        <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
-                                    </a>
-                                    <span class="footer-page">Page ${String(p.labPage2Num).padStart(2, '0')}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
+                articlesHtml += '<div class="page inner-page">' +
+                    '<div class="inner-page-watermark" style="background-image: url(\'assets/magazine/watermark.png\');"></div>' +
+                    '<div class="inner-content-wrapper">' +
+                        '<a id="article-p' + p.readerPageNum + '" name="article-p' + p.readerPageNum + '"></a>' +
+                        '<div class="reader-panel">' +
+                            '<div class="rd-top-row">' +
+                                '<div class="rd-tag">' +
+                                    '<span>' + escapeMagHtml(a.newspaper || 'Editorial') + ' · ' + escapeMagHtml(a.topic || (a.editorial_metadata && a.editorial_metadata.topic) || 'General Studies') + '</span>' +
+                                '</div>' +
+                                (a.link ? '<a class="rd-source" href="' + escapeMagHtml(a.link) + '" target="_blank" rel="noopener noreferrer">Original Source ↗</a>' : '') +
+                            '</div>' +
+                            '<h1 class="rd-title">' + escapeMagHtml(a.title) + '</h1>' +
+                            (a.subtitle ? '<div class="rd-quote">“' + escapeMagHtml(a.subtitle) + '”</div>' : '') +
+                            '<div class="rd-meta">' +
+                                '<span>📅 ' + formattedDateLong + '</span>' +
+                                '<span>·</span>' +
+                                '<span>⏱ ' + escapeMagHtml(a.reading_time || '3 min read') + '</span>' +
+                            '</div>' +
+                            '<div class="rd-layout">' +
+                                '<div class="rd-body">' +
+                                    '<div>' + bodyContent + '</div>' +
+                                    '<div class="rd-citation">' +
+                                        '<span>Source: ' + escapeMagHtml(a.newspaper || 'Editorial') + '</span>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="rd-sidebar">' +
+                                    '<div class="rd-sb-header">' +
+                                        '<span>VOCAB LAB QUICK LOOK</span>' +
+                                        '<span>' + p.vocabList.length + ' WORDS</span>' +
+                                    '</div>' +
+                                    '<div class="rd-sb-list">' +
+                                        sidebarVocabHtml +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="page-footer-strip">' +
+                        '<span>Ez Editorials · Intelligence</span>' +
+                        '<span>Page ' + String(p.readerPageNum).padStart(2, '0') + '</span>' +
+                    '</div>' +
+                '</div>';
             });
 
-            return `<!-- ================= PAGE 1: PURE VECTOR FRONT COVER ================= -->
-<div class="page cover-page pure-front-cover">
-  <div class="pfc-top-bar">
-    <div class="pfc-brand-badge">
-      <span>📚</span>
-      <span>Ez Editorials · Intelligence</span>
-    </div>
-    <div class="pfc-date-pill">
-      <span>📅</span>
-      <span>${formattedDateLong}</span>
-    </div>
-  </div>
+            return '<!DOCTYPE html>' +
+'<html lang="en">' +
+'<head>' +
+'<meta charset="UTF-8">' +
+'<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+'<title>' + formattedDateLong + ' · Ez Editorials Magazine</title>' +
+'<link rel="stylesheet" href="magazine-pdf.css">' +
+'<style>' +
+'  html, body {' +
+'    margin: 0;' +
+'    padding: 0;' +
+'    background-color: ' + (isDark ? '#0b0f17' : '#f8fafc') + ';' +
+'    color: ' + (isDark ? '#e2e8f0' : '#1e293b') + ';' +
+'    font-family: \'Inter\', -apple-system, BlinkMacSystemFont, sans-serif;' +
+'    display: flex;' +
+'    flex-direction: column;' +
+'    align-items: center;' +
+'    overflow-x: hidden;' +
+'  }' +
+'  .inner-page-watermark { opacity: 0.03; pointer-events: none; }' +
+'  .page {' +
+'    width: 210mm;' +
+'    max-width: 100%;' +
+'    margin: 0 auto 36px auto;' +
+'    box-shadow: ' + (isDark ? '0 12px 40px rgba(0,0,0,0.6)' : '0 8px 30px rgba(0,0,0,0.08)') + ';' +
+'    border-radius: 6px;' +
+'    overflow: hidden;' +
+'    position: relative;' +
+'    background: ' + (isDark ? '#161e2e' : '#ffffff') + ';' +
+'    transition: box-shadow 0.2s ease;' +
+'  }' +
+'  @media (max-width: 840px) {' +
+'    .page {' +
+'      width: 100% !important;' +
+'      margin: 0 0 20px 0 !important;' +
+'      border-radius: 0 !important;' +
+'      box-shadow: none !important;' +
+'    }' +
+'  }' +
+'</style>' +
+'</head>' +
+'<body class="' + (isDark ? 'dark-theme' : '') + '">' +
 
-  <div class="pfc-hero">
-    <div class="pfc-edition-tag">⚡ DIGITAL EDITION &nbsp;·&nbsp; ${articles.length} EDITORIALS</div>
-    <h1 class="pfc-title-main">DAILY EDITORIAL</h1>
-    <h2 class="pfc-title-sub">DIGEST &amp; ANALYSIS</h2>
-    <p class="pfc-desc">In-depth reading comprehension, Evidence Lens statistics, and structured vocabulary lab designed for competitive exam aspirants.</p>
-  </div>
+'<!-- FRONT COVER -->' +
+'<div class="page cover-page pure-front-cover">' +
+'  <div class="pfc-top-bar">' +
+'    <div class="pfc-brand-badge">' +
+'      <span>📚</span>' +
+'      <span>Ez Editorials · Intelligence</span>' +
+'    </div>' +
+'    <div class="pfc-date-pill">' +
+'      <span>📅</span>' +
+'      <span>' + formattedDateLong + '</span>' +
+'    </div>' +
+'  </div>' +
+'  <div class="pfc-hero">' +
+'    <div class="pfc-edition-tag">⚡ DIGITAL EDITION &nbsp;·&nbsp; ' + articles.length + ' EDITORIALS</div>' +
+'    <h1 class="pfc-title-main">DAILY EDITORIAL</h1>' +
+'    <h2 class="pfc-title-sub">DIGEST &amp; ANALYSIS</h2>' +
+'    <p class="pfc-desc">In-depth reading comprehension, Evidence Lens statistics, and structured vocabulary lab designed for competitive exam aspirants.</p>' +
+'  </div>' +
+'  <div class="pfc-features-grid">' +
+'    <div class="pfc-feature-card">' +
+'      <div class="pfc-feature-icon">🔍</div>' +
+'      <div class="pfc-feature-title">Evidence Lens</div>' +
+'      <div class="pfc-feature-desc">Numeric highlights, economic shifts &amp; statistics.</div>' +
+'    </div>' +
+'    <div class="pfc-feature-card">' +
+'      <div class="pfc-feature-icon">🧠</div>' +
+'      <div class="pfc-feature-title">Vocab Lab</div>' +
+'      <div class="pfc-feature-desc">Mnemonics, connotations &amp; Hindi meanings.</div>' +
+'    </div>' +
+'    <div class="pfc-feature-card">' +
+'      <div class="pfc-feature-icon">🎯</div>' +
+'      <div class="pfc-feature-title">Exam Precision</div>' +
+'      <div class="pfc-feature-desc">Targeted for UPSC, SSC CGL, Banking &amp; State PSC.</div>' +
+'    </div>' +
+'  </div>' +
+'  <div class="pfc-footer-strip">' +
+'    <span>Volume 2 · Daily Digital Edition</span>' +
+'    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="pfc-footer-btn">' +
+'      <span>Join Telegram Group ↗</span>' +
+'    </a>' +
+'  </div>' +
+'</div>' +
 
-  <div class="pfc-features-grid">
-    <div class="pfc-feature-card">
-      <div class="pfc-feature-icon">🔍</div>
-      <div class="pfc-feature-title">Evidence Lens</div>
-      <div class="pfc-feature-desc">Numeric highlights, economic shifts &amp; statistics.</div>
-    </div>
-    <div class="pfc-feature-card">
-      <div class="pfc-feature-icon">🧠</div>
-      <div class="pfc-feature-title">Vocab Lab</div>
-      <div class="pfc-feature-desc">Mnemonics, connotations &amp; Hindi meanings.</div>
-    </div>
-    <div class="pfc-feature-card">
-      <div class="pfc-feature-icon">📊</div>
-      <div class="pfc-feature-title">Stance &amp; Tone</div>
-      <div class="pfc-feature-desc">Editorial perspective &amp; word-tone distribution.</div>
-    </div>
-  </div>
+articlesHtml +
 
-  <div class="pfc-articles-preview">
-    <div class="pfc-ap-header">
-      <span>In Today's Edition</span>
-      <span>${articles.length} Articles</span>
-    </div>
-    <div class="pfc-ap-list">
-      ${articles.map((art, aIdx) => `
-        <div class="pfc-ap-item">
-          <span style="display:flex; align-items:center; gap:8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:80%;">
-            <strong style="color:#38bdf8;">0${aIdx + 1}</strong>
-            <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeMagHtml(art.title)}</span>
-          </span>
-          <span style="font-size:10px; color:#94a3b8; white-space:nowrap;">${escapeMagHtml(art.reading_time || '3 min')}</span>
-        </div>
-      `).join('\n')}
-    </div>
-  </div>
-
-  <div class="pfc-footer">
-    <div class="pfc-footer-credits">Made by Lixie 🤖 · Curated by Prathu</div>
-    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="pfc-footer-btn">
-      <span>Join Telegram</span>
-      <span>›</span>
-    </a>
-  </div>
-</div>
-
-<!-- ================= PAGE 2: PURE VECTOR TABLE OF CONTENTS ================= -->
-<div class="page cover-page pure-toc-cover">
-  <div class="ptoc-header">
-    <div class="ptoc-header-sub">Official Navigation Index</div>
-    <div class="ptoc-header-title">
-      <span>TABLE OF CONTENTS</span>
-      <span class="ptoc-date">📅 ${formattedDateLong}</span>
-    </div>
-  </div>
-
-  <div class="ptoc-list">
-    ${processed.map((p, pIdx) => {
-      const a = p.art;
-      const isHindu = (a.newspaper || '').includes('Hindu');
-      const badgeClass = isHindu ? 'ptoc-badge-hindu' : 'ptoc-badge-express';
-      return `
-        <div class="ptoc-item">
-          <div class="ptoc-num">0${pIdx + 1}</div>
-          <div class="ptoc-info">
-            <div class="ptoc-title">${escapeMagHtml(a.title)}</div>
-            <div class="ptoc-meta">
-              <span class="ptoc-badge ${badgeClass}">${escapeMagHtml(a.newspaper || 'Editorial')}</span>
-              ${(a.topic || (a.editorial_metadata && a.editorial_metadata.topic)) ? `<span class="ptoc-badge" style="background:rgba(100,116,139,0.15); color:inherit;">${escapeMagHtml(a.topic || a.editorial_metadata.topic)}</span>` : ''}
-              <span style="font-size:10px; color:var(--text-muted, #64748b);">⏱ ${escapeMagHtml(a.reading_time || '3 min read')}</span>
-            </div>
-          </div>
-          <div class="ptoc-pills">
-            <a href="#article-p${p.readerPageNum}" class="ptoc-pill-btn">📖 Page ${String(p.readerPageNum).padStart(2, '0')}</a>
-            <a href="#vocab-p${p.labPage1Num}" class="ptoc-pill-btn" style="background:#eff6ff; color:#1d4ed8; border-color:#93c5fd;">🧪 Vocab Lab</a>
-          </div>
-        </div>
-      `;
-    }).join('\n')}
-  </div>
-
-  <div class="ptoc-footer">
-    <span style="font-size:10.5px; color:#64748b;">Ez Editorials Digital Publication · Tap any row or pill to jump directly to article</span>
-    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="pfc-footer-btn" style="font-size:9.5px; padding:4px 10px;">
-      <span>Channel Updates ›</span>
-    </a>
-  </div>
-</div>
-
-<!-- ================= EDITORIAL READER & VOCAB LAB PAGES ================= -->
-${articlesHtml}
-
-<!-- ================= LAST PAGE: PURE VECTOR BACK COVER ================= -->
-<div class="page cover-page pure-back-cover">
-  <div class="pbc-header">
-    <div class="pbc-tag">Official Knowledge Hubs</div>
-    <div class="pbc-title">STAY CONNECTED &amp; KEEP EXCELLING</div>
-  </div>
-
-  <div class="pbc-grid">
-    <a href="https://t.me/ezeditorialgroup/3" target="_blank" class="pbc-card">
-      <div>
-        <div class="pbc-card-title">
-          <span>📰</span> Daily Editorials &amp; PDF
-        </div>
-        <div class="pbc-card-desc">Daily editorial passage breakdowns, high-yield vocabulary drops, and high-res PDF magazines.</div>
-      </div>
-      <span class="pbc-btn">Join Telegram ↗</span>
-    </a>
-
-    <a href="https://t.me/EzSSC" target="_blank" class="pbc-card">
-      <div>
-        <div class="pbc-card-title">
-          <span>🎯</span> EzSSC Official
-        </div>
-        <div class="pbc-card-desc">Curated SSC CGL &amp; CHSL quizzes, previous year questions, and English speed trials.</div>
-      </div>
-      <span class="pbc-btn">Join Channel ↗</span>
-    </a>
-
-    <a href="https://t.me/EzBanking" target="_blank" class="pbc-card">
-      <div>
-        <div class="pbc-card-title">
-          <span>🏦</span> EzBanking Official
-        </div>
-        <div class="pbc-card-desc">Targeted RC passages, banking cloze tests, and financial editorial vocabulary drills.</div>
-      </div>
-      <span class="pbc-btn">Join Channel ↗</span>
-    </a>
-
-    <a href="https://t.me/Prathuadhe" target="_blank" class="pbc-card">
-      <div>
-        <div class="pbc-card-title">
-          <span>💬</span> Mentorship &amp; Creator
-        </div>
-        <div class="pbc-card-desc">Direct feedback, study schedule queries, and community suggestions directly with the creator.</div>
-      </div>
-      <span class="pbc-btn" style="background:#059669;">Connect ↗</span>
-    </a>
-  </div>
-
-  <div class="pbc-quote">
-    “Small daily efforts lead to monumental achievements. Consistency in reading is the cornerstone of linguistic mastery.”
-  </div>
-
-  <div class="pbc-footer">
-    <span>Ez Editorials Publication · Built for Aspirants</span>
-    <span>Edition · ${formattedDateLong}</span>
-  </div>
-</div>`;
-}
+'<!-- BACK COVER -->' +
+'<div class="page cover-page pure-back-cover">' +
+'  <div class="pbc-header">' +
+'    <div class="pbc-tag">Official Knowledge Hubs</div>' +
+'    <div class="pbc-title">STAY CONNECTED &amp; KEEP EXCELLING</div>' +
+'  </div>' +
+'  <div class="pbc-grid">' +
+'    <a href="https://t.me/ezeditorialgroup/3" target="_blank" class="pbc-card">' +
+'      <div>' +
+'        <div class="pbc-card-title"><span>📰</span> Daily Editorials &amp; PDF</div>' +
+'        <div class="pbc-card-desc">Daily editorial passage breakdowns, vocabulary drops, and high-res PDF magazines.</div>' +
+'      </div>' +
+'      <span class="pbc-btn">Join Telegram ↗</span>' +
+'    </a>' +
+'    <a href="https://t.me/EzSSC" target="_blank" class="pbc-card">' +
+'      <div>' +
+'        <div class="pbc-card-title"><span>🎯</span> EzSSC Official</div>' +
+'        <div class="pbc-card-desc">Curated SSC CGL &amp; CHSL quizzes, PYQs, and English speed trials.</div>' +
+'      </div>' +
+'      <span class="pbc-btn">Join Channel ↗</span>' +
+'    </a>' +
+'  </div>' +
+'  <div class="pbc-quote">' +
+'    “Small daily efforts lead to monumental achievements. Consistency in reading is the cornerstone of linguistic mastery.”' +
+'  </div>' +
+'  <div class="pbc-footer">' +
+'    <span>Ez Editorials Publication · Built for Aspirants</span>' +
+'    <span>Edition · ' + formattedDateLong + '</span>' +
+'  </div>' +
+'</div>' +
+'</body>' +
+'</html>';
+        }
 
         window.addEventListener('DOMContentLoaded', initPublication);
     </script>
