@@ -227,7 +227,7 @@ function showLoginOverlay() {
 }
 window.showLoginOverlay = showLoginOverlay;
 
-// Dynamic Auth UI synchronization across navbar, left rail, and cards
+// Dynamic Auth UI synchronization across navbar, mobile header, left rail, and cards
 function syncAuthUI() {
     try {
         const token = localStorage.getItem('ez_session_token');
@@ -238,6 +238,8 @@ function syncAuthUI() {
 
         const deskSignInBtn = document.getElementById('desk-signin-btn');
         const deskAvatarBtn = document.getElementById('desk-avatar-btn');
+        const mobileSignInBtn = document.getElementById('mobile-signin-btn');
+        const mobileAvatarBtn = document.getElementById('mobile-avatar-btn');
         const railLoginBtn = document.getElementById('rail-auth-login-btn');
         const railLogoutBtn = document.getElementById('rail-auth-logout-btn');
         const guestBanner = document.getElementById('guest-home-banner');
@@ -245,6 +247,8 @@ function syncAuthUI() {
         if (isAuthed && activeUser) {
             if (deskSignInBtn) deskSignInBtn.style.display = 'none';
             if (deskAvatarBtn) deskAvatarBtn.style.display = 'flex';
+            if (mobileSignInBtn) mobileSignInBtn.style.display = 'none';
+            if (mobileAvatarBtn) mobileAvatarBtn.style.display = 'flex';
             if (railLoginBtn) railLoginBtn.style.display = 'none';
             if (railLogoutBtn) railLogoutBtn.style.display = 'flex';
             if (guestBanner) guestBanner.style.display = 'none';
@@ -257,6 +261,8 @@ function syncAuthUI() {
         } else {
             if (deskSignInBtn) deskSignInBtn.style.display = 'inline-flex';
             if (deskAvatarBtn) deskAvatarBtn.style.display = 'none';
+            if (mobileSignInBtn) mobileSignInBtn.style.display = 'inline-flex';
+            if (mobileAvatarBtn) mobileAvatarBtn.style.display = 'none';
             if (railLoginBtn) railLoginBtn.style.display = 'flex';
             if (railLogoutBtn) railLogoutBtn.style.display = 'none';
             if (guestBanner) guestBanner.style.display = 'flex';
