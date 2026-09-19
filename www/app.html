@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Ez Editorials App</title>
     
     <!-- 🟢 FORCE MOBILE WEBVIEWS TO NEVER CACHE THE HTML -->
@@ -134,7 +134,7 @@
             padding: 2px 8px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 10.5px;
+            font-size: 11px;
         }
         .streak-card {
             background: #fff7ed;
@@ -326,7 +326,7 @@
             border: none;
             padding: 5px 11px;
             border-radius: 16px;
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 700;
             cursor: pointer;
         }
@@ -616,7 +616,7 @@
         .stat-icon-blue   { background: #e1effe; color: #1c64f2; }
 
         .stat-label-title {
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-muted);
             white-space: nowrap;
@@ -1102,7 +1102,7 @@
             flex-direction: column;
         }
         .cup-hero-tag {
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.6px;
@@ -1110,7 +1110,7 @@
             margin-bottom: 2px;
         }
         .cup-hero-sub-label {
-            font-size: 10px;
+            font-size: 11px;
             color: #cbd5e1;
             font-weight: 500;
         }
@@ -1135,13 +1135,13 @@
             border: 1px solid rgba(192, 132, 252, 0.3);
             padding: 2px 6px;
             border-radius: 10px;
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 700;
             color: #e9d5ff;
             white-space: nowrap;
         }
         .cup-rank-vs-text {
-            font-size: 9.5px;
+            font-size: 11px;
             color: #94a3b8;
             font-weight: 500;
         }
@@ -2132,7 +2132,7 @@
             min-width: 0;
         }
         .pib-tag-label {
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 700;
             color: #6366f1;
             text-transform: uppercase;
@@ -2831,7 +2831,7 @@
             text-align: left;
         }
         .p-metric-label {
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-muted);
             line-height: 1;
@@ -2851,7 +2851,7 @@
             display: inline-block;
             padding: 2px 6px;
             border-radius: 6px;
-            font-size: clamp(8.5px, 2.4vw, 10px);
+            font-size: clamp(11px, 2.4vw, 11.5px);
             font-weight: 700;
             line-height: 1.2;
             white-space: nowrap;
@@ -3493,7 +3493,7 @@
         .p-ico-amber  { background: #fef3c7; color: #d97706; }
 
         .perf-stat-label {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
@@ -3600,7 +3600,7 @@
         .perf-table th {
             color: var(--text-muted);
             font-weight: 700;
-            font-size: 10.5px;
+            font-size: 11px;
             padding-bottom: 6px;
             border-bottom: 1px solid var(--border-light);
         }
@@ -5077,6 +5077,58 @@
             color: #ffffff !important;
         }
 
+        /* ♿ ACCESSIBILITY & HARDENING SAFEGUARDS */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* Accessible Focus Visible Rings for Interactive Controls */
+        .target-exam-pill:focus-visible,
+        .streak-pill:focus-visible,
+        .desk-avatar-btn:focus-visible,
+        .mobile-avatar-btn:focus-visible,
+        .highlight-row:focus-visible,
+        .weekly-cup-card:focus-visible,
+        .cup-live-pill:focus-visible,
+        .cup-view-link:focus-visible,
+        .guest-signin-banner:focus-visible,
+        .p-card-item:focus-visible,
+        .bottom-nav .nav-item:focus-visible,
+        .desktop-nav-brand:focus-visible,
+        .brand-block:focus-visible,
+        .nav-rail-btn:focus-visible,
+        .btn-start-hero:focus-visible {
+            outline: 2px solid var(--brand-blue, #1c64f2) !important;
+            outline-offset: 2px !important;
+        }
+
+        /* Text Overflow & Flex Shrink Hardening */
+        .cup-title-text,
+        .highlight-main-line,
+        .highlight-word,
+        .highlight-meaning,
+        .greeting-title,
+        .timer-header-label,
+        .days-title,
+        .journey-title {
+            min-width: 0;
+            overflow-wrap: break-word;
+        }
+
+        .highlight-word,
+        .highlight-meaning {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
     </style>
 </head>
 <body>
@@ -5166,25 +5218,25 @@
     <!-- 🟢 GLOBAL NAV BAR: Brand | Navigation Links | Target Exam Pill | Daily Streak | Theme Toggle | Profile Avatar -->
     <header class="desktop-navbar">
         <div class="desktop-nav-inner">
-            <div class="desktop-nav-brand" onclick="switchView('view-home')" style="cursor: pointer;">
+            <div class="desktop-nav-brand" role="button" tabindex="0" onclick="switchView('view-home')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-home')" aria-label="Ez Editorials Home" style="cursor: pointer;">
                 <span class="desktop-brand-icon">📚</span>
                 <span class="desktop-brand-title">Ez Editorials</span>
             </div>
             
             <div class="desktop-nav-tools">
-                <div class="target-exam-pill" onclick="openSubModal('targetModalOverlay')" title="Change Target Exam">
+                <div class="target-exam-pill" role="button" tabindex="0" onclick="openSubModal('targetModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('targetModalOverlay')" aria-haspopup="dialog" aria-label="Change Target Exam" title="Change Target Exam">
                     <span>🎯</span> <span id="desk-target-exam-title">Target Exam</span> ▾
                 </div>
-                <div class="streak-pill" title="Daily Streak">
+                <div class="streak-pill" title="Daily Streak" aria-label="Daily Streak">
                     <span>🔥</span> <span id="desk-streak-badge">Streak Active</span>
                 </div>
-                <button class="desktop-tool-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+                <button class="desktop-tool-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode" aria-label="Toggle Dark Mode">
                     <span>🌙</span>
                 </button>
                 <button class="desktop-signin-btn" id="desk-signin-btn" onclick="openExternalLoginOverlay()" title="Sign in with Telegram" style="display:none;">
                     <span>✈️</span> <span>Sign In</span>
                 </button>
-                <div class="desk-avatar-btn" id="desk-avatar-btn" onclick="switchView('view-profile')" title="My Profile" style="display:none;">
+                <div class="desk-avatar-btn" id="desk-avatar-btn" role="button" tabindex="0" onclick="switchView('view-profile')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-profile')" aria-label="My Profile" title="My Profile" style="display:none;">
                     <span>👨‍🎓</span>
                 </div>
             </div>
@@ -5195,7 +5247,7 @@
     <div class="app-layout-root">
         <!-- Left Navigation Rail (Desktop persistent, Mobile hidden) -->
         <aside class="left-nav-rail">
-            <div class="brand-block" onclick="switchView('view-home')">
+            <div class="brand-block" role="button" tabindex="0" onclick="switchView('view-home')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-home')" aria-label="Ez Editorials Home">
                 <span class="brand-icon">📚</span>
                 <span class="brand-name">Ez Editorials</span>
             </div>
@@ -5250,7 +5302,7 @@
                     <span class="theme-toggle-icon">🌙</span>
                 </button>
                 <!-- Right Bell icon (Hooked to Notification Modal) -->
-                <div style="position: relative; cursor:pointer; display:inline-flex; align-items:center;" onclick="openSubModal('notificationModalOverlay')">
+                <div style="position: relative; cursor:pointer; display:inline-flex; align-items:center;" role="button" tabindex="0" onclick="openSubModal('notificationModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('notificationModalOverlay')" aria-label="Notifications" title="Notifications">
                     <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     <div id="header-bell-badge" style="display:none; position:absolute; top:-2px; right:2px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
                 </div>
@@ -5258,7 +5310,7 @@
                 <button type="button" class="mobile-signin-btn" id="mobile-signin-btn" onclick="openExternalLoginOverlay()" title="Sign In">
                     <span>✈️</span> <span>Sign In</span>
                 </button>
-                <div class="mobile-avatar-btn" id="mobile-avatar-btn" onclick="switchView('view-profile')" title="My Profile">
+                <div class="mobile-avatar-btn" id="mobile-avatar-btn" role="button" tabindex="0" onclick="switchView('view-profile')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-profile')" aria-label="My Profile" title="My Profile">
                     <span>👨‍🎓</span>
                 </div>
             </div>
@@ -5276,7 +5328,7 @@
         </div>
 
         <!-- Guest Aspirant Welcome Banner (Visible when logged out) -->
-        <div class="guest-signin-banner" id="guest-home-banner" style="display:none;" onclick="openExternalLoginOverlay()">
+        <div class="guest-signin-banner" id="guest-home-banner" style="display:none;" role="button" tabindex="0" onclick="openExternalLoginOverlay()" onkeydown="if(event.key==='Enter'||event.key===' ')openExternalLoginOverlay()" aria-label="Welcome to Ez Editorials - Sign in to sync quiz attempts">
             <div class="guest-banner-content">
                 <div class="guest-banner-icon">🎓</div>
                 <div class="guest-banner-text">
@@ -5375,7 +5427,7 @@
                 <div class="cup-header-row">
                     <div class="cup-title-group">
                         <span class="cup-trophy-icon">🏆</span>
-                        <h3 class="cup-title-text">Weekly Cup <span class="cup-title-crown">👑</span></h3>
+                        <h2 class="cup-title-text">Weekly Cup <span class="cup-title-crown">👑</span></h2>
                     </div>
                     <button class="cup-live-pill" onclick="switchView('view-cup')">Live Leaderboard</button>
                 </div>
@@ -5415,7 +5467,7 @@
                     <div class="cup-season-meta">
                         🔥 <span id="home-cup-season-text">Season -- • -- Active Challengers</span>
                     </div>
-                    <div class="cup-view-link" onclick="switchView('view-cup')">
+                    <div class="cup-view-link" role="button" tabindex="0" onclick="switchView('view-cup')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-cup')" aria-label="View Leaderboard">
                         View Leaderboard <span>›</span>
                     </div>
                 </div>
@@ -5463,7 +5515,7 @@
                 <div class="days-header-row">
                     <div class="days-title-group">
                         <div class="days-icon-badge">📅</div>
-                        <h3 class="days-title">Weekly Schedule</h3>
+                        <h2 class="days-title">Weekly Schedule</h2>
                     </div>
                     <span class="days-sub-badge" id="days-summary-badge">Day --</span>
                 </div>
@@ -5475,11 +5527,11 @@
 
             <!-- 4. Today's Highlights Card (Row 2 Col 2) -->
             <div class="highlights-section">
-                <h3 class="highlights-title">Daily Study Pillars</h3>
+                <h2 class="highlights-title">Daily Study Pillars</h2>
                 
                 <div class="highlights-card">
                     <!-- 1. Editorial Magazine (Navigates to Magazine View) -->
-                    <div class="highlight-row" onclick="switchView('view-magazine')" style="cursor: pointer;">
+                    <div class="highlight-row" role="button" tabindex="0" onclick="switchView('view-magazine')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-magazine')" aria-label="Read Live Editorial Magazine" style="cursor: pointer;">
                         <div class="highlight-left">
                             <div class="highlight-icon-box hl-purple">📖</div>
                             <div class="highlight-text-content">
@@ -5496,7 +5548,7 @@
                     <div class="highlight-row-divider"></div>
 
                     <!-- 2. Daily Test & Topic Trials (Navigates to Tests) -->
-                    <div class="highlight-row" onclick="switchView('view-day')" style="cursor: pointer;">
+                    <div class="highlight-row" role="button" tabindex="0" onclick="switchView('view-day')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-day')" aria-label="Take Topic Practice Test" style="cursor: pointer;">
                         <div class="highlight-left">
                             <div class="highlight-icon-box hl-green">🎯</div>
                             <div class="highlight-text-content">
@@ -5516,7 +5568,7 @@
         <!-- Continue Your Journey Section (Full width) -->
         <div class="journey-section">
             <div class="journey-header-row">
-                <h3 class="journey-title">Continue Your Journey</h3>
+                <h2 class="journey-title">Continue Your Journey</h2>
                 <button class="journey-view-all" onclick="switchView('view-day')">View All <span>›</span></button>
             </div>
 
@@ -5589,9 +5641,9 @@
     <div id="view-cup" class="view-container">
         <!-- Top Header with Back & Analytics Buttons -->
         <div class="cup-top-header">
-            <div class="cup-header-back-btn" onclick="switchView('view-home')">‹</div>
+            <div class="cup-header-back-btn" role="button" tabindex="0" onclick="switchView('view-home')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-home')" aria-label="Back to Home">‹</div>
             <span class="cup-header-title">Weekly Cup</span>
-            <div class="cup-analytics-btn" onclick="openProfile(appUserId)">
+            <div class="cup-analytics-btn" role="button" tabindex="0" onclick="openProfile(appUserId)" onkeydown="if(event.key==='Enter'||event.key===' ')openProfile(appUserId)" aria-label="Open User Analytics">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="20" x2="18" y2="10"></line>
                     <line x1="12" y1="20" x2="12" y2="4"></line>
@@ -5902,7 +5954,7 @@
         <div class="profile-top-header">
             <span style="width: 38px;"></span>
             <span class="profile-header-title">Profile</span>
-            <div class="profile-settings-btn" onclick="openSubModal('settingsModalOverlay')">
+            <div class="profile-settings-btn" role="button" tabindex="0" onclick="openSubModal('settingsModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('settingsModalOverlay')" aria-label="Settings">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="3"></circle>
                     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
@@ -5922,7 +5974,7 @@
                                 <div class="avatar" id="avatar-initial" style="width: 100%; height: 100%; font-size: 30px; margin: 0;">P</div>
                             </div>
                             <!-- Pencil Icon button to update target exam/state -->
-                            <div class="avatar-edit-badge" onclick="openSubModal('targetModalOverlay')">
+                            <div class="avatar-edit-badge" role="button" tabindex="0" onclick="openSubModal('targetModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('targetModalOverlay')" aria-label="Change target exam">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M12 20h9"></path>
                                     <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
@@ -5992,7 +6044,7 @@
                 </div>
 
                 <!-- Profile Bottom Motivation & Percentile Banner -->
-                <div class="profile-bottom-banner" onclick="switchView('view-cup')">
+                <div class="profile-bottom-banner" role="button" tabindex="0" onclick="switchView('view-cup')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-cup')" aria-label="Weekly Cup ranking and progress">
                     <div class="pb-badge-icon">
                         <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <!-- Ribbon -->
@@ -6030,19 +6082,19 @@
                 <!-- Profile Menu Card -->
                 <div class="profile-menu-card">
                     <!-- 1. Detailed Performance -->
-                    <div class="p-card-item" onclick="openProfile(appUserId)">
+                    <div class="p-card-item" role="button" tabindex="0" onclick="openProfile(appUserId)" onkeydown="if(event.key==='Enter'||event.key===' ')openProfile(appUserId)" aria-label="Detailed Performance">
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-purple">📊</div>
                             <div class="p-item-text">
                                 <div class="p-item-title">Detailed Performance</div>
-                                <div class="p-item-sub">Analyze your accuracy, attempts & growth</div>
+                                <div class="p-item-sub">Analyze your accuracy, attempts &amp; growth</div>
                             </div>
                         </div>
                         <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
 
                     <!-- 2. Toppers' Rankings -->
-                    <div class="p-card-item" onclick="openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();">
+                    <div class="p-card-item" role="button" tabindex="0" onclick="openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();" onkeydown="if(event.key==='Enter'||event.key===' '){openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();}" aria-label="Toppers' Rankings">
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-amber">👑</div>
                             <div class="p-item-text">
@@ -6054,23 +6106,23 @@
                     </div>
 
                     <!-- 3. Weekly-Cup Results (Archive) -->
-                    <div class="p-card-item" onclick="openSubModal('archiveModalOverlay')">
+                    <div class="p-card-item" role="button" tabindex="0" onclick="openSubModal('archiveModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('archiveModalOverlay')" aria-label="Weekly-Cup Results Archive">
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-green">📜</div>
                             <div class="p-item-text">
                                 <div class="p-item-title">Weekly-Cup Results (Archive)</div>
-                                <div class="p-item-sub">View past results & your journey</div>
+                                <div class="p-item-sub">View past results &amp; your journey</div>
                             </div>
                         </div>
                         <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
 
                     <!-- 4. Guide: Scoring, Leagues & Elo -->
-                    <div class="p-card-item" onclick="openSubModal('guideModalOverlay')">
+                    <div class="p-card-item" role="button" tabindex="0" onclick="openSubModal('guideModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('guideModalOverlay')" aria-label="Guide: Scoring, Leagues &amp; Elo">
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-blue">ℹ️</div>
                             <div class="p-item-text">
-                                <div class="p-item-title">Guide: Scoring, Leagues & Elo</div>
+                                <div class="p-item-title">Guide: Scoring, Leagues &amp; Elo</div>
                                 <div class="p-item-sub">Understand how everything works</div>
                             </div>
                         </div>
@@ -6078,7 +6130,7 @@
                     </div>
 
                     <!-- 6. Upcoming Exams -->
-                    <div class="p-card-item" onclick="openSubModal('examsModalOverlay')">
+                    <div class="p-card-item" role="button" tabindex="0" onclick="openSubModal('examsModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('examsModalOverlay')" aria-label="Upcoming Exams">
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-rose">📅</div>
                             <div class="p-item-text">
@@ -6090,19 +6142,19 @@
                     </div>
 
                     <!-- 7. Bookmarks -->
-                    <div class="p-card-item" onclick="alert('Bookmarks feature coming soon!')">
+                    <div class="p-card-item" role="button" tabindex="0" onclick="showQuizToast('Bookmarks feature coming soon!')" onkeydown="if(event.key==='Enter'||event.key===' ')showQuizToast('Bookmarks feature coming soon!')" aria-label="Bookmarks">
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-yellow">🔖</div>
                             <div class="p-item-text">
                                 <div class="p-item-title">Bookmarks</div>
-                                <div class="p-item-sub">Your saved words, articles & insights</div>
+                                <div class="p-item-sub">Your saved words, articles &amp; insights</div>
                             </div>
                         </div>
                         <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
 
                     <!-- 8. Privacy -->
-                    <div class="p-card-item" onclick="window.location.href='privacy.html'">
+                    <div class="p-card-item" role="button" tabindex="0" onclick="window.location.href='privacy.html'" onkeydown="if(event.key==='Enter'||event.key===' ')window.location.href='privacy.html'" aria-label="Privacy Policy">
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-teal">🛡️</div>
                             <div class="p-item-text">
@@ -6114,19 +6166,19 @@
                     </div>
 
                     <!-- 9. Help & Support -->
-                    <div class="p-card-item" onclick="openExternalTelegramLink('https://t.me/ezeditorialgroup/12103')">
+                    <div class="p-card-item" role="button" tabindex="0" onclick="openExternalTelegramLink('https://t.me/ezeditorialgroup/12103')" onkeydown="if(event.key==='Enter'||event.key===' ')openExternalTelegramLink('https://t.me/ezeditorialgroup/12103')" aria-label="Help and Support">
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-sky">💬</div>
                             <div class="p-item-text">
-                                <div class="p-item-title">Help & Support</div>
-                                <div class="p-item-sub">Join community & get quick support</div>
+                                <div class="p-item-title">Help &amp; Support</div>
+                                <div class="p-item-sub">Join community &amp; get quick support</div>
                             </div>
                         </div>
                         <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
 
                     <!-- 10. Log Out -->
-                    <div class="p-card-item" onclick="logOut()" style="border-top: 1px solid var(--border-light); margin-top: 4px;">
+                    <div class="p-card-item" role="button" tabindex="0" onclick="logOut()" onkeydown="if(event.key==='Enter'||event.key===' ')logOut()" aria-label="Log Out" style="border-top: 1px solid var(--border-light); margin-top: 4px;">
                         <div class="p-item-left">
                             <div class="p-item-icon-box" style="background:#fee2e2; color:#dc2626;">🚪</div>
                             <div class="p-item-text">
@@ -6504,7 +6556,7 @@
             </div>
 
             <!-- 2. Target Exam Countdowns -->
-            <div class="rail-card exam-countdown-widget" onclick="openSubModal('examsModalOverlay')">
+            <div class="rail-card exam-countdown-widget" role="button" tabindex="0" onclick="openSubModal('examsModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('examsModalOverlay')" aria-label="Upcoming Exams and countdowns">
                 <div class="rail-card-header">
                     <span class="rail-card-title">📅 Target Exam</span>
                     <span class="rail-link-btn">All Exams ›</span>
@@ -6514,7 +6566,7 @@
             </div>
 
             <!-- 3. Daily Editorial Magazine Widget -->
-            <div class="rail-card wotd-widget" onclick="switchView('view-magazine')">
+            <div class="rail-card wotd-widget" role="button" tabindex="0" onclick="switchView('view-magazine')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-magazine')" aria-label="Read Editorial Magazine">
                 <div class="rail-card-header">
                     <span class="rail-card-title">📖 Editorial Magazine</span>
                     <span class="rail-badge">Today</span>
@@ -6525,7 +6577,7 @@
 
             <!-- 4. Persistent Weekly Schedule Widget -->
             <div class="rail-card calendar-rail-widget" id="rail-calendar-widget">
-                <div class="rail-card-header" style="cursor: pointer;" onclick="openSubModal('calendarModalOverlay')">
+                <div class="rail-card-header" style="cursor: pointer;" role="button" tabindex="0" onclick="openSubModal('calendarModalOverlay')" onkeydown="if(event.key==='Enter'||event.key===' ')openSubModal('calendarModalOverlay')" aria-label="Open Weekly Calendar Schedule">
                     <span class="rail-card-title">📅 Weekly Schedule</span>
                     <span class="rail-link-btn">All Days ›</span>
                 </div>
@@ -6764,24 +6816,24 @@
          BOTTOM NAVIGATION BAR (Master Spec: 5 Tabs)
          ========================================== -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchView('view-home')" id="nav-home">
+        <div class="nav-item active" role="button" tabindex="0" onclick="switchView('view-home')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-home')" aria-label="Home tab" id="nav-home">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
             <span>Home</span>
         </div>
-        <div class="nav-item" onclick="switchView('view-magazine')" id="nav-magazine" style="position: relative;">
+        <div class="nav-item" role="button" tabindex="0" onclick="switchView('view-magazine')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-magazine')" aria-label="Magazine tab" id="nav-magazine" style="position: relative;">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
             <span>Magazine</span>
             <div id="mag-badge" style="display:none; position:absolute; top:-2px; right:12px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
         </div>
-        <div class="nav-item" onclick="switchView('view-day')" id="nav-day">
+        <div class="nav-item" role="button" tabindex="0" onclick="switchView('view-day')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-day')" aria-label="Tests tab" id="nav-day">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
             <span>Tests</span>
         </div>
-        <div class="nav-item" onclick="switchView('view-cup')" id="nav-cup">
+        <div class="nav-item" role="button" tabindex="0" onclick="switchView('view-cup')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-cup')" aria-label="Rankings tab" id="nav-cup">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10M5 4h14a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8V6a2 2 0 0 1 2-2z"></path></svg>
             <span>Rankings</span>
         </div>
-        <div class="nav-item" onclick="switchView('view-profile')" id="nav-profile">
+        <div class="nav-item" role="button" tabindex="0" onclick="switchView('view-profile')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-profile')" aria-label="Profile tab" id="nav-profile">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             <span>Profile</span>
         </div>
@@ -7099,7 +7151,7 @@
         const avatarContainer = document.getElementById('avatar-initial');
         if (avatarContainer) {
             if (photoUrl) {
-                avatarContainer.innerHTML = `<img src="${photoUrl}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;">`;
+                avatarContainer.innerHTML = `<img src="${photoUrl}" alt="Profile avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;">`;
                 avatarContainer.style.background = 'transparent';
             } else {
                 avatarContainer.innerText = firstName.charAt(0).toUpperCase();
@@ -8070,7 +8122,8 @@
                 const bgGrad = avatarGradients[charCode % avatarGradients.length];
 
                 if (imgUrl) {
-                    return `<img src="${imgUrl}" class="${customClass}" onerror="this.outerHTML='<div class=\\'${customClass}\\' style=\\'background:${bgGrad}; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800;\\'>${nameChar}</div>'">`;
+                    const safeName = (u.name || 'Student').replace(/"/g, '&quot;');
+                    return `<img src="${imgUrl}" alt="${safeName}'s avatar" class="${customClass}" onerror="this.outerHTML='<div class=\\'${customClass}\\' style=\\'background:${bgGrad}; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800;\\'>${nameChar}</div>'">`;
                 }
                 return `<div class="${customClass}" style="background:${bgGrad}; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800;">${nameChar}</div>`;
             }
