@@ -5304,14 +5304,20 @@
                 <button class="nav-rail-btn" id="rail-nav-vocab" onclick="switchView('view-vocab')">
                     <span>📚</span> Vocabulary Lab
                 </button>
+                <button class="nav-rail-btn" id="rail-nav-practice" onclick="switchView('view-practice')">
+                    <span>⚡</span> English Practice
+                </button>
                 <button class="nav-rail-btn" id="rail-nav-day" onclick="switchView('view-day')">
-                    <span>🎯</span> Practice &amp; Trials
+                    <span>📝</span> Mock Tests
                 </button>
                 <button class="nav-rail-btn" id="rail-nav-cup" onclick="switchView('view-cup')">
                     <span>🏆</span> Rankings &amp; Cup
                 </button>
                 <button class="nav-rail-btn" id="rail-nav-progress" onclick="switchView('view-progress')">
                     <span>📈</span> Analytics &amp; Progress
+                </button>
+                <button class="nav-rail-btn" id="rail-nav-profile" onclick="switchView('view-profile')">
+                    <span>👨‍🎓</span> Student Profile
                 </button>
                 <button class="nav-rail-btn" onclick="openSearchModal()">
                     <span>🔍</span> Search &amp; Archives
@@ -5385,258 +5391,195 @@
             <button class="guest-banner-btn" type="button">Sign In ✈️</button>
         </div>
 
-        <!-- 3D Hourglass Timer Card -->
-        <div class="timer-hero-card">
-            <div class="timer-flex-layout">
-                <div class="timer-left-content">
-                    <div class="timer-header-label">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                        <span id="home-timer-label">Time Left Today</span>
-                    </div>
-                    
-                    <div class="timer-digits-val" id="home-timer">00 : 00 : 00</div>
-                    
-                    <div class="timer-sub-labels">
-                        <span>HRS</span>
-                        <span>MIN</span>
-                        <span>SEC</span>
-                    </div>
-                    
-                    <div class="daily-goal-track">
-                        <div class="daily-goal-fill" id="daily-goal-fill" style="width: 100%; transform: scaleX(0);"></div>
-                    </div>
-                    <div class="daily-goal-text" id="daily-goal-text">0% of daily goal completed</div>
-                </div>
-
-                <!-- Scaled 3D Glowing Hourglass Vector -->
-                <div class="timer-illustration-wrap">
-                    <div class="hourglass-glow-bg"></div>
-                    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(8deg);">
-                        <!-- Sparkles -->
-                        <path d="M20 34L22 26L30 28L22 30L20 38L18 30L10 28L18 26L20 34Z" fill="#a855f7" opacity="0.6"/>
-                        <path d="M104 74L105.5 68L111.5 69.5L105.5 71L104 77L102.5 71L96.5 69.5L102.5 68L104 74Z" fill="#fbbf24" opacity="0.8"/>
-                        <circle cx="106" cy="34" r="2.5" fill="#c084fc" opacity="0.7"/>
-                        <!-- Pedestal Glow Shadow -->
-                        <ellipse cx="60" cy="104" rx="38" ry="9" fill="rgba(28, 100, 242, 0.12)"/>
-                        <!-- Bottom Gold Base -->
-                        <ellipse cx="60" cy="94" rx="26" ry="7" fill="#eab308"/>
-                        <path d="M34 94C34 94 37 98 60 98C83 98 86 94 86 94V91C86 91 83 95 60 95C37 95 34 91 34 91V94Z" fill="#ca8a04"/>
-                        <ellipse cx="60" cy="91" rx="26" ry="7" fill="#fde047"/>
-                        <!-- Top Gold Cap -->
-                        <ellipse cx="60" cy="24" rx="26" ry="7" fill="#eab308"/>
-                        <path d="M34 24C34 24 37 28 60 28C83 28 86 24 86 24V21C86 21 83 25 60 25C37 25 34 21 34 21V24Z" fill="#ca8a04"/>
-                        <ellipse cx="60" cy="21" rx="26" ry="7" fill="#fde047"/>
-                        <!-- Glass Body -->
-                        <path d="M38 24C40 46 54 54 57 58C54 62 40 70 38 92H82C80 70 66 62 63 58C66 54 80 46 82 24H38Z" fill="url(#glassGrad)" fill-opacity="0.38" stroke="url(#glassStroke)" stroke-width="2"/>
-                        <!-- Sand Bottom Chamber -->
-                        <path d="M41 89C42 76 53 71 58 68C63 71 74 76 75 89H41Z" fill="url(#sandGrad)"/>
-                        <!-- Sand Stream -->
-                        <path d="M58.5 54V76H61.5V54H58.5Z" fill="#d97706" opacity="0.8"/>
-                        <!-- Sand Top Chamber -->
-                        <path d="M43 32C45 42 53 47 57 50C63 50 71 45 73 32H43Z" fill="url(#sandGrad)"/>
-                        <!-- Glass Reflections -->
-                        <path d="M44 28C43 45 52 52 54 55" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
-                        <path d="M44 87C43 75 51 68 53 65" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
-                        <defs>
-                            <linearGradient id="glassGrad" x1="38" y1="24" x2="82" y2="92" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#c084fc"/>
-                                <stop offset="0.5" stop-color="#818cf8"/>
-                                <stop offset="1" stop-color="#a855f7"/>
-                            </linearGradient>
-                            <linearGradient id="glassStroke" x1="38" y1="24" x2="82" y2="92" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#e9d5ff"/>
-                                <stop offset="1" stop-color="#a855f7"/>
-                            </linearGradient>
-                            <linearGradient id="sandGrad" x1="41" y1="32" x2="75" y2="89" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#f59e0b"/>
-                                <stop offset="1" stop-color="#d97706"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
+        <!-- 🏛️ DAILY RITUAL BAROMETER (4-Step Flow) -->
+        <div class="sanctum-ritual-stepper" aria-label="Daily Study Ritual">
+            <div class="sanctum-step-card" onclick="switchView('view-magazine')" title="Step 1: Read Today's Editorials">
+                <div class="sanctum-step-icon">📖</div>
+                <div class="sanctum-step-info">
+                    <span class="sanctum-step-number">Step 1 • Ingestion</span>
+                    <span class="sanctum-step-name">Daily Editorials</span>
                 </div>
             </div>
-
-            <!-- Start Day Button -->
-            <button class="btn-start-hero" id="btn-start-hero" onclick="switchView('view-day')">
-                Start Daily Practice 〉
-            </button>
-        </div>
-
-        <!-- Home Stat Cards Grid (Tablet 2-col, Desktop 2-col, Mobile flex-col) -->
-        <div class="home-stat-grid">
-            <!-- 1. Weekly Cup Card (Row 1 Col 1) -->
-            <div class="weekly-cup-card">
-                <!-- Header Row -->
-                <div class="cup-header-row">
-                    <div class="cup-title-group">
-                        <span class="cup-trophy-icon">🏆</span>
-                        <h2 class="cup-title-text">Weekly Cup <span class="cup-title-crown">👑</span></h2>
-                    </div>
-                    <button class="cup-live-pill" onclick="switchView('view-cup')">Live Leaderboard</button>
-                </div>
-
-                <!-- Metrics Row (Rank Pill, Score, Percentile) -->
-                <div class="cup-metrics-flex">
-                    <!-- Rank Pill Box -->
-                    <div class="cup-rank-pill-box">
-                        <div class="cup-rank-label">Rank</div>
-                        <div class="cup-rank-number" id="home-rank">#--</div>
-                    </div>
-
-                    <div class="cup-metric-divider"></div>
-
-                    <!-- Score Box -->
-                    <div class="cup-score-box">
-                        <div class="cup-score-label">Score</div>
-                        <div class="cup-score-number" id="home-score">--</div>
-                    </div>
-
-                    <div class="cup-metric-divider"></div>
-
-                    <!-- Percentile Box (Maintained % functionality) -->
-                    <div class="cup-pct-box">
-                        <div class="cup-pct-number" id="home-top-pct">Top --%</div>
-                        <div class="cup-pct-subtext" id="home-top-msg">Keep pushing! 💪</div>
-                    </div>
-                </div>
-
-                <!-- Cup Progress Bar -->
-                <div class="cup-progress-track">
-                    <div class="cup-progress-fill" id="home-cup-progress-fill" style="width: 100%; transform: scaleX(0);"></div>
-                </div>
-
-                <!-- Footer Row: Season Meta & View Link -->
-                <div class="cup-footer-row">
-                    <div class="cup-season-meta">
-                        🔥 <span id="home-cup-season-text">Season -- • -- Active Challengers</span>
-                    </div>
-                    <div class="cup-view-link" role="button" tabindex="0" onclick="switchView('view-cup')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-cup')" aria-label="View Leaderboard">
-                        View Leaderboard <span>›</span>
-                    </div>
+            <div class="sanctum-step-card" onclick="switchView('view-vocab')" title="Step 2: Master Editorial Vocabulary">
+                <div class="sanctum-step-icon">📚</div>
+                <div class="sanctum-step-info">
+                    <span class="sanctum-step-number">Step 2 • Lexical</span>
+                    <span class="sanctum-step-name">Vocabulary Lab</span>
                 </div>
             </div>
-
-            <!-- 2. Daily Activity & Study Time Stats Card (Row 1 Col 2) -->
-            <div class="daily-stats-card">
-                <div class="daily-stats-grid">
-                    <!-- 1. Quizzes -->
-                    <div class="stat-item-col">
-                        <div class="stat-icon-wrap stat-icon-purple">📄</div>
-                        <div class="stat-label-title">Quizzes</div>
-                        <div class="stat-main-number" id="stat-today-quizzes">0</div>
-                        <div class="stat-sub-caption">Today</div>
-                    </div>
-
-                    <!-- 2. Accuracy -->
-                    <div class="stat-item-col">
-                        <div class="stat-icon-wrap stat-icon-green">🎯</div>
-                        <div class="stat-label-title">Accuracy</div>
-                        <div class="stat-main-number" id="stat-today-accuracy">--%</div>
-                        <div class="stat-sub-caption">Today</div>
-                    </div>
-
-                    <!-- 3. Best Streak -->
-                    <div class="stat-item-col">
-                        <div class="stat-icon-wrap stat-icon-orange">🔥</div>
-                        <div class="stat-label-title">Streak</div>
-                        <div class="stat-main-number" id="stat-best-streak">Soon</div>
-                        <div class="stat-sub-caption">Days</div>
-                    </div>
-
-                    <!-- 4. Study Time -->
-                    <div class="stat-item-col">
-                        <div class="stat-icon-wrap stat-icon-blue">⏱</div>
-                        <div class="stat-label-title">Study Time</div>
-                        <div class="stat-main-number" id="stat-today-study-time">0m</div>
-                        <div class="stat-sub-caption">Today</div>
-                    </div>
+            <div class="sanctum-step-card" onclick="switchView('view-practice')" title="Step 3: Rapid Error & Grammar Drills">
+                <div class="sanctum-step-icon">⚡</div>
+                <div class="sanctum-step-info">
+                    <span class="sanctum-step-number">Step 3 • Drills</span>
+                    <span class="sanctum-step-name">English Practice</span>
                 </div>
             </div>
-
-            <!-- 3. Days Timeline Card Section (Row 2 Col 1) -->
-            <div class="days-tracker-card">
-                <div class="days-header-row">
-                    <div class="days-title-group">
-                        <div class="days-icon-badge">📅</div>
-                        <h2 class="days-title">Weekly Schedule</h2>
-                    </div>
-                    <span class="days-sub-badge" id="days-summary-badge">Day --</span>
-                </div>
-                
-                <div class="days-row">
-                    <!-- Dynamically populated by updateDynamicTracker() -->
-                </div>
-            </div>
-
-            <!-- 4. Today's Highlights Card (Row 2 Col 2) -->
-            <div class="highlights-section">
-                <h2 class="highlights-title">Daily Study Pillars</h2>
-                
-                <div class="highlights-card">
-                    <!-- 1. Editorial Magazine (Navigates to Magazine View) -->
-                    <div class="highlight-row" role="button" tabindex="0" onclick="switchView('view-magazine')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-magazine')" aria-label="Read Live Editorial Magazine" style="cursor: pointer;">
-                        <div class="highlight-left">
-                            <div class="highlight-icon-box hl-purple">📖</div>
-                            <div class="highlight-text-content">
-                                <div class="highlight-tag">📰 Live Editorial Magazine</div>
-                                <div class="highlight-main-line">
-                                    <span class="highlight-word" id="hl-mag-title">Today's Digital Edition</span>
-                                    <span class="highlight-meaning">Evidence Lens &amp; Vocab Lab</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="highlight-arrow">›</div>
-                    </div>
-
-                    <div class="highlight-row-divider"></div>
-
-                    <!-- 2. Daily Test & Topic Trials (Navigates to Tests) -->
-                    <div class="highlight-row" role="button" tabindex="0" onclick="switchView('view-day')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-day')" aria-label="Take Topic Practice Test" style="cursor: pointer;">
-                        <div class="highlight-left">
-                            <div class="highlight-icon-box hl-green">🎯</div>
-                            <div class="highlight-text-content">
-                                <div class="highlight-tag">📝 Daily Test &amp; Trials</div>
-                                <div class="highlight-main-line">
-                                    <span class="highlight-word">Topic Practice Test</span>
-                                    <span class="highlight-meaning">Solve 10 questions &amp; climb rank</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="highlight-arrow">›</div>
-                    </div>
+            <div class="sanctum-step-card" onclick="switchView('view-day')" title="Step 4: Take Daily CBT Mock Test">
+                <div class="sanctum-step-icon">🎯</div>
+                <div class="sanctum-step-info">
+                    <span class="sanctum-step-number">Step 4 • Validation</span>
+                    <span class="sanctum-step-name">Mock Tests</span>
                 </div>
             </div>
         </div>
 
-        <!-- Continue Your Journey Section (Full width) -->
-        <div class="journey-section">
-            <div class="journey-header-row">
-                <h2 class="journey-title">Continue Your Journey</h2>
-                <button class="journey-view-all" onclick="switchView('view-day')">View All <span>›</span></button>
+        <!-- 📰 TODAY'S EDITORIAL READING SPOTLIGHT -->
+        <div class="sanctum-spotlight-card">
+            <div class="sanctum-spotlight-meta">
+                <span class="mag-source-pill" style="font-size:11px; font-weight:800; background:var(--brand-light, #eff6ff); color:var(--brand-blue, #1c64f2); padding:3px 9px; border-radius:9999px;">THE HINDU • EDITORIAL</span>
+                <span class="mag-topic-pill" style="font-size:11px; font-weight:700; background:var(--bg-subtle); color:var(--text-muted); padding:3px 8px; border-radius:9999px;">Polity &amp; Economy</span>
+                <span style="font-size:11px; color:var(--text-subtle); margin-left:auto;">⏱ ~4.5 mins read</span>
+            </div>
+            <h2 class="sanctum-spotlight-title" id="hl-mag-title">Fiscal Trajectory, Inflation Dynamics &amp; Reform Imperatives</h2>
+            <p class="sanctum-spotlight-excerpt">
+                A rigorous editorial deconstruction of macroeconomic targets, statutory reserve parameters, and monetary transmission mechanisms with integrated quantitative Evidence Lens highlights.
+            </p>
+            <div class="sanctum-spotlight-footer">
+                <div class="sanctum-stats-pills">
+                    <span>📊 <strong>680</strong> Words</span>
+                    <span>•</span>
+                    <span>🔬 <strong>18</strong> Quantitative Metrics</span>
+                    <span>•</span>
+                    <span>💡 <strong>14</strong> High-Yield Terms</span>
+                </div>
+                <button type="button" class="btn-primary" onclick="switchView('view-magazine')" style="padding:9px 18px; border-radius:8px; font-weight:700; font-size:13px; display:inline-flex; align-items:center; gap:6px; cursor:pointer; background:var(--brand-blue); color:#fff; border:none;">
+                    <span>📖 Deep Read with Evidence Lens</span> <span>›</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ⚡ 2-COLUMN STUDY WORKSTATION (Lexical Anchor + English Speed Challenge) -->
+        <div class="home-stat-grid" style="margin-bottom: var(--space-base, 16px);">
+            <!-- Left: Word of the Day Lexical Anchor -->
+            <div class="dash-card" style="padding: 20px; border-radius: var(--radius-base, 12px); background: var(--bg-card); border: 1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                        <span style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--cat-vocab, #0f766e); background:var(--cat-vocab-bg, #ccfbf1); padding:2px 8px; border-radius:4px;">⭐ Lexical Anchor</span>
+                        <span style="font-size:12px; color:var(--text-muted); font-weight:600;">Word of the Day</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+                        <h3 id="home-wotd" style="font-size:22px; font-weight:800; color:var(--text-main); margin:0;">Epistemic</h3>
+                        <span style="font-size:11px; font-weight:700; color:var(--text-muted); background:var(--bg-subtle); padding:2px 6px; border-radius:4px;">adj.</span>
+                    </div>
+                    <div style="font-size:13px; color:var(--brand-blue); font-weight:700; margin-bottom:8px;">
+                        हिंदी अर्थ: ज्ञानात्मक / ज्ञान-संबंधी
+                    </div>
+                    <p style="font-size:13px; color:var(--text-muted); line-height:1.5; margin:0 0 12px 0;">
+                        Relating to knowledge or to the degree of its validation. <em>"The policy debate suffered from a profound epistemic uncertainty."</em>
+                    </p>
+                </div>
+                <div style="display:flex; gap:8px; border-top:1px solid var(--border-light); padding-top:12px;">
+                    <button type="button" onclick="switchView('view-vocab')" style="flex:1; padding:8px 12px; border-radius:6px; background:var(--brand-light); border:1px solid var(--border-color); color:var(--brand-blue); font-size:12px; font-weight:700; cursor:pointer;">
+                        📚 Open Vocab Lab
+                    </button>
+                    <button type="button" onclick="switchView('view-practice'); setPracticeCategory('vocab');" style="flex:1; padding:8px 12px; border-radius:6px; background:var(--cat-vocab-bg); border:1px solid var(--cat-vocab-border); color:var(--cat-vocab); font-size:12px; font-weight:700; cursor:pointer;">
+                        ⚡ Drill Word
+                    </button>
+                </div>
             </div>
 
-            <div class="journey-scroll-container" id="journey-cards-container">
-                <!-- Dynamically rendered by updateJourneySection() -->
+            <!-- Right: Today's English Speed Practice Challenge -->
+            <div class="dash-card" style="padding: 20px; border-radius: var(--radius-base, 12px); background: var(--bg-card); border: 1px solid var(--border-color); display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                        <span style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--brand-red); background:var(--color-danger-bg); padding:2px 8px; border-radius:4px;">⚡ Daily Speed Challenge</span>
+                        <span style="font-size:12px; color:var(--text-muted); font-weight:600;">15s Pace</span>
+                    </div>
+                    <h3 style="font-size:18px; font-weight:800; color:var(--text-main); margin:0 0 6px 0;">
+                        Error Detection &amp; Inversion Traps
+                    </h3>
+                    <p style="font-size:13px; color:var(--text-muted); line-height:1.5; margin:0 0 12px 0;">
+                        High-frequency SBI &amp; IBPS PO patterns: Subject-Verb agreement, negative adverb inversion (*Hardly had he...*), and prepositional idioms.
+                    </p>
+                    <div style="display:flex; gap:12px; font-size:12px; color:var(--text-subtle); margin-bottom:12px;">
+                        <span>📝 <strong>10</strong> Timed Questions</span>
+                        <span>•</span>
+                        <span>⚡ <strong>15s</strong> Per Question</span>
+                        <span>•</span>
+                        <span>💡 Instant Hack</span>
+                    </div>
+                </div>
+                <div style="display:flex; gap:8px; border-top:1px solid var(--border-light); padding-top:12px;">
+                    <button type="button" onclick="switchView('view-practice'); setPracticeCategory('error');" style="flex:1; padding:8px 14px; border-radius:6px; background:var(--brand-red); border:none; color:#ffffff; font-size:13px; font-weight:700; cursor:pointer; box-shadow:var(--shadow-sm);">
+                        ⚡ Launch Speed Drill ›
+                    </button>
+                </div>
             </div>
+        </div>
+
+        <!-- 🏆 NATIONAL STANDINGS & EXAM READINESS BAROMETER -->
+        <div class="weekly-cup-card" style="margin-bottom: var(--space-base, 16px);">
+            <div class="cup-header-row">
+                <div class="cup-title-group">
+                    <span class="cup-trophy-icon">🏆</span>
+                    <h2 class="cup-title-text">Weekly Cup &amp; National Standings <span class="cup-title-crown">👑</span></h2>
+                </div>
+                <button class="cup-live-pill" onclick="switchView('view-cup')">Live Leaderboard</button>
+            </div>
+
+            <div class="cup-metrics-flex">
+                <div class="cup-rank-pill-box">
+                    <div class="cup-rank-label">Rank</div>
+                    <div class="cup-rank-number" id="home-rank">#--</div>
+                </div>
+                <div class="cup-metric-divider"></div>
+                <div class="cup-score-box">
+                    <div class="cup-score-label">ELO Score</div>
+                    <div class="cup-score-number" id="home-score">--</div>
+                </div>
+                <div class="cup-metric-divider"></div>
+                <div class="cup-pct-box">
+                    <div class="cup-pct-number" id="home-top-pct">Top --%</div>
+                    <div class="cup-pct-subtext" id="home-top-msg">Keep pushing! 💪</div>
+                </div>
+            </div>
+
+            <div class="cup-progress-track">
+                <div class="cup-progress-fill" id="home-cup-progress-fill" style="width: 100%; transform: scaleX(0);"></div>
+            </div>
+
+            <div class="cup-footer-row">
+                <div class="cup-season-meta">
+                    🔥 <span id="home-cup-season-text">Season Active • Aspirants Competing</span>
+                </div>
+                <div class="cup-view-link" role="button" tabindex="0" onclick="switchView('view-cup')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-cup')" aria-label="View Leaderboard">
+                    View Full Standings <span>›</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hidden Preservation Elements for Background Sync Engines -->
+        <div style="display:none;" aria-hidden="true">
+            <span id="home-timer-label">Time Left Today</span>
+            <span id="home-timer">00 : 00 : 00</span>
+            <span id="detail-timer">00 : 00 : 00</span>
+            <div id="daily-goal-fill"></div>
+            <div id="daily-goal-text"></div>
+            <button id="btn-start-hero" onclick="switchView('view-day')"></button>
+            <div id="stat-today-quizzes">0</div>
+            <div id="stat-today-accuracy">--%</div>
+            <div id="stat-best-streak">0</div>
+            <div id="stat-today-study-time">0m</div>
+            <div class="days-row"></div>
+            <span id="days-summary-badge">Day 1</span>
+            <div id="journey-cards-container"></div>
+            <div id="home-exams-list"></div>
         </div>
     </div>
 
 
     <!-- ==========================================
-         VIEW 2: DAY DETAILS (Topic List)
+         VIEW 2: MOCK TESTS & CBT TRIALS
          ========================================== -->
     <div id="view-day" class="view-container">
-        <!-- Dedicated Day View Navigation Header (Desktop & Mobile) -->
+        <!-- Dedicated Mock Tests View Navigation Header (Desktop & Mobile) -->
         <div class="day-view-nav-box">
             <div class="day-view-nav-top-row">
                 <div class="day-view-title-group">
-                    <span class="day-view-calendar-icon">📅</span>
+                    <span class="day-view-calendar-icon">📝</span>
                     <div>
-                        <h2 class="day-view-heading" id="day-view-heading-text">Day Practice</h2>
-                        <span class="day-view-subtext" id="day-view-subtext-date">Weekly Practice Schedule</span>
+                        <h2 class="day-view-heading" id="day-view-heading-text">Mock Tests &amp; CBT Trials</h2>
+                        <span class="day-view-subtext" id="day-view-subtext-date">SBI PO • IBPS PO • SSC CGL Pattern (+1.0 / -0.25)</span>
                     </div>
                 </div>
 
@@ -6720,6 +6663,192 @@
             </div>
         </div>
     </div>
+
+    <!-- ==========================================
+         VIEW 9: ENGLISH PRACTICE (Exam Laboratory)
+         ========================================== -->
+    <div id="view-practice" class="view-container">
+        <!-- Top Header Bar (Mobile) -->
+        <div class="top-header">
+            <button class="back-btn" onclick="switchView('view-home')" style="background:none; border:none; font-size:24px; color:var(--text-main); cursor:pointer; padding:0 8px;">‹</button>
+            <span class="font-bold">English Practice</span>
+            <span class="magazine-badge" id="practice-mobile-badge" style="background:var(--brand-red); color:#fff;">Speed Lab</span>
+        </div>
+
+        <div class="practice-container">
+            <!-- Header Strip with Mode Switcher & Mute -->
+            <div class="practice-header-strip">
+                <div class="practice-title-wrap">
+                    <h1 class="practice-main-title">
+                        <span>⚡</span> <span>English Exam Laboratory</span>
+                    </h1>
+                    <span class="practice-subtitle-badge">SBI PO • IBPS PO • SSC CGL • RBI Grade B High-Yield Drills</span>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="practice-mode-switch" role="tablist" aria-label="Practice Mode">
+                        <button type="button" class="practice-mode-btn active" id="btn-mode-ledger" onclick="setPracticeMode('ledger')">
+                            <span>📖</span> <span>Rules Ledger</span>
+                        </button>
+                        <button type="button" class="practice-mode-btn" id="btn-mode-arena" onclick="setPracticeMode('arena')">
+                            <span>⚡</span> <span>Speed Drills</span>
+                        </button>
+                    </div>
+                    <button type="button" class="desktop-tool-btn" id="practice-sound-btn" onclick="togglePracticeSound()" title="Toggle Drill Sound" style="width:34px; height:34px; font-size:14px;">
+                        <span id="practice-sound-icon">🔊</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 8 English Exam Categories Strip -->
+            <div class="practice-cat-strip" id="practice-cat-strip" role="tablist" aria-label="English Categories">
+                <!-- Injected dynamically via renderPracticeCategories() -->
+            </div>
+
+            <!-- MODE 1: RULES & REFERENCE LEDGER -->
+            <div id="practice-ledger-view">
+                <!-- Search Bar -->
+                <div class="practice-search-wrap">
+                    <span class="practice-search-icon">🔍</span>
+                    <input type="text" class="practice-search-input" id="practiceSearchInput" oninput="filterPracticeLedger(this.value)" placeholder="Search high-yield grammar rule, idiom, root word, or exam trap...">
+                </div>
+
+                <!-- Ledger Grid -->
+                <div id="practice-ledger-grid" class="ledger-cells-grid">
+                    <!-- Injected dynamically via renderPracticeLedger() -->
+                </div>
+            </div>
+
+            <!-- MODE 2: TIMED SPEED PRACTICE ARENA -->
+            <div id="practice-arena-view" style="display:none;">
+                <!-- Pre-Drill Topic Brief Card -->
+                <div id="drill-pre-screen" class="drill-scorecard" style="margin-bottom:20px; display:block;">
+                    <div class="scorecard-badge" id="drill-pre-icon">⚡</div>
+                    <h2 class="scorecard-title" id="drill-pre-title">Error Detection Speed Drill</h2>
+                    <p class="scorecard-subtitle" id="drill-pre-desc">
+                        10 fast-paced questions designed to build instinctual recognition of SBI &amp; IBPS exam grammar traps. 15 seconds per question.
+                    </p>
+                    <div class="scorecard-stats-grid">
+                        <div class="scorecard-stat-box">
+                            <div class="scorecard-stat-val" id="drill-pre-qcount">10</div>
+                            <div class="scorecard-stat-lbl">Questions</div>
+                        </div>
+                        <div class="scorecard-stat-box">
+                            <div class="scorecard-stat-val" id="drill-pre-timer">15.0s</div>
+                            <div class="scorecard-stat-lbl">Pace Per Q</div>
+                        </div>
+                        <div class="scorecard-stat-box">
+                            <div class="scorecard-stat-val" id="drill-pre-target">SBI/IBPS</div>
+                            <div class="scorecard-stat-lbl">Target Exam</div>
+                        </div>
+                    </div>
+                    <div class="scorecard-actions-row">
+                        <button type="button" class="scorecard-btn scorecard-btn-primary" onclick="launchActiveDrill()">
+                            <span>⚡ Start Timed Speed Drill</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Drill Arena Stage (Active Test) -->
+                <div id="drill-live-stage" class="drill-arena-container" style="display:none;">
+                    <!-- Top Bar: Dot Progress & Live Streak -->
+                    <div class="drill-arena-top-bar">
+                        <div class="drill-dot-progress" id="drill-dot-progress">
+                            <!-- Injected dynamically -->
+                        </div>
+                        <div class="drill-streak-pill" id="drill-streak-pill">
+                            <span>🔥</span> <span id="drill-streak-count">0 Streak</span>
+                        </div>
+                    </div>
+
+                    <!-- Countdown Timer Panel -->
+                    <div class="drill-timer-panel">
+                        <div class="drill-timer-top">
+                            <span class="drill-timer-readout" id="drill-timer-readout">15.0s</span>
+                            <span class="drill-timer-hint" id="drill-timer-hint">Prelims speed pace — answer quickly!</span>
+                        </div>
+                        <div class="drill-timer-track">
+                            <div class="drill-timer-fill" id="drill-timer-fill"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Stem Card -->
+                    <div class="drill-stem-card">
+                        <div class="drill-stem-meta">
+                            <span class="drill-cat-tag" id="drill-stem-cat">ERROR DETECTION</span>
+                            <span class="drill-q-counter" id="drill-stem-counter">Question 1 of 10</span>
+                        </div>
+                        <div class="drill-instruction-text" id="drill-stem-instruction">
+                            Identify the segment containing the grammatical error:
+                        </div>
+                        <h3 class="drill-stem-text" id="drill-stem-text">
+                            Loading question...
+                        </h3>
+                    </div>
+
+                    <!-- Answer Option Tiles -->
+                    <div class="drill-tile-grid" id="drill-tile-grid">
+                        <!-- Injected dynamically -->
+                    </div>
+
+                    <!-- Instant Banker's Explanation Card -->
+                    <div class="drill-explanation-card" id="drill-explanation-card" style="display:none;">
+                        <div class="drill-exp-title">
+                            <span>💡</span> <span>Banker's Exam Speed Hack</span>
+                        </div>
+                        <p class="drill-exp-text" id="drill-exp-text">
+                            Explanation loading...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Post-Drill Scorecard Stage -->
+                <div id="drill-scorecard-stage" class="drill-scorecard" style="display:none;">
+                    <div class="scorecard-badge" id="scorecard-badge-icon">🏆</div>
+                    <h2 class="scorecard-title" id="scorecard-title">Speed Drill Completed!</h2>
+                    <p class="scorecard-subtitle" id="scorecard-message">Great speed and analytical precision.</p>
+                    
+                    <div id="scorecard-new-best" style="display:none;" class="scorecard-best-pill">
+                        <span>👑</span> <span>New Personal Best for this Category!</span>
+                    </div>
+
+                    <div class="scorecard-stats-grid">
+                        <div class="scorecard-stat-box">
+                            <div class="scorecard-stat-val" id="scorecard-score-val">0/10</div>
+                            <div class="scorecard-stat-lbl">Score</div>
+                        </div>
+                        <div class="scorecard-stat-box">
+                            <div class="scorecard-stat-val" id="scorecard-acc-val">0%</div>
+                            <div class="scorecard-stat-lbl">Accuracy</div>
+                        </div>
+                        <div class="scorecard-stat-box">
+                            <div class="scorecard-stat-val" id="scorecard-streak-val">🔥 0</div>
+                            <div class="scorecard-stat-lbl">Max Streak</div>
+                        </div>
+                    </div>
+
+                    <div class="scorecard-actions-row">
+                        <button type="button" class="scorecard-btn scorecard-btn-primary" onclick="restartCurrentDrill()">
+                            <span>↺ Play Again</span>
+                        </button>
+                        <button type="button" class="scorecard-btn scorecard-btn-share" onclick="sharePracticeScore()">
+                            <span>📤 Share Result</span>
+                        </button>
+                    </div>
+
+                    <!-- Detailed Question History Review -->
+                    <div class="drill-review-list">
+                        <div class="drill-review-header">
+                            <span>📋</span> <span>Questions &amp; Error Analysis</span>
+                        </div>
+                        <div id="drill-review-items">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
         </main>
 
         <!-- Right Performance Rail (Contextual widgets) -->
@@ -6998,6 +7127,54 @@
         </div>
     </div>
 
+    <!-- 🟢 BANKER'S ENGLISH EXAM HACK INSPECTOR MODAL -->
+    <div id="englishInspectorModal" class="eng-inspector-overlay" role="dialog" aria-modal="true" aria-labelledby="eng-ins-title" onclick="closeEnglishInspector(event)">
+        <div class="eng-inspector-card" onclick="event.stopPropagation()">
+            <div class="eng-ins-header">
+                <div class="eng-ins-tag" id="eng-ins-tag">⚡ BANKER'S EXAM HACK</div>
+                <button type="button" class="ins-close" onclick="closeEnglishInspector()" aria-label="Close Inspector" style="background:none; border:none; font-size:18px; color:var(--text-muted); cursor:pointer;">✕</button>
+            </div>
+            <div class="eng-ins-body">
+                <div class="eng-ins-hero">
+                    <h3 class="eng-ins-hero-title" id="eng-ins-title">Rule Name</h3>
+                    <p class="eng-ins-hero-rule" id="eng-ins-statement">Rule Statement</p>
+                </div>
+
+                <div class="eng-ins-hack-box">
+                    <div class="eng-ins-hack-title">
+                        <span>💡</span> <span>Banker's 5-Second Elimination Hack</span>
+                    </div>
+                    <p class="eng-ins-hack-text" id="eng-ins-hack-text">
+                        Elimination explanation...
+                    </p>
+                </div>
+
+                <div class="eng-ins-examples-box">
+                    <div class="eng-ins-ex-title">Real Exam Examples: Trap vs Solution</div>
+                    <div class="eng-ins-ex-row eng-ins-ex-bad" id="eng-ins-trap">
+                        <strong>❌ Exam Trap:</strong> ...
+                    </div>
+                    <div class="eng-ins-ex-row eng-ins-ex-good" id="eng-ins-correct">
+                        <strong>✓ Correct Usage:</strong> ...
+                    </div>
+                </div>
+            </div>
+            <div class="eng-ins-footer">
+                <div class="eng-ins-btn-group">
+                    <button type="button" class="eng-ins-btn" onclick="copyEnglishInspectorRule()">
+                        <span>📋</span> <span>Copy Rule</span>
+                    </button>
+                    <button type="button" class="eng-ins-btn" onclick="speakEnglishInspectorRule()" title="Listen Pronunciation">
+                        <span>🔊</span>
+                    </button>
+                </div>
+                <button type="button" class="eng-ins-btn eng-ins-drill-btn" id="eng-ins-drill-action" onclick="drillCurrentInspectorTopic()">
+                    <span>⚡ Drill This Topic ›</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- 🟢 SETTINGS MODAL -->
     <div id="settingsModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 600; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'settingsModalOverlay')">
         <div style="background: var(--bg-body); width: 100%; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
@@ -7054,18 +7231,18 @@
          BOTTOM NAVIGATION BAR (Master Spec: 5 Tabs)
          ========================================== -->
     <div class="bottom-nav">
-        <div class="nav-item active" role="button" tabindex="0" onclick="switchView('view-home')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-home')" aria-label="Home tab" id="nav-home">
+        <div class="nav-item active" role="button" tabindex="0" onclick="switchView('view-home')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-home')" aria-label="Sanctum tab" id="nav-home">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-            <span>Home</span>
+            <span>Sanctum</span>
         </div>
-        <div class="nav-item" role="button" tabindex="0" onclick="switchView('view-magazine')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-magazine')" aria-label="Magazine tab" id="nav-magazine" style="position: relative;">
+        <div class="nav-item" role="button" tabindex="0" onclick="switchView('view-magazine')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-magazine')" aria-label="Editorials tab" id="nav-magazine" style="position: relative;">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-            <span>Magazine</span>
+            <span>Editorials</span>
             <div id="mag-badge" style="display:none; position:absolute; top:-2px; right:12px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
         </div>
-        <div class="nav-item" role="button" tabindex="0" onclick="switchView('view-day')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-day')" aria-label="Tests tab" id="nav-day">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
-            <span>Tests</span>
+        <div class="nav-item" role="button" tabindex="0" onclick="switchView('view-practice')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-practice')" aria-label="Practice tab" id="nav-practice">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <span>Practice</span>
         </div>
         <div class="nav-item" role="button" tabindex="0" onclick="switchView('view-cup')" onkeydown="if(event.key==='Enter'||event.key===' ')switchView('view-cup')" aria-label="Rankings tab" id="nav-cup">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10M5 4h14a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8V6a2 2 0 0 1 2-2z"></path></svg>
@@ -11375,10 +11552,10 @@ ${articlesHtml}
             if (targetContainer) targetContainer.classList.add('active');
             window.scrollTo(0, 0);
 
-            // Adapt desktop layout: hide right performance rail on focused views (magazine, cup, day, progress, profile)
+            // Adapt desktop layout: hide right performance rail on focused views (magazine, cup, day, progress, profile, practice)
             const appRoot = document.querySelector('.app-layout-root');
             if (appRoot) {
-                const isFocused = ['view-magazine', 'view-cup', 'view-day', 'view-progress', 'view-profile'].includes(viewId);
+                const isFocused = ['view-magazine', 'view-cup', 'view-day', 'view-progress', 'view-profile', 'view-practice'].includes(viewId);
                 appRoot.classList.toggle('focus-mode', isFocused);
                 appRoot.classList.toggle('magazine-mode', viewId === 'view-magazine');
             }
@@ -11391,7 +11568,8 @@ ${articlesHtml}
                 'view-progress': 'rail-nav-progress',
                 'view-magazine': 'rail-nav-magazine',
                 'view-profile': 'rail-nav-profile',
-                'view-vocab': 'rail-nav-vocab'
+                'view-vocab': 'rail-nav-vocab',
+                'view-practice': 'rail-nav-practice'
             };
             document.querySelectorAll('.nav-rail-btn').forEach(b => b.classList.remove('active'));
             if (railNavMap[viewId]) {
@@ -11446,6 +11624,10 @@ ${articlesHtml}
             }
             if(viewId === 'view-vocab') {
                 populateVocabLab();
+            }
+            if(viewId === 'view-practice') {
+                navId = 'nav-practice';
+                initPracticeView();
             }
             if(viewId === 'view-day') {
                 navId = 'nav-day';
@@ -11765,6 +11947,1152 @@ ${articlesHtml}
             }
             renderVocabDrillCard();
         }
+
+        // =========================================================================
+        // ⚡ ENGLISH PRACTICE LABORATORY (EXAM SPEED & RULES WORKSTATION) ENGINE
+        // =========================================================================
+        const PRACTICE_CATEGORIES = [
+            { id: 'vocab', name: 'Vocab & Roots', icon: '📚', count: '25+ Rules', desc: 'Editorial high-yield vocabulary, Latin/Greek roots, and confusing pairs.' },
+            { id: 'error', name: 'Error Detection', icon: '⚠️', count: '30+ Rules', desc: 'Subject-verb traps, negative adverb inversion, and conditional tense sequences.' },
+            { id: 'improve', name: 'Sentence Improvement', icon: '🔄', count: '20+ Rules', desc: 'Phrasal verbs, idiomatic prepositions, redundancy, and parallel structure.' },
+            { id: 'fillers', name: 'Fillers & Collocations', icon: '✍️', count: '20+ Rules', desc: 'Single & double fillers, grammatical collocations, and tone matching.' },
+            { id: 'cloze', name: 'Cloze Passage', icon: '🧩', count: '18+ Rules', desc: 'Discourse markers, cohesion signposts, transition logic, and context cues.' },
+            { id: 'jumbles', name: 'Para Jumbles', icon: '📑', count: '15+ Rules', desc: 'Opening statement identification, pronoun references, and mandatory chronological pairs.' },
+            { id: 'grammar', name: 'Grammar Rules', icon: '⚖️', count: '40+ Rules', desc: '120 Golden Rules: Subjunctive mood, gerund vs infinitive, and correlative conjunctions.' },
+            { id: 'rc', name: 'RC Inference & Tone', icon: '🔍', count: '15+ Rules', desc: 'Critical reasoning in reading comprehension: Tone, inference, paradox, and main idea.' }
+        ];
+
+        const PRACTICE_RULES = [
+            // ERROR DETECTION & INVERSION
+            {
+                id: 'err-1',
+                category: 'error',
+                title: 'Rule 1: Inversion with Negative Adverbs',
+                statement: 'When a sentence begins with a negative or restrictive adverb (Hardly, Scarcely, Barely, Seldom, Rarely, Never, No sooner), partial inversion must follow: Auxiliary Verb precedes the Subject.',
+                hack: 'Scan the start of sentence: Negative Adverb? Immediately check if (Auxiliary + Subject) follows. "Hardly had he...", NOT "Hardly he had...". Also pair "Hardly/Scarcely" with "when", and "No sooner" with "than".',
+                trap: 'Hardly he had stepped out of the bank when the siren sounded.',
+                correct: 'Hardly had he stepped out of the bank when the siren sounded.',
+                tags: ['inversion', 'negative adverb', 'hardly', 'scarcely', 'no sooner', 'sbi po']
+            },
+            {
+                id: 'err-2',
+                category: 'error',
+                title: 'Rule 2: Third Conditional Sequence (Past Counterfactual)',
+                statement: 'In third conditional clauses (unreal past), the "if" clause takes "had + Past Participle (V3)", and the main clause takes "would/could/might + have + Past Participle (V3)".',
+                hack: 'Never allow "would have" in the "if" clause! If you see "If he would have studied", eliminate immediately. The correct pattern is "If he had studied, he would have cleared...".',
+                trap: 'If the central bank would have raised rates sooner, inflation would have peaked earlier.',
+                correct: 'If the central bank had raised rates sooner, inflation would have peaked earlier.',
+                tags: ['conditional', 'third conditional', 'past perfect', 'would have', 'ibps po']
+            },
+            {
+                id: 'err-3',
+                category: 'error',
+                title: 'Rule 3: "One of the" + Plural Noun vs Relative Clause',
+                statement: '"One of the + Plural Noun" takes a Singular Verb when acting directly as subject. HOWEVER, when preceded by a relative pronoun (who, which, that), the verb agrees with the plural antecedent!',
+                hack: 'Does "who/that" appear right after the plural noun? If YES -> Verb is PLURAL. If NO ("He is one of the players...") -> Verb is SINGULAR. Exception: "Only one of the... who" takes singular.',
+                trap: 'He is one of those economists who advocates for higher fiscal deficit.',
+                correct: 'He is one of those economists who advocate for higher fiscal deficit.',
+                tags: ['subject-verb agreement', 'relative pronoun', 'antecedent', 'one of the']
+            },
+
+            // GRAMMAR GOLDEN RULES
+            {
+                id: 'grm-1',
+                category: 'grammar',
+                title: 'Rule 4: "It is high time / It is time" + Past Subjunctive',
+                statement: 'When the phrase "It is time" or "It is high time" is followed by a subject, the following verb must strictly be in Simple Past Tense (V2). If followed directly by an infinitive, use "to + V1".',
+                hack: 'Spot "It is high time" + Subject (we, the government, regulators)? Instantly look for V2 (took, enacted, revised). Any V1 or "should" is 100% erroneous.',
+                trap: 'It is high time the committee should submit its regulatory compliance audit.',
+                correct: 'It is high time the committee submitted its regulatory compliance audit.',
+                tags: ['subjunctive', 'it is high time', 'past tense', 'ssc cgl', 'sbi clerk']
+            },
+            {
+                id: 'grm-2',
+                category: 'grammar',
+                title: 'Rule 5: Correlative Conjunction Balancing (Parallelism)',
+                statement: 'Correlative pairs (Not only... but also, Either... or, Neither... nor, Both... and) must join strictly identical grammatical units (noun with noun, verb with verb, prepositional phrase with prepositional phrase).',
+                hack: 'Check the element immediately following "but also". If it is a prepositional phrase ("in India"), ensure that "not only" is placed immediately before a parallel prepositional phrase ("in Asia"), NOT before the verb.',
+                trap: 'The regulator not only investigated the NBFC for liquidity shortfalls but also for AML non-compliance.',
+                correct: 'The regulator investigated the NBFC not only for liquidity shortfalls but also for AML non-compliance.',
+                tags: ['parallelism', 'not only but also', 'correlative conjunctions']
+            },
+            {
+                id: 'grm-3',
+                category: 'grammar',
+                title: 'Rule 6: "Lest" takes "should" (No Negative Marker)',
+                statement: '"Lest" means "for fear that" or "to avoid the risk of". It is inherently negative and must be followed by "should + V1" (or bare subjunctive). It NEVER takes "not", "will", or "would".',
+                hack: 'See "lest"? Two golden checks: 1) Verify that "not" does NOT follow. 2) Ensure auxiliary is "should" (or bare base verb), never "may", "can", or "shall".',
+                trap: 'File the statutory returns promptly lest the department may not impose severe penalties.',
+                correct: 'File the statutory returns promptly lest the department should impose severe penalties.',
+                tags: ['lest', 'redundancy', 'should', 'conjunctions']
+            },
+
+            // SENTENCE IMPROVEMENT & PHRASAL VERBS
+            {
+                id: 'imp-1',
+                category: 'improve',
+                title: 'Rule 7: Prepositional Gerunds ("Look forward to + V-ing")',
+                statement: 'When "to" acts as a preposition (rather than an infinitive marker) in fixed phrases like "look forward to", "with a view to", "accustomed to", "addicted to", "given to", "prone to", it must be followed by a Gerund (V1 + ing).',
+                hack: 'Is "to" part of a compound prepositional idiom? "With a view to / look forward to / accustomed to"? You MUST choose V1+ing, never base verb V1!',
+                trap: 'The board meets quarterly with a view to review institutional portfolio allocations.',
+                correct: 'The board meets quarterly with a view to reviewing institutional portfolio allocations.',
+                tags: ['gerund', 'prepositions', 'look forward to', 'with a view to']
+            },
+            {
+                id: 'imp-2',
+                category: 'improve',
+                title: 'Rule 8: Comparison with "Prefer" and "Senior/Junior"',
+                statement: 'Latin adjectives ending in "-ior" (Superior, Inferior, Senior, Junior, Prior, Anterior, Posterior) as well as the verb "Prefer" take the preposition "to" for comparison, NEVER "than".',
+                hack: 'Never say "prefer A than B" or "senior than him". It is always "prefer A to B" and "senior to him". When comparing two actions with prefer: "prefer swimming to running" (Gerund + to + Gerund).',
+                trap: 'Institutional investors prefer sovereign bonds than volatile equity derivatives in bear markets.',
+                correct: 'Institutional investors prefer sovereign bonds to volatile equity derivatives in bear markets.',
+                tags: ['comparison', 'prefer to', 'latin adjectives', 'preposition']
+            },
+
+            // FILLERS & COLLOCATIONS
+            {
+                id: 'fil-1',
+                category: 'fillers',
+                title: 'Rule 9: Grammatical Collocations in Fiscal Discourse',
+                statement: 'Certain academic and fiscal verbs mandate specific prepositions: "attribute... to", "comply... with", "tamper... with", "grapple... with", "conducive... to", "amenable... to".',
+                hack: 'In double-blank questions, identify the dependent preposition first! If the sentence ends with "...to economic shocks", the blank requires "conducive / vulnerable / prone / resistant", instantly eliminating choices paired with other prepositions.',
+                trap: 'The revised fiscal framework is highly conducive with long-term capital formation.',
+                correct: 'The revised fiscal framework is highly conducive to long-term capital formation.',
+                tags: ['collocations', 'prepositional verbs', 'fillers', 'banking terms']
+            },
+            {
+                id: 'fil-2',
+                category: 'fillers',
+                title: 'Rule 10: Tone Concordance in Double Fillers',
+                statement: 'A sentence connected by coordinate conjunctions ("and", "moreover", "furthermore") maintains uniform valence (Positive + Positive or Negative + Negative). Contrast conjunctions ("albeit", "yet", "nonetheless") flip valence.',
+                hack: 'Label each blank with (+) or (-). If linked by "albeit", Blank 1 = (+) and Blank 2 = (-). Reject options where both words share identical valence.',
+                trap: 'Selecting "robust" (+) and "lucrative" (+) across an "albeit" transition clause.',
+                correct: 'The quarter showed robust (+) operational growth, albeit with compressed (-) net profit margins.',
+                tags: ['fillers', 'tone concordance', 'valence', 'sbi po prelims']
+            },
+
+            // CLOZE TEST DISCOURSE MARKERS
+            {
+                id: 'clz-1',
+                category: 'cloze',
+                title: 'Rule 11: Discourse Markers: Concession vs Cause',
+                statement: 'Concessive markers ("Albeit", "Notwithstanding", "Despite", "While") indicate unexpected contrast without negating the main clause. Causal markers ("Inasmuch as", "Owing to", "Thereby") denote derivation.',
+                hack: 'Check punctuation! "However" and "Nevertheless" need semicolons or periods when linking independent clauses. "Although" and "Whereas" are subordinators connecting clauses within the same sentence.',
+                trap: 'Using "However" to subordinate a dependent clause without proper punctuation.',
+                correct: 'The domestic economy showed resilience; nevertheless, external headwinds continued to weigh on exports.',
+                tags: ['cloze test', 'connectors', 'discourse markers', 'cohesion']
+            },
+
+            // PARA JUMBLES
+            {
+                id: 'jum-1',
+                category: 'jumbles',
+                title: 'Rule 12: Para Jumble Opening Anchor & Acronym Rule',
+                statement: 'A proper introductory sentence introduces the subject by its full formal noun and complete spelling before acronyms or pronouns (he, she, they, this, such) are ever introduced.',
+                hack: 'If Sentence A has "Reserve Bank of India (RBI)" and Sentence C has "The central bank" or "RBI", Sentence A MUST precede Sentence C. The introductory sentence will NEVER begin with "These", "Such", "Hence", or "Consequently".',
+                trap: 'Selecting a sentence starting with "This unprecedented surge..." as the opening statement.',
+                correct: 'Identify the independent foundational noun statement first to anchor the entire sequence.',
+                tags: ['para jumbles', 'chronology', 'mandatory pairs', 'ssc cgl tier 2']
+            },
+
+            // VOCABULARY & ROOTS
+            {
+                id: 'voc-1',
+                category: 'vocab',
+                title: 'Rule 13: Greek & Latin Root "Loqu / Loc" (To Speak)',
+                statement: 'Words containing "loqu" or "loc" relate to speech or verbal expression: Eloquent (fluent speech), Loquacious (talkative), Soliloquy (talking to oneself), Circumlocution (indirect/roundabout speech), Grandiloquent (pompous language).',
+                hack: 'When you encounter an unfamiliar word in an editorial with "loqu-", immediately anchor its semantic domain to "talking / speech".',
+                trap: 'Confusing "Grandiloquent" (pompous speech) with "Magnanimous" (noble and generous spirit).',
+                correct: 'The spokesperson delivered a grandiloquent address without outlining concrete policy measures.',
+                tags: ['root words', 'loqu', 'etymology', 'editorial vocabulary']
+            },
+            {
+                id: 'voc-2',
+                category: 'vocab',
+                title: 'Rule 14: Confusing Word Pairs: Affect vs Effect',
+                statement: '"Affect" is almost always a VERB meaning to influence or alter. "Effect" is almost always a NOUN meaning result or outcome. (Rare exception: effect change = bring about change).',
+                hack: 'Test substitution: Can you replace the word with "consequence"? If YES -> use "effect" (Noun). Can you replace it with "alter / impact"? If YES -> use "affect" (Verb).',
+                trap: 'The sudden depreciation of the currency had a devastating affect on small importers.',
+                correct: 'The sudden depreciation of the currency had a devastating effect on small importers.',
+                tags: ['confusing words', 'affect vs effect', 'homophones']
+            },
+
+            // READING COMPREHENSION STEMS
+            {
+                id: 'rc-1',
+                category: 'rc',
+                title: 'Rule 15: RC Tone Identification (Sardonic vs Pragmatic vs Critical)',
+                statement: 'Author tone is determined by lexical adjectives. Objective/analytical uses data and empirical terms. Sardonic uses mocking irony. Dogmatic asserts opinions as facts without evidence. Pragmatic focuses on practical feasibility.',
+                hack: 'Eliminate extreme tone choices ("Vituperative", "Nihilistic") in central banking / editorial passages. High-frequency correct banking tones: "Pragmatic", "Analytical", "Cautiously Optimistic", "Critical yet constructive".',
+                trap: 'Labeling an evidence-based critique as "Derisive" or "Contemptuous".',
+                correct: 'Identify whether the author offers constructive remediation: if yes, tone is "Evaluative / Pragmatic".',
+                tags: ['reading comprehension', 'author tone', 'critical reasoning']
+            }
+        ];
+
+        const PRACTICE_QUESTIONS = [
+            // ERROR DETECTION
+            {
+                id: 'q-err-1',
+                category: 'error',
+                ruleId: 'err-1',
+                stem: 'Scarcely had the monetary policy committee (A) / announced the benchmark rate cut (B) / than trading volumes in sovereign debt (C) / surged across all tenors. (D)',
+                instruction: 'Identify the segment containing the grammatical error (or choose No Error):',
+                options: [
+                    '(A) Scarcely had the monetary policy committee',
+                    '(B) announced the benchmark rate cut',
+                    '(C) than trading volumes in sovereign debt',
+                    '(D) surged across all tenors',
+                    '(E) No Error'
+                ],
+                correctIndex: 2,
+                hack: 'Banker\'s Hack: "Scarcely" and "Hardly" are strictly followed by "WHEN", never "than". "No sooner" takes "than". Segment (C) should read "when trading volumes...".'
+            },
+            {
+                id: 'q-err-2',
+                category: 'error',
+                ruleId: 'err-2',
+                stem: 'Had the regulatory framework (A) / mandated tighter disclosure norms earlier, (B) / the multi-crore retail credit default (C) / could have been averted easily. (D)',
+                instruction: 'Identify the segment containing the grammatical error (or choose No Error):',
+                options: [
+                    '(A) Had the regulatory framework',
+                    '(B) mandated tighter disclosure norms earlier',
+                    '(C) the multi-crore retail credit default',
+                    '(D) could have been averted easily',
+                    '(E) No Error'
+                ],
+                correctIndex: 4,
+                hack: 'Banker\'s Hack: Perfect Inverted Third Conditional! "Had + Subject + V3 (mandated)" followed by "could have been + V3". The sentence is grammatically flawless.'
+            },
+            {
+                id: 'q-err-3',
+                category: 'error',
+                ruleId: 'err-3',
+                stem: 'Professor Sen is one of those (A) / distinguished economists who (B) / relentlessly advocates for (C) / universal basic income schemes. (D)',
+                instruction: 'Identify the segment containing the grammatical error:',
+                options: [
+                    '(A) Professor Sen is one of those',
+                    '(B) distinguished economists who',
+                    '(C) relentlessly advocates for',
+                    '(D) universal basic income schemes'
+                ],
+                correctIndex: 2,
+                hack: 'Banker\'s Hack: "One of those + Plural Noun (economists) + WHO": The relative pronoun refers to "economists" (plural), so the verb must be plural: "advocate", not "advocates".'
+            },
+
+            // GRAMMAR GOLDEN RULES
+            {
+                id: 'q-grm-1',
+                category: 'grammar',
+                ruleId: 'grm-1',
+                stem: 'It is high time the state administration ______ effective measures to curb urban waterlogging before monsoon sets in.',
+                instruction: 'Select the grammatically correct verb form to fill the blank:',
+                options: [
+                    'should initiate',
+                    'initiated',
+                    'initiates',
+                    'will initiate'
+                ],
+                correctIndex: 1,
+                hack: 'Banker\'s Hack: "It is high time + Subject" demands the Subjunctive Past Tense (V2). Always select "initiated". Never select "should" or V1.'
+            },
+            {
+                id: 'q-grm-2',
+                category: 'grammar',
+                ruleId: 'grm-2',
+                stem: 'The audit report revealed that the branch manager was neither interested in processing MSME loans nor ______ the daily ledger reconciliation.',
+                instruction: 'Select the most appropriate phrase to maintain parallelism:',
+                options: [
+                    'did he supervise',
+                    'in supervising',
+                    'supervised',
+                    'to supervise'
+                ],
+                correctIndex: 1,
+                hack: 'Banker\'s Hack: Correlative Balance! "neither [in processing...]" must match "nor [in supervising...]". Prepositional gerund must match prepositional gerund.'
+            },
+            {
+                id: 'q-grm-3',
+                category: 'grammar',
+                ruleId: 'grm-3',
+                stem: 'Ensure complete data validation across customer onboarding forms lest fraudulent entities ______ undetected into the digital clearing system.',
+                instruction: 'Select the correct auxiliary structure to follow "lest":',
+                options: [
+                    'may not slip',
+                    'might slip',
+                    'should slip',
+                    'would not slip'
+                ],
+                correctIndex: 2,
+                hack: 'Banker\'s Hack: "Lest" inherently signifies "in order that not". It must be followed by "should + V1" and can NEVER take "not" or "may".'
+            },
+
+            // SENTENCE IMPROVEMENT
+            {
+                id: 'q-imp-1',
+                category: 'improve',
+                ruleId: 'imp-1',
+                stem: 'The high-level delegations met yesterday [with a view to expedite] bilateral trade corridors.',
+                instruction: 'Select the option that best substitutes the bracketed part:',
+                options: [
+                    'with a view to expediting',
+                    'with a view of expediting',
+                    'with an aim to expedite',
+                    'No replacement required'
+                ],
+                correctIndex: 0,
+                hack: 'Banker\'s Hack: "With a view to" is a prepositional phrase where "to" is a preposition, necessitating a Gerund (V1 + ing): "with a view to expediting".'
+            },
+            {
+                id: 'q-imp-2',
+                category: 'improve',
+                ruleId: 'imp-2',
+                stem: 'Conservative retail savers traditionally [prefer fixed deposits than] high-yield equity funds.',
+                instruction: 'Select the correct substitution:',
+                options: [
+                    'prefer fixed deposits rather than',
+                    'prefer fixed deposits over',
+                    'prefer fixed deposits to',
+                    'No replacement required'
+                ],
+                correctIndex: 2,
+                hack: 'Banker\'s Hack: The verb "prefer" takes the preposition "to" for comparison, never "than" or "over". "Prefer A to B".'
+            },
+
+            // FILLERS & COLLOCATIONS
+            {
+                id: 'q-fil-1',
+                category: 'fillers',
+                ruleId: 'fil-1',
+                stem: 'The new fintech regulations are intended to encourage innovation, ______ stringent capital adequacy standards prevent systemic insolvency.',
+                instruction: 'Choose the appropriate discourse connector:',
+                options: [
+                    'inasmuch as',
+                    'while',
+                    'despite',
+                    'consequently'
+                ],
+                correctIndex: 1,
+                hack: 'Banker\'s Hack: The sentence balances two coexisting, contrasting policy goals (encouraging innovation vs maintaining safety). "While" expresses this simultaneous contrast.'
+            },
+            {
+                id: 'q-fil-2',
+                category: 'fillers',
+                ruleId: 'fil-2',
+                stem: 'The company\'s balance sheet remains remarkably ______, albeit with a temporary ______ in free operating cash flows.',
+                instruction: 'Select the pair that maintains tone concordance across the "albeit" transition:',
+                options: [
+                    'fragile ... decline',
+                    'robust ... dip',
+                    'resilient ... surge',
+                    'volatile ... expansion'
+                ],
+                correctIndex: 1,
+                hack: 'Banker\'s Hack: "Albeit" connects a positive attribute (+) with a mild negative concession (-). "Robust (+)" followed by "dip (-)" is the only logically coherent pairing.'
+            },
+
+            // CLOZE TEST
+            {
+                id: 'q-clz-1',
+                category: 'cloze',
+                ruleId: 'clz-1',
+                stem: 'Headline retail inflation eased marginally in August; ______, sticky core inflation continued to complicate the central bank\'s glide path towards the 4% target.',
+                instruction: 'Choose the transition word that correctly expresses the contrast between the two independent clauses:',
+                options: [
+                    'consequently',
+                    'furthermore',
+                    'nevertheless',
+                    'insofar as'
+                ],
+                correctIndex: 2,
+                hack: 'Banker\'s Hack: The first clause presents positive news (inflation eased), while the second presents persistence (sticky core). A concessive contrast connector flanked by semicolon is needed: "nevertheless".'
+            },
+
+            // PARA JUMBLES
+            {
+                id: 'q-jum-1',
+                category: 'jumbles',
+                ruleId: 'jum-1',
+                stem: 'Which of the following sentences is best suited to serve as the OPENING sentence of a coherent paragraph?\nP. Such unilateral tariffs will inevitably invite retaliatory levies.\nQ. Consequently, global supply chains are being restructured.\nR. Cross-border trade disputes have escalated sharply over the past decade.\nS. This phenomenon has severely impacted emerging economies.',
+                instruction: 'Identify the independent introductory sentence:',
+                options: [
+                    'Sentence P',
+                    'Sentence Q',
+                    'Sentence R',
+                    'Sentence S'
+                ],
+                correctIndex: 2,
+                hack: 'Banker\'s Hack: Sentence P ("Such..."), Q ("Consequently..."), and S ("This phenomenon...") all rely on preceding context. Sentence R introduces the broad, independent topic.'
+            },
+
+            // VOCABULARY & ROOTS
+            {
+                id: 'q-voc-1',
+                category: 'vocab',
+                ruleId: 'voc-1',
+                stem: 'The chairman reprimanded the director for his ______ response, which masked simple financial irregularities behind convoluted, high-flown rhetoric.',
+                instruction: 'Select the word containing the root for speech that best fits the context:',
+                options: [
+                    'taciturn',
+                    'grandiloquent',
+                    'gregarious',
+                    'ephemeral'
+                ],
+                correctIndex: 1,
+                hack: 'Banker\'s Hack: "Grandiloquent" (from "grand" + root "loqu" to speak) describes pompous, bombastic speech intended to impress or obscure simple facts.'
+            },
+            {
+                id: 'q-voc-2',
+                category: 'vocab',
+                ruleId: 'voc-2',
+                stem: 'The prolonged liquidity crunch is expected to adversely ______ private capital expenditure in the manufacturing belt.',
+                instruction: 'Choose the correct word to complete the sentence:',
+                options: [
+                    'effect',
+                    'affect',
+                    'affliction',
+                    'effective'
+                ],
+                correctIndex: 1,
+                hack: 'Banker\'s Hack: The slot requires a transitive verb meaning "to influence or alter". "Affect" is the verb; "effect" is the noun (result).'
+            },
+
+            // READING COMPREHENSION
+            {
+                id: 'q-rc-1',
+                category: 'rc',
+                ruleId: 'rc-1',
+                stem: '"While the sovereign green bond issuance is a step in the right direction, policymakers must transparently publish project-level carbon abatement metrics rather than relying on self-certified corporate claims."\nThe author\'s tone can best be described as:',
+                instruction: 'Identify the tone of the passage:',
+                options: [
+                    'Dismissive and cynical',
+                    'Constructive yet demanding',
+                    'Unreservedly laudatory',
+                    'Apathetic and detached'
+                ],
+                correctIndex: 1,
+                hack: 'Banker\'s Hack: The author acknowledges progress ("step in the right direction") while prescribing concrete transparency standards ("must transparently publish"). This is constructive yet demanding.'
+            }
+        ];
+
+        // --- PRACTICE STATE & AUDIO ENGINE ---
+        let practiceState = {
+            mode: 'ledger', // 'ledger' | 'arena'
+            activeCategory: 'all',
+            searchQuery: '',
+            inspectorRuleId: null,
+            drill: {
+                status: 'idle', // 'idle' | 'running' | 'answered' | 'scorecard'
+                category: 'all',
+                questions: [],
+                currentIndex: 0,
+                score: 0,
+                streak: 0,
+                maxStreak: 0,
+                timerDuration: 15.0,
+                timeRemaining: 15.0,
+                timerInterval: null,
+                history: []
+            }
+        };
+
+        let practiceAudioCtx = null;
+        function getPracticeAudio() {
+            if (localStorage.getItem('ez_practice_muted') === 'true') return null;
+            try {
+                if (!practiceAudioCtx) {
+                    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContextClass) practiceAudioCtx = new AudioContextClass();
+                }
+                if (practiceAudioCtx && practiceAudioCtx.state === 'suspended') {
+                    practiceAudioCtx.resume();
+                }
+                return practiceAudioCtx;
+            } catch(e) {
+                return null;
+            }
+        }
+
+        function playDrillBeep(freq, type, duration, gainVal, endFreq) {
+            try {
+                const ctx = getPracticeAudio();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type || 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                if (endFreq) {
+                    osc.frequency.exponentialRampToValueAtTime(endFreq, ctx.currentTime + duration);
+                }
+                gain.gain.setValueAtTime(gainVal || 0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function soundPracticeTick() {
+            playDrillBeep(650, 'sine', 0.035, 0.08);
+        }
+
+        function soundPracticeSuccess() {
+            playDrillBeep(523.25, 'triangle', 0.12, 0.18, 659.25);
+            setTimeout(() => {
+                playDrillBeep(783.99, 'triangle', 0.22, 0.20, 1046.50);
+            }, 80);
+        }
+
+        function soundPracticeError() {
+            playDrillBeep(220, 'sawtooth', 0.22, 0.15, 140);
+        }
+
+        function soundPracticeStreak() {
+            playDrillBeep(587.33, 'triangle', 0.1, 0.18);
+            setTimeout(() => playDrillBeep(739.99, 'triangle', 0.1, 0.2), 60);
+            setTimeout(() => playDrillBeep(880.00, 'triangle', 0.25, 0.22), 120);
+        }
+
+        function togglePracticeSound() {
+            const isMuted = localStorage.getItem('ez_practice_muted') === 'true';
+            const nextMuted = !isMuted;
+            localStorage.setItem('ez_practice_muted', String(nextMuted));
+            const icon = document.getElementById('practice-sound-icon');
+            if (icon) icon.innerText = nextMuted ? '🔇' : '🔊';
+            triggerHaptic('selection');
+        }
+
+        // --- PRACTICE CONTROLLER FUNCTIONS ---
+        function initPracticeView() {
+            const isMuted = localStorage.getItem('ez_practice_muted') === 'true';
+            const icon = document.getElementById('practice-sound-icon');
+            if (icon) icon.innerText = isMuted ? '🔇' : '🔊';
+
+            renderPracticeCategories();
+            if (practiceState.mode === 'arena') {
+                setPracticeMode('arena');
+            } else {
+                setPracticeMode('ledger');
+            }
+        }
+
+        function setPracticeCategory(catId) {
+            practiceState.activeCategory = catId;
+            selectPracticeCategory(catId);
+        }
+
+        function renderPracticeCategories() {
+            const strip = document.getElementById('practice-cat-strip');
+            if (!strip) return;
+
+            let html = `
+                <button type="button" class="practice-cat-pill ${practiceState.activeCategory === 'all' ? 'active' : ''}" onclick="selectPracticeCategory('all')">
+                    <span class="pill-icon">🔥</span>
+                    <span class="pill-name">All Categories</span>
+                    <span class="pill-count">${PRACTICE_RULES.length} Rules</span>
+                </button>
+            `;
+
+            PRACTICE_CATEGORIES.forEach(cat => {
+                const isActive = practiceState.activeCategory === cat.id;
+                html += `
+                    <button type="button" class="practice-cat-pill ${isActive ? 'active' : ''}" onclick="selectPracticeCategory('${cat.id}')">
+                        <span class="pill-icon">${cat.icon}</span>
+                        <span class="pill-name">${cat.name}</span>
+                        <span class="pill-count">${cat.count}</span>
+                    </button>
+                `;
+            });
+
+            strip.innerHTML = html;
+        }
+
+        function selectPracticeCategory(catId) {
+            triggerHaptic('selection');
+            practiceState.activeCategory = catId;
+            renderPracticeCategories();
+
+            if (practiceState.mode === 'ledger') {
+                filterPracticeLedger(practiceState.searchQuery);
+            } else {
+                updateArenaPreScreen();
+            }
+        }
+
+        function setPracticeMode(mode) {
+            triggerHaptic('selection');
+            practiceState.mode = mode;
+
+            const btnLedger = document.getElementById('btn-mode-ledger');
+            const btnArena = document.getElementById('btn-mode-arena');
+            const ledgerView = document.getElementById('practice-ledger-view');
+            const arenaView = document.getElementById('practice-arena-view');
+
+            if (btnLedger) btnLedger.classList.toggle('active', mode === 'ledger');
+            if (btnArena) btnArena.classList.toggle('active', mode === 'arena');
+
+            if (mode === 'ledger') {
+                if (ledgerView) ledgerView.style.display = 'block';
+                if (arenaView) arenaView.style.display = 'none';
+                filterPracticeLedger(practiceState.searchQuery);
+            } else {
+                if (ledgerView) ledgerView.style.display = 'none';
+                if (arenaView) arenaView.style.display = 'block';
+                updateArenaPreScreen();
+            }
+        }
+
+        function filterPracticeLedger(query) {
+            practiceState.searchQuery = (query || '').trim().toLowerCase();
+            const grid = document.getElementById('practice-ledger-grid');
+            if (!grid) return;
+
+            let rules = PRACTICE_RULES;
+            if (practiceState.activeCategory !== 'all') {
+                rules = rules.filter(r => r.category === practiceState.activeCategory);
+            }
+
+            if (practiceState.searchQuery) {
+                const q = practiceState.searchQuery;
+                rules = rules.filter(r => 
+                    r.title.toLowerCase().includes(q) ||
+                    r.statement.toLowerCase().includes(q) ||
+                    r.hack.toLowerCase().includes(q) ||
+                    r.trap.toLowerCase().includes(q) ||
+                    r.correct.toLowerCase().includes(q) ||
+                    (r.tags && r.tags.some(t => t.toLowerCase().includes(q)))
+                );
+            }
+
+            if (rules.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 48px 16px; color: var(--text-muted);">
+                        <div style="font-size: 32px; margin-bottom: 8px;">🔍</div>
+                        <div style="font-weight: 700; font-size: 16px;">No grammar rules or exam hacks found</div>
+                        <div style="font-size: 13px; margin-top: 4px;">Try searching for "inversion", "conditional", "gerund", or "collocation".</div>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = rules.map(rule => {
+                const catObj = PRACTICE_CATEGORIES.find(c => c.id === rule.category) || { name: 'English Rule', icon: '⚡' };
+                return `
+                    <div class="ledger-cell-card cat-${rule.category}" onclick="openEnglishInspector('${rule.id}')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openEnglishInspector('${rule.id}')">
+                        <div class="ledger-cell-header">
+                            <span class="ledger-cell-cat">
+                                <span>${catObj.icon}</span> <span>${catObj.name}</span>
+                            </span>
+                            <span class="ledger-cell-exam">SBI • IBPS High-Yield</span>
+                        </div>
+                        <h3 class="ledger-cell-title">${rule.title}</h3>
+                        <p class="ledger-cell-desc">${rule.statement}</p>
+                        <div class="ledger-cell-hack">
+                            <span class="ledger-hack-tag">⚡ 5-Sec Hack:</span>
+                            <span>${rule.hack}</span>
+                        </div>
+                        <div class="ledger-cell-drill-link">
+                            <span>Inspect &amp; Drill Rule</span> <span>›</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // --- BANKER'S ENGLISH EXAM HACK INSPECTOR MODAL ---
+        function openEnglishInspector(ruleId) {
+            triggerHaptic('selection');
+            const rule = PRACTICE_RULES.find(r => r.id === ruleId);
+            if (!rule) return;
+
+            practiceState.inspectorRuleId = ruleId;
+            const modal = document.getElementById('englishInspectorModal');
+            const catObj = PRACTICE_CATEGORIES.find(c => c.id === rule.category) || { name: 'Banker\'s Hack', icon: '⚡' };
+
+            const tagEl = document.getElementById('eng-ins-tag');
+            if (tagEl) tagEl.innerHTML = `${catObj.icon} ${catObj.name.toUpperCase()} • 5-SECOND EXAM HACK`;
+
+            const titleEl = document.getElementById('eng-ins-title');
+            if (titleEl) titleEl.innerText = rule.title;
+
+            const statementEl = document.getElementById('eng-ins-statement');
+            if (statementEl) statementEl.innerText = rule.statement;
+
+            const hackEl = document.getElementById('eng-ins-hack-text');
+            if (hackEl) hackEl.innerText = rule.hack;
+
+            const trapEl = document.getElementById('eng-ins-trap');
+            if (trapEl) trapEl.innerHTML = `<strong>❌ Exam Trap:</strong> ${rule.trap}`;
+
+            const correctEl = document.getElementById('eng-ins-correct');
+            if (correctEl) correctEl.innerHTML = `<strong>✓ Correct Usage:</strong> ${rule.correct}`;
+
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeEnglishInspector(event) {
+            if (event && event.target && event.target.closest('.eng-inspector-card') && !event.target.classList.contains('ins-close')) {
+                return;
+            }
+            triggerHaptic('selection');
+            const modal = document.getElementById('englishInspectorModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        function copyEnglishInspectorRule() {
+            triggerHaptic('selection');
+            const rule = PRACTICE_RULES.find(r => r.id === practiceState.inspectorRuleId);
+            if (!rule) return;
+
+            const text = `${rule.title}\n\nRule: ${rule.statement}\n\nBanker's 5-Second Hack: ${rule.hack}\n\n❌ Exam Trap: ${rule.trap}\n✓ Correct Usage: ${rule.correct}\n\n— via Ez Editorials English Exam Laboratory`;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('✓ Rule copied to clipboard!');
+                }).catch(() => {
+                    prompt('Copy Rule:', text);
+                });
+            } else {
+                prompt('Copy Rule:', text);
+            }
+        }
+
+        function speakEnglishInspectorRule() {
+            triggerHaptic('selection');
+            const rule = PRACTICE_RULES.find(r => r.id === practiceState.inspectorRuleId);
+            if (!rule) return;
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(`${rule.title}. ${rule.statement}. Correct usage: ${rule.correct}`);
+                utter.rate = 0.95;
+                window.speechSynthesis.speak(utter);
+            }
+        }
+
+        function drillCurrentInspectorTopic() {
+            const rule = PRACTICE_RULES.find(r => r.id === practiceState.inspectorRuleId);
+            closeEnglishInspector();
+            if (rule) {
+                practiceState.activeCategory = rule.category;
+            }
+            setPracticeMode('arena');
+            launchActiveDrill();
+        }
+
+        // --- MODE 2: TIMED SPEED PRACTICE ARENA CONTROLLER ---
+        function updateArenaPreScreen() {
+            const preScreen = document.getElementById('drill-pre-screen');
+            const liveStage = document.getElementById('drill-live-stage');
+            const scorecardStage = document.getElementById('drill-scorecard-stage');
+
+            if (preScreen) preScreen.style.display = 'block';
+            if (liveStage) liveStage.style.display = 'none';
+            if (scorecardStage) scorecardStage.style.display = 'none';
+
+            let cat = PRACTICE_CATEGORIES.find(c => c.id === practiceState.activeCategory);
+            const titleEl = document.getElementById('drill-pre-title');
+            const descEl = document.getElementById('drill-pre-desc');
+            const iconEl = document.getElementById('drill-pre-icon');
+            const qCountEl = document.getElementById('drill-pre-qcount');
+
+            let pool = PRACTICE_QUESTIONS;
+            if (practiceState.activeCategory !== 'all') {
+                pool = pool.filter(q => q.category === practiceState.activeCategory);
+            }
+
+            if (cat) {
+                if (titleEl) titleEl.innerText = `${cat.name} Speed Drill`;
+                if (descEl) descEl.innerText = `${cat.desc} 15 seconds per question to build prelims exam instinct.`;
+                if (iconEl) iconEl.innerText = cat.icon;
+            } else {
+                if (titleEl) titleEl.innerText = 'Grand English Speed Arena';
+                if (descEl) descEl.innerText = 'Rapid-fire questions across all 8 high-yield SBI, IBPS, and SSC English categories.';
+                if (iconEl) iconEl.innerText = '⚡';
+            }
+
+            if (qCountEl) qCountEl.innerText = Math.min(pool.length, 10);
+        }
+
+        function launchActiveDrill() {
+            triggerHaptic('heavy');
+            let pool = PRACTICE_QUESTIONS;
+            if (practiceState.activeCategory !== 'all') {
+                const filtered = pool.filter(q => q.category === practiceState.activeCategory);
+                if (filtered.length > 0) pool = filtered;
+            }
+
+            // Shuffle questions
+            const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 10);
+
+            practiceState.drill = {
+                status: 'running',
+                category: practiceState.activeCategory,
+                questions: shuffled,
+                currentIndex: 0,
+                score: 0,
+                streak: 0,
+                maxStreak: 0,
+                timerDuration: 15.0,
+                timeRemaining: 15.0,
+                timerInterval: null,
+                history: []
+            };
+
+            const preScreen = document.getElementById('drill-pre-screen');
+            const liveStage = document.getElementById('drill-live-stage');
+            const scorecardStage = document.getElementById('drill-scorecard-stage');
+
+            if (preScreen) preScreen.style.display = 'none';
+            if (liveStage) liveStage.style.display = 'block';
+            if (scorecardStage) scorecardStage.style.display = 'none';
+
+            renderDrillQuestion();
+        }
+
+        function renderDrillQuestion() {
+            const drill = practiceState.drill;
+            const q = drill.questions[drill.currentIndex];
+            if (!q) {
+                renderDrillScorecard();
+                return;
+            }
+
+            drill.status = 'running';
+
+            // Top Bar: Dot Progress
+            const dotsContainer = document.getElementById('drill-dot-progress');
+            if (dotsContainer) {
+                dotsContainer.innerHTML = drill.questions.map((_, i) => {
+                    let cls = 'drill-dot';
+                    if (i < drill.currentIndex) {
+                        const hist = drill.history[i];
+                        cls += (hist && hist.isCorrect) ? ' correct' : ' wrong';
+                    } else if (i === drill.currentIndex) {
+                        cls += ' current';
+                    }
+                    return `<div class="${cls}"></div>`;
+                }).join('');
+            }
+
+            // Streak Pill
+            const streakPill = document.getElementById('drill-streak-pill');
+            const streakCount = document.getElementById('drill-streak-count');
+            if (streakPill && streakCount) {
+                streakCount.innerText = `${drill.streak} Streak`;
+                streakPill.style.display = drill.streak >= 2 ? 'inline-flex' : 'none';
+            }
+
+            // Category & Counter Meta
+            const catObj = PRACTICE_CATEGORIES.find(c => c.id === q.category) || { name: 'English Drill' };
+            const catTag = document.getElementById('drill-stem-cat');
+            if (catTag) catTag.innerText = catObj.name.toUpperCase();
+
+            const counterEl = document.getElementById('drill-stem-counter');
+            if (counterEl) counterEl.innerText = `Question ${drill.currentIndex + 1} of ${drill.questions.length}`;
+
+            const instructionEl = document.getElementById('drill-stem-instruction');
+            if (instructionEl) instructionEl.innerText = q.instruction;
+
+            const textEl = document.getElementById('drill-stem-text');
+            if (textEl) textEl.innerText = q.stem;
+
+            // Explanation card reset
+            const expCard = document.getElementById('drill-explanation-card');
+            if (expCard) expCard.style.display = 'none';
+
+            // Option Tiles
+            const tilesGrid = document.getElementById('drill-tile-grid');
+            if (tilesGrid) {
+                const letters = ['A', 'B', 'C', 'D', 'E'];
+                tilesGrid.innerHTML = q.options.map((opt, idx) => `
+                    <div class="drill-tile" id="drill-opt-${idx}" onclick="handleDrillAnswer(${idx})" role="button" tabindex="0">
+                        <span class="drill-tile-key">${letters[idx]}</span>
+                        <span class="drill-tile-text">${opt}</span>
+                    </div>
+                `).join('');
+            }
+
+            startDrillTimer();
+        }
+
+        function startDrillTimer() {
+            clearInterval(practiceState.drill.timerInterval);
+            practiceState.drill.timeRemaining = practiceState.drill.timerDuration;
+
+            const readout = document.getElementById('drill-timer-readout');
+            const fill = document.getElementById('drill-timer-fill');
+
+            if (readout) {
+                readout.innerText = `${practiceState.drill.timeRemaining.toFixed(1)}s`;
+                readout.classList.remove('panic');
+            }
+            if (fill) {
+                fill.style.width = '100%';
+                fill.classList.remove('panic');
+            }
+
+            const startTime = Date.now();
+            const totalMs = practiceState.drill.timerDuration * 1000;
+
+            practiceState.drill.timerInterval = setInterval(() => {
+                const elapsedMs = Date.now() - startTime;
+                const remainingMs = Math.max(0, totalMs - elapsedMs);
+                const remainingSec = remainingMs / 1000;
+                practiceState.drill.timeRemaining = remainingSec;
+
+                if (readout) readout.innerText = `${remainingSec.toFixed(1)}s`;
+                if (fill) fill.style.width = `${(remainingMs / totalMs) * 100}%`;
+
+                if (remainingSec <= 4.0) {
+                    if (readout) readout.classList.add('panic');
+                    if (fill) fill.classList.add('panic');
+                    soundPracticeTick();
+                }
+
+                if (remainingSec <= 0) {
+                    clearInterval(practiceState.drill.timerInterval);
+                    handleDrillTimeout();
+                }
+            }, 100);
+        }
+
+        function handleDrillAnswer(selectedIdx) {
+            const drill = practiceState.drill;
+            if (drill.status !== 'running') return;
+            drill.status = 'answered';
+            clearInterval(drill.timerInterval);
+
+            const q = drill.questions[drill.currentIndex];
+            const isCorrect = (selectedIdx === q.correctIndex);
+
+            // Record history
+            drill.history.push({
+                question: q,
+                selectedIndex: selectedIdx,
+                isCorrect: isCorrect,
+                timeSpent: drill.timerDuration - drill.timeRemaining
+            });
+
+            if (isCorrect) {
+                drill.score += 1;
+                drill.streak += 1;
+                if (drill.streak > drill.maxStreak) drill.maxStreak = drill.streak;
+                triggerHaptic('success');
+                if (drill.streak >= 3) {
+                    soundPracticeStreak();
+                } else {
+                    soundPracticeSuccess();
+                }
+            } else {
+                drill.streak = 0;
+                triggerHaptic('error');
+                soundPracticeError();
+            }
+
+            // Visual feedback on tiles
+            const tiles = document.querySelectorAll('.drill-tile');
+            tiles.forEach(t => t.classList.add('disabled'));
+
+            const selectedTile = document.getElementById(`drill-opt-${selectedIdx}`);
+            const correctTile = document.getElementById(`drill-opt-${q.correctIndex}`);
+
+            if (selectedTile) {
+                selectedTile.classList.add(isCorrect ? 'drill-correct' : 'drill-wrong');
+            }
+            if (!isCorrect && correctTile) {
+                correctTile.classList.add('drill-correct');
+            }
+
+            // Update Progress Dot
+            const dots = document.querySelectorAll('.drill-dot');
+            if (dots[drill.currentIndex]) {
+                dots[drill.currentIndex].className = `drill-dot ${isCorrect ? 'correct' : 'wrong'}`;
+            }
+
+            // Show Banker's Explanation Card
+            const expCard = document.getElementById('drill-explanation-card');
+            const expText = document.getElementById('drill-exp-text');
+            if (expCard && expText) {
+                expText.innerText = q.hack;
+                expCard.style.display = 'block';
+            }
+
+            // Auto-advance after 1.8 seconds
+            setTimeout(() => {
+                drill.currentIndex += 1;
+                if (drill.currentIndex < drill.questions.length) {
+                    renderDrillQuestion();
+                } else {
+                    renderDrillScorecard();
+                }
+            }, 1800);
+        }
+
+        function handleDrillTimeout() {
+            const drill = practiceState.drill;
+            if (drill.status !== 'running') return;
+            drill.status = 'answered';
+
+            const q = drill.questions[drill.currentIndex];
+            drill.streak = 0;
+            drill.history.push({
+                question: q,
+                selectedIndex: -1,
+                isCorrect: false,
+                timeSpent: drill.timerDuration
+            });
+
+            triggerHaptic('error');
+            soundPracticeError();
+
+            const correctTile = document.getElementById(`drill-opt-${q.correctIndex}`);
+            if (correctTile) correctTile.classList.add('drill-correct');
+
+            const dots = document.querySelectorAll('.drill-dot');
+            if (dots[drill.currentIndex]) {
+                dots[drill.currentIndex].className = 'drill-dot wrong';
+            }
+
+            const expCard = document.getElementById('drill-explanation-card');
+            const expText = document.getElementById('drill-exp-text');
+            if (expCard && expText) {
+                expText.innerText = `⏱️ Time Expired! ${q.hack}`;
+                expCard.style.display = 'block';
+            }
+
+            setTimeout(() => {
+                drill.currentIndex += 1;
+                if (drill.currentIndex < drill.questions.length) {
+                    renderDrillQuestion();
+                } else {
+                    renderDrillScorecard();
+                }
+            }, 1800);
+        }
+
+        function renderDrillScorecard() {
+            clearInterval(practiceState.drill.timerInterval);
+            practiceState.drill.status = 'scorecard';
+            triggerHaptic('heavy');
+
+            const liveStage = document.getElementById('drill-live-stage');
+            const scorecardStage = document.getElementById('drill-scorecard-stage');
+            if (liveStage) liveStage.style.display = 'none';
+            if (scorecardStage) scorecardStage.style.display = 'block';
+
+            const drill = practiceState.drill;
+            const total = drill.questions.length;
+            const score = drill.score;
+            const acc = total > 0 ? Math.round((score / total) * 100) : 0;
+
+            const scoreVal = document.getElementById('scorecard-score-val');
+            if (scoreVal) scoreVal.innerText = `${score}/${total}`;
+
+            const accVal = document.getElementById('scorecard-acc-val');
+            if (accVal) accVal.innerText = `${acc}%`;
+
+            const streakVal = document.getElementById('scorecard-streak-val');
+            if (streakVal) streakVal.innerText = `🔥 ${drill.maxStreak}`;
+
+            // Check personal best
+            const bestKey = `ez_drill_best_${drill.category}`;
+            const prevBest = parseInt(localStorage.getItem(bestKey) || '0', 10);
+            const newBestEl = document.getElementById('scorecard-new-best');
+            if (score > prevBest) {
+                localStorage.setItem(bestKey, String(score));
+                if (newBestEl) newBestEl.style.display = 'inline-flex';
+            } else {
+                if (newBestEl) newBestEl.style.display = 'none';
+            }
+
+            const titleEl = document.getElementById('scorecard-title');
+            const msgEl = document.getElementById('scorecard-message');
+            if (acc >= 80) {
+                if (titleEl) titleEl.innerText = 'Outstanding Exam Stamina! 👑';
+                if (msgEl) msgEl.innerText = 'Prelims-grade recognition speed with top-percentile accuracy.';
+            } else if (acc >= 50) {
+                if (titleEl) titleEl.innerText = 'Good Practice Run! ⚡';
+                if (msgEl) msgEl.innerText = 'Solid foundation. Review the missed exam traps below to tighten instincts.';
+            } else {
+                if (titleEl) titleEl.innerText = 'Needs Reinforcement 📚';
+                if (msgEl) msgEl.innerText = 'Check the Banker\'s Hacks below and re-attempt to solidify the rules.';
+            }
+
+            // Question Review List
+            const reviewContainer = document.getElementById('drill-review-items');
+            if (reviewContainer) {
+                reviewContainer.innerHTML = drill.history.map((h, i) => {
+                    const letters = ['A', 'B', 'C', 'D', 'E'];
+                    const userLetter = h.selectedIndex >= 0 ? letters[h.selectedIndex] : 'Timed Out';
+                    const correctLetter = letters[h.question.correctIndex];
+                    return `
+                        <div class="drill-review-card ${h.isCorrect ? 'review-correct' : 'review-wrong'}">
+                            <div class="drill-review-top">
+                                <span class="drill-review-num">Q${i + 1}. ${h.question.instruction}</span>
+                                <span class="drill-review-status">${h.isCorrect ? '✓ Correct (+1.0)' : '❌ Incorrect / Missed'}</span>
+                            </div>
+                            <div class="drill-review-stem">${h.question.stem}</div>
+                            <div class="drill-review-answers">
+                                <span>Your Answer: <strong>${userLetter}</strong></span>
+                                <span>Correct Answer: <strong>${correctLetter} (${h.question.options[h.question.correctIndex]})</strong></span>
+                            </div>
+                            <div class="drill-review-hack">
+                                💡 <strong>Banker's Hack:</strong> ${h.question.hack}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        function restartCurrentDrill() {
+            launchActiveDrill();
+        }
+
+        function sharePracticeScore() {
+            triggerHaptic('selection');
+            const drill = practiceState.drill;
+            const total = drill.questions.length;
+            const score = drill.score;
+            const acc = total > 0 ? Math.round((score / total) * 100) : 0;
+            const catObj = PRACTICE_CATEGORIES.find(c => c.id === drill.category) || { name: 'English' };
+
+            const text = `⚡ Ez Editorials English Speed Lab\n🎯 Category: ${catObj.name}\n🏆 Score: ${score}/${total} (${acc}% Accuracy)\n🔥 Max Streak: ${drill.maxStreak}\n\nMaster English rules & exam hacks for SBI, IBPS & SSC!`;
+
+            if (navigator.share) {
+                navigator.share({ title: 'Ez Editorials Speed Drill', text: text }).catch(() => {});
+            } else if (typeof tgApp !== 'undefined' && tgApp && tgApp.openTelegramLink) {
+                tgApp.openTelegramLink(`https://t.me/share/url?url=https://ez-editorials-bot.onrender.com&text=${encodeURIComponent(text)}`);
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('✓ Score copied to clipboard!');
+            }
+        }
+
+        // Global Keyboard Handler for Speed Drills & Modal Esc
+        document.addEventListener('keydown', (e) => {
+            const inspector = document.getElementById('englishInspectorModal');
+            if (inspector && inspector.style.display === 'flex' && e.key === 'Escape') {
+                closeEnglishInspector();
+                return;
+            }
+
+            const liveStage = document.getElementById('drill-live-stage');
+            if (liveStage && liveStage.style.display !== 'none' && practiceState.drill.status === 'running') {
+                const key = e.key.toUpperCase();
+                const map = { '1': 0, 'A': 0, '2': 1, 'B': 1, '3': 2, 'C': 2, '4': 3, 'D': 3, '5': 4, 'E': 4 };
+                if (key in map) {
+                    handleDrillAnswer(map[key]);
+                }
+            }
+        });
 
         // ==========================================
         // 🔍 GLOBAL COMMAND PALETTE & SEARCH ENGINE

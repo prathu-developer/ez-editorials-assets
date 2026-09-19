@@ -107,6 +107,38 @@
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     --shadow-dialog: 0 20px 45px rgba(0, 0, 0, 0.2);
     --focus-ring: 0 0 0 2px rgba(37, 99, 235, 0.5);
+
+    /* --- ENGLISH EXAM LABORATORY & PRACTICE TOKENS --- */
+    --cat-vocab: #0f766e;
+    --cat-vocab-bg: #ccfbf1;
+    --cat-vocab-border: rgba(15, 118, 110, 0.35);
+    --cat-error: #e73b50;
+    --cat-error-bg: #fde8e8;
+    --cat-error-border: rgba(231, 59, 80, 0.35);
+    --cat-improve: #4f46e5;
+    --cat-improve-bg: #e0e7ff;
+    --cat-improve-border: rgba(79, 70, 229, 0.35);
+    --cat-fillers: #d97706;
+    --cat-fillers-bg: #fef3c7;
+    --cat-fillers-border: rgba(217, 119, 6, 0.35);
+    --cat-cloze: #0284c7;
+    --cat-cloze-bg: #e0f2fe;
+    --cat-cloze-border: rgba(2, 132, 199, 0.35);
+    --cat-jumbles: #7c3aed;
+    --cat-jumbles-bg: #f3e8ff;
+    --cat-jumbles-border: rgba(124, 58, 237, 0.35);
+    --cat-grammar: #059669;
+    --cat-grammar-bg: #def7ec;
+    --cat-grammar-border: rgba(5, 150, 105, 0.35);
+    --cat-rc: #e11d48;
+    --cat-rc-bg: #ffe4e6;
+    --cat-rc-border: rgba(225, 29, 72, 0.35);
+
+    /* --- SPEED DRILL ARENA TOKENS --- */
+    --timer-panic: #ef4444;
+    --timer-panic-bg: rgba(239, 68, 68, 0.16);
+    --streak-gold: #f59e0b;
+    --streak-gold-bg: rgba(245, 158, 11, 0.15);
 }
 
 /* --- DARK MODE TOKEN OVERRIDES --- */
@@ -140,6 +172,32 @@ body.dark-mode {
 
     --gradient-header: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     --shadow-dialog: 0 20px 45px rgba(0, 0, 0, 0.6);
+
+    /* --- DARK MODE CATEGORY OVERRIDES --- */
+    --cat-vocab: #14b8a6;
+    --cat-vocab-bg: #042f2e;
+    --cat-vocab-border: rgba(20, 184, 166, 0.35);
+    --cat-error: #f87171;
+    --cat-error-bg: #450a0a;
+    --cat-error-border: rgba(248, 113, 113, 0.35);
+    --cat-improve: #818cf8;
+    --cat-improve-bg: #1e1b4b;
+    --cat-improve-border: rgba(129, 140, 248, 0.35);
+    --cat-fillers: #fbbf24;
+    --cat-fillers-bg: #451a03;
+    --cat-fillers-border: rgba(251, 191, 36, 0.35);
+    --cat-cloze: #38bdf8;
+    --cat-cloze-bg: #082f49;
+    --cat-cloze-border: rgba(56, 189, 248, 0.35);
+    --cat-jumbles: #c084fc;
+    --cat-jumbles-bg: #3b0764;
+    --cat-jumbles-border: rgba(192, 132, 252, 0.35);
+    --cat-grammar: #34d399;
+    --cat-grammar-bg: #064e3b;
+    --cat-grammar-border: rgba(52, 211, 153, 0.35);
+    --cat-rc: #fb7185;
+    --cat-rc-bg: #4c0519;
+    --cat-rc-border: rgba(251, 113, 133, 0.35);
 }
 
 /* --- UNIVERSAL DARK MODE FORM CONTROL RULES --- */
