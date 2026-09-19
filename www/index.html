@@ -3204,12 +3204,12 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .badge-lang { background: #e0f2fe; color: #0369a1; }
-        .badge-pos { background: #fef3c7; color: #92400e; }
-        .badge-connotation { background: #f3e8ff; color: #6b21a8; }
+        .badge-lang { background: var(--color-info-bg); color: var(--color-info-text); }
+        .badge-pos { background: var(--color-warning-bg); color: var(--color-warning-text); }
+        .badge-connotation { background: var(--color-review-bg); color: var(--color-review-text); }
         .badge-audio { 
-            background: #f1f5f9; 
-            color: #475569; 
+            background: var(--bg-subtle); 
+            color: var(--text-muted); 
             font-family: monospace; 
             font-size: 12px; 
             white-space: nowrap; 
@@ -3217,13 +3217,13 @@
         }
         
         .trick-box {
-            background: #fffbeb;
-            border-left: 4px solid #f59e0b;
+            background: var(--color-warning-bg);
+            border-left: 4px solid var(--color-warning);
             border-radius: 8px;
             padding: 12px;
             margin: 12px 0;
             font-size: 13px;
-            color: #78350f;
+            color: var(--color-warning-text);
             line-height: 1.5;
         }
         
@@ -3310,38 +3310,38 @@
             color: #93c5fd;
         }
         body.dark-mode .trick-box {
-            background: #261603;
-            border-left: 4px solid #f59e0b;
-            color: #fde68a;
+            background: var(--color-warning-bg);
+            border-left: 4px solid var(--color-warning);
+            color: var(--color-warning-text);
         }
         body.dark-mode .editorial-quote-box {
-            background: #172554;
-            border-color: #1e40af;
-            color: #93c5fd;
+            background: var(--color-info-bg);
+            border-color: var(--color-info-border);
+            color: var(--color-info-text);
         }
         body.dark-mode .badge-audio {
-            background: #27272a;
-            color: #cbd5e1;
+            background: var(--bg-subtle);
+            color: var(--text-muted);
         }
         body.dark-mode .badge-pos {
-            background: #451a03;
-            color: #fcd34d;
+            background: var(--color-warning-bg);
+            color: var(--color-warning-text);
         }
         body.dark-mode .badge-connotation {
-            background: #3b0764;
-            color: #d8b4fe;
+            background: var(--color-review-bg);
+            color: var(--color-review-text);
         }
         body.dark-mode .card-index-badge {
-            background: #1e293b;
-            color: #60a5fa;
+            background: var(--color-info-bg);
+            color: var(--color-info-text);
         }
         body.dark-mode .tag-synonym {
-            background: #064e3b;
-            color: #6ee7b7;
+            background: var(--color-success-bg);
+            color: var(--color-success-text);
         }
         body.dark-mode .tag-antonym {
-            background: #450a0a;
-            color: #fca5a5;
+            background: var(--color-danger-bg);
+            color: var(--color-danger-text);
         }
 
         /* ==========================================
@@ -3848,12 +3848,12 @@
 
         /* 🟢 Leaderboard User Highlight & Dark Mode */
         .cup-rank-row-item.cup-rank-row-me {
-            background: #f7f4ff;
-            border: 1.5px solid #dcd3ff;
+            background: var(--brand-light, #eff6ff);
+            border: 1.5px solid var(--color-info-border, #bfdbfe);
         }
         .dark-mode .cup-rank-row-item.cup-rank-row-me {
-            background: #241454 !important;
-            border-color: #553399 !important;
+            background: rgba(30, 58, 138, 0.35) !important;
+            border-color: var(--brand-blue, #1c64f2) !important;
         }
 
         /* 🟢 Safe area top padding for mobile app headers */
@@ -4026,12 +4026,12 @@
                 align-items: center;
                 gap: 10px;
                 font-weight: 800;
-                font-size: 19px;
+                font-size: 18px;
                 color: var(--text-main);
                 cursor: pointer;
             }
             .desktop-brand-icon {
-                font-size: 26px;
+                font-size: 24px;
             }
             .desktop-nav-links {
                 display: flex;
@@ -4671,9 +4671,9 @@
                 gap: 5px;
             }
             .dark-mode .streak-pill {
-                background: #431407;
-                color: #fdba74;
-                border-color: #9a3412;
+                background: var(--color-warning-bg, #78350f);
+                color: var(--color-warning-text, #fde68a);
+                border-color: var(--color-warning-border, #d97706);
             }
 
             .desk-avatar-btn {
@@ -5032,7 +5032,7 @@
             gap: 14px;
         }
         .guest-banner-icon {
-            font-size: 30px;
+            font-size: 28px;
             flex-shrink: 0;
         }
         .guest-banner-title {
@@ -5181,7 +5181,7 @@
                 <span>🎓</span> <span>Academic Student Portal</span>
             </div>
 
-            <h2 style="margin:0 0 8px 0; font-size:23px; font-weight:800; color:var(--text-main, #111827); letter-spacing:-0.4px;">Sign in to Ez Editorials</h2>
+            <h2 style="margin:0 0 8px 0; font-size:22px; font-weight:800; color:var(--text-main, #1a1a1a); letter-spacing:-0.4px;">Sign in to Ez Editorials</h2>
             <p style="color:var(--text-muted, #6b7280); font-size:13.5px; line-height:1.55; margin:0 0 20px 0;">
                 Connect via Telegram to sync your daily test scores, compete on national leaderboards, and track your target exam preparation.
             </p>
@@ -6796,7 +6796,7 @@
                     <span style="font-size: 15px; font-weight: 600; color: var(--text-main);">🌙 Dark Mode</span>
                     <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
                         <input type="checkbox" onchange="toggleDarkMode()" style="opacity: 0; width: 0; height: 0;">
-                        <span id="darkToggleBg" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 24px; transition: .4s;">
+                        <span id="darkToggleBg" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border-subtle, #cbd5e1); border-radius: 24px; transition: .4s;">
                             <span id="darkToggleBall" style="position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s;"></span>
                         </span>
                     </label>
@@ -6805,7 +6805,7 @@
                     <span style="font-size: 15px; font-weight: 600; color: var(--text-main);">📳 Haptic Feedback</span>
                     <label style="position: relative; display: inline-block; width: 44px; height: 24px;">
                         <input type="checkbox" onchange="toggleVibration()" style="opacity: 0; width: 0; height: 0;">
-                        <span id="vibToggleBg" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; border-radius: 24px; transition: .4s;">
+                        <span id="vibToggleBg" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border-subtle, #cbd5e1); border-radius: 24px; transition: .4s;">
                             <span id="vibToggleBall" style="position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; border-radius: 50%; transition: .4s;"></span>
                         </span>
                     </label>
@@ -8881,7 +8881,7 @@
                                             <h3 style="font-size:15px; margin-bottom:4px; text-decoration: line-through;">${exam.name}</h3>
                                             <p style="font-size:12px; color:var(--text-muted); font-weight:600;">🗓 ${exam.display_date}</p>
                                         </div>
-                                        <span style="font-size:11px; background:#f1f5f9; color:#64748b; padding:2px 8px; border-radius:10px; font-weight:600;">Concluded</span>
+                                        <span style="font-size:11px; background:var(--bg-subtle, #f8fafc); color:var(--text-muted, #6b7280); padding:2px 8px; border-radius:10px; font-weight:600;">Concluded</span>
                                     </div>
                                 </div>
                             `;
@@ -10544,7 +10544,7 @@
                                     <div class="tone-bar-legend">
                                         <span><span class="dot" style="background: #10b981;"></span>${p.toneMix.pos_count} Positive</span>
                                         <span><span class="dot" style="background: #94a3b8;"></span>${p.toneMix.neu_count} Neutral</span>
-                                        <span><span class="dot" style="background: #f43f5e;"></span>${p.toneMix.neg_count} Negative</span>
+                                        <span><span class="dot" style="background: var(--brand-crimson, #e73b50);"></span>${p.toneMix.neg_count} Negative</span>
                                     </div>
                                 </div>
                             </div>
@@ -10695,8 +10695,8 @@ ${baseHref ? `<base href="${baseHref}">` : ''}
   html, body {
     margin: 0;
     padding: 0;
-    background-color: ${isDark ? '#0b0f17' : '#f8fafc'};
-    color: ${isDark ? '#e2e8f0' : '#1e293b'};
+    background-color: ${isDark ? '#121212' : '#f5f6f8'};
+    color: ${isDark ? '#f3f4f6' : '#1a1a1a'};
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     display: flex;
     flex-direction: column;
@@ -10712,7 +10712,7 @@ ${baseHref ? `<base href="${baseHref}">` : ''}
     border-radius: 6px;
     overflow: hidden;
     position: relative;
-    background: ${isDark ? '#161e2e' : '#ffffff'};
+    background: ${isDark ? '#1e1e1e' : '#ffffff'};
     transition: box-shadow 0.2s ease;
   }
   @media (max-width: 840px) {
@@ -11054,7 +11054,7 @@ ${articlesHtml}
                                             <strong style="font-size:14px; color:var(--text-main);">${escapeMagHtml(v.word_or_phrase || '')}</strong>
                                             ${v.part_of_speech ? `<span style="font-size:11px; font-weight:700; color:var(--brand-blue, #1c64f2); background:var(--brand-light, #eff6ff); padding:2px 6px; border-radius:6px;">${escapeMagHtml(v.part_of_speech)}</span>` : ''}
                                         </div>
-                                        ${v.hindi_meaning ? `<div style="font-size:12px; color:#0d9488; font-weight:600; margin-bottom:3px;">${escapeMagHtml(v.hindi_meaning)}</div>` : ''}
+                                        ${v.hindi_meaning ? `<div style="font-size:12px; color:var(--brand-secondary, #0f766e); font-weight:600; margin-bottom:3px;">${escapeMagHtml(v.hindi_meaning)}</div>` : ''}
                                         <div style="font-size:11.5px; color:var(--text-muted); line-height:1.4;">${escapeMagHtml(v.concise_meaning || v.easy_synonym || '')}</div>
                                         ${v.mnemonic_trick ? `
                                             <div style="font-size:11px; background:rgba(3,105,161,0.08); color:#0369a1; padding:4px 8px; border-radius:6px; margin-top:6px; border-left:3px solid #0369a1;">
