@@ -4768,44 +4768,98 @@
         .day-view-pills::-webkit-scrollbar {
             display: none;
         }
+        @media (min-width: 768px) {
+            .day-view-pills {
+                display: grid !important;
+                grid-template-columns: repeat(7, 1fr) !important;
+                gap: 8px !important;
+                overflow-x: visible !important;
+            }
+        }
         .day-view-pill {
-            background: var(--bg-subtle, rgba(0,0,0,0.03));
-            border: 1px solid var(--border-light, #e2e8f0);
-            border-radius: var(--radius-md, 10px);
-            padding: 8px 14px;
-            font-size: var(--font-xs, 12.5px);
+            background: var(--bg-card, #ffffff);
+            border: 1px solid var(--border-color, #e5e7eb);
+            border-radius: var(--radius-md, 8px);
+            padding: 8px 4px;
+            min-height: 48px;
+            font-size: var(--font-xs, 12px);
             font-weight: 600;
             color: var(--text-muted, #64748b);
             cursor: pointer;
             display: inline-flex;
+            flex-direction: column;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            gap: 2px;
             white-space: nowrap;
             transition: all 0.15s ease;
+            box-sizing: border-box;
+        }
+        .day-view-pill .pill-day-name {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted, #64748b);
+        }
+        .day-view-pill .pill-day-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-main, #1e293b);
+        }
+        .day-view-pill .pill-day-icon {
+            font-size: 10px;
+            display: inline-flex;
+            align-items: center;
         }
         .day-view-pill:hover:not(.locked) {
-            background: var(--bg-card, #ffffff);
-            color: var(--text-main, #1e293b);
-            border-color: var(--border-color, #cbd5e1);
+            background: var(--brand-light, #eff6ff);
+            color: var(--brand-blue, #1c64f2);
+            border-color: var(--brand-blue, #1c64f2);
         }
         .day-view-pill.active {
-            background: var(--brand, #5a32fa) !important;
-            border-color: var(--brand, #5a32fa) !important;
+            background: var(--brand-blue, #1c64f2) !important;
+            border-color: var(--brand-blue, #1c64f2) !important;
             color: #ffffff !important;
-            font-weight: 700;
-            box-shadow: 0 2px 8px rgba(90, 50, 250, 0.25);
+            box-shadow: var(--shadow-sm);
+        }
+        .day-view-pill.active .pill-day-name,
+        .day-view-pill.active .pill-day-label {
+            color: #ffffff !important;
         }
         .day-view-pill.active .pill-day-icon svg,
         .day-view-pill.active svg {
             stroke: #ffffff !important;
         }
         .day-view-pill.done:not(.active) {
-            border-color: rgba(16, 185, 129, 0.35);
+            border-color: rgba(16, 185, 129, 0.4);
             color: var(--text-main, #1e293b);
         }
         .day-view-pill.locked {
             opacity: 0.45;
             cursor: not-allowed;
+            background: var(--bg-subtle, #f8fafc);
+        }
+        body.dark-mode .day-view-pill {
+            background: var(--bg-subtle, #27272a);
+            border-color: var(--border-color, #2e2e38);
+        }
+        body.dark-mode .day-view-pill.active {
+            background: var(--brand-blue, #3b82f6) !important;
+            border-color: var(--brand-blue, #3b82f6) !important;
+        }
+        button.day-item-col {
+            background: transparent;
+            border: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+        }
+        button.day-item-col:focus-visible,
+        .day-view-pill:focus-visible,
+        .day-nav-btn:focus-visible {
+            outline: 2px solid var(--brand-blue, #1c64f2) !important;
+            outline-offset: 2px !important;
         }
 
         /* In-Page Magazine Fullscreen Mode - Distraction-Free Digital Publication */
@@ -7387,7 +7441,49 @@
             }
         }
 
-        // 🟢 Live Weekly Schedule Card & Day Filter Engine
+        // 🟢 Non-blocking accessible toast notification for quiz & day actions
+        function showQuizToast(message, icon = 'ℹ️') {
+            let toast = document.getElementById('quiz-toast-notification');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'quiz-toast-notification';
+                toast.setAttribute('role', 'status');
+                toast.setAttribute('aria-live', 'polite');
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 80px;
+                    left: 50%;
+                    transform: translateX(-50%) translateY(20px);
+                    background: var(--text-main, #111827);
+                    color: var(--bg-card, #ffffff);
+                    padding: 10px 18px;
+                    border-radius: 10px;
+                    font-size: 13px;
+                    font-weight: 600;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+                    z-index: 99999;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+                    max-width: 90vw;
+                    text-align: center;
+                `;
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = `<span>${icon}</span> <span>${escapeMagHtml(message)}</span>`;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(window._quizToastTimeout);
+            window._quizToastTimeout = setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(20px)';
+            }, 2600);
+        }
+
+        // 🟢 Live Weekly Schedule Card & Day Filter Engine (Decoupled & Production-Hardened)
         function updateDynamicTracker() {
             const ist = getIST();
             let liveDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
@@ -7400,8 +7496,10 @@
                 summaryBadge.innerText = currentDayNum <= 6 ? `Day ${currentDayNum} of 6` : `Sunday Wrap-Up`;
             }
 
-            if (!daysRow) return;
-            daysRow.innerHTML = '';
+            // Safe hydration: never early-abort if daysRow is not present
+            if (daysRow) {
+                daysRow.innerHTML = '';
+            }
             
             const svgCheck = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
             const svgLock = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
@@ -7413,16 +7511,15 @@
             const calendarGrid = document.getElementById('calendar-grid');
             if (calendarGrid) calendarGrid.innerHTML = '';
 
-            const railPills = document.getElementById('rail-calendar-pills');
-            if (railPills) railPills.innerHTML = '';
-
             const dayViewPills = document.getElementById('day-view-pills');
             if (dayViewPills) dayViewPills.innerHTML = '';
 
             let hasAnyPendingQuiz = false;
+            const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
             for(let i = 0; i < 6; i++) {
                 let dayNum = i + 1;
+                let dayName = dayNames[i];
                 let cls = ''; 
                 let chk = '';
                 let hasUnfinished = false;
@@ -7452,23 +7549,31 @@
                     cls = ''; chk = svgLock; 
                 }
 
-                if (i === window.currentViewingDayIndex && i <= liveDayIndex) {
+                let isActive = (i === window.currentViewingDayIndex);
+                if (isActive && i <= liveDayIndex) {
                     cls += ' active';
                 }
                 
-                // Clickable Day Column (Switches View to that Day)
-                daysRow.innerHTML += `
-                    <div class="day-item-col" onclick="${isLocked ? `alert('Day ${dayNum} is locked until it arrives!')` : `filterByDay(${i}); switchView('view-day');`}">
-                        <div class="day-circle ${cls.trim()}">${dayNum}</div>
-                        <div class="day-check">${chk}</div>
-                    </div>
-                `;
+                // Accessible Clickable Day Button on Home View
+                if (daysRow) {
+                    daysRow.innerHTML += `
+                        <button type="button" class="day-item-col"
+                                role="button"
+                                aria-label="Day ${dayNum} (${dayName})${cls.includes('done') ? ' - Completed' : (isLocked ? ' - Locked' : '')}"
+                                aria-pressed="${isActive}"
+                                onclick="${isLocked ? `showQuizToast('Day ${dayNum} unlocks on ${dayName}!', '🔒')` : `filterByDay(${i}); switchView('view-day');`}">
+                            <div class="day-circle ${cls.trim()}">${dayNum}</div>
+                            <div class="day-check">${chk}</div>
+                        </button>
+                    `;
+                }
 
+                // Modal Calendar Grid
                 if (calendarGrid) {
                     let isActiveView = (i === window.currentViewingDayIndex); 
-                    let bg = isActiveView ? 'var(--brand-light)' : 'var(--bg-main)';
-                    let border = hasUnfinished ? '#fca5a5' : (isActiveView ? 'var(--brand)' : 'var(--border-light)');
-                    let textCol = isActiveView ? 'var(--brand)' : 'var(--text-main)';
+                    let bg = isActiveView ? 'var(--brand-light, #eff6ff)' : 'var(--bg-main, #f8fafc)';
+                    let border = hasUnfinished ? '#fca5a5' : (isActiveView ? 'var(--brand-blue, #1c64f2)' : 'var(--border-light, #e2e8f0)');
+                    let textCol = isActiveView ? 'var(--brand-blue, #1c64f2)' : 'var(--text-main, #111827)';
                     let cursor = isLocked ? 'not-allowed' : 'pointer';
                     let opacity = isLocked ? '0.5' : '1';
 
@@ -7477,7 +7582,7 @@
                         : '';
 
                     calendarGrid.innerHTML += `
-                        <button ${isLocked ? '' : `onclick="jumpToDay(${i})"`}
+                        <button type="button" ${isLocked ? `onclick="showQuizToast('Day ${dayNum} unlocks on ${dayName}!', '🔒')"` : `onclick="jumpToDay(${i})"`}
                                 style="position: relative; padding: 14px; border-radius: 12px; border: 1px solid ${border}; background: ${bg}; color: ${textCol}; font-weight: bold; font-size: 15px; display: flex; justify-content: center; align-items: center; gap: 6px; cursor: ${cursor}; opacity: ${opacity};">
                             ${redIndicatorBadge}
                             Day ${dayNum} <span style="display:flex; align-items:center;">${chk}</span>
@@ -7485,41 +7590,23 @@
                     `;
                 }
 
-                // Desktop Right Rail Calendar Pills
-                if (railPills) {
-                    let isActiveView = (i === window.currentViewingDayIndex);
-                    let pillCls = `rail-day-pill ${isActiveView ? 'active' : ''} ${isLocked ? 'locked' : ''} ${cls.includes('done') ? 'done' : ''}`.trim();
-                    railPills.innerHTML += `
-                        <button class="${pillCls}" data-day-index="${i}" ${isLocked ? `onclick="alert('Day ${dayNum} is locked until it arrives!')"` : `onclick="switchView('view-day'); filterByDay(${i});"`}>
-                            <span>Day ${dayNum}</span>
-                            <span style="font-size: 11px; display:inline-flex; align-items:center;">${chk || (isLocked ? '🔒' : '•')}</span>
-                        </button>
-                    `;
-                }
-
-                // Dedicated Day View Selector Pills (For accessing previous days on Laptop & Mobile)
+                // Dedicated Day View Selector Pills (Accessible, Responsive across Desktop & Mobile)
                 if (dayViewPills) {
                     let isActiveView = (i === window.currentViewingDayIndex);
                     let pillCls = `day-view-pill ${isActiveView ? 'active' : ''} ${isLocked ? 'locked' : ''} ${cls.includes('done') ? 'done' : ''}`.trim();
                     dayViewPills.innerHTML += `
-                        <button class="${pillCls}" data-day-index="${i}" ${isLocked ? `onclick="alert('Day ${dayNum} is locked until it arrives!')"` : `onclick="filterByDay(${i});"`}>
+                        <button type="button" class="${pillCls}" data-day-index="${i}"
+                                role="tab"
+                                aria-selected="${isActiveView}"
+                                aria-label="Day ${dayNum} (${dayName})${cls.includes('done') ? ' - Completed' : (isLocked ? ' - Locked' : '')}"
+                                ${isActiveView ? 'aria-current="date"' : ''}
+                                onclick="${isLocked ? `showQuizToast('Day ${dayNum} unlocks on ${dayName}!', '🔒')` : `filterByDay(${i});`}">
+                            <span class="pill-day-name">${dayName}</span>
                             <span class="pill-day-label">Day ${dayNum}</span>
                             <span class="pill-day-icon">${chk || (isLocked ? '🔒' : '•')}</span>
                         </button>
                     `;
                 }
-            }
-
-            // Desktop Right Rail Sunday Wrap-Up Pill
-            if (railPills) {
-                let isSundayLocked = (liveDayIndex < 6);
-                let isSunActive = (window.currentViewingDayIndex === 6);
-                let sunCls = `rail-day-pill ${isSunActive ? 'active' : ''} ${isSundayLocked ? 'locked' : ''}`.trim();
-                railPills.innerHTML += `
-                    <button class="${sunCls}" data-day-index="6" ${isSundayLocked ? `onclick="alert('Sunday Wrap-Up unlocks on Sunday!')"` : `onclick="switchView('view-day'); filterByDay(6);"`} style="grid-column: span 3;">
-                        <span>Sunday Wrap-Up</span>
-                    </button>
-                `;
             }
 
             // Dedicated Day View Sunday Wrap-Up Pill
@@ -7528,8 +7615,15 @@
                 let isSunActive = (window.currentViewingDayIndex === 6);
                 let sunCls = `day-view-pill ${isSunActive ? 'active' : ''} ${isSundayLocked ? 'locked' : ''}`.trim();
                 dayViewPills.innerHTML += `
-                    <button class="${sunCls}" data-day-index="6" ${isSundayLocked ? `onclick="alert('Sunday Wrap-Up unlocks on Sunday!')"` : `onclick="filterByDay(6);"`}>
-                        <span class="pill-day-label">Sunday Wrap-Up</span>
+                    <button type="button" class="${sunCls}" data-day-index="6"
+                            role="tab"
+                            aria-selected="${isSunActive}"
+                            aria-label="Sunday Wrap-Up${isSundayLocked ? ' - Locked until Sunday' : ''}"
+                            ${isSunActive ? 'aria-current="date"' : ''}
+                            onclick="${isSundayLocked ? `showQuizToast('Sunday Wrap-Up unlocks on Sunday!', '🔒')` : `filterByDay(6);`}">
+                        <span class="pill-day-name">Sun</span>
+                        <span class="pill-day-label">Wrap-Up</span>
+                        <span class="pill-day-icon">${isSundayLocked ? '🔒' : '🏆'}</span>
                     </button>
                 `;
             }
@@ -7540,7 +7634,7 @@
             }
         }
 
-        // 🟢 TIMELINE FILTER & NAVIGATION LOGIC
+        // 🟢 TIMELINE FILTER & NAVIGATION LOGIC (Production-Hardened)
         window.currentViewingDayIndex = 0;
 
         function navDayPrev() {
@@ -7554,7 +7648,8 @@
             triggerHaptic('selection');
             const ist = getIST();
             let liveDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1;
-            if (window.currentViewingDayIndex < liveDayIndex && window.currentViewingDayIndex < 5) {
+            // Fully allow navigation across the entire unlocked week (up to Sunday Wrap-Up / index 6)
+            if (window.currentViewingDayIndex < liveDayIndex && window.currentViewingDayIndex < 6) {
                 filterByDay(window.currentViewingDayIndex + 1);
             }
         }
@@ -7583,27 +7678,29 @@
 
             const prevBtn = document.getElementById('day-nav-prev');
             const nextBtn = document.getElementById('day-nav-next');
-            if (prevBtn) prevBtn.disabled = (dayIndex <= 0);
-            if (nextBtn) nextBtn.disabled = (dayIndex >= actualCurrentDayIndex || dayIndex >= 5);
-            
-            // Sync Desktop Rail Calendar Active State
-            const railPillBtns = document.querySelectorAll('#rail-calendar-pills .rail-day-pill');
-            railPillBtns.forEach(btn => {
-                const bIdx = parseInt(btn.getAttribute('data-day-index'), 10);
-                btn.classList.toggle('active', bIdx === dayIndex);
-            });
+            if (prevBtn) {
+                prevBtn.disabled = (dayIndex <= 0);
+                prevBtn.setAttribute('aria-disabled', String(dayIndex <= 0));
+            }
+            if (nextBtn) {
+                const isAtEnd = (dayIndex >= actualCurrentDayIndex || dayIndex >= 6);
+                nextBtn.disabled = isAtEnd;
+                nextBtn.setAttribute('aria-disabled', String(isAtEnd));
+            }
 
-            // Sync Day View Pills Active State
+            // Sync Day View Pills Active & ARIA States
             const dayPillBtns = document.querySelectorAll('#day-view-pills .day-view-pill');
             dayPillBtns.forEach(btn => {
                 const bIdx = parseInt(btn.getAttribute('data-day-index'), 10);
-                btn.classList.toggle('active', bIdx === dayIndex);
+                const isCurrent = (bIdx === dayIndex);
+                btn.classList.toggle('active', isCurrent);
+                btn.setAttribute('aria-selected', String(isCurrent));
+                if (isCurrent) {
+                    btn.setAttribute('aria-current', 'date');
+                } else {
+                    btn.removeAttribute('aria-current');
+                }
             });
-            
-            const leftArrow = document.getElementById('nav-arrow-left');
-            const rightArrow = document.getElementById('nav-arrow-right');
-            if(leftArrow) leftArrow.style.visibility = dayIndex > 0 ? 'visible' : 'hidden';
-            if(rightArrow) rightArrow.style.visibility = (dayIndex < actualCurrentDayIndex && dayIndex < 5) ? 'visible' : 'hidden';
 
             let allQuizzes = [...(window.masterQuizData.Today || []), ...(window.masterQuizData.Pending || [])];
             let filteredQuizzes = allQuizzes.filter(q => q.day_num === targetDay);
