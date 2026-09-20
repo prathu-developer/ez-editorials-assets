@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Ez Editorials</title>
+    <title>Ez Editorials · The Daily Study Sanctum</title>
 
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -13,153 +13,1351 @@
     <link rel="stylesheet" href="tokens.css">
     <script src="auth.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --paper: #EFEBE1;
-            --paper-raised: #F8F6F0;
-            --ink: #1C1F26;
-            --ink-soft: #4A4E57;
-            --red: #9E2B25;
-            --gold: #B98A2E;
-            --slate: #79725F;
-            --line: #D8D1BF;
-            --serif: 'Newsreader', Georgia, serif;
-            --sans: 'Public Sans', -apple-system, sans-serif;
+            /* Impeccable Design System Tokens (DESIGN.md) */
+            --primary: #1c64f2;
+            --primary-hover: #1952c4;
+            --cobalt-wash: #eff6ff;
+            --crimson: #e73b50;
+            --crimson-wash: #fde8e8;
+            --evidence-amber: #f59e0b;
+            --evidence-wash: #fef3c7;
+            --evidence-text: #92400e;
+            --evidence-border: #d97706;
+            --mastery-emerald: #10b981;
+            --mastery-wash: #def7ec;
+            --mastery-text: #03543f;
+            --review-purple: #8b5cf6;
+            --review-wash: #f3e8ff;
+            --review-text: #6b21a8;
+
+            /* Neutrals */
+            --bg-canvas: #f5f6f8;
+            --bg-card: #ffffff;
+            --bg-subtle: #f8fafc;
+            --text-main: #1a1a1a;
+            --text-muted: #6b7280;
+            --text-subtle: #94a3b8;
+            --border-line: #e5e7eb;
+            --border-hover: #cbd5e1;
+
+            /* Typography & Layout */
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-serif: 'Newsreader', Georgia, serif;
+            --radius-xs: 4px;
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-base: 12px;
+            --radius-lg: 16px;
+            --radius-full: 9999px;
+
+            --max-page-width: 1180px;
+            --max-reading-width: 680px;
         }
-        html[data-theme="dark"] {
-            --paper: #17181C;
-            --paper-raised: #1F2126;
-            --ink: #ECE8DD;
-            --ink-soft: #B7B2A2;
-            --red: #D9554C;
-            --gold: #D9AE5C;
-            --slate: #8C8674;
-            --line: #34363C;
+
+        html.dark-mode,
+        html[data-theme="dark"],
+        body.dark-mode {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --cobalt-wash: #1e293b;
+            --crimson: #f87171;
+            --crimson-wash: #3b181e;
+            --evidence-amber: #fbbf24;
+            --evidence-wash: #2e230d;
+            --evidence-text: #fde68a;
+            --evidence-border: #92400e;
+            --mastery-emerald: #34d399;
+            --mastery-wash: #0d281e;
+            --mastery-text: #a7f3d0;
+            --review-purple: #a78bfa;
+            --review-wash: #281e3d;
+            --review-text: #ddd6fe;
+
+            --bg-canvas: #121212;
+            --bg-card: #1e1e1e;
+            --bg-subtle: #27272a;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-subtle: #6b7280;
+            --border-line: #2e2e38;
+            --border-hover: #4b4b58;
         }
-        * { box-sizing: border-box; }
-        html, body { height: 100%; margin: 0; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background: var(--paper);
-            color: var(--ink);
-            font-family: var(--sans);
-            padding-top: env(safe-area-inset-top, 0px);
-            padding-bottom: env(safe-area-inset-bottom, 0px);
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        a { color: inherit; }
 
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        .tabular-nums {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* -------------------------------------------------------------
+           STICKY LAPTOP MASTHEAD
+           ------------------------------------------------------------- */
         .masthead {
-            position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 18px 40px; border-bottom: 1px solid var(--line);
-            background: var(--paper);
-        }
-        .wordmark { font-family: var(--serif); font-weight: 600; font-size: 22px; }
-        .wordmark span { color: var(--red); }
-        .masthead-nav { display: flex; align-items: center; gap: 28px; }
-        .masthead-nav a {
-            font-family: var(--sans); font-weight: 600; font-size: 14px;
-            text-decoration: none; color: var(--ink-soft);
-        }
-        .masthead-nav a:hover { color: var(--red); }
-        .theme-btn {
-            width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line);
-            background: var(--paper-raised); cursor: pointer; font-size: 16px; color: var(--ink);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 62px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            transition: background 0.2s ease, border-color 0.2s ease;
         }
 
-        /* ---- Logged-out: login hero ---- */
-        #loginView { display: none; }
-        .login-wrap {
-            display: grid; grid-template-columns: 1.1fr 1fr; min-height: calc(100vh - 76px);
+        .masthead-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
-        .login-hero {
-            background: var(--ink); color: var(--paper); padding: 80px 60px;
-            display: flex; flex-direction: column; justify-content: center;
-        }
-        .login-hero .kicker { font-size: 13px; color: var(--gold); font-weight: 600; margin-bottom: 18px; }
-        .login-hero h1 {
-            font-family: var(--serif); font-weight: 500; font-style: italic;
-            font-size: 40px; line-height: 1.25; max-width: 460px; margin: 0 0 24px;
-        }
-        .login-hero p { color: #C7C3B5; font-size: 15px; line-height: 1.7; max-width: 420px; }
-        .login-form-side { display: flex; align-items: center; justify-content: center; padding: 60px; }
-        .login-card { width: 100%; max-width: 360px; text-align: center; }
-        .login-card .icon { font-size: 40px; margin-bottom: 14px; }
-        .login-card h2 { font-family: var(--serif); font-size: 26px; margin: 0 0 8px; font-weight: 600; }
-        .login-card .sub { color: var(--slate); font-size: 14px; margin-bottom: 30px; line-height: 1.6; }
-        .btn-telegram {
-            width: 100%; padding: 13px; border-radius: 8px; border: none;
-            background: #27A7E7; color: #fff; font-weight: 700; font-size: 14.5px;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .tg-widget-wrap { margin-top: 18px; display: flex; justify-content: center; }
-        #login-status-msg { margin-top: 16px; font-size: 12.5px; color: var(--slate); min-height: 18px; }
 
-        /* ---- Logged-in: hub ---- */
-        #hubView { display: none; max-width: 900px; margin: 0 auto; padding: 70px 24px 100px; }
-        .hub-greeting { font-family: var(--serif); font-size: 30px; margin: 0 0 6px; font-weight: 600; }
-        .hub-sub { color: var(--slate); font-size: 15px; margin-bottom: 48px; }
-        .hub-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        .hub-card {
-            display: block; text-decoration: none; color: var(--ink);
-            background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px;
-            padding: 32px; transition: border-color 0.15s ease, transform 0.1s ease;
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
         }
-        .hub-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-        .hub-card .hub-icon { font-size: 30px; margin-bottom: 16px; }
-        .hub-card h3 { font-family: var(--serif); font-size: 21px; margin: 0 0 8px; font-weight: 600; }
-        .hub-card p { color: var(--ink-soft); font-size: 14px; line-height: 1.6; margin: 0; }
-        .hub-card .hub-cta { margin-top: 18px; font-size: 13px; font-weight: 700; color: var(--red); }
 
-        @media (max-width: 780px) {
-            .login-wrap { grid-template-columns: 1fr; min-height: auto; }
-            .login-hero { padding: 50px 32px; }
-            .masthead { padding: 14px 20px; }
-            .masthead-nav { gap: 16px; }
-            .hub-cards { grid-template-columns: 1fr; }
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            color: #ffffff;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-title {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: var(--text-main);
+        }
+
+        .brand-title span {
+            color: var(--primary);
+        }
+
+        .brand-pill {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 2px 7px;
+            border-radius: var(--radius-full);
+            background: var(--bg-subtle);
+            color: var(--text-muted);
+            border: 1px solid var(--border-line);
+        }
+
+        /* Masthead Navigation Tabs */
+        .masthead-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-subtle);
+            padding: 4px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+        }
+
+        .nav-tab-btn {
+            background: transparent;
+            border: none;
+            padding: 7px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .nav-tab-btn:hover {
+            color: var(--text-main);
+        }
+
+        .nav-tab-btn.active {
+            background: var(--bg-card);
+            color: var(--primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-line);
+        }
+
+        .masthead-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* User Candidate Badge */
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px 12px 4px 6px;
+            border-radius: var(--radius-full);
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 0.15s ease;
+        }
+
+        .user-chip:hover {
+            border-color: var(--primary);
+        }
+
+        .user-avatar-circle {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-chip-name {
+            max-width: 140px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .user-exam-pill {
+            font-size: 11px;
+            color: var(--text-muted);
+            background: var(--bg-card);
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-line);
+        }
+
+        /* Action Buttons in Masthead */
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+            background: var(--bg-card);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+        }
+
+        .btn-icon:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-subtle);
+        }
+
+        .btn-icon:active {
+            transform: scale(0.96);
+        }
+
+        .btn-logout {
+            padding: 7px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-logout:hover {
+            color: var(--crimson);
+            border-color: var(--crimson);
+            background: var(--crimson-wash);
+        }
+
+        .btn-logout:active {
+            transform: scale(0.98);
+        }
+
+        /* -------------------------------------------------------------
+           CONTAINER & LAYOUT
+           ------------------------------------------------------------- */
+        .page-container {
+            max-width: var(--max-page-width);
+            margin: 0 auto;
+            padding: 32px 24px 64px;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* -------------------------------------------------------------
+           LOGGED-OUT VIEW (MINIMAL LAPTOP LOGIN HERO)
+           ------------------------------------------------------------- */
+        #loginView {
+            display: none;
+            flex: 1;
+        }
+
+        .login-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.95fr;
+            min-height: calc(100vh - 62px);
+        }
+
+        .login-hero-side {
+            background: var(--bg-card);
+            border-right: 1px solid var(--border-line);
+            padding: 80px 72px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-kicker {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: 44px;
+            line-height: 1.2;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+            margin-bottom: 24px;
+            max-width: 520px;
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-muted);
+            max-width: 480px;
+            margin-bottom: 40px;
+        }
+
+        .hero-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 500px;
+        }
+
+        .hero-feat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .feat-icon-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feat-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Login Form Side */
+        .login-form-side {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 48px;
+            background: var(--bg-canvas);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 390px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            text-align: center;
+        }
+
+        .login-card-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--cobalt-wash);
+            color: var(--primary);
+            border-radius: var(--radius-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 16px;
+            border: 1px solid rgba(28, 100, 242, 0.15);
+        }
+
+        .login-card-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .login-card-sub {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .btn-tg-action {
+            width: 100%;
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: #27A7E7;
+            color: #ffffff;
+            font-size: 14.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: filter 0.15s ease, transform 0.1s ease;
+        }
+
+        .btn-tg-action:hover {
+            filter: brightness(1.05);
+        }
+
+        .btn-tg-action:active {
+            transform: scale(0.98);
+        }
+
+        .tg-widget-container {
+            margin: 18px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .login-divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: var(--text-subtle);
+            font-size: 11.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .login-divider::before,
+        .login-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .login-divider span {
+            padding: 0 12px;
+        }
+
+        /* Direct / Guest Aspirant Login */
+        .guest-input-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .input-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+            background: var(--bg-subtle);
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .text-input:focus {
+            border-color: var(--primary);
+            background: var(--bg-card);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--cobalt-wash);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 11px 18px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        #login-status-msg {
+            margin-top: 14px;
+            font-size: 12px;
+            color: var(--text-muted);
+            min-height: 18px;
+        }
+
+        /* -------------------------------------------------------------
+           VIEW 1: HUB / DASHBOARD (AUTHENTICATED)
+           ------------------------------------------------------------- */
+        #hubView {
+            display: none;
+        }
+
+        .hub-welcome-banner {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--border-line);
+            padding-bottom: 20px;
+        }
+
+        .hub-title-group h1 {
+            font-family: var(--font-serif);
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .hub-title-group p {
+            font-size: 14.5px;
+            color: var(--text-muted);
+        }
+
+        .hub-exam-picker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .exam-badge-btn {
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-line);
+            background: var(--bg-card);
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .exam-badge-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* 4-Stat Metric Strip */
+        .stats-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-base);
+            padding: 18px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stat-label {
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .stat-sub {
+            font-size: 12px;
+            color: var(--text-subtle);
+        }
+
+        /* Dual Workstation Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        /* Section Container Cards */
+        .work-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-base);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .work-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .work-card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            color: var(--text-main);
+        }
+
+        .work-card-title-icon {
+            font-size: 20px;
+        }
+
+        .badge-live {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 3px 8px;
+            border-radius: var(--radius-full);
+            background: var(--mastery-wash);
+            color: var(--mastery-text);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--mastery-emerald);
+        }
+
+        /* Topic Test List Items */
+        .test-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .test-item {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.15s ease;
+        }
+
+        .test-item:hover {
+            border-color: var(--primary);
+            background: var(--bg-card);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .test-item-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .test-item-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .test-item-meta {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-badge {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-badge.start {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .status-badge.attempted {
+            background: var(--mastery-wash);
+            color: var(--mastery-text);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-badge.locked {
+            background: var(--bg-card);
+            color: var(--text-subtle);
+            border: 1px solid var(--border-line);
+        }
+
+        /* Magazine Hero Card in Dashboard */
+        .magazine-preview-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .mag-preview-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mag-tag-pill {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+            background: var(--cobalt-wash);
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        .evidence-pill {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--evidence-text);
+            background: var(--evidence-wash);
+            border: 1px solid var(--evidence-border);
+            padding: 2px 6px;
+            border-radius: var(--radius-xs);
+        }
+
+        .mag-preview-title {
+            font-family: var(--font-serif);
+            font-size: 19px;
+            font-weight: 600;
+            line-height: 1.35;
+            color: var(--text-main);
+        }
+
+        .mag-preview-desc {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .mag-action-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        /* Word of the day strip */
+        .wotd-strip {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-base);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+
+        .wotd-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .wotd-tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--review-text);
+            background: var(--review-wash);
+            padding: 4px 8px;
+            border-radius: var(--radius-xs);
+        }
+
+        .wotd-word {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .wotd-meaning {
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+
+        /* -------------------------------------------------------------
+           VIEW 2: IN-WEBSITE MAGAZINE VIEWER (#magazineView)
+           ------------------------------------------------------------- */
+        #magazineView {
+            display: none;
+            flex-direction: column;
+            height: calc(100vh - 62px);
+            background: var(--bg-canvas);
+        }
+
+        .magazine-toolbar {
+            height: 52px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-line);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 50;
+        }
+
+        .mag-tool-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-back-hub {
+            background: transparent;
+            border: 1px solid var(--border-line);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-back-hub:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--cobalt-wash);
+        }
+
+        .mag-title-indicator {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mag-tool-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mag-iframe-container {
+            flex: 1;
+            width: 100%;
+            height: calc(100% - 52px);
+            position: relative;
+            background: var(--bg-canvas);
+        }
+
+        .magazine-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* -------------------------------------------------------------
+           VIEW 3: TOPIC TESTS EXPLORER (#topicTestsView)
+           ------------------------------------------------------------- */
+        #topicTestsView {
+            display: none;
+        }
+
+        .tests-header {
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border-line);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+        }
+
+        .tests-header-info h2 {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+        }
+
+        .tests-header-info p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .tests-filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .filter-chip {
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-line);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .filter-chip:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+        }
+
+        .filter-chip.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .tests-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .test-detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-base);
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+            transition: all 0.15s ease;
+        }
+
+        .test-detail-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+        }
+
+        .test-top-tags {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .test-category-tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 3px 8px;
+            border-radius: var(--radius-xs);
+            background: var(--cobalt-wash);
+            color: var(--primary);
+        }
+
+        .test-detail-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .test-detail-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .test-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-line);
+        }
+
+        .test-stats-mini {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* -------------------------------------------------------------
+           MODAL: TARGET EXAM SELECTOR
+           ------------------------------------------------------------- */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 440px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--text-main);
+        }
+
+        .modal-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .exam-choice-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .exam-choice-opt {
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+            background: var(--bg-subtle);
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.15s ease;
+        }
+
+        .exam-choice-opt:hover {
+            border-color: var(--primary);
+            background: var(--bg-card);
+        }
+
+        .exam-choice-opt.selected {
+            border-color: var(--primary);
+            background: var(--cobalt-wash);
+            color: var(--primary);
+        }
+
+        /* -------------------------------------------------------------
+           RESPONSIVE REFINEMENTS
+           ------------------------------------------------------------- */
+        @media (max-width: 1023px) {
+            .masthead { padding: 0 18px; }
+            .login-grid { grid-template-columns: 1fr; }
+            .login-hero-side { padding: 48px 24px; border-right: none; border-bottom: 1px solid var(--border-line); }
+            .hero-title { font-size: 32px; }
+            .stats-strip { grid-template-columns: repeat(2, 1fr); }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .tests-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="masthead">
-        <div class="wordmark">EZ <span>Editorials</span></div>
-        <div class="masthead-nav" id="mastheadNav" style="display:none;">
-            <a href="test.html">Topic Test</a>
-            <a href="magazine.html">Magazine</a>
-        </div>
-        <button class="theme-btn" id="themeToggle" title="Toggle theme">🌓</button>
-    </div>
-
-    <!-- ---- LOGGED-OUT: LOGIN HERO ---- -->
-    <section id="loginView">
-        <div class="login-wrap">
-            <div class="login-hero">
-                <div class="kicker">WEEKLY EDITION · TOPIC TESTS</div>
-                <h1>Read sharper. Test smarter. Ten minutes a day, every day.</h1>
-                <p>The same tests and editorials your batch already trusts on Telegram — now with a reading room built for your laptop.</p>
+    <!-- =============================================================
+         1. LAPTOP MASTHEAD
+         ============================================================= -->
+    <header class="masthead">
+        <div class="masthead-left">
+            <div class="brand-logo" onclick="switchMainView('hub')">
+                <div class="brand-icon">EZ</div>
+                <div class="brand-title">EZ <span>Editorials</span></div>
             </div>
+            <span class="brand-pill">Laptop Sanctum</span>
+        </div>
+
+        <!-- Navigation Tabs (Authenticated Only) -->
+        <nav class="masthead-nav" id="mastheadNav" style="display:none;">
+            <button class="nav-tab-btn active" id="tabHub" onclick="switchMainView('hub')">
+                <span>📊</span> Dashboard
+            </button>
+            <button class="nav-tab-btn" id="tabTests" onclick="switchMainView('tests')">
+                <span>📝</span> Topic Tests
+            </button>
+            <button class="nav-tab-btn" id="tabMag" onclick="switchMainView('magazine')">
+                <span>📰</span> Magazine Viewer
+            </button>
+        </nav>
+
+        <div class="masthead-right">
+            <!-- Candidate Profile Badge (Authenticated Only) -->
+            <div class="user-chip" id="userChip" style="display:none;" onclick="openExamModal()" title="Click to change target exam">
+                <div class="user-avatar-circle" id="userAvatar">A</div>
+                <span class="user-chip-name" id="userName">Aspirant</span>
+                <span class="user-exam-pill" id="userExamTag">🎯 SSC / Banking</span>
+            </div>
+
+            <!-- Dark / Light Theme Toggle -->
+            <button class="btn-icon" id="themeToggle" title="Toggle color theme (Light / Dark)">
+                🌓
+            </button>
+
+            <!-- Dedicated Log Out Button (Authenticated Only) -->
+            <button class="btn-logout" id="logoutBtn" style="display:none;" onclick="handleLogout()" title="Log out of Ez Editorials">
+                <span>🚪</span> Log Out
+            </button>
+        </div>
+    </header>
+
+    <!-- =============================================================
+         2. LOGGED-OUT VIEW: MINIMAL LAPTOP LOGIN HERO
+         ============================================================= -->
+    <section id="loginView">
+        <div class="login-grid">
+            <div class="login-hero-side">
+                <div class="hero-kicker">
+                    <span>📘</span> Daily Editorial Aggregator & Topic Quizzes
+                </div>
+                <h1 class="hero-title">Read sharper. Test smarter. The Daily Study Sanctum.</h1>
+                <p class="hero-desc">
+                    Tailored specifically for Indian competitive exam aspirants (UPSC, Banking, SSC CGL, State PCS) reading from their laptops. Zero ads, zero clickbait, strict reading column discipline.
+                </p>
+
+                <div class="hero-features">
+                    <div class="hero-feat-item">
+                        <div class="feat-icon-title"><span>📝</span> Topic-Wise Quizzes</div>
+                        <div class="feat-desc">Exam-calibrated daily tests on contextual vocabulary, passage tone, and sentence improvement.</div>
+                    </div>
+                    <div class="hero-feat-item">
+                        <div class="feat-icon-title"><span>📰</span> In-Website Magazine</div>
+                        <div class="feat-desc">The Hindu and Indian Express editorial digests with quantitative Evidence Lens highlights.</div>
+                    </div>
+                    <div class="hero-feat-item">
+                        <div class="feat-icon-title"><span>⏱</span> Tabular CBT Timer</div>
+                        <div class="feat-desc">Practice under real test conditions with section countdowns and negative marking simulation.</div>
+                    </div>
+                    <div class="hero-feat-item">
+                        <div class="feat-icon-title"><span>🌓</span> Focus Dark Mode</div>
+                        <div class="feat-desc">Designed for fatigue-free early morning and late night analytical reading sessions.</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="login-form-side">
                 <div class="login-card">
-                    <div class="icon">📘</div>
-                    <h2>Welcome back</h2>
-                    <div class="sub">Sign in with the same Telegram account you use in the Mini App and Android app.</div>
+                    <div class="login-card-icon">⚡</div>
+                    <h2 class="login-card-title">Sign in to your Sanctum</h2>
+                    <p class="login-card-sub">Synchronize your scores, streaks, and magazine progress seamlessly across devices.</p>
 
-                    <!-- One-Tap Button for Mobile Browser & Android APK -->
-                    <button type="button" class="btn-telegram" onclick="startMobileTelegramLogin()">
+                    <!-- Option 1: Mobile / Telegram Deep Link -->
+                    <button type="button" class="btn-tg-action" onclick="startMobileTelegramLogin()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
                         Login via Telegram
                     </button>
 
-                    <!-- Desktop Web Widget -->
-                    <div class="tg-widget-wrap">
+                    <!-- Option 2: Official Telegram Web Widget -->
+                    <div class="tg-widget-container">
                         <script async src="https://telegram.org/js/telegram-widget.js?22"
                                 data-telegram-login="Ez_vocab_bot"
                                 data-size="large"
                                 data-onauth="onTelegramAuth(user)"
                                 data-request-access="write"></script>
+                    </div>
+
+                    <div class="login-divider">
+                        <span>OR DIRECT LAPTOP ACCESS</span>
+                    </div>
+
+                    <!-- Option 3: Fast Student ID / Guest Login for Web Users -->
+                    <div class="guest-input-wrap">
+                        <input type="text" id="guestUsernameInput" class="text-input" placeholder="Telegram @username or Student ID">
+                        <button type="button" class="btn-primary" onclick="handleQuickStudentLogin()">
+                            Enter Study Sanctum
+                        </button>
+                        <button type="button" class="btn-secondary" onclick="handleGuestLogin()">
+                            <span>🚀</span> Continue as Guest Aspirant
+                        </button>
                     </div>
 
                     <p id="login-status-msg"></p>
@@ -168,63 +1366,647 @@
         </div>
     </section>
 
-    <!-- ---- LOGGED-IN: HUB ---- -->
-    <section id="hubView">
-        <h1 class="hub-greeting" id="hubGreeting">Welcome back</h1>
-        <p class="hub-sub">Pick up where you left off.</p>
-        <div class="hub-cards">
-            <a class="hub-card" href="test.html">
-                <div class="hub-icon">📝</div>
-                <h3>Topic Test</h3>
-                <p>Attempt today's topic-wise practice test — same format, timer, and scoring as the Mini App.</p>
-                <div class="hub-cta">Start a test →</div>
+    <!-- =============================================================
+         3. VIEW 1: HUB / DASHBOARD (AUTHENTICATED)
+         ============================================================= -->
+    <main class="page-container" id="hubView">
+        <!-- Welcome Greeting & Exam Pill -->
+        <div class="hub-welcome-banner">
+            <div class="hub-title-group">
+                <h1 id="hubGreeting">Welcome back, Aspirant</h1>
+                <p>Pick up where you left off. Daily editorials and topic quizzes drop at 11:00 AM IST.</p>
+            </div>
+            <div class="hub-exam-picker">
+                <button class="exam-badge-btn" onclick="openExamModal()">
+                    <span id="activeExamLabel">🎯 Target: SSC CGL / Banking</span>
+                    <span style="font-size:10px;">▼</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 4-Stat Metric Strip -->
+        <div class="stats-strip">
+            <div class="stat-card">
+                <div class="stat-label">
+                    <span>Topic Tests</span>
+                    <span>📝</span>
+                </div>
+                <div class="stat-value tabular-nums" id="statTestsVal">--</div>
+                <div class="stat-sub" id="statTestsSub">Available today</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    <span>Weekly Magazine</span>
+                    <span>📰</span>
+                </div>
+                <div class="stat-value tabular-nums" id="statMagVal">Ready</div>
+                <div class="stat-sub">The Hindu & Express</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    <span>Consistency Streak</span>
+                    <span>🔥</span>
+                </div>
+                <div class="stat-value tabular-nums" id="statStreakVal">1 Day</div>
+                <div class="stat-sub">Active daily study</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    <span>Evidence Data Points</span>
+                    <span>📊</span>
+                </div>
+                <div class="stat-value tabular-nums" id="statEvidenceVal">42+</div>
+                <div class="stat-sub">Stats highlighted</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Split Workstation -->
+        <div class="dashboard-grid">
+            <!-- Left Column: Completed Topic Test Suite -->
+            <div class="work-card">
+                <div class="work-card-header">
+                    <div class="work-card-title">
+                        <span class="work-card-title-icon">📝</span>
+                        <span>Today's Topic Trials</span>
+                    </div>
+                    <div class="badge-live">Live IST</div>
+                </div>
+
+                <div class="test-list" id="hubTestList">
+                    <div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13.5px;">
+                        Fetching today's topic trials...
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:12px; margin-top:8px;">
+                    <a href="test.html?practice=true&return_url=index.html" class="btn-secondary" style="flex:1;">
+                        <span>⚡</span> Untimed Practice Drill
+                    </a>
+                    <button class="btn-secondary" style="flex:1;" onclick="switchMainView('tests')">
+                        <span>🔍</span> Browse All Tests
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: In-Website Magazine Hero Card -->
+            <div class="work-card">
+                <div class="work-card-header">
+                    <div class="work-card-title">
+                        <span class="work-card-title-icon">📰</span>
+                        <span>Weekly Editorial Reader</span>
+                    </div>
+                    <span class="evidence-pill">EVIDENCE LENS</span>
+                </div>
+
+                <div class="magazine-preview-card">
+                    <div class="mag-preview-top">
+                        <span class="mag-tag-pill">Current Edition · Full Digest</span>
+                        <span style="font-size: 12px; color: var(--text-muted);">Issue #38</span>
+                    </div>
+                    <h3 class="mag-preview-title">Deep Editorial Synthesis with Evidence Highlights</h3>
+                    <p class="mag-preview-desc">
+                        Every vital national editorial parsed into clean paragraphs, with quantitative statistics highlighted in amber and 40+ high-frequency vocabulary words defined in Hindi and English.
+                    </p>
+                    
+                    <div class="mag-action-row">
+                        <!-- Opens INSIDE website rather than a new window! -->
+                        <button class="btn-primary" onclick="switchMainView('magazine')">
+                            <span>📖</span> Open Magazine Reader →
+                        </button>
+                    </div>
+                </div>
+
+                <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6; padding: 4px 6px;">
+                    💡 <strong>Pro-Tip for Laptops:</strong> Read the editorial passage first, note the amber numbers, then attempt the vocabulary and tone test to cement recall.
+                </div>
+            </div>
+        </div>
+
+        <!-- Word of the Day Strip -->
+        <div class="wotd-strip">
+            <div class="wotd-left">
+                <span class="wotd-tag">Word of the Day</span>
+                <div>
+                    <span class="wotd-word" id="wotdWord">Equanimity</span>
+                    <span style="color: var(--text-subtle); margin: 0 8px;">·</span>
+                    <span class="wotd-meaning" id="wotdMeaning">Mental calmness and composure, especially in a difficult situation.</span>
+                </div>
+            </div>
+            <a href="test.html?practice=true&return_url=index.html" class="btn-secondary" style="width: auto; padding: 6px 14px; font-size: 12px;">
+                Quiz on this →
             </a>
-            <a class="hub-card" href="magazine.html">
-                <div class="hub-icon">📰</div>
-                <h3>This Week's Magazine</h3>
-                <p>Read the current weekly editorial edition, with evidence-lens highlights, right in your browser.</p>
-                <div class="hub-cta">Open this week's edition →</div>
-            </a>
+        </div>
+    </main>
+
+    <!-- =============================================================
+         4. VIEW 2: IN-WEBSITE MAGAZINE VIEWER (#magazineView)
+         ============================================================= -->
+    <section id="magazineView">
+        <div class="magazine-toolbar">
+            <div class="mag-tool-left">
+                <button class="btn-back-hub" onclick="switchMainView('hub')" title="Return to Dashboard">
+                    <span>←</span> Dashboard
+                </button>
+                <div class="mag-title-indicator">
+                    <span>📰</span> Weekly Editorial Magazine
+                    <span class="evidence-pill" style="margin-left:6px;">Evidence Lens Active</span>
+                </div>
+            </div>
+
+            <div class="mag-tool-right">
+                <button class="btn-secondary" style="width:auto; padding:5px 12px; font-size:12px;" onclick="toggleMagazineFullscreen()" id="btnMagFullscreen" title="Toggle Fullscreen Focus">
+                    <span>⛶</span> Fullscreen
+                </button>
+                <button class="btn-secondary" style="width:auto; padding:5px 12px; font-size:12px;" onclick="openMagazineNewTab()" title="Open standalone if using dual monitors">
+                    <span>↗</span> Pop Out
+                </button>
+            </div>
+        </div>
+
+        <div class="mag-iframe-container" id="magContainer">
+            <iframe id="magazineFrame" class="magazine-iframe" src="about:blank" title="Weekly Magazine Reader"></iframe>
         </div>
     </section>
 
+    <!-- =============================================================
+         5. VIEW 3: TOPIC TESTS EXPLORER (#topicTestsView)
+         ============================================================= -->
+    <main class="page-container" id="topicTestsView">
+        <div class="tests-header">
+            <div class="tests-header-info">
+                <h2>Topic Test Sanctum</h2>
+                <p>Timed, exam-standard practice sets calibrated for SSC CGL, Banking, and Civil Services English.</p>
+            </div>
+            <button class="btn-secondary" style="width:auto;" onclick="switchMainView('hub')">
+                <span>←</span> Back to Dashboard
+            </button>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="tests-filter-bar">
+            <button class="filter-chip active" onclick="filterTopicTests('all', this)">All Tests</button>
+            <button class="filter-chip" onclick="filterTopicTests('vocab', this)">Vocabulary</button>
+            <button class="filter-chip" onclick="filterTopicTests('comprehension', this)">Comprehension</button>
+            <button class="filter-chip" onclick="filterTopicTests('grammar', this)">Grammar & Errors</button>
+            <button class="filter-chip" onclick="filterTopicTests('practice', this)">Untimed Drill</button>
+        </div>
+
+        <!-- Grid of Tests -->
+        <div class="tests-grid" id="allTestsGrid">
+            <!-- Dynamically populated -->
+        </div>
+    </main>
+
+    <!-- =============================================================
+         6. TARGET EXAM SELECTOR MODAL
+         ============================================================= -->
+    <div class="modal-backdrop" id="examModal" onclick="closeExamModal(event)">
+        <div class="modal-card">
+            <h3 class="modal-title">Select Target Exam</h3>
+            <p class="modal-desc">Sets the scoring scheme, timer constraints, and difficulty weighting for your tests.</p>
+
+            <div class="exam-choice-list">
+                <div class="exam-choice-opt" onclick="selectExam('SSC CGL & CHSL Tier-I/II')">
+                    <span>SSC CGL & CHSL (Tier-I / II)</span>
+                    <span style="font-size:11px; color:var(--text-muted);">+2 / -0.5</span>
+                </div>
+                <div class="exam-choice-opt" onclick="selectExam('Banking & Insurance (RBI/SBI/IBPS)')">
+                    <span>Banking & Insurance (RBI / SBI / IBPS)</span>
+                    <span style="font-size:11px; color:var(--text-muted);">+1 / -0.25</span>
+                </div>
+                <div class="exam-choice-opt" onclick="selectExam('UPSC Civil Services (CSAT & Mains)')">
+                    <span>UPSC Civil Services (CSAT & Prelims)</span>
+                    <span style="font-size:11px; color:var(--text-muted);">+2.5 / -0.83</span>
+                </div>
+                <div class="exam-choice-opt" onclick="selectExam('State PCS & Defense Exams (CDS/NDA)')">
+                    <span>State PCS & Defense (CDS / NDA)</span>
+                    <span style="font-size:11px; color:var(--text-muted);">Standard</span>
+                </div>
+            </div>
+
+            <button class="btn-secondary" style="width:100%;" onclick="closeExamModal(null, true)">
+                Done
+            </button>
+        </div>
+    </div>
+
+    <!-- =============================================================
+         SCRIPTS: AUTHENTICATION, TESTS ENGINE, AND MAGAZINE ROUTING
+         ============================================================= -->
     <script>
-        // Show login hero or hub based on real session state from auth.js
+        // -------------------------------------------------------------
+        // A. SESSION & AUTHENTICATION LIFECYCLE
+        // -------------------------------------------------------------
+        let currentActiveView = 'hub';
+        let cachedQuizzes = [];
+
         function renderAuthState() {
             const loginView = document.getElementById('loginView');
             const hubView = document.getElementById('hubView');
+            const testsView = document.getElementById('topicTestsView');
+            const magView = document.getElementById('magazineView');
             const nav = document.getElementById('mastheadNav');
+            const userChip = document.getElementById('userChip');
+            const logoutBtn = document.getElementById('logoutBtn');
 
             if (typeof isAuthenticated === 'function' && isAuthenticated()) {
                 loginView.style.display = 'none';
-                hubView.style.display = 'block';
                 nav.style.display = 'flex';
+                userChip.style.display = 'flex';
+                logoutBtn.style.display = 'flex';
 
+                // Display User Profile
                 const user = (typeof getSavedUser === 'function') ? getSavedUser() : null;
-                const name = user && (user.first_name || user.name);
-                document.getElementById('hubGreeting').innerText = name ? `Welcome back, ${name}` : 'Welcome back';
+                const name = user ? (user.first_name || user.username || user.name || 'Candidate') : 'Candidate';
+                const initial = name.charAt(0).toUpperCase();
+
+                document.getElementById('userName').innerText = name;
+                document.getElementById('userAvatar').innerText = initial;
+                document.getElementById('hubGreeting').innerText = `Welcome back, ${name}`;
+
+                // Target Exam Label
+                const targetExam = localStorage.getItem('ez_target_exam') || 'SSC CGL / Banking';
+                document.getElementById('userExamTag').innerText = `🎯 ${targetExam.split(' ')[0]}`;
+                document.getElementById('activeExamLabel').innerText = `🎯 Target: ${targetExam}`;
+
+                // Switch to active view or hub
+                switchMainView(currentActiveView);
+
+                // Fetch real topic quizzes & content
+                loadDashboardQuizzes();
+                loadWordOfTheDay();
             } else {
-                loginView.style.display = 'block';
+                loginView.style.display = 'flex';
                 hubView.style.display = 'none';
+                testsView.style.display = 'none';
+                magView.style.display = 'none';
                 nav.style.display = 'none';
+                userChip.style.display = 'none';
+                logoutBtn.style.display = 'none';
             }
         }
-        document.addEventListener('DOMContentLoaded', renderAuthState);
 
-        // Local theme toggle (independent of app dark-mode class, matches this page's own tokens)
-        const themeBtn = document.getElementById('themeToggle');
-        (function initTheme() {
+        // Dedicated Log Out Implementation for Laptop Website
+        function handleLogout() {
+            if (confirm("Are you sure you want to log out of Ez Editorials?")) {
+                localStorage.removeItem('ez_session_token');
+                localStorage.removeItem('ez_user_profile');
+                sessionStorage.clear();
+                currentActiveView = 'hub';
+                renderAuthState();
+            }
+        }
+
+        // Quick Guest Login for Web / Laptop Exploration
+        function handleGuestLogin() {
+            const guestUser = {
+                id: 999001 + Math.floor(Math.random() * 900),
+                first_name: "Guest Aspirant",
+                username: "guest_student",
+                is_guest: true
+            };
+            localStorage.setItem('ez_session_token', 'guest_token_' + Date.now());
+            localStorage.setItem('ez_user_profile', JSON.stringify(guestUser));
+            renderAuthState();
+        }
+
+        // Student ID / Telegram Username Login
+        function handleQuickStudentLogin() {
+            const input = document.getElementById('guestUsernameInput');
+            const val = input.value.trim().replace(/^@/, '');
+            if (!val) {
+                alert("Please enter your Telegram username or Student ID");
+                input.focus();
+                return;
+            }
+
+            const studentUser = {
+                id: Math.abs(hashCode(val)) || 10001,
+                first_name: val,
+                username: val
+            };
+            localStorage.setItem('ez_session_token', 'web_token_' + Date.now());
+            localStorage.setItem('ez_user_profile', JSON.stringify(studentUser));
+            renderAuthState();
+        }
+
+        function hashCode(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = ((hash << 5) - hash) + str.charCodeAt(i);
+                hash |= 0;
+            }
+            return hash;
+        }
+
+        // -------------------------------------------------------------
+        // B. VIEW SWITCHING (DASHBOARD, TOPIC TESTS, IN-WEBSITE MAGAZINE)
+        // -------------------------------------------------------------
+        function switchMainView(viewName) {
+            currentActiveView = viewName;
+
+            const hubView = document.getElementById('hubView');
+            const testsView = document.getElementById('topicTestsView');
+            const magView = document.getElementById('magazineView');
+
+            const tabHub = document.getElementById('tabHub');
+            const tabTests = document.getElementById('tabTests');
+            const tabMag = document.getElementById('tabMag');
+
+            // Reset tabs
+            [tabHub, tabTests, tabMag].forEach(t => t?.classList.remove('active'));
+
+            if (viewName === 'hub') {
+                hubView.style.display = 'block';
+                testsView.style.display = 'none';
+                magView.style.display = 'none';
+                tabHub?.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (viewName === 'tests') {
+                hubView.style.display = 'none';
+                testsView.style.display = 'block';
+                magView.style.display = 'none';
+                tabTests?.classList.add('active');
+                renderAllTopicTests();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (viewName === 'magazine') {
+                hubView.style.display = 'none';
+                testsView.style.display = 'none';
+                magView.style.display = 'flex';
+                tabMag?.classList.add('active');
+
+                // Load magazine inside iframe if not yet loaded
+                const frame = document.getElementById('magazineFrame');
+                if (frame && (frame.src === 'about:blank' || !frame.src)) {
+                    frame.src = 'magazine.html';
+                }
+            }
+        }
+
+        // Fullscreen toggle for the embedded magazine viewer
+        function toggleMagazineFullscreen() {
+            const container = document.getElementById('magazineView');
+            const btn = document.getElementById('btnMagFullscreen');
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) container.requestFullscreen();
+                else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+                if (btn) btn.innerHTML = '<span>⛶</span> Exit Fullscreen';
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                if (btn) btn.innerHTML = '<span>⛶</span> Fullscreen';
+            }
+        }
+
+        function openMagazineNewTab() {
+            window.open('magazine.html', '_blank');
+        }
+
+        // -------------------------------------------------------------
+        // C. TOPIC TESTS ENGINE (COMPLETE INTEGRATION)
+        // -------------------------------------------------------------
+        async function loadDashboardQuizzes() {
+            const container = document.getElementById('hubTestList');
+            const userId = (typeof getActiveUserId === 'function') ? getActiveUserId() : 12345;
+            
             try {
-                if (localStorage.getItem('app_dark_mode') === 'true') {
-                    document.documentElement.setAttribute('data-theme', 'dark');
+                const headers = (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {};
+                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`, { headers });
+                const data = await res.json();
+
+                const todayList = data.quizzes?.Today || [];
+                const pendingList = data.quizzes?.Pending || [];
+                cachedQuizzes = [...todayList, ...pendingList];
+
+                if (todayList.length > 0) {
+                    renderQuizItems(todayList, container);
+                    document.getElementById('statTestsVal').innerText = todayList.length;
+                    document.getElementById('statTestsSub').innerText = `${todayList.filter(q => q.status === 'completed').length} completed`;
+                } else {
+                    useFallbackQuizzes(container);
+                }
+            } catch (err) {
+                console.warn("Backend quiz API unreachable. Serving high-yield editorial topic tests.");
+                useFallbackQuizzes(container);
+            }
+        }
+
+        function useFallbackQuizzes(container) {
+            // High-yield fallback editorial tests for instant practice & offline resilience
+            const fallback = [
+                {
+                    id: 101,
+                    topic: "Editorial Vocabulary Mastery & Contextual Synonyms",
+                    question_count: 5,
+                    duration_seconds: 300,
+                    status: "unlocked",
+                    day_num: 1,
+                    category: "vocab",
+                    desc: "Assess today's hardest editorial words and antonym traps."
+                },
+                {
+                    id: 102,
+                    topic: "Passage Tone & Author's Core Arguments",
+                    question_count: 5,
+                    duration_seconds: 360,
+                    status: "unlocked",
+                    day_num: 1,
+                    category: "comprehension",
+                    desc: "Analyze critical viewpoints, inferential premises, and nuances."
+                },
+                {
+                    id: 103,
+                    topic: "Sentence Improvement & Error Detection",
+                    question_count: 5,
+                    duration_seconds: 300,
+                    status: "locked",
+                    drop_time: new Date(Date.now() + 3600000).toISOString(),
+                    day_num: 1,
+                    category: "grammar",
+                    desc: "Grammar rules extracted directly from contemporary editorial passages."
+                }
+            ];
+            cachedQuizzes = fallback;
+            renderQuizItems(fallback, container);
+            document.getElementById('statTestsVal').innerText = "2 Active";
+            document.getElementById('statTestsSub').innerText = "1 Scheduled later";
+        }
+
+        function renderQuizItems(quizzes, container) {
+            if (!container) return;
+
+            container.innerHTML = quizzes.map(quiz => {
+                const durationMins = Math.round((quiz.duration_seconds || 300) / 60);
+                const qCount = quiz.question_count || 5;
+
+                let badgeHtml = '';
+                let href = '#';
+                let onclick = '';
+
+                if (quiz.status === 'completed') {
+                    badgeHtml = `<span class="status-badge attempted">✅ Attempted ${quiz.score !== null && quiz.score !== undefined ? `(${quiz.score} pts)` : ''}</span>`;
+                    href = `result.html?attempt_id=${quiz.attempt_id || 'latest'}&day=${quiz.day_num || 1}&return_url=index.html`;
+                } else if (quiz.status === 'locked') {
+                    const timeStr = quiz.drop_time ? new Date(quiz.drop_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '5:00 PM';
+                    badgeHtml = `<span class="status-badge locked">🔒 Drops ${timeStr}</span>`;
+                } else {
+                    badgeHtml = `<span class="status-badge start">Start Test 〉</span>`;
+                    href = `test.html?quiz_id=${quiz.id}&day=${quiz.day_num || 1}&return_url=index.html`;
+                }
+
+                return `
+                    <a href="${href}" class="test-item" ${quiz.status === 'locked' ? 'onclick="event.preventDefault(); alert(\'This test will unlock at the scheduled time.\')"' : ''}>
+                        <div class="test-item-left">
+                            <div class="test-item-title">${escapeHtml(quiz.topic)}</div>
+                            <div class="test-item-meta">
+                                <span>📋 ${qCount} Questions</span>
+                                <span>⏱ ${durationMins} mins</span>
+                                <span>🎯 Negative Marking: Yes</span>
+                            </div>
+                        </div>
+                        <div>${badgeHtml}</div>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        function renderAllTopicTests(filterCategory = 'all') {
+            const grid = document.getElementById('allTestsGrid');
+            if (!grid) return;
+
+            let list = cachedQuizzes.length > 0 ? cachedQuizzes : [
+                { id: 201, topic: "Vocabulary Context & Antonyms", question_count: 5, duration_seconds: 300, status: "unlocked", category: "vocab", desc: "Words from The Hindu lead articles." },
+                { id: 202, topic: "Reading Comprehension Analysis", question_count: 5, duration_seconds: 400, status: "unlocked", category: "comprehension", desc: "Passage tone, central idea, and inferences." },
+                { id: 203, topic: "Grammar Error Spotting", question_count: 5, duration_seconds: 300, status: "unlocked", category: "grammar", desc: "Subject-verb agreement and prepositional traps." },
+                { id: 204, topic: "Cloze Test & Phrasal Verbs", question_count: 5, duration_seconds: 300, status: "unlocked", category: "vocab", desc: "Fill in blank contextual editorial expressions." }
+            ];
+
+            if (filterCategory === 'practice') {
+                list = [{
+                    id: 999,
+                    topic: "Untimed Rapid Vocabulary Drill",
+                    question_count: 10,
+                    duration_seconds: 600,
+                    status: "unlocked",
+                    category: "practice",
+                    desc: "Free-flowing drill with instant explanations and zero timer pressure."
+                }];
+            } else if (filterCategory !== 'all') {
+                list = list.filter(q => (q.category === filterCategory) || (q.topic.toLowerCase().includes(filterCategory)));
+            }
+
+            grid.innerHTML = list.map(q => {
+                const durationMins = Math.round((q.duration_seconds || 300) / 60);
+                const isPractice = filterCategory === 'practice' || q.id === 999;
+                const targetUrl = isPractice 
+                    ? `test.html?practice=true&return_url=index.html` 
+                    : `test.html?quiz_id=${q.id}&day=${q.day_num || 1}&return_url=index.html`;
+
+                return `
+                    <div class="test-detail-card">
+                        <div>
+                            <div class="test-top-tags">
+                                <span class="test-category-tag">${q.category ? q.category.toUpperCase() : 'TOPIC TEST'}</span>
+                                <span style="font-size:12px; color:var(--text-muted);">Timed CBT</span>
+                            </div>
+                            <h3 class="test-detail-title">${escapeHtml(q.topic)}</h3>
+                            <p class="test-detail-desc">${escapeHtml(q.desc || 'Standardized practice trial crafted from morning editorials.')}</p>
+                        </div>
+                        <div class="test-card-footer">
+                            <div class="test-stats-mini">
+                                <span>📋 ${q.question_count || 5} Questions</span>
+                                <span>⏱ ${durationMins} mins</span>
+                            </div>
+                            <a href="${targetUrl}" class="btn-primary" style="width:auto; padding:7px 16px; font-size:13px;">
+                                Attempt Now 〉
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterTopicTests(cat, btn) {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            renderAllTopicTests(cat);
+        }
+
+        // -------------------------------------------------------------
+        // D. AUXILIARY DATA (WORD OF THE DAY & EXAMS)
+        // -------------------------------------------------------------
+        async function loadWordOfTheDay() {
+            try {
+                const res = await fetch('https://ez-editorials-bot.onrender.com/api/word-of-day');
+                const data = await res.json();
+                if (data.word_of_the_day) {
+                    document.getElementById('wotdWord').innerText = data.word_of_the_day;
+                    if (data.meaning) document.getElementById('wotdMeaning').innerText = data.meaning;
                 }
             } catch (e) {}
+        }
+
+        // Target Exam Modal
+        function openExamModal() {
+            document.getElementById('examModal').style.display = 'flex';
+        }
+
+        function closeExamModal(e, force = false) {
+            if (force || (e && e.target.id === 'examModal')) {
+                document.getElementById('examModal').style.display = 'none';
+            }
+        }
+
+        function selectExam(examName) {
+            localStorage.setItem('ez_target_exam', examName);
+            document.getElementById('userExamTag').innerText = `🎯 ${examName.split(' ')[0]}`;
+            document.getElementById('activeExamLabel').innerText = `🎯 Target: ${examName}`;
+            closeExamModal(null, true);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
+        }
+
+        // -------------------------------------------------------------
+        // E. THEME MANAGEMENT (COORDINATED WITH tokens.css & localStorage)
+        // -------------------------------------------------------------
+        const themeBtn = document.getElementById('themeToggle');
+
+        function applyTheme(isDark) {
+            if (isDark) {
+                document.documentElement.classList.add('dark-mode');
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.body.classList.add('dark-mode');
+            } else {
+                document.documentElement.classList.remove('dark-mode');
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.body.classList.remove('dark-mode');
+            }
+        }
+
+        // Initialize Theme from localStorage
+        (function initTheme() {
+            try {
+                const saved = localStorage.getItem('app_dark_mode') === 'true';
+                applyTheme(saved);
+            } catch (e) {}
         })();
-        themeBtn.addEventListener('click', () => {
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-            document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            try { localStorage.setItem('app_dark_mode', (!isDark).toString()); } catch (e) {}
+
+        themeBtn?.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.contains('dark-mode') || document.documentElement.getAttribute('data-theme') === 'dark';
+            const nextDark = !isDark;
+            applyTheme(nextDark);
+            try { localStorage.setItem('app_dark_mode', nextDark.toString()); } catch (e) {}
         });
+
+        // Initialize on DOM Ready
+        document.addEventListener('DOMContentLoaded', renderAuthState);
     </script>
 
 </body>

@@ -1628,19 +1628,18 @@
             else window.location.href = `result.html?attempt_id=${attemptIdParam}${dayQuery}`;
         }
 
+        function getExitTargetUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const returnUrl = urlParams.get('return_url');
+            if (returnUrl) return returnUrl;
+            if (document.referrer && document.referrer.includes('index.html')) return 'index.html';
+            const dayParam = urlParams.get('day');
+            return dayParam !== null ? `app.html?view=day&day=${dayParam}` : 'app.html?view=day';
+        }
+
         function exitTestEarly() {
             triggerHaptic('light');
-            
-            // Read the exact day they came from
-            const urlParams = new URLSearchParams(window.location.search);
-            const dayParam = urlParams.get('day');
-            
-            // Explicitly route them back to that specific day
-            if (dayParam !== null) {
-                window.location.href = `app.html?view=day&day=${dayParam}`;
-            } else {
-                window.location.href = 'app.html?view=day';
-            }
+            window.location.href = getExitTargetUrl();
         }
 
         function proceedToInstructions() {
@@ -1770,7 +1769,7 @@
                 
             } catch (err) {
                 alert("Failed to initialize quiz.");
-                window.location.href = 'app.html';
+                window.location.href = getExitTargetUrl();
             }
         }
 
@@ -1802,7 +1801,7 @@
 
                 if (data.error) { 
                     alert(data.error); 
-                    window.location.href = 'app.html'; 
+                    window.location.href = getExitTargetUrl(); 
                     return; 
                 }
 
@@ -1843,7 +1842,7 @@
                 
             } catch (err) {
                 alert("Failed to connect. Please check your internet connection.");
-                window.location.href = 'app.html';
+                window.location.href = getExitTargetUrl();
             }
         }
 
