@@ -328,11 +328,23 @@
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
-        if (tg.requestFullscreen) {
-            tg.requestFullscreen();
+        // Safe Telegram WebApp initialization with error guards
+        let tg = null;
+        try {
+            if (window.Telegram && window.Telegram.WebApp) {
+                tg = window.Telegram.WebApp;
+                tg.ready();
+                tg.expand();
+                if (tg.requestFullscreen) {
+                    try {
+                        tg.requestFullscreen();
+                    } catch (fsErr) {
+                        console.warn("Fullscreen request bypassed:", fsErr);
+                    }
+                }
+            }
+        } catch (initErr) {
+            console.warn("Telegram WebApp init warning:", initErr);
         }
 
         // 1. MASTER QUESTION BANK (Add as many questions here as you like)
@@ -500,8 +512,8 @@
                 isProcessingTap = true;
                 btn.classList.add('correct');
 
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.notificationOccurred('success');
+                if (tg && tg.HapticFeedback) {
+                    try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
                 }
 
                 setTimeout(() => {
@@ -513,8 +525,8 @@
                 btn.classList.add('error');
                 document.getElementById('warning-msg').classList.add('show');
 
-                if (tg.HapticFeedback) {
-                    tg.HapticFeedback.notificationOccurred('error');
+                if (tg && tg.HapticFeedback) {
+                    try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {}
                 }
             }
         }
@@ -524,17 +536,22 @@
             document.getElementById('quiz-view').style.display = 'none';
             document.getElementById('success-view').style.display = 'block';
 
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.notificationOccurred('success');
+            if (tg && tg.HapticFeedback) {
+                try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
             }
 
-            const initData = tg.initData || '';
-            const userId = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+            const initData = tg && tg.initData ? tg.initData : '';
+            const urlParams = new URLSearchParams(window.location.search);
+            const rawUserId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) ||
+                              urlParams.get('uid') ||
+                              urlParams.get('user_id');
+            const userId = rawUserId ? parseInt(rawUserId, 10) : null;
             const btn = document.getElementById('continue-btn');
 
-            // Await the fetch request to prevent the user from closing the app before the server registers it
+            let approved = false;
+            // 1. Try Cloudflare Worker
             try {
-                await fetch('https://ez-verify-worker.prathamesh-adhe508.workers.dev', {
+                const res = await fetch('https://ez-verify-worker.prathamesh-adhe508.workers.dev', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -542,24 +559,48 @@
                     },
                     body: JSON.stringify({ user_id: userId })
                 });
+                if (res.ok) approved = true;
             } catch (err) {
-                console.error("Approval request failed:", err);
-            } finally {
-                // Unlock the continue button ONLY after the backend is done processing
-                btn.disabled = false;
-                btn.style.opacity = "1";
-                btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
+                console.error("Worker approval failed, attempting direct Render fallback:", err);
             }
+
+            // 2. Direct Render backend fallback
+            if (!approved && userId) {
+                try {
+                    await fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Telegram-Init-Data': initData
+                        },
+                        body: JSON.stringify({ user_id: userId })
+                    });
+                } catch (fallbackErr) {
+                    console.error("Render fallback failed:", fallbackErr);
+                }
+            }
+
+            // Unlock the continue button
+            btn.disabled = false;
+            btn.style.opacity = "1";
+            btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
         }
 
         function handleContinue() {
-            if (tg.HapticFeedback) {
-                tg.HapticFeedback.impactOccurred('medium');
+            if (tg && tg.HapticFeedback) {
+                try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
             }
-            tg.close();
+            if (tg && typeof tg.close === 'function') {
+                try { tg.close(); return; } catch(e) {}
+            }
+            window.location.href = "https://t.me/ezeditorialgroup";
         }
 
-        loadQuestion();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadQuestion);
+        } else {
+            loadQuestion();
+        }
     </script>
 </body>
 </html>
