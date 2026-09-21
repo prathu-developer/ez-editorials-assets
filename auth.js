@@ -192,10 +192,24 @@ function getSavedUser() {
     }
 }
 
-// 6. Session check
+// 6. Session check (Members-Only: rejects and clears any guest sessions)
 function isAuthenticated() {
     if (isTelegramMiniApp()) return true;
-    return Boolean(localStorage.getItem('ez_session_token'));
+    const token = localStorage.getItem('ez_session_token');
+    if (!token || token.startsWith('guest_')) {
+        if (token && token.startsWith('guest_')) {
+            localStorage.removeItem('ez_session_token');
+            localStorage.removeItem('ez_user_profile');
+        }
+        return false;
+    }
+    const user = getSavedUser();
+    if (!user || user.is_guest) {
+        localStorage.removeItem('ez_session_token');
+        localStorage.removeItem('ez_user_profile');
+        return false;
+    }
+    return true;
 }
 
 // 7. Dedicated Log Out Functionality

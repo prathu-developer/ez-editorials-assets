@@ -323,12 +323,58 @@
             margin-bottom: 24px;
         }
 
-        /* OTP Input & Buttons */
-        .auth-step {
+        /* Gate Card Elements */
+        .btn-bot-direct {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--cobalt-wash);
+            border: 1px solid rgba(28, 100, 242, 0.3);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            text-align: left;
+            margin-bottom: 18px;
+            color: var(--primary);
+            transition: all 0.15s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-bot-direct:hover {
+            background: rgba(28, 100, 242, 0.14);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .btn-bot-direct .bot-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .bot-btn-text {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 2px;
+        }
+
+        .bot-btn-text strong {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .bot-btn-text small {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        .auth-box-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
             text-align: left;
+            margin-bottom: 12px;
         }
 
         .auth-label {
@@ -337,14 +383,19 @@
             color: var(--text-muted);
         }
 
+        .auth-input-action-row {
+            display: flex;
+            gap: 8px;
+        }
+
         .auth-input {
             width: 100%;
-            padding: 11px 14px;
+            padding: 10px 14px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-line);
             background: var(--bg-subtle);
             color: var(--text-main);
-            font-size: 14px;
+            font-size: 13.5px;
             outline: none;
             transition: border-color 0.15s ease;
         }
@@ -352,6 +403,25 @@
         .auth-input:focus {
             border-color: var(--primary);
             background: var(--bg-card);
+        }
+
+        .btn-sub-action {
+            padding: 0 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-sub-action:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--cobalt-wash);
         }
 
         .auth-otp-input {
@@ -378,33 +448,16 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            margin-top: 4px;
         }
 
         .btn-primary-action:hover { background: var(--primary-hover); }
         .btn-primary-action:active { transform: scale(0.98); }
 
-        .auth-hint-box {
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-line);
-            border-radius: var(--radius-sm);
-            padding: 10px 12px;
-            font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-top: 14px;
-            text-align: left;
-        }
-
-        .auth-hint-box a {
-            color: var(--primary);
-            font-weight: 600;
-            text-decoration: underline;
-        }
-
         .gate-divider {
             display: flex;
             align-items: center;
-            margin: 22px 0 18px;
+            margin: 20px 0 16px;
             color: var(--text-subtle);
             font-size: 11px;
             text-transform: uppercase;
@@ -424,33 +477,21 @@
         .tg-widget-wrap {
             display: flex;
             justify-content: center;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
         }
 
-        .btn-guest-action {
-            width: 100%;
-            padding: 9px 12px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-line);
-            background: var(--bg-card);
-            color: var(--text-muted);
-            font-size: 12.5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .btn-guest-action:hover {
-            color: var(--text-main);
-            border-color: var(--border-hover);
-            background: var(--bg-subtle);
+        .gate-footnote {
+            font-size: 11.5px;
+            color: var(--text-subtle);
+            margin-top: 6px;
         }
 
         #auth-status-msg {
-            font-size: 12px;
-            margin-top: 12px;
+            font-size: 12.5px;
+            margin-top: 10px;
             min-height: 18px;
             font-weight: 600;
+            line-height: 1.4;
         }
 
         .msg-error { color: var(--crimson); }
@@ -984,33 +1025,36 @@
             <h2 class="gate-title">Sign in to Ez Editorials</h2>
             <p class="gate-sub">Access your weekly topic tests and read multi-source editorial magazines.</p>
 
-            <!-- STEP 1: Enter Username to Send OTP via Bot -->
-            <div class="auth-step" id="otpStep1">
-                <label class="auth-label" for="usernameInput">Telegram Username or Student ID</label>
-                <input type="text" id="usernameInput" class="auth-input" placeholder="e.g. @your_username or 12345678" autocomplete="username">
-                <button type="button" class="btn-primary-action" onclick="requestBotOtp()">
-                    <span>💬</span> Send 6-Digit Code via Bot
-                </button>
+            <!-- METHOD 1: 1-Tap Bot Shortcut (Fastest & Easiest) -->
+            <a href="https://t.me/Ez_vocab_bot?start=login" target="_blank" rel="noopener noreferrer" class="btn-bot-direct" id="openBotBtn">
+                <span class="bot-icon">💬</span>
+                <span class="bot-btn-text">
+                    <strong>Get Code via @Ez_vocab_bot</strong>
+                    <small>Tap to open bot — receive your 6-digit code instantly</small>
+                </span>
+            </a>
+
+            <!-- METHOD 2: Or request bot to send code to your username / ID -->
+            <div class="auth-box-group">
+                <label class="auth-label" for="usernameInput">Or send code to Telegram Username / ID:</label>
+                <div class="auth-input-action-row">
+                    <input type="text" id="usernameInput" class="auth-input" placeholder="@your_username or ID" autocomplete="username">
+                    <button type="button" class="btn-sub-action" id="sendOtpBtn" onclick="requestBotOtp()">
+                        Send Code
+                    </button>
+                </div>
             </div>
 
-            <!-- STEP 2: Enter 6-Digit Code received from Bot -->
-            <div class="auth-step" id="otpStep2" style="display: none;">
-                <label class="auth-label" for="otpCodeInput">Enter 6-Digit Code sent to your Telegram</label>
-                <input type="text" id="otpCodeInput" class="auth-input auth-otp-input" placeholder="••••••" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
-                <button type="button" class="btn-primary-action" onclick="verifyBotOtp()">
+            <!-- OTP VERIFICATION INPUT (ALWAYS ACCESSIBLE) -->
+            <div class="auth-box-group" style="margin-top: 14px;">
+                <label class="auth-label" for="otpCodeInput">Enter 6-Digit Verification Code:</label>
+                <input type="text" id="otpCodeInput" class="auth-input auth-otp-input tabular-nums" placeholder="••••••" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+                <button type="button" class="btn-primary-action" id="verifyBtn" onclick="verifyBotOtp()">
                     <span>🚀</span> Verify Code & Unlock Sanctum
-                </button>
-                <button type="button" class="btn-guest-action" style="margin-top: 4px;" onclick="resetOtpStep()">
-                    ← Back / Change Username
                 </button>
             </div>
 
             <p id="auth-status-msg"></p>
-
-            <div class="auth-hint-box">
-                💡 <strong>Direct Bot Shortcut:</strong><br>
-                Open <a href="https://t.me/Ez_vocab_bot" target="_blank" rel="noopener noreferrer">@Ez_vocab_bot</a> in Telegram and type <code>/login</code> to receive your instant code immediately!
-            </div>
 
             <div class="gate-divider">
                 <span>OR SIGN IN DIRECTLY</span>
@@ -1024,10 +1068,7 @@
                         data-onauth="onTelegramAuth(user)"
                         data-request-access="write"></script>
             </div>
-
-            <button type="button" class="btn-guest-action" onclick="signInAsGuest()">
-                ⚡ Continue as Guest Aspirant
-            </button>
+            <p class="gate-footnote">🔒 Exclusive to registered aspirants & group members.</p>
         </div>
     </section>
 
@@ -1157,6 +1198,13 @@
 
         // --- AUTHENTICATION GATE & ACCESS CONTROL ---
         function renderAuthState() {
+            // Strict security: Purge any legacy guest sessions
+            const existingToken = localStorage.getItem('ez_session_token');
+            if (existingToken && existingToken.startsWith('guest_')) {
+                localStorage.removeItem('ez_session_token');
+                localStorage.removeItem('ez_user_profile');
+            }
+
             const authGate = document.getElementById('authGateView');
             const quizzesView = document.getElementById('quizzesView');
             const magazineView = document.getElementById('magazineView');
@@ -1168,7 +1216,7 @@
             const isAuthed = (typeof isAuthenticated === 'function' && isAuthenticated());
 
             if (isAuthed) {
-                // UNLOCK SANCTUM
+                // UNLOCK SANCTUM FOR VERIFIED MEMBER
                 authGate.style.display = 'none';
                 nav.style.display = 'flex';
                 userChip.style.display = 'flex';
@@ -1197,7 +1245,6 @@
                 localStorage.removeItem('ez_session_token');
                 localStorage.removeItem('ez_user_profile');
                 sessionStorage.clear();
-                resetOtpStep();
                 renderAuthState();
             }
         }
@@ -1205,7 +1252,7 @@
         // --- BOT OTP AUTHENTICATION ---
         async function requestBotOtp() {
             const input = document.getElementById('usernameInput');
-            const msgEl = document.getElementById('auth-status-msg');
+            const sendBtn = document.getElementById('sendOtpBtn');
             const val = input.value.trim();
 
             if (!val) {
@@ -1214,6 +1261,7 @@
                 return;
             }
 
+            if (sendBtn) sendBtn.innerText = "Sending...";
             setAuthMsg("Requesting code from @Ez_vocab_bot...", "success");
 
             try {
@@ -1226,24 +1274,24 @@
 
                 if (res.ok && data.status === 'sent') {
                     setAuthMsg("✅ Code sent! Check your Telegram messages from @Ez_vocab_bot.", "success");
-                    document.getElementById('otpStep1').style.display = 'none';
-                    document.getElementById('otpStep2').style.display = 'flex';
-                    document.getElementById('otpCodeInput').focus();
+                    const otpInput = document.getElementById('otpCodeInput');
+                    if (otpInput) {
+                        otpInput.focus();
+                        otpInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 } else {
-                    setAuthMsg(data.error || "Could not send code. Ensure you have messaged @Ez_vocab_bot.", "error");
+                    setAuthMsg(data.error || "Could not find username. Tap 'Get Code via @Ez_vocab_bot' above!", "error");
                 }
             } catch (err) {
-                setAuthMsg("Could not reach server. You can also send /login directly to @Ez_vocab_bot!", "error");
-                // Allow user to proceed to enter code anyway if they got it from bot directly
-                document.getElementById('otpStep1').style.display = 'none';
-                document.getElementById('otpStep2').style.display = 'flex';
-                document.getElementById('otpCodeInput').focus();
+                setAuthMsg("Server unreachable. Tap 'Get Code via @Ez_vocab_bot' above to get your code directly!", "error");
+            } finally {
+                if (sendBtn) sendBtn.innerText = "Send Code";
             }
         }
 
         async function verifyBotOtp() {
             const codeInput = document.getElementById('otpCodeInput');
-            const msgEl = document.getElementById('auth-status-msg');
+            const verifyBtn = document.getElementById('verifyBtn');
             const code = codeInput.value.trim();
 
             if (!code || code.length !== 6) {
@@ -1252,7 +1300,8 @@
                 return;
             }
 
-            setAuthMsg("Verifying verification code...", "success");
+            if (verifyBtn) verifyBtn.innerText = "Verifying...";
+            setAuthMsg("Verifying code with server...", "success");
 
             try {
                 const res = await fetch('https://ez-editorials-bot.onrender.com/api/auth/verify-otp', {
@@ -1265,21 +1314,16 @@
                 if (res.ok && data.token) {
                     localStorage.setItem('ez_session_token', data.token);
                     localStorage.setItem('ez_user_profile', JSON.stringify(data.user));
-                    setAuthMsg("✅ Verified! Entering Sanctum...", "success");
-                    setTimeout(renderAuthState, 400);
+                    setAuthMsg("✅ Verified! Unlocking Study Sanctum...", "success");
+                    setTimeout(renderAuthState, 350);
                 } else {
                     setAuthMsg(data.error || "Invalid or expired code.", "error");
                 }
             } catch (err) {
                 setAuthMsg("Connection failed. Please retry.", "error");
+            } finally {
+                if (verifyBtn) verifyBtn.innerHTML = '<span>🚀</span> Verify Code & Unlock Sanctum';
             }
-        }
-
-        function resetOtpStep() {
-            document.getElementById('otpStep1').style.display = 'flex';
-            document.getElementById('otpStep2').style.display = 'none';
-            document.getElementById('otpCodeInput').value = '';
-            setAuthMsg("", "");
         }
 
         function setAuthMsg(txt, type) {
@@ -1287,18 +1331,6 @@
             if (!el) return;
             el.innerText = txt;
             el.className = type === 'error' ? 'msg-error' : 'msg-success';
-        }
-
-        function signInAsGuest() {
-            const guestUser = {
-                id: 999001 + Math.floor(Math.random() * 900),
-                first_name: "Guest Aspirant",
-                username: "guest_student",
-                is_guest: true
-            };
-            localStorage.setItem('ez_session_token', 'guest_token_' + Date.now());
-            localStorage.setItem('ez_user_profile', JSON.stringify(guestUser));
-            renderAuthState();
         }
 
         // Official Telegram Widget Callback
