@@ -112,7 +112,7 @@
         .tabular-nums { font-variant-numeric: tabular-nums; }
 
         /* -------------------------------------------------------------
-           STICKY MASTHEAD (MINIMAL & FOCUSED)
+           STICKY MASTHEAD (MINIMAL & CLEAN)
            ------------------------------------------------------------- */
         .masthead {
             position: sticky;
@@ -176,7 +176,7 @@
             border: 1px solid var(--border-line);
         }
 
-        /* The Only Two Main Tabs */
+        /* The Two Main Tabs (Authenticated only) */
         .masthead-nav {
             display: flex;
             align-items: center;
@@ -235,28 +235,229 @@
         .btn-icon:hover { border-color: var(--border-hover); background: var(--bg-subtle); }
         .btn-icon:active { transform: scale(0.96); }
 
-        .user-auth-btn {
+        .btn-logout {
             padding: 6px 12px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-line);
             background: var(--bg-card);
-            color: var(--text-main);
+            color: var(--text-muted);
             font-size: 12.5px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.15s ease;
             display: flex;
             align-items: center;
+            gap: 5px;
+        }
+
+        .btn-logout:hover {
+            color: var(--crimson);
+            border-color: var(--crimson);
+            background: var(--crimson-wash);
+        }
+
+        /* Candidate user badge */
+        .user-chip {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            background: var(--bg-subtle);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-line);
+            display: flex;
+            align-items: center;
             gap: 6px;
         }
 
-        .user-auth-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+        /* -------------------------------------------------------------
+           AUTHENTICATION GATE (SHOWN WHEN NOT LOGGED IN)
+           ------------------------------------------------------------- */
+        #authGateView {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            padding: 40px 20px;
+            min-height: calc(100vh - 60px);
         }
 
+        .gate-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+            text-align: center;
+        }
+
+        .gate-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--cobalt-wash);
+            color: var(--primary);
+            border-radius: var(--radius-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 16px;
+            border: 1px solid rgba(28, 100, 242, 0.15);
+        }
+
+        .gate-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            letter-spacing: -0.3px;
+        }
+
+        .gate-sub {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        /* OTP Input & Buttons */
+        .auth-step {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .auth-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+            background: var(--bg-subtle);
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .auth-input:focus {
+            border-color: var(--primary);
+            background: var(--bg-card);
+        }
+
+        .auth-otp-input {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 8px;
+            font-variant-numeric: tabular-nums;
+            padding: 10px 14px;
+        }
+
+        .btn-primary-action {
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease, transform 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary-action:hover { background: var(--primary-hover); }
+        .btn-primary-action:active { transform: scale(0.98); }
+
+        .auth-hint-box {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-top: 14px;
+            text-align: left;
+        }
+
+        .auth-hint-box a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .gate-divider {
+            display: flex;
+            align-items: center;
+            margin: 22px 0 18px;
+            color: var(--text-subtle);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .gate-divider::before,
+        .gate-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .gate-divider span { padding: 0 10px; }
+
+        .tg-widget-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .btn-guest-action {
+            width: 100%;
+            padding: 9px 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-guest-action:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            background: var(--bg-subtle);
+        }
+
+        #auth-status-msg {
+            font-size: 12px;
+            margin-top: 12px;
+            min-height: 18px;
+            font-weight: 600;
+        }
+
+        .msg-error { color: var(--crimson); }
+        .msg-success { color: var(--mastery-emerald); }
+
         /* -------------------------------------------------------------
-           CONTAINER & SHARED STYLES
+           CONTAINER FOR AUTHENTICATED PILLARS
            ------------------------------------------------------------- */
         .page-container {
             max-width: var(--max-page-width);
@@ -344,16 +545,12 @@
             margin-top: 1px;
         }
 
-        .mag-day-pill.active .pill-dot {
-            background: #ffffff;
-        }
+        .mag-day-pill.active .pill-dot { background: #ffffff; }
 
         /* -------------------------------------------------------------
            PILLAR 1: WEEKLY QUIZZES INTERFACE
            ------------------------------------------------------------- */
-        #quizzesView {
-            display: block;
-        }
+        #quizzesView { display: none; }
 
         .section-header-row {
             display: flex;
@@ -425,21 +622,9 @@
             border-radius: var(--radius-xs);
         }
 
-        .chip-blue {
-            background: var(--cobalt-wash);
-            color: var(--primary);
-        }
-
-        .chip-purple {
-            background: var(--review-wash);
-            color: var(--review-text);
-        }
-
-        .chip-muted {
-            background: var(--bg-subtle);
-            color: var(--text-muted);
-            border: 1px solid var(--border-line);
-        }
+        .chip-blue { background: var(--cobalt-wash); color: var(--primary); }
+        .chip-purple { background: var(--review-wash); color: var(--review-text); }
+        .chip-muted { background: var(--bg-subtle); color: var(--text-muted); border: 1px solid var(--border-line); }
 
         .quiz-card-title {
             font-size: 16px;
@@ -465,7 +650,6 @@
             gap: 10px;
         }
 
-        /* Action Buttons for Quiz */
         .btn-start-test {
             background: var(--primary);
             color: #ffffff;
@@ -499,9 +683,7 @@
             transition: all 0.15s ease;
         }
 
-        .btn-result:hover {
-            filter: brightness(0.96);
-        }
+        .btn-result:hover { filter: brightness(0.96); }
 
         .btn-review {
             background: var(--bg-card);
@@ -518,9 +700,7 @@
             transition: all 0.15s ease;
         }
 
-        .btn-review:hover {
-            background: var(--cobalt-wash);
-        }
+        .btn-review:hover { background: var(--cobalt-wash); }
 
         .badge-locked {
             font-size: 12px;
@@ -545,9 +725,7 @@
         /* -------------------------------------------------------------
            PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING
            ------------------------------------------------------------- */
-        #magazineView {
-            display: none;
-        }
+        #magazineView { display: none; }
 
         .mag-reader-toolbar {
             display: flex;
@@ -664,7 +842,6 @@
             font-style: italic;
         }
 
-        /* Reading Passage Body */
         .article-body {
             font-size: 15px;
             line-height: 1.75;
@@ -674,11 +851,8 @@
             gap: 16px;
         }
 
-        .article-body p {
-            margin: 0;
-        }
+        .article-body p { margin: 0; }
 
-        /* Evidence Lens & Vocab Annotations */
         .evidence-hl, .stat-number {
             background-color: var(--evidence-wash);
             color: var(--evidence-text);
@@ -706,7 +880,6 @@
             vertical-align: super;
         }
 
-        /* Vocab Lab Quick Look Card */
         .vocab-lab-card {
             background: var(--bg-subtle);
             border: 1px solid var(--border-line);
@@ -750,100 +923,10 @@
             gap: 6px;
         }
 
-        .vocab-word-text {
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .vocab-pos {
-            font-size: 11px;
-            color: var(--text-subtle);
-            font-style: italic;
-        }
-
-        .vocab-meaning {
-            font-size: 12px;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        .vocab-hindi {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* -------------------------------------------------------------
-           AUTH MODAL (SIMPLE & NON-INTRUSIVE)
-           ------------------------------------------------------------- */
-        .auth-modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(3px);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .auth-modal-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            border-radius: var(--radius-lg);
-            width: 100%;
-            max-width: 380px;
-            padding: 28px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            text-align: center;
-        }
-
-        .auth-modal-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--text-main);
-        }
-
-        .auth-modal-card p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-
-        .btn-tg-one-tap {
-            width: 100%;
-            padding: 11px;
-            border-radius: var(--radius-md);
-            border: none;
-            background: #27A7E7;
-            color: #fff;
-            font-size: 13.5px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .btn-guest-opt {
-            width: 100%;
-            padding: 10px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-line);
-            background: var(--bg-subtle);
-            color: var(--text-main);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-guest-opt:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
+        .vocab-word-text { font-weight: 700; color: var(--text-main); }
+        .vocab-pos { font-size: 11px; color: var(--text-subtle); font-style: italic; }
+        .vocab-meaning { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+        .vocab-hindi { color: var(--primary); font-weight: 600; }
 
         @media (max-width: 768px) {
             .masthead { padding: 0 16px; }
@@ -867,8 +950,8 @@
             <span class="brand-pill">Study Sanctum</span>
         </div>
 
-        <!-- The Two Main Pillars Only -->
-        <nav class="masthead-nav">
+        <!-- The Two Main Pillars (Visible only when logged in) -->
+        <nav class="masthead-nav" id="mastheadNav" style="display: none;">
             <button class="nav-tab-btn active" id="tabQuizzes" onclick="switchView('quizzes')">
                 <span>📝</span> Weekly Quizzes
             </button>
@@ -878,19 +961,78 @@
         </nav>
 
         <div class="masthead-right">
+            <!-- User Profile & Log Out (Visible only when logged in) -->
+            <div class="user-chip" id="userChip" style="display: none;">
+                <span>👤</span>
+                <span id="userNameLabel">Student</span>
+            </div>
+            <button class="btn-logout" id="logoutBtn" style="display: none;" onclick="handleLogout()">
+                <span>🚪</span> Log Out
+            </button>
+
             <!-- Theme Toggle -->
             <button class="btn-icon" id="themeToggle" title="Toggle Theme">🌓</button>
-
-            <!-- User Auth / Logout Button -->
-            <button class="user-auth-btn" id="userAuthBtn" onclick="handleAuthButtonClick()">
-                <span id="userAuthIcon">👤</span>
-                <span id="userAuthLabel">Login</span>
-            </button>
         </div>
     </header>
 
     <!-- =============================================================
-         2. PILLAR 1: WEEKLY QUIZZES INTERFACE
+         2. AUTHENTICATION GATE (MANDATORY WALL WHEN NOT LOGGED IN)
+         ============================================================= -->
+    <section id="authGateView">
+        <div class="gate-card">
+            <div class="gate-icon">🔐</div>
+            <h2 class="gate-title">Sign in to Ez Editorials</h2>
+            <p class="gate-sub">Access your weekly topic tests and read multi-source editorial magazines.</p>
+
+            <!-- STEP 1: Enter Username to Send OTP via Bot -->
+            <div class="auth-step" id="otpStep1">
+                <label class="auth-label" for="usernameInput">Telegram Username or Student ID</label>
+                <input type="text" id="usernameInput" class="auth-input" placeholder="e.g. @your_username or 12345678" autocomplete="username">
+                <button type="button" class="btn-primary-action" onclick="requestBotOtp()">
+                    <span>💬</span> Send 6-Digit Code via Bot
+                </button>
+            </div>
+
+            <!-- STEP 2: Enter 6-Digit Code received from Bot -->
+            <div class="auth-step" id="otpStep2" style="display: none;">
+                <label class="auth-label" for="otpCodeInput">Enter 6-Digit Code sent to your Telegram</label>
+                <input type="text" id="otpCodeInput" class="auth-input auth-otp-input" placeholder="••••••" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
+                <button type="button" class="btn-primary-action" onclick="verifyBotOtp()">
+                    <span>🚀</span> Verify Code & Unlock Sanctum
+                </button>
+                <button type="button" class="btn-guest-action" style="margin-top: 4px;" onclick="resetOtpStep()">
+                    ← Back / Change Username
+                </button>
+            </div>
+
+            <p id="auth-status-msg"></p>
+
+            <div class="auth-hint-box">
+                💡 <strong>Direct Bot Shortcut:</strong><br>
+                Open <a href="https://t.me/Ez_vocab_bot" target="_blank" rel="noopener noreferrer">@Ez_vocab_bot</a> in Telegram and type <code>/login</code> to receive your instant code immediately!
+            </div>
+
+            <div class="gate-divider">
+                <span>OR SIGN IN DIRECTLY</span>
+            </div>
+
+            <!-- Official Free Telegram Login Widget -->
+            <div class="tg-widget-wrap">
+                <script async src="https://telegram.org/js/telegram-widget.js?22"
+                        data-telegram-login="Ez_vocab_bot"
+                        data-size="large"
+                        data-onauth="onTelegramAuth(user)"
+                        data-request-access="write"></script>
+            </div>
+
+            <button type="button" class="btn-guest-action" onclick="signInAsGuest()">
+                ⚡ Continue as Guest Aspirant
+            </button>
+        </div>
+    </section>
+
+    <!-- =============================================================
+         3. PILLAR 1: WEEKLY QUIZZES INTERFACE (AUTHENTICATED ONLY)
          ============================================================= -->
     <main class="page-container" id="quizzesView">
         <!-- Mon - Sat Day Navigation Pills -->
@@ -919,7 +1061,7 @@
     </main>
 
     <!-- =============================================================
-         3. PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING
+         4. PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING (AUTHENTICATED ONLY)
          ============================================================= -->
     <main class="page-container" id="magazineView">
         <!-- Mon - Sat Day Navigation Pills -->
@@ -956,42 +1098,13 @@
     </main>
 
     <!-- =============================================================
-         4. AUTH MODAL
-         ============================================================= -->
-    <div class="auth-modal-backdrop" id="authModal" onclick="closeAuthModal(event)">
-        <div class="auth-modal-card">
-            <div style="font-size: 36px; margin-bottom: 10px;">⚡</div>
-            <h3>Sign in to Ez Editorials</h3>
-            <p>Keep your quiz scores, streaks, and magazine reading progress saved.</p>
-
-            <button type="button" class="btn-tg-one-tap" onclick="startMobileTelegramLogin()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                Sign in via Telegram
-            </button>
-
-            <!-- Telegram Web Widget -->
-            <div style="display: flex; justify-content: center; margin-bottom: 16px;">
-                <script async src="https://telegram.org/js/telegram-widget.js?22"
-                        data-telegram-login="Ez_vocab_bot"
-                        data-size="medium"
-                        data-onauth="onTelegramAuth(user)"
-                        data-request-access="write"></script>
-            </div>
-
-            <button type="button" class="btn-guest-opt" onclick="signInAsGuest()">
-                🚀 Continue as Guest Aspirant
-            </button>
-        </div>
-    </div>
-
-    <!-- =============================================================
-         5. SCRIPTS: STATE, QUIZZES BY DATE, MAGAZINE READING, EVIDENCE LENS
+         5. JAVASCRIPT: AUTH GATE, BOT OTP, QUIZZES & MAGAZINE
          ============================================================= -->
     <script>
         // --- GLOBAL STATE ---
         const state = {
             currentTab: 'quizzes',
-            selectedQuizDayIndex: 0, // 0 = Mon, 1 = Tue, ..., 5 = Sat
+            selectedQuizDayIndex: 0,
             selectedMagDateStr: null,
             weekDays: [],
             magazineWeekData: null,
@@ -1033,7 +1146,6 @@
                 });
             }
 
-            // Default selected day is today, or Monday
             const todayIdx = state.weekDays.findIndex(d => d.isToday);
             state.selectedQuizDayIndex = todayIdx !== -1 ? todayIdx : 0;
             state.selectedMagDateStr = todayIdx !== -1 ? state.weekDays[todayIdx].dateStr : state.weekDays[0].dateStr;
@@ -1042,6 +1154,174 @@
         function formatDate(d) {
             return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
         }
+
+        // --- AUTHENTICATION GATE & ACCESS CONTROL ---
+        function renderAuthState() {
+            const authGate = document.getElementById('authGateView');
+            const quizzesView = document.getElementById('quizzesView');
+            const magazineView = document.getElementById('magazineView');
+            const nav = document.getElementById('mastheadNav');
+            const userChip = document.getElementById('userChip');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const userNameLabel = document.getElementById('userNameLabel');
+
+            const isAuthed = (typeof isAuthenticated === 'function' && isAuthenticated());
+
+            if (isAuthed) {
+                // UNLOCK SANCTUM
+                authGate.style.display = 'none';
+                nav.style.display = 'flex';
+                userChip.style.display = 'flex';
+                logoutBtn.style.display = 'flex';
+
+                const user = (typeof getSavedUser === 'function') ? getSavedUser() : null;
+                const name = user ? (user.first_name || user.username || 'Candidate') : 'Candidate';
+                userNameLabel.innerText = name;
+
+                switchView(state.currentTab);
+                fetchWeeklyQuizzes();
+                fetchWeeklyMagazine();
+            } else {
+                // STRICT LOCK: HIDE ALL CONTENT
+                authGate.style.display = 'flex';
+                quizzesView.style.display = 'none';
+                magazineView.style.display = 'none';
+                nav.style.display = 'none';
+                userChip.style.display = 'none';
+                logoutBtn.style.display = 'none';
+            }
+        }
+
+        function handleLogout() {
+            if (confirm("Log out of Ez Editorials?")) {
+                localStorage.removeItem('ez_session_token');
+                localStorage.removeItem('ez_user_profile');
+                sessionStorage.clear();
+                resetOtpStep();
+                renderAuthState();
+            }
+        }
+
+        // --- BOT OTP AUTHENTICATION ---
+        async function requestBotOtp() {
+            const input = document.getElementById('usernameInput');
+            const msgEl = document.getElementById('auth-status-msg');
+            const val = input.value.trim();
+
+            if (!val) {
+                setAuthMsg("Please enter your Telegram @username or User ID", "error");
+                input.focus();
+                return;
+            }
+
+            setAuthMsg("Requesting code from @Ez_vocab_bot...", "success");
+
+            try {
+                const res = await fetch('https://ez-editorials-bot.onrender.com/api/auth/send-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ identifier: val })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.status === 'sent') {
+                    setAuthMsg("✅ Code sent! Check your Telegram messages from @Ez_vocab_bot.", "success");
+                    document.getElementById('otpStep1').style.display = 'none';
+                    document.getElementById('otpStep2').style.display = 'flex';
+                    document.getElementById('otpCodeInput').focus();
+                } else {
+                    setAuthMsg(data.error || "Could not send code. Ensure you have messaged @Ez_vocab_bot.", "error");
+                }
+            } catch (err) {
+                setAuthMsg("Could not reach server. You can also send /login directly to @Ez_vocab_bot!", "error");
+                // Allow user to proceed to enter code anyway if they got it from bot directly
+                document.getElementById('otpStep1').style.display = 'none';
+                document.getElementById('otpStep2').style.display = 'flex';
+                document.getElementById('otpCodeInput').focus();
+            }
+        }
+
+        async function verifyBotOtp() {
+            const codeInput = document.getElementById('otpCodeInput');
+            const msgEl = document.getElementById('auth-status-msg');
+            const code = codeInput.value.trim();
+
+            if (!code || code.length !== 6) {
+                setAuthMsg("Please enter the complete 6-digit code", "error");
+                codeInput.focus();
+                return;
+            }
+
+            setAuthMsg("Verifying verification code...", "success");
+
+            try {
+                const res = await fetch('https://ez-editorials-bot.onrender.com/api/auth/verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: code })
+                });
+                const data = await res.json();
+
+                if (res.ok && data.token) {
+                    localStorage.setItem('ez_session_token', data.token);
+                    localStorage.setItem('ez_user_profile', JSON.stringify(data.user));
+                    setAuthMsg("✅ Verified! Entering Sanctum...", "success");
+                    setTimeout(renderAuthState, 400);
+                } else {
+                    setAuthMsg(data.error || "Invalid or expired code.", "error");
+                }
+            } catch (err) {
+                setAuthMsg("Connection failed. Please retry.", "error");
+            }
+        }
+
+        function resetOtpStep() {
+            document.getElementById('otpStep1').style.display = 'flex';
+            document.getElementById('otpStep2').style.display = 'none';
+            document.getElementById('otpCodeInput').value = '';
+            setAuthMsg("", "");
+        }
+
+        function setAuthMsg(txt, type) {
+            const el = document.getElementById('auth-status-msg');
+            if (!el) return;
+            el.innerText = txt;
+            el.className = type === 'error' ? 'msg-error' : 'msg-success';
+        }
+
+        function signInAsGuest() {
+            const guestUser = {
+                id: 999001 + Math.floor(Math.random() * 900),
+                first_name: "Guest Aspirant",
+                username: "guest_student",
+                is_guest: true
+            };
+            localStorage.setItem('ez_session_token', 'guest_token_' + Date.now());
+            localStorage.setItem('ez_user_profile', JSON.stringify(guestUser));
+            renderAuthState();
+        }
+
+        // Official Telegram Widget Callback
+        window.onTelegramAuth = async function(user) {
+            setAuthMsg("Verifying Telegram credentials...", "success");
+            try {
+                const res = await fetch('https://ez-editorials-bot.onrender.com/api/auth/telegram-widget', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(user)
+                });
+                const data = await res.json();
+                if (res.ok && data.token) {
+                    localStorage.setItem('ez_session_token', data.token);
+                    localStorage.setItem('ez_user_profile', JSON.stringify(data.user));
+                    renderAuthState();
+                } else {
+                    setAuthMsg(data.error || "Verification failed.", "error");
+                }
+            } catch (e) {
+                setAuthMsg("Server unreachable.", "error");
+            }
+        };
 
         // --- TAB NAVIGATION ---
         function switchView(tabName) {
@@ -1069,7 +1349,7 @@
         }
 
         // =============================================================
-        // PILLAR 1: WEEKLY QUIZZES ENGINE (BY DATE, RESULTS & REVIEW)
+        // PILLAR 1: WEEKLY QUIZZES (BY DATE, RESULTS & REVIEW)
         // =============================================================
         function renderQuizDayNav() {
             const nav = document.getElementById('quizDayNav');
@@ -1103,7 +1383,7 @@
                     state.masterQuizData = data.quizzes;
                 }
             } catch (err) {
-                console.warn('Quiz API unreachable, using calibrated weekly syllabus.');
+                console.warn('Quiz API offline, using weekly calibrated syllabus.');
             }
             renderQuizzesForSelectedDay();
         }
@@ -1118,7 +1398,7 @@
                 titleEl.innerText = `${dayObj.fullDayName}'s Topic Quizzes (${dayObj.dayNum} ${dayObj.monthShort})`;
             }
 
-            const targetDayNum = state.selectedQuizDayIndex + 1; // 1 = Mon, 2 = Tue, ...
+            const targetDayNum = state.selectedQuizDayIndex + 1;
             let quizzes = [];
 
             if (state.masterQuizData) {
@@ -1126,7 +1406,6 @@
                 quizzes = all.filter(q => q.day_num === targetDayNum);
             }
 
-            // High-yield syllabus fallback if API is loading or offline
             if (!quizzes || quizzes.length === 0) {
                 quizzes = getStandardQuizzesForDay(targetDayNum, dayObj);
             }
@@ -1156,9 +1435,7 @@
                     `;
                 } else if (q.status === 'locked') {
                     const dropStr = q.drop_time ? new Date(q.drop_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '5:00 PM';
-                    actionsHtml = `
-                        <span class="badge-locked">🔒 Drops at ${dropStr}</span>
-                    `;
+                    actionsHtml = `<span class="badge-locked">🔒 Drops at ${dropStr}</span>`;
                 } else {
                     actionsHtml = `
                         <a href="test.html?quiz_id=${q.id}&day=${targetDayNum}&return_url=index.html" class="btn-start-test">
@@ -1262,7 +1539,7 @@
                     state.magazineWeekData = data.week || data;
                 }
             } catch (err) {
-                console.warn('Could not fetch live magazine week, checking cache.');
+                console.warn('Could not fetch live magazine week.');
             }
             renderMagDayNav();
             renderMagazineForSelectedDay();
@@ -1289,7 +1566,7 @@
                         <span style="font-size: 40px; margin-bottom: 12px;">☕</span>
                         <h3 style="font-size: 18px; margin-bottom: 6px;">No Edition Published for this Date</h3>
                         <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">
-                            Editorials for this date have not been published yet or it was an editorial-free exam rest day. Please choose another day from the strip above.
+                            Editorials for this date have not been published yet. Please choose another day from the strip above.
                         </p>
                     </div>
                 `;
@@ -1505,59 +1782,6 @@
             }
         }
 
-        // =============================================================
-        // AUTHENTICATION & SESSION HANDLING
-        // =============================================================
-        function syncAuthUI() {
-            const btn = document.getElementById('userAuthBtn');
-            const label = document.getElementById('userAuthLabel');
-            const icon = document.getElementById('userAuthIcon');
-
-            if (typeof isAuthenticated === 'function' && isAuthenticated()) {
-                const user = (typeof getSavedUser === 'function') ? getSavedUser() : null;
-                const name = user ? (user.first_name || user.username || 'Aspirant') : 'Aspirant';
-                if (label) label.innerText = `${name} (Logout)`;
-                if (icon) icon.innerText = '👤';
-            } else {
-                if (label) label.innerText = 'Login';
-                if (icon) icon.innerText = '⚡';
-            }
-        }
-
-        function handleAuthButtonClick() {
-            if (typeof isAuthenticated === 'function' && isAuthenticated()) {
-                if (confirm("Log out of Ez Editorials?")) {
-                    localStorage.removeItem('ez_session_token');
-                    localStorage.removeItem('ez_user_profile');
-                    sessionStorage.clear();
-                    syncAuthUI();
-                    fetchWeeklyQuizzes();
-                }
-            } else {
-                document.getElementById('authModal').style.display = 'flex';
-            }
-        }
-
-        function closeAuthModal(e, force = false) {
-            if (force || (e && e.target.id === 'authModal')) {
-                document.getElementById('authModal').style.display = 'none';
-            }
-        }
-
-        function signInAsGuest() {
-            const guestUser = {
-                id: 999001 + Math.floor(Math.random() * 900),
-                first_name: "Guest Aspirant",
-                username: "guest_student",
-                is_guest: true
-            };
-            localStorage.setItem('ez_session_token', 'guest_token_' + Date.now());
-            localStorage.setItem('ez_user_profile', JSON.stringify(guestUser));
-            closeAuthModal(null, true);
-            syncAuthUI();
-            fetchWeeklyQuizzes();
-        }
-
         function escapeHtml(str) {
             if (!str) return '';
             return String(str).replace(/[&<>"']/g, m => ({
@@ -1596,11 +1820,7 @@
         // Initialize on DOM Ready
         document.addEventListener('DOMContentLoaded', () => {
             initWeekCalendar();
-            syncAuthUI();
-            renderQuizDayNav();
-            renderMagDayNav();
-            fetchWeeklyQuizzes();
-            fetchWeeklyMagazine();
+            renderAuthState();
         });
     </script>
 </body>
