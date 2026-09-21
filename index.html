@@ -106,6 +106,10 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            align-items: stretch !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
         }
 
         a { color: inherit; text-decoration: none; }
@@ -116,9 +120,12 @@
            STICKY MASTHEAD (MINIMAL & CLEAN)
            ------------------------------------------------------------- */
         .masthead {
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            position: sticky !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            z-index: 1000 !important;
             height: 60px;
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-line);
@@ -126,6 +133,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 28px;
+            box-sizing: border-box !important;
             transition: background 0.2s ease, border-color 0.2s ease;
         }
 
@@ -930,7 +938,7 @@
             margin: 0 !important;
             padding: 16px clamp(16px, 3.5vw, 48px) 80px !important;
             overflow-y: auto !important;
-            background: var(--bg-body) !important;
+            background: var(--bg-canvas) !important;
             box-sizing: border-box !important;
         }
 
@@ -943,8 +951,15 @@
             margin: 0 !important;
             padding: 16px clamp(16px, 3.5vw, 48px) 80px !important;
             overflow-y: auto !important;
-            background: var(--bg-body) !important;
+            background: var(--bg-canvas) !important;
             box-sizing: border-box !important;
+        }
+
+        body.dark-theme #magazineView.is-focus-mode,
+        html.dark-mode #magazineView.is-focus-mode,
+        body.dark-theme #magazineView:fullscreen,
+        html.dark-mode #magazineView:fullscreen {
+            background: #0b1329 !important;
         }
 
         #magazineView:fullscreen #magazineArticles .page.inner-page,
@@ -960,19 +975,6 @@
         #magazineView.is-focus-mode .rd-layout {
             grid-template-columns: minmax(0, 1fr) clamp(280px, 22vw, 360px) !important;
             gap: clamp(20px, 2.5vw, 36px) !important;
-        }
-
-        #magazineView:fullscreen .rd-body,
-        #magazineView:-webkit-full-screen .rd-body,
-        #magazineView.is-focus-mode .rd-body {
-            font-size: 13.5px !important;
-            line-height: 1.72 !important;
-        }
-
-        #magazineView:fullscreen .rd-sb-def,
-        #magazineView:-webkit-full-screen .rd-sb-def,
-        #magazineView.is-focus-mode .rd-sb-def {
-            font-size: 11.5px !important;
         }
 
         #magazineView:fullscreen .mag-reader-toolbar,
@@ -995,6 +997,222 @@
             border-color: var(--primary) !important;
         }
 
+        /* =========================================================
+           CALIBRATED WEB TYPOGRAPHY SCALE FOR MAGAZINE ARTICLES
+           ========================================================= */
+        #magazineArticles {
+            --mag-body-size: 15.5px;
+            --mag-body-lh: 1.76;
+            width: 100%;
+        }
+
+        #magazineArticles .rd-body {
+            font-size: var(--mag-body-size, 15.5px) !important;
+            line-height: var(--mag-body-lh, 1.76) !important;
+            color: #1e293b;
+            letter-spacing: 0.012em;
+        }
+
+        body.dark-theme #magazineArticles .rd-body,
+        html.dark-mode #magazineArticles .rd-body {
+            color: #cbd5e1 !important;
+        }
+
+        #magazineArticles .rd-body p {
+            font-size: var(--mag-body-size, 15.5px) !important;
+            line-height: var(--mag-body-lh, 1.76) !important;
+            margin-bottom: 12px !important;
+        }
+
+        #magazineArticles .rd-body p:first-of-type::first-letter {
+            font-size: 38px !important;
+            line-height: 0.82 !important;
+            margin-top: 2px !important;
+            margin-right: 6px !important;
+        }
+
+        #magazineArticles .rd-title {
+            font-size: 23px !important;
+            line-height: 1.32 !important;
+            letter-spacing: -0.3px !important;
+            margin-bottom: 8px !important;
+        }
+
+        #magazineArticles .rd-quote {
+            font-size: 13.5px !important;
+            line-height: 1.55 !important;
+            padding: 10px 14px !important;
+            margin-bottom: 14px !important;
+        }
+
+        #magazineArticles .rd-sidebar {
+            width: 280px !important;
+            min-width: 260px !important;
+        }
+
+        #magazineArticles .rd-sb-title {
+            font-size: 11px !important;
+            letter-spacing: 1px !important;
+        }
+
+        #magazineArticles .rd-sb-item {
+            padding: 7px 9px !important;
+            margin-bottom: 6px !important;
+        }
+
+        #magazineArticles .rd-sb-word {
+            font-size: 13.5px !important;
+            font-weight: 800 !important;
+        }
+
+        #magazineArticles .rd-sb-hi {
+            font-size: 11.5px !important;
+        }
+
+        #magazineArticles .rd-sb-def {
+            font-size: 12.5px !important;
+            line-height: 1.45 !important;
+            font-weight: 600 !important;
+            margin-top: 3px !important;
+            color: #b45309 !important;
+        }
+
+        body.dark-theme #magazineArticles .rd-sb-def,
+        html.dark-mode #magazineArticles .rd-sb-def {
+            color: #fbbf24 !important;
+        }
+
+        #magazineArticles .deep-analysis-text {
+            font-size: 11.5px !important;
+            line-height: 1.4 !important;
+        }
+
+        #magazineArticles .open-vocab-lab-btn {
+            font-size: 11px !important;
+            padding: 6px 14px !important;
+        }
+
+        /* Stance, Perspective & Word Tone Mix */
+        #magazineArticles .stance-row {
+            --tone-a: #f59e0b;
+            --tone-b: #d97706;
+            margin-bottom: 14px !important;
+        }
+
+        #magazineArticles .stance-label,
+        #magazineArticles .persp-label,
+        #magazineArticles .tone-bar-label {
+            font-size: 10px !important;
+            letter-spacing: 1px !important;
+            font-weight: 800 !important;
+        }
+
+        #magazineArticles .stance-value {
+            font-size: 18px !important;
+            font-weight: 900 !important;
+            line-height: 1.2 !important;
+        }
+
+        #magazineArticles .stance-sub {
+            font-size: 12px !important;
+            line-height: 1.45 !important;
+            margin-top: 4px !important;
+        }
+
+        #magazineArticles .persp-text {
+            font-size: 13.5px !important;
+            line-height: 1.62 !important;
+            color: #334155 !important;
+        }
+
+        body.dark-theme #magazineArticles .persp-text,
+        html.dark-mode #magazineArticles .persp-text {
+            color: #e2e8f0 !important;
+        }
+
+        #magazineArticles .persp-text::first-letter {
+            font-size: 22px !important;
+        }
+
+        #magazineArticles .tone-bar-legend {
+            font-size: 11px !important;
+            gap: 12px !important;
+        }
+
+        /* Vocab Lab Category & Cards */
+        #magazineArticles .vlab-cat-header {
+            font-size: 12px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.8px !important;
+            padding: 7px 12px !important;
+            margin-bottom: 12px !important;
+        }
+
+        #magazineArticles .vcard {
+            padding: 14px 16px !important;
+            min-height: auto !important;
+        }
+
+        #magazineArticles .vcard-word {
+            font-size: 15px !important;
+            font-weight: 800 !important;
+            margin-bottom: 3px !important;
+        }
+
+        #magazineArticles .vcard-pos {
+            font-size: 11px !important;
+            font-weight: 700 !important;
+        }
+
+        #magazineArticles .vcard-def {
+            font-size: 13px !important;
+            line-height: 1.52 !important;
+            margin-bottom: 8px !important;
+            color: #334155 !important;
+        }
+
+        body.dark-theme #magazineArticles .vcard-def,
+        html.dark-mode #magazineArticles .vcard-def {
+            color: #cbd5e1 !important;
+        }
+
+        #magazineArticles .vcard-example {
+            font-size: 12px !important;
+            line-height: 1.5 !important;
+            padding: 8px 12px !important;
+            margin-bottom: 8px !important;
+        }
+
+        #magazineArticles .hook-box {
+            padding: 8px 12px !important;
+            margin-bottom: 8px !important;
+        }
+
+        #magazineArticles .hook-label {
+            font-size: 9.5px !important;
+            font-weight: 800 !important;
+        }
+
+        #magazineArticles .hook-text-content {
+            font-size: 12px !important;
+            line-height: 1.5 !important;
+        }
+
+        #magazineArticles .chip-syn,
+        #magazineArticles .chip-ant,
+        #magazineArticles .tag-syn,
+        #magazineArticles .tag-ant {
+            font-size: 11px !important;
+            padding: 3px 8px !important;
+            border-radius: 4px !important;
+        }
+
+        #magazineArticles .vcard-synonyms,
+        #magazineArticles .vcard-antonyms {
+            font-size: 11px !important;
+            gap: 5px !important;
+        }
+
         @media (min-width: 1280px) {
             #magazineView {
                 max-width: 1300px;
@@ -1004,11 +1222,7 @@
             }
             .rd-layout {
                 grid-template-columns: minmax(0, 1fr) 280px;
-                gap: 24px;
-            }
-            .rd-body {
-                font-size: 13px;
-                line-height: 1.68;
+                gap: 28px;
             }
         }
 
@@ -1208,7 +1422,7 @@
             weekDays: [],
             magazineWeekData: null,
             masterQuizData: null,
-            fontSize: 15,
+            fontSize: 15.5,
             readDates: new Set()
         };
 
@@ -1941,6 +2155,19 @@
             `;
         }
 
+        function getStanceTheme(toneStr) {
+            const t = (toneStr || '').toLowerCase();
+            if (['critical', 'pessimistic', 'disapproving', 'sarcastic', 'cynical', 'hostile', 'admonitory'].some(k => t.includes(k))) {
+                return { tone_a: '#f43f5e', tone_b: '#e11d48', shape: 'shape-jagged' };
+            } else if (['cautious', 'concerned', 'cautionary', 'sceptical', 'skeptical'].some(k => t.includes(k))) {
+                return { tone_a: '#f59e0b', tone_b: '#d97706', shape: 'shape-wave' };
+            } else if (['optimistic', 'appreciative', 'empathetic', 'conciliatory'].some(k => t.includes(k))) {
+                return { tone_a: '#10b981', tone_b: '#059669', shape: 'shape-circle' };
+            } else {
+                return { tone_a: '#38bdf8', tone_b: '#0ea5e9', shape: 'shape-circle' };
+            }
+        }
+
         function renderPdfInnerPagesFromArticles(dateStr, articles, isDark) {
             const dayDate = new Date(dateStr + 'T00:00:00');
             const optionsLong = { month: 'long', day: 'numeric', year: 'numeric' };
@@ -2128,6 +2355,7 @@
                 const tone = a.tone || 'Analytical';
                 const toneExp = a.tone_explanation || 'Critical and constructive evaluation of policy and public interest.';
                 const persp = a.analysis_summary || 'Provides key analytical perspectives for competitive examinations.';
+                const stanceTheme = getStanceTheme(tone);
 
                 const coreVocabCards = (p.cats.core_vocab || []).map((item, i) => buildVocabCard(item, i + 1, false, false, false, false)).join('');
                 const owsCards = (p.cats.one_word_subs || []).map((item, i) => buildVocabCard(item, i + 1, true, false, false, false)).join('');
@@ -2161,8 +2389,8 @@
                                 </div>
                             </div>
 
-                            <div class="stance-row">
-                                <div class="stance-card">
+                            <div class="stance-row" style="--tone-a: ${stanceTheme.tone_a}; --tone-b: ${stanceTheme.tone_b};">
+                                <div class="stance-card ${stanceTheme.shape}">
                                     <div class="stance-blob-a"></div>
                                     <div class="stance-blob-b"></div>
                                     <div class="stance-watermark">
@@ -2499,9 +2727,28 @@
 
         // Reader Controls
         function adjustFontSize(delta) {
-            state.fontSize = Math.max(13, Math.min(22, state.fontSize + delta));
+            state.fontSize = Math.max(13, Math.min(24, Math.round(((state.fontSize || 15.5) + delta) * 10) / 10));
+            const container = document.getElementById('magazineArticles');
+            if (container) {
+                container.style.setProperty('--mag-body-size', state.fontSize + 'px');
+            }
             document.querySelectorAll('.rd-body, .article-body').forEach(el => {
                 el.style.fontSize = state.fontSize + 'px';
+            });
+            document.querySelectorAll('.rd-body p').forEach(el => {
+                el.style.fontSize = state.fontSize + 'px';
+            });
+            document.querySelectorAll('.persp-text').forEach(el => {
+                el.style.fontSize = Math.round(state.fontSize * 0.88) + 'px';
+            });
+            document.querySelectorAll('.vcard-def').forEach(el => {
+                el.style.fontSize = Math.round(state.fontSize * 0.85) + 'px';
+            });
+            document.querySelectorAll('.rd-sb-def').forEach(el => {
+                el.style.fontSize = Math.round(state.fontSize * 0.82) + 'px';
+            });
+            document.querySelectorAll('.hook-text-content').forEach(el => {
+                el.style.fontSize = Math.round(state.fontSize * 0.8) + 'px';
             });
         }
 
