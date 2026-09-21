@@ -587,7 +587,16 @@
             margin-top: 1px;
         }
 
+        .pill-lock-dot {
+            font-size: 10px;
+            line-height: 1;
+            margin-top: 1px;
+            opacity: 0.65;
+        }
+
         .mag-day-pill.active .pill-dot { background: #ffffff; }
+        .mag-day-pill.active .pill-lock-dot { opacity: 1; }
+        .mag-day-pill.pill-future:not(.active) { opacity: 0.82; }
 
         /* -------------------------------------------------------------
            PILLAR 1: WEEKLY QUIZZES INTERFACE
@@ -869,10 +878,11 @@
            PILLAR 2: AUTHENTIC PDF REPLICA PUBLICATION STYLING
            ------------------------------------------------------------- */
         #magazineView {
-            max-width: 1040px;
+            max-width: 1240px;
             margin: 0 auto;
             padding: 20px 16px 60px;
             width: 100%;
+            transition: max-width 0.2s ease, padding 0.2s ease;
         }
 
         .magazine-articles-container {
@@ -885,7 +895,7 @@
 
         #magazineArticles .page.inner-page {
             width: 100% !important;
-            max-width: 960px !important;
+            max-width: 1140px !important;
             margin: 0 auto 32px auto !important;
             box-shadow: 0 10px 36px rgba(0, 0, 0, 0.07) !important;
             border: 1px solid var(--border-line) !important;
@@ -895,6 +905,7 @@
             box-sizing: border-box !important;
             position: relative !important;
             min-height: auto !important;
+            transition: max-width 0.2s ease;
         }
 
         body.dark-theme #magazineArticles .page.inner-page,
@@ -902,6 +913,103 @@
             background: #0f172a !important;
             border-color: #1e293b !important;
             box-shadow: 0 12px 42px rgba(0, 0, 0, 0.55) !important;
+        }
+
+        /* ⛶ FOCUS MODE: FITS LAPTOP & DESKTOP SCREEN FLUIDLY */
+        body.mag-focus-active {
+            overflow: hidden !important;
+        }
+
+        #magazineView.is-focus-mode:not(:fullscreen) {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 9999 !important;
+            max-width: 100vw !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            margin: 0 !important;
+            padding: 16px clamp(16px, 3.5vw, 48px) 80px !important;
+            overflow-y: auto !important;
+            background: var(--bg-body) !important;
+            box-sizing: border-box !important;
+        }
+
+        #magazineView:fullscreen,
+        #magazineView:-webkit-full-screen,
+        #magazineView.is-focus-mode {
+            max-width: 100vw !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            margin: 0 !important;
+            padding: 16px clamp(16px, 3.5vw, 48px) 80px !important;
+            overflow-y: auto !important;
+            background: var(--bg-body) !important;
+            box-sizing: border-box !important;
+        }
+
+        #magazineView:fullscreen #magazineArticles .page.inner-page,
+        #magazineView:-webkit-full-screen #magazineArticles .page.inner-page,
+        #magazineView.is-focus-mode #magazineArticles .page.inner-page {
+            width: 100% !important;
+            max-width: clamp(1000px, 94vw, 1440px) !important;
+            margin: 0 auto 36px auto !important;
+        }
+
+        #magazineView:fullscreen .rd-layout,
+        #magazineView:-webkit-full-screen .rd-layout,
+        #magazineView.is-focus-mode .rd-layout {
+            grid-template-columns: minmax(0, 1fr) clamp(280px, 22vw, 360px) !important;
+            gap: clamp(20px, 2.5vw, 36px) !important;
+        }
+
+        #magazineView:fullscreen .rd-body,
+        #magazineView:-webkit-full-screen .rd-body,
+        #magazineView.is-focus-mode .rd-body {
+            font-size: 13.5px !important;
+            line-height: 1.72 !important;
+        }
+
+        #magazineView:fullscreen .rd-sb-def,
+        #magazineView:-webkit-full-screen .rd-sb-def,
+        #magazineView.is-focus-mode .rd-sb-def {
+            font-size: 11.5px !important;
+        }
+
+        #magazineView:fullscreen .mag-reader-toolbar,
+        #magazineView:-webkit-full-screen .mag-reader-toolbar,
+        #magazineView.is-focus-mode .mag-reader-toolbar {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 100 !important;
+            background: var(--bg-card) !important;
+            padding: 12px 18px !important;
+            border-radius: var(--radius-base) !important;
+            border: 1px solid var(--border-line) !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+            margin-bottom: 24px !important;
+        }
+
+        .btn-tool.active {
+            background: var(--primary) !important;
+            color: #ffffff !important;
+            border-color: var(--primary) !important;
+        }
+
+        @media (min-width: 1280px) {
+            #magazineView {
+                max-width: 1300px;
+            }
+            #magazineArticles .page.inner-page {
+                max-width: 1200px !important;
+            }
+            .rd-layout {
+                grid-template-columns: minmax(0, 1fr) 280px;
+                gap: 24px;
+            }
+            .rd-body {
+                font-size: 13px;
+                line-height: 1.68;
+            }
         }
 
         #magazineArticles a {
@@ -1124,6 +1232,10 @@
                 d.setDate(monday.getDate() + i);
                 const dateStr = formatDate(d);
 
+                const isToday = dateStr === todayStr;
+                const isPast = !isToday && (dateStr < todayStr);
+                const isFuture = !isToday && (dateStr > todayStr);
+
                 state.weekDays.push({
                     index: i,
                     dayName: dayNames[i],
@@ -1133,8 +1245,9 @@
                     monthLong: d.toLocaleString('en-US', { month: 'long' }),
                     year: d.getFullYear(),
                     dateStr: dateStr,
-                    isToday: dateStr === todayStr,
-                    isPast: d < now && dateStr !== todayStr
+                    isToday: isToday,
+                    isPast: isPast,
+                    isFuture: isFuture
                 });
             }
 
@@ -1365,11 +1478,12 @@
 
             nav.innerHTML = state.weekDays.map(d => {
                 const isActive = d.index === state.selectedQuizDayIndex;
+                const isFuture = d.isFuture;
                 return `
-                    <div class="mag-day-pill ${isActive ? 'active' : ''}" onclick="selectQuizDay(${d.index})">
+                    <div class="mag-day-pill ${isActive ? 'active' : ''} ${isFuture ? 'pill-future' : ''}" onclick="selectQuizDay(${d.index})">
                         <span class="pill-dayname">${d.dayName}</span>
                         <span class="pill-daynum">${d.dayNum}</span>
-                        ${d.isToday ? '<div class="pill-dot" title="Today"></div>' : ''}
+                        ${d.isToday ? '<div class="pill-dot" title="Today"></div>' : (isFuture ? '<span class="pill-lock-dot" title="Locked · Future Date">🔒</span>' : '')}
                     </div>
                 `;
             }).join('');
@@ -1404,6 +1518,23 @@
 
             if (titleEl && dayObj) {
                 titleEl.innerText = `${dayObj.fullDayName}'s Topic Quizzes (${dayObj.dayNum} ${dayObj.monthShort})`;
+            }
+
+            // 🟢 STRICT RULE: If the selected day is in the future, lock content and display locked state
+            if (dayObj && dayObj.isFuture) {
+                if (subEl) {
+                    subEl.innerText = `Content locked · Tests scheduled for ${dayObj.fullDayName}`;
+                }
+                container.innerHTML = `
+                    <div class="empty-locked-card" style="grid-column: 1/-1; text-align: center; padding: 64px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base); max-width: 640px; margin: 12px auto; width: 100%; box-sizing: border-box;">
+                        <div style="width: 58px; height: 58px; border-radius: 50%; background: var(--bg-subtle); display: inline-flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 16px; border: 1px solid var(--border-line);">🔒</div>
+                        <h3 style="font-size: 19px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Tests Locked · Yet to be Conducted</h3>
+                        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; max-width: 480px; margin: 0 auto;">
+                            Topic tests for <strong>${dayObj.fullDayName} (${dayObj.dayNum} ${dayObj.monthShort})</strong> are scheduled for future dates and have not been conducted yet. Tests will unlock automatically on ${dayObj.fullDayName} morning at 06:00 AM IST.
+                        </p>
+                    </div>
+                `;
+                return;
             }
 
             const targetDayNum = state.selectedQuizDayIndex + 1;
@@ -1475,6 +1606,9 @@
         }
 
         function getStandardQuizzesForDay(dayNum, dayObj) {
+            if (dayObj && dayObj.isFuture) {
+                return [];
+            }
             return [
                 {
                     id: 1000 + dayNum * 10 + 1,
@@ -1493,7 +1627,9 @@
                     topic: `Editorial Reading Comprehension & Tone Analysis`,
                     question_count: 5,
                     duration_seconds: 360,
-                    status: "unlocked",
+                    status: dayObj.isPast ? "completed" : "unlocked",
+                    score: dayObj.isPast ? "+3.75" : null,
+                    attempt_id: "att_" + dayNum + "_2",
                     day_num: dayNum,
                     categoryChip: "chip-purple",
                     categoryLabel: "COMPREHENSION"
@@ -1524,13 +1660,23 @@
                 const isActive = d.dateStr === state.selectedMagDateStr;
                 const hasArticles = Boolean(state.magazineWeekData && state.magazineWeekData[d.dateStr] && state.magazineWeekData[d.dateStr].length > 0);
                 const isRead = state.readDates.has(d.dateStr);
+                const isFuture = d.isFuture;
+
+                let indicator = '';
+                if (isRead) {
+                    indicator = '<span class="pill-read-chk" title="Marked as Read">✓</span>';
+                } else if (hasArticles) {
+                    indicator = '<div class="pill-dot" title="Edition Available"></div>';
+                } else if (isFuture) {
+                    indicator = '<span class="pill-lock-dot" title="Scheduled · Future Date">🔒</span>';
+                }
 
                 return `
-                    <div class="mag-day-pill ${isActive ? 'active' : ''}" onclick="selectMagDay('${d.dateStr}')">
+                    <div class="mag-day-pill ${isActive ? 'active' : ''} ${isFuture ? 'pill-future' : ''}" onclick="selectMagDay('${d.dateStr}')">
                         <span class="pill-dayname">${d.dayName}</span>
                         <span class="pill-daynum">${d.dayNum}</span>
                         <div class="pill-indicators">
-                            ${isRead ? '<span class="pill-read-chk" title="Marked as Read">✓</span>' : (hasArticles ? '<div class="pill-dot" title="Edition Available"></div>' : '')}
+                            ${indicator}
                         </div>
                     </div>
                 `;
@@ -1623,12 +1769,13 @@
                 if (countEl) countEl.innerText = `${articles.length} Editorial Articles`;
 
                 if (!articles || articles.length === 0) {
+                    const isFuture = dayObj && dayObj.isFuture;
                     container.innerHTML = `
                         <div class="article-card" style="text-align: center; padding: 48px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base); width: 100%; max-width: 600px; margin: 0 auto;">
-                            <span style="font-size: 40px; margin-bottom: 12px; display: block;">☕</span>
-                            <h3 style="font-size: 18px; margin-bottom: 6px;">No Edition Published for this Date</h3>
+                            <span style="font-size: 40px; margin-bottom: 12px; display: block;">${isFuture ? '🔒' : '☕'}</span>
+                            <h3 style="font-size: 18px; margin-bottom: 6px;">${isFuture ? 'Edition Scheduled for ' + dayObj.fullDayName : 'No Edition Published for this Date'}</h3>
                             <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">
-                                Editorials for this date have not been published yet. Please choose another day from the strip above.
+                                ${isFuture ? `The daily editorial publication for <strong>${dayObj.fullDayName} (${dayObj.dayNum} ${dayObj.monthShort})</strong> will be released on ${dayObj.fullDayName} morning.` : 'Editorials for this date have not been published yet. Please choose another day from the strip above.'}
                             </p>
                         </div>
                     `;
@@ -2361,13 +2508,57 @@
         function toggleFullscreen() {
             const el = document.getElementById('magazineView');
             const btn = document.getElementById('btnFullscreen');
-            if (!document.fullscreenElement) {
-                if (el.requestFullscreen) el.requestFullscreen();
-                else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-                if (btn) btn.innerHTML = '<span>⛶</span> Exit Focus';
+            const isCurrentlyFocus = Boolean(document.fullscreenElement || document.webkitFullscreenElement || (el && el.classList.contains('is-focus-mode')));
+
+            if (!isCurrentlyFocus) {
+                if (el) el.classList.add('is-focus-mode');
+                document.body.classList.add('mag-focus-active');
+                if (btn) {
+                    btn.innerHTML = '<span>🗕</span> Exit Focus';
+                    btn.classList.add('active');
+                }
+                if (el && el.requestFullscreen) {
+                    el.requestFullscreen().catch(() => {});
+                } else if (el && el.webkitRequestFullscreen) {
+                    el.webkitRequestFullscreen();
+                }
             } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-                if (btn) btn.innerHTML = '<span>⛶</span> Focus Mode';
+                if (document.exitFullscreen && document.fullscreenElement) {
+                    document.exitFullscreen().catch(() => {});
+                } else if (document.webkitExitFullscreen && document.webkitFullscreenElement) {
+                    document.webkitExitFullscreen();
+                }
+                if (el) el.classList.remove('is-focus-mode');
+                document.body.classList.remove('mag-focus-active');
+                if (btn) {
+                    btn.innerHTML = '<span>⛶</span> Focus Mode';
+                    btn.classList.remove('active');
+                }
+            }
+        }
+
+        // Sync Focus Mode state if user exits via Escape key
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+        function handleFullscreenChange() {
+            const el = document.getElementById('magazineView');
+            const btn = document.getElementById('btnFullscreen');
+            const isFs = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+            if (!isFs) {
+                if (el) el.classList.remove('is-focus-mode');
+                document.body.classList.remove('mag-focus-active');
+                if (btn) {
+                    btn.innerHTML = '<span>⛶</span> Focus Mode';
+                    btn.classList.remove('active');
+                }
+            } else {
+                if (el) el.classList.add('is-focus-mode');
+                document.body.classList.add('mag-focus-active');
+                if (btn) {
+                    btn.innerHTML = '<span>🗕</span> Exit Focus';
+                    btn.classList.add('active');
+                }
             }
         }
 
