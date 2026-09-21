@@ -958,11 +958,16 @@
 
         function goBackToTopics() {
             triggerHaptic('light');
+            const returnUrl = urlParams.get('return_url');
+            if (returnUrl) {
+                window.location.href = returnUrl;
+                return;
+            }
             const dayParam = urlParams.get('day');
             if (dayParam !== null) {
-                window.location.href = `app.html?view=day&day=${dayParam}`;
+                window.location.href = `index.html?day=${dayParam}`;
             } else {
-                window.location.href = `app.html?view=day`;
+                window.location.href = `index.html`;
             }
         }
 
@@ -1119,13 +1124,15 @@
 
         function openReviewMode() {
             triggerHaptic('medium');
+            const returnUrl = urlParams.get('return_url') || 'index.html';
             const dayParam = urlParams.get('day');
             const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+            const retQuery = `&return_url=${encodeURIComponent(returnUrl)}`;
             
             if (isPractice) {
-                window.location.href = `test.html?practice=true&mode=review${dayQuery}`;
+                window.location.href = `test.html?practice=true&mode=review${dayQuery}${retQuery}`;
             } else {
-                window.location.href = `test.html?attempt_id=${attemptId}&mode=review${dayQuery}`;
+                window.location.href = `test.html?attempt_id=${attemptId}&mode=review${dayQuery}${retQuery}`;
             }
         }
 

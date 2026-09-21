@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Ez Editorials · The Daily Study Sanctum</title>
+    <title>Ez Editorials · Daily Quizzes & Editorial Magazine</title>
 
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -15,7 +15,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -766,29 +766,76 @@
         /* -------------------------------------------------------------
            PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING
            ------------------------------------------------------------- */
-        #magazineView { display: none; }
+        /* -------------------------------------------------------------
+           PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING (PDF REPLICA SPREAD)
+           ------------------------------------------------------------- */
+        #magazineView {
+            display: none;
+            max-width: 1380px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 24px 28px 80px;
+            box-sizing: border-box;
+        }
+
+        .pill-indicators {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .pill-read-chk {
+            font-size: 11px;
+            font-weight: 900;
+            color: var(--mastery-emerald);
+            line-height: 1;
+        }
+
+        .mag-day-pill.active .pill-read-chk {
+            color: #ffffff;
+        }
 
         .mag-reader-toolbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 14px;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
             border-bottom: 1px solid var(--border-line);
-        }
-
-        .mag-edition-meta {
-            font-size: 14px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .mag-date-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--text-main);
+            letter-spacing: -0.2px;
+        }
+
+        .mag-edition-meta {
+            font-size: 13px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 3px;
+            flex-wrap: wrap;
+        }
+
+        .sync-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: var(--radius-xs);
+            background: var(--mastery-wash);
+            color: var(--mastery-text);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
         .reader-tool-btns {
@@ -817,163 +864,387 @@
             color: var(--primary);
         }
 
-        /* Focus Reading Column (Focus Reading Rule: 680px max-width) */
+        /* Full Width Container (No huge laptop side margins) */
         .magazine-articles-container {
             display: flex;
             flex-direction: column;
             gap: 36px;
-            max-width: var(--max-reading-width);
-            margin: 0 auto;
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
         }
 
-        .article-card {
+        /* 2-Column Spread: Left Article Column + Right Sticky Vocabulary 101 */
+        .mag-article-spread {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 350px;
+            gap: 28px;
+            align-items: start;
             background: var(--bg-card);
             border: 1px solid var(--border-line);
             border-radius: var(--radius-base);
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            padding: 32px 34px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+            transition: border-color 0.15s ease;
         }
 
-        .article-header {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-line);
+        .mag-article-spread:hover {
+            border-color: var(--border-hover);
         }
 
-        .article-tags-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .source-pill {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--primary);
-            background: var(--cobalt-wash);
-            padding: 3px 8px;
-            border-radius: var(--radius-xs);
-        }
-
-        .reading-time-pill {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .article-title {
-            font-size: 24px;
-            font-weight: 800;
-            line-height: 1.35;
-            color: var(--text-main);
-            letter-spacing: -0.4px;
-        }
-
-        .article-subtitle {
-            font-family: var(--font-serif);
-            font-size: 15.5px;
-            line-height: 1.6;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        .article-body {
-            font-size: 15px;
-            line-height: 1.75;
-            color: var(--text-main);
+        .mag-main-col {
             display: flex;
             flex-direction: column;
             gap: 16px;
+            min-width: 0;
         }
 
-        .article-body p { margin: 0; }
-
-        .evidence-hl, .stat-number {
-            background-color: var(--evidence-wash);
-            color: var(--evidence-text);
-            border: 1px solid var(--evidence-border);
-            padding: 1px 4px;
-            border-radius: var(--radius-xs);
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
+        .rd-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .vocab-hl {
-            background-color: var(--cobalt-wash);
+        .rd-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--cobalt-wash);
+            border: 1px solid rgba(28, 100, 242, 0.18);
+            font-size: 10.5px;
+            font-weight: 800;
             color: var(--primary);
-            border-bottom: 1.5px solid var(--primary);
-            padding: 1px 3px;
+            padding: 3.5px 10px;
+            border-radius: var(--radius-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .rd-source {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rd-title {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--text-main);
+            line-height: 1.32;
+            letter-spacing: -0.3px;
+        }
+
+        .rd-quote {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.22);
+            border-left: 4px solid #d97706;
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 14px;
+            color: var(--text-main);
+            line-height: 1.55;
+            position: relative;
+        }
+
+        .rd-quote-mark {
+            font-family: var(--font-serif);
+            font-size: 22px;
+            line-height: 0.4;
+            color: #d97706;
+            opacity: 0.75;
+            margin-right: 4px;
+        }
+
+        .rd-meta {
+            font-size: 11.5px;
+            color: var(--text-subtle);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-line);
+            padding-bottom: 10px;
+        }
+
+        .rd-body {
+            font-family: 'Montserrat', var(--font-sans);
+            font-size: 14.5px;
+            font-weight: 500;
+            line-height: 1.76;
+            color: var(--text-main);
+            text-align: justify;
+            text-justify: inter-word;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .rd-body p {
+            margin: 0;
+        }
+
+        /* 1) Exact PDF Drop Cap */
+        .rd-body p:first-of-type::first-letter {
+            font-family: 'Montserrat', var(--font-sans);
+            font-size: 34px;
+            line-height: 0.82;
+            float: left;
+            margin-top: 3px;
+            margin-right: 8px;
+            margin-bottom: -2px;
+            padding: 5px 8px;
+            background: linear-gradient(135deg, #1e40af 0%, #0b1e36 100%);
+            color: #ffffff;
+            border-radius: 6px;
+            font-weight: 800;
+            box-shadow: 0 4px 10px rgba(30, 64, 175, 0.35);
+        }
+
+        /* 2) In-passage Vocabulary Highlights */
+        .vocab-hl, .rd-vocab {
+            font-family: 'Montserrat', var(--font-sans);
+            font-weight: 700;
+            color: var(--primary) !important;
+            background: var(--cobalt-wash);
+            padding: 1px 4px;
+            border-radius: 3px;
+            display: inline;
+        }
+
+        .v-idx, .rd-vocab sup {
+            font-family: var(--font-sans);
+            font-size: 9px !important;
+            font-weight: 800;
+            color: #b45309 !important;
+            vertical-align: super;
+            line-height: 0;
+            margin-left: 2px;
+        }
+
+        /* 3) Evidence Lens Highlighting */
+        .evidence-hl {
+            color: #0f766e;
+            background: rgba(15, 118, 110, 0.08);
+            border-bottom: 1.5px dashed #0f766e;
+            padding: 1px 4px;
             border-radius: 2px;
             font-weight: 600;
         }
 
-        .v-idx {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-left: 2px;
-            vertical-align: super;
-        }
-
-        .vocab-lab-card {
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-line);
-            border-radius: var(--radius-md);
-            padding: 18px 20px;
-            margin-top: 10px;
-        }
-
-        .vocab-lab-header {
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--review-text);
-            margin-bottom: 12px;
+        /* 4) Source Citation Bar */
+        .rd-citation {
             display: flex;
             align-items: center;
             justify-content: space-between;
-        }
-
-        .vocab-lab-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--border-line);
+            font-size: 11.5px;
+            color: var(--text-muted);
         }
 
-        .vocab-row {
+        .rd-citation-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            color: var(--primary) !important;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: var(--radius-xs);
+            transition: all 0.15s ease;
+        }
+
+        .rd-citation-btn:hover {
+            border-color: var(--primary);
+            background: var(--cobalt-wash);
+        }
+
+        /* =========================================================
+           RIGHT STICKY SIDEBAR: VOCABULARY 101 (PDF REPLICA)
+           ========================================================= */
+        .rd-sidebar {
+            position: sticky;
+            top: 76px;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            font-size: 13px;
-            padding: 6px 8px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            border-radius: var(--radius-sm);
+            gap: 12px;
+            max-height: calc(100vh - 96px);
+            overflow-y: auto;
         }
 
-        .vocab-word-line {
+        .rd-sb-header {
             display: flex;
-            align-items: baseline;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-line);
+            padding-bottom: 10px;
+        }
+
+        .rd-sb-title {
+            font-size: 11px;
+            font-weight: 800;
+            color: #b45309;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
             gap: 6px;
         }
 
-        .vocab-word-text { font-weight: 700; color: var(--text-main); }
-        .vocab-pos { font-size: 11px; color: var(--text-subtle); font-style: italic; }
-        .vocab-meaning { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
-        .vocab-hindi { color: var(--primary); font-weight: 600; }
+        .rd-sb-badge {
+            font-size: 10px;
+            font-weight: 700;
+            background: rgba(180, 83, 9, 0.12);
+            color: #b45309;
+            padding: 2px 7px;
+            border-radius: var(--radius-xs);
+        }
+
+        .rd-sb-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .rd-sb-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--border-line);
+        }
+
+        .rd-sb-row:last-child {
+            border-bottom: none;
+        }
+
+        .rd-sb-num {
+            font-family: var(--font-sans);
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #60a5fa 0%, #1e40af 100%);
+            color: #ffffff;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+            box-shadow: 0 2px 4px rgba(30, 64, 175, 0.2);
+        }
+
+        .rd-sb-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .rd-sb-word-line {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .rd-sb-word {
+            font-family: 'Montserrat', var(--font-sans);
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-main);
+            word-break: break-word;
+        }
+
+        .rd-sb-pos {
+            font-family: var(--font-sans);
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--text-subtle);
+            font-style: italic;
+        }
+
+        .rd-sb-def {
+            font-family: var(--font-sans);
+            font-size: 11.5px;
+            font-weight: 600;
+            color: #b45309;
+            line-height: 1.35;
+            word-break: break-word;
+        }
+
+        .rd-sb-hi {
+            font-family: 'Noto Sans Devanagari', var(--font-sans);
+            font-size: 12px;
+            font-weight: 700;
+            color: #0d9488;
+            line-height: 1.4;
+        }
+
+        .devanagari {
+            font-family: 'Noto Sans Devanagari', var(--font-sans);
+        }
+
+        /* Dark mode theme refinements */
+        html.dark-mode .rd-quote,
+        body.dark-mode .rd-quote {
+            background: rgba(245, 158, 11, 0.12);
+            border-color: rgba(245, 158, 11, 0.35);
+            color: #f3f4f6;
+        }
+
+        html.dark-mode .rd-sb-def,
+        body.dark-mode .rd-sb-def {
+            color: #fbbf24;
+        }
+
+        html.dark-mode .rd-sb-hi,
+        body.dark-mode .rd-sb-hi {
+            color: #2dd4bf;
+        }
+
+        html.dark-mode .evidence-hl,
+        body.dark-mode .evidence-hl {
+            color: #2dd4bf;
+            background: rgba(45, 212, 191, 0.12);
+            border-bottom-color: #2dd4bf;
+        }
+
+        @media (max-width: 1080px) {
+            .mag-article-spread {
+                grid-template-columns: 1fr;
+                padding: 24px;
+            }
+            .rd-sidebar {
+                position: static;
+                max-height: none;
+            }
+        }
 
         @media (max-width: 768px) {
             .masthead { padding: 0 16px; }
-            .vocab-lab-grid { grid-template-columns: 1fr; }
-            .article-card { padding: 20px; }
-            .article-title { font-size: 20px; }
+            #magazineView { padding: 16px 14px 60px; }
+            .mag-article-spread { padding: 18px; }
+            .rd-title { font-size: 20px; }
         }
     </style>
 </head>
@@ -988,7 +1259,7 @@
                 <div class="brand-icon">EZ</div>
                 <div class="brand-title">EZ <span>Editorials</span></div>
             </div>
-            <span class="brand-pill">Study Sanctum</span>
+            <span class="brand-pill">Study Hub</span>
         </div>
 
         <!-- The Two Main Pillars (Visible only when logged in) -->
@@ -1050,25 +1321,13 @@
                 <label class="auth-label" for="otpCodeInput">Enter 6-Digit Verification Code:</label>
                 <input type="text" id="otpCodeInput" class="auth-input auth-otp-input tabular-nums" placeholder="••••••" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
                 <button type="button" class="btn-primary-action" id="verifyBtn" onclick="verifyBotOtp()">
-                    <span>🚀</span> Verify Code & Unlock Sanctum
+                    Verify & Sign In
                 </button>
             </div>
 
             <p id="auth-status-msg"></p>
 
-            <div class="gate-divider">
-                <span>OR SIGN IN DIRECTLY</span>
-            </div>
-
-            <!-- Official Free Telegram Login Widget -->
-            <div class="tg-widget-wrap">
-                <script async src="https://telegram.org/js/telegram-widget.js?22"
-                        data-telegram-login="Ez_vocab_bot"
-                        data-size="large"
-                        data-onauth="onTelegramAuth(user)"
-                        data-request-access="write"></script>
-            </div>
-            <p class="gate-footnote">🔒 Exclusive to registered aspirants & group members.</p>
+            <p class="gate-footnote">🔒 Exclusive to registered members of the Ez Editorials study group.</p>
         </div>
     </section>
 
@@ -1119,6 +1378,9 @@
             <div>
                 <h2 class="mag-date-title" id="magDateTitle">Monday, September 21, 2026</h2>
                 <div class="mag-edition-meta">
+                    <span class="sync-badge" id="magReadBadge" style="display: none;">
+                        <span>✅</span> Marked as Read · Synced to Telegram
+                    </span>
                     <span>Evidence Lens Active</span>
                     <span>·</span>
                     <span id="magArticleCount">4 Articles</span>
@@ -1130,7 +1392,7 @@
             </div>
         </div>
 
-        <!-- Focus Reading Column (680px Max-Width) -->
+        <!-- Full Width Editorial Magazine Articles Container -->
         <div class="magazine-articles-container" id="magazineArticles">
             <div style="text-align: center; padding: 50px; color: var(--text-muted);">
                 Loading today's editorial digest...
@@ -1150,7 +1412,8 @@
             weekDays: [],
             magazineWeekData: null,
             masterQuizData: null,
-            fontSize: 15
+            fontSize: 15,
+            readDates: new Set()
         };
 
         // Initialize Week Days (Mon to Sat)
@@ -1216,19 +1479,19 @@
             const isAuthed = (typeof isAuthenticated === 'function' && isAuthenticated());
 
             if (isAuthed) {
-                // UNLOCK SANCTUM FOR VERIFIED MEMBER
                 authGate.style.display = 'none';
                 nav.style.display = 'flex';
                 userChip.style.display = 'flex';
                 logoutBtn.style.display = 'flex';
 
                 const user = (typeof getSavedUser === 'function') ? getSavedUser() : null;
-                const name = user ? (user.first_name || user.username || 'Candidate') : 'Candidate';
+                const name = user ? (user.first_name || user.username || 'Student') : 'Student';
                 userNameLabel.innerText = name;
 
                 switchView(state.currentTab);
                 fetchWeeklyQuizzes();
                 fetchWeeklyMagazine();
+                fetchMagazineReadStatus();
             } else {
                 // STRICT LOCK: HIDE ALL CONTENT
                 authGate.style.display = 'flex';
@@ -1314,7 +1577,7 @@
                 if (res.ok && data.token) {
                     localStorage.setItem('ez_session_token', data.token);
                     localStorage.setItem('ez_user_profile', JSON.stringify(data.user));
-                    setAuthMsg("✅ Verified! Unlocking Study Sanctum...", "success");
+                    setAuthMsg("✅ Verified! Signing in...", "success");
                     setTimeout(renderAuthState, 350);
                 } else {
                     setAuthMsg(data.error || "Invalid or expired code.", "error");
@@ -1322,7 +1585,7 @@
             } catch (err) {
                 setAuthMsg("Connection failed. Please retry.", "error");
             } finally {
-                if (verifyBtn) verifyBtn.innerHTML = '<span>🚀</span> Verify Code & Unlock Sanctum';
+                if (verifyBtn) verifyBtn.innerHTML = 'Verify & Sign In';
             }
         }
 
@@ -1333,27 +1596,52 @@
             el.className = type === 'error' ? 'msg-error' : 'msg-success';
         }
 
-        // Official Telegram Widget Callback
-        window.onTelegramAuth = async function(user) {
-            setAuthMsg("Verifying Telegram credentials...", "success");
+        async function fetchMagazineReadStatus() {
+            const token = localStorage.getItem('ez_session_token');
+            if (!token) return;
             try {
-                const res = await fetch('https://ez-editorials-bot.onrender.com/api/auth/telegram-widget', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(user)
+                const res = await fetch('https://ez-editorials-bot.onrender.com/api/magazine/read-status', {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 });
-                const data = await res.json();
-                if (res.ok && data.token) {
-                    localStorage.setItem('ez_session_token', data.token);
-                    localStorage.setItem('ez_user_profile', JSON.stringify(data.user));
-                    renderAuthState();
-                } else {
-                    setAuthMsg(data.error || "Verification failed.", "error");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.read_dates && Array.isArray(data.read_dates)) {
+                        state.readDates = new Set(data.read_dates);
+                        renderMagDayNav();
+                        const isRead = state.readDates.has(state.selectedMagDateStr);
+                        const readBadge = document.getElementById('magReadBadge');
+                        if (readBadge) readBadge.style.display = isRead ? 'inline-flex' : 'none';
+                    }
                 }
             } catch (e) {
-                setAuthMsg("Server unreachable.", "error");
+                console.warn('Could not fetch read dates status:', e);
             }
-        };
+        }
+
+        async function syncMagazineReadReceipt(dateStr) {
+            const token = localStorage.getItem('ez_session_token');
+            if (!token || !dateStr) return;
+
+            try {
+                const res = await fetch('https://ez-editorials-bot.onrender.com/api/magazine/sync-read-receipt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ date: dateStr })
+                });
+                const data = await res.json();
+                if (res.ok && (data.success || data.status === 'success')) {
+                    state.readDates.add(dateStr);
+                    renderMagDayNav();
+                    const readBadge = document.getElementById('magReadBadge');
+                    if (readBadge) readBadge.style.display = 'inline-flex';
+                }
+            } catch (e) {
+                console.warn('Failed to sync magazine read receipt:', e);
+            }
+        }
 
         // --- TAB NAVIGATION ---
         function switchView(tabName) {
@@ -1547,11 +1835,15 @@
             nav.innerHTML = state.weekDays.map(d => {
                 const isActive = d.dateStr === state.selectedMagDateStr;
                 const hasArticles = Boolean(state.magazineWeekData && state.magazineWeekData[d.dateStr] && state.magazineWeekData[d.dateStr].length > 0);
+                const isRead = state.readDates.has(d.dateStr);
+
                 return `
                     <div class="mag-day-pill ${isActive ? 'active' : ''}" onclick="selectMagDay('${d.dateStr}')">
                         <span class="pill-dayname">${d.dayName}</span>
                         <span class="pill-daynum">${d.dayNum}</span>
-                        ${hasArticles ? '<div class="pill-dot" title="Edition Available"></div>' : ''}
+                        <div class="pill-indicators">
+                            ${isRead ? '<span class="pill-read-chk" title="Marked as Read">✓</span>' : (hasArticles ? '<div class="pill-dot" title="Edition Available"></div>' : '')}
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -1581,11 +1873,17 @@
             const container = document.getElementById('magazineArticles');
             const dateTitle = document.getElementById('magDateTitle');
             const countEl = document.getElementById('magArticleCount');
+            const readBadge = document.getElementById('magReadBadge');
             if (!container || !state.selectedMagDateStr) return;
 
             const dayObj = state.weekDays.find(d => d.dateStr === state.selectedMagDateStr);
             if (dateTitle && dayObj) {
                 dateTitle.innerText = `${dayObj.fullDayName}, ${dayObj.monthLong} ${dayObj.dayNum}, ${dayObj.year}`;
+            }
+
+            const isRead = state.readDates.has(state.selectedMagDateStr);
+            if (readBadge) {
+                readBadge.style.display = isRead ? 'inline-flex' : 'none';
             }
 
             const articles = (state.magazineWeekData && state.magazineWeekData[state.selectedMagDateStr]) ? state.magazineWeekData[state.selectedMagDateStr] : [];
@@ -1594,8 +1892,8 @@
 
             if (!articles || articles.length === 0) {
                 container.innerHTML = `
-                    <div class="article-card" style="text-align: center; padding: 48px 24px;">
-                        <span style="font-size: 40px; margin-bottom: 12px;">☕</span>
+                    <div class="article-card" style="text-align: center; padding: 48px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base);">
+                        <span style="font-size: 40px; margin-bottom: 12px; display: block;">☕</span>
                         <h3 style="font-size: 18px; margin-bottom: 6px;">No Edition Published for this Date</h3>
                         <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">
                             Editorials for this date have not been published yet. Please choose another day from the strip above.
@@ -1605,40 +1903,87 @@
                 return;
             }
 
+            // Automatic read receipt sync on website read:
+            syncMagazineReadReceipt(state.selectedMagDateStr);
+
             container.innerHTML = articles.map(art => {
                 const vocabList = art.vocabulary || art.editorial_vocabulary || [];
                 const bodyHtml = cleanAndHighlightPassageJs(art.passage_html || art.passage || '', vocabList);
-                const vocabCardsHtml = renderVocabLabItems(vocabList);
+
+                const vocabRowsHtml = vocabList.map((item, idx) => {
+                    const num = item.order_index || (idx + 1);
+                    const word = escapeHtml(item.word_or_phrase || '');
+                    const pos = item.part_of_speech ? `(${escapeHtml(item.part_of_speech)})` : '';
+                    const def = escapeHtml(item.easy_synonym || item.concise_meaning || '');
+                    const hindi = item.hindi_meaning ? escapeHtml(item.hindi_meaning) : '';
+
+                    return `
+                        <div class="rd-sb-row">
+                            <div class="rd-sb-num">${num}</div>
+                            <div class="rd-sb-details">
+                                <div class="rd-sb-word-line">
+                                    <span class="rd-sb-word">${word}</span>
+                                    ${pos ? `<span class="rd-sb-pos">${pos}</span>` : ''}
+                                </div>
+                                <div class="rd-sb-def">${def}</div>
+                                ${hindi ? `<div class="rd-sb-hi devanagari">${hindi}</div>` : ''}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
 
                 return `
-                    <article class="article-card">
-                        <header class="article-header">
-                            <div class="article-tags-row">
-                                <span class="source-pill">${escapeHtml(art.newspaper || 'Editorial')} · ${escapeHtml(art.topic || 'General Studies')}</span>
-                                <span class="reading-time-pill">⏱ ${escapeHtml(art.reading_time || '3 min read')}</span>
+                    <div class="mag-article-spread">
+                        <!-- LEFT MAIN COLUMN: EDITORIAL ARTICLE -->
+                        <div class="mag-main-col">
+                            <div class="rd-top-row">
+                                <span class="rd-tag">${escapeHtml(art.topic || 'Editorial Analysis')}</span>
+                                <span class="rd-source">
+                                    <span>📰</span> ${escapeHtml(art.newspaper || 'The Hindu')} · ⏱ ${escapeHtml(art.reading_time || '3 min read')}
+                                </span>
                             </div>
-                            <h2 class="article-title">${escapeHtml(art.title || 'Untitled Editorial')}</h2>
-                            ${art.subtitle ? `<div class="article-subtitle">“${escapeHtml(art.subtitle)}”</div>` : ''}
-                        </header>
 
-                        <!-- Focus Reading Passage with Evidence Lens -->
-                        <div class="article-body">
-                            ${bodyHtml}
+                            <h2 class="rd-title">${escapeHtml(art.title || 'Untitled Editorial')}</h2>
+
+                            ${art.subtitle ? `
+                                <div class="rd-quote">
+                                    <span class="rd-quote-mark">“</span>
+                                    ${escapeHtml(art.subtitle)}
+                                </div>
+                            ` : ''}
+
+                            <div class="rd-meta">
+                                <span>📅 ${escapeHtml(art.date || (dayObj ? dayObj.dateStr : ''))}</span>
+                                <span>·</span>
+                                <span>🎯 Exam Lens Active</span>
+                                <span>·</span>
+                                <span>💡 Evidence Analysis</span>
+                            </div>
+
+                            <div class="rd-body">
+                                ${bodyHtml}
+                            </div>
+
+                            <div class="rd-citation">
+                                <span>Source: <strong>${escapeHtml(art.newspaper || 'Editorial Source')}</strong> · Ez Editorials Curated Daily</span>
+                                ${art.url ? `<a href="${escapeHtml(art.url)}" target="_blank" rel="noopener noreferrer" class="rd-citation-btn">Original Source ↗</a>` : ''}
+                            </div>
                         </div>
 
-                        <!-- Vocab Lab with English & Hindi Meanings -->
-                        ${vocabList.length > 0 ? `
-                            <div class="vocab-lab-card">
-                                <div class="vocab-lab-header">
-                                    <span>VOCAB LAB QUICK LOOK</span>
-                                    <span>${vocabList.length} WORDS</span>
+                        <!-- RIGHT STICKY COLUMN: VOCABULARY 101 (EXACT PDF REPLICA) -->
+                        <aside class="rd-sidebar">
+                            <div class="rd-sb-header">
+                                <div class="rd-sb-title">
+                                    <span>📖</span> VOCABULARY 101
                                 </div>
-                                <div class="vocab-lab-grid">
-                                    ${vocabCardsHtml}
-                                </div>
+                                <span class="rd-sb-badge">${vocabList.length} Words</span>
                             </div>
-                        ` : ''}
-                    </article>
+
+                            <div class="rd-sb-list">
+                                ${vocabRowsHtml || '<div style="color:var(--text-muted); font-size:12px; padding:10px 0;">No vocabulary listed.</div>'}
+                            </div>
+                        </aside>
+                    </div>
                 `;
             }).join('');
         }
@@ -1796,7 +2141,7 @@
         // Reader Controls
         function adjustFontSize(delta) {
             state.fontSize = Math.max(13, Math.min(22, state.fontSize + delta));
-            document.querySelectorAll('.article-body').forEach(el => {
+            document.querySelectorAll('.rd-body, .article-body').forEach(el => {
                 el.style.fontSize = state.fontSize + 'px';
             });
         }

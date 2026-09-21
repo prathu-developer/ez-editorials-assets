@@ -1621,11 +1621,14 @@
 
         function goBackFromResult() {
             triggerHaptic('light');
-            const dayParam = new URLSearchParams(window.location.search).get('day');
+            const urlParams = new URLSearchParams(window.location.search);
+            const returnUrl = urlParams.get('return_url') || 'index.html';
+            const dayParam = urlParams.get('day');
             const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+            const retQuery = `&return_url=${encodeURIComponent(returnUrl)}`;
             
-            if (isPractice) window.location.href = `result.html?practice=true${dayQuery}`;
-            else window.location.href = `result.html?attempt_id=${attemptIdParam}${dayQuery}`;
+            if (isPractice) window.location.href = `result.html?practice=true${dayQuery}${retQuery}`;
+            else window.location.href = `result.html?attempt_id=${attemptIdParam}${dayQuery}${retQuery}`;
         }
 
         function getExitTargetUrl() {
@@ -1634,7 +1637,7 @@
             if (returnUrl) return returnUrl;
             if (document.referrer && document.referrer.includes('index.html')) return 'index.html';
             const dayParam = urlParams.get('day');
-            return dayParam !== null ? `app.html?view=day&day=${dayParam}` : 'app.html?view=day';
+            return dayParam !== null ? `index.html?day=${dayParam}` : 'index.html';
         }
 
         function exitTestEarly() {
@@ -1862,6 +1865,22 @@
             }
         }
 
+        function formatSolutionText(text) {
+            if (!text) return "No detailed explanation available.";
+            let escaped = String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            // Format markdown bold **text**
+            escaped = escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            // Bullet lines
+            escaped = escaped.replace(/^[•\-\*]\s*(.+)$/gm, '<div style="margin-left: 12px; margin-bottom: 4px;">• $1</div>');
+            // Paragraph breaks
+            escaped = escaped.replace(/\n\n+/g, '<div style="height: 8px;"></div>');
+            escaped = escaped.replace(/\n/g, '<br/>');
+            return escaped;
+        }
+
         function loadQuestion(index) {
             // ⏱️ Record elapsed time on the previous question during live test
             if (!isReviewMode && questions[currentIndex]) {
@@ -2011,7 +2030,7 @@
 
             if (isReviewMode) {
                 document.getElementById('solution-box').style.display = 'block';
-                document.getElementById('acc-body').innerHTML = q.explanation ? q.explanation.replace(/\n/g, '<br/>') : "No detailed explanation available.";
+                document.getElementById('acc-body').innerHTML = formatSolutionText(q.explanation);
                 document.getElementById('acc-body').classList.remove('show');
                 
                 if (q.user_selected_index === null && reattemptAnswer === undefined) {
