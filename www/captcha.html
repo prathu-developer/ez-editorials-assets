@@ -330,6 +330,30 @@
 
             <div class="decorations">🪄 ★ ✦ 🪄 ★ ✦ 🪄</div>
         </div>
+
+        <!-- Error State -->
+        <div class="error-view" id="error-view" style="display: none; text-align: center; padding: 10px 0 6px;">
+            <div class="header" style="justify-content: flex-start; text-align: left;">
+                <div class="group-icon">🪄</div>
+                <div class="group-info">
+                    <h2>Ez Editorials</h2>
+                    <p>Entrance Trial Verification</p>
+                </div>
+            </div>
+
+            <div class="halo-container">
+                <div class="success-badge" style="background: rgba(239, 68, 68, 0.4); border: 1px solid rgba(239, 68, 68, 0.8);">⚠️</div>
+            </div>
+
+            <h1 class="success-title" id="error-title" style="font-size: 26px;">Verification Error</h1>
+            <p class="success-sub" id="error-desc">We couldn't verify your Telegram account session. Please reopen this trial directly from the bot's message in Telegram.</p>
+
+            <button class="continue-btn" id="error-btn" onclick="handleErrorAction()">
+                Retry Verification 🔄
+            </button>
+
+            <div class="decorations">🪄 ★ ✦ 🪄 ★ ✦ 🪄</div>
+        </div>
     </div>
 
     <script>
@@ -536,25 +560,73 @@
             }
         }
 
-        async function finishQuiz() {
-            // Instantly transition to the "You're in." window
+        let isApproving = false;
+
+        function showErrorView(title, message, btnText, btnAction) {
             document.getElementById('quiz-view').style.display = 'none';
-            document.getElementById('success-view').style.display = 'block';
+            document.getElementById('success-view').style.display = 'none';
+            const errView = document.getElementById('error-view');
+            errView.style.display = 'block';
+
+            if (title) document.getElementById('error-title').innerText = title;
+            if (message) document.getElementById('error-desc').innerText = message;
+            const btn = document.getElementById('error-btn');
+            if (btnText) btn.innerText = btnText;
+            window._errorBtnAction = btnAction || (() => finishQuiz());
 
             if (tg && tg.HapticFeedback) {
-                try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+                try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {}
             }
+        }
 
-            const initData = tg && tg.initData ? tg.initData : '';
+        function handleErrorAction() {
+            if (typeof window._errorBtnAction === 'function') {
+                window._errorBtnAction();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        async function finishQuiz() {
+            if (isApproving) return;
+
+            const initData = (tg && tg.initData) ? tg.initData : '';
             const urlParams = new URLSearchParams(window.location.search);
             const rawUserId = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) ||
                               urlParams.get('uid') ||
                               urlParams.get('user_id');
             const userId = rawUserId ? parseInt(rawUserId, 10) : null;
-            const btn = document.getElementById('continue-btn');
 
-            let approved = false;
-            // 1. Try Cloudflare Worker
+            // 🛡️ Guard against missing or invalid user ID
+            if (!userId || isNaN(userId) || userId <= 0) {
+                showErrorView(
+                    "Session Not Found",
+                    "We could not verify your Telegram ID. Please make sure to open this Entrance Trial using the button sent by the bot in Telegram.",
+                    "Open Telegram Bot 🪄",
+                    () => { window.location.href = "https://t.me/ez_quiz_bot"; }
+                );
+                return;
+            }
+
+            // Show approving state in success-view
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('error-view').style.display = 'none';
+            document.getElementById('success-view').style.display = 'block';
+
+            const btn = document.getElementById('continue-btn');
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+            btn.innerHTML = 'Approving... ⏳';
+
+            if (tg && tg.HapticFeedback) {
+                try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+            }
+
+            isApproving = true;
+            let workerApproved = false;
+            let backendSuccess = false;
+
+            // 1. Instant Telegram approval via Cloudflare Worker
             try {
                 const res = await fetch('https://ez-verify-worker.prathamesh-adhe508.workers.dev', {
                     method: 'POST',
@@ -564,31 +636,53 @@
                     },
                     body: JSON.stringify({ user_id: userId })
                 });
-                if (res.ok) approved = true;
-            } catch (err) {
-                console.error("Worker approval failed, attempting direct Render fallback:", err);
-            }
-
-            // 2. Direct Render backend fallback
-            if (!approved && userId) {
-                try {
-                    await fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Telegram-Init-Data': initData
-                        },
-                        body: JSON.stringify({ user_id: userId })
-                    });
-                } catch (fallbackErr) {
-                    console.error("Render fallback failed:", fallbackErr);
+                if (res.ok) {
+                    const data = await res.json().catch(() => ({}));
+                    if (data.status === 'success' || res.status === 200) {
+                        workerApproved = true;
+                    }
                 }
+            } catch (err) {
+                console.warn("Cloudflare Worker approval attempt failed:", err);
             }
 
-            // Unlock the continue button
-            btn.disabled = false;
-            btn.style.opacity = "1";
-            btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
+            // 2. Always notify Render backend to sync DB (clears join_req from bot_settings and registers user)
+            //    If the worker failed, Render's backend acts as the fallback to approve in Telegram with retry logic!
+            try {
+                const renderRes = await fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Telegram-Init-Data': initData
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        worker_approved: workerApproved
+                    })
+                });
+                if (renderRes.ok) {
+                    backendSuccess = true;
+                }
+            } catch (fallbackErr) {
+                console.warn("Render backend sync/approval failed:", fallbackErr);
+            }
+
+            isApproving = false;
+
+            // 3. Final verification: Did at least one pipeline succeed?
+            if (workerApproved || backendSuccess) {
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
+            } else {
+                // Both worker and render failed (network drop)
+                showErrorView(
+                    "Approval Failed",
+                    "Could not complete your approval due to a network connection issue. Please tap Retry to finalize your entrance.",
+                    "Retry Verification 🔄",
+                    () => finishQuiz()
+                );
+            }
         }
 
         function handleContinue() {
