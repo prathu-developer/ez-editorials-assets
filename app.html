@@ -9552,7 +9552,7 @@
                     
                     // 🟢 FIX: Securely inject Admin privileges into the raw server payload
                     if (data && data.current_user) {
-                        const ADMIN_IDS = [716496729, 5103843488, 6251430317];
+                        const ADMIN_IDS = [716496729, 5103843488, 6251430317, 7332965937];
                         data.current_user.is_admin = ADMIN_IDS.includes(appUserId);
                     }
 

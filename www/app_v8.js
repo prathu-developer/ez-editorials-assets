@@ -281,7 +281,7 @@ if (currentActiveId > 0) {
                 return;
             }
 
-            const ADMIN_IDS = [716496729, 5103843488, 6251430317];
+            const ADMIN_IDS = [716496729, 5103843488, 6251430317, 7332965937];
             const isAdmin = ADMIN_IDS.includes(currentActiveId);
 
             if (data.current_user) {
