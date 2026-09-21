@@ -1001,16 +1001,91 @@
            CALIBRATED WEB TYPOGRAPHY SCALE FOR MAGAZINE ARTICLES
            ========================================================= */
         #magazineArticles {
-            --mag-body-size: 15.5px;
-            --mag-body-lh: 1.76;
+            --mag-body-size: 16px;
+            --mag-body-lh: 1.78;
             width: 100%;
         }
 
+        /* 1. Article Reader Page (Headline, Quotes, Tags, Sources, Metadata) */
+        #magazineArticles .rd-top-row {
+            margin-bottom: 12px !important;
+        }
+
+        #magazineArticles .rd-tag {
+            font-size: 11.5px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.6px !important;
+            padding: 4px 10px !important;
+            border-radius: 6px !important;
+        }
+
+        #magazineArticles .rd-tag .icon-svg {
+            width: 13px !important;
+            height: 13px !important;
+        }
+
+        #magazineArticles .rd-source {
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.2px !important;
+        }
+
+        #magazineArticles .rd-title {
+            font-size: 24px !important;
+            line-height: 1.3 !important;
+            letter-spacing: -0.3px !important;
+            margin-bottom: 10px !important;
+            color: var(--text-hi) !important;
+        }
+
+        #magazineArticles .rd-quote {
+            font-size: 15px !important;
+            line-height: 1.6 !important;
+            padding: 12px 18px !important;
+            margin-bottom: 14px !important;
+            border-left-width: 3.5px !important;
+        }
+
+        #magazineArticles .rd-meta {
+            font-size: 12px !important;
+            gap: 8px !important;
+            margin-bottom: 16px !important;
+        }
+
+        #magazineArticles .rd-meta .meta-item {
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            gap: 5px !important;
+        }
+
+        #magazineArticles .rd-meta .icon-svg {
+            width: 13px !important;
+            height: 13px !important;
+        }
+
+        #magazineArticles .rd-meta .meta-sep {
+            font-size: 12px !important;
+            opacity: 0.6;
+        }
+
+        #magazineArticles .rd-citation {
+            font-size: 11.5px !important;
+            padding-top: 10px !important;
+            margin-top: 10px !important;
+        }
+
+        #magazineArticles .rd-citation-btn {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            padding: 4px 12px !important;
+        }
+
+        /* 2. Article Passage Body */
         #magazineArticles .rd-body {
-            font-size: var(--mag-body-size, 15.5px) !important;
-            line-height: var(--mag-body-lh, 1.76) !important;
-            color: #1e293b;
-            letter-spacing: 0.012em;
+            font-size: var(--mag-body-size, 16px) !important;
+            line-height: var(--mag-body-lh, 1.78) !important;
+            color: #1e293b !important;
+            letter-spacing: 0.012em !important;
         }
 
         body.dark-theme #magazineArticles .rd-body,
@@ -1019,61 +1094,72 @@
         }
 
         #magazineArticles .rd-body p {
-            font-size: var(--mag-body-size, 15.5px) !important;
-            line-height: var(--mag-body-lh, 1.76) !important;
-            margin-bottom: 12px !important;
-        }
-
-        #magazineArticles .rd-body p:first-of-type::first-letter {
-            font-size: 38px !important;
-            line-height: 0.82 !important;
-            margin-top: 2px !important;
-            margin-right: 6px !important;
-        }
-
-        #magazineArticles .rd-title {
-            font-size: 23px !important;
-            line-height: 1.32 !important;
-            letter-spacing: -0.3px !important;
-            margin-bottom: 8px !important;
-        }
-
-        #magazineArticles .rd-quote {
-            font-size: 13.5px !important;
-            line-height: 1.55 !important;
-            padding: 10px 14px !important;
+            font-size: var(--mag-body-size, 16px) !important;
+            line-height: var(--mag-body-lh, 1.78) !important;
             margin-bottom: 14px !important;
         }
 
+        #magazineArticles .rd-body p:first-of-type::first-letter {
+            font-size: 42px !important;
+            line-height: 0.82 !important;
+            margin-top: 2px !important;
+            margin-right: 8px !important;
+        }
+
+        #magazineArticles .rd-body sup {
+            font-size: 11px !important;
+            font-weight: 700 !important;
+        }
+
+        /* 3. Sidebar Vocabulary 101 */
         #magazineArticles .rd-sidebar {
-            width: 280px !important;
-            min-width: 260px !important;
+            width: 300px !important;
+            min-width: 270px !important;
         }
 
         #magazineArticles .rd-sb-title {
+            font-size: 12.5px !important;
+            letter-spacing: 0.8px !important;
+            font-weight: 800 !important;
+            margin-bottom: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        #magazineArticles .rd-sb-title .icon-svg {
+            width: 14px !important;
+            height: 14px !important;
+        }
+
+        #magazineArticles .rd-sb-row {
+            padding: 5px 0 6px 0 !important;
+            gap: 8px !important;
+        }
+
+        #magazineArticles .rd-sb-num {
+            width: 22px !important;
+            height: 22px !important;
             font-size: 11px !important;
-            letter-spacing: 1px !important;
-        }
-
-        #magazineArticles .rd-sb-item {
-            padding: 7px 9px !important;
-            margin-bottom: 6px !important;
-        }
-
-        #magazineArticles .rd-sb-word {
-            font-size: 13.5px !important;
             font-weight: 800 !important;
         }
 
-        #magazineArticles .rd-sb-hi {
-            font-size: 11.5px !important;
+        #magazineArticles .rd-sb-word {
+            font-size: 14px !important;
+            font-weight: 800 !important;
+            line-height: 1.25 !important;
+        }
+
+        #magazineArticles .rd-sb-pos {
+            font-size: 11px !important;
+            font-weight: 600 !important;
         }
 
         #magazineArticles .rd-sb-def {
-            font-size: 12.5px !important;
+            font-size: 13px !important;
             line-height: 1.45 !important;
             font-weight: 600 !important;
-            margin-top: 3px !important;
+            margin-top: 2px !important;
             color: #b45309 !important;
         }
 
@@ -1082,46 +1168,134 @@
             color: #fbbf24 !important;
         }
 
+        #magazineArticles .rd-sb-hi {
+            font-size: 12.5px !important;
+            font-weight: 700 !important;
+        }
+
+        #magazineArticles .deep-analysis-card {
+            padding: 8px 10px !important;
+            margin-top: 10px !important;
+        }
+
+        #magazineArticles .deep-analysis-icon {
+            width: 26px !important;
+            height: 26px !important;
+        }
+
         #magazineArticles .deep-analysis-text {
             font-size: 11.5px !important;
             line-height: 1.4 !important;
         }
 
-        #magazineArticles .open-vocab-lab-btn {
-            font-size: 11px !important;
-            padding: 6px 14px !important;
+        #magazineArticles .deep-analysis-text strong {
+            font-size: 12.5px !important;
+            font-weight: 800 !important;
+            margin-bottom: 2px !important;
         }
 
-        /* Stance, Perspective & Word Tone Mix */
+        #magazineArticles .open-vocab-lab-btn {
+            font-size: 12px !important;
+            font-weight: 800 !important;
+            padding: 7px 14px !important;
+            margin-top: 8px !important;
+        }
+
+        /* 4. Footer Bar Across All Pages */
+        #magazineArticles .footer-wrap {
+            margin-top: 18px !important;
+        }
+
+        #magazineArticles .footer-pill {
+            padding: 6px 16px !important;
+            min-height: 38px !important;
+        }
+
+        #magazineArticles .footer-brand {
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+        }
+
+        #magazineArticles .footer-cta {
+            font-size: 11.5px !important;
+            font-weight: 800 !important;
+            padding: 5.5px 16px !important;
+        }
+
+        #magazineArticles .footer-page {
+            font-size: 11.5px !important;
+            font-weight: 900 !important;
+            padding: 4px 12px !important;
+        }
+
+        /* 5. Vocab Lab Page Header */
+        #magazineArticles .vlab-page-header {
+            padding: 12px 16px !important;
+            margin-bottom: 14px !important;
+        }
+
+        #magazineArticles .vlab-page-header-icon {
+            width: 34px !important;
+            height: 34px !important;
+        }
+
+        #magazineArticles .vlab-page-header-title {
+            font-size: 15px !important;
+            font-weight: 900 !important;
+            letter-spacing: 0.2px !important;
+        }
+
+        #magazineArticles .vlab-page-header-article {
+            font-size: 12px !important;
+            margin-top: 2px !important;
+        }
+
+        #magazineArticles .topic-chip {
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+            padding: 4px 10px !important;
+        }
+
+        /* 6. Editorial Stance, Perspective & Word Tone Mix */
         #magazineArticles .stance-row {
             --tone-a: #f59e0b;
             --tone-b: #d97706;
-            margin-bottom: 14px !important;
+            gap: 12px !important;
+            margin-bottom: 16px !important;
+        }
+
+        #magazineArticles .stance-card {
+            padding: 14px 18px !important;
         }
 
         #magazineArticles .stance-label,
         #magazineArticles .persp-label,
         #magazineArticles .tone-bar-label {
-            font-size: 10px !important;
-            letter-spacing: 1px !important;
+            font-size: 11.5px !important;
+            letter-spacing: 0.8px !important;
             font-weight: 800 !important;
+            margin-bottom: 6px !important;
         }
 
         #magazineArticles .stance-value {
-            font-size: 18px !important;
+            font-size: 20px !important;
             font-weight: 900 !important;
             line-height: 1.2 !important;
         }
 
         #magazineArticles .stance-sub {
-            font-size: 12px !important;
-            line-height: 1.45 !important;
-            margin-top: 4px !important;
+            font-size: 13.5px !important;
+            line-height: 1.5 !important;
+            margin-top: 5px !important;
+        }
+
+        #magazineArticles .persp-card {
+            padding: 14px 18px !important;
         }
 
         #magazineArticles .persp-text {
-            font-size: 13.5px !important;
-            line-height: 1.62 !important;
+            font-size: 15px !important;
+            line-height: 1.72 !important;
             color: #334155 !important;
         }
 
@@ -1131,43 +1305,78 @@
         }
 
         #magazineArticles .persp-text::first-letter {
-            font-size: 22px !important;
+            font-size: 26px !important;
+            margin-right: 4px !important;
+        }
+
+        #magazineArticles .tone-bar-card {
+            padding: 12px 16px !important;
+        }
+
+        #magazineArticles .tone-bar-track {
+            height: 10px !important;
+            border-radius: 6px !important;
         }
 
         #magazineArticles .tone-bar-legend {
-            font-size: 11px !important;
-            gap: 12px !important;
-        }
-
-        /* Vocab Lab Category & Cards */
-        #magazineArticles .vlab-cat-header {
             font-size: 12px !important;
-            font-weight: 800 !important;
-            letter-spacing: 0.8px !important;
-            padding: 7px 12px !important;
-            margin-bottom: 12px !important;
+            font-weight: 700 !important;
+            gap: 14px !important;
         }
 
+        /* 7. Category Headers */
+        #magazineArticles .vlab-cat-header {
+            font-size: 13px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.6px !important;
+            padding: 7px 14px !important;
+            margin-bottom: 14px !important;
+        }
+
+        /* 8. Vocab Cards */
         #magazineArticles .vcard {
             padding: 14px 16px !important;
             min-height: auto !important;
         }
 
+        #magazineArticles .vcard-top {
+            margin-bottom: 6px !important;
+        }
+
+        #magazineArticles .vcard-num {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            padding: 2px 7px !important;
+        }
+
+        #magazineArticles .vcard-tag {
+            font-size: 10.5px !important;
+            font-weight: 800 !important;
+            padding: 2.5px 8px !important;
+            letter-spacing: 0.5px !important;
+        }
+
         #magazineArticles .vcard-word {
-            font-size: 15px !important;
+            font-size: 16px !important;
             font-weight: 800 !important;
             margin-bottom: 3px !important;
         }
 
         #magazineArticles .vcard-pos {
-            font-size: 11px !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            margin-bottom: 6px !important;
+        }
+
+        #magazineArticles .vcard-hi {
+            font-size: 13px !important;
             font-weight: 700 !important;
         }
 
         #magazineArticles .vcard-def {
-            font-size: 13px !important;
-            line-height: 1.52 !important;
-            margin-bottom: 8px !important;
+            font-size: 14px !important;
+            line-height: 1.55 !important;
+            margin-bottom: 10px !important;
             color: #334155 !important;
         }
 
@@ -1177,40 +1386,123 @@
         }
 
         #magazineArticles .vcard-example {
-            font-size: 12px !important;
-            line-height: 1.5 !important;
+            font-size: 12.5px !important;
+            line-height: 1.52 !important;
             padding: 8px 12px !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 10px !important;
         }
 
+        /* 9. Memory Hook: CRITICAL ENHANCEMENT FOR FORMER 6.5px / 8px MICRO-FONT */
+        #magazineArticles .vcard-hook,
         #magazineArticles .hook-box {
+            font-size: 13px !important;
+            line-height: 1.55 !important;
             padding: 8px 12px !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 10px !important;
+            border-left-width: 3px !important;
+            border-radius: 0 8px 8px 0 !important;
+            font-style: normal !important;
         }
 
+        #magazineArticles .vcard-hook-label,
         #magazineArticles .hook-label {
-            font-size: 9.5px !important;
+            display: block !important;
+            font-size: 11px !important;
             font-weight: 800 !important;
+            letter-spacing: 0.8px !important;
+            text-transform: uppercase !important;
+            margin-bottom: 3px !important;
+            opacity: 0.95 !important;
         }
 
-        #magazineArticles .hook-text-content {
-            font-size: 12px !important;
-            line-height: 1.5 !important;
+        /* 10. Synonym & Antonym Chips */
+        #magazineArticles .vcard-chips {
+            gap: 6px !important;
+            margin-top: 8px !important;
+            flex-wrap: wrap !important;
         }
 
         #magazineArticles .chip-syn,
         #magazineArticles .chip-ant,
         #magazineArticles .tag-syn,
         #magazineArticles .tag-ant {
-            font-size: 11px !important;
-            padding: 3px 8px !important;
-            border-radius: 4px !important;
+            font-size: 11.5px !important;
+            font-weight: 600 !important;
+            padding: 3.5px 9px !important;
+            border-radius: 5px !important;
+            line-height: 1.35 !important;
         }
 
         #magazineArticles .vcard-synonyms,
         #magazineArticles .vcard-antonyms {
+            font-size: 11.5px !important;
+            gap: 6px !important;
+        }
+
+        /* 11. Page 2 Continued Bar & Preposition/Phrasal/Idiom Cards */
+        #magazineArticles .continued-bar {
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            padding: 8px 16px !important;
+            margin-bottom: 14px !important;
+        }
+
+        #magazineArticles .continued-bar b {
+            font-size: 12.5px !important;
+            font-weight: 800 !important;
+        }
+
+        #magazineArticles .connector-base {
+            font-size: 15px !important;
+            font-weight: 800 !important;
+        }
+
+        #magazineArticles .connector-dot {
+            font-size: 13px !important;
+        }
+
+        #magazineArticles .connector-prep {
+            font-size: 14px !important;
+            font-weight: 800 !important;
+            padding: 3px 9px !important;
+        }
+
+        #magazineArticles .duo-chip {
+            font-size: 14px !important;
+            font-weight: 800 !important;
+            padding: 4px 10px !important;
+        }
+
+        #magazineArticles .duo-arrow {
+            width: 14px !important;
+            height: 14px !important;
+        }
+
+        #magazineArticles .vcard-idiom-inner .vcard-word {
+            font-size: 16px !important;
+        }
+
+        #magazineArticles .quote-mark-inline {
+            font-size: 18px !important;
+        }
+
+        #magazineArticles .next-editorial-banner {
+            padding: 12px 18px !important;
+        }
+
+        #magazineArticles .next-ed-label {
             font-size: 11px !important;
-            gap: 5px !important;
+            font-weight: 800 !important;
+        }
+
+        #magazineArticles .next-ed-title {
+            font-size: 15px !important;
+            font-weight: 700 !important;
+        }
+
+        #magazineArticles .next-ed-end-text {
+            font-size: 11.5px !important;
+            font-weight: 800 !important;
         }
 
         @media (min-width: 1280px) {
@@ -1422,7 +1714,7 @@
             weekDays: [],
             magazineWeekData: null,
             masterQuizData: null,
-            fontSize: 15.5,
+            fontSize: 16,
             readDates: new Set()
         };
 
@@ -2727,27 +3019,33 @@
 
         // Reader Controls
         function adjustFontSize(delta) {
-            state.fontSize = Math.max(13, Math.min(24, Math.round(((state.fontSize || 15.5) + delta) * 10) / 10));
+            state.fontSize = Math.max(13, Math.min(26, Math.round(((state.fontSize || 16) + delta) * 10) / 10));
             const container = document.getElementById('magazineArticles');
             if (container) {
                 container.style.setProperty('--mag-body-size', state.fontSize + 'px');
             }
-            document.querySelectorAll('.rd-body, .article-body').forEach(el => {
-                el.style.fontSize = state.fontSize + 'px';
-            });
-            document.querySelectorAll('.rd-body p').forEach(el => {
+            document.querySelectorAll('.rd-body, .article-body, .rd-body p').forEach(el => {
                 el.style.fontSize = state.fontSize + 'px';
             });
             document.querySelectorAll('.persp-text').forEach(el => {
-                el.style.fontSize = Math.round(state.fontSize * 0.88) + 'px';
+                el.style.fontSize = Math.round(state.fontSize * 0.94) + 'px';
+            });
+            document.querySelectorAll('.vcard-word').forEach(el => {
+                el.style.fontSize = Math.round(state.fontSize * 1.0) + 'px';
             });
             document.querySelectorAll('.vcard-def').forEach(el => {
-                el.style.fontSize = Math.round(state.fontSize * 0.85) + 'px';
+                el.style.fontSize = Math.round(state.fontSize * 0.88) + 'px';
+            });
+            document.querySelectorAll('.vcard-hook, .hook-box').forEach(el => {
+                el.style.fontSize = Math.round(state.fontSize * 0.82) + 'px';
+            });
+            document.querySelectorAll('.rd-sb-word').forEach(el => {
+                el.style.fontSize = Math.round(state.fontSize * 0.88) + 'px';
             });
             document.querySelectorAll('.rd-sb-def').forEach(el => {
                 el.style.fontSize = Math.round(state.fontSize * 0.82) + 'px';
             });
-            document.querySelectorAll('.hook-text-content').forEach(el => {
+            document.querySelectorAll('.rd-sb-hi, .vcard-hi').forEach(el => {
                 el.style.fontSize = Math.round(state.fontSize * 0.8) + 'px';
             });
         }
