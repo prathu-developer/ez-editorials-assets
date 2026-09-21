@@ -15,7 +15,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -48,7 +48,7 @@
 
             /* Typography & Layout */
             --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --font-serif: 'Newsreader', Georgia, serif;
+            --font-serif: 'Lora', Georgia, serif;
             --radius-xs: 4px;
             --radius-sm: 6px;
             --radius-md: 8px;
@@ -56,7 +56,7 @@
             --radius-lg: 16px;
             --radius-full: 9999px;
 
-            --max-page-width: 1180px;
+            --max-page-width: 1080px;
             --max-reading-width: 680px;
         }
 
@@ -107,40 +107,31 @@
             flex-direction: column;
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button {
-            font-family: inherit;
-        }
-
-        .tabular-nums {
-            font-variant-numeric: tabular-nums;
-        }
+        a { color: inherit; text-decoration: none; }
+        button { font-family: inherit; }
+        .tabular-nums { font-variant-numeric: tabular-nums; }
 
         /* -------------------------------------------------------------
-           STICKY LAPTOP MASTHEAD
+           STICKY MASTHEAD (MINIMAL & FOCUSED)
            ------------------------------------------------------------- */
         .masthead {
             position: sticky;
             top: 0;
             z-index: 100;
-            height: 62px;
+            height: 60px;
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-line);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 32px;
+            padding: 0 28px;
             transition: background 0.2s ease, border-color 0.2s ease;
         }
 
         .masthead-left {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         .brand-logo {
@@ -152,29 +143,26 @@
         }
 
         .brand-icon {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             background: var(--primary);
             color: #ffffff;
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 15px;
-            letter-spacing: -0.5px;
+            font-size: 14px;
         }
 
         .brand-title {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 700;
             letter-spacing: -0.3px;
             color: var(--text-main);
         }
 
-        .brand-title span {
-            color: var(--primary);
-        }
+        .brand-title span { color: var(--primary); }
 
         .brand-pill {
             font-size: 10px;
@@ -188,13 +176,13 @@
             border: 1px solid var(--border-line);
         }
 
-        /* Masthead Navigation Tabs */
+        /* The Only Two Main Tabs */
         .masthead-nav {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             background: var(--bg-subtle);
-            padding: 4px;
+            padding: 3px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-line);
         }
@@ -202,9 +190,9 @@
         .nav-tab-btn {
             background: transparent;
             border: none;
-            padding: 7px 16px;
+            padding: 7px 18px;
             border-radius: var(--radius-sm);
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
@@ -214,9 +202,7 @@
             gap: 7px;
         }
 
-        .nav-tab-btn:hover {
-            color: var(--text-main);
-        }
+        .nav-tab-btn:hover { color: var(--text-main); }
 
         .nav-tab-btn.active {
             background: var(--bg-card);
@@ -228,61 +214,12 @@
         .masthead-right {
             display: flex;
             align-items: center;
-            gap: 12px;
-        }
-
-        /* User Candidate Badge */
-        .user-chip {
-            display: flex;
-            align-items: center;
             gap: 10px;
-            padding: 4px 12px 4px 6px;
-            border-radius: var(--radius-full);
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-line);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: border-color 0.15s ease;
         }
 
-        .user-chip:hover {
-            border-color: var(--primary);
-        }
-
-        .user-avatar-circle {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: #ffffff;
-            font-size: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .user-chip-name {
-            max-width: 140px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .user-exam-pill {
-            font-size: 11px;
-            color: var(--text-muted);
-            background: var(--bg-card);
-            padding: 2px 8px;
-            border-radius: var(--radius-full);
-            border: 1px solid var(--border-line);
-        }
-
-        /* Action Buttons in Masthead */
         .btn-icon {
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-line);
             background: var(--bg-card);
@@ -291,26 +228,20 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 15px;
             transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
         }
 
-        .btn-icon:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-subtle);
-        }
+        .btn-icon:hover { border-color: var(--border-hover); background: var(--bg-subtle); }
+        .btn-icon:active { transform: scale(0.96); }
 
-        .btn-icon:active {
-            transform: scale(0.96);
-        }
-
-        .btn-logout {
-            padding: 7px 14px;
+        .user-auth-btn {
+            padding: 6px 12px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-line);
             background: var(--bg-card);
-            color: var(--text-muted);
-            font-size: 13px;
+            color: var(--text-main);
+            font-size: 12.5px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.15s ease;
@@ -319,852 +250,535 @@
             gap: 6px;
         }
 
-        .btn-logout:hover {
-            color: var(--crimson);
-            border-color: var(--crimson);
-            background: var(--crimson-wash);
-        }
-
-        .btn-logout:active {
-            transform: scale(0.98);
+        .user-auth-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         /* -------------------------------------------------------------
-           CONTAINER & LAYOUT
+           CONTAINER & SHARED STYLES
            ------------------------------------------------------------- */
         .page-container {
             max-width: var(--max-page-width);
             margin: 0 auto;
-            padding: 32px 24px 64px;
+            padding: 24px 20px 60px;
             width: 100%;
             flex: 1;
         }
 
-        /* -------------------------------------------------------------
-           LOGGED-OUT VIEW (MINIMAL LAPTOP LOGIN HERO)
-           ------------------------------------------------------------- */
-        #loginView {
-            display: none;
-            flex: 1;
-        }
-
-        .login-grid {
-            display: grid;
-            grid-template-columns: 1.15fr 0.95fr;
-            min-height: calc(100vh - 62px);
-        }
-
-        .login-hero-side {
-            background: var(--bg-card);
-            border-right: 1px solid var(--border-line);
-            padding: 80px 72px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero-kicker {
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--primary);
-            margin-bottom: 16px;
+        /* Day Navigation Bar (.mag-day-pill from DESIGN.md) */
+        .week-nav-bar {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .hero-title {
-            font-family: var(--font-serif);
-            font-size: 44px;
-            line-height: 1.2;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            color: var(--text-main);
-            margin-bottom: 24px;
-            max-width: 520px;
-        }
-
-        .hero-desc {
-            font-size: 16px;
-            line-height: 1.7;
-            color: var(--text-muted);
-            max-width: 480px;
-            margin-bottom: 40px;
-        }
-
-        .hero-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 500px;
-        }
-
-        .hero-feat-item {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .feat-icon-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .feat-desc {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* Login Form Side */
-        .login-form-side {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 48px;
-            background: var(--bg-canvas);
-        }
-
-        .login-card {
-            width: 100%;
-            max-width: 390px;
+            justify-content: space-between;
             background: var(--bg-card);
             border: 1px solid var(--border-line);
-            border-radius: var(--radius-lg);
-            padding: 36px 32px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-            text-align: center;
-        }
-
-        .login-card-icon {
-            width: 52px;
-            height: 52px;
-            background: var(--cobalt-wash);
-            color: var(--primary);
             border-radius: var(--radius-base);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin: 0 auto 16px;
-            border: 1px solid rgba(28, 100, 242, 0.15);
-        }
-
-        .login-card-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 8px;
-            letter-spacing: -0.3px;
-        }
-
-        .login-card-sub {
-            font-size: 13.5px;
-            color: var(--text-muted);
-            line-height: 1.5;
+            padding: 8px 12px;
             margin-bottom: 24px;
+            gap: 8px;
         }
 
-        .btn-tg-action {
-            width: 100%;
-            padding: 12px 18px;
-            border-radius: var(--radius-md);
-            border: none;
-            background: #27A7E7;
-            color: #ffffff;
-            font-size: 14.5px;
-            font-weight: 600;
-            cursor: pointer;
+        .week-nav-pills {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: filter 0.15s ease, transform 0.1s ease;
-        }
-
-        .btn-tg-action:hover {
-            filter: brightness(1.05);
-        }
-
-        .btn-tg-action:active {
-            transform: scale(0.98);
-        }
-
-        .tg-widget-container {
-            margin: 18px 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        .login-divider {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-            color: var(--text-subtle);
-            font-size: 11.5px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-        }
-
-        .login-divider::before,
-        .login-divider::after {
-            content: '';
+            gap: 6px;
             flex: 1;
-            border-bottom: 1px solid var(--border-line);
+            overflow-x: auto;
         }
 
-        .login-divider span {
-            padding: 0 12px;
-        }
-
-        /* Direct / Guest Aspirant Login */
-        .guest-input-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            text-align: left;
-        }
-
-        .input-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-        }
-
-        .text-input {
-            width: 100%;
-            padding: 10px 14px;
+        .mag-day-pill {
+            flex: 1;
+            min-width: 60px;
+            padding: 8px 4px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-line);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+
+        .mag-day-pill:hover:not(.disabled) {
+            border-color: var(--border-hover);
+            color: var(--text-main);
             background: var(--bg-subtle);
-            color: var(--text-main);
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.15s ease;
         }
 
-        .text-input:focus {
-            border-color: var(--primary);
-            background: var(--bg-card);
+        .mag-day-pill.active {
+            background: var(--primary) !important;
+            border-color: var(--primary) !important;
+            color: #ffffff !important;
+            box-shadow: 0 2px 6px rgba(28, 100, 242, 0.25);
         }
 
-        .btn-secondary {
-            width: 100%;
-            padding: 10px 16px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-line);
-            background: var(--bg-card);
-            color: var(--text-main);
-            font-size: 13.5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+        .mag-day-pill.disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
         }
 
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--cobalt-wash);
-        }
-
-        .btn-secondary:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary {
-            width: 100%;
-            padding: 11px 18px;
-            border-radius: var(--radius-md);
-            border: none;
-            background: var(--primary);
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.15s ease, transform 0.1s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-
-        #login-status-msg {
-            margin-top: 14px;
-            font-size: 12px;
-            color: var(--text-muted);
-            min-height: 18px;
-        }
-
-        /* -------------------------------------------------------------
-           VIEW 1: HUB / DASHBOARD (AUTHENTICATED)
-           ------------------------------------------------------------- */
-        #hubView {
-            display: none;
-        }
-
-        .hub-welcome-banner {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            margin-bottom: 28px;
-            border-bottom: 1px solid var(--border-line);
-            padding-bottom: 20px;
-        }
-
-        .hub-title-group h1 {
-            font-family: var(--font-serif);
-            font-size: 32px;
-            font-weight: 600;
-            letter-spacing: -0.3px;
-            color: var(--text-main);
-            margin-bottom: 4px;
-        }
-
-        .hub-title-group p {
-            font-size: 14.5px;
-            color: var(--text-muted);
-        }
-
-        .hub-exam-picker {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .exam-badge-btn {
-            padding: 6px 12px;
-            border-radius: var(--radius-full);
-            border: 1px solid var(--border-line);
-            background: var(--bg-card);
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .exam-badge-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* 4-Stat Metric Strip */
-        .stats-strip {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            border-radius: var(--radius-base);
-            padding: 18px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .stat-label {
-            font-size: 11.5px;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .stat-value {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-        }
-
-        .stat-sub {
-            font-size: 12px;
-            color: var(--text-subtle);
-        }
-
-        /* Dual Workstation Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 28px;
-            align-items: start;
-        }
-
-        /* Section Container Cards */
-        .work-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            border-radius: var(--radius-base);
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .work-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--border-line);
-        }
-
-        .work-card-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 17px;
-            font-weight: 700;
-            letter-spacing: -0.2px;
-            color: var(--text-main);
-        }
-
-        .work-card-title-icon {
-            font-size: 20px;
-        }
-
-        .badge-live {
+        .pill-dayname {
             font-size: 11px;
             font-weight: 700;
-            text-transform: uppercase;
             letter-spacing: 0.05em;
-            padding: 3px 8px;
-            border-radius: var(--radius-full);
-            background: var(--mastery-wash);
-            color: var(--mastery-text);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            text-transform: uppercase;
         }
 
-        .badge-live::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--mastery-emerald);
-        }
-
-        /* Topic Test List Items */
-        .test-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .test-item {
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-line);
-            border-radius: var(--radius-md);
-            padding: 16px 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: var(--text-main);
-            transition: all 0.15s ease;
-        }
-
-        .test-item:hover {
-            border-color: var(--primary);
-            background: var(--bg-card);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        .test-item-left {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .test-item-title {
+        .pill-daynum {
             font-size: 15px;
             font-weight: 700;
-            color: var(--text-main);
+            font-variant-numeric: tabular-nums;
         }
 
-        .test-item-meta {
-            font-size: 12.5px;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .pill-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--mastery-emerald);
+            margin-top: 1px;
         }
 
-        .status-badge {
-            font-size: 12px;
-            font-weight: 700;
-            padding: 6px 12px;
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .status-badge.start {
-            background: var(--primary);
-            color: #ffffff;
-        }
-
-        .status-badge.attempted {
-            background: var(--mastery-wash);
-            color: var(--mastery-text);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .status-badge.locked {
-            background: var(--bg-card);
-            color: var(--text-subtle);
-            border: 1px solid var(--border-line);
-        }
-
-        /* Magazine Hero Card in Dashboard */
-        .magazine-preview-card {
-            background: var(--bg-subtle);
-            border: 1px solid var(--border-line);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .mag-preview-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .mag-tag-pill {
-            font-size: 10.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--primary);
-            background: var(--cobalt-wash);
-            padding: 3px 8px;
-            border-radius: var(--radius-sm);
-        }
-
-        .evidence-pill {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--evidence-text);
-            background: var(--evidence-wash);
-            border: 1px solid var(--evidence-border);
-            padding: 2px 6px;
-            border-radius: var(--radius-xs);
-        }
-
-        .mag-preview-title {
-            font-family: var(--font-serif);
-            font-size: 19px;
-            font-weight: 600;
-            line-height: 1.35;
-            color: var(--text-main);
-        }
-
-        .mag-preview-desc {
-            font-size: 13px;
-            line-height: 1.6;
-            color: var(--text-muted);
-        }
-
-        .mag-action-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 4px;
-        }
-
-        /* Word of the day strip */
-        .wotd-strip {
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            border-radius: var(--radius-base);
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 24px;
-        }
-
-        .wotd-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .wotd-tag {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--review-text);
-            background: var(--review-wash);
-            padding: 4px 8px;
-            border-radius: var(--radius-xs);
-        }
-
-        .wotd-word {
-            font-family: var(--font-serif);
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .wotd-meaning {
-            font-size: 13.5px;
-            color: var(--text-muted);
+        .mag-day-pill.active .pill-dot {
+            background: #ffffff;
         }
 
         /* -------------------------------------------------------------
-           VIEW 2: IN-WEBSITE MAGAZINE VIEWER (#magazineView)
+           PILLAR 1: WEEKLY QUIZZES INTERFACE
            ------------------------------------------------------------- */
-        #magazineView {
-            display: none;
-            flex-direction: column;
-            height: calc(100vh - 62px);
-            background: var(--bg-canvas);
-        }
-
-        .magazine-toolbar {
-            height: 52px;
-            background: var(--bg-card);
-            border-bottom: 1px solid var(--border-line);
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 50;
-        }
-
-        .mag-tool-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .btn-back-hub {
-            background: transparent;
-            border: 1px solid var(--border-line);
-            padding: 6px 12px;
-            border-radius: var(--radius-sm);
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--text-main);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.15s ease;
-        }
-
-        .btn-back-hub:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--cobalt-wash);
-        }
-
-        .mag-title-indicator {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .mag-tool-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .mag-iframe-container {
-            flex: 1;
-            width: 100%;
-            height: calc(100% - 52px);
-            position: relative;
-            background: var(--bg-canvas);
-        }
-
-        .magazine-iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        #quizzesView {
             display: block;
         }
 
-        /* -------------------------------------------------------------
-           VIEW 3: TOPIC TESTS EXPLORER (#topicTestsView)
-           ------------------------------------------------------------- */
-        #topicTestsView {
-            display: none;
-        }
-
-        .tests-header {
-            margin-bottom: 24px;
-            padding-bottom: 18px;
-            border-bottom: 1px solid var(--border-line);
+        .section-header-row {
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
+            margin-bottom: 18px;
         }
 
-        .tests-header-info h2 {
-            font-family: var(--font-serif);
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 4px;
+        .section-title-group h2 {
+            font-size: 20px;
+            font-weight: 700;
             letter-spacing: -0.3px;
-        }
-
-        .tests-header-info p {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        .tests-filter-bar {
+            color: var(--text-main);
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .section-title-group p {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .quiz-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 16px;
             margin-bottom: 24px;
         }
 
-        .filter-chip {
-            padding: 6px 14px;
-            border-radius: var(--radius-full);
-            border: 1px solid var(--border-line);
-            background: var(--bg-card);
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .filter-chip:hover {
-            color: var(--text-main);
-            border-color: var(--border-hover);
-        }
-
-        .filter-chip.active {
-            background: var(--primary);
-            color: #ffffff;
-            border-color: var(--primary);
-        }
-
-        .tests-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }
-
-        .test-detail-card {
+        .quiz-card {
             background: var(--bg-card);
             border: 1px solid var(--border-line);
             border-radius: var(--radius-base);
-            padding: 22px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 180px;
+            gap: 16px;
             transition: all 0.15s ease;
         }
 
-        .test-detail-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+        .quiz-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
-        .test-top-tags {
+        .quiz-card-top {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quiz-meta-chips {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
+            gap: 6px;
+            flex-wrap: wrap;
         }
 
-        .test-category-tag {
+        .chip {
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            padding: 3px 8px;
+            padding: 2px 7px;
             border-radius: var(--radius-xs);
+        }
+
+        .chip-blue {
             background: var(--cobalt-wash);
             color: var(--primary);
         }
 
-        .test-detail-title {
-            font-size: 17px;
+        .chip-purple {
+            background: var(--review-wash);
+            color: var(--review-text);
+        }
+
+        .chip-muted {
+            background: var(--bg-subtle);
+            color: var(--text-muted);
+            border: 1px solid var(--border-line);
+        }
+
+        .quiz-card-title {
+            font-size: 16px;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 6px;
+            line-height: 1.4;
         }
 
-        .test-detail-desc {
-            font-size: 13px;
+        .quiz-card-meta-text {
+            font-size: 12.5px;
             color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .test-card-footer {
+        .quiz-card-bottom {
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding-top: 14px;
             border-top: 1px solid var(--border-line);
+            gap: 10px;
         }
 
-        .test-stats-mini {
+        /* Action Buttons for Quiz */
+        .btn-start-test {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.15s ease, transform 0.1s ease;
+        }
+
+        .btn-start-test:hover { background: var(--primary-hover); }
+        .btn-start-test:active { transform: scale(0.98); }
+
+        .btn-result {
+            background: var(--mastery-wash);
+            color: var(--mastery-text);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 7px 12px;
+            border-radius: var(--radius-sm);
             font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-result:hover {
+            filter: brightness(0.96);
+        }
+
+        .btn-review {
+            background: var(--bg-card);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 7px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-review:hover {
+            background: var(--cobalt-wash);
+        }
+
+        .badge-locked {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-subtle);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .score-pill {
+            font-size: 12px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            padding: 3px 8px;
+            border-radius: var(--radius-xs);
+            background: var(--mastery-wash);
+            color: var(--mastery-text);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        /* -------------------------------------------------------------
+           PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING
+           ------------------------------------------------------------- */
+        #magazineView {
+            display: none;
+        }
+
+        .mag-reader-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .mag-edition-meta {
+            font-size: 14px;
             color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
+        .mag-date-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .reader-tool-btns {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-tool {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-sm);
+            padding: 6px 12px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-tool:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Focus Reading Column (Focus Reading Rule: 680px max-width) */
+        .magazine-articles-container {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            max-width: var(--max-reading-width);
+            margin: 0 auto;
+        }
+
+        .article-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-base);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .article-header {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .article-tags-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .source-pill {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--primary);
+            background: var(--cobalt-wash);
+            padding: 3px 8px;
+            border-radius: var(--radius-xs);
+        }
+
+        .reading-time-pill {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .article-title {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.35;
+            color: var(--text-main);
+            letter-spacing: -0.4px;
+        }
+
+        .article-subtitle {
+            font-family: var(--font-serif);
+            font-size: 15.5px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Reading Passage Body */
+        .article-body {
+            font-size: 15px;
+            line-height: 1.75;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .article-body p {
+            margin: 0;
+        }
+
+        /* Evidence Lens & Vocab Annotations */
+        .evidence-hl, .stat-number {
+            background-color: var(--evidence-wash);
+            color: var(--evidence-text);
+            border: 1px solid var(--evidence-border);
+            padding: 1px 4px;
+            border-radius: var(--radius-xs);
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .vocab-hl {
+            background-color: var(--cobalt-wash);
+            color: var(--primary);
+            border-bottom: 1.5px solid var(--primary);
+            padding: 1px 3px;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .v-idx {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-left: 2px;
+            vertical-align: super;
+        }
+
+        /* Vocab Lab Quick Look Card */
+        .vocab-lab-card {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            margin-top: 10px;
+        }
+
+        .vocab-lab-header {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--review-text);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .vocab-lab-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .vocab-row {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-size: 13px;
+            padding: 6px 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-sm);
+        }
+
+        .vocab-word-line {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .vocab-word-text {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .vocab-pos {
+            font-size: 11px;
+            color: var(--text-subtle);
+            font-style: italic;
+        }
+
+        .vocab-meaning {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .vocab-hindi {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
         /* -------------------------------------------------------------
-           MODAL: TARGET EXAM SELECTOR
+           AUTH MODAL (SIMPLE & NON-INTRUSIVE)
            ------------------------------------------------------------- */
-        .modal-backdrop {
+        .auth-modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(3px);
             z-index: 1000;
             display: none;
@@ -1173,495 +787,764 @@
             padding: 20px;
         }
 
-        .modal-card {
+        .auth-modal-card {
             background: var(--bg-card);
             border: 1px solid var(--border-line);
             border-radius: var(--radius-lg);
             width: 100%;
-            max-width: 440px;
+            max-width: 380px;
             padding: 28px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
         }
 
-        .modal-title {
+        .auth-modal-card h3 {
             font-size: 18px;
             font-weight: 700;
             margin-bottom: 6px;
             color: var(--text-main);
         }
 
-        .modal-desc {
-            font-size: 13.5px;
+        .auth-modal-card p {
+            font-size: 13px;
             color: var(--text-muted);
             margin-bottom: 20px;
         }
 
-        .exam-choice-list {
+        .btn-tg-one-tap {
+            width: 100%;
+            padding: 11px;
+            border-radius: var(--radius-md);
+            border: none;
+            background: #27A7E7;
+            color: #fff;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
-        .exam-choice-opt {
-            padding: 12px 14px;
+        .btn-guest-opt {
+            width: 100%;
+            padding: 10px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-line);
             background: var(--bg-subtle);
-            cursor: pointer;
-            font-size: 13.5px;
-            font-weight: 600;
             color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.15s ease;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
-        .exam-choice-opt:hover {
+        .btn-guest-opt:hover {
             border-color: var(--primary);
-            background: var(--bg-card);
-        }
-
-        .exam-choice-opt.selected {
-            border-color: var(--primary);
-            background: var(--cobalt-wash);
             color: var(--primary);
         }
 
-        /* -------------------------------------------------------------
-           RESPONSIVE REFINEMENTS
-           ------------------------------------------------------------- */
-        @media (max-width: 1023px) {
-            .masthead { padding: 0 18px; }
-            .login-grid { grid-template-columns: 1fr; }
-            .login-hero-side { padding: 48px 24px; border-right: none; border-bottom: 1px solid var(--border-line); }
-            .hero-title { font-size: 32px; }
-            .stats-strip { grid-template-columns: repeat(2, 1fr); }
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .tests-grid { grid-template-columns: 1fr; }
+        @media (max-width: 768px) {
+            .masthead { padding: 0 16px; }
+            .vocab-lab-grid { grid-template-columns: 1fr; }
+            .article-card { padding: 20px; }
+            .article-title { font-size: 20px; }
         }
     </style>
 </head>
 <body>
 
     <!-- =============================================================
-         1. LAPTOP MASTHEAD
+         1. MASTHEAD: TWO PILLARS NAVIGATION
          ============================================================= -->
     <header class="masthead">
         <div class="masthead-left">
-            <div class="brand-logo" onclick="switchMainView('hub')">
+            <div class="brand-logo" onclick="switchView('quizzes')">
                 <div class="brand-icon">EZ</div>
                 <div class="brand-title">EZ <span>Editorials</span></div>
             </div>
-            <span class="brand-pill">Laptop Sanctum</span>
+            <span class="brand-pill">Study Sanctum</span>
         </div>
 
-        <!-- Navigation Tabs (Authenticated Only) -->
-        <nav class="masthead-nav" id="mastheadNav" style="display:none;">
-            <button class="nav-tab-btn active" id="tabHub" onclick="switchMainView('hub')">
-                <span>📊</span> Dashboard
+        <!-- The Two Main Pillars Only -->
+        <nav class="masthead-nav">
+            <button class="nav-tab-btn active" id="tabQuizzes" onclick="switchView('quizzes')">
+                <span>📝</span> Weekly Quizzes
             </button>
-            <button class="nav-tab-btn" id="tabTests" onclick="switchMainView('tests')">
-                <span>📝</span> Topic Tests
-            </button>
-            <button class="nav-tab-btn" id="tabMag" onclick="switchMainView('magazine')">
-                <span>📰</span> Magazine Viewer
+            <button class="nav-tab-btn" id="tabMagazine" onclick="switchView('magazine')">
+                <span>📰</span> Weekly Magazine
             </button>
         </nav>
 
         <div class="masthead-right">
-            <!-- Candidate Profile Badge (Authenticated Only) -->
-            <div class="user-chip" id="userChip" style="display:none;" onclick="openExamModal()" title="Click to change target exam">
-                <div class="user-avatar-circle" id="userAvatar">A</div>
-                <span class="user-chip-name" id="userName">Aspirant</span>
-                <span class="user-exam-pill" id="userExamTag">🎯 SSC / Banking</span>
-            </div>
+            <!-- Theme Toggle -->
+            <button class="btn-icon" id="themeToggle" title="Toggle Theme">🌓</button>
 
-            <!-- Dark / Light Theme Toggle -->
-            <button class="btn-icon" id="themeToggle" title="Toggle color theme (Light / Dark)">
-                🌓
-            </button>
-
-            <!-- Dedicated Log Out Button (Authenticated Only) -->
-            <button class="btn-logout" id="logoutBtn" style="display:none;" onclick="handleLogout()" title="Log out of Ez Editorials">
-                <span>🚪</span> Log Out
+            <!-- User Auth / Logout Button -->
+            <button class="user-auth-btn" id="userAuthBtn" onclick="handleAuthButtonClick()">
+                <span id="userAuthIcon">👤</span>
+                <span id="userAuthLabel">Login</span>
             </button>
         </div>
     </header>
 
     <!-- =============================================================
-         2. LOGGED-OUT VIEW: MINIMAL LAPTOP LOGIN HERO
+         2. PILLAR 1: WEEKLY QUIZZES INTERFACE
          ============================================================= -->
-    <section id="loginView">
-        <div class="login-grid">
-            <div class="login-hero-side">
-                <div class="hero-kicker">
-                    <span>📘</span> Daily Editorial Aggregator & Topic Quizzes
-                </div>
-                <h1 class="hero-title">Read sharper. Test smarter. The Daily Study Sanctum.</h1>
-                <p class="hero-desc">
-                    Tailored specifically for Indian competitive exam aspirants (UPSC, Banking, SSC CGL, State PCS) reading from their laptops. Zero ads, zero clickbait, strict reading column discipline.
-                </p>
-
-                <div class="hero-features">
-                    <div class="hero-feat-item">
-                        <div class="feat-icon-title"><span>📝</span> Topic-Wise Quizzes</div>
-                        <div class="feat-desc">Exam-calibrated daily tests on contextual vocabulary, passage tone, and sentence improvement.</div>
-                    </div>
-                    <div class="hero-feat-item">
-                        <div class="feat-icon-title"><span>📰</span> In-Website Magazine</div>
-                        <div class="feat-desc">The Hindu and Indian Express editorial digests with quantitative Evidence Lens highlights.</div>
-                    </div>
-                    <div class="hero-feat-item">
-                        <div class="feat-icon-title"><span>⏱</span> Tabular CBT Timer</div>
-                        <div class="feat-desc">Practice under real test conditions with section countdowns and negative marking simulation.</div>
-                    </div>
-                    <div class="hero-feat-item">
-                        <div class="feat-icon-title"><span>🌓</span> Focus Dark Mode</div>
-                        <div class="feat-desc">Designed for fatigue-free early morning and late night analytical reading sessions.</div>
-                    </div>
-                </div>
+    <main class="page-container" id="quizzesView">
+        <!-- Mon - Sat Day Navigation Pills -->
+        <div class="week-nav-bar">
+            <div class="week-nav-pills" id="quizDayNav">
+                <!-- Injected via JavaScript -->
             </div>
-
-            <div class="login-form-side">
-                <div class="login-card">
-                    <div class="login-card-icon">⚡</div>
-                    <h2 class="login-card-title">Sign in to your Sanctum</h2>
-                    <p class="login-card-sub">Synchronize your scores, streaks, and magazine progress seamlessly across devices.</p>
-
-                    <!-- Option 1: Mobile / Telegram Deep Link -->
-                    <button type="button" class="btn-tg-action" onclick="startMobileTelegramLogin()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-                        Login via Telegram
-                    </button>
-
-                    <!-- Option 2: Official Telegram Web Widget -->
-                    <div class="tg-widget-container">
-                        <script async src="https://telegram.org/js/telegram-widget.js?22"
-                                data-telegram-login="Ez_vocab_bot"
-                                data-size="large"
-                                data-onauth="onTelegramAuth(user)"
-                                data-request-access="write"></script>
-                    </div>
-
-                    <div class="login-divider">
-                        <span>OR DIRECT LAPTOP ACCESS</span>
-                    </div>
-
-                    <!-- Option 3: Fast Student ID / Guest Login for Web Users -->
-                    <div class="guest-input-wrap">
-                        <input type="text" id="guestUsernameInput" class="text-input" placeholder="Telegram @username or Student ID">
-                        <button type="button" class="btn-primary" onclick="handleQuickStudentLogin()">
-                            Enter Study Sanctum
-                        </button>
-                        <button type="button" class="btn-secondary" onclick="handleGuestLogin()">
-                            <span>🚀</span> Continue as Guest Aspirant
-                        </button>
-                    </div>
-
-                    <p id="login-status-msg"></p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- =============================================================
-         3. VIEW 1: HUB / DASHBOARD (AUTHENTICATED)
-         ============================================================= -->
-    <main class="page-container" id="hubView">
-        <!-- Welcome Greeting & Exam Pill -->
-        <div class="hub-welcome-banner">
-            <div class="hub-title-group">
-                <h1 id="hubGreeting">Welcome back, Aspirant</h1>
-                <p>Pick up where you left off. Daily editorials and topic quizzes drop at 11:00 AM IST.</p>
-            </div>
-            <div class="hub-exam-picker">
-                <button class="exam-badge-btn" onclick="openExamModal()">
-                    <span id="activeExamLabel">🎯 Target: SSC CGL / Banking</span>
-                    <span style="font-size:10px;">▼</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- 4-Stat Metric Strip -->
-        <div class="stats-strip">
-            <div class="stat-card">
-                <div class="stat-label">
-                    <span>Topic Tests</span>
-                    <span>📝</span>
-                </div>
-                <div class="stat-value tabular-nums" id="statTestsVal">--</div>
-                <div class="stat-sub" id="statTestsSub">Available today</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">
-                    <span>Weekly Magazine</span>
-                    <span>📰</span>
-                </div>
-                <div class="stat-value tabular-nums" id="statMagVal">Ready</div>
-                <div class="stat-sub">The Hindu & Express</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">
-                    <span>Consistency Streak</span>
-                    <span>🔥</span>
-                </div>
-                <div class="stat-value tabular-nums" id="statStreakVal">1 Day</div>
-                <div class="stat-sub">Active daily study</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">
-                    <span>Evidence Data Points</span>
-                    <span>📊</span>
-                </div>
-                <div class="stat-value tabular-nums" id="statEvidenceVal">42+</div>
-                <div class="stat-sub">Stats highlighted</div>
-            </div>
-        </div>
-
-        <!-- Dashboard Split Workstation -->
-        <div class="dashboard-grid">
-            <!-- Left Column: Completed Topic Test Suite -->
-            <div class="work-card">
-                <div class="work-card-header">
-                    <div class="work-card-title">
-                        <span class="work-card-title-icon">📝</span>
-                        <span>Today's Topic Trials</span>
-                    </div>
-                    <div class="badge-live">Live IST</div>
-                </div>
-
-                <div class="test-list" id="hubTestList">
-                    <div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 13.5px;">
-                        Fetching today's topic trials...
-                    </div>
-                </div>
-
-                <div style="display:flex; gap:12px; margin-top:8px;">
-                    <a href="test.html?practice=true&return_url=index.html" class="btn-secondary" style="flex:1;">
-                        <span>⚡</span> Untimed Practice Drill
-                    </a>
-                    <button class="btn-secondary" style="flex:1;" onclick="switchMainView('tests')">
-                        <span>🔍</span> Browse All Tests
-                    </button>
-                </div>
-            </div>
-
-            <!-- Right Column: In-Website Magazine Hero Card -->
-            <div class="work-card">
-                <div class="work-card-header">
-                    <div class="work-card-title">
-                        <span class="work-card-title-icon">📰</span>
-                        <span>Weekly Editorial Reader</span>
-                    </div>
-                    <span class="evidence-pill">EVIDENCE LENS</span>
-                </div>
-
-                <div class="magazine-preview-card">
-                    <div class="mag-preview-top">
-                        <span class="mag-tag-pill">Current Edition · Full Digest</span>
-                        <span style="font-size: 12px; color: var(--text-muted);">Issue #38</span>
-                    </div>
-                    <h3 class="mag-preview-title">Deep Editorial Synthesis with Evidence Highlights</h3>
-                    <p class="mag-preview-desc">
-                        Every vital national editorial parsed into clean paragraphs, with quantitative statistics highlighted in amber and 40+ high-frequency vocabulary words defined in Hindi and English.
-                    </p>
-                    
-                    <div class="mag-action-row">
-                        <!-- Opens INSIDE website rather than a new window! -->
-                        <button class="btn-primary" onclick="switchMainView('magazine')">
-                            <span>📖</span> Open Magazine Reader →
-                        </button>
-                    </div>
-                </div>
-
-                <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6; padding: 4px 6px;">
-                    💡 <strong>Pro-Tip for Laptops:</strong> Read the editorial passage first, note the amber numbers, then attempt the vocabulary and tone test to cement recall.
-                </div>
-            </div>
-        </div>
-
-        <!-- Word of the Day Strip -->
-        <div class="wotd-strip">
-            <div class="wotd-left">
-                <span class="wotd-tag">Word of the Day</span>
-                <div>
-                    <span class="wotd-word" id="wotdWord">Equanimity</span>
-                    <span style="color: var(--text-subtle); margin: 0 8px;">·</span>
-                    <span class="wotd-meaning" id="wotdMeaning">Mental calmness and composure, especially in a difficult situation.</span>
-                </div>
-            </div>
-            <a href="test.html?practice=true&return_url=index.html" class="btn-secondary" style="width: auto; padding: 6px 14px; font-size: 12px;">
-                Quiz on this →
+            <a href="test.html?practice=true&return_url=index.html" class="btn-tool" style="white-space:nowrap;" title="Take an untimed revision drill">
+                <span>⚡</span> Untimed Practice Drill
             </a>
+        </div>
+
+        <div class="section-header-row">
+            <div class="section-title-group">
+                <h2 id="quizSectionTitle">Monday's Topic Quizzes</h2>
+                <p id="quizSectionSub">Exam-calibrated topic trials with negative marking (-0.25) and CBT timers.</p>
+            </div>
+        </div>
+
+        <!-- Quiz Cards Grid for Selected Date -->
+        <div class="quiz-cards-grid" id="quizzesGrid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+                Loading daily topic trials...
+            </div>
         </div>
     </main>
 
     <!-- =============================================================
-         4. VIEW 2: IN-WEBSITE MAGAZINE VIEWER (#magazineView)
+         3. PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING
          ============================================================= -->
-    <section id="magazineView">
-        <div class="magazine-toolbar">
-            <div class="mag-tool-left">
-                <button class="btn-back-hub" onclick="switchMainView('hub')" title="Return to Dashboard">
-                    <span>←</span> Dashboard
-                </button>
-                <div class="mag-title-indicator">
-                    <span>📰</span> Weekly Editorial Magazine
-                    <span class="evidence-pill" style="margin-left:6px;">Evidence Lens Active</span>
-                </div>
+    <main class="page-container" id="magazineView">
+        <!-- Mon - Sat Day Navigation Pills -->
+        <div class="week-nav-bar">
+            <div class="week-nav-pills" id="magDayNav">
+                <!-- Injected via JavaScript -->
             </div>
-
-            <div class="mag-tool-right">
-                <button class="btn-secondary" style="width:auto; padding:5px 12px; font-size:12px;" onclick="toggleMagazineFullscreen()" id="btnMagFullscreen" title="Toggle Fullscreen Focus">
-                    <span>⛶</span> Fullscreen
-                </button>
-                <button class="btn-secondary" style="width:auto; padding:5px 12px; font-size:12px;" onclick="openMagazineNewTab()" title="Open standalone if using dual monitors">
-                    <span>↗</span> Pop Out
-                </button>
-            </div>
-        </div>
-
-        <div class="mag-iframe-container" id="magContainer">
-            <iframe id="magazineFrame" class="magazine-iframe" src="about:blank" title="Weekly Magazine Reader"></iframe>
-        </div>
-    </section>
-
-    <!-- =============================================================
-         5. VIEW 3: TOPIC TESTS EXPLORER (#topicTestsView)
-         ============================================================= -->
-    <main class="page-container" id="topicTestsView">
-        <div class="tests-header">
-            <div class="tests-header-info">
-                <h2>Topic Test Sanctum</h2>
-                <p>Timed, exam-standard practice sets calibrated for SSC CGL, Banking, and Civil Services English.</p>
-            </div>
-            <button class="btn-secondary" style="width:auto;" onclick="switchMainView('hub')">
-                <span>←</span> Back to Dashboard
+            <button class="btn-tool" onclick="toggleFullscreen()" id="btnFullscreen" title="Full screen focus mode">
+                <span>⛶</span> Focus Mode
             </button>
         </div>
 
-        <!-- Filter Bar -->
-        <div class="tests-filter-bar">
-            <button class="filter-chip active" onclick="filterTopicTests('all', this)">All Tests</button>
-            <button class="filter-chip" onclick="filterTopicTests('vocab', this)">Vocabulary</button>
-            <button class="filter-chip" onclick="filterTopicTests('comprehension', this)">Comprehension</button>
-            <button class="filter-chip" onclick="filterTopicTests('grammar', this)">Grammar & Errors</button>
-            <button class="filter-chip" onclick="filterTopicTests('practice', this)">Untimed Drill</button>
+        <div class="mag-reader-toolbar">
+            <div>
+                <h2 class="mag-date-title" id="magDateTitle">Monday, September 21, 2026</h2>
+                <div class="mag-edition-meta">
+                    <span>Evidence Lens Active</span>
+                    <span>·</span>
+                    <span id="magArticleCount">4 Articles</span>
+                </div>
+            </div>
+            <div class="reader-tool-btns">
+                <button class="btn-tool" onclick="adjustFontSize(-1)" title="Smaller text">A-</button>
+                <button class="btn-tool" onclick="adjustFontSize(1)" title="Larger text">A+</button>
+            </div>
         </div>
 
-        <!-- Grid of Tests -->
-        <div class="tests-grid" id="allTestsGrid">
-            <!-- Dynamically populated -->
+        <!-- Focus Reading Column (680px Max-Width) -->
+        <div class="magazine-articles-container" id="magazineArticles">
+            <div style="text-align: center; padding: 50px; color: var(--text-muted);">
+                Loading today's editorial digest...
+            </div>
         </div>
     </main>
 
     <!-- =============================================================
-         6. TARGET EXAM SELECTOR MODAL
+         4. AUTH MODAL
          ============================================================= -->
-    <div class="modal-backdrop" id="examModal" onclick="closeExamModal(event)">
-        <div class="modal-card">
-            <h3 class="modal-title">Select Target Exam</h3>
-            <p class="modal-desc">Sets the scoring scheme, timer constraints, and difficulty weighting for your tests.</p>
+    <div class="auth-modal-backdrop" id="authModal" onclick="closeAuthModal(event)">
+        <div class="auth-modal-card">
+            <div style="font-size: 36px; margin-bottom: 10px;">⚡</div>
+            <h3>Sign in to Ez Editorials</h3>
+            <p>Keep your quiz scores, streaks, and magazine reading progress saved.</p>
 
-            <div class="exam-choice-list">
-                <div class="exam-choice-opt" onclick="selectExam('SSC CGL & CHSL Tier-I/II')">
-                    <span>SSC CGL & CHSL (Tier-I / II)</span>
-                    <span style="font-size:11px; color:var(--text-muted);">+2 / -0.5</span>
-                </div>
-                <div class="exam-choice-opt" onclick="selectExam('Banking & Insurance (RBI/SBI/IBPS)')">
-                    <span>Banking & Insurance (RBI / SBI / IBPS)</span>
-                    <span style="font-size:11px; color:var(--text-muted);">+1 / -0.25</span>
-                </div>
-                <div class="exam-choice-opt" onclick="selectExam('UPSC Civil Services (CSAT & Mains)')">
-                    <span>UPSC Civil Services (CSAT & Prelims)</span>
-                    <span style="font-size:11px; color:var(--text-muted);">+2.5 / -0.83</span>
-                </div>
-                <div class="exam-choice-opt" onclick="selectExam('State PCS & Defense Exams (CDS/NDA)')">
-                    <span>State PCS & Defense (CDS / NDA)</span>
-                    <span style="font-size:11px; color:var(--text-muted);">Standard</span>
-                </div>
+            <button type="button" class="btn-tg-one-tap" onclick="startMobileTelegramLogin()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                Sign in via Telegram
+            </button>
+
+            <!-- Telegram Web Widget -->
+            <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+                <script async src="https://telegram.org/js/telegram-widget.js?22"
+                        data-telegram-login="Ez_vocab_bot"
+                        data-size="medium"
+                        data-onauth="onTelegramAuth(user)"
+                        data-request-access="write"></script>
             </div>
 
-            <button class="btn-secondary" style="width:100%;" onclick="closeExamModal(null, true)">
-                Done
+            <button type="button" class="btn-guest-opt" onclick="signInAsGuest()">
+                🚀 Continue as Guest Aspirant
             </button>
         </div>
     </div>
 
     <!-- =============================================================
-         SCRIPTS: AUTHENTICATION, TESTS ENGINE, AND MAGAZINE ROUTING
+         5. SCRIPTS: STATE, QUIZZES BY DATE, MAGAZINE READING, EVIDENCE LENS
          ============================================================= -->
     <script>
-        // -------------------------------------------------------------
-        // A. SESSION & AUTHENTICATION LIFECYCLE
-        // -------------------------------------------------------------
-        let currentActiveView = 'hub';
-        let cachedQuizzes = [];
+        // --- GLOBAL STATE ---
+        const state = {
+            currentTab: 'quizzes',
+            selectedQuizDayIndex: 0, // 0 = Mon, 1 = Tue, ..., 5 = Sat
+            selectedMagDateStr: null,
+            weekDays: [],
+            magazineWeekData: null,
+            masterQuizData: null,
+            fontSize: 15
+        };
 
-        function renderAuthState() {
-            const loginView = document.getElementById('loginView');
-            const hubView = document.getElementById('hubView');
-            const testsView = document.getElementById('topicTestsView');
-            const magView = document.getElementById('magazineView');
-            const nav = document.getElementById('mastheadNav');
-            const userChip = document.getElementById('userChip');
-            const logoutBtn = document.getElementById('logoutBtn');
+        // Initialize Week Days (Mon to Sat)
+        function initWeekCalendar() {
+            const now = new Date();
+            const currentDayOfWeek = now.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+            const mondayOffset = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+
+            const monday = new Date(now);
+            monday.setDate(now.getDate() + mondayOffset);
+            monday.setHours(0, 0, 0, 0);
+
+            const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const fullDayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const todayStr = formatDate(now);
+
+            state.weekDays = [];
+            for (let i = 0; i < 6; i++) {
+                const d = new Date(monday);
+                d.setDate(monday.getDate() + i);
+                const dateStr = formatDate(d);
+
+                state.weekDays.push({
+                    index: i,
+                    dayName: dayNames[i],
+                    fullDayName: fullDayNames[i],
+                    dayNum: d.getDate(),
+                    monthShort: d.toLocaleString('en-US', { month: 'short' }),
+                    monthLong: d.toLocaleString('en-US', { month: 'long' }),
+                    year: d.getFullYear(),
+                    dateStr: dateStr,
+                    isToday: dateStr === todayStr,
+                    isPast: d < now && dateStr !== todayStr
+                });
+            }
+
+            // Default selected day is today, or Monday
+            const todayIdx = state.weekDays.findIndex(d => d.isToday);
+            state.selectedQuizDayIndex = todayIdx !== -1 ? todayIdx : 0;
+            state.selectedMagDateStr = todayIdx !== -1 ? state.weekDays[todayIdx].dateStr : state.weekDays[0].dateStr;
+        }
+
+        function formatDate(d) {
+            return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        }
+
+        // --- TAB NAVIGATION ---
+        function switchView(tabName) {
+            state.currentTab = tabName;
+            const tabQuizzes = document.getElementById('tabQuizzes');
+            const tabMagazine = document.getElementById('tabMagazine');
+            const quizzesView = document.getElementById('quizzesView');
+            const magazineView = document.getElementById('magazineView');
+
+            if (tabName === 'quizzes') {
+                tabQuizzes.classList.add('active');
+                tabMagazine.classList.remove('active');
+                quizzesView.style.display = 'block';
+                magazineView.style.display = 'none';
+                renderQuizDayNav();
+                renderQuizzesForSelectedDay();
+            } else {
+                tabQuizzes.classList.remove('active');
+                tabMagazine.classList.add('active');
+                quizzesView.style.display = 'none';
+                magazineView.style.display = 'block';
+                renderMagDayNav();
+                renderMagazineForSelectedDay();
+            }
+        }
+
+        // =============================================================
+        // PILLAR 1: WEEKLY QUIZZES ENGINE (BY DATE, RESULTS & REVIEW)
+        // =============================================================
+        function renderQuizDayNav() {
+            const nav = document.getElementById('quizDayNav');
+            if (!nav) return;
+
+            nav.innerHTML = state.weekDays.map(d => {
+                const isActive = d.index === state.selectedQuizDayIndex;
+                return `
+                    <div class="mag-day-pill ${isActive ? 'active' : ''}" onclick="selectQuizDay(${d.index})">
+                        <span class="pill-dayname">${d.dayName}</span>
+                        <span class="pill-daynum">${d.dayNum}</span>
+                        ${d.isToday ? '<div class="pill-dot" title="Today"></div>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectQuizDay(idx) {
+            state.selectedQuizDayIndex = idx;
+            renderQuizDayNav();
+            renderQuizzesForSelectedDay();
+        }
+
+        async function fetchWeeklyQuizzes() {
+            const userId = (typeof getActiveUserId === 'function') ? getActiveUserId() : 12345;
+            try {
+                const headers = (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {};
+                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`, { headers });
+                const data = await res.json();
+                if (data && data.quizzes) {
+                    state.masterQuizData = data.quizzes;
+                }
+            } catch (err) {
+                console.warn('Quiz API unreachable, using calibrated weekly syllabus.');
+            }
+            renderQuizzesForSelectedDay();
+        }
+
+        function renderQuizzesForSelectedDay() {
+            const container = document.getElementById('quizzesGrid');
+            const dayObj = state.weekDays[state.selectedQuizDayIndex];
+            const titleEl = document.getElementById('quizSectionTitle');
+            const subEl = document.getElementById('quizSectionSub');
+
+            if (titleEl && dayObj) {
+                titleEl.innerText = `${dayObj.fullDayName}'s Topic Quizzes (${dayObj.dayNum} ${dayObj.monthShort})`;
+            }
+
+            const targetDayNum = state.selectedQuizDayIndex + 1; // 1 = Mon, 2 = Tue, ...
+            let quizzes = [];
+
+            if (state.masterQuizData) {
+                const all = [...(state.masterQuizData.Today || []), ...(state.masterQuizData.Pending || [])];
+                quizzes = all.filter(q => q.day_num === targetDayNum);
+            }
+
+            // High-yield syllabus fallback if API is loading or offline
+            if (!quizzes || quizzes.length === 0) {
+                quizzes = getStandardQuizzesForDay(targetDayNum, dayObj);
+            }
+
+            if (subEl) {
+                const completedCount = quizzes.filter(q => q.status === 'completed').length;
+                subEl.innerText = `${quizzes.length} tests scheduled · ${completedCount} completed · CBT Scoring (+1 / -0.25)`;
+            }
+
+            container.innerHTML = quizzes.map(q => {
+                const qCount = q.question_count || 5;
+                const durationMins = Math.round((q.duration_seconds || 300) / 60);
+
+                let actionsHtml = '';
+                if (q.status === 'completed') {
+                    const score = q.score !== null && q.score !== undefined ? q.score : '+4.25';
+                    actionsHtml = `
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="score-pill">Score: ${score} pts</span>
+                            <a href="result.html?attempt_id=${q.attempt_id || 'latest'}&day=${targetDayNum}&return_url=index.html" class="btn-result">
+                                📊 Results
+                            </a>
+                            <a href="test.html?attempt_id=${q.attempt_id || 'latest'}&mode=review&day=${targetDayNum}&return_url=index.html" class="btn-review">
+                                🔍 Review
+                            </a>
+                        </div>
+                    `;
+                } else if (q.status === 'locked') {
+                    const dropStr = q.drop_time ? new Date(q.drop_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '5:00 PM';
+                    actionsHtml = `
+                        <span class="badge-locked">🔒 Drops at ${dropStr}</span>
+                    `;
+                } else {
+                    actionsHtml = `
+                        <a href="test.html?quiz_id=${q.id}&day=${targetDayNum}&return_url=index.html" class="btn-start-test">
+                            Start Test 〉
+                        </a>
+                    `;
+                }
+
+                return `
+                    <div class="quiz-card">
+                        <div class="quiz-card-top">
+                            <div class="quiz-meta-chips">
+                                <span class="chip ${q.categoryChip || 'chip-blue'}">${q.categoryLabel || 'TOPIC TEST'}</span>
+                                <span class="chip chip-muted">Day ${targetDayNum}</span>
+                            </div>
+                            <h3 class="quiz-card-title">${escapeHtml(q.topic)}</h3>
+                            <div class="quiz-card-meta-text">
+                                <span>📋 ${qCount} Questions</span>
+                                <span>⏱ ${durationMins} mins</span>
+                                <span>🎯 Negative: -0.25</span>
+                            </div>
+                        </div>
+                        <div class="quiz-card-bottom">
+                            ${actionsHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function getStandardQuizzesForDay(dayNum, dayObj) {
+            return [
+                {
+                    id: 1000 + dayNum * 10 + 1,
+                    topic: `${dayObj.fullDayName} Editorial Vocabulary & Contextual Usage`,
+                    question_count: 5,
+                    duration_seconds: 300,
+                    status: dayObj.isPast ? "completed" : "unlocked",
+                    score: dayObj.isPast ? "+4.25" : null,
+                    attempt_id: "att_" + dayNum + "_1",
+                    day_num: dayNum,
+                    categoryChip: "chip-blue",
+                    categoryLabel: "VOCABULARY"
+                },
+                {
+                    id: 1000 + dayNum * 10 + 2,
+                    topic: `Editorial Reading Comprehension & Tone Analysis`,
+                    question_count: 5,
+                    duration_seconds: 360,
+                    status: "unlocked",
+                    day_num: dayNum,
+                    categoryChip: "chip-purple",
+                    categoryLabel: "COMPREHENSION"
+                },
+                {
+                    id: 1000 + dayNum * 10 + 3,
+                    topic: `Grammar Spotting & Sentence Improvement`,
+                    question_count: 5,
+                    duration_seconds: 300,
+                    status: dayObj.isToday ? "unlocked" : (dayObj.isPast ? "completed" : "locked"),
+                    score: dayObj.isPast ? "+5.00" : null,
+                    attempt_id: "att_" + dayNum + "_3",
+                    day_num: dayNum,
+                    categoryChip: "chip-muted",
+                    categoryLabel: "GRAMMAR"
+                }
+            ];
+        }
+
+        // =============================================================
+        // PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING
+        // =============================================================
+        function renderMagDayNav() {
+            const nav = document.getElementById('magDayNav');
+            if (!nav) return;
+
+            nav.innerHTML = state.weekDays.map(d => {
+                const isActive = d.dateStr === state.selectedMagDateStr;
+                const hasArticles = Boolean(state.magazineWeekData && state.magazineWeekData[d.dateStr] && state.magazineWeekData[d.dateStr].length > 0);
+                return `
+                    <div class="mag-day-pill ${isActive ? 'active' : ''}" onclick="selectMagDay('${d.dateStr}')">
+                        <span class="pill-dayname">${d.dayName}</span>
+                        <span class="pill-daynum">${d.dayNum}</span>
+                        ${hasArticles ? '<div class="pill-dot" title="Edition Available"></div>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectMagDay(dateStr) {
+            state.selectedMagDateStr = dateStr;
+            renderMagDayNav();
+            renderMagazineForSelectedDay();
+        }
+
+        async function fetchWeeklyMagazine() {
+            try {
+                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/magazine/week?_t=${Date.now()}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    state.magazineWeekData = data.week || data;
+                }
+            } catch (err) {
+                console.warn('Could not fetch live magazine week, checking cache.');
+            }
+            renderMagDayNav();
+            renderMagazineForSelectedDay();
+        }
+
+        function renderMagazineForSelectedDay() {
+            const container = document.getElementById('magazineArticles');
+            const dateTitle = document.getElementById('magDateTitle');
+            const countEl = document.getElementById('magArticleCount');
+            if (!container || !state.selectedMagDateStr) return;
+
+            const dayObj = state.weekDays.find(d => d.dateStr === state.selectedMagDateStr);
+            if (dateTitle && dayObj) {
+                dateTitle.innerText = `${dayObj.fullDayName}, ${dayObj.monthLong} ${dayObj.dayNum}, ${dayObj.year}`;
+            }
+
+            const articles = (state.magazineWeekData && state.magazineWeekData[state.selectedMagDateStr]) ? state.magazineWeekData[state.selectedMagDateStr] : [];
+
+            if (countEl) countEl.innerText = `${articles.length} Editorial Articles`;
+
+            if (!articles || articles.length === 0) {
+                container.innerHTML = `
+                    <div class="article-card" style="text-align: center; padding: 48px 24px;">
+                        <span style="font-size: 40px; margin-bottom: 12px;">☕</span>
+                        <h3 style="font-size: 18px; margin-bottom: 6px;">No Edition Published for this Date</h3>
+                        <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">
+                            Editorials for this date have not been published yet or it was an editorial-free exam rest day. Please choose another day from the strip above.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = articles.map(art => {
+                const vocabList = art.vocabulary || art.editorial_vocabulary || [];
+                const bodyHtml = cleanAndHighlightPassageJs(art.passage_html || art.passage || '', vocabList);
+                const vocabCardsHtml = renderVocabLabItems(vocabList);
+
+                return `
+                    <article class="article-card">
+                        <header class="article-header">
+                            <div class="article-tags-row">
+                                <span class="source-pill">${escapeHtml(art.newspaper || 'Editorial')} · ${escapeHtml(art.topic || 'General Studies')}</span>
+                                <span class="reading-time-pill">⏱ ${escapeHtml(art.reading_time || '3 min read')}</span>
+                            </div>
+                            <h2 class="article-title">${escapeHtml(art.title || 'Untitled Editorial')}</h2>
+                            ${art.subtitle ? `<div class="article-subtitle">“${escapeHtml(art.subtitle)}”</div>` : ''}
+                        </header>
+
+                        <!-- Focus Reading Passage with Evidence Lens -->
+                        <div class="article-body">
+                            ${bodyHtml}
+                        </div>
+
+                        <!-- Vocab Lab with English & Hindi Meanings -->
+                        ${vocabList.length > 0 ? `
+                            <div class="vocab-lab-card">
+                                <div class="vocab-lab-header">
+                                    <span>VOCAB LAB QUICK LOOK</span>
+                                    <span>${vocabList.length} WORDS</span>
+                                </div>
+                                <div class="vocab-lab-grid">
+                                    ${vocabCardsHtml}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </article>
+                `;
+            }).join('');
+        }
+
+        // Evidence Lens & Vocab Highlight Engine
+        function extractEvidenceSpansJs(text) {
+            if (!text) return [];
+            const exclusions = [];
+            const noiseRegex = /\b(?:Article|Section|Schedule|Clause|Rule|Form|Order|Act)\s+[\dA-Za-z()]+\b/gi;
+            const dateRegex = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:,\s+\d{4})?\b|\b\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December)(?:\s+\d{4})?\b|\b\d{1,2}:\d{2}(?:\s*(?:AM|PM|IST))?\b/gi;
+            const yearRegex = /\b(19\d\d|20\d\d)\b/g;
+
+            let m;
+            while ((m = noiseRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+            while ((m = dateRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+            while ((m = yearRegex.exec(text)) !== null) exclusions.push([m.index, m.index + m[0].length]);
+
+            const isExcluded = (start, end) => exclusions.some(([exStart, exEnd]) => !(end <= exStart || start >= exEnd));
+
+            const patterns = [
+                /(?:(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])\s*\d+[\d.,]*(?:\s*(?:to|-|and)\s*(?:\b(?:Rs\.?|USD|EUR|GBP|INR)|[₹$€£])?\s*\d+[\d.,]*)?(?:\s*(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion))?(?:\s*(?:per|\/)\s*(?:kg|tonne|quintal|barrel|litre|annum|month|year|capita|unit|ration\s+card))?)/gi,
+                /(?:\b\d+[\d.,]*\s*(?:%|per\s*cent|percent)(?:\s*(?:to|-|and)\s*\d+[\d.,]*\s*(?:%|per\s*cent|percent))?(?:\s+of\s+GDP)?(?!\w))/gi,
+                /\b\d+[\d.,]*\s+(?:lakh\s+crore|crore|lakh|thousand|million|billion|trillion)\b/gi,
+                /\b\d+[\d.,]*\s*(?:°C|degrees?\s+celsius|degrees|kilometres|km|sq\s*km|GW|MW|tonnes|mt)\b/gi,
+                /\b\d{1,3}(?:,\d{2,3})+(?:\.\d+)?\b/gi
+            ];
+
+            const rawSpans = [];
+            patterns.forEach(regex => {
+                let match;
+                while ((match = regex.exec(text)) !== null) {
+                    const start = match.index;
+                    const end = start + match[0].length;
+                    if (!isExcluded(start, end)) rawSpans.push({ start, end, text: match[0].trim() });
+                }
+            });
+
+            if (rawSpans.length === 0) return [];
+            rawSpans.sort((a, b) => a.start - b.start || (b.end - b.start) - (a.end - a.start));
+            const merged = [rawSpans[0]];
+            for (let i = 1; i < rawSpans.length; i++) {
+                const cur = rawSpans[i];
+                const last = merged[merged.length - 1];
+                if (cur.start <= last.end) {
+                    if (cur.end > last.end) last.end = cur.end;
+                } else {
+                    merged.push(cur);
+                }
+            }
+            return merged;
+        }
+
+        function cleanAndHighlightPassageJs(passageTextOrHtml, vocabItems) {
+            if (!passageTextOrHtml) return '<p>Editorial passage text being processed.</p>';
+            let rawText = String(passageTextOrHtml).replace(/<\/?p>/gi, '\n').replace(/<span[^>]*>/gi, '').replace(/<\/span>/gi, '').replace(/<sup[^>]*>[^<]*<\/sup>/gi, '');
+
+            const rawParas = rawText.split(/\r?\n+/).map(p => p.trim()).filter(Boolean);
+
+            const sortedVocab = (vocabItems || []).slice().sort((a, b) => (b.word_or_phrase || '').length - (a.word_or_phrase || '').length);
+
+            const cleanedParas = [];
+            rawParas.forEach(p => {
+                if (/^(Published|Updated|- ?[A-Za-z]+|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\b)/i.test(p)) return;
+                p = p.replace(/(\s+\/\s+[\w\s()-]+){2,}$/, '').trim();
+                if (!p) return;
+
+                const vocabSpans = [];
+                const claimed = new Array(p.length).fill(false);
+
+                sortedVocab.forEach((item, vIdx) => {
+                    const term = (item.word_or_phrase || '').trim();
+                    const idx = item.order_index || (vIdx + 1);
+                    if (!term) return;
+
+                    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    const pattern = new RegExp('(?<![A-Za-z0-9])(' + escaped + ')(?![A-Za-z0-9])', 'gi');
+                    let m;
+                    while ((m = pattern.exec(p)) !== null) {
+                        const start = m.index;
+                        const end = start + m[0].length;
+                        let alreadyClaimed = false;
+                        for (let k = start; k < end; k++) {
+                            if (claimed[k]) { alreadyClaimed = true; break; }
+                        }
+                        if (!alreadyClaimed) {
+                            for (let k = start; k < end; k++) claimed[k] = true;
+                            vocabSpans.push({ start, end, idx });
+                        }
+                    }
+                });
+
+                const rawEvidence = extractEvidenceSpansJs(p);
+                const cleanEvidence = [];
+                rawEvidence.forEach(e => {
+                    let e_start = e.start, e_end = e.end;
+                    vocabSpans.forEach(v => {
+                        if (e_start < v.start && v.start < e_end && e_end < v.end) e_end = v.start;
+                        else if (v.start < e_start && e_start < v.end && v.end < e_end) e_start = v.end;
+                    });
+                    if (e_start < e_end) cleanEvidence.push({ start: e_start, end: e_end });
+                });
+
+                const tagsByPos = {};
+                const addTag = (pos, order, str) => {
+                    if (!tagsByPos[pos]) tagsByPos[pos] = [];
+                    tagsByPos[pos].push({ order, str });
+                };
+
+                vocabSpans.forEach(v => {
+                    addTag(v.end, 1, '<sup class="v-idx">' + v.idx + '</sup></span>');
+                    addTag(v.start, 4, '<span class="vocab-hl">');
+                });
+
+                cleanEvidence.forEach(e => {
+                    addTag(e.end, 2, '</span>');
+                    addTag(e.start, 3, '<span class="evidence-hl">');
+                });
+
+                const sortedPositions = Object.keys(tagsByPos).map(Number).sort((a, b) => a - b);
+                let annotated = '';
+                let lastIdx = 0;
+                sortedPositions.forEach(pos => {
+                    annotated += escapeHtml(p.substring(lastIdx, pos));
+                    const tags = tagsByPos[pos].sort((a, b) => a.order - b.order);
+                    tags.forEach(t => { annotated += t.str; });
+                    lastIdx = pos;
+                });
+                annotated += escapeHtml(p.substring(lastIdx));
+                cleanedParas.push('<p>' + annotated + '</p>');
+            });
+
+            return cleanedParas.join('\n');
+        }
+
+        function renderVocabLabItems(vocabList) {
+            return (vocabList || []).map((item, idx) => {
+                const num = item.order_index || (idx + 1);
+                const pos = item.part_of_speech ? `(${escapeHtml(item.part_of_speech)})` : '';
+                const meaning = escapeHtml(item.easy_synonym || item.concise_meaning || '');
+                const hindi = item.hindi_meaning ? ` · <span class="vocab-hindi">${escapeHtml(item.hindi_meaning)}</span>` : '';
+
+                return `
+                    <div class="vocab-row">
+                        <div class="vocab-word-line">
+                            <span style="font-size:11px; font-weight:700; color:var(--text-subtle);">${num}.</span>
+                            <span class="vocab-word-text">${escapeHtml(item.word_or_phrase || '')}</span>
+                            ${pos ? `<span class="vocab-pos">${pos}</span>` : ''}
+                        </div>
+                        <div class="vocab-meaning">${meaning}${hindi}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Reader Controls
+        function adjustFontSize(delta) {
+            state.fontSize = Math.max(13, Math.min(22, state.fontSize + delta));
+            document.querySelectorAll('.article-body').forEach(el => {
+                el.style.fontSize = state.fontSize + 'px';
+            });
+        }
+
+        function toggleFullscreen() {
+            const el = document.getElementById('magazineView');
+            const btn = document.getElementById('btnFullscreen');
+            if (!document.fullscreenElement) {
+                if (el.requestFullscreen) el.requestFullscreen();
+                else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+                if (btn) btn.innerHTML = '<span>⛶</span> Exit Focus';
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                if (btn) btn.innerHTML = '<span>⛶</span> Focus Mode';
+            }
+        }
+
+        // =============================================================
+        // AUTHENTICATION & SESSION HANDLING
+        // =============================================================
+        function syncAuthUI() {
+            const btn = document.getElementById('userAuthBtn');
+            const label = document.getElementById('userAuthLabel');
+            const icon = document.getElementById('userAuthIcon');
 
             if (typeof isAuthenticated === 'function' && isAuthenticated()) {
-                loginView.style.display = 'none';
-                nav.style.display = 'flex';
-                userChip.style.display = 'flex';
-                logoutBtn.style.display = 'flex';
-
-                // Display User Profile
                 const user = (typeof getSavedUser === 'function') ? getSavedUser() : null;
-                const name = user ? (user.first_name || user.username || user.name || 'Candidate') : 'Candidate';
-                const initial = name.charAt(0).toUpperCase();
-
-                document.getElementById('userName').innerText = name;
-                document.getElementById('userAvatar').innerText = initial;
-                document.getElementById('hubGreeting').innerText = `Welcome back, ${name}`;
-
-                // Target Exam Label
-                const targetExam = localStorage.getItem('ez_target_exam') || 'SSC CGL / Banking';
-                document.getElementById('userExamTag').innerText = `🎯 ${targetExam.split(' ')[0]}`;
-                document.getElementById('activeExamLabel').innerText = `🎯 Target: ${targetExam}`;
-
-                // Switch to active view or hub
-                switchMainView(currentActiveView);
-
-                // Fetch real topic quizzes & content
-                loadDashboardQuizzes();
-                loadWordOfTheDay();
+                const name = user ? (user.first_name || user.username || 'Aspirant') : 'Aspirant';
+                if (label) label.innerText = `${name} (Logout)`;
+                if (icon) icon.innerText = '👤';
             } else {
-                loginView.style.display = 'flex';
-                hubView.style.display = 'none';
-                testsView.style.display = 'none';
-                magView.style.display = 'none';
-                nav.style.display = 'none';
-                userChip.style.display = 'none';
-                logoutBtn.style.display = 'none';
+                if (label) label.innerText = 'Login';
+                if (icon) icon.innerText = '⚡';
             }
         }
 
-        // Dedicated Log Out Implementation for Laptop Website
-        function handleLogout() {
-            if (confirm("Are you sure you want to log out of Ez Editorials?")) {
-                localStorage.removeItem('ez_session_token');
-                localStorage.removeItem('ez_user_profile');
-                sessionStorage.clear();
-                currentActiveView = 'hub';
-                renderAuthState();
+        function handleAuthButtonClick() {
+            if (typeof isAuthenticated === 'function' && isAuthenticated()) {
+                if (confirm("Log out of Ez Editorials?")) {
+                    localStorage.removeItem('ez_session_token');
+                    localStorage.removeItem('ez_user_profile');
+                    sessionStorage.clear();
+                    syncAuthUI();
+                    fetchWeeklyQuizzes();
+                }
+            } else {
+                document.getElementById('authModal').style.display = 'flex';
             }
         }
 
-        // Quick Guest Login for Web / Laptop Exploration
-        function handleGuestLogin() {
+        function closeAuthModal(e, force = false) {
+            if (force || (e && e.target.id === 'authModal')) {
+                document.getElementById('authModal').style.display = 'none';
+            }
+        }
+
+        function signInAsGuest() {
             const guestUser = {
                 id: 999001 + Math.floor(Math.random() * 900),
                 first_name: "Guest Aspirant",
@@ -1670,300 +1553,9 @@
             };
             localStorage.setItem('ez_session_token', 'guest_token_' + Date.now());
             localStorage.setItem('ez_user_profile', JSON.stringify(guestUser));
-            renderAuthState();
-        }
-
-        // Student ID / Telegram Username Login
-        function handleQuickStudentLogin() {
-            const input = document.getElementById('guestUsernameInput');
-            const val = input.value.trim().replace(/^@/, '');
-            if (!val) {
-                alert("Please enter your Telegram username or Student ID");
-                input.focus();
-                return;
-            }
-
-            const studentUser = {
-                id: Math.abs(hashCode(val)) || 10001,
-                first_name: val,
-                username: val
-            };
-            localStorage.setItem('ez_session_token', 'web_token_' + Date.now());
-            localStorage.setItem('ez_user_profile', JSON.stringify(studentUser));
-            renderAuthState();
-        }
-
-        function hashCode(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                hash = ((hash << 5) - hash) + str.charCodeAt(i);
-                hash |= 0;
-            }
-            return hash;
-        }
-
-        // -------------------------------------------------------------
-        // B. VIEW SWITCHING (DASHBOARD, TOPIC TESTS, IN-WEBSITE MAGAZINE)
-        // -------------------------------------------------------------
-        function switchMainView(viewName) {
-            currentActiveView = viewName;
-
-            const hubView = document.getElementById('hubView');
-            const testsView = document.getElementById('topicTestsView');
-            const magView = document.getElementById('magazineView');
-
-            const tabHub = document.getElementById('tabHub');
-            const tabTests = document.getElementById('tabTests');
-            const tabMag = document.getElementById('tabMag');
-
-            // Reset tabs
-            [tabHub, tabTests, tabMag].forEach(t => t?.classList.remove('active'));
-
-            if (viewName === 'hub') {
-                hubView.style.display = 'block';
-                testsView.style.display = 'none';
-                magView.style.display = 'none';
-                tabHub?.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (viewName === 'tests') {
-                hubView.style.display = 'none';
-                testsView.style.display = 'block';
-                magView.style.display = 'none';
-                tabTests?.classList.add('active');
-                renderAllTopicTests();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else if (viewName === 'magazine') {
-                hubView.style.display = 'none';
-                testsView.style.display = 'none';
-                magView.style.display = 'flex';
-                tabMag?.classList.add('active');
-
-                // Load magazine inside iframe if not yet loaded
-                const frame = document.getElementById('magazineFrame');
-                if (frame && (frame.src === 'about:blank' || !frame.src)) {
-                    frame.src = 'magazine.html';
-                }
-            }
-        }
-
-        // Fullscreen toggle for the embedded magazine viewer
-        function toggleMagazineFullscreen() {
-            const container = document.getElementById('magazineView');
-            const btn = document.getElementById('btnMagFullscreen');
-            if (!document.fullscreenElement) {
-                if (container.requestFullscreen) container.requestFullscreen();
-                else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
-                if (btn) btn.innerHTML = '<span>⛶</span> Exit Fullscreen';
-            } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-                if (btn) btn.innerHTML = '<span>⛶</span> Fullscreen';
-            }
-        }
-
-        function openMagazineNewTab() {
-            window.open('magazine.html', '_blank');
-        }
-
-        // -------------------------------------------------------------
-        // C. TOPIC TESTS ENGINE (COMPLETE INTEGRATION)
-        // -------------------------------------------------------------
-        async function loadDashboardQuizzes() {
-            const container = document.getElementById('hubTestList');
-            const userId = (typeof getActiveUserId === 'function') ? getActiveUserId() : 12345;
-            
-            try {
-                const headers = (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {};
-                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`, { headers });
-                const data = await res.json();
-
-                const todayList = data.quizzes?.Today || [];
-                const pendingList = data.quizzes?.Pending || [];
-                cachedQuizzes = [...todayList, ...pendingList];
-
-                if (todayList.length > 0) {
-                    renderQuizItems(todayList, container);
-                    document.getElementById('statTestsVal').innerText = todayList.length;
-                    document.getElementById('statTestsSub').innerText = `${todayList.filter(q => q.status === 'completed').length} completed`;
-                } else {
-                    useFallbackQuizzes(container);
-                }
-            } catch (err) {
-                console.warn("Backend quiz API unreachable. Serving high-yield editorial topic tests.");
-                useFallbackQuizzes(container);
-            }
-        }
-
-        function useFallbackQuizzes(container) {
-            // High-yield fallback editorial tests for instant practice & offline resilience
-            const fallback = [
-                {
-                    id: 101,
-                    topic: "Editorial Vocabulary Mastery & Contextual Synonyms",
-                    question_count: 5,
-                    duration_seconds: 300,
-                    status: "unlocked",
-                    day_num: 1,
-                    category: "vocab",
-                    desc: "Assess today's hardest editorial words and antonym traps."
-                },
-                {
-                    id: 102,
-                    topic: "Passage Tone & Author's Core Arguments",
-                    question_count: 5,
-                    duration_seconds: 360,
-                    status: "unlocked",
-                    day_num: 1,
-                    category: "comprehension",
-                    desc: "Analyze critical viewpoints, inferential premises, and nuances."
-                },
-                {
-                    id: 103,
-                    topic: "Sentence Improvement & Error Detection",
-                    question_count: 5,
-                    duration_seconds: 300,
-                    status: "locked",
-                    drop_time: new Date(Date.now() + 3600000).toISOString(),
-                    day_num: 1,
-                    category: "grammar",
-                    desc: "Grammar rules extracted directly from contemporary editorial passages."
-                }
-            ];
-            cachedQuizzes = fallback;
-            renderQuizItems(fallback, container);
-            document.getElementById('statTestsVal').innerText = "2 Active";
-            document.getElementById('statTestsSub').innerText = "1 Scheduled later";
-        }
-
-        function renderQuizItems(quizzes, container) {
-            if (!container) return;
-
-            container.innerHTML = quizzes.map(quiz => {
-                const durationMins = Math.round((quiz.duration_seconds || 300) / 60);
-                const qCount = quiz.question_count || 5;
-
-                let badgeHtml = '';
-                let href = '#';
-                let onclick = '';
-
-                if (quiz.status === 'completed') {
-                    badgeHtml = `<span class="status-badge attempted">✅ Attempted ${quiz.score !== null && quiz.score !== undefined ? `(${quiz.score} pts)` : ''}</span>`;
-                    href = `result.html?attempt_id=${quiz.attempt_id || 'latest'}&day=${quiz.day_num || 1}&return_url=index.html`;
-                } else if (quiz.status === 'locked') {
-                    const timeStr = quiz.drop_time ? new Date(quiz.drop_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '5:00 PM';
-                    badgeHtml = `<span class="status-badge locked">🔒 Drops ${timeStr}</span>`;
-                } else {
-                    badgeHtml = `<span class="status-badge start">Start Test 〉</span>`;
-                    href = `test.html?quiz_id=${quiz.id}&day=${quiz.day_num || 1}&return_url=index.html`;
-                }
-
-                return `
-                    <a href="${href}" class="test-item" ${quiz.status === 'locked' ? 'onclick="event.preventDefault(); alert(\'This test will unlock at the scheduled time.\')"' : ''}>
-                        <div class="test-item-left">
-                            <div class="test-item-title">${escapeHtml(quiz.topic)}</div>
-                            <div class="test-item-meta">
-                                <span>📋 ${qCount} Questions</span>
-                                <span>⏱ ${durationMins} mins</span>
-                                <span>🎯 Negative Marking: Yes</span>
-                            </div>
-                        </div>
-                        <div>${badgeHtml}</div>
-                    </a>
-                `;
-            }).join('');
-        }
-
-        function renderAllTopicTests(filterCategory = 'all') {
-            const grid = document.getElementById('allTestsGrid');
-            if (!grid) return;
-
-            let list = cachedQuizzes.length > 0 ? cachedQuizzes : [
-                { id: 201, topic: "Vocabulary Context & Antonyms", question_count: 5, duration_seconds: 300, status: "unlocked", category: "vocab", desc: "Words from The Hindu lead articles." },
-                { id: 202, topic: "Reading Comprehension Analysis", question_count: 5, duration_seconds: 400, status: "unlocked", category: "comprehension", desc: "Passage tone, central idea, and inferences." },
-                { id: 203, topic: "Grammar Error Spotting", question_count: 5, duration_seconds: 300, status: "unlocked", category: "grammar", desc: "Subject-verb agreement and prepositional traps." },
-                { id: 204, topic: "Cloze Test & Phrasal Verbs", question_count: 5, duration_seconds: 300, status: "unlocked", category: "vocab", desc: "Fill in blank contextual editorial expressions." }
-            ];
-
-            if (filterCategory === 'practice') {
-                list = [{
-                    id: 999,
-                    topic: "Untimed Rapid Vocabulary Drill",
-                    question_count: 10,
-                    duration_seconds: 600,
-                    status: "unlocked",
-                    category: "practice",
-                    desc: "Free-flowing drill with instant explanations and zero timer pressure."
-                }];
-            } else if (filterCategory !== 'all') {
-                list = list.filter(q => (q.category === filterCategory) || (q.topic.toLowerCase().includes(filterCategory)));
-            }
-
-            grid.innerHTML = list.map(q => {
-                const durationMins = Math.round((q.duration_seconds || 300) / 60);
-                const isPractice = filterCategory === 'practice' || q.id === 999;
-                const targetUrl = isPractice 
-                    ? `test.html?practice=true&return_url=index.html` 
-                    : `test.html?quiz_id=${q.id}&day=${q.day_num || 1}&return_url=index.html`;
-
-                return `
-                    <div class="test-detail-card">
-                        <div>
-                            <div class="test-top-tags">
-                                <span class="test-category-tag">${q.category ? q.category.toUpperCase() : 'TOPIC TEST'}</span>
-                                <span style="font-size:12px; color:var(--text-muted);">Timed CBT</span>
-                            </div>
-                            <h3 class="test-detail-title">${escapeHtml(q.topic)}</h3>
-                            <p class="test-detail-desc">${escapeHtml(q.desc || 'Standardized practice trial crafted from morning editorials.')}</p>
-                        </div>
-                        <div class="test-card-footer">
-                            <div class="test-stats-mini">
-                                <span>📋 ${q.question_count || 5} Questions</span>
-                                <span>⏱ ${durationMins} mins</span>
-                            </div>
-                            <a href="${targetUrl}" class="btn-primary" style="width:auto; padding:7px 16px; font-size:13px;">
-                                Attempt Now 〉
-                            </a>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function filterTopicTests(cat, btn) {
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            renderAllTopicTests(cat);
-        }
-
-        // -------------------------------------------------------------
-        // D. AUXILIARY DATA (WORD OF THE DAY & EXAMS)
-        // -------------------------------------------------------------
-        async function loadWordOfTheDay() {
-            try {
-                const res = await fetch('https://ez-editorials-bot.onrender.com/api/word-of-day');
-                const data = await res.json();
-                if (data.word_of_the_day) {
-                    document.getElementById('wotdWord').innerText = data.word_of_the_day;
-                    if (data.meaning) document.getElementById('wotdMeaning').innerText = data.meaning;
-                }
-            } catch (e) {}
-        }
-
-        // Target Exam Modal
-        function openExamModal() {
-            document.getElementById('examModal').style.display = 'flex';
-        }
-
-        function closeExamModal(e, force = false) {
-            if (force || (e && e.target.id === 'examModal')) {
-                document.getElementById('examModal').style.display = 'none';
-            }
-        }
-
-        function selectExam(examName) {
-            localStorage.setItem('ez_target_exam', examName);
-            document.getElementById('userExamTag').innerText = `🎯 ${examName.split(' ')[0]}`;
-            document.getElementById('activeExamLabel').innerText = `🎯 Target: ${examName}`;
-            closeExamModal(null, true);
+            closeAuthModal(null, true);
+            syncAuthUI();
+            fetchWeeklyQuizzes();
         }
 
         function escapeHtml(str) {
@@ -1973,11 +1565,8 @@
             }[m]));
         }
 
-        // -------------------------------------------------------------
-        // E. THEME MANAGEMENT (COORDINATED WITH tokens.css & localStorage)
-        // -------------------------------------------------------------
+        // Theme management
         const themeBtn = document.getElementById('themeToggle');
-
         function applyTheme(isDark) {
             if (isDark) {
                 document.documentElement.classList.add('dark-mode');
@@ -1990,7 +1579,6 @@
             }
         }
 
-        // Initialize Theme from localStorage
         (function initTheme() {
             try {
                 const saved = localStorage.getItem('app_dark_mode') === 'true';
@@ -2000,14 +1588,20 @@
 
         themeBtn?.addEventListener('click', () => {
             const isDark = document.documentElement.classList.contains('dark-mode') || document.documentElement.getAttribute('data-theme') === 'dark';
-            const nextDark = !isDark;
-            applyTheme(nextDark);
-            try { localStorage.setItem('app_dark_mode', nextDark.toString()); } catch (e) {}
+            const next = !isDark;
+            applyTheme(next);
+            try { localStorage.setItem('app_dark_mode', next.toString()); } catch (e) {}
         });
 
         // Initialize on DOM Ready
-        document.addEventListener('DOMContentLoaded', renderAuthState);
+        document.addEventListener('DOMContentLoaded', () => {
+            initWeekCalendar();
+            syncAuthUI();
+            renderQuizDayNav();
+            renderMagDayNav();
+            fetchWeeklyQuizzes();
+            fetchWeeklyMagazine();
+        });
     </script>
-
 </body>
 </html>
