@@ -256,14 +256,22 @@
         .marks-minus { background: var(--red-bg); color: var(--red-text); }
         
         .passage-block { margin-bottom: 24px; }
-        .inst-text { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+        .inst-text { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; white-space: pre-wrap; }
         .passage-text { font-size: 15px; line-height: 1.6; color: var(--text-dark); white-space: pre-wrap; transition: max-height 0.3s ease; overflow: hidden; }
         .passage-text.collapsed { max-height: 68px; /* Approx 3 lines */ display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
         
         .view-more-btn { color: var(--brand-blue); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-block; margin-top: 4px; }
         
         .q-label { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
-        .q-text { font-size: 16px; line-height: 1.6; font-weight: 400; margin-bottom: 24px; color: var(--text-dark); transition: font-size 0.2s; }
+        .q-text { font-size: 16px; line-height: 1.6; font-weight: 400; margin-bottom: 24px; color: var(--text-dark); transition: font-size 0.2s; white-space: pre-wrap; }
+        
+        .passage-text strong,
+        .q-text strong,
+        .inst-text strong,
+        .opt-text strong {
+            font-weight: 700;
+            color: inherit;
+        }
 
         /* Options */
         .option { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.2s; }
@@ -1865,14 +1873,35 @@
             }
         }
 
+        function formatExamContent(text) {
+            if (!text) return "";
+            let escaped = String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            // Format markdown bold ***text*** -> <strong><em>text</em></strong>
+            escaped = escaped.replace(/\*\*\*([^*]+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            // Format markdown bold **text** or __text__ -> <strong>text</strong>
+            escaped = escaped.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
+            escaped = escaped.replace(/__([^_]+?)__/g, '<strong>$1</strong>');
+            // Format markdown inline code `text`
+            escaped = escaped.replace(/`([^`]+?)`/g, '<code style="background:rgba(0,0,0,0.06);padding:2px 5px;border-radius:4px;font-family:monospace;font-size:0.9em;">$1</code>');
+            return escaped;
+        }
+
         function formatSolutionText(text) {
             if (!text) return "No detailed explanation available.";
             let escaped = String(text)
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
-            // Format markdown bold **text**
-            escaped = escaped.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            // Format markdown bold ***text***
+            escaped = escaped.replace(/\*\*\*([^*]+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+            // Format markdown bold **text** or __text__
+            escaped = escaped.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
+            escaped = escaped.replace(/__([^_]+?)__/g, '<strong>$1</strong>');
+            // Format markdown inline code `text`
+            escaped = escaped.replace(/`([^`]+?)`/g, '<code style="background:rgba(0,0,0,0.06);padding:2px 5px;border-radius:4px;font-family:monospace;font-size:0.9em;">$1</code>');
             // Bullet lines
             escaped = escaped.replace(/^[•\-\*]\s*(.+)$/gm, '<div style="margin-left: 12px; margin-bottom: 4px;">• $1</div>');
             // Paragraph breaks
@@ -1990,14 +2019,14 @@
 
                 if (hasInstruction) {
                     instText.style.display = 'block';
-                    instText.innerText = instruction;
+                    instText.innerHTML = formatExamContent(instruction);
                 } else {
                     instText.style.display = 'none';
                 }
 
                 if (hasPassage) {
                     passageText.style.display = 'block';
-                    passageText.innerText = passage;
+                    passageText.innerHTML = formatExamContent(passage);
                     
                     // Check user preference instead of forcing collapse
                     if (isPassageExpanded) {
@@ -2019,7 +2048,7 @@
 
             // 4. Set Question Text
             let rawQText = q.text || q.question_text || '';
-            document.getElementById('q-text').innerText = rawQText;
+            document.getElementById('q-text').innerHTML = formatExamContent(rawQText);
 
             const optsContainer = document.getElementById('options-container');
             optsContainer.innerHTML = '';
@@ -2047,6 +2076,7 @@
             opts.forEach((optText, i) => {
                 const optDiv = document.createElement('div');
                 optDiv.className = `option`;
+                const formattedOpt = formatExamContent(optText);
                 
                 if (isReviewState) {
                     let badge = '';
@@ -2059,7 +2089,7 @@
                         optDiv.classList.add('wrong-reveal');
                         badge = '<div class="opt-badge badge-wrong">✗ Your Choice</div>';
                     }
-                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${optText}</div>${badge}`;
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div>${badge}`;
                     optDiv.style.cursor = 'default';
                 } else if (isReviewMode && reattemptModeActive) {
                     let badge = '';
@@ -2074,11 +2104,11 @@
                     } else if (responses[qId] === i) {
                         optDiv.classList.add('selected');
                     }
-                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${optText}</div>${badge}`;
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div>${badge}`;
                     optDiv.onclick = () => selectOption(i, optDiv);
                 } else {
                     if (responses[qId] === i) optDiv.classList.add('selected');
-                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${optText}</div>`;
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div>`;
                     optDiv.onclick = () => selectOption(i, optDiv);
                 }
                 
