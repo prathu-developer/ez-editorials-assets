@@ -623,31 +623,9 @@
             }
 
             isApproving = true;
-            let workerApproved = false;
             let backendSuccess = false;
 
-            // 1. Instant Telegram approval via Cloudflare Worker
-            try {
-                const res = await fetch('https://ez-verify-worker.prathamesh-adhe508.workers.dev', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Telegram-Init-Data': initData
-                    },
-                    body: JSON.stringify({ user_id: userId })
-                });
-                if (res.ok) {
-                    const data = await res.json().catch(() => ({}));
-                    if (data.status === 'success' || res.status === 200) {
-                        workerApproved = true;
-                    }
-                }
-            } catch (err) {
-                console.warn("Cloudflare Worker approval attempt failed:", err);
-            }
-
-            // 2. Always notify Render backend to sync DB (clears join_req from bot_settings and registers user)
-            //    If the worker failed, Render's backend acts as the fallback to approve in Telegram with retry logic!
+            // Call Render backend to approve in Telegram & sync database
             try {
                 const renderRes = await fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
                     method: 'POST',
@@ -656,26 +634,47 @@
                         'X-Telegram-Init-Data': initData
                     },
                     body: JSON.stringify({
-                        user_id: userId,
-                        worker_approved: workerApproved
+                        user_id: userId
                     })
                 });
                 if (renderRes.ok) {
-                    backendSuccess = true;
+                    const data = await renderRes.json().catch(() => ({}));
+                    if (data.status === 'success') {
+                        backendSuccess = true;
+                        if (data.invite_link) {
+                            directInviteLink = data.invite_link;
+                        }
+                    }
                 }
-            } catch (fallbackErr) {
-                console.warn("Render backend sync/approval failed:", fallbackErr);
+            } catch (renderErr) {
+                console.warn("Render backend approval failed, trying worker fallback:", renderErr);
+                // Fallback attempt via edge worker if Render was unreachable
+                try {
+                    const workerRes = await fetch('https://ez-verify-worker.prathamesh-adhe508.workers.dev', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Telegram-Init-Data': initData
+                        },
+                        body: JSON.stringify({ user_id: userId })
+                    });
+                    if (workerRes.ok) {
+                        backendSuccess = true;
+                    }
+                } catch (workerErr) {
+                    console.warn("Worker fallback failed:", workerErr);
+                }
             }
 
             isApproving = false;
 
-            // 3. Final verification: Did at least one pipeline succeed?
-            if (workerApproved || backendSuccess) {
+            // Final verification: Did approval pipeline succeed?
+            if (backendSuccess) {
                 btn.disabled = false;
                 btn.style.opacity = "1";
                 btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
             } else {
-                // Both worker and render failed (network drop)
+                // Both render and worker failed
                 showErrorView(
                     "Approval Failed",
                     "Could not complete your approval due to a network connection issue. Please tap Retry to finalize your entrance.",
@@ -685,9 +684,15 @@
             }
         }
 
+        let directInviteLink = null;
+
         function handleContinue() {
             if (tg && tg.HapticFeedback) {
                 try { tg.HapticFeedback.impactOccurred('medium'); } catch(e) {}
+            }
+            if (directInviteLink) {
+                window.location.href = directInviteLink;
+                return;
             }
             if (tg && typeof tg.close === 'function') {
                 try { tg.close(); return; } catch(e) {}
