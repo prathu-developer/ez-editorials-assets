@@ -17,10 +17,11 @@ if (fs.existsSync('app.html')) {
 // 3. Copy frontend assets to www/
 const allowedExts = ['.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.ico', '.webp'];
 const ignoreFiles = ['build.js'];
+const specialFiles = ['_redirects', '_headers'];
 
 fs.readdirSync('.').forEach(file => {
     const ext = path.extname(file).toLowerCase();
-    if (allowedExts.includes(ext) && !ignoreFiles.includes(file)) {
+    if ((allowedExts.includes(ext) || specialFiles.includes(file)) && !ignoreFiles.includes(file)) {
         fs.copyFileSync(file, path.join('www', file));
     }
 });
