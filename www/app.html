@@ -6590,9 +6590,73 @@
         let lastFetchTimes = { cup: 0, progress: 0, digest: 0 };
 
         // 1. Initialize User & Platform App from auth.js
-        const tgApp = (typeof getTelegramApp === 'function' ? getTelegramApp() : null);
+        const tgApp = (typeof getTelegramApp === 'function' ? getTelegramApp() : null) || window.Telegram?.WebApp || null;
         if (tgApp?.expand) tgApp.expand();
-        const appUserId = (typeof getActiveUserId === 'function' ? getActiveUserId() : 0) || tgApp?.initDataUnsafe?.user?.id || 123456789;
+
+        function getTgInitData() {
+            let data = tgApp?.initData || window.Telegram?.WebApp?.initData || '';
+            if (!data) {
+                try {
+                    if (window.location.hash) {
+                        const hp = new URLSearchParams(window.location.hash.substring(1));
+                        data = hp.get('tgWebAppData') || '';
+                    }
+                    if (!data && window.location.search) {
+                        const sp = new URLSearchParams(window.location.search);
+                        data = sp.get('tgWebAppData') || '';
+                    }
+                    if (!data) {
+                        data = sessionStorage.getItem('ez_tg_init_data') || localStorage.getItem('ez_tg_init_data') || '';
+                    }
+                } catch(e) {}
+            }
+            if (data) {
+                try {
+                    sessionStorage.setItem('ez_tg_init_data', data);
+                    localStorage.setItem('ez_tg_init_data', data);
+                } catch(e) {}
+            }
+            return data;
+        }
+
+        function resolveAppUserId() {
+            let uid = (typeof getActiveUserId === 'function' ? getActiveUserId() : 0);
+            if (!uid && tgApp?.initDataUnsafe?.user?.id) {
+                uid = Number(tgApp.initDataUnsafe.user.id);
+            }
+            if (!uid) {
+                try {
+                    const rawData = getTgInitData();
+                    if (rawData) {
+                        const p = new URLSearchParams(rawData);
+                        const uRaw = p.get('user');
+                        if (uRaw) {
+                            const uObj = JSON.parse(uRaw);
+                            if (uObj && uObj.id) uid = Number(uObj.id);
+                        }
+                    }
+                } catch(e) {}
+            }
+            if (!uid) {
+                try {
+                    const p = new URLSearchParams(window.location.search);
+                    const paramUid = p.get('user_id') || p.get('uid');
+                    if (paramUid) uid = Number(paramUid);
+                } catch(e) {}
+            }
+            return uid || 123456789;
+        }
+
+        let appUserId = resolveAppUserId();
+
+        function getAppAuthHeaders(customHeaders = {}) {
+            const headers = (typeof getAuthHeaders === 'function') ? getAuthHeaders(customHeaders) : { 'Content-Type': 'application/json', ...customHeaders };
+            const initData = getTgInitData();
+            if (initData) {
+                headers['X-Telegram-Init-Data'] = initData;
+            }
+            return headers;
+        }
 
         // 🟢 GLOBAL PREFERENCES
         window.vibrationEnabled = localStorage.getItem('app_vibration') !== 'false';
@@ -7324,7 +7388,10 @@
         window.currentViewingDayIndex = 0;
 
         function filterByDay(dayIndex) {
-            if (!window.masterQuizData) return;
+            if (!window.masterQuizData) {
+                loadQuizzes();
+                return;
+            }
             
             window.currentViewingDayIndex = dayIndex;
             let targetDay = dayIndex + 1; 
@@ -7940,8 +8007,9 @@
         // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
         async function loadRealCupData() {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${appUserId}`, {
-                    headers: getAuthHeaders()
+                const currentUid = (typeof resolveAppUserId === 'function') ? resolveAppUserId() : appUserId;
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${currentUid}`, {
+                    headers: (typeof getAppAuthHeaders === 'function' ? getAppAuthHeaders() : getAuthHeaders())
                 });
                 const data = await response.json();
 
@@ -8011,19 +8079,28 @@
         
         // --- MASTER SPEC: LOAD GROUPED QUIZZES ---
         async function loadQuizzes() {
+            const container = document.getElementById('api-quiz-container');
             try {
-                // ✨ FIX: Send Telegram initData header
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${appUserId}`, {
-                    headers: getAuthHeaders()
+                const currentUid = (typeof resolveAppUserId === 'function') ? resolveAppUserId() : appUserId;
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${currentUid}`, {
+                    headers: (typeof getAppAuthHeaders === 'function' ? getAppAuthHeaders() : getAuthHeaders())
                 });
+                
+                if (!response.ok) {
+                    throw new Error(`Server returned status ${response.status}`);
+                }
+
                 const data = await response.json();
+                if (!data || !data.quizzes) {
+                    throw new Error('Invalid quiz response from server');
+                }
                 
                 window.masterQuizData = data.quizzes; 
                 updateDynamicTracker(); 
                 
                 let hasUnattemptedQuizzes = false; 
                 ['Today', 'Pending'].forEach(day => {
-                    if (data.quizzes[day]) {
+                    if (data.quizzes && data.quizzes[day]) {
                         data.quizzes[day].forEach(q => {
                             if (q.status === 'unlocked' || q.status === 'start') hasUnattemptedQuizzes = true; 
                         });
@@ -8058,7 +8135,19 @@
                 updateJourneySection(); // 🟢 Renders the Journey cards
 
             } catch (error) {
-                document.getElementById('api-quiz-container').innerHTML = '<p style="color:red; text-align:center;">Failed to connect to server.</p>';
+                console.error('[QuizLoad] Error loading quizzes:', error);
+                if (container) {
+                    container.innerHTML = `
+                        <div class="card-main" style="text-align: center; padding: 30px 20px; margin-top: 12px;">
+                            <span style="font-size: 32px;">⚠️</span>
+                            <h3 style="margin: 12px 0 6px 0; font-size: 16px;">Unable to Load Quizzes</h3>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Please check your connection or tap below to retry.</p>
+                            <button onclick="loadQuizzes()" style="padding: 9px 20px; border-radius: 10px; background: var(--brand, #5a32fa); color: #fff; border: none; font-weight: 600; font-size: 13px; cursor: pointer;">
+                                🔄 Tap to Retry
+                            </button>
+                        </div>
+                    `;
+                }
             }
         }
 
@@ -9517,10 +9606,9 @@
         }, 1000);
 
         // Wait for app_v8.js to fully load before initializing to prevent render failures
-        window.addEventListener('DOMContentLoaded', async () => {
-            
-            // 🟢 RUN SYSTEM HEALTH CHECK FIRST
-            await checkSystemStatus();
+        async function initApp() {
+            // 🟢 RUN SYSTEM HEALTH CHECK (non-blocking)
+            checkSystemStatus().catch(console.error);
 
             // 🟢 Apply Saved Settings on Load
             if(localStorage.getItem('app_dark_mode') === 'true') toggleDarkMode();
@@ -9536,8 +9624,8 @@
             if (urlParams.get('view') === 'day') switchView('view-day');
 
             // ✨ ADD THESE TWO LINES TO PRESERVE THE ELO DEEP LINK
-            if (tgApp.initDataUnsafe?.start_param === 'elo') {
-                openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();
+            if (tgApp?.initDataUnsafe?.start_param === 'elo') {
+                try { openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard(); } catch(e) { console.error(e); }
             }
             
             try { loadRealCupData(); } catch(e) { console.error(e); }
@@ -9622,7 +9710,13 @@
                     }
                 }
             } catch(e) {}
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            window.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
     </script>
 </body>
 </html>
