@@ -4,16 +4,7 @@ const APP_VERSION = "1.0.1";
 
 // 1. Platform Detection
 function isTelegramMiniApp() {
-    if (window.Telegram?.WebApp) {
-        if (window.Telegram.WebApp.initData && window.Telegram.WebApp.initData.length > 0) return true;
-        if (window.Telegram.WebApp.initDataUnsafe?.user?.id) return true;
-        const p = window.Telegram.WebApp.platform;
-        if (p && p !== 'unknown') return true;
-    }
-    try {
-        if (sessionStorage.getItem('ez_tg_init_data') || localStorage.getItem('ez_tg_init_data')) return true;
-    } catch(e) {}
-    return false;
+    return Boolean(window.Telegram?.WebApp?.initData && window.Telegram.WebApp.initData.length > 0);
 }
 
 function isCapacitorApp() {
@@ -82,24 +73,6 @@ function getTelegramApp() {
     return window.Telegram?.WebApp || null;
 }
 
-function getTelegramInitData() {
-    const tg = window.Telegram?.WebApp;
-    if (tg?.initData && tg.initData.length > 0) {
-        try {
-            sessionStorage.setItem('ez_tg_init_data', tg.initData);
-            localStorage.setItem('ez_tg_init_data', tg.initData);
-        } catch(e) {}
-        return tg.initData;
-    }
-    try {
-        const cachedSession = sessionStorage.getItem('ez_tg_init_data');
-        if (cachedSession) return cachedSession;
-        const cachedLocal = localStorage.getItem('ez_tg_init_data');
-        if (cachedLocal) return cachedLocal;
-    } catch(e) {}
-    return '';
-}
-
 function triggerHaptic(type = 'light', style = 'light') {
     try {
         if (localStorage.getItem('app_vibration') === 'false') return;
@@ -155,7 +128,6 @@ window.isDesktopWeb = isDesktopWeb;
 window.isTabletView = isTabletView;
 window.applyPlatformTags = applyPlatformTags;
 window.getTelegramApp = getTelegramApp;
-window.getTelegramInitData = getTelegramInitData;
 window.triggerHaptic = triggerHaptic;
 window.openExternalTelegramLink = openExternalTelegramLink;
 window.setTelegramBackButton = setTelegramBackButton;
@@ -167,19 +139,13 @@ function getAuthHeaders(customHeaders = {}) {
         ...customHeaders
     };
     
-    const initData = getTelegramInitData();
-    if (initData) {
-        headers['X-Telegram-Init-Data'] = initData;
-    }
-    
-    const token = localStorage.getItem('ez_session_token');
-    if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-    }
-
-    const uid = getActiveUserId();
-    if (uid) {
-        headers['X-User-Id'] = String(uid);
+    if (isTelegramMiniApp()) {
+        headers['X-Telegram-Init-Data'] = window.Telegram.WebApp.initData;
+    } else {
+        const token = localStorage.getItem('ez_session_token');
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
     }
     return headers;
 }
@@ -209,11 +175,6 @@ function getActiveUserId() {
         const tgId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
         if (tgId) return Number(tgId);
     }
-    try {
-        const params = new URLSearchParams(window.location.search);
-        const u = params.get('user_id') || params.get('uid');
-        if (u) return Number(u);
-    } catch(e) {}
     const user = getSavedUser();
     if (user) {
         return Number(user.id || user.user_id || 0);
@@ -353,7 +314,7 @@ window.onTelegramAuth = async function(user) {
 };
 
 // 10. Auto-Mount Login Screen if Unauthenticated
-function initAuthMount() {
+window.addEventListener('DOMContentLoaded', () => {
     if (!isAuthenticated()) {
         const overlay = document.getElementById('externalLoginOverlay');
         if (overlay) {
@@ -372,13 +333,7 @@ function initAuthMount() {
     if (isCapacitorApp()) {
         checkAppUpdate();
     }
-}
-
-if (document.readyState === 'loading') {
-    window.addEventListener('DOMContentLoaded', initAuthMount);
-} else {
-    initAuthMount();
-}
+});
 
 // 11. Offline Detection Banner
 function setupNetworkListeners() {
