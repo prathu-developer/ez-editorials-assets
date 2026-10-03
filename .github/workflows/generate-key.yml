@@ -30,3 +30,4 @@ jobs:
         with:
           name: release-keystore
           path: ezeditorials.keystore
+          retention-days: 1
