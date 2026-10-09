@@ -964,11 +964,24 @@
                 return;
             }
             const dayParam = urlParams.get('day');
+            if (typeof getPlatformHome === 'function') {
+                window.location.href = getPlatformHome(dayParam);
+                return;
+            }
+            if (typeof isTelegramMiniApp === 'function' && (isTelegramMiniApp() || isCapacitorApp())) {
+                window.location.href = dayParam !== null ? `app.html?view=day&day=${dayParam}` : `app.html?view=day`;
+                return;
+            }
             if (dayParam !== null) {
                 window.location.href = `index.html?day=${dayParam}`;
             } else {
                 window.location.href = `index.html`;
             }
+        }
+
+        // 🟢 Hook Telegram native back button on results interface
+        if (typeof setTelegramBackButton === 'function') {
+            setTelegramBackButton(true, goBackToTopics);
         }
 
         function showLockedFeature(featureName) {
@@ -1124,9 +1137,12 @@
 
         function openReviewMode() {
             triggerHaptic('medium');
-            const returnUrl = urlParams.get('return_url') || 'index.html';
             const dayParam = urlParams.get('day');
             const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
+            const fallbackHome = (typeof getPlatformHome === 'function')
+                ? getPlatformHome(dayParam)
+                : ((typeof isTelegramMiniApp === 'function' && (isTelegramMiniApp() || isCapacitorApp())) ? `app.html?view=day${dayQuery}` : `index.html${dayQuery}`);
+            const returnUrl = urlParams.get('return_url') || fallbackHome;
             const retQuery = `&return_url=${encodeURIComponent(returnUrl)}`;
             
             if (isPractice) {

@@ -1630,10 +1630,10 @@
         function goBackFromResult() {
             triggerHaptic('light');
             const urlParams = new URLSearchParams(window.location.search);
-            const returnUrl = urlParams.get('return_url') || 'index.html';
+            const returnUrl = urlParams.get('return_url');
             const dayParam = urlParams.get('day');
             const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
-            const retQuery = `&return_url=${encodeURIComponent(returnUrl)}`;
+            const retQuery = returnUrl ? `&return_url=${encodeURIComponent(returnUrl)}` : '';
             
             if (isPractice) window.location.href = `result.html?practice=true${dayQuery}${retQuery}`;
             else window.location.href = `result.html?attempt_id=${attemptIdParam}${dayQuery}${retQuery}`;
@@ -1643,14 +1643,36 @@
             const urlParams = new URLSearchParams(window.location.search);
             const returnUrl = urlParams.get('return_url');
             if (returnUrl) return returnUrl;
-            if (document.referrer && document.referrer.includes('index.html')) return 'index.html';
             const dayParam = urlParams.get('day');
+            if (document.referrer && document.referrer.includes('app.html')) {
+                return dayParam !== null ? `app.html?view=day&day=${dayParam}` : 'app.html?view=day';
+            }
+            if (document.referrer && document.referrer.includes('index.html')) {
+                return dayParam !== null ? `index.html?day=${dayParam}` : 'index.html';
+            }
+            if (typeof getPlatformHome === 'function') {
+                return getPlatformHome(dayParam);
+            }
+            if (typeof isTelegramMiniApp === 'function' && (isTelegramMiniApp() || isCapacitorApp())) {
+                return dayParam !== null ? `app.html?view=day&day=${dayParam}` : 'app.html?view=day';
+            }
             return dayParam !== null ? `index.html?day=${dayParam}` : 'index.html';
         }
 
         function exitTestEarly() {
             triggerHaptic('light');
             window.location.href = getExitTargetUrl();
+        }
+
+        // 🟢 Hook Telegram native back button on test interface
+        if (typeof setTelegramBackButton === 'function') {
+            setTelegramBackButton(true, () => {
+                if (typeof isReviewMode !== 'undefined' && isReviewMode) {
+                    goBackFromResult();
+                } else {
+                    exitTestEarly();
+                }
+            });
         }
 
         function proceedToInstructions() {
@@ -1804,9 +1826,12 @@
                 
                 // If the test was completed/expired, forward immediately to the results page
                 if (data.completed) {
-                    const dayParam = new URLSearchParams(window.location.search).get('day');
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const returnUrl = urlParams.get('return_url');
+                    const dayParam = urlParams.get('day');
                     const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
-                    window.location.href = `result.html?attempt_id=${data.attempt_id}${dayQuery}`;
+                    const retQuery = returnUrl ? `&return_url=${encodeURIComponent(returnUrl)}` : '';
+                    window.location.href = `result.html?attempt_id=${data.attempt_id}${dayQuery}${retQuery}`;
                     return;
                 }
 
@@ -2588,9 +2613,12 @@
                     localStorage.setItem(cacheKey, JSON.stringify(questionTimeSpent));
                 } catch(e) {}
 
-                const dayParam = new URLSearchParams(window.location.search).get('day');
+                const urlParams = new URLSearchParams(window.location.search);
+                const returnUrl = urlParams.get('return_url');
+                const dayParam = urlParams.get('day');
                 const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
-                window.location.href = `result.html?practice=true${dayQuery}`;
+                const retQuery = returnUrl ? `&return_url=${encodeURIComponent(returnUrl)}` : '';
+                window.location.href = `result.html?practice=true${dayQuery}${retQuery}`;
                 return;
             }
 
@@ -2633,9 +2661,12 @@
                     localStorage.setItem(cacheKey, JSON.stringify(questionTimeSpent));
                 } catch(e) {}
 
-                const dayParam = new URLSearchParams(window.location.search).get('day');
+                const urlParams = new URLSearchParams(window.location.search);
+                const returnUrl = urlParams.get('return_url');
+                const dayParam = urlParams.get('day');
                 const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
-                window.location.href = `result.html?attempt_id=${attemptId}${dayQuery}`;
+                const retQuery = returnUrl ? `&return_url=${encodeURIComponent(returnUrl)}` : '';
+                window.location.href = `result.html?attempt_id=${attemptId}${dayQuery}${retQuery}`;
             } catch (err) {
                 alert("Submission failed. Please check your connection.");
                 document.getElementById('loading-screen').style.display = 'none';

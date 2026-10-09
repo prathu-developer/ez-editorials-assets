@@ -13,6 +13,27 @@
     <link rel="stylesheet" href="tokens.css">
     <link rel="stylesheet" href="magazine-pdf.css">
     <script src="auth.js"></script>
+    <script>
+        // 🟢 Failsafe: Ensure Telegram Mini App and Capacitor Android load app.html, never laptop index.html
+        (function() {
+            try {
+                var isCap = Boolean(window.Capacitor && (window.Capacitor.isNativePlatform?.() || window.Capacitor.platform === 'android'));
+                var isTg = Boolean(window.Telegram?.WebApp?.initData && window.Telegram.WebApp.initData.length > 0) ||
+                           (window.Telegram?.WebApp?.platform && window.Telegram.WebApp.platform !== 'unknown') ||
+                           Boolean(window.Telegram?.WebApp?.initDataUnsafe?.user?.id) ||
+                           (window.location.search && window.location.search.indexOf('tgWebAppData') !== -1);
+                if (isCap || isTg) {
+                    var sp = new URLSearchParams(window.location.search);
+                    var day = sp.get('day');
+                    var target = 'app.html' + (day !== null ? '?view=day&day=' + day : '');
+                    window.location.replace(target);
+                } else {
+                    sessionStorage.setItem('ez_platform', 'web');
+                    sessionStorage.setItem('ez_home_file', 'index.html');
+                }
+            } catch(e) {}
+        })();
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2067,13 +2088,14 @@
                 let actionsHtml = '';
                 if (q.status === 'completed') {
                     const score = q.score !== null && q.score !== undefined ? q.score : '+4.25';
+                    const retUrl = encodeURIComponent(`index.html?day=${targetDayNum}`);
                     actionsHtml = `
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <span class="score-pill">Score: ${score} pts</span>
-                            <a href="result.html?attempt_id=${q.attempt_id || 'latest'}&day=${targetDayNum}&return_url=index.html" class="btn-result">
+                            <a href="result.html?attempt_id=${q.attempt_id || 'latest'}&day=${targetDayNum}&return_url=${retUrl}" class="btn-result">
                                 📊 Results
                             </a>
-                            <a href="test.html?attempt_id=${q.attempt_id || 'latest'}&mode=review&day=${targetDayNum}&return_url=index.html" class="btn-review">
+                            <a href="test.html?attempt_id=${q.attempt_id || 'latest'}&mode=review&day=${targetDayNum}&return_url=${retUrl}" class="btn-review">
                                 🔍 Review
                             </a>
                         </div>
@@ -2082,8 +2104,9 @@
                     const dropStr = q.drop_time ? new Date(q.drop_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '5:00 PM';
                     actionsHtml = `<span class="badge-locked">🔒 Drops at ${dropStr}</span>`;
                 } else {
+                    const retUrl = encodeURIComponent(`index.html?day=${targetDayNum}`);
                     actionsHtml = `
-                        <a href="test.html?quiz_id=${q.id}&day=${targetDayNum}&return_url=index.html" class="btn-start-test">
+                        <a href="test.html?quiz_id=${q.id}&day=${targetDayNum}&return_url=${retUrl}" class="btn-start-test">
                             Start Test 〉
                         </a>
                     `;

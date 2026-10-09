@@ -4,11 +4,30 @@ const APP_VERSION = "1.0.1";
 
 // 1. Platform Detection
 function isTelegramMiniApp() {
-    return Boolean(window.Telegram?.WebApp?.initData && window.Telegram.WebApp.initData.length > 0);
+    if (Boolean(window.Telegram?.WebApp?.initData && window.Telegram.WebApp.initData.length > 0)) return true;
+    const tgPlatform = window.Telegram?.WebApp?.platform;
+    if (tgPlatform && tgPlatform !== 'unknown') return true;
+    if (Boolean(window.Telegram?.WebApp?.initDataUnsafe?.user?.id)) return true;
+    try {
+        if (sessionStorage.getItem('ez_platform') === 'telegram') return true;
+        if (sessionStorage.getItem('ez_tg_init_data') || localStorage.getItem('ez_tg_init_data')) return true;
+    } catch(e) {}
+    try {
+        const sp = new URLSearchParams(window.location.search);
+        if (sp.get('tgWebAppData') || sp.get('platform') === 'telegram') return true;
+    } catch(e) {}
+    return false;
 }
 
 function isCapacitorApp() {
-    return Boolean(window.Capacitor && (window.Capacitor.isNativePlatform?.() || window.Capacitor.platform === 'android'));
+    if (Boolean(window.Capacitor && (window.Capacitor.isNativePlatform?.() || window.Capacitor.platform === 'android'))) return true;
+    if (window.location.protocol === 'capacitor:') return true;
+    try {
+        if (sessionStorage.getItem('ez_platform') === 'capacitor' || sessionStorage.getItem('ez_platform') === 'android') return true;
+        const sp = new URLSearchParams(window.location.search);
+        if (sp.get('platform') === 'android' || sp.get('platform') === 'capacitor') return true;
+    } catch(e) {}
+    return false;
 }
 
 function isTgDesktop() {
@@ -17,9 +36,32 @@ function isTgDesktop() {
 }
 
 function getPlatform() {
-    if (isTelegramMiniApp()) return 'telegram';
     if (isCapacitorApp()) return 'capacitor';
+    if (isTelegramMiniApp()) return 'telegram';
     return 'web';
+}
+
+function getPlatformHome(dayParam = null) {
+    try {
+        const sp = new URLSearchParams(window.location.search);
+        const retUrl = sp.get('return_url');
+        if (retUrl) {
+            if (dayParam !== null && dayParam !== undefined && !retUrl.includes('day=')) {
+                const sep = retUrl.includes('?') ? '&' : '?';
+                return `${retUrl}${sep}day=${dayParam}`;
+            }
+            return retUrl;
+        }
+    } catch(e) {}
+
+    const platform = getPlatform();
+    const dayQuery = (dayParam !== null && dayParam !== undefined) ? `day=${dayParam}` : '';
+
+    if (platform === 'capacitor' || platform === 'telegram') {
+        return dayQuery ? `app.html?view=day&${dayQuery}` : 'app.html?view=day';
+    }
+
+    return dayQuery ? `index.html?${dayQuery}` : 'index.html';
 }
 
 function isDesktopWeb() {
@@ -41,12 +83,17 @@ function applyPlatformTags() {
     const doc = document.documentElement;
     doc.classList.remove('platform-telegram', 'platform-capacitor', 'platform-android-app', 'platform-web', 'is-desktop', 'is-tablet');
 
-    if (isTelegramMiniApp()) {
-        doc.classList.add('platform-telegram');
-    } else if (isCapacitorApp()) {
+    if (isCapacitorApp()) {
         doc.classList.add('platform-capacitor', 'platform-android-app');
+        try { sessionStorage.setItem('ez_platform', 'capacitor'); } catch(e) {}
+    } else if (isTelegramMiniApp()) {
+        doc.classList.add('platform-telegram');
+        try { sessionStorage.setItem('ez_platform', 'telegram'); } catch(e) {}
     } else {
         doc.classList.add('platform-web');
+        try {
+            if (!sessionStorage.getItem('ez_platform')) sessionStorage.setItem('ez_platform', 'web');
+        } catch(e) {}
     }
 
     try {
@@ -106,17 +153,26 @@ function openExternalTelegramLink(url) {
     }
 }
 
+let _currentTgBackCallback = null;
+
 function setTelegramBackButton(visible, callback) {
     const tg = getTelegramApp();
     if (!tg || !tg.BackButton) return;
-    if (visible) {
-        tg.BackButton.show();
-        if (callback) {
-            tg.BackButton.onClick(callback);
+    try {
+        if (_currentTgBackCallback && typeof tg.BackButton.offClick === 'function') {
+            tg.BackButton.offClick(_currentTgBackCallback);
+            _currentTgBackCallback = null;
         }
-    } else {
-        tg.BackButton.hide();
-    }
+        if (visible) {
+            tg.BackButton.show();
+            if (callback) {
+                _currentTgBackCallback = callback;
+                tg.BackButton.onClick(callback);
+            }
+        } else {
+            tg.BackButton.hide();
+        }
+    } catch(e) {}
 }
 
 // Global exports for all pages
@@ -124,6 +180,7 @@ window.isTelegramMiniApp = isTelegramMiniApp;
 window.isCapacitorApp = isCapacitorApp;
 window.isTgDesktop = isTgDesktop;
 window.getPlatform = getPlatform;
+window.getPlatformHome = getPlatformHome;
 window.isDesktopWeb = isDesktopWeb;
 window.isTabletView = isTabletView;
 window.applyPlatformTags = applyPlatformTags;
@@ -221,7 +278,7 @@ function logOut() {
         
         // If inside an active test or result, route back to home
         if (window.location.pathname.includes('test.html') || window.location.pathname.includes('result.html')) {
-            window.location.href = 'app.html';
+            window.location.href = getPlatformHome();
             return;
         }
 
@@ -235,7 +292,7 @@ function showLoginOverlay() {
         overlay.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     } else {
-        window.location.href = 'app.html';
+        window.location.href = getPlatformHome();
     }
 }
 
@@ -390,7 +447,7 @@ function setupAndroidBackButton() {
         // Priority 2: Confirm before aborting an active test
         if (window.location.pathname.includes('test.html')) {
             if (confirm("Are you sure you want to exit? Responses recorded so far will be submitted.")) {
-                window.location.href = 'app.html?view=day';
+                window.location.href = (typeof getPlatformHome === 'function') ? getPlatformHome() : 'app.html?view=day';
             }
             return;
         }
@@ -400,7 +457,7 @@ function setupAndroidBackButton() {
             if (typeof goBackToTopics === 'function') {
                 goBackToTopics();
             } else {
-                window.location.href = 'app.html?view=day';
+                window.location.href = (typeof getPlatformHome === 'function') ? getPlatformHome() : 'app.html?view=day';
             }
             return;
         }

@@ -163,24 +163,39 @@ group or bot.
 </div>
 
 <script>
-    // Initialize Telegram WebApp
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+    // Initialize Telegram WebApp if available
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+        try { tg.expand(); } catch(e) {}
+    }
 
-    // 1. Show the native Telegram Back Button in the top header
-    tg.BackButton.show();
-
-    // 2. What happens when the native Telegram Back Button is clicked
-    tg.BackButton.onClick(() => {
-        window.location.href = 'app.html';
-    });
-
-    // 3. What happens when our HTML on-screen button is clicked
     function goBackToApp() {
-        if (tg.HapticFeedback) {
-            tg.HapticFeedback.impactOccurred('light');
+        if (tg?.HapticFeedback) {
+            try { tg.HapticFeedback.impactOccurred('light'); } catch(e) {}
         }
-        window.location.href = 'app.html';
+        const urlParams = new URLSearchParams(window.location.search);
+        const returnUrl = urlParams.get('return_url');
+        if (returnUrl) {
+            window.location.href = returnUrl;
+            return;
+        }
+        if (typeof getPlatformHome === 'function') {
+            window.location.href = getPlatformHome();
+            return;
+        }
+        if (typeof isTelegramMiniApp === 'function' && (isTelegramMiniApp() || isCapacitorApp())) {
+            window.location.href = 'app.html';
+            return;
+        }
+        window.location.href = 'index.html';
+    }
+
+    // Bind Telegram native back button if present
+    if (tg?.BackButton) {
+        try {
+            tg.BackButton.show();
+            tg.BackButton.onClick(goBackToApp);
+        } catch(e) {}
     }
 </script>
 </body>

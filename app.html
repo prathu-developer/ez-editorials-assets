@@ -8222,9 +8222,10 @@
                 const attemptId = item.attempt_id || item.id || '';
                 const quizId = item.quiz_id || '';
                 const dayNum = item.day_num || 0;
+                const retUrl = `app.html?view=day&day=${dayNum}`;
                 const targetUrl = attemptId 
-                    ? `result.html?attempt_id=${attemptId}&day=${dayNum}` 
-                    : (quizId ? `test.html?quiz_id=${quizId}&day=${dayNum}` : '#');
+                    ? `result.html?attempt_id=${attemptId}&day=${dayNum}&return_url=${encodeURIComponent(retUrl)}` 
+                    : (quizId ? `test.html?quiz_id=${quizId}&day=${dayNum}&return_url=${encodeURIComponent(retUrl)}` : '#');
 
                 return `
                     <div class="attempt-item-card" onclick="triggerHaptic('light'); window.location.href='${targetUrl}'">
@@ -9108,7 +9109,8 @@
             else if (quiz.status === 'completed') {
                 statusHtml = `<div class="status-badge status-attempted">✅ Attempted 〉</div>`;
                 wrapperTag = 'a'; 
-                wrapperHref = `href="result.html?attempt_id=${quiz.attempt_id}&day=${window.currentViewingDayIndex}" onclick="triggerHaptic('light')"`;
+                const retUrl = `app.html?view=day&day=${window.currentViewingDayIndex}`;
+                wrapperHref = `href="result.html?attempt_id=${quiz.attempt_id}&day=${window.currentViewingDayIndex}&return_url=${encodeURIComponent(retUrl)}" onclick="triggerHaptic('light')"`;
             }
             else if (quiz.status === 'closed') {
                 statusHtml = `<div class="status-badge status-locked">Closed</div>`;
@@ -9116,7 +9118,8 @@
             else {
                 statusHtml = `<div class="status-badge status-start">Start 〉</div>`;
                 wrapperTag = 'a'; 
-                wrapperHref = `href="test.html?quiz_id=${quiz.id}&day=${window.currentViewingDayIndex}" onclick="triggerHaptic('medium')"`;
+                const retUrl = `app.html?view=day&day=${window.currentViewingDayIndex}`;
+                wrapperHref = `href="test.html?quiz_id=${quiz.id}&day=${window.currentViewingDayIndex}&return_url=${encodeURIComponent(retUrl)}" onclick="triggerHaptic('medium')"`;
             }
 
             container.innerHTML += `
@@ -9615,6 +9618,12 @@
             const vibInput = document.querySelector('#settingsModalOverlay input[onchange*="toggleVibration"]');
             if (vibInput) vibInput.checked = window.vibrationEnabled;
             updateToggleUI('vibToggleBall', 'vibToggleBg', window.vibrationEnabled);
+            
+            // 🟢 Persist Platform Identification & Entry Shell
+            try {
+                sessionStorage.setItem('ez_platform', (typeof isCapacitorApp === 'function' && isCapacitorApp()) ? 'capacitor' : 'telegram');
+                sessionStorage.setItem('ez_home_file', 'app.html');
+            } catch(e) {}
             
             // 🟢 Load Target & State Tags
             updateTargetTags();

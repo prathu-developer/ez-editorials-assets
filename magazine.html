@@ -262,7 +262,7 @@
 </head>
 <body class="magazine-standalone-body">
     <header class="pub-header">
-        <a href="app.html" class="pub-brand" title="Back to App Dashboard">
+        <a href="javascript:void(0)" onclick="goBackToHome()" class="pub-brand" title="Back to Dashboard">
             <span class="pub-brand-logo">📚</span>
             <div class="pub-brand-text">
                 <span class="pub-brand-title">Ez Editorials</span>
@@ -279,7 +279,7 @@
                 <span id="pub-theme-icon">🌙</span>
                 <span id="pub-theme-text">Dark</span>
             </button>
-            <a href="app.html" class="pub-btn pub-btn-primary">
+            <a href="javascript:void(0)" onclick="goBackToHome()" class="pub-btn pub-btn-primary">
                 <span>🏠 Dashboard</span>
             </a>
         </div>
@@ -320,6 +320,28 @@
             state.themeMode = (state.themeMode === 'dark') ? 'light' : 'dark';
             applyTheme();
             renderSelectedDay();
+        }
+
+        function goBackToHome() {
+            if (typeof triggerHaptic === 'function') triggerHaptic('light');
+            const returnUrl = urlParams.get('return_url');
+            if (returnUrl) {
+                window.location.href = returnUrl;
+                return;
+            }
+            if (typeof getPlatformHome === 'function') {
+                window.location.href = getPlatformHome();
+                return;
+            }
+            if (typeof isTelegramMiniApp === 'function' && (isTelegramMiniApp() || isCapacitorApp())) {
+                window.location.href = 'app.html';
+                return;
+            }
+            window.location.href = 'index.html';
+        }
+
+        if (typeof setTelegramBackButton === 'function') {
+            setTelegramBackButton(true, goBackToHome);
         }
 
         async function initPublication() {
