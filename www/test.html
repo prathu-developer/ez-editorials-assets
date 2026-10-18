@@ -265,12 +265,91 @@
         .q-label { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
         .q-text { font-size: 16px; line-height: 1.6; font-weight: 400; margin-bottom: 24px; color: var(--text-dark); transition: font-size 0.2s; white-space: pre-wrap; }
         
-        .passage-text strong,
         .q-text strong,
         .inst-text strong,
         .opt-text strong {
             font-weight: 700;
             color: inherit;
+        }
+
+        /* In-Passage Word/Phrase Highlights */
+        .passage-text strong,
+        .passage-text b,
+        .passage-text mark {
+            font-weight: 700;
+            color: #92400e;
+            background: #fef3c7;
+            padding: 1px 6px;
+            margin: 0 1px;
+            border-radius: 4px;
+            border-bottom: 2px solid #f59e0b;
+            box-decoration-break: clone;
+            -webkit-box-decoration-break: clone;
+            transition: all 0.2s ease;
+        }
+
+        .dark-mode .passage-text strong,
+        .dark-mode .passage-text b,
+        .dark-mode .passage-text mark {
+            color: #fde68a;
+            background: rgba(245, 158, 11, 0.28);
+            border-bottom: 2px solid #fbbf24;
+        }
+
+        /* Active In-Passage Highlight for current Question */
+        .passage-text .rc-active-target,
+        .passage-text strong.rc-active-target,
+        .passage-text mark.rc-active-target {
+            font-weight: 800;
+            color: #1e40af !important;
+            background: #dbeafe !important;
+            border-bottom: 2px solid #2563eb !important;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+        }
+
+        .dark-mode .passage-text .rc-active-target,
+        .dark-mode .passage-text strong.rc-active-target,
+        .dark-mode .passage-text mark.rc-active-target {
+            color: #bfdbfe !important;
+            background: rgba(37, 99, 235, 0.4) !important;
+            border-bottom: 2px solid #60a5fa !important;
+            box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35);
+        }
+
+        /* Blank Pill Styling in Passage */
+        .passage-text .rc-blank {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 2px 8px;
+            margin: 0 2px;
+            border-radius: 6px;
+            color: #92400e;
+            background: #fef3c7;
+            border: 1.5px dashed #f59e0b;
+            display: inline-block;
+        }
+
+        .dark-mode .passage-text .rc-blank {
+            color: #fde68a;
+            background: rgba(245, 158, 11, 0.2);
+            border: 1.5px dashed #fbbf24;
+        }
+
+        .passage-text .rc-active-target.rc-blank,
+        .passage-text strong.rc-active-target.rc-blank {
+            color: #1e40af !important;
+            background: #dbeafe !important;
+            border: 2px solid #2563eb !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25) !important;
+        }
+
+        .dark-mode .passage-text .rc-active-target.rc-blank,
+        .dark-mode .passage-text strong.rc-active-target.rc-blank {
+            color: #bfdbfe !important;
+            background: rgba(37, 99, 235, 0.4) !important;
+            border: 2px solid #60a5fa !important;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.35) !important;
         }
 
         /* Options */
@@ -1904,6 +1983,8 @@
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
+            // Restore safe allowed tags
+            escaped = escaped.replace(/&lt;(\/?(?:strong|em|b|i|u|mark|span|code)(?:\s+[^&>]*)?)&gt;/gi, '<$1>');
             // Format markdown bold ***text*** -> <strong><em>text</em></strong>
             escaped = escaped.replace(/\*\*\*([^*]+?)\*\*\*/g, '<strong><em>$1</em></strong>');
             // Format markdown bold **text** or __text__ -> <strong>text</strong>
@@ -1912,6 +1993,108 @@
             // Format markdown inline code `text`
             escaped = escaped.replace(/`([^`]+?)`/g, '<code style="background:rgba(0,0,0,0.06);padding:2px 5px;border-radius:4px;font-family:monospace;font-size:0.9em;">$1</code>');
             return escaped;
+        }
+
+        function extractRcTargetJs(qText, expl, passageText) {
+            if (!qText && !expl) return null;
+            qText = String(qText || '');
+            expl = String(expl || '');
+            passageText = String(passageText || '');
+
+            function cleanToken(s) {
+                return s.replace(/^['"`“‘\s,.;:!?()[\]{}]+|['"`’”\s,.;:!?()[\]{}]+$/g, '');
+            }
+
+            // 1. Check if question tests a BLANK (e.g. blank (A), blank [A], blank 'A', blank A, blank (1))
+            let mBlank = qText.match(/\bblank\s*(?:['"`“‘]?\(([A-Za-z0-9]{1,3})\)['"`’”]?|['"`“‘]?\[([A-Za-z0-9]{1,3})\]['"`’”]?|['"`“`]([A-Za-z0-9]{1,3})['"`’”]|(?:\b([A-Z]|[1-9][0-9]?)\b))/);
+            let bId = null;
+            if (mBlank) {
+                bId = (mBlank[1] || mBlank[2] || mBlank[3] || mBlank[4]).toUpperCase();
+            } else if (/\b(?:fill\s+(?:in\s+)?(?:the\s+)?blank|blank\s+in\s+the\s+passage)\b/i.test(qText)) {
+                let mPasB = passageText.match(/(?:\(([A-Za-z0-9])\)|\[([A-Za-z0-9])\])(?:\s*\[?_{2,}\]?)?/);
+                if (mPasB) {
+                    bId = (mPasB[1] || mPasB[2]).toUpperCase();
+                } else {
+                    bId = 'A';
+                }
+            }
+            if (bId) {
+                return { type: 'blank', id: bId, label: '(' + bId + ')' };
+            }
+
+            // 2. Direct quoted word in question e.g. highlighted word 'brazenly'
+            let mQ = qText.match(/(?:highlighted|specified|underlined)?\s*(?:word|phrase|expression|pronoun|term|sentence)?\s*['"`“‘](\s*[^'"`’”\n]{1,60}\s*)['"`’”]/i);
+            if (mQ) {
+                let cand = cleanToken(mQ[1]);
+                if (cand) {
+                    let esc = cand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    if (new RegExp('\\b' + esc + '\\b', 'i').test(passageText)) {
+                        return { type: 'word', text: cand };
+                    }
+                }
+            }
+
+            // 3. Explanation: quote before refers to / means / implies / signifies / is used to / can be replaced
+            let expMatches = expl.matchAll(/['"`“‘]([^'"`’”\n]{1,60})['"`’”]\s+(?:refers(?:\s+\w+)?\s+to|means|implies|signifies|is used to|can be replaced)/gi);
+            for (let m of expMatches) {
+                let cand = cleanToken(m[1]);
+                if (cand) {
+                    let esc = cand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    if (new RegExp('\\b' + esc + '\\b', 'i').test(passageText)) {
+                        return { type: 'word', text: cand };
+                    }
+                }
+            }
+
+            // 4. Explanation: in the passage, '...' / in the context of '...' / the phrase/word '...'
+            let ctxMatches = expl.matchAll(/(?:in the passage|in context|in the context of|the phrase|the expression|the word)[\s:]*['"`“‘]([^'"`’”\n]{1,60})['"`’”]/gi);
+            for (let m of ctxMatches) {
+                let cand = cleanToken(m[1]);
+                if (cand) {
+                    let esc = cand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    if (new RegExp('\\b' + esc + '\\b', 'i').test(passageText)) {
+                        if (/\bword\b/i.test(qText) && cand.includes(' ')) {
+                            let wMatches = expl.matchAll(/['"`“‘]([a-zA-Z]{3,25})['"`’”]/g);
+                            for (let wm of wMatches) {
+                                let singleW = cleanToken(wm[1]);
+                                if (cand.toLowerCase().includes(singleW.toLowerCase())) {
+                                    let escW = singleW.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                                    if (new RegExp('\\b' + escW + '\\b', 'i').test(passageText)) {
+                                        return { type: 'word', text: singleW };
+                                    }
+                                }
+                            }
+                        }
+                        return { type: 'word', text: cand };
+                    }
+                }
+            }
+
+            // 5. Scan all quoted tokens in explanation with boundary check
+            let quoteMatches = expl.matchAll(/(?:^|[\s\(\[\{\:\,\.\!\?])['"`“‘]([^'"`’”\n]{1,60})['"`’”](?=[\s\)\]\}\:\,\.\!\?]|$)/g);
+            let candidates = [];
+            for (let m of quoteMatches) {
+                let cand = cleanToken(m[1]);
+                let lowerCand = cand.toLowerCase();
+                if (!cand || cand.length < 2) continue;
+                if (['why', 'is correct', 'is incorrect', 'true', 'false', 'passage', 'option'].some(skip => lowerCand.includes(skip))) continue;
+                let esc = cand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                if (new RegExp('\\b' + esc + '\\b', 'i').test(passageText)) {
+                    candidates.push(cand);
+                }
+            }
+
+            if (candidates.length > 0) {
+                if (/\bword\b/i.test(qText)) {
+                    let singleWords = candidates.filter(c => !c.includes(' '));
+                    if (singleWords.length > 0) {
+                        return { type: 'word', text: singleWords[singleWords.length - 1] };
+                    }
+                }
+                return { type: 'word', text: candidates[0] };
+            }
+
+            return null;
         }
 
         function formatSolutionText(text) {
@@ -2030,14 +2213,65 @@
                 opts = [];
             }
 
-            // 3. Independent Handling for Instructions & Reading Passages
+            // 3. Independent Handling for Instructions & Reading Passages & RC Highlighting
             const passageBlock = document.getElementById('passage-block');
             const instText = document.getElementById('inst-text');
             const passageText = document.getElementById('passage-text');
             const viewMoreBtn = document.getElementById('view-more-btn');
 
+            let rawQText = q.text || q.question_text || '';
+            let currentPassage = passage;
+
+            if (passage && passage.trim() !== "") {
+                const target = extractRcTargetJs(rawQText, q.explanation, currentPassage);
+                if (target) {
+                    if (target.type === 'blank') {
+                        const bId = target.id;
+                        const bLabel = target.label; // e.g. "(A)" or "(1)"
+                        // 1. Inject label into question text if not already explicitly clear
+                        if (!rawQText.includes(bLabel) && !rawQText.includes(`blank ${bId}`) && !rawQText.includes(`blank '${bId}'`)) {
+                            rawQText = rawQText.replace(/\bblank\b/i, `blank <strong class="rc-active-target rc-blank">${bLabel}</strong>`);
+                        }
+
+                        // 2. Mark active target in passage
+                        const escId = bId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        const blankRegex = new RegExp(`(?:\\*\\*)?(?:\\(${escId}\\)|\\[${escId}\\])(?:\\s*\\[?_{2,}\\]?)?(?:\\*\\*)?`, 'i');
+                        if (blankRegex.test(currentPassage)) {
+                            currentPassage = currentPassage.replace(blankRegex, `<strong class="rc-active-target rc-blank">${bLabel} [______]</strong>`);
+                        }
+                    } else if (target.type === 'word') {
+                        const targetTerm = target.text;
+                        // If question text says "the highlighted word/phrase" without explicitly naming it, inject it
+                        if (!rawQText.toLowerCase().includes(targetTerm.toLowerCase())) {
+                            if (/highlighted\s+(?:word|phrase|expression|pronoun|term|sentence)?/i.test(rawQText)) {
+                                rawQText = rawQText.replace(/(highlighted\s+(?:word|phrase|expression|pronoun|term|sentence)?)(?![\s'"`“‘]*\b[a-zA-Z])/i, `$1 '${targetTerm}'`);
+                            } else if (/specified word/i.test(rawQText)) {
+                                rawQText = rawQText.replace(/specified word/i, `specified word '${targetTerm}'`);
+                            } else if (/pronoun/i.test(rawQText)) {
+                                rawQText = rawQText.replace(/pronoun/i, `pronoun '${targetTerm}'`);
+                            }
+                        }
+
+                        // Dynamically mark the target as active highlight in the passage
+                        const escTarget = targetTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        const boldRegex = new RegExp(`\\*\\*\\s*(${escTarget})\\s*\\*\\*`, 'i');
+                        if (boldRegex.test(currentPassage)) {
+                            currentPassage = currentPassage.replace(boldRegex, '<strong class="rc-active-target">$1</strong>');
+                        } else {
+                            const wordRegex = new RegExp(`\\b(${escTarget})\\b`, 'i');
+                            if (wordRegex.test(currentPassage)) {
+                                currentPassage = currentPassage.replace(wordRegex, '<strong class="rc-active-target">$1</strong>');
+                            }
+                        }
+                    }
+                }
+
+                // Style any remaining non-active labeled blanks in passage: e.g. (B) [______] or (1) [______]
+                currentPassage = currentPassage.replace(/(?<!class="[^"]*)(\([A-Za-z0-9]{1,3}\))\s*\[_{2,}\]/g, '<strong class="rc-blank">$1 [______]</strong>');
+            }
+
             const hasInstruction = Boolean(instruction && instruction.trim() !== "");
-            const hasPassage = Boolean(passage && passage.trim() !== "");
+            const hasPassage = Boolean(currentPassage && currentPassage.trim() !== "");
 
             if (hasInstruction || hasPassage) {
                 passageBlock.style.display = 'block';
@@ -2051,7 +2285,7 @@
 
                 if (hasPassage) {
                     passageText.style.display = 'block';
-                    passageText.innerHTML = formatExamContent(passage);
+                    passageText.innerHTML = formatExamContent(currentPassage);
                     
                     // Check user preference instead of forcing collapse
                     if (isPassageExpanded) {
@@ -2072,7 +2306,6 @@
             }
 
             // 4. Set Question Text
-            let rawQText = q.text || q.question_text || '';
             document.getElementById('q-text').innerHTML = formatExamContent(rawQText);
 
             const optsContainer = document.getElementById('options-container');
