@@ -364,7 +364,10 @@
         .action-row { display: flex; gap: 8px; margin-bottom: 8px; }
         .btn-half { flex: 1; padding: 10px 8px; border-radius: 8px; font-size: 13px; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer; color: var(--text-dark); display: flex; justify-content: center; align-items: center; gap: 4px; transition: all 0.15s ease; }
         .btn-half:active { transform: scale(0.97); }
+        .btn-half:disabled { opacity: 0.45; cursor: not-allowed !important; }
+        .btn-half:disabled:active { transform: none; }
         .btn-report { color: var(--brand-red); }
+        .btn-prev { color: var(--text-dark); }
         .btn-mark { background: #fffbeb; border-color: #fde68a; color: #b45309; font-weight: 700; }
         .btn-save-next { background: var(--brand-red); color: white; border: none; font-weight: 700; }
         .btn-main { width: 100%; padding: 14px; border-radius: 8px; font-size: 15px; font-weight: 600; background: var(--brand-red); color: white; border: none; cursor: pointer; }
@@ -1352,7 +1355,7 @@
                 <!-- Live Bottom Bar -->
                 <div class="bottom-bar" id="live-bottom-bar">
                     <div class="action-row">
-                        <button class="btn-half btn-report">⚑ Report</button>
+                        <button class="btn-half btn-prev" id="btn-prev" onclick="prevQuestion()" disabled>❮ Previous</button>
                         <button class="btn-half" onclick="clearResponse()">Clear Response</button>
                     </div>
                     <div class="action-row" style="margin-bottom: 0;">
@@ -2382,6 +2385,12 @@
                     nextBtn.innerText = "Save & Next";
                     nextBtn.onclick = saveAndNext;
                 }
+
+                const prevBtn = document.getElementById('btn-prev');
+                if (prevBtn) {
+                    prevBtn.disabled = (index === 0);
+                }
+
                 updatePaletteColors();
             }
         }
@@ -2580,6 +2589,13 @@
 
             if (targetPos >= 0 && targetPos < filteredIndices.length) {
                 loadQuestion(filteredIndices[targetPos]);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                triggerHaptic('light');
+                loadQuestion(currentIndex - 1);
             }
         }
 
