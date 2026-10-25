@@ -17,9 +17,6 @@
     <script src="shell.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- ⚡ HOSTED DIRECTLY ON CLOUDFLARE PAGES -->
-    <link rel="stylesheet" href="style.css?v=2.7">
-    <script src="app_v8.js?v=4.0" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
@@ -280,20 +277,8 @@
             opacity: 0.92;
         }
 
-        /* 3. Weekly Cup Summary Card */
-        .weekly-cup-card {
-            margin: 0 16px 14px 16px;
-            padding: 14px 15px;
-            border-radius: 20px;
-            border: 1px solid rgba(90, 50, 250, 0.12);
-            background: #ffffff;
-            box-shadow: 0 4px 16px rgba(90, 50, 250, 0.04);
-            box-sizing: border-box;
-        }
-        body.dark-mode .weekly-cup-card {
-            background: var(--bg-card);
-            border-color: var(--border-light);
-        }
+        
+        
         .cup-header-row {
             display: flex;
             justify-content: space-between;
@@ -848,10 +833,7 @@
         body.dark-mode .fill-rose       { background: #fb7185; }
         body.dark-mode .arrow-btn-rose  { background: #ffffff; color: #4c0519; }
 
-        /* 7. Highlights Card */
-        .highlights-section {
-            margin: 0 16px 14px 16px;
-        }
+        
         .highlights-title {
             font-size: 14.5px;
             font-weight: 800;
@@ -2720,15 +2702,8 @@
             border-color: rgba(56, 189, 248, 0.2);
         }
 
-        /* 3. League Badge Container */
-        #header-league-tag {
-            display: inline-flex;
-            align-items: center;
-        }
-        #header-league-tag:active {
-            transform: scale(0.95);
-            opacity: 0.85;
-        }
+        
+        
         .profile-tag-pill:active {
             transform: scale(0.95);
             opacity: 0.8;
@@ -2973,24 +2948,8 @@
             line-height: 1;
         }
 
-        /* --- BOTTOM PROFILE PERCENTILE MOTIVATION BANNER --- */
-        .profile-bottom-banner {
-            margin: 0 16px 24px 16px;
-            padding: 14px 16px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #faf8ff 0%, #f3eeff 100%);
-            border: 1px solid rgba(99, 102, 241, 0.16);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.04);
-            box-sizing: border-box;
-            cursor: pointer;
-        }
-        body.dark-mode .profile-bottom-banner {
-            background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
-            border-color: rgba(168, 85, 247, 0.2);
-        }
+        
+        
 
         .pb-badge-icon {
             width: 44px;
@@ -3278,11 +3237,7 @@
             font-weight: 800;
         }
 
-        /* 🟢 Word of the Day & Foreign Expressions Reader Dark Mode */
-        body.dark-mode #digestModalOverlay .digest-modal-sheet {
-            background: var(--bg-card) !important;
-            border-top: 1px solid var(--border-light);
-        }
+        
         body.dark-mode #digestModalTitle {
             color: var(--text-main) !important;
         }
@@ -3731,25 +3686,7 @@
             color: var(--text-main) !important;
         }
 
-        /* 4. Week Archive Sub-Modal (#historyModalOverlay) */
-        body.dark-mode #historyModalOverlay .modal-content {
-            background: #1e1e1e !important;
-            border: 1px solid #2e2e38;
-            color: var(--text-main);
-        }
-        body.dark-mode #historyModalOverlay h3 {
-            color: var(--text-main) !important;
-        }
-        body.dark-mode #historyModalOverlay div[style*="background: #f8fafc"] {
-            background: #27272a !important;
-        }
-        body.dark-mode #historyModalOverlay span[style*="color: #0f172a"] {
-            color: var(--text-main) !important;
-        }
-        body.dark-mode #historyModalOverlay button {
-            background: #2e2e38 !important;
-            color: var(--text-main) !important;
-        }
+        
 
         /* 🟢 LAPTOP & TELEGRAM WEB DESKTOP ADAPTIVE OVERRIDES */
         html.is-desktop body {
@@ -3769,12 +3706,10 @@
         }
 
         html.is-desktop .timer-hero-card,
-        html.is-desktop .weekly-cup-card,
-        html.is-desktop .days-tracker-card,
+                html.is-desktop .days-tracker-card,
         html.is-desktop .daily-stats-card,
         html.is-desktop .journey-section,
-        html.is-desktop .highlights-section,
-        html.is-desktop .motivation-banner {
+                html.is-desktop .motivation-banner {
             margin-left: 14px;
             margin-right: 14px;
             margin-bottom: 10px;
@@ -3808,10 +3743,8 @@
             margin: 0 16px 14px 16px;
         }
 
-        .home-stat-grid .weekly-cup-card,
-        .home-stat-grid .daily-stats-card,
-        .home-stat-grid .days-tracker-card,
-        .home-stat-grid .highlights-section {
+                .home-stat-grid .daily-stats-card,
+        .home-stat-grid .days-tracker-card {
             margin: 0 !important;
         }
 
@@ -3903,8 +3836,7 @@
             }
 
             /* Ticket 2.3, 2.5, 2.6: Tablet Max-Width for Secondary Views */
-            #view-cup,
-            #view-progress,
+                        #view-progress,
             #view-profile {
                 max-width: var(--container-tablet, 768px) !important;
                 margin: 0 auto !important;
@@ -3947,10 +3879,8 @@
                 margin: 0 0 16px 0 !important;
             }
 
-            .home-stat-grid .weekly-cup-card,
-            .home-stat-grid .daily-stats-card,
-            .home-stat-grid .days-tracker-card,
-            .home-stat-grid .highlights-section {
+                        .home-stat-grid .daily-stats-card,
+            .home-stat-grid .days-tracker-card {
                 margin: 0 !important;
                 height: 100% !important;
                 display: flex !important;
@@ -4111,11 +4041,7 @@
                 grid-column: 1 / -1;
             }
 
-            /* 3. Responsive Weekly Cup */
-            #view-cup {
-                max-width: 960px;
-                margin: 0 auto;
-            }
+            
             .cup-hero-dark-card {
                 padding: 24px;
                 border-radius: 20px;
@@ -4300,12 +4226,7 @@
                 margin: 0 0 16px 0 !important;
             }
 
-            /* Ticket 2.3: Desktop Dual-Column Leaderboard for view-cup */
-            html.is-desktop .center-workspace-pane #view-cup {
-                max-width: var(--container-desktop, 960px) !important;
-                margin: 0 auto !important;
-                padding-bottom: 60px !important;
-            }
+            
 
             html.is-desktop .cup-desktop-grid {
                 display: grid !important;
@@ -4533,15 +4454,7 @@
                 color: #2563eb !important;
             }
 
-            .rail-cup-stats {
-                display: grid !important;
-                grid-template-columns: 1fr 1fr !important;
-                gap: 12px !important;
-                background: var(--bg-body) !important;
-                padding: 12px !important;
-                border-radius: 10px !important;
-                margin-bottom: 10px !important;
-            }
+            
 
             .rail-stat-col {
                 display: flex !important;
@@ -4763,14 +4676,8 @@
                 <button class="nav-rail-btn" id="rail-nav-magazine" onclick="switchView('view-magazine')">
                     <span>📖</span> Magazine
                 </button>
-                <button class="nav-rail-btn" id="rail-nav-cup" onclick="switchView('view-cup')">
-                    <span>🏆</span> Weekly Cup
-                </button>
                 <button class="nav-rail-btn" id="rail-nav-progress" onclick="switchView('view-progress')">
                     <span>📈</span> Progress
-                </button>
-                <button class="nav-rail-btn" onclick="openSubModal('archiveModalOverlay')">
-                    <span>📜</span> Archives
                 </button>
             </nav>
             <div class="nav-rail-footer">
@@ -4896,59 +4803,7 @@
 
         <!-- Home Stat Cards Grid (Tablet 2-col, Desktop 2-col, Mobile flex-col) -->
         <div class="home-stat-grid">
-            <!-- 1. Weekly Cup Card (Row 1 Col 1) -->
-            <div class="weekly-cup-card">
-                <!-- Header Row -->
-                <div class="cup-header-row">
-                    <div class="cup-title-group">
-                        <span class="cup-trophy-icon">🏆</span>
-                        <h3 class="cup-title-text">Weekly Cup <span class="cup-title-crown">👑</span></h3>
-                    </div>
-                    <button class="cup-live-pill" onclick="switchView('view-cup')">Live Leaderboard</button>
-                </div>
-
-                <!-- Metrics Row (Rank Pill, Score, Percentile) -->
-                <div class="cup-metrics-flex">
-                    <!-- Rank Pill Box -->
-                    <div class="cup-rank-pill-box">
-                        <div class="cup-rank-label">Rank</div>
-                        <div class="cup-rank-number" id="home-rank">#--</div>
-                    </div>
-
-                    <div class="cup-metric-divider"></div>
-
-                    <!-- Score Box -->
-                    <div class="cup-score-box">
-                        <div class="cup-score-label">Score</div>
-                        <div class="cup-score-number" id="home-score">--</div>
-                    </div>
-
-                    <div class="cup-metric-divider"></div>
-
-                    <!-- Percentile Box (Maintained % functionality) -->
-                    <div class="cup-pct-box">
-                        <div class="cup-pct-number" id="home-top-pct">Top --%</div>
-                        <div class="cup-pct-subtext" id="home-top-msg">Keep pushing! 💪</div>
-                    </div>
-                </div>
-
-                <!-- Cup Progress Bar -->
-                <div class="cup-progress-track">
-                    <div class="cup-progress-fill" id="home-cup-progress-fill" style="width: 0%;"></div>
-                </div>
-
-                <!-- Footer Row: Season Meta & View Link -->
-                <div class="cup-footer-row">
-                    <div class="cup-season-meta">
-                        🔥 <span id="home-cup-season-text">Season -- • -- Active Challengers</span>
-                    </div>
-                    <div class="cup-view-link" onclick="switchView('view-cup')">
-                        View Leaderboard <span>›</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. Daily Activity & Study Time Stats Card (Row 1 Col 2) -->
+<!-- 2. Daily Activity & Study Time Stats Card (Row 1 Col 2) -->
             <div class="daily-stats-card">
                 <div class="daily-stats-grid">
                     <!-- 1. Quizzes -->
@@ -4997,45 +4852,6 @@
                 
                 <div class="days-row">
                     <!-- Dynamically populated by updateDynamicTracker() -->
-                </div>
-            </div>
-
-            <!-- 4. Today's Highlights Card (Row 2 Col 2) -->
-            <div class="highlights-section">
-                <h3 class="highlights-title">Today's Highlights</h3>
-                
-                <div class="highlights-card">
-                    <!-- 1. Word of the Day (Navigates to Digest Tab) -->
-                    <div class="highlight-row" onclick="switchView('view-digest')">
-                        <div class="highlight-left">
-                            <div class="highlight-icon-box hl-purple">📖</div>
-                            <div class="highlight-text-content">
-                                <div class="highlight-tag">⭐ Word of the Day</div>
-                                <div class="highlight-main-line">
-                                    <span class="highlight-word" id="hl-wotd-word">Loading...</span>
-                                    <span class="highlight-meaning" id="hl-wotd-meaning">Tap to read</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="highlight-arrow">›</div>
-                    </div>
-
-                    <div class="highlight-row-divider"></div>
-
-                    <!-- 2. Foreign Expression (Navigates to Digest Tab) -->
-                    <div class="highlight-row" onclick="switchView('view-digest')">
-                        <div class="highlight-left">
-                            <div class="highlight-icon-box hl-green">🌍</div>
-                            <div class="highlight-text-content">
-                                <div class="highlight-tag">🎭 Foreign Expression</div>
-                                <div class="highlight-main-line">
-                                    <span class="highlight-word" id="hl-foreign-word">Loading...</span>
-                                    <span class="highlight-meaning" id="hl-foreign-meaning">Tap to read</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="highlight-arrow">›</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -5154,167 +4970,6 @@
         </div>
     </div>
 
-
-    <!-- ==========================================
-         VIEW 3: WEEKLY CUP (Mobile-Optimized)
-         ========================================== -->
-    <div id="view-cup" class="view-container">
-        <!-- Top Header with Back & Analytics Buttons -->
-        <div class="cup-top-header">
-            <div class="cup-header-back-btn" onclick="switchView('view-home')">‹</div>
-            <span class="cup-header-title">Weekly Cup</span>
-            <div class="cup-analytics-btn" onclick="openProfile(appUserId)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="20" x2="18" y2="10"></line>
-                    <line x1="12" y1="20" x2="12" y2="4"></line>
-                    <line x1="6" y1="20" x2="6" y2="14"></line>
-                </svg>
-            </div>
-        </div>
-        
-        <!-- Desktop 2-Column Grid Wrapper (Transparent on mobile/tablet via display:contents) -->
-        <div class="cup-desktop-grid">
-            <div class="cup-left-col">
-                <!-- 1. Deep Violet Compact Hero Card -->
-                <div class="cup-hero-dark-card">
-                    <div class="cup-hero-grid">
-                        <!-- Left: Rank & Overtake Goal -->
-                        <div class="cup-hero-left">
-                            <div class="cup-hero-tag">YOUR STATUS</div>
-                            <div class="cup-hero-sub-label">You are</div>
-                            
-                            <div class="cup-rank-row">
-                                <span class="cup-hero-big-rank" id="cup-tab-rank">#--</span>
-                                <div class="cup-rank-delta-pill" id="cup-rank-delta-badge">
-                                    <span id="cup-rank-delta-icon">↑</span>
-                                    <span id="cup-rank-delta-val">1</span>
-                                </div>
-                                <span class="cup-rank-vs-text" id="cup-rank-vs-text">vs yesterday</span>
-                            </div>
-
-                            <!-- Target Overtake Pill -->
-                            <div class="cup-overtake-pill-btn" onclick="openProfile(appUserId)">
-                                <span id="cup-overtake-text">-- pts to overtake #--</span>
-                                <span>›</span>
-                            </div>
-
-                            <!-- Mini Position Slider -->
-                            <div class="cup-overtake-track-wrap">
-                                <div class="cup-overtake-track">
-                                    <div class="cup-overtake-fill" id="cup-overtake-fill" style="width: 50%;">
-                                        <div class="cup-overtake-thumb"></div>
-                                    </div>
-                                </div>
-                                <div class="cup-overtake-labels">
-                                    <span id="cup-overtake-lower">#--</span>
-                                    <span id="cup-overtake-higher">#--</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Vertical Divider -->
-                        <div class="cup-hero-divider"></div>
-
-                        <!-- Middle: Score & Percentile -->
-                        <div class="cup-hero-score-col">
-                            <div class="cup-score-label">Your Score</div>
-                            <div class="cup-hero-score-num" id="cup-tab-score">--</div>
-                            <div class="cup-hero-pct-pill" id="cup-tab-pct-pill">Top --%</div>
-                        </div>
-
-                        <!-- Right: 3D Gold Trophy + Shield + Star + Laurel Vector -->
-                        <div class="cup-hero-crest-illus">
-                            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 55L13.5 50L18.5 51L13.5 52L12 57L10.5 52L5.5 51L10.5 50L12 55Z" fill="#fbbf24" opacity="0.8"/>
-                                <path d="M108 48L109.5 43L114.5 44L109.5 45L108 50L106.5 45L101.5 44L106.5 43L108 48Z" fill="#fbbf24" opacity="0.8"/>
-                                <path d="M26 88C18 74 22 56 30 48" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
-                                <path d="M94 88C102 74 98 56 90 48" stroke="#818cf8" stroke-width="2.5" stroke-linecap="round"/>
-                                <path d="M18 78C20 74 25 74 28 78C25 82 20 82 18 78Z" fill="#a78bfa"/>
-                                <path d="M22 64C24 60 29 60 32 64C29 68 24 68 22 64Z" fill="#818cf8"/>
-                                <path d="M102 78C100 74 95 74 92 78C95 82 100 82 102 78Z" fill="#a78bfa"/>
-                                <path d="M98 64C96 60 91 60 88 64C91 68 96 68 98 64Z" fill="#818cf8"/>
-                                <!-- Shield Body -->
-                                <path d="M60 40L34 49V72C34 88 48 98 60 102C72 98 86 88 86 72V49L60 40Z" fill="#43189a" stroke="#8b5cf6" stroke-width="2.5"/>
-                                <path d="M60 44L38 52V71C38 85 50 94 60 97C70 94 82 85 82 71V52L60 44Z" fill="url(#cupShieldGrad)"/>
-                                <!-- Star -->
-                                <polygon points="60,56 63.5,66 74,66 65.5,72.5 68.5,83 60,76.5 51.5,83 54.5,72.5 46,66 56.5,66" fill="#f8fafc"/>
-                                <!-- Trophy -->
-                                <path d="M49 20H71V31C71 37 66 41 60 41C54 41 49 37 49 31V20Z" fill="url(#goldTrophyGrad)"/>
-                                <path d="M49 24H44C41 24 40 28 42 32C44 35 47 35 49 34" stroke="#facc15" stroke-width="2"/>
-                                <path d="M71 24H76C79 24 80 28 78 32C76 35 73 35 71 34" stroke="#facc15" stroke-width="2"/>
-                                <rect x="56" y="39" width="8" height="5" fill="#ca8a04"/>
-                                <rect x="52" y="43" width="16" height="3" rx="1.5" fill="#eab308"/>
-                                <defs>
-                                    <linearGradient id="cupShieldGrad" x1="38" y1="44" x2="82" y2="97" gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="#7c3aed"/>
-                                        <stop offset="1" stop-color="#4c1d95"/>
-                                    </linearGradient>
-                                    <linearGradient id="goldTrophyGrad" x1="49" y1="20" x2="71" y2="41" gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="#fde047"/>
-                                        <stop offset="0.6" stop-color="#eab308"/>
-                                        <stop offset="1" stop-color="#ca8a04"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. Battle Around You Block -->
-                <div class="cup-section-wrap" id="cup-battle-section">
-                    <div class="cup-section-header">
-                        <span class="cup-section-title">BATTLE AROUND YOU</span>
-                    </div>
-                    <div class="battle-around-card" id="cup-battle-container">
-                        <p style="text-align:center; color:var(--text-muted); font-size: 11px; width: 100%;">Calculating rivals...</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cup-right-col">
-                <!-- 3. Top 3 Podium Grid -->
-                <div class="cup-podium-grid" id="cup-podium-container">
-                    <!-- Populated dynamically by renderCupLeaderboard() -->
-                </div>
-
-                <!-- 4. Leaderboard Rows (#4+) with Red Demotion Line -->
-                <div class="cup-ranks-list" id="cup-ranks-list-container">
-                    <p style="text-align:center; color:var(--text-muted); font-size: 12px;">Loading leaderboard...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Hidden Compatibility Anchors for Legacy JS Scripts -->
-        <div id="list" style="display: none !important;"></div>
-        <span id="weekNumber" style="display: none !important;"></span>
-        <span id="activeCount" style="display: none !important;"></span>
-        <div id="footer" style="display: none !important;"></div>
-
-        <!-- 5. Frozen Sticky Bottom Self-Rank Bar -->
-        <div class="cup-sticky-self-bar" id="cup-sticky-user-bar" style="display: none;" onclick="openProfile(appUserId)">
-            <div class="cup-row-left">
-                <span class="cup-row-rank-num" id="sticky-user-rank" style="color: #5a32fa;">#--</span>
-                <div class="cup-row-avatar-wrap" id="sticky-user-avatar-wrap">
-                    <div class="cup-row-avatar-fallback" id="sticky-user-avatar-fallback">U</div>
-                </div>
-                <div class="cup-row-user-meta">
-                    <div class="cup-row-name-line">
-                        <span class="cup-row-name" id="sticky-user-name" style="font-weight: 800;">You</span>
-                    </div>
-                    <div class="cup-row-submeta">
-                        <span id="sticky-user-pill" style="background:#ede9fe; color:#5a32fa; font-weight:700; padding:1px 5px; border-radius:5px; font-size:9px;">Top --%</span>
-                        <span id="sticky-user-meta-text">🎯 0% Accuracy</span>
-                    </div>
-                </div>
-            </div>
-            <div class="cup-row-right">
-                <span class="cup-row-pts" id="sticky-user-score">0 pts</span>
-                <span class="cup-row-delta delta-up" id="sticky-user-delta">↑ 1</span>
-                <button class="cup-sticky-jump-btn" onclick="event.stopPropagation(); triggerHaptic('light'); window.scrollTo({top: 0, behavior: 'smooth'});">⌃</button>
-            </div>
-        </div>
-    </div>
-
     <!-- ==========================================
          VIEW 4: PROGRESS (New Redesign)
          ========================================== -->
@@ -5323,12 +4978,6 @@
         <div class="progress-top-header">
             <span style="width: 38px;"></span>
             <span class="progress-header-title">Your Progress</span>
-            <div class="progress-chart-btn" onclick="openProfile(appUserId)">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                    <polyline points="16 7 22 7 22 13"></polyline>
-                </svg>
-            </div>
         </div>
         
         <!-- Progress Stat Grid (2-column on desktop) -->
@@ -5358,11 +5007,12 @@
                     </div>
                 </div>
 
-                <!-- Right: Your Rank -->
+                <!-- Right: Tests Completed -->
                 <div class="prog-hero-col">
-                    <div class="prog-col-label">Your Rank</div>
-                    <div class="prog-col-val" id="prog-hero-rank">#--</div>
-                    <div class="prog-hero-pill pill-purple-soft" id="prog-hero-rank-pill">Keep pushing! 💪</div>
+                    <div class="prog-col-label">Tests Attempted</div>
+                    <div class="prog-col-val" id="prog-hero-tests-count">0</div>
+                    <div class="prog-hero-pill pill-purple-soft" id="prog-hero-tests-pill">Consistency is key ⚡</div>
+                </div>
                 </div>
             </div>
 
@@ -5509,7 +5159,6 @@
                             <div class="profile-target-tag-row" id="header-target-tags">
                                 <span id="header-state-tag" class="profile-tag-pill tag-state" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
                                 <span id="header-exam-tag" class="profile-tag-pill tag-exam" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
-                                <div id="header-league-tag" style="display: none; cursor: pointer;" onclick="openSubModal('guideModalOverlay')"></div>
                             </div>
 
                             <!-- Motto -->
@@ -5521,16 +5170,16 @@
 
                     <!-- Nested 3-Column Metrics Strip -->
                     <div class="profile-nested-metrics">
-                        <!-- 1. Rank -->
+                        <!-- 1. Tests Completed -->
                         <div class="p-metric-item">
                             <div class="p-metric-top-row">
-                                <div class="p-metric-icon p-icon-purple">🏆</div>
+                                <div class="p-metric-icon p-icon-purple">📝</div>
                                 <div class="p-metric-text">
-                                    <div class="p-metric-label">Rank</div>
-                                    <div class="p-metric-value p-val-purple" id="profile-rank">#--</div>
+                                    <div class="p-metric-label">Completed</div>
+                                    <div class="p-metric-value p-val-purple" id="profile-tests-count">0</div>
                                 </div>
                             </div>
-                            <div class="p-metric-subpill subpill-purple" id="profile-rank-pill">Top --%</div>
+                            <div class="p-metric-subpill subpill-purple" id="profile-tests-pill">Quizzes</div>
                         </div>
 
                         <div class="p-metric-divider"></div>
@@ -5562,33 +5211,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Profile Bottom Motivation & Percentile Banner -->
-                <div class="profile-bottom-banner" onclick="switchView('view-cup')">
-                    <div class="pb-badge-icon">
-                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Ribbon -->
-                            <path d="M35 70L24 92L38 86L50 94L46 72" fill="#f43f5e"/>
-                            <path d="M65 70L76 92L62 86L50 94L54 72" fill="#e11d48"/>
-                            <!-- Hexagon Badge Body -->
-                            <polygon points="50,14 82,32 82,68 50,86 18,68 18,32" fill="url(#pBadgeGrad)" stroke="#f43f5e" stroke-width="2.5"/>
-                            <!-- Star -->
-                            <path d="M50 36L53.5 44H62L55 49.5L57.5 58L50 52.5L42.5 58L45 49.5L38 44H46.5L50 36Z" fill="#fbbf24"/>
-                            <defs>
-                                <linearGradient id="pBadgeGrad" x1="18" y1="14" x2="82" y2="86" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#4338ca"/>
-                                    <stop offset="1" stop-color="#1e1b4b"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-
-                    <div class="pb-content">
-                        <div class="pb-title" id="profile-banner-pct-title">You're in the Top --% of all learners!</div>
-                        <div class="pb-sub">Consistency today, success tomorrow.</div>
-                        <div class="pb-progress-track">
-                            <div class="pb-progress-fill" id="profile-banner-fill" style="width: 0%;"></div>
-                        </div>
                     </div>
 
                     <div class="pb-right">
@@ -5601,50 +5223,15 @@
             <div class="profile-right-col">
                 <!-- Profile Menu Card -->
                 <div class="profile-menu-card">
-                    <!-- 1. Detailed Performance -->
-                    <div class="p-card-item" onclick="openProfile(appUserId)">
-                        <div class="p-item-left">
-                            <div class="p-item-icon-box ico-purple">📊</div>
-                            <div class="p-item-text">
-                                <div class="p-item-title">Detailed Performance</div>
-                                <div class="p-item-sub">Analyze your accuracy, attempts & growth</div>
-                            </div>
                         </div>
                         <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-
-                    <!-- 2. Toppers' Rankings -->
-                    <div class="p-card-item" onclick="openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard();">
-                        <div class="p-item-left">
-                            <div class="p-item-icon-box ico-amber">👑</div>
-                            <div class="p-item-text">
-                                <div class="p-item-title">Toppers' Rankings</div>
-                                <div class="p-item-sub">See how you rank among the best</div>
-                            </div>
                         </div>
                         <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-
-                    <!-- 3. Weekly-Cup Results (Archive) -->
-                    <div class="p-card-item" onclick="openSubModal('archiveModalOverlay')">
-                        <div class="p-item-left">
-                            <div class="p-item-icon-box ico-green">📜</div>
-                            <div class="p-item-text">
-                                <div class="p-item-title">Weekly-Cup Results (Archive)</div>
-                                <div class="p-item-sub">View past results & your journey</div>
-                            </div>
                         </div>
                         <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
-
-                    <!-- 4. Guide: Scoring, Leagues & Elo -->
-                    <div class="p-card-item" onclick="openSubModal('guideModalOverlay')">
-                        <div class="p-item-left">
-                            <div class="p-item-icon-box ico-blue">ℹ️</div>
-                            <div class="p-item-text">
-                                <div class="p-item-title">Guide: Scoring, Leagues & Elo</div>
-                                <div class="p-item-sub">Understand how everything works</div>
-                            </div>
                         </div>
                         <div class="p-item-right"><span class="p-item-arrow">›</span></div>
                     </div>
@@ -5717,24 +5304,6 @@
     <!-- ==========================================
          GLOBAL MODALS (Safely Outside View Containers)
          ========================================== -->
-
-    <!-- PERFORMANCE ANALYSIS MODAL (Theme-Aligned Redesign) -->
-    <div class="modal-overlay" id="analysisModal" onclick="closeModal(event)">
-        <div class="modal-content" id="modalContentBg" onclick="event.stopPropagation()">
-            <!-- Drag & Close Pull Indicator -->
-            <div class="close-indicator" onclick="closeModal(null, true)"></div>
-
-            <!-- 1. Header: Name, League Badge, Elo Rating -->
-            <div class="perf-header-card">
-                <div class="perf-user-left">
-                    <div class="perf-user-name" id="modalStudentName">Student Name</div>
-                    <div class="perf-user-league" id="modalStudentHouse"></div>
-                </div>
-                <div class="perf-elo-right">
-                    <div class="perf-elo-val" id="modalStudentElo">🧠 1000</div>
-                    <div class="perf-elo-title" id="modalStudentTitle">🎓 Scholar</div>
-                </div>
-            </div>
 
             <!-- 2. Top 4 Stats Grid -->
             <div class="perf-stats-grid">
@@ -5874,19 +5443,6 @@
             </div>
         </div>
     </div>
-    
-    <!-- History Sub-Modal -->
-    <div class="modal-overlay" id="historyModalOverlay" onclick="closeHistoryModal(event)" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-overlay, rgba(0,0,0,0.5)); z-index: 600; align-items: center; justify-content: center;">
-        <div class="modal-content" onclick="event.stopPropagation()" style="background: var(--bg-card); color: var(--text-main); margin: auto; border-radius: 20px; padding: 25px; box-shadow: var(--shadow-dialog, 0 10px 25px rgba(0,0,0,0.1)); width: 90%; max-width: 380px; box-sizing: border-box; border: 1px solid var(--border-light);">
-            <div style="text-align: center; margin-bottom: 15px;">
-                <div style="font-size: 2.5em; margin-bottom: 10px;">📜</div><h3 style="margin: 0; color: var(--text-main); font-size: 1.3em;">Week <span id="histWeek"></span> Archive</h3>
-            </div>
-            <div style="background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Rank</span><span style="font-weight: 700; color: #3b82f6; font-size: 1.1em;" id="histRank"></span></div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Score</span><span style="font-weight: 700; color: var(--text-main);" id="histScore"></span></div>
-                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span style="color: var(--text-muted); font-weight: 500;">Accuracy</span><span style="font-weight: 700; color: #10b981;" id="histAcc"></span></div>
-                <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-muted); font-weight: 500;">Correct Answers</span><span style="font-weight: 700; color: var(--text-main);" id="histCorrect"></span></div>
-            </div>
             <button class="btn-massive" onclick="closeHistoryModal(null, true)" style="background: var(--bg-subtle); color: var(--text-main); border: 1px solid var(--border-light); font-weight: 700; width: 100%; border-radius: 12px; padding: 12px; cursor: pointer;">Close Archive</button>
         </div>
     </div>
@@ -5986,7 +5542,7 @@
                 <h2 class="digest-hero-date" id="digest-current-date">Friday, 14 August 2026</h2>
                 <div class="digest-hero-motto">Your daily dose of English excellence! ✨</div>
                 <div class="digest-insight-pill">
-                    <span>📖</span> <span id="digest-insight-text">2 insights ready for you</span>
+                    <span>📖</span> <span id="digest-insight-text">Today's Curated Edition Ready</span>
                 </div>
             </div>
 
@@ -6040,8 +5596,7 @@
         <!-- Today's Insights Section -->
         <div class="digest-insights-section">
             <div class="digest-insights-header">
-                <span class="digest-insights-title">TODAY'S INSIGHTS</span>
-                <span class="digest-insights-view-all" onclick="alert('Past editorial dispatches archive is coming soon!')">View All ›</span>
+                <span class="digest-insights-title">TODAY'S EDITORIAL MAGAZINE</span>
             </div>
 
             <div class="digest-cards-list">
@@ -6068,95 +5623,6 @@
 
                     <!-- Right: Arrow Button -->
                     <button class="card-arrow-circle arrow-blue">›</button>
-                </div>
-
-                <!-- 2. Word of the Day Card -->
-                <div class="digest-detail-card card-theme-purple" onclick="openDigestItem('wotd')">
-                    <!-- Left: 3D Open Book Illustration -->
-                    <div class="card-illus-box box-purple">
-                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 24L20 18L26 20L20 22L18 28L16 22L10 20L16 18L18 24Z" fill="#a855f7" opacity="0.6"/>
-                            <path d="M84 76L85.5 70L91.5 71.5L85.5 73L84 79L82.5 73L76.5 71.5L82.5 70L84 76Z" fill="#fbbf24" opacity="0.8"/>
-                            <ellipse cx="50" cy="84" rx="34" ry="8" fill="rgba(90, 50, 250, 0.15)"/>
-                            <!-- Book Cover -->
-                            <path d="M16 40C16 32 24 30 50 34V76C24 72 16 74 16 74V40Z" fill="#7c3aed"/>
-                            <path d="M84 40C84 32 76 30 50 34V76C76 72 84 74 84 74V40Z" fill="#6d28d9"/>
-                            <!-- Book Spine -->
-                            <path d="M47 34C49 33 51 33 53 34V76C51 75 49 75 47 76V34Z" fill="#4c1d95"/>
-                            <!-- Book Pages -->
-                            <path d="M20 38C20 32 28 32 48 35V73C28 70 20 72 20 72V38Z" fill="#ffffff"/>
-                            <path d="M80 38C80 32 72 32 52 35V73C72 70 80 72 80 72V38Z" fill="#f8fafc"/>
-                            <!-- Text Lines -->
-                            <line x1="26" y1="44" x2="42" y2="46" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="26" y1="50" x2="42" y2="52" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="26" y1="56" x2="38" y2="58" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="58" y1="46" x2="74" y2="44" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="58" y1="52" x2="74" y2="50" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
-                            <line x1="62" y1="58" x2="74" y2="56" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-
-                    <!-- Middle: WOTD Content -->
-                    <div class="card-content-wrap">
-                        <div class="card-category-tag tag-purple">⭐ WORD OF THE DAY</div>
-                        <div class="card-title-row">
-                            <span class="card-main-title" id="wotd-card-word">Loading...</span>
-                            <button class="card-audio-btn" onclick="event.stopPropagation(); playWordSpeech('wotd')">🔊</button>
-                        </div>
-                        <div class="card-pos-pill pos-purple" id="wotd-card-pos">Vocabulary</div>
-                        <div class="card-short-def" id="wotd-card-def">Tap to read definition</div>
-                        <div class="card-inner-divider"></div>
-                        <div class="card-extra-row">
-                            <strong class="purple-accent">Example:</strong> <span id="wotd-card-example">Loading editorial usage...</span>
-                        </div>
-                    </div>
-
-                    <!-- Right: Arrow Button -->
-                    <button class="card-arrow-circle arrow-purple">›</button>
-                </div>
-
-                <!-- 3. Foreign Expression Card -->
-                <div class="digest-detail-card card-theme-green" onclick="openDigestItem('foreign')">
-                    <!-- Left: 3D Globe Illustration -->
-                    <div class="card-illus-box box-green">
-                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16 28L18 22L24 24L18 26L16 32L14 26L8 24L14 22L16 28Z" fill="#34d399" opacity="0.6"/>
-                            <path d="M84 70L85.5 64L91.5 65.5L85.5 67L84 73L82.5 67L76.5 65.5L82.5 64L84 70Z" fill="#38bdf8" opacity="0.8"/>
-                            <ellipse cx="50" cy="85" rx="30" ry="7" fill="rgba(16, 185, 129, 0.15)"/>
-                            <!-- Globe Ocean Base -->
-                            <circle cx="50" cy="50" r="32" fill="url(#oceanGrad)"/>
-                            <!-- Landmass Continents -->
-                            <path d="M30 38C34 32 44 32 48 38C52 44 46 52 40 54C34 56 26 44 30 38Z" fill="#4ade80"/>
-                            <path d="M54 44C60 40 68 44 72 52C76 60 68 68 62 66C56 64 50 48 54 44Z" fill="#22c55e"/>
-                            <path d="M32 64C36 60 44 64 42 70C40 76 30 76 32 64Z" fill="#4ade80"/>
-                            <!-- Atmospheric Highlight Glow -->
-                            <path d="M24 34C28 26 40 22 56 24" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-                            <defs>
-                                <linearGradient id="oceanGrad" x1="22" y1="22" x2="78" y2="78" gradientUnits="userSpaceOnUse">
-                                    <stop stop-color="#38bdf8"/>
-                                    <stop offset="1" stop-color="#0284c7"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-
-                    <!-- Middle: Foreign Content -->
-                    <div class="card-content-wrap">
-                        <div class="card-category-tag tag-green">🌍 FOREIGN EXPRESSIONS</div>
-                        <div class="card-title-row">
-                            <span class="card-main-title" id="foreign-card-exp">Loading...</span>
-                            <button class="card-audio-btn" onclick="event.stopPropagation(); playWordSpeech('foreign')">🔊</button>
-                        </div>
-                        <div class="card-pos-pill pos-green" id="foreign-card-lang">Foreign</div>
-                        <div class="card-short-def" id="foreign-card-trans">Tap to read translation</div>
-                        <div class="card-inner-divider"></div>
-                        <div class="card-extra-row">
-                            <strong class="green-accent">Meaning:</strong> <span id="foreign-card-meaning">Loading editorial application...</span>
-                        </div>
-                    </div>
-
-                    <!-- Right: Arrow Button -->
-                    <button class="card-arrow-circle arrow-green">›</button>
                 </div>
             </div>
         </div>
@@ -6274,22 +5740,6 @@
 
         <!-- Right Performance Rail (Contextual widgets) -->
         <aside class="right-performance-rail">
-            <!-- 1. Live Weekly Cup Widget -->
-            <div class="rail-card weekly-cup-widget" onclick="switchView('view-cup')">
-                <div class="rail-card-header">
-                    <span class="rail-card-title">🏆 Live Weekly Cup</span>
-                    <span class="rail-badge" id="rail-cup-badge">Ranked</span>
-                </div>
-                <div class="rail-cup-stats">
-                    <div class="rail-stat-col">
-                        <span class="rail-stat-label">Current Rank</span>
-                        <span class="rail-stat-val" id="rail-cup-rank">#--</span>
-                    </div>
-                    <div class="rail-stat-col">
-                        <span class="rail-stat-label">Total Points</span>
-                        <span class="rail-stat-val" id="rail-cup-pts">0 pts</span>
-                    </div>
-                </div>
                 <div class="rail-cutoff-gap" id="rail-cup-gap">
                     🚀 Practice trials daily to climb into promotion tier!
                 </div>
@@ -6303,16 +5753,6 @@
                 </div>
                 <div class="rail-exam-name" id="rail-target-exam-name">SSC CGL 2026</div>
                 <div class="rail-countdown-badge" id="rail-exam-countdown">⏱ Loading countdown...</div>
-            </div>
-
-            <!-- 3. Word of the Day & Foreign Expression Card -->
-            <div class="rail-card wotd-widget" onclick="switchView('view-digest')">
-                <div class="rail-card-header">
-                    <span class="rail-card-title">📖 Word of the Day</span>
-                    <span class="rail-badge">Vocabulary</span>
-                </div>
-                <div class="rail-wotd-word" id="rail-wotd-display">Loading...</div>
-                <div class="rail-wotd-sub" id="rail-wotd-meaning">Tap to explore usage, synonyms & editorial passage ›</div>
             </div>
 
             <!-- 4. Persistent Weekly Schedule Widget -->
@@ -6330,23 +5770,6 @@
 
     
     <!-- Digest Reading Modal -->
-    <div id="digestModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200; align-items: flex-end; justify-content: center;" onclick="closeDigestModal(event)">
-        <div class="digest-modal-sheet" style="background: var(--bg-card); width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto;" onclick="event.stopPropagation()">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--border-light); padding-bottom: 12px;">
-                <h3 id="digestModalTitle" style="margin: 0; font-size: 16px; color: var(--text-main);">Title</h3>
-                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeDigestModal(null, true)">×</span>
-            </div>
-            <div id="digestModalBody" style="
-                font-size: 15px; 
-                line-height: 1.8; 
-                color: #374151; 
-                font-family: 'Inter', sans-serif; 
-                background: #f8fafc; 
-                padding: 16px; 
-                border-radius: 12px; 
-                border: 1px solid #e2e8f0;
-            "></div>
-        </div>
     </div>
 
     <!-- ==========================================
@@ -6380,109 +5803,12 @@
     </div>
 
     <!-- 1. ELO RANKINGS MODAL -->
-    <div id="eloModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'eloModalOverlay')">
-        <div style="background: var(--bg-body); width: 100%; height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
-            <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light);">
-                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'eloModalOverlay', true)">×</span>
-                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">🌍 Global Elo Rankings</h3>
-            </div>
-            <div id="eloListContainer" style="flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 100px;"></div>
-            <div id="eloFooter" style="padding: 15px 20px; background: var(--bg-card); color: var(--text-main); border-top: 1px solid var(--border-light);"></div>
-        </div>
     </div>
 
     <!-- 2. WEEKLY ARCHIVE MODAL -->
-    <div id="archiveModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'archiveModalOverlay')">
-        <div style="background: var(--bg-body); width: 100%; max-height: 85vh; min-height: 50vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column; overflow-y: auto;" onclick="event.stopPropagation()">
-            <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; background: var(--bg-body); z-index: 10;">
-                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'archiveModalOverlay', true)">×</span>
-                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">📜 Quiz History Archive</h3>
-            </div>
-            <div id="weekly-history-container" style="padding: 20px;"><p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading past results...</p></div>
-        </div>
     </div>
 
     <!-- 4. GUIDE MODAL (Scoring, Leagues & Elo) -->
-    <div id="guideModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'guideModalOverlay')">
-        <div style="background: var(--bg-body); width: 100%; max-height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column; overflow-y: auto;" onclick="event.stopPropagation()">
-            
-            <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; background: var(--bg-body); z-index: 10;">
-                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'guideModalOverlay', true)">×</span>
-                <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">📜 Guide: Quiz Cup & Elo</h3>
-            </div>
-            
-            <div style="padding: 20px; background: var(--bg-body);">
-                
-                <div class="info-card">
-                    <h4>⚙️ Dynamic Scoring System</h4>
-                    <p>Points adjust based on global class accuracy. The harder the question is for the class, the higher the reward and the lower the penalty!</p>
-                    <table style="width:100%; text-align:center; font-size: 13px; margin-top:10px; border-collapse: collapse;">
-                        <tr style="background: #e2e8f0; color: #0f172a;">
-                            <th style="padding: 6px; border-radius: 6px 0 0 0;">Tier</th>
-                            <th style="padding: 6px;">Correct</th>
-                            <th style="padding: 6px; border-radius: 0 6px 0 0;">Wrong</th>
-                        </tr>
-                        <tr>
-                            <td style="padding: 6px; font-weight:bold; color: #10b981;">T1 (Very Easy)</td>
-                            <td style="padding: 6px;">+1.0</td>
-                            <td style="padding: 6px; color:#ef4444;">-0.42</td>
-                        </tr>
-                        <tr style="background: #f8fafc;">
-                            <td style="padding: 6px; font-weight:bold; color: #3b82f6;">T2 (Easy)</td>
-                            <td style="padding: 6px;">+2.0</td>
-                            <td style="padding: 6px; color:#ef4444;">-0.60</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 6px; font-weight:bold; color: #f59e0b;">T3 (Moderate)</td>
-                            <td style="padding: 6px;">+3.0</td>
-                            <td style="padding: 6px; color:#ef4444;">-0.75</td>
-                        </tr>
-                        <tr style="background: #f8fafc;">
-                            <td style="padding: 6px; font-weight:bold; color: #f97316;">T4 (Hard)</td>
-                            <td style="padding: 6px;">+4.0</td>
-                            <td style="padding: 6px; color:#ef4444;">-0.60</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 6px; font-weight:bold; color: #ef4444; border-radius: 0 0 0 6px;">T5 (Boss)</td>
-                            <td style="padding: 6px;">+5.0</td>
-                            <td style="padding: 6px; color:#ef4444; border-radius: 0 0 6px 0;">-0.42</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="info-card">
-                    <h4>🧠 Global Intelligence (Elo)</h4>
-                    <p>While your Weekly Cup score resets every Sunday, your <b>Elo Rating</b> is a permanent, lifetime measure of your consistency and intelligence. It increases when you answer difficult questions correctly, and bleeds (decreases) if your accuracy drops week-on-week. Keep grinding to unlock higher academic titles!</p>
-                </div>
-
-                <div class="info-card">
-                    <h4>🏅 The League Journey</h4>
-                    <p>Compete, climb the leaderboard, and unlock higher leagues. There are no speed advantages—only accuracy and consistency matter.</p>
-                    <div class="league-track">
-                        <span class="league-badge bg-unranked">🛡️ Unranked</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-bronze">🥉 Bronze</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-silver">🥈 Silver</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-gold">🥇 Gold</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-plat">💠 Plat</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-dia">💎 Dia</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-champ">👑 Champ</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-master">🎖️ Master</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-elite">⚡ Elite</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-legend">🌟 Legend</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-mythic">🔮 Mythic</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-prodigy">🎇 Prodigy</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-celestial">☄️ Celestial</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-zenith">🧿 Zenith</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-ascendant">🌌 Ascendant</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-omniscient">👁️‍🗨️ Omniscient</span> <span class="league-arrow">➔</span>
-                        <span class="league-badge bg-genesis">✨ Genesis</span>
-                    </div>
-
-                    <div class="cut-off-alert">
-                        <div><b style="color: #10b981;">▲ PROMOTION:</b> Stay above the <b>Class Average</b> to be promoted by one league. Finish in the <b>Top 10</b> for a <b>Double Promotion</b>, or secure <b>1st Place</b> for a massive <b>Triple Promotion</b>!</div>
-                        <div style="height: 1px; background: #e2e8f0; width: 100%;"></div>
-                        <div><b style="color: #ef4444;">▼ DEMOTION:</b> Dropping below the class average means your badge will be demoted.</div>
-                    </div>
                 </div>
 
             </div>
@@ -6565,10 +5891,6 @@
             <span>Digest</span>
             <div id="digest-badge" style="display:none; position:absolute; top:-2px; right:12px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
         </div>
-        <div class="nav-item" onclick="switchView('view-cup')" id="nav-cup">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10M5 4h14a2 2 0 0 1 2 2v2a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8V6a2 2 0 0 1 2-2z"></path></svg>
-            <span>Cup</span>
-        </div>
         <div class="nav-item" onclick="switchView('view-progress')" id="nav-progress">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="20" x2="18" y2="10"></line>
@@ -6587,7 +5909,7 @@
          APPLICATION LOGIC
          ========================================== -->
     <script>
-        let lastFetchTimes = { cup: 0, progress: 0, digest: 0 };
+        let lastFetchTimes = { progress: 0, digest: 0 };
 
         // 1. Initialize User & Platform App from auth.js
         const tgApp = (typeof getTelegramApp === 'function' ? getTelegramApp() : null) || window.Telegram?.WebApp || null;
@@ -6758,166 +6080,6 @@
                 </div>
             `).join('');
         }
-
-        // 🟢 FIX 2: BULLETPROOF ELO RENDERER & FETCHER
-        window.fetchAndOpenEloLeaderboard = async function() {
-            const container = document.getElementById('eloListContainer');
-            if(!container) return;
-            
-            // Show a beautiful loading spinner immediately
-            container.innerHTML = `
-                <div style="text-align:center; margin-top:40px;">
-                    <div style="width: 24px; height: 24px; border: 3px solid var(--border-light); border-top-color: var(--brand); border-radius: 50%; margin: 0 auto 12px auto; animation: spin 1s linear infinite;"></div>
-                    <p style="color:var(--text-muted); font-size:13px; font-weight:500;">Calculating Global Intel...</p>
-                </div>
-            `;
-            
-            try {
-                // ✨ UPDATED: Fetch exclusively from the new, lightweight Elo endpoint!
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/elo?user_id=${appUserId}`, {
-                    headers: getAuthHeaders()
-                }); 
-                const data = await response.json();
-                
-                // 🟢 FIX: Extract the elo_ranking array that is already provided by your Python backend
-                let eloData = data.elo_ranking || [];
-                if (!Array.isArray(eloData)) eloData = [];
-                
-                let top50Active = eloData.filter(eu => eu.is_active !== false).slice(0, 50);
-
-                if(top50Active.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:14px; margin-top:20px;">No Elo rankings available yet.</p>';
-                    return;
-                }
-
-                container.innerHTML = ''; // Clear the loader
-                
-                top50Active.forEach(eu => {
-                    let isMe = eu.id == appUserId;
-                    let bg = isMe ? "background: #eff6ff; border: 1px solid #bfdbfe;" : "background: white; border: 1px solid #edf1f5;";
-                    container.innerHTML += `
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; margin-bottom: 8px; border-radius: 12px; ${bg} box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <div style="font-weight: 900; color: #94a3b8; width: 25px;">#${eu.rank || '-'}</div>
-                                <div style="font-weight: bold; color: #1e293b; font-size: 14px;">${eu.name || 'Unknown'}</div>
-                            </div>
-                            <div style="font-weight: 800; color: #2563eb; font-size: 14px;">🧠 ${Math.round(eu.elo || 1000)}</div>
-                        </div>
-                    `;
-                });
-
-                // Render the sticky footer with the current user's data
-                const footer = document.getElementById('eloFooter');
-                let myEloEntry = eloData.find(eu => eu.id == appUserId);
-                let myRankDisplay = myEloEntry ? `#${myEloEntry.rank}` : 'N/A';
-                let myEloDisplay = myEloEntry ? Math.round(myEloEntry.elo) : (window.currentUserData ? Math.round(window.currentUserData.elo) : 1000);
-
-                if(footer) {
-                    footer.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-                            <div style="display: flex; align-items: center; gap: 12px;">
-                                <div style="font-weight: 900; color: var(--text-muted); font-size: 16px;">${myRankDisplay}</div>
-                                <div>
-                                    <div style="font-weight: bold; font-size: 15px; color: var(--text-main);">You</div>
-                                    <div style="font-size: 0.75em; color: var(--text-muted);">Intelligence Rating</div>
-                                </div>
-                            </div>
-                            <div style="font-weight: 800; color: #3b82f6; font-size: 16px;">🧠 ${myEloDisplay}</div>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error("Elo Fetch Error:", error);
-                container.innerHTML = '<p style="text-align:center; color:#ef4444; font-size:13px; margin-top:20px;">Failed to connect to Elo servers.</p>';
-            }
-        };
-
-        // 🟢 FIX 3: CHART TEXT OVERLAP FIX (Overrides app_v8.js to perfectly center text)
-        window.addEventListener('DOMContentLoaded', () => {
-            window.renderCharts = function(targetUser) {
-                const ctxDaily = document.getElementById('dailyChart').getContext('2d');
-                const ctxPie = document.getElementById('pieChart').getContext('2d');
-                if (window.dailyChartInstance) window.dailyChartInstance.destroy();
-                if (window.pieChartInstance) window.pieChartInstance.destroy();
-
-                const weekLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                let finalYou = [null, null, null, null, null, null, null];
-                let finalTop = [null, null, null, null, null, null, null];
-                let finalAvg = [null, null, null, null, null, null, null];
-                
-                let day = getIST().getDay();
-                let currentDayIndex = day === 0 ? 6 : day - 1; 
-
-                // 🟢 FIX: Safe fallback if arrays are stripped
-                let labels = targetUser.history?.labels || [];
-                let scores = targetUser.history?.scores || [];
-
-                for (let i = 0; i < labels.length; i++) {
-                    let dayIndex = weekLabels.indexOf(labels[i]);
-                    if (dayIndex !== -1 && dayIndex <= currentDayIndex) finalYou[dayIndex] = scores[i];
-                }
-                for (let i = 0; i <= currentDayIndex; i++) {
-                    if (finalYou[i] === null) finalYou[i] = 0;
-                    finalTop[i] = window.topperHistory ? (window.topperHistory[weekLabels[i]] || 0) : 0;
-                    finalAvg[i] = window.classAvgHistory ? (window.classAvgHistory[weekLabels[i]] || 0) : 0;
-                }
-
-                const isDark = document.body.classList.contains('dark-mode');
-                const gridLineColor = isDark ? 'rgba(255, 255, 255, 0.08)' : '#f1f5f9';
-                const tickTextColor = isDark ? '#9ca3af' : '#64748b';
-
-                window.dailyChartInstance = new Chart(ctxDaily, {
-                    type: 'bar',
-                    data: {
-                        labels: weekLabels,
-                        datasets: [
-                            { label: 'You', data: finalYou, backgroundColor: '#3b82f6', barPercentage: 1.0, categoryPercentage: 0.65, borderRadius: 6 },
-                            { label: `Topper`, data: finalTop, backgroundColor: '#fbbf24', barPercentage: 1.0, categoryPercentage: 0.65, borderRadius: 6 },
-                            { label: `Class Avg`, data: finalAvg, backgroundColor: '#10b981', barPercentage: 1.0, categoryPercentage: 0.65, borderRadius: 6 }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                labels: {
-                                    color: tickTextColor,
-                                    font: { family: 'Inter', size: 11, weight: '600' }
-                                }
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                grid: { color: gridLineColor },
-                                ticks: { color: tickTextColor },
-                                border: { display: false }
-                            },
-                            x: {
-                                grid: { display: false },
-                                ticks: { color: tickTextColor },
-                                border: { display: false }
-                            }
-                        }
-                    }
-                });
-
-                // 🟢 FIX: Safe fallback for pie chart variables
-                let c = targetUser.history?.correct || 0; 
-                let w = targetUser.history?.wrong || 0;
-                let pieData = [c, w]; let pieColors = ['#10b981', '#ef4444'];
-                if (c === 0 && w === 0) { pieData = [1]; pieColors = ['#e2e8f0']; }
-
-                document.getElementById('chart-center-perc').innerText = (targetUser.history?.accuracy || 0) + "%";
-
-                window.pieChartInstance = new Chart(ctxPie, {
-                    type: 'doughnut',
-                    data: { labels: ['Correct', 'Wrong'], datasets: [{ data: pieData, backgroundColor: pieColors, borderWidth: 0, borderRadius: 8, spacing: 5 }] },
-                    options: { responsive: true, maintainAspectRatio: false, cutout: '80%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
-                });
-            };
-        });
         
         // 🟢 Bind the native back button
         if (typeof setTelegramBackButton === 'function') {
@@ -7229,35 +6391,6 @@
             container.innerHTML = html;
         }
 
-        // 🟢 Live Data Binding for "Today's Highlights" Card
-        function updateTodayHighlightsUI() {
-            if (!digestItems || digestItems.length === 0) return;
-
-            const wotdItem = digestItems.find(i => i.id === 'wotd');
-            const foreignItem = digestItems.find(i => i.id === 'foreign');
-
-            // 1. Populate Word of the Day
-            if (wotdItem && wotdItem.content) {
-                const parsedWOTD = parseWOTDString(wotdItem.content);
-                const elWord = document.getElementById('hl-wotd-word');
-                const elMeaning = document.getElementById('hl-wotd-meaning');
-
-                if (elWord) elWord.innerText = parsedWOTD.word || "Word of the Day";
-                if (elMeaning) elMeaning.innerText = parsedWOTD.meaning || "Tap to read insights";
-            }
-
-            // 2. Populate Foreign Expression
-            if (foreignItem && foreignItem.content) {
-                const parsedExpressions = parseForeignExpressionsString(foreignItem.content);
-                const firstExp = parsedExpressions.length > 0 ? parsedExpressions[0] : null;
-                const elForeignWord = document.getElementById('hl-foreign-word');
-                const elForeignMeaning = document.getElementById('hl-foreign-meaning');
-
-                if (elForeignWord && firstExp) elForeignWord.innerText = firstExp.expression || "Foreign Expression";
-                if (elForeignMeaning && firstExp) elForeignMeaning.innerText = firstExp.meaning || "Tap to read insights";
-            }
-        }
-
         // 🟢 Live Weekly Schedule Card & Day Filter Engine
         function updateDynamicTracker() {
             const ist = getIST();
@@ -7480,602 +6613,58 @@
             triggerHaptic('light');
             filterByDay(dayIndex);
         }
-        // 🟢 Live Weekly Cup Home Card & Percentile Calculator (Syncs Cup, Bar & Banner)
-        function updateWeeklyCupHomeUI(cu, totalActive, fullData) {
-            const homeRank = document.getElementById('home-rank');
-            const homeScore = document.getElementById('home-score');
-            const homeTopPct = document.getElementById('home-top-pct');
-            const homeTopMsg = document.getElementById('home-top-msg');
-            const bannerTopPct = document.getElementById('banner-top-pct');
-            const cupProgressFill = document.getElementById('home-cup-progress-fill');
-            const seasonText = document.getElementById('home-cup-season-text');
-
-            if (!cu) return;
-
-            let rankNum = parseInt(cu.rank);
-            let scoreVal = (cu.score !== undefined && cu.score !== null) 
-                ? (cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score) 
-                : '--';
-            
-            if (homeRank) homeRank.innerText = (!isNaN(rankNum) && rankNum > 0) ? `#${rankNum}` : '#--';
-            if (homeScore) homeScore.innerText = scoreVal;
-
-            // 1. Dynamic Season & Active Challengers
-            if (seasonText && fullData) {
-                let seasonNum = fullData.current_week || 14;
-                let activeCount = totalActive || (fullData.leaderboard ? fullData.leaderboard.length : 0);
-                seasonText.innerText = `Season ${seasonNum} • ${activeCount} Active Challengers`;
-            }
-
-            // 2. Dynamic Progress Towards Promotion Cut-off
-            if (cupProgressFill && fullData && fullData.target_average) {
-                let targetAvg = fullData.target_average;
-                let userScore = parseFloat(cu.score) || 0;
-                let progressPct = targetAvg > 0 ? Math.min(100, Math.max(5, Math.round((userScore / targetAvg) * 100))) : 50;
-                if (userScore <= 0) progressPct = 5;
-                cupProgressFill.style.width = `${progressPct}%`;
-            }
-
-            // 3. Percentile Calculation
-            if (homeTopPct && homeTopMsg) {
-                if (!isNaN(rankNum) && rankNum > 0 && totalActive > 0) {
-                    let topPercentage = Math.max(1, Math.round((rankNum / totalActive) * 100));
-                    
-                    homeTopPct.innerText = `Top ${topPercentage}%`;
-                    if (bannerTopPct) bannerTopPct.innerText = `Top ${topPercentage}%`;
-
-                    if (topPercentage <= 5) {
-                        homeTopPct.style.color = '#10b981';
-                        homeTopMsg.innerHTML = `Dominating! 👑`;
-                    } else if (topPercentage <= 15) {
-                        homeTopPct.style.color = '#10b981';
-                        homeTopMsg.innerHTML = `Elite Tier! 🌟`;
-                    } else if (topPercentage <= 30) {
-                        homeTopPct.style.color = '#10b981';
-                        homeTopMsg.innerHTML = `Top Tier! 🔥`;
-                    } else if (topPercentage <= 50) {
-                        homeTopPct.style.color = '#3b82f6';
-                        homeTopMsg.innerHTML = `Keep pushing! 💪`;
-                    } else {
-                        homeTopPct.style.color = '#f59e0b';
-                        homeTopMsg.innerHTML = `Climb higher! ⚡`;
-                    }
-                } else {
-                    homeTopPct.innerText = `Unranked`;
-                    homeTopPct.style.color = 'var(--text-muted)';
-                    homeTopMsg.innerHTML = `Attempt a trial 🪄`;
-                    if (bannerTopPct) bannerTopPct.innerText = `Unranked`;
-                }
-            }
-
-            if (typeof updateDailyOverviewStats === 'function') updateDailyOverviewStats();
-            if (typeof updateJourneySection === 'function') updateJourneySection();
-        }
-
-        // 🟢 Live Profile Tab Hero, Tags & League Update
-        function updateProfileHeroUI(cu, totalActive) {
-            if (!cu) return;
-
-            const profileRank = document.getElementById('profile-rank');
-            const profileScore = document.getElementById('profile-score');
-            const profileAccuracy = document.getElementById('profile-accuracy-val');
-            const rankPill = document.getElementById('profile-rank-pill');
-            const accPill = document.getElementById('profile-acc-pill');
-            const scorePill = document.getElementById('profile-score-pill');
-
-            const bannerTitle = document.getElementById('profile-banner-pct-title');
-            const bannerPill = document.getElementById('profile-banner-pct-pill');
-            const bannerFill = document.getElementById('profile-banner-fill');
-            const headerLeagueTag = document.getElementById('header-league-tag');
-
-            let rankNum = parseInt(cu.rank);
-            let scoreVal = (cu.score !== undefined && cu.score !== null)
-                ? (cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score)
-                : '--';
-
-            if (profileRank) profileRank.innerText = (!isNaN(rankNum) && rankNum > 0) ? `#${rankNum}` : '#--';
-            if (profileScore) profileScore.innerText = scoreVal;
-
-            let acc = cu.history?.accuracy !== undefined ? cu.history.accuracy : 0;
-            if (profileAccuracy) profileAccuracy.innerText = `${acc}%`;
-
-            // 🟢 Render Standalone League Badge (Unwrapped)
-            if (headerLeagueTag) {
-                if (cu.league > 0 && typeof getLeagueBadgeHTML === 'function') {
-                    headerLeagueTag.innerHTML = getLeagueBadgeHTML(cu.league);
-                    headerLeagueTag.style.display = 'inline-flex';
-                } else {
-                    headerLeagueTag.style.display = 'none';
-                }
-            }
-
-            // Dynamic Rank & Percentile Logic
-            if (!isNaN(rankNum) && rankNum > 0 && totalActive > 0) {
-                let topPct = Math.max(1, Math.round((rankNum / totalActive) * 100));
-                
-                if (rankPill) rankPill.innerText = `Top ${topPct}%`;
-                if (bannerTitle) bannerTitle.innerText = `You're in the Top ${topPct}% of all learners!`;
-                if (bannerPill) bannerPill.innerText = `Top ${topPct}%`;
-                if (bannerFill) bannerFill.style.width = `${Math.min(100, Math.max(8, 100 - topPct + 10))}%`;
-            } else {
-                if (rankPill) rankPill.innerText = `Unranked`;
-                if (bannerTitle) bannerTitle.innerText = `Attempt a trial to unlock your percentile!`;
-                if (bannerPill) bannerPill.innerText = `Unranked`;
-                if (bannerFill) bannerFill.style.width = `0%`;
-            }
-
-            // Dynamic Accuracy Pill
-            if (accPill) {
-                if (acc >= 80) accPill.innerText = `Excellent! 🔥`;
-                else if (acc >= 50) accPill.innerText = `Good pace! ⚡`;
-                else accPill.innerText = `Keep going!`;
-            }
-
-            // Score Pill
-            if (scorePill) {
-                scorePill.innerText = `Keep pushing! 💪`;
-            }
-        }
-
-        // 🟢 Live Progress Tab Hero & Metrics Update
-        function updateProgressTabUI(cu, totalActive) {
-            if (!cu) return;
-
-            const elScore = document.getElementById('prog-hero-score');
-            const elRank = document.getElementById('prog-hero-rank');
-            const elPctPill = document.getElementById('prog-hero-pct-pill');
-            const elRankPill = document.getElementById('prog-hero-rank-pill');
-            const elRadialVal = document.getElementById('prog-radial-val');
-            const elRadialFill = document.getElementById('prog-radial-fill');
-
-            const elAttempts = document.getElementById('prog-total-attempts');
-            const elCorrect = document.getElementById('prog-correct-answers');
-            const elCorrectPct = document.getElementById('prog-correct-pct');
-            const elStreak = document.getElementById('prog-best-streak');
-            const elStudyTime = document.getElementById('prog-study-time');
-
-            // 1. Score & Rank
-            let rankNum = parseInt(cu.rank);
-            let scoreVal = (cu.score !== undefined && cu.score !== null)
-                ? (cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score)
-                : '--';
-
-            if (elScore) elScore.innerText = scoreVal;
-            if (elRank) elRank.innerText = (!isNaN(rankNum) && rankNum > 0) ? `#${rankNum}` : '#--';
-
-            // 2. Percentile & Rank Pill
-            if (!isNaN(rankNum) && rankNum > 0 && totalActive > 0) {
-                let topPct = Math.max(1, Math.round((rankNum / totalActive) * 100));
-                if (elPctPill) elPctPill.innerText = `Top ${topPct}% of participants`;
-                if (elRankPill) {
-                    elRankPill.innerText = topPct <= 10 ? `Dominating! 👑` : (topPct <= 30 ? `Top Tier! 🔥` : `Keep pushing! 💪`);
-                }
-            } else {
-                if (elPctPill) elPctPill.innerText = `Unranked`;
-                if (elRankPill) elRankPill.innerText = `Attempt a trial 🪄`;
-            }
-
-            // 3. Radial Accuracy Ring
-            let acc = (cu.history?.accuracy !== undefined) ? cu.history.accuracy : 0;
-            if (elRadialVal) elRadialVal.innerText = `${acc}%`;
-            if (elRadialFill) {
-                const circumference = 238.76;
-                const offset = circumference - (circumference * acc) / 100;
-                elRadialFill.style.strokeDashoffset = offset;
-            }
-
-            // 4. Lifetime Stats: Attempts & Correct Answers
-            let hist = cu.history || {};
-            let correctCount = hist.correct || 0;
-            let wrongCount = hist.wrong || 0;
-            let totalAttempts = hist.attempts || (correctCount + wrongCount);
-
-            if (elAttempts) elAttempts.innerText = totalAttempts;
-            if (elCorrect) elCorrect.innerText = correctCount;
-            if (elCorrectPct) elCorrectPct.innerText = `${acc}%`;
-
-            // 5. Streak
-            if (elStreak) elStreak.innerText = cu.streak || 0;
-
-            // 6. Calculate Weekly Study Time using exact quiz completion times
-            if (typeof updateAccurateStudyTimes === 'function') {
-                updateAccurateStudyTimes();
-            }
-        }
-
-        // 🟢 Live Weekly Cup Dark Hero Card Update Engine
-        function updateCupHeroCardUI(cu, totalActive, fullData) {
-            if (!cu) return;
-
-            const elRank = document.getElementById('cup-tab-rank');
-            const elScore = document.getElementById('cup-tab-score');
-            const elPctPill = document.getElementById('cup-tab-pct-pill');
-            
-            const elDeltaBadge = document.getElementById('cup-rank-delta-badge');
-            const elDeltaIcon = document.getElementById('cup-rank-delta-icon');
-            const elDeltaVal = document.getElementById('cup-rank-delta-val');
-            const elVsText = document.getElementById('cup-rank-vs-text');
-
-            const elOvertakeText = document.getElementById('cup-overtake-text');
-            const elOvertakeFill = document.getElementById('cup-overtake-fill');
-            const elLower = document.getElementById('cup-overtake-lower');
-            const elHigher = document.getElementById('cup-overtake-higher');
-
-            let rankNum = parseInt(cu.rank);
-            let scoreVal = (cu.score !== undefined && cu.score !== null)
-                ? (cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score)
-                : '--';
-
-            if (elRank) elRank.innerText = (!isNaN(rankNum) && rankNum > 0) ? `#${rankNum}` : '#--';
-            if (elScore) elScore.innerText = `${scoreVal}`;
-
-            // Percentile Calculation
-            let total = totalActive || (fullData?.leaderboard ? fullData.leaderboard.length : 120);
-            if (!isNaN(rankNum) && rankNum > 0 && total > 0) {
-                let topPct = Math.max(1, Math.round((rankNum / total) * 100));
-                if (elPctPill) elPctPill.innerText = `Top ${topPct}%`;
-            } else {
-                if (elPctPill) elPctPill.innerText = `Unranked`;
-            }
-
-            // Rank Delta ("↑ 1 vs yesterday")
-            if (elDeltaVal && elDeltaBadge) {
-                let delta = cu.rank_delta !== undefined ? cu.rank_delta : 1;
-                if (delta > 0) {
-                    elDeltaIcon.innerText = '↑';
-                    elDeltaVal.innerText = `${delta}`;
-                    elDeltaBadge.style.display = 'inline-flex';
-                } else if (delta < 0) {
-                    elDeltaIcon.innerText = '↓';
-                    elDeltaVal.innerText = `${Math.abs(delta)}`;
-                    elDeltaBadge.style.display = 'inline-flex';
-                } else {
-                    elDeltaIcon.innerText = '–';
-                    elDeltaVal.innerText = `0`;
-                    elDeltaBadge.style.display = 'inline-flex';
-                }
-            }
-
-            // Overtake Calculation
-            if (elOvertakeText) {
-                if (rankNum === 1) {
-                    elOvertakeText.innerText = `👑 1st Place! Defending title`;
-                    if (elLower) elLower.innerText = `#2`;
-                    if (elHigher) elHigher.innerText = `#1`;
-                    if (elOvertakeFill) elOvertakeFill.style.width = `100%`;
-                } else if (rankNum > 1) {
-                    let userScore = parseFloat(cu.score) || 0;
-                    let targetDiff = (Math.abs(userScore) * 0.12 + 1.65).toFixed(2);
-                    
-                    elOvertakeText.innerText = `${targetDiff} pts to overtake #${rankNum - 1}`;
-                    if (elLower) elLower.innerText = `#${rankNum + 1}`;
-                    if (elHigher) elHigher.innerText = `#${rankNum - 1}`;
-                    if (elOvertakeFill) elOvertakeFill.style.width = `55%`;
-                } else {
-                    elOvertakeText.innerText = `Attempt a trial to rank`;
-                    if (elLower) elLower.innerText = `#--`;
-                    if (elHigher) elHigher.innerText = `#--`;
-                    if (elOvertakeFill) elOvertakeFill.style.width = `10%`;
-                }
-            }
-
-            // 🟢 Sync Desktop Right Performance Rail Weekly Cup Widget
-            try {
-                const elRailRank = document.getElementById('rail-cup-rank');
-                const elRailPts = document.getElementById('rail-cup-pts');
-                const elRailBadge = document.getElementById('rail-cup-badge');
-                const elRailGap = document.getElementById('rail-cup-gap');
-
-                if (elRailRank) elRailRank.innerText = (!isNaN(rankNum) && rankNum > 0) ? `#${rankNum}` : '#--';
-                if (elRailPts) elRailPts.innerText = `${scoreVal} pts`;
-                if (elRailBadge && elRailGap) {
-                    if (rankNum === 1) {
-                        elRailBadge.innerText = 'Leader 👑';
-                        elRailGap.innerText = '👑 1st Place! Leading this week\'s tournament!';
-                    } else if (rankNum <= 10) {
-                        elRailBadge.innerText = 'Top 10 🔥';
-                        elRailGap.innerText = `🔥 Rank #${rankNum} of ${total} • Defending your Elite promotion spot!`;
-                    } else if (rankNum > 0) {
-                        elRailBadge.innerText = 'Ranked';
-                        elRailGap.innerText = `🚀 Rank #${rankNum} of ${total} • Complete daily trials to enter Top 10!`;
-                    } else {
-                        elRailBadge.innerText = 'Unranked';
-                        elRailGap.innerText = '🚀 Practice trials daily to climb into promotion tier!';
-                    }
-                }
-            } catch(e) {}
-        }
-
-        // 🟢 Live Cup Leaderboard, Real Battle Neighbors & Vibrant Avatars
-        function renderCupLeaderboard(data) {
-            if (!data || !data.leaderboard) return;
-
-            const list = data.leaderboard;
-            const cu = data.current_user || {};
-            const userRank = parseInt(cu.rank) || 0;
-            const userScoreNum = parseFloat(cu.score) || 0;
-
-            // Palette for dynamic avatar backgrounds
-            const avatarGradients = [
-                'linear-gradient(135deg, #6366f1, #a855f7)',
-                'linear-gradient(135deg, #3b82f6, #06b6d4)',
-                'linear-gradient(135deg, #ec4899, #f43f5e)',
-                'linear-gradient(135deg, #10b981, #059669)',
-                'linear-gradient(135deg, #f59e0b, #d97706)',
-                'linear-gradient(135deg, #8b5cf6, #ec4899)'
-            ];
-
-            function getAvatarMarkup(u, isPodium = false, customClass = '') {
-                const imgUrl = u.photo_url || u.avatar_url || u.avatar || u.profile_pic;
-                const nameChar = (u.name || 'U').trim().charAt(0).toUpperCase();
-                const charCode = (u.name || 'U').charCodeAt(0) || 0;
-                const bgGrad = avatarGradients[charCode % avatarGradients.length];
-
-                if (imgUrl) {
-                    return `<img src="${imgUrl}" class="${customClass}" onerror="this.outerHTML='<div class=\\'${customClass}\\' style=\\'background:${bgGrad}; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800;\\'>${nameChar}</div>'">`;
-                }
-                return `<div class="${customClass}" style="background:${bgGrad}; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800;">${nameChar}</div>`;
-            }
-
-            // 1. Render "Battle Around You"
-            const battleEl = document.getElementById('cup-battle-container');
-            if (battleEl) {
-                if (userRank > 0) {
-                    let prevUser = list.find(u => parseInt(u.rank) === userRank - 1);
-                    let nextUser = list.find(u => parseInt(u.rank) === userRank + 1);
-
-                    let prevName = prevUser ? prevUser.name : 'Rahul';
-                    let prevRank = `#${userRank - 1}`;
-                    let prevScoreVal = prevUser ? prevUser.score : (userScoreNum + 1.85);
-                    let prevScore = (prevScoreVal % 1 !== 0 ? prevScoreVal.toFixed(2) : prevScoreVal);
-
-                    let nextName = nextUser ? nextUser.name : 'Ankit';
-                    let nextRank = `#${userRank + 1}`;
-                    let nextScoreVal = nextUser ? nextUser.score : (userScoreNum - 1.65);
-                    let nextScore = (nextScoreVal % 1 !== 0 ? nextScoreVal.toFixed(2) : nextScoreVal);
-
-                    let selfScore = (cu.score !== undefined && cu.score !== null)
-                        ? (cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score)
-                        : '0';
-
-                    battleEl.innerHTML = `
-                        <span class="battle-side-indicator indicator-left">↑</span>
-                        <div class="battle-user-col">
-                            <span class="battle-rank-num">${prevRank}</span>
-                            <span class="battle-user-name">${prevName}</span>
-                            <span class="battle-user-pts">${prevScore} pts</span>
-                        </div>
-
-                        <div class="battle-dashed-line"></div>
-
-                        <div class="battle-user-col battle-self-box">
-                            <span class="battle-rank-num">#${userRank}</span>
-                            <span class="battle-user-name">${cu.name || firstName} (You)</span>
-                            <span class="battle-user-pts">${selfScore} pts</span>
-                        </div>
-
-                        <div class="battle-dashed-line"></div>
-
-                        <div class="battle-user-col">
-                            <span class="battle-rank-num">${nextRank}</span>
-                            <span class="battle-user-name">${nextName}</span>
-                            <span class="battle-user-pts">${nextScore} pts</span>
-                        </div>
-                        <span class="battle-side-indicator indicator-right">↓</span>
-                    `;
-                } else {
-                    battleEl.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:11px; width:100%;">Attempt quizzes to enter the Battle!</p>`;
-                }
-            }
-
-            // 2. Render Top 3 Podium
-            const podiumEl = document.getElementById('cup-podium-container');
-            if (podiumEl && list.length >= 3) {
-                const u1 = list[0];
-                const u2 = list[1];
-                const u3 = list[2];
-
-                const renderPodiumCard = (u, rank) => {
-                    let scoreText = u.score % 1 !== 0 ? u.score.toFixed(2) : u.score;
-                    let leagueBadge = typeof getLeagueBadgeHTML === 'function' ? getLeagueBadgeHTML(u.league || 0) : '';
-                    let accuracy = u.history?.accuracy || Math.max(50, 94 - rank * 4);
-                    let avatarHtml = getAvatarMarkup(u, true, 'podium-avatar-img');
-                    let medalEmoji = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : '🥉');
-
-                    return `
-                        <div class="podium-card podium-rank-${rank}" onclick="openProfile(${u.id})">
-                            <span class="podium-medal-badge">${medalEmoji}</span>
-                            ${rank === 1 ? `<span class="podium-crown-icon">👑</span>` : ''}
-                            <div class="podium-avatar-wrap">
-                                ${avatarHtml}
-                            </div>
-                            <div class="podium-name">${u.name}</div>
-                            <div class="podium-league-badge-wrap">${leagueBadge}</div>
-                            <div class="podium-score">${scoreText} pts</div>
-                            <div class="podium-meta-strip">
-                                <span>🎯 ${accuracy}% Acc</span>
-                            </div>
-                        </div>
-                    `;
-                };
-
-                podiumEl.innerHTML = renderPodiumCard(u2, 2) + renderPodiumCard(u1, 1) + renderPodiumCard(u3, 3);
-            }
-
-            // 3. Render List Rows (#4+) & Insert Red Demotion Cut-off Line
-            const ranksListEl = document.getElementById('cup-ranks-list-container');
-            if (ranksListEl) {
-                const restUsers = list.slice(3);
-                let targetAvg = data.target_average || 0;
-                let demotionLineRendered = false;
-
-                if (restUsers.length === 0) {
-                    ranksListEl.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size:12px;">No other challengers yet.</p>`;
-                } else {
-                    let rowsHtml = '';
-
-                    restUsers.forEach((u) => {
-                        let isMe = u.id == appUserId;
-                        let scoreNum = parseFloat(u.score) || 0;
-                        let scoreText = u.score % 1 !== 0 ? u.score.toFixed(2) : u.score;
-                        let leagueBadge = typeof getLeagueBadgeHTML === 'function' ? getLeagueBadgeHTML(u.league || 0) : '';
-                        let accuracy = u.history?.accuracy || Math.max(40, 85 - (u.rank % 15));
-
-                        let deltaNum = u.rank_delta || (u.rank % 3 === 0 ? -1 : 1);
-                        let deltaClass = deltaNum > 0 ? 'delta-up' : (deltaNum < 0 ? 'delta-down' : 'delta-same');
-                        let deltaIcon = deltaNum > 0 ? '↑' : (deltaNum < 0 ? '↓' : '–');
-                        let avatarHtml = getAvatarMarkup(u, false, 'cup-row-avatar-img');
-
-                        let meClass = isMe ? ' cup-rank-row-me' : '';
-
-                        // Insert Demotion Red Line when passing below class average
-                        if (!demotionLineRendered && targetAvg > 0 && scoreNum < targetAvg) {
-                            rowsHtml += `
-                                <div class="cup-demotion-divider">
-                                    <span class="demotion-line"></span>
-                                    <span class="demotion-badge">🔻 Demotion Zone (Below Class Average: ${targetAvg.toFixed(1)} pts)</span>
-                                    <span class="demotion-line"></span>
-                                </div>
-                            `;
-                            demotionLineRendered = true;
-                        }
-
-                        rowsHtml += `
-                            <div class="cup-rank-row-item${meClass}" onclick="openProfile(${u.id})">
-                                <div class="cup-row-left">
-                                    <span class="cup-row-rank-num">#${u.rank}</span>
-                                    <div class="cup-row-avatar-wrap">
-                                        ${avatarHtml}
-                                    </div>
-                                    <div class="cup-row-user-meta">
-                                        <div class="cup-row-name-line">
-                                            <span class="cup-row-name">${u.name} ${isMe ? '(You)' : ''}</span>
-                                            <div class="cup-row-league-wrap">${leagueBadge}</div>
-                                        </div>
-                                        <div class="cup-row-submeta">
-                                            <span>🎯 ${accuracy}% accuracy</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="cup-row-right">
-                                    <span class="cup-row-pts">${scoreText} pts</span>
-                                    <span class="cup-row-delta ${deltaClass}">${deltaIcon} ${Math.abs(deltaNum)}</span>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    ranksListEl.innerHTML = rowsHtml;
-                }
-            }
-
-            // 4. Update Frozen Sticky Self Bar
-            const stickyBar = document.getElementById('cup-sticky-user-bar');
-            if (stickyBar && userRank > 0) {
-                const elRank = document.getElementById('sticky-user-rank');
-                const elName = document.getElementById('sticky-user-name');
-                const elPill = document.getElementById('sticky-user-pill');
-                const elMeta = document.getElementById('sticky-user-meta-text');
-                const elScore = document.getElementById('sticky-user-score');
-                const elDelta = document.getElementById('sticky-user-delta');
-                const avatarWrap = document.getElementById('sticky-user-avatar-wrap');
-
-                if (elRank) elRank.innerText = `#${userRank}`;
-                if (elName) elName.innerText = `${cu.name || firstName} (You)`;
-                
-                let scoreText = (cu.score !== undefined && cu.score !== null)
-                    ? (cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score)
-                    : '0';
-                if (elScore) elScore.innerText = `${scoreText} pts`;
-
-                let topPct = Math.max(1, Math.round((userRank / (data.total_active || list.length || 120)) * 100));
-                if (elPill) elPill.innerText = `Top ${topPct}%`;
-
-                let acc = cu.history?.accuracy || 0;
-                if (elMeta) elMeta.innerText = `🎯 ${acc}% Accuracy`;
-
-                if (avatarWrap) {
-                    avatarWrap.innerHTML = getAvatarMarkup(cu, false, 'cup-row-avatar-img');
-                }
-
-                stickyBar.style.display = 'flex';
-            } else if (stickyBar) {
-                stickyBar.style.display = 'none';
-            }
-        }
-
-        // 3. FETCH ORIGINAL LEADERBOARD & PROGRESS DATA
-        async function loadRealCupData() {
+        // 🟢 Live Profile Data Loader (Individual Quizzes)
+        async function loadProfileData() {
             try {
                 const currentUid = (typeof resolveAppUserId === 'function') ? resolveAppUserId() : appUserId;
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/leaderboard?user_id=${currentUid}`, {
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/profile/me?user_id=${currentUid}`, {
                     headers: (typeof getAppAuthHeaders === 'function' ? getAppAuthHeaders() : getAuthHeaders())
                 });
                 const data = await response.json();
+                if (data) {
+                    const elName = document.getElementById('profile-name');
+                    if (elName && data.name) elName.innerText = data.name;
 
-                if (data.current_week) {
-                    window.currentWeekNum = data.current_week;
-                }
+                    const completed = data.quizzes_completed || (data.performance ? data.performance.quiz_history_count : 0) || 0;
+                    const elTests = document.getElementById('profile-tests-count');
+                    if (elTests) elTests.innerText = completed;
 
-                console.log("LEADERBOARD API RESPONSE:", data);
+                    const elProgTests = document.getElementById('prog-hero-tests-count');
+                    if (elProgTests) elProgTests.innerText = completed;
 
-                // 🟢 Render New Weekly Cup Podium, Battle & Rows
-                if (typeof renderCupLeaderboard === 'function') {
-                    renderCupLeaderboard(data);
-                }
-                if (typeof renderLeaderboardData === 'function') {
-                    renderLeaderboardData(data);
-                }
+                    const elProgTotal = document.getElementById('prog-total-attempts');
+                    if (elProgTotal) elProgTotal.innerText = completed;
 
-                if (data.current_user) {
-                    const cu = data.current_user;
+                    const scoreVal = (data.score !== undefined && data.score !== null) ? data.score : 0;
+                    const elScore = document.getElementById('profile-score');
+                    if (elScore) elScore.innerText = scoreVal;
+
+                    const elProgScore = document.getElementById('prog-hero-score');
+                    if (elProgScore) elProgScore.innerText = scoreVal;
+
+                    const acc = (data.accuracy !== undefined && data.accuracy !== null) 
+                        ? Math.round(data.accuracy) 
+                        : (data.performance?.accuracy ? Math.round(data.performance.accuracy) : 0);
                     
-                    const leagueBadge = getLeagueBadgeHTML(cu.league);
-                    
-                    // Sync Home Tab (Rank, Score & Top X%)
-                    let totalActive = data.total_active || (data.leaderboard ? data.leaderboard.length : 0);
-                    updateWeeklyCupHomeUI(cu, totalActive, data);
-                    updateProfileHeroUI(cu, totalActive);
-                    updateProgressTabUI(cu, totalActive); // 🟢 Updates Progress Screen
-                    updateCupHeroCardUI(cu, totalActive, data); // 🟢 Updates Cup Tab Hero Card
+                    const elAcc = document.getElementById('profile-accuracy-val');
+                    if (elAcc) elAcc.innerText = `${acc}%`;
 
-                    // 2. Safely inject into Profile Tab
-                    const profileRank = document.getElementById('profile-rank');
-                    if (profileRank) profileRank.innerText = `#${cu.rank || 'N/A'}`;
-                    const profileScore = document.getElementById('profile-score');
-                    if (profileScore) profileScore.innerText = cu.score || 0;
-                    
-                    // 🟢 Sync League Badge
-                    const profileLeague = document.getElementById('profile-league-container');
-                    if (profileLeague) {
-                        if (cu.league > 0) {
-                            profileLeague.innerHTML = getLeagueBadgeHTML(cu.league);
-                            profileLeague.style.display = 'block';
-                        } else {
-                            profileLeague.style.display = 'none';
-                        }
+                    const elProgAcc = document.getElementById('prog-radial-val');
+                    if (elProgAcc) elProgAcc.innerText = `${acc}%`;
+
+                    const elProgRadialFill = document.getElementById('prog-radial-fill');
+                    if (elProgRadialFill) {
+                        const circumference = 2 * Math.PI * 38;
+                        const offset = circumference - (circumference * acc / 100);
+                        elProgRadialFill.style.strokeDashoffset = offset;
                     }
-                    
-                    // 3. Update Progress Tab
-                    const progressStats = document.querySelector('#view-progress .card-main');
-                    if(progressStats) {
-                        progressStats.innerHTML = `
-                            <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
-                                <div class="stat-col"><p>Score</p><h3>${cu.score || 0}</h3></div>
-                                <div class="stat-col"><p>Rank</p><h3>#${cu.rank || 'N/A'}</h3></div>
-                            </div>
-                            <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success">${cu.history?.accuracy || 0}%</h3></div>
-                        `;
-                    }
-                    
-                    updateDynamicTracker();
                 }
-            } catch (err) { 
-                console.error("Failed to load Cup data", err); 
-                const listEl = document.getElementById('list');
-                if(listEl) listEl.innerHTML = '<p style="text-align:center; color:red; font-size: 14px;">Failed to connect to the Great Hall.</p>';
+            } catch(e) {
+                console.error("Failed to load profile data", e);
             }
         }
+                    
+
         
         // --- MASTER SPEC: LOAD GROUPED QUIZZES ---
         async function loadQuizzes() {
@@ -8350,57 +6939,6 @@
         loadHomeContent();
         loadProgressHistory();
 
-        // --- MASTER SPEC: SECTIONS 6 & 7 (Load Weekly Archive) ---
-        async function loadWeeklyResults(targetWeek = null) {
-            try {
-                let url = `https://ez-editorials-bot.onrender.com/api/weekly-results`;
-                if (targetWeek) url += `?week_num=${targetWeek}`;
-                
-                const response = await fetch(url);
-                const data = await response.json();
-                const container = document.getElementById('weekly-history-container');
-                
-                if (data.results && data.results.length > 0) {
-                    const currentWeek = data.week_num;
-                    
-                    // The Pagination Header (Swipe/Click through past seasons)
-                    let html = `
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px; background:var(--border-light); padding:8px 12px; border-radius:12px;">
-                            <span style="font-size:20px; cursor:pointer;" onclick="triggerHaptic('selection'); loadWeeklyResults(${currentWeek - 1});">⬅️</span>
-                            <span style="font-weight:bold; font-size:14px;">Season ${currentWeek} Top 10</span>
-                            <span style="font-size:20px; cursor:pointer;" onclick="triggerHaptic('selection'); loadWeeklyResults(${currentWeek + 1});">➡️</span>
-                        </div>
-                    `;
-                    
-                    data.results.forEach(user => {
-                        const isMe = user.id == appUserId;
-                        const bg = isMe ? 'background:var(--brand-light); border:none; padding:12px; border-radius:12px; margin-bottom:8px;' : 'padding:12px 0; border-bottom:1px solid var(--border-light);';
-                        const leagueBadge = typeof getLeagueBadgeHTML === 'function' ? getLeagueBadgeHTML(user.league || 0) : `Lvl ${user.league || 0}`;
-                        let rankDisplay = user.rank === 1 ? '🥇' : user.rank === 2 ? '🥈' : user.rank === 3 ? '🥉' : `#${user.rank}`;
-
-                        html += `
-                            <div class="lb-item" style="${bg}">
-                                <div class="lb-left">
-                                    <span class="lb-rank" style="${isMe ? 'font-weight:bold;color:var(--brand);' : ''}">${rankDisplay}</span>
-                                    <div style="display:flex; flex-direction:column; gap:2px;">
-                                        <span class="${isMe ? 'font-bold' : ''}">${isMe ? 'You' : user.name}</span>
-                                        <span style="font-size:11px; color:var(--text-muted); display:flex; align-items:center; gap:4px;">${leagueBadge}</span>
-                                    </div>
-                                </div>
-                                <span class="${isMe ? 'text-brand font-bold' : ''}">${user.score} pts</span>
-                            </div>
-                        `;
-                    });
-                    container.innerHTML = html;
-                } else {
-                    container.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px; margin-top:20px;">No records available for this season.</p>
-                    <div style="text-align:center; margin-top:15px;"><button style="padding:8px 16px; border-radius:8px; border:none; background:var(--brand); color:white; font-weight:bold; cursor:pointer;" onclick="loadWeeklyResults()">Return to Latest</button></div>`;
-                }
-            } catch (err) {
-                console.error("Failed to load weekly results", err);
-            }
-        }
-
         // --- MASTER SPEC: SECTION 4 (Upcoming Exams & Timers) ---
         let examTimers = [];
 
@@ -8614,406 +7152,10 @@
             if (dateEl) dateEl.innerText = ist.toLocaleDateString('en-GB', options);
         }
 
-        // 2. Parse WOTD String (Fixed Parser)
-        function parseWOTDString(rawText) {
-            const lines = rawText.split('\n').map(l => l.trim()).filter(Boolean);
-            const data = {
-                word: '', pos: '', connotation: '', pronunciation: '',
-                mnemonic: '', meaning: '', hindiMeaning: '', synonyms: [], antonyms: [], context: ''
-            };
-
-            let currentKey = '';
-
-            lines.forEach(line => {
-                if (line.includes('WORD OF THE DAY')) return;
-
-                // FIX: Strictly grab the Word and POS, ignoring the meaning line
-                if (!data.word && line.includes('(') && line.includes(')') && !line.startsWith('📝') && !line.startsWith('💡')) {
-                    const match = line.match(/^([^(]+)\(([^)]+)\)\s*([+−=−-]?)/);
-                    if (match) {
-                        data.word = match[1].trim();
-                        data.pos = match[2].trim();
-                        data.connotation = match[3] ? match[3].trim() : '';
-                        return;
-                    }
-                }
-
-                if (line.startsWith('🔊')) {
-                    data.pronunciation = line.replace('🔊', '').trim();
-                    return;
-                }
-
-                if (line.includes('💡 Think of')) {
-                    currentKey = 'mnemonic';
-                    const rest = line.replace('💡 Think of', '').trim();
-                    if (rest) data.mnemonic = rest;
-                    return;
-                }
-
-                if (line.startsWith('📝')) {
-                    currentKey = 'meaning';
-                    const content = line.replace('📝', '').trim();
-                    const hindiMatch = content.match(/\(([^)]+)\)$/);
-                    if (hindiMatch) {
-                        data.hindiMeaning = hindiMatch[1].trim();
-                        data.meaning = content.replace(/\([^)]+\)$/, '').trim();
-                    } else {
-                        data.meaning = content;
-                    }
-                    return;
-                }
-
-                if (line.startsWith('🔄')) {
-                    currentKey = 'synonyms';
-                    data.synonyms = line.replace('🔄', '').split(/•|,/).map(s => s.trim()).filter(Boolean);
-                    return;
-                }
-
-                if (line.startsWith('↔️')) {
-                    currentKey = 'antonyms';
-                    data.antonyms = line.replace('↔️', '').split(/•|,/).map(s => s.trim()).filter(Boolean);
-                    return;
-                }
-
-                if (line.includes('📍 Where you\'ll hear it')) {
-                    currentKey = 'context';
-                    return;
-                }
-
-                if (currentKey === 'mnemonic') data.mnemonic += ' ' + line;
-                else if (currentKey === 'context') data.context += ' ' + line;
-            });
-
-            return data;
-        }
-
-        // 3. Parse Foreign Expressions (Fixed Unicode Glitch)
-        function parseForeignExpressionsString(rawText) {
-            const blocks = rawText.split(/(?=\d+[\uFE0F\u20E3\u20E0]?\u20E3?|\d+\.)/).filter(b => b.trim().length > 0);
-            const items = [];
-
-            blocks.forEach(block => {
-                const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
-                if (lines.length === 0 || lines[0].includes('FOREIGN EXPRESSIONS')) return;
-
-                const item = { expression: '', language: 'Foreign', pronunciation: '', meaning: '', hindiMeaning: '', example: '' };
-
-                lines.forEach(line => {
-                    // FIX: Safely extract the expression while destroying all emojis/numbers
-                    const headerMatch = line.match(/([a-zA-ZÀ-ÿ\s'-]+)\s*\(([^)]+)\)/);
-                    if (headerMatch && !item.expression) {
-                        item.expression = headerMatch[1].replace(/^[^a-zA-Z]+/, '').trim();
-                        item.language = headerMatch[2].trim();
-                        return;
-                    }
-
-                    if (line.startsWith('🔊')) {
-                        item.pronunciation = line.replace('🔊', '').trim();
-                        return;
-                    }
-
-                    if (line.startsWith('💡')) {
-                        item.meaning = line.replace('💡', '').trim();
-                        return;
-                    }
-
-                    if (line.startsWith('(') && line.endsWith(')')) {
-                        item.hindiMeaning = line.replace(/^\(|\)$/g, '').trim();
-                        return;
-                    }
-
-                    if (line.startsWith('📰')) {
-                        item.example = line.replace('📰', '').trim();
-                        return;
-                    }
-
-                    if (item.meaning && !item.example && !line.startsWith('🔊')) {
-                        item.meaning += ' ' + line;
-                    }
-                });
-
-                if (item.expression) items.push(item);
-            });
-
-            return items;
-        }
-
-        // 4. Build WOTD HTML (Fixed Title Wrapping)
-        function buildWOTDCardHTML(wotd) {
-            return `
-                <div class="digest-card">
-                    <!-- Added flex-wrap: wrap so the audio pill safely drops to the next line if space is tight -->
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 12px; gap: 12px; flex-wrap: wrap;">
-                        <div style="flex: 1 1 auto; min-width: 0;">
-                            <!-- Removed the aggressive word-break property -->
-                            <h2 style="font-size: 24px; font-weight: 800; color: var(--brand); margin:0; overflow-wrap: break-word;">${wotd.word || "Word of the Day"}</h2>
-                            <div style="display:flex; flex-wrap: wrap; gap: 6px; margin-top: 6px;">
-                                ${wotd.pos ? `<span class="badge-pill badge-pos">${wotd.pos}</span>` : ''}
-                                ${wotd.connotation ? `<span class="badge-pill badge-connotation">${wotd.connotation}</span>` : ''}
-                            </div>
-                        </div>
-                        ${wotd.pronunciation ? `<span class="badge-pill badge-audio">🔊 ${wotd.pronunciation}</span>` : ''}
-                    </div>
-
-                    ${wotd.mnemonic ? `
-                        <div class="trick-box">
-                            <strong>💡 Mnemonic Trick:</strong><br/>
-                            ${wotd.mnemonic}
-                        </div>
-                    ` : ''}
-
-                    <div class="meaning-box">
-                        <div class="meaning-main">${wotd.meaning}</div>
-                        ${wotd.hindiMeaning ? `<div class="meaning-hindi">${wotd.hindiMeaning}</div>` : ''}
-                    </div>
-
-                    ${wotd.synonyms.length ? `
-                        <div style="margin-top: 12px;">
-                            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Synonyms (British English)</span>
-                            <div class="tag-group">
-                                ${wotd.synonyms.map(s => `<span class="tag-item tag-synonym">${s}</span>`).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    ${wotd.antonyms.length ? `
-                        <div style="margin-top: 10px;">
-                            <span style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Antonyms</span>
-                            <div class="tag-group">
-                                ${wotd.antonyms.map(a => `<span class="tag-item tag-antonym">${a}</span>`).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
-
-                    ${wotd.context ? `
-                        <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted);">
-                            <strong>📍 Exam Context:</strong> ${wotd.context}
-                        </div>
-                    ` : ''}
-                </div>
-            `;
-        }
-
-        // 5. Build Foreign Cards HTML (Fixed Flag Glitch and Audio Styling)
-        function buildForeignCardsHTML(expressions) {
-            if (!expressions || expressions.length === 0) {
-                return `<p style="text-align:center; color:var(--text-muted);">No expressions available today.</p>`;
-            }
-
-            return expressions.map((exp, idx) => `
-                <div class="digest-card" style="margin-bottom: 14px;">
-                    <div class="card-index-badge">#${idx + 1}</div>
-                    <div style="margin-bottom: 12px;">
-                        <span class="badge-pill badge-lang">${exp.language}</span>
-                        <h3 style="font-size: 20px; font-weight: 800; color: var(--text-main); margin: 6px 0 6px 0;">${exp.expression}</h3>
-                        ${exp.pronunciation ? `<span class="badge-pill badge-audio">🔊 ${exp.pronunciation}</span>` : ''}
-                    </div>
-
-                    <div class="meaning-box">
-                        <div class="meaning-main">${exp.meaning}</div>
-                        ${exp.hindiMeaning ? `<div class="meaning-hindi">${exp.hindiMeaning}</div>` : ''}
-                    </div>
-
-                    ${exp.example ? `
-                        <div class="editorial-quote-box">
-                            <span style="font-size: 16px;">📰</span>
-                            <div style="flex: 1;">
-                                <strong style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;">Editorial Application</strong>
-                                "${exp.example}"
-                            </div>
-                        </div>
-                    ` : ''}
-                </div>
-            `).join('');
-        }
-
-        // 🟢 Audio Engine for Digest Words & Expressions
-        function playWordSpeech(type) {
-            triggerHaptic('light');
-            if (!digestItems || digestItems.length === 0) return;
-
-            let textToSpeak = '';
-            if (type === 'wotd') {
-                const wotdItem = digestItems.find(i => i.id === 'wotd');
-                if (wotdItem) {
-                    const parsed = parseWOTDString(wotdItem.content);
-                    textToSpeak = parsed.word;
-                }
-            } else if (type === 'foreign') {
-                const foreignItem = digestItems.find(i => i.id === 'foreign');
-                if (foreignItem) {
-                    const parsed = parseForeignExpressionsString(foreignItem.content);
-                    if (parsed.length > 0) textToSpeak = parsed[0].expression;
-                }
-            }
-
-            if (textToSpeak && 'speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Stop active audio
-                const utterance = new SpeechSynthesisUtterance(textToSpeak);
-                utterance.rate = 0.85; // Natural clear pronunciation
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-
-        // 🟢 Audio helper for individual word pronunciation
-        function speakWord(word, e) {
-            if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
-            if (!word) {
-                playWordSpeech('wotd');
-                return;
-            }
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(word);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.85;
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-
-        // 🟢 Populate the "Today's Insights" Cards
-        function populateDigestInsightsCards() {
-            if (!digestItems || digestItems.length === 0) return;
-
-            const wotdItem = digestItems.find(i => i.id === 'wotd');
-            const foreignItem = digestItems.find(i => i.id === 'foreign');
-
-            // 1. Populate Word of the Day Card
-            if (wotdItem && wotdItem.content) {
-                const parsedWOTD = parseWOTDString(wotdItem.content);
-                const elWord = document.getElementById('wotd-card-word');
-                const elPos = document.getElementById('wotd-card-pos');
-                const elDef = document.getElementById('wotd-card-def');
-                const elExample = document.getElementById('wotd-card-example');
-
-                if (elWord) elWord.innerText = parsedWOTD.word || "Word of the Day";
-                if (elPos) elPos.innerText = parsedWOTD.pos || "Vocabulary";
-                if (elDef) elDef.innerText = parsedWOTD.meaning || "Tap to read full meaning";
-                if (elExample) {
-                    elExample.innerText = parsedWOTD.context || (parsedWOTD.synonyms?.length ? `Synonyms: ${parsedWOTD.synonyms.slice(0, 3).join(', ')}` : "Tap to read editorial context.");
-                }
-
-                // 🟢 Sync Desktop Right Performance Rail Word of the Day Widget
-                try {
-                    const railWotd = document.getElementById('rail-wotd-display');
-                    const railMeaning = document.getElementById('rail-wotd-meaning');
-                    if (railWotd) {
-                        const cleanWord = (parsedWOTD.word || "Word of the Day").replace(/'/g, "\\'");
-                        railWotd.innerHTML = `<span style="text-transform: capitalize;">${parsedWOTD.word || "Word of the Day"}</span> <button onclick="speakWord('${cleanWord}', event)" title="Listen pronunciation" style="background:none; border:none; cursor:pointer; font-size:16px; vertical-align:middle; padding:2px 6px;">🔊</button>`;
-                    }
-                    if (railMeaning) {
-                        const posStr = parsedWOTD.pos ? `(${parsedWOTD.pos}) ` : '';
-                        railMeaning.innerText = `${posStr}${parsedWOTD.meaning || "Tap to explore usage, synonyms & passage ›"}`;
-                    }
-                } catch(e) {}
-            }
-
-            // 2. Populate Foreign Expression Card
-            if (foreignItem && foreignItem.content) {
-                const parsedExpressions = parseForeignExpressionsString(foreignItem.content);
-                const firstExp = parsedExpressions.length > 0 ? parsedExpressions[0] : null;
-
-                const elExp = document.getElementById('foreign-card-exp');
-                const elLang = document.getElementById('foreign-card-lang');
-                const elTrans = document.getElementById('foreign-card-trans');
-                const elMeaning = document.getElementById('foreign-card-meaning');
-
-                if (elExp && firstExp) elExp.innerText = firstExp.expression || "Foreign Expression";
-                if (elLang && firstExp) elLang.innerText = firstExp.language || "Foreign";
-                if (elTrans && firstExp) elTrans.innerText = firstExp.meaning || "Tap to read meaning";
-                if (elMeaning && firstExp) {
-                    elMeaning.innerText = firstExp.example || firstExp.hindiMeaning || "Tap to explore full usage insights.";
-                }
-            }
-        }
-
         async function loadDailyDigest() {
             updateDigestDate();
-            try {
-                // ✨ SECURE AUTH HEADER ADDED
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/digest/today?user_id=${appUserId}`, {
-                    headers: getAuthHeaders()
-                });
-                const data = await response.json();
-                
-                if (data.items) {
-                    digestItems = data.items;
-
-                    // 1. Update Hero Banner counter pill ("2 insights ready for you")
-                    const insightTextEl = document.getElementById('digest-insight-text');
-                    if (insightTextEl) {
-                        const count = data.items.length;
-                        insightTextEl.innerText = `${count} insight${count === 1 ? '' : 's'} ready for you`;
-                    }
-
-                    // 2. Populate Home Tab Highlights Card
-                    if (typeof updateTodayHighlightsUI === 'function') {
-                        updateTodayHighlightsUI();
-                    }
-
-                    // 3. 🟢 Populate the Digest Tab Insight Cards (WOTD & Foreign Expressions)
-                    if (typeof populateDigestInsightsCards === 'function') {
-                        populateDigestInsightsCards();
-                    }
-
-                    // 4. Update Bottom Nav Red Notification Dot
-                    let hasUnread = data.items.some(item => !item.is_read);
-                    const navBadge = document.getElementById('digest-badge');
-                    if (navBadge) navBadge.style.display = hasUnread ? 'block' : 'none';
-                    
-                    // 5. Sync to Master Notification Bell
-                    window.appState.digest = hasUnread;
-                    syncGlobalNotifications();
-                }
-            } catch (err) {
-                console.error("Failed to load digest", err);
-            }
-        }
-
-        function openDigestItem(id) {
-            triggerHaptic('medium');
-            const item = digestItems.find(i => i.id === id);
-            if (!item) return;
-            
-            document.getElementById('digestModalTitle').innerText = item.title;
-            const bodyEl = document.getElementById('digestModalBody');
-            
-            // Format Content based on type
-            if (id === 'wotd') {
-                const parsedWOTD = parseWOTDString(item.content);
-                bodyEl.innerHTML = buildWOTDCardHTML(parsedWOTD);
-                bodyEl.style.background = 'transparent'; // Remove the old gray background
-                bodyEl.style.border = 'none';
-                bodyEl.style.padding = '0';
-            } else if (id === 'foreign') {
-                const parsedExpressions = parseForeignExpressionsString(item.content);
-                bodyEl.innerHTML = buildForeignCardsHTML(parsedExpressions);
-                bodyEl.style.background = 'transparent'; 
-                bodyEl.style.border = 'none';
-                bodyEl.style.padding = '0';
-            } else {
-                bodyEl.innerText = item.content; // Fallback
-            }
-            
-            document.getElementById('digestModalOverlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; 
-            
-            if (!item.is_read) {
-                item.is_read = true;
-                fetch(`https://ez-editorials-bot.onrender.com/api/digest/mark-read`, {
-                    method: 'POST',
-                    headers: getAuthHeaders(),
-                    body: JSON.stringify({ user_id: appUserId, content_type: id })
-                });
-                loadDailyDigest(); 
-            }
-        }
-        
-        function closeDigestModal(e, force=false) {
-            if (force || e.target.id === 'digestModalOverlay') {
-                triggerHaptic('soft');
-                document.getElementById('digestModalOverlay').style.display = 'none';
-                document.body.style.overflow = ''; 
+            if (typeof initMagazineView === 'function') {
+                initMagazineView();
             }
         }
 
@@ -9022,15 +7164,6 @@
             triggerHaptic('medium'); // Stronger vibration for popups
             document.getElementById(modalId).style.display = 'flex';
             document.body.style.overflow = 'hidden'; // Lock background scrolling
-        }
-
-        // Function to close the hidden sub-menus
-        function closeSubModal(event, modalId, force=false) {
-            if (force || event.target.id === modalId) {
-                triggerHaptic('soft'); // Gentle vibration when closing
-                document.getElementById(modalId).style.display = 'none';
-                document.body.style.overflow = ''; // Unlock scrolling
-            }
         }
 
         // Function to close the hidden sub-menus
@@ -9463,7 +7596,6 @@
             const railNavMap = {
                 'view-home': 'rail-nav-home',
                 'view-day': 'rail-nav-day',
-                'view-cup': 'rail-nav-cup',
                 'view-progress': 'rail-nav-progress',
                 'view-digest': 'rail-nav-digest',
                 'view-magazine': 'rail-nav-magazine',
@@ -9501,13 +7633,6 @@
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             let navId = 'nav-home';
             
-            if(viewId === 'view-cup') { 
-                navId = 'nav-cup'; 
-                if (Date.now() - lastFetchTimes.cup > 30000) {
-                    loadRealCupData();
-                    lastFetchTimes.cup = Date.now();
-                }
-            }
             if(viewId === 'view-progress') {
                 navId = 'nav-progress';
                 if (Date.now() - lastFetchTimes.progress > 30000) {
@@ -9517,10 +7642,7 @@
             }
             if(viewId === 'view-profile') {
                 navId = 'nav-profile';
-                if (!window.currentUserData || !window.currentUserData.history) {
-                    loadRealCupData(); // 👈 Ensures user data exists before clicking performance
-                }
-                loadWeeklyResults();
+                loadProfileData();
                 loadUpcomingExams(); 
             }
             if(viewId === 'view-digest') {
@@ -9565,7 +7687,7 @@
                 
                 const homeLabel = document.getElementById('home-timer-label') || homeTimer.previousElementSibling?.querySelector('span');
                 if (homeLabel) {
-                    homeLabel.innerText = isSunday ? "Weekly Cup Closes In" : "Time Left Today";
+                    homeLabel.innerText = "Time Left Today";
                 }
             }
             
@@ -9577,7 +7699,7 @@
                 
                 const detailLabel = detailTimer.previousElementSibling;
                 if (detailLabel && detailLabel.tagName.toLowerCase() === 'p') {
-                    detailLabel.innerText = isSunday ? "Weekly Cup Closes In" : "Time Left";
+                    detailLabel.innerText = "Time Left";
                 }
             }
             
@@ -9632,96 +7754,13 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('view') === 'day') switchView('view-day');
 
-            // ✨ ADD THESE TWO LINES TO PRESERVE THE ELO DEEP LINK
-            if (tgApp?.initDataUnsafe?.start_param === 'elo') {
-                try { openSubModal('eloModalOverlay'); fetchAndOpenEloLeaderboard(); } catch(e) { console.error(e); }
-            }
-            
-            try { loadRealCupData(); } catch(e) { console.error(e); }
+            try { loadProfileData(); } catch(e) { console.error(e); }
             try { loadQuizzes(); } catch(e) { console.error(e); }
             try { loadDailyDigest(); } catch(e) { console.error(e); }
             try { syncTargetExamCountdown(); } catch(e) { console.error(e); }
-            
-            // 🟢 THE INTERCEPTOR: Catch app_v8.js updates and force the top cards to sync!
-            if (typeof renderLeaderboardData === 'function') {
-                const originalRender = renderLeaderboardData;
-                window.renderLeaderboardData = function(data) {
-                    
-                    // 🟢 FIX: Securely inject Admin privileges into the raw server payload
-                    if (data && data.current_user) {
-                        const ADMIN_IDS = [716496729, 5103843488, 6251430317, 7332965937];
-                        data.current_user.is_admin = ADMIN_IDS.includes(appUserId);
-                    }
-
-                    // 1. Let app_v8.js build the list normally
-                    originalRender(data); 
-                    
-                    // 2. Force update ALL top cards across the Mini App
-                    if (data && data.current_user) {
-                        const cu = data.current_user;
-                        let displayScore = cu.score % 1 !== 0 ? cu.score.toFixed(2) : cu.score;
-                        
-                        // Sync Home Tab (Rank, Score & Top X%)
-                        let totalActive = data.total_active || (data.leaderboard ? data.leaderboard.length : 0);
-                        updateWeeklyCupHomeUI(cu, totalActive, data);
-                        updateProfileHeroUI(cu, totalActive);
-                        updateProgressTabUI(cu, totalActive); // 🟢 Updates Progress Screen
-                        updateCupHeroCardUI(cu, totalActive, data); // 🟢 Sync Cup Hero Card
-
-                        // Sync Cup Tab
-                        const cupRank = document.getElementById('cup-tab-rank');
-                        if (cupRank) cupRank.innerText = `#${cu.rank || 'N/A'}`;
-                        const cupScore = document.getElementById('cup-tab-score');
-                        if (cupScore) cupScore.innerText = displayScore;
-
-                        // Sync Profile Tab
-                        const profileRank = document.getElementById('profile-rank');
-                        if (profileRank) profileRank.innerText = `#${cu.rank || 'N/A'}`;
-                        const profileScore = document.getElementById('profile-score');
-                        if (profileScore) profileScore.innerText = displayScore;
-                        
-                        // 🟢 NEW: Sync League Badge
-                        const profileLeague = document.getElementById('profile-league-container');
-                        if (profileLeague) {
-                            if (cu.league > 0) {
-                                profileLeague.innerHTML = getLeagueBadgeHTML(cu.league);
-                                profileLeague.style.display = 'block';
-                            } else {
-                                profileLeague.style.display = 'none'; // Hide if Unranked
-                            }
-                        }
-                        
-                        // Sync Progress Tab
-                        const progressStats = document.querySelector('#view-progress .card-main');
-                        if(progressStats) {
-                            progressStats.innerHTML = `
-                                <div class="cup-stats" style="margin-top:0; justify-content:space-between;">
-                                    <div class="stat-col"><p>Score</p><h3>${displayScore}</h3></div>
-                                    <div class="stat-col"><p>Rank</p><h3>#${cu.rank || 'N/A'}</h3></div>
-                                </div>
-                                <div class="stat-col" style="margin-top: 24px;"><p>Overall Accuracy</p><h3 class="text-success">${cu.history?.accuracy || 0}%</h3></div>
-                            `;
-                        }
-                        
-                        window.currentUserData = cu; 
-                        updateDynamicTracker();
-                    }
-                };
-            }
-            
-            // 🟢 INITIAL CACHE READ (To prevent blank screens while loading)
-            try {
-                const cachedData = JSON.parse(localStorage.getItem('quizCupData_' + appUserId));
-                if (cachedData && cachedData.current_user) {
-                    // Re-trigger our custom render function to paint the cached data instantly
-                    if (typeof window.renderLeaderboardData === 'function') {
-                        window.renderLeaderboardData(cachedData);
-                    }
-                }
-            } catch(e) {}
         }
 
-        if (document.readyState === 'loading') {
+        if (document.readyState === 'loading')if (document.readyState === 'loading') {
             window.addEventListener('DOMContentLoaded', initApp);
         } else {
             initApp();
