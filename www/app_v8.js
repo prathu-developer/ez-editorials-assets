@@ -312,7 +312,7 @@ function updateTimer() {
     let m = Math.floor((diff / (1000 * 60)) % 60);
 
     let timeText = d > 0 ? `${d}d ${h}h ${m}m` : `${h}h ${m}m`;
-    document.getElementById('timeRemainingHead').innerText = timeText;
+    const trEl = document.getElementById('timeRemainingHead'); if (trEl) trEl.innerText = timeText;
 }
 setInterval(updateTimer, 60000);
 updateTimer();

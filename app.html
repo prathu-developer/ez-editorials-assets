@@ -17,6 +17,9 @@
     <script src="shell.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- ⚡ HOSTED DIRECTLY ON CLOUDFLARE PAGES -->
+    <link rel="stylesheet" href="style.css?v=2.7">
+    <script src="app_v8.js?v=4.0" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         :root {
@@ -2702,8 +2705,15 @@
             border-color: rgba(56, 189, 248, 0.2);
         }
 
-        
-        
+        /* 3. League Badge Container */
+        #header-league-tag {
+            display: inline-flex;
+            align-items: center;
+        }
+        #header-league-tag:active {
+            transform: scale(0.95);
+            opacity: 0.85;
+        }
         .profile-tag-pill:active {
             transform: scale(0.95);
             opacity: 0.8;
@@ -2948,8 +2958,24 @@
             line-height: 1;
         }
 
-        
-        
+        /* --- BOTTOM PROFILE PERCENTILE MOTIVATION BANNER --- */
+        .profile-bottom-banner {
+            margin: 0 16px 24px 16px;
+            padding: 14px 16px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #faf8ff 0%, #f3eeff 100%);
+            border: 1px solid rgba(99, 102, 241, 0.16);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.04);
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        body.dark-mode .profile-bottom-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
+            border-color: rgba(168, 85, 247, 0.2);
+        }
 
         .pb-badge-icon {
             width: 44px;
@@ -3237,7 +3263,11 @@
             font-weight: 800;
         }
 
-        
+        /* 🟢 Word of the Day & Foreign Expressions Reader Dark Mode */
+        body.dark-mode #digestModalOverlay .digest-modal-sheet {
+            background: var(--bg-card) !important;
+            border-top: 1px solid var(--border-light);
+        }
         body.dark-mode #digestModalTitle {
             color: var(--text-main) !important;
         }
@@ -3686,7 +3716,25 @@
             color: var(--text-main) !important;
         }
 
-        
+        /* 4. Week Archive Sub-Modal (#historyModalOverlay) */
+        body.dark-mode #historyModalOverlay .modal-content {
+            background: #1e1e1e !important;
+            border: 1px solid #2e2e38;
+            color: var(--text-main);
+        }
+        body.dark-mode #historyModalOverlay h3 {
+            color: var(--text-main) !important;
+        }
+        body.dark-mode #historyModalOverlay div[style*="background: #f8fafc"] {
+            background: #27272a !important;
+        }
+        body.dark-mode #historyModalOverlay span[style*="color: #0f172a"] {
+            color: var(--text-main) !important;
+        }
+        body.dark-mode #historyModalOverlay button {
+            background: #2e2e38 !important;
+            color: var(--text-main) !important;
+        }
 
         /* 🟢 LAPTOP & TELEGRAM WEB DESKTOP ADAPTIVE OVERRIDES */
         html.is-desktop body {
@@ -4454,7 +4502,15 @@
                 color: #2563eb !important;
             }
 
-            
+            .rail-cup-stats {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 12px !important;
+                background: var(--bg-body) !important;
+                padding: 12px !important;
+                border-radius: 10px !important;
+                margin-bottom: 10px !important;
+            }
 
             .rail-stat-col {
                 display: flex !important;
@@ -4676,9 +4732,11 @@
                 <button class="nav-rail-btn" id="rail-nav-magazine" onclick="switchView('view-magazine')">
                     <span>📖</span> Magazine
                 </button>
+                
                 <button class="nav-rail-btn" id="rail-nav-progress" onclick="switchView('view-progress')">
                     <span>📈</span> Progress
                 </button>
+                
             </nav>
             <div class="nav-rail-footer">
                 <button class="nav-rail-btn" onclick="openSubModal('settingsModalOverlay')">
@@ -4803,7 +4861,9 @@
 
         <!-- Home Stat Cards Grid (Tablet 2-col, Desktop 2-col, Mobile flex-col) -->
         <div class="home-stat-grid">
-<!-- 2. Daily Activity & Study Time Stats Card (Row 1 Col 2) -->
+
+
+            <!-- 2. Daily Activity & Study Time Stats Card (Row 1 Col 2) -->
             <div class="daily-stats-card">
                 <div class="daily-stats-grid">
                     <!-- 1. Quizzes -->
@@ -4854,6 +4914,8 @@
                     <!-- Dynamically populated by updateDynamicTracker() -->
                 </div>
             </div>
+
+
         </div>
 
         <!-- Continue Your Journey Section (Full width) -->
@@ -4970,6 +5032,12 @@
         </div>
     </div>
 
+
+    <!-- ==========================================
+         VIEW 3: WEEKLY CUP (Mobile-Optimized)
+         ========================================== -->
+    
+
     <!-- ==========================================
          VIEW 4: PROGRESS (New Redesign)
          ========================================== -->
@@ -4978,6 +5046,7 @@
         <div class="progress-top-header">
             <span style="width: 38px;"></span>
             <span class="progress-header-title">Your Progress</span>
+            
         </div>
         
         <!-- Progress Stat Grid (2-column on desktop) -->
@@ -5012,7 +5081,6 @@
                     <div class="prog-col-label">Tests Attempted</div>
                     <div class="prog-col-val" id="prog-hero-tests-count">0</div>
                     <div class="prog-hero-pill pill-purple-soft" id="prog-hero-tests-pill">Consistency is key ⚡</div>
-                </div>
                 </div>
             </div>
 
@@ -5159,6 +5227,7 @@
                             <div class="profile-target-tag-row" id="header-target-tags">
                                 <span id="header-state-tag" class="profile-tag-pill tag-state" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
                                 <span id="header-exam-tag" class="profile-tag-pill tag-exam" style="display: none;" onclick="openSubModal('targetModalOverlay')"></span>
+                                
                             </div>
 
                             <!-- Motto -->
@@ -5211,30 +5280,20 @@
                         </div>
                     </div>
                 </div>
-                    </div>
 
-                    <div class="pb-right">
-                        <span class="pb-pill-badge" id="profile-banner-pct-pill">Top --%</span>
-                        <span class="p-item-arrow">›</span>
-                    </div>
-                </div>
+
             </div>
 
             <div class="profile-right-col">
                 <!-- Profile Menu Card -->
                 <div class="profile-menu-card">
-                        </div>
-                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-                    </div>
-                        </div>
-                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-                    </div>
-                        </div>
-                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-                    </div>
-                        </div>
-                        <div class="p-item-right"><span class="p-item-arrow">›</span></div>
-                    </div>
+
+
+
+
+
+
+
 
                     <!-- 6. Upcoming Exams -->
                     <div class="p-card-item" onclick="openSubModal('examsModalOverlay')">
@@ -5305,147 +5364,9 @@
          GLOBAL MODALS (Safely Outside View Containers)
          ========================================== -->
 
-            <!-- 2. Top 4 Stats Grid -->
-            <div class="perf-stats-grid">
-                <!-- Stat 1: Total Points -->
-                <div class="perf-stat-box">
-                    <div class="perf-stat-top">
-                        <span class="perf-stat-label">Total Points</span>
-                        <div class="perf-stat-icon p-ico-purple">📈</div>
-                    </div>
-                    <div class="perf-stat-val col-purple" id="statScore">0</div>
-                </div>
 
-                <!-- Stat 2: Weekly Accuracy -->
-                <div class="perf-stat-box">
-                    <div class="perf-stat-top">
-                        <span class="perf-stat-label">Accuracy</span>
-                        <div class="perf-stat-icon p-ico-green">🎯</div>
-                    </div>
-                    <div class="perf-stat-val col-green" id="statAccuracy">0%</div>
-                </div>
+    
 
-                <!-- Stat 3: Quizzes Attempted -->
-                <div class="perf-stat-box">
-                    <div class="perf-stat-top">
-                        <span class="perf-stat-label">Attempted</span>
-                        <div class="perf-stat-icon p-ico-blue">📄</div>
-                    </div>
-                    <div class="perf-stat-val col-blue" id="statAttempts">0 / 0</div>
-                </div>
-
-                <!-- Stat 4: Lifetime Growth -->
-                <div class="perf-stat-box">
-                    <div class="perf-stat-top">
-                        <span class="perf-stat-label">Growth</span>
-                        <div class="perf-stat-icon p-ico-amber">⚡</div>
-                    </div>
-                    <div class="perf-stat-val col-amber" id="statGrowth">Calibrating...</div>
-                </div>
-            </div>
-
-            <!-- 3. Weekly Progress Chart -->
-            <div class="dash-card">
-                <div class="section-title">
-                    <span>📊 Weekly Progress</span>
-                    <span style="font-size: 11px; color: var(--text-muted); font-weight: 500;">Mon - Sun</span>
-                </div>
-                <div class="chart-container">
-                    <canvas id="dailyChart"></canvas>
-                </div>
-                <div class="chart-summary">
-                    <div class="cs-item">
-                        <span class="cs-label">Σ Points</span>
-                        <span class="cs-val" id="csTotal">0</span>
-                    </div>
-                    <div class="cs-item">
-                        <span class="cs-label">✅ Correct</span>
-                        <span class="cs-val" style="color:#10b981;" id="csCorrect">0</span>
-                    </div>
-                    <div class="cs-item">
-                        <span class="cs-label">❌ Wrong</span>
-                        <span class="cs-val" style="color:#ef4444;" id="csWrong">0</span>
-                    </div>
-                    <div class="cs-item">
-                        <span class="cs-label">🎯 Accuracy</span>
-                        <span class="cs-val" style="color:#5a32fa;" id="csAcc">0%</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. Performance Overview & Benchmarking -->
-            <div class="dash-card">
-                <div class="section-title">
-                    <span>🎯 Performance Overview</span>
-                </div>
-                <div class="doughnut-layout">
-                    <div class="doughnut-wrap">
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none;">
-                            <div id="chart-center-perc" style="font-size: 18px; font-weight: 900; color: var(--text-main); line-height: 1;">--%</div>
-                        </div>
-                        <canvas id="pieChart"></canvas>
-                    </div>
-                    <div class="performance-table">
-                        <table class="perf-table">
-                            <tr>
-                                <th></th>
-                                <th id="tblStudentHeader">Student</th>
-                                <th>Topper</th>
-                                <th>Class Avg</th>
-                            </tr>
-                            <tr>
-                                <td class="tbl-label"><span class="text-green">●</span> Correct</td>
-                                <td id="tblYouCor" style="font-weight:bold;">0</td>
-                                <td id="tblTopCor">0</td>
-                                <td id="tblAvgCor">0</td>
-                            </tr>
-                            <tr>
-                                <td class="tbl-label"><span class="text-red">●</span> Wrong</td>
-                                <td id="tblYouWro" style="font-weight:bold;">0</td>
-                                <td id="tblTopWro">0</td>
-                                <td id="tblAvgWro">0</td>
-                            </tr>
-                            <tr>
-                                <td class="tbl-label">Total</td>
-                                <td id="tblYouAtt" style="font-weight:bold;">0</td>
-                                <td id="tblTopAtt">0</td>
-                                <td id="tblAvgAtt">0</td>
-                            </tr>
-                            <tr>
-                                <td class="tbl-label">Accuracy</td>
-                                <td id="tblYouAcc" style="font-weight:bold; color: #5a32fa;">0%</td>
-                                <td id="tblTopAcc">0%</td>
-                                <td id="tblAvgAcc">0%</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Topper Banner -->
-                <div class="topper-banner">
-                    <div class="topper-banner-title">
-                        <span>👑</span> <span id="bannerTopperName">Topper</span>
-                    </div>
-                    <div class="topper-banner-info" id="bannerTopperInfo">
-                        0 pts • 0% Accuracy
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. Previous Rank History -->
-            <div class="dash-card">
-                <div class="section-title">
-                    <span>📜 Previous Rank History</span>
-                </div>
-                <div id="rankHistorySection">
-                    <div style="text-align:center; color:var(--text-muted); padding: 10px; font-size: 12px;">No previous records available. Data will appear from next week! 🔮</div>
-                </div>
-            </div>
-        </div>
-    </div>
-            <button class="btn-massive" onclick="closeHistoryModal(null, true)" style="background: var(--bg-subtle); color: var(--text-main); border: 1px solid var(--border-light); font-weight: 700; width: 100%; border-radius: 12px; padding: 12px; cursor: pointer;">Close Archive</button>
-        </div>
-    </div>
 
     <!-- 🎯 TARGET EXAM & STATE MODAL -->
     <div id="targetModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'targetModalOverlay')">
@@ -5624,6 +5545,10 @@
                     <!-- Right: Arrow Button -->
                     <button class="card-arrow-circle arrow-blue">›</button>
                 </div>
+
+
+
+
             </div>
         </div>
 
@@ -5740,10 +5665,7 @@
 
         <!-- Right Performance Rail (Contextual widgets) -->
         <aside class="right-performance-rail">
-                <div class="rail-cutoff-gap" id="rail-cup-gap">
-                    🚀 Practice trials daily to climb into promotion tier!
-                </div>
-            </div>
+
 
             <!-- 2. Target Exam Countdowns -->
             <div class="rail-card exam-countdown-widget" onclick="openSubModal('examsModalOverlay')">
@@ -5754,6 +5676,8 @@
                 <div class="rail-exam-name" id="rail-target-exam-name">SSC CGL 2026</div>
                 <div class="rail-countdown-badge" id="rail-exam-countdown">⏱ Loading countdown...</div>
             </div>
+
+
 
             <!-- 4. Persistent Weekly Schedule Widget -->
             <div class="rail-card calendar-rail-widget" id="rail-calendar-widget">
@@ -5769,8 +5693,7 @@
     </div> <!-- /End of app-layout-root -->
 
     
-    <!-- Digest Reading Modal -->
-    </div>
+
 
     <!-- ==========================================
          SAFELY ISOLATED POPUP MODALS
@@ -5802,18 +5725,11 @@
         </div>
     </div>
 
-    <!-- 1. ELO RANKINGS MODAL -->
-    </div>
 
-    <!-- 2. WEEKLY ARCHIVE MODAL -->
-    </div>
 
-    <!-- 4. GUIDE MODAL (Scoring, Leagues & Elo) -->
-                </div>
 
-            </div>
-        </div>
-    </div>
+
+
 
     <!-- 3. UPCOMING EXAMS MODAL -->
     <div id="examsModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'examsModalOverlay')">
@@ -5891,6 +5807,7 @@
             <span>Digest</span>
             <div id="digest-badge" style="display:none; position:absolute; top:-2px; right:12px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
         </div>
+        
         <div class="nav-item" onclick="switchView('view-progress')" id="nav-progress">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="18" y1="20" x2="18" y2="10"></line>
@@ -5909,11 +5826,27 @@
          APPLICATION LOGIC
          ========================================== -->
     <script>
-        let lastFetchTimes = { progress: 0, digest: 0 };
+        let lastFetchTimes = { cup: 0, progress: 0, digest: 0 };
 
         // 1. Initialize User & Platform App from auth.js
         const tgApp = (typeof getTelegramApp === 'function' ? getTelegramApp() : null) || window.Telegram?.WebApp || null;
         if (tgApp?.expand) tgApp.expand();
+
+        // 🟢 Haptic Feedback & Platform Audio Engine
+        function triggerHaptic(type = 'light') {
+            if (localStorage.getItem('app_vibration') === 'false') return;
+            const haptic = window.Telegram?.WebApp?.HapticFeedback;
+            if (!haptic) return;
+            try {
+                if (['light', 'medium', 'heavy', 'rigid', 'soft'].includes(type)) {
+                    haptic.impactOccurred(type);
+                } else if (['success', 'warning', 'error'].includes(type)) {
+                    haptic.notificationOccurred(type);
+                } else if (type === 'selection') {
+                    haptic.selectionChanged();
+                }
+            } catch (e) {}
+        }
 
         function getTgInitData() {
             let data = tgApp?.initData || window.Telegram?.WebApp?.initData || '';
@@ -6080,7 +6013,7 @@
                 </div>
             `).join('');
         }
-        
+
         // 🟢 Bind the native back button
         if (typeof setTelegramBackButton === 'function') {
             setTelegramBackButton(false, () => {
@@ -6663,9 +6596,7 @@
                 console.error("Failed to load profile data", e);
             }
         }
-                    
 
-        
         // --- MASTER SPEC: LOAD GROUPED QUIZZES ---
         async function loadQuizzes() {
             const container = document.getElementById('api-quiz-container');
@@ -7164,6 +7095,15 @@
             triggerHaptic('medium'); // Stronger vibration for popups
             document.getElementById(modalId).style.display = 'flex';
             document.body.style.overflow = 'hidden'; // Lock background scrolling
+        }
+
+        // Function to close the hidden sub-menus
+        function closeSubModal(event, modalId, force=false) {
+            if (force || event.target.id === modalId) {
+                triggerHaptic('soft'); // Gentle vibration when closing
+                document.getElementById(modalId).style.display = 'none';
+                document.body.style.overflow = ''; // Unlock scrolling
+            }
         }
 
         // Function to close the hidden sub-menus
@@ -7760,7 +7700,7 @@
             try { syncTargetExamCountdown(); } catch(e) { console.error(e); }
         }
 
-        if (document.readyState === 'loading')if (document.readyState === 'loading') {
+        if (document.readyState === 'loading') {
             window.addEventListener('DOMContentLoaded', initApp);
         } else {
             initApp();
