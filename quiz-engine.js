@@ -62,16 +62,23 @@
         /**
          * Initializes a live quiz session metadata
          */
-        async initLiveQuiz(quizId, userId, isPractice = false) {
+        async initLiveQuiz(quizId, userId, isPractice = false, onStatus = null) {
             this.reset();
             this.quizId = quizId;
             this.userId = userId || (window.PlatformBridge ? window.PlatformBridge.getUserId() : 0);
             this.isPractice = Boolean(isPractice);
 
-            const headers = window.PlatformBridge ? window.PlatformBridge.getAuthHeaders() : { 'Content-Type': 'application/json' };
             const uidParam = this.userId ? `?user_id=${this.userId}` : '';
+            const url = `${API_BASE}/api/quiz/today${uidParam}`;
             
-            const res = await fetch(`${API_BASE}/api/quiz/today${uidParam}`, { headers });
+            let res;
+            if (window.PlatformBridge && typeof window.PlatformBridge.fetchWithRetry === 'function') {
+                res = await window.PlatformBridge.fetchWithRetry(url, {}, { onStatus });
+            } else {
+                const headers = window.PlatformBridge ? window.PlatformBridge.getAuthHeaders() : { 'Content-Type': 'application/json' };
+                res = await fetch(url, { headers });
+            }
+
             if (!res.ok) throw new Error(`Failed to load quiz metadata (HTTP ${res.status})`);
             
             const data = await res.json();
@@ -88,20 +95,26 @@
         /**
          * Starts the quiz attempt timer and retrieves questions from backend
          */
-        async startLiveAttempt() {
-            const headers = window.PlatformBridge 
-                ? window.PlatformBridge.getAuthHeaders({ 'Content-Type': 'application/json' }) 
-                : { 'Content-Type': 'application/json' };
-
-            const res = await fetch(`${API_BASE}/api/quiz/start`, {
+        async startLiveAttempt(onStatus = null) {
+            const url = `${API_BASE}/api/quiz/start`;
+            const payload = {
                 method: 'POST',
-                headers: headers,
                 body: JSON.stringify({
                     user_id: this.userId,
                     quiz_set_id: this.quizId,
                     is_practice: this.isPractice
                 })
-            });
+            };
+
+            let res;
+            if (window.PlatformBridge && typeof window.PlatformBridge.fetchWithRetry === 'function') {
+                res = await window.PlatformBridge.fetchWithRetry(url, payload, { onStatus });
+            } else {
+                const headers = window.PlatformBridge 
+                    ? window.PlatformBridge.getAuthHeaders({ 'Content-Type': 'application/json' }) 
+                    : { 'Content-Type': 'application/json' };
+                res = await fetch(url, { ...payload, headers });
+            }
 
             if (!res.ok) throw new Error(`Could not start quiz (HTTP ${res.status})`);
             const data = await res.json();

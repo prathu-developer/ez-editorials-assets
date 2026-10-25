@@ -126,6 +126,83 @@
         },
 
         /**
+         * Resilient Fetch with Intelligent Cold-Start Detection & Auto-Retry
+         * Specially built to handle Render free-tier spin-down boots (50-90s).
+         */
+        async fetchWithRetry(url, options = {}, retryConfig = {}) {
+            const maxRetries = retryConfig.maxRetries !== undefined ? retryConfig.maxRetries : 5;
+            const retryDelay = retryConfig.retryDelay !== undefined ? retryConfig.retryDelay : 4000;
+            const timeoutMs = retryConfig.timeoutMs !== undefined ? retryConfig.timeoutMs : 20000;
+            const onStatus = retryConfig.onStatus || null;
+
+            let attempt = 0;
+            while (attempt <= maxRetries) {
+                attempt++;
+                let controller = null;
+                let timeoutId = null;
+
+                if (typeof AbortController !== 'undefined') {
+                    controller = new AbortController();
+                    timeoutId = setTimeout(() => {
+                        try { controller.abort(); } catch(e) {}
+                    }, timeoutMs);
+                }
+
+                try {
+                    if (attempt > 1 && typeof onStatus === 'function') {
+                        onStatus({
+                            attempt: attempt,
+                            maxRetries: maxRetries,
+                            isColdStart: true,
+                            message: `Waking up server... (attempt ${attempt}/${maxRetries + 1})`
+                        });
+                    }
+
+                    const fetchOptions = {
+                        ...options,
+                        headers: this.getAuthHeaders(options.headers || {})
+                    };
+                    if (controller) fetchOptions.signal = controller.signal;
+
+                    const res = await fetch(url, fetchOptions);
+                    if (timeoutId) clearTimeout(timeoutId);
+
+                    // If HTTP 502, 503, 504 from Render proxy while starting up:
+                    if ([502, 503, 504].includes(res.status) && attempt <= maxRetries) {
+                        if (typeof onStatus === 'function') {
+                            onStatus({
+                                attempt: attempt,
+                                maxRetries: maxRetries,
+                                isColdStart: true,
+                                message: `Server is initializing... retrying in ${Math.round(retryDelay / 1000)}s`
+                            });
+                        }
+                        await new Promise(r => setTimeout(r, retryDelay));
+                        continue;
+                    }
+
+                    return res;
+                } catch (err) {
+                    if (timeoutId) clearTimeout(timeoutId);
+
+                    if (attempt <= maxRetries) {
+                        if (typeof onStatus === 'function') {
+                            onStatus({
+                                attempt: attempt,
+                                maxRetries: maxRetries,
+                                isColdStart: true,
+                                message: `Connecting to server... (attempt ${attempt}/${maxRetries + 1})`
+                            });
+                        }
+                        await new Promise(r => setTimeout(r, retryDelay));
+                    } else {
+                        throw err;
+                    }
+                }
+            }
+        },
+
+        /**
          * Returns the active student/user ID across TMA, Android, or Web
          */
         getUserId() {

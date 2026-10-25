@@ -790,7 +790,19 @@
 
         // Live Test Mode Initialization
         try {
-            const meta = await engine.initLiveQuiz(quizId, null, isPractice);
+            const onColdStartStatus = (status) => {
+                const ls = document.getElementById('loading-screen');
+                if (ls) {
+                    ls.innerHTML = `
+                        <div style="text-align:center; padding: 24px;">
+                            <div style="font-size:32px; margin-bottom:8px;">⚡</div>
+                            <div style="font-size:16px; font-weight:700;">Waking Up Server...</div>
+                            <div style="font-size:13px; color:var(--text-muted); margin-top:6px;">${status.message}</div>
+                        </div>
+                    `;
+                }
+            };
+            const meta = await engine.initLiveQuiz(quizId, null, isPractice, onColdStartStatus);
             if (meta) {
                 const setSafeText = (id, val) => {
                     const el = document.getElementById(id);
@@ -818,8 +830,20 @@
         loadingScreen.innerText = "Starting Timer...";
         loadingScreen.style.display = 'flex';
 
+        const onColdStartStatus = (status) => {
+            if (loadingScreen) {
+                loadingScreen.innerHTML = `
+                    <div style="text-align:center; padding: 24px;">
+                        <div style="font-size:32px; margin-bottom:8px;">⚡</div>
+                        <div style="font-size:16px; font-weight:700;">Connecting...</div>
+                        <div style="font-size:13px; color:var(--text-muted); margin-top:6px;">${status.message}</div>
+                    </div>
+                `;
+            }
+        };
+
         try {
-            const startRes = await engine.startLiveAttempt();
+            const startRes = await engine.startLiveAttempt(onColdStartStatus);
             if (startRes.completed) {
                 const returnUrl = urlParams.get('return_url');
                 const dayParam = urlParams.get('day');
