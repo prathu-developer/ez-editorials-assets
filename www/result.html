@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="tokens.css">
     <link rel="stylesheet" href="shell.css">
     <script src="auth.js"></script>
+    <script src="platform-bridge.js"></script>
     <script src="shell.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -941,6 +942,10 @@
         let currentQuizId = null;
 
         function triggerHaptic(type = 'light') {
+            if (window.PlatformBridge && typeof window.PlatformBridge.haptic === 'function') {
+                window.PlatformBridge.haptic(type);
+                return;
+            }
             if (localStorage.getItem('app_vibration') === 'false') return;
             const haptic = window.Telegram?.WebApp?.HapticFeedback;
             if (!haptic) return;
@@ -958,6 +963,11 @@
 
         function goBackToTopics() {
             triggerHaptic('light');
+            if (window.PlatformBridge && typeof window.PlatformBridge.exitToHome === 'function') {
+                const dayParam = urlParams.get('day');
+                window.PlatformBridge.exitToHome(dayParam);
+                return;
+            }
             const returnUrl = urlParams.get('return_url');
             if (returnUrl) {
                 window.location.href = returnUrl;

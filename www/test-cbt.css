@@ -1,0 +1,376 @@
+/* test-cbt.css - Desktop Dual-Pane & Tablet CBT Layout Engine */
+
+/* ==========================================================================
+   CBT BASE WORKSPACE LAYOUT (< 768px Base Mobile)
+   ========================================================================== */
+.cbt-workspace-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+}
+
+.cbt-left-pane {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.cbt-right-sidebar {
+    display: none;
+}
+
+/* Mobile-first Instructions Screen */
+#instructions-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-main);
+    z-index: 50;
+    display: none;
+    flex-direction: column;
+}
+
+.instructions-card-dialog {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+/* ==========================================================================
+   TABLET SINGLE-PANE ERGONOMICS (@media min-width: 768px)
+   ========================================================================== */
+@media (min-width: 768px) {
+    .modal-overlay {
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 24px !important;
+    }
+
+    .bottom-sheet {
+        width: 100% !important;
+        max-width: 520px !important;
+        border-radius: 18px !important;
+        max-height: 85vh !important;
+        margin: auto !important;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3) !important;
+    }
+
+    .top-header {
+        padding: 14px 24px;
+    }
+
+    .header-title {
+        max-width: 400px;
+        font-size: 16px;
+    }
+
+    #live-test-container {
+        max-width: var(--container-tablet, 768px);
+        margin: 0 auto;
+        border-left: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+        box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+    }
+
+    .cbt-left-pane .scroll-area {
+        padding: 24px 32px 120px 32px !important;
+    }
+
+    .question-text {
+        font-size: 17px !important;
+        line-height: 1.65 !important;
+    }
+
+    .opt-item {
+        padding: 14px 18px !important;
+        border-radius: 12px !important;
+        min-height: 48px !important;
+    }
+
+    /* Tablet Centered Bottom Actions Bar */
+    .bottom-bar {
+        max-width: var(--container-tablet, 768px);
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%);
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Centered Instructions Dialog Card */
+    #instructions-screen {
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(0, 0, 0, 0.45) !important;
+        padding: 24px !important;
+    }
+
+    .instructions-card-dialog {
+        max-width: 640px !important;
+        height: auto !important;
+        max-height: 90vh !important;
+        background: var(--card-bg) !important;
+        border-radius: 16px !important;
+        overflow: hidden !important;
+        border: 1px solid var(--border-color) !important;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.25) !important;
+    }
+}
+
+/* ==========================================================================
+   CBT DUAL-PANE DESKTOP ADAPTATIONS (@media min-width: 1024px & html.is-desktop)
+   Ground Rule 4: Telegram Desktop narrow iframe (~420px) NEVER receives dual-pane
+   ========================================================================== */
+html.is-desktop .top-header {
+    padding: 8px 14px;
+}
+
+html.is-desktop .pause-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+}
+
+html.is-desktop .sub-header,
+html.is-desktop .review-section-strip {
+    padding: 6px 14px;
+}
+
+@media (min-width: 1024px) {
+    html.is-desktop #live-test-container {
+        max-width: 1440px;
+        margin: 0 auto;
+        width: 100%;
+        border-left: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+        box-shadow: 0 0 40px rgba(0,0,0,0.06);
+    }
+
+    html.is-desktop .cbt-workspace-wrapper {
+        flex-direction: row;
+        height: calc(100vh - 58px);
+    }
+
+    html.is-desktop .cbt-left-pane {
+        flex: 0 0 68%;
+        max-width: 68%;
+        border-right: 1px solid var(--border-color);
+    }
+
+    html.is-desktop .cbt-left-pane .scroll-area {
+        padding: 24px 36px 120px 36px !important;
+    }
+
+    html.is-desktop .cbt-left-pane .passage-block {
+        background: rgba(0,0,0,0.02);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 16px 20px;
+    }
+
+    .dark-mode html.is-desktop .cbt-left-pane .passage-block {
+        background: #18181b;
+    }
+
+    html.is-desktop .cbt-left-pane .passage-text.collapsed {
+        max-height: none !important;
+        display: block !important;
+        -webkit-line-clamp: unset !important;
+    }
+
+    html.is-desktop .cbt-left-pane #view-more-btn {
+        display: none !important;
+    }
+
+    html.is-desktop .cbt-left-pane .bottom-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0 !important;
+        right: 0 !important;
+        transform: none !important;
+        max-width: 100% !important;
+        width: 100%;
+        background: var(--card-bg);
+        border-top: 1px solid var(--border-color);
+        padding: 12px 28px;
+        box-shadow: 0 -4px 14px rgba(0,0,0,0.05);
+    }
+
+    html.is-desktop .cbt-left-pane #live-bottom-bar {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    html.is-desktop .cbt-left-pane #live-bottom-bar .action-row {
+        margin-bottom: 0 !important;
+        gap: 12px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    html.is-desktop .cbt-left-pane #live-bottom-bar .btn-half {
+        flex: initial !important;
+        min-width: 140px !important;
+        padding: 11px 20px !important;
+        font-size: 13.5px !important;
+        cursor: pointer !important;
+    }
+
+    html.is-desktop .cbt-left-pane #live-bottom-bar .btn-save-next {
+        min-width: 160px !important;
+    }
+
+    html.is-desktop .cbt-left-pane #review-bottom-bar {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 12px 28px !important;
+    }
+
+    html.is-desktop .cbt-left-pane #review-bottom-bar .action-row {
+        margin-bottom: 0 !important;
+        gap: 12px !important;
+    }
+
+    html.is-desktop .cbt-right-sidebar {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 32%;
+        max-width: 32%;
+        background: var(--card-bg);
+        overflow-y: auto;
+        padding: 16px;
+        gap: 12px;
+        box-sizing: border-box;
+    }
+
+    html.is-desktop .cbt-sidebar-card {
+        background: var(--bg-main);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 14px;
+    }
+
+    html.is-desktop .candidate-info-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    html.is-desktop .cbt-avatar-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: #eff6ff;
+        border: 1px solid #bfdbfe;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    html.is-desktop .cbt-user-name {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    html.is-desktop .cbt-user-sub {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+
+    html.is-desktop .cbt-card-header {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    html.is-desktop .cbt-timer-clock {
+        font-size: 30px;
+        font-weight: 900;
+        color: var(--brand-red);
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 1px;
+        padding: 4px 0;
+    }
+
+    html.is-desktop .cbt-timer-clock.timer-warning {
+        color: #dc2626;
+        animation: timerPulse 1.2s infinite;
+    }
+
+    html.is-desktop .cbt-legend-stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    html.is-desktop .cbt-stat-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    html.is-desktop .cbt-badge {
+        width: 22px;
+        height: 22px;
+        border-radius: 5px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+
+    html.is-desktop .bg-answered { background: #10b981; color: #fff; }
+    html.is-desktop .bg-not-answered { background: #ef4444; color: #fff; }
+    html.is-desktop .bg-review { background: #8b5cf6; color: #fff; }
+    html.is-desktop .bg-review-answered { background: #8b5cf6; border: 2px solid #10b981; color: #fff; }
+    html.is-desktop .bg-not-visited { background: #fff; border: 1.5px solid #94a3b8; color: #64748b; }
+
+    .dark-mode html.is-desktop .bg-not-visited { background: #27272a; border-color: #4b5563; color: #9ca3af; }
+    .dark-mode html.is-desktop .bg-not-answered { background: #3f3f46; color: #e4e4e7; }
+    .dark-mode html.is-desktop .cbt-sidebar-card { background: #1e1e1e; border-color: #2e2e38; }
+
+    html.is-desktop .cbt-palette-scroll {
+        max-height: 220px;
+        overflow-y: auto;
+        padding-right: 4px;
+    }
+
+    html.is-desktop .cbt-right-sidebar .palette-grid,
+    html.is-desktop .cbt-right-sidebar .rev-pal-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+    }
+
+    /* Hide redundant modal trigger in header on desktop */
+    html.is-desktop .top-header #live-icons span[onclick*="openPalette"] {
+        display: none;
+    }
+
+    /* Auto-show solution accordion in review mode on desktop */
+    html.is-desktop .solution-accordion .acc-body {
+        display: block !important;
+    }
+}
