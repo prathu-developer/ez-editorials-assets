@@ -1012,9 +1012,25 @@
             }
 
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptId}`, {
-                    headers: (typeof getAuthHeaders === 'function' ? getAuthHeaders() : {})
+                const uid = (typeof getActiveUserId === 'function' ? getActiveUserId() : 0) ||
+                            Number(window.Telegram?.WebApp?.initDataUnsafe?.user?.id || 0) ||
+                            Number(urlParams.get('user_id') || 0);
+                const userQuery = uid ? `?user_id=${uid}` : '';
+                const authHeaders = (typeof getAppAuthHeaders === 'function')
+                    ? getAppAuthHeaders()
+                    : ((typeof getAuthHeaders === 'function') ? getAuthHeaders() : {});
+
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptId}${userQuery}`, {
+                    headers: authHeaders
                 });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Result API response not OK:", response.status, errorText);
+                    document.getElementById('loading').innerText = `Error (${response.status}): Unable to load results.`;
+                    return;
+                }
+
                 const data = await response.json();
 
                 if (data.error) {
@@ -1025,6 +1041,7 @@
                 currentQuizId = data.quiz_set_id;
                 renderData(data);
             } catch (err) {
+                console.error("Failed to load results:", err);
                 document.getElementById('loading').innerText = "Failed to load results.";
             }
         }

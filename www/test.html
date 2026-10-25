@@ -1822,7 +1822,8 @@
                         data = JSON.parse(sessionStorage.getItem('practiceResult'));
                     } else {
                         const headers = (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {};
-                        const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptIdParam}`, {
+                        const uidParam = (typeof userId !== 'undefined' && userId) ? `?user_id=${userId}` : '';
+                        const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/result/${attemptIdParam}${uidParam}`, {
                             headers: headers
                         });
                         data = await res.json();
@@ -2890,6 +2891,7 @@
                     },
                     body: JSON.stringify({ 
                         attempt_id: attemptId, 
+                        user_id: (typeof userId !== 'undefined' ? userId : null),
                         responses: formattedResponses,
                         time_spent_seconds: timeSpent
                     })
