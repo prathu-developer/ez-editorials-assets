@@ -352,6 +352,10 @@
                 Retry Verification 🔄
             </button>
 
+            <div style="margin-top: 14px;">
+                <a href="https://t.me/ezeditorialgroup" style="color: rgba(255, 255, 255, 0.9); font-size: 14px; text-decoration: underline; font-weight: 600;">Open Group Directly &rarr;</a>
+            </div>
+
             <div class="decorations">🪄 ★ ✦ 🪄 ★ ✦ 🪄</div>
         </div>
     </div>
@@ -616,7 +620,7 @@
             const btn = document.getElementById('continue-btn');
             btn.disabled = true;
             btn.style.opacity = "0.7";
-            btn.innerHTML = 'Approving... ⏳';
+            btn.innerHTML = 'Verifying Entrance... ⏳';
 
             if (tg && tg.HapticFeedback) {
                 try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
@@ -624,61 +628,124 @@
 
             isApproving = true;
             let backendSuccess = false;
+            let workerApproved = false;
 
-            // Call Render backend to approve in Telegram & sync database
+            // ⚡ FAST-PATH 1: Instant Approval via Cloudflare Edge Worker (0ms cold start, ~100ms response)
             try {
-                const renderRes = await fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
+                const workerCtrl = new AbortController();
+                const workerTimer = setTimeout(() => workerCtrl.abort(), 4000);
+                const workerRes = await fetch('https://ez-verify-worker.prathamesh-adhe508.workers.dev', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Telegram-Init-Data': initData
+                    },
+                    body: JSON.stringify({ user_id: userId }),
+                    signal: workerCtrl.signal
+                });
+                clearTimeout(workerTimer);
+                if (workerRes.ok) {
+                    const wData = await workerRes.json().catch(() => ({}));
+                    if (wData.status === 'success' || wData.ok === true) {
+                        workerApproved = true;
+                        backendSuccess = true;
+                    }
+                }
+            } catch (workerErr) {
+                console.warn("Worker fast-path bypassed, moving to backend sync:", workerErr);
+            }
+
+            // If worker already approved the join request in Telegram, let the student enter immediately!
+            if (workerApproved) {
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
+
+                // Asynchronously sync database on Render in background (never blocks the student)
+                fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Telegram-Init-Data': initData
                     },
                     body: JSON.stringify({
-                        user_id: userId
+                        user_id: userId,
+                        worker_approved: true
                     })
-                });
-                if (renderRes.ok) {
-                    const data = await renderRes.json().catch(() => ({}));
-                    if (data.status === 'success') {
-                        backendSuccess = true;
-                        if (data.invite_link) {
-                            directInviteLink = data.invite_link;
-                        }
+                }).then(async r => {
+                    if (r.ok) {
+                        const d = await r.json().catch(() => ({}));
+                        if (d && d.invite_link) directInviteLink = d.invite_link;
                     }
-                }
-            } catch (renderErr) {
-                console.warn("Render backend approval failed, trying worker fallback:", renderErr);
-                // Fallback attempt via edge worker if Render was unreachable
+                }).catch(() => {});
+
+                isApproving = false;
+                return;
+            }
+
+            // 🛡️ FALLBACK PATH 2: Render Backend with Intelligent Cold-Start Polling
+            btn.innerHTML = 'Connecting to Gate... ⏳';
+            const maxAttempts = 15;
+            const startTime = Date.now();
+
+            for (let attempt = 1; attempt <= maxAttempts; attempt++) {
                 try {
-                    const workerRes = await fetch('https://ez-verify-worker.prathamesh-adhe508.workers.dev', {
+                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                    if (elapsed > 4) {
+                        btn.innerHTML = 'Waking up server... (' + elapsed + 's) ⏳';
+                    }
+
+                    const renderCtrl = new AbortController();
+                    const renderTimer = setTimeout(() => renderCtrl.abort(), 8000);
+
+                    const renderRes = await fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Telegram-Init-Data': initData
                         },
-                        body: JSON.stringify({ user_id: userId })
+                        body: JSON.stringify({
+                            user_id: userId,
+                            worker_approved: false
+                        }),
+                        signal: renderCtrl.signal
                     });
-                    if (workerRes.ok) {
-                        backendSuccess = true;
+                    clearTimeout(renderTimer);
+
+                    if (renderRes.ok) {
+                        const data = await renderRes.json().catch(() => ({}));
+                        if (data.status === 'success' || data.approved) {
+                            backendSuccess = true;
+                            if (data.invite_link) {
+                                directInviteLink = data.invite_link;
+                            }
+                            break;
+                        }
+                    } else if (renderRes.status >= 500) {
+                        // 502/503/504 means Render is booting up
+                        console.warn(`Render boot-up in progress (status ${renderRes.status}), polling attempt ${attempt}/${maxAttempts}`);
                     }
-                } catch (workerErr) {
-                    console.warn("Worker fallback failed:", workerErr);
+                } catch (fetchErr) {
+                    console.warn(`Approval attempt ${attempt} network/timeout, retrying:`, fetchErr);
+                }
+
+                if (attempt < maxAttempts) {
+                    await new Promise(r => setTimeout(r, 3000));
                 }
             }
 
             isApproving = false;
 
-            // Final verification: Did approval pipeline succeed?
+            // Final verification
             if (backendSuccess) {
                 btn.disabled = false;
                 btn.style.opacity = "1";
                 btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
             } else {
-                // Both render and worker failed
                 showErrorView(
-                    "Approval Failed",
-                    "Could not complete your approval due to a network connection issue. Please tap Retry to finalize your entrance.",
-                    "Retry Verification 🔄",
+                    "Approval Pending",
+                    "Your entrance score is saved! If the server is taking a moment to admit you, tap Retry or open the group directly.",
+                    "Retry Approval 🔄",
                     () => finishQuiz()
                 );
             }
