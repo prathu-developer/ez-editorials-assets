@@ -620,7 +620,7 @@
             const btn = document.getElementById('continue-btn');
             btn.disabled = true;
             btn.style.opacity = "0.7";
-            btn.innerHTML = 'Verifying Entrance... ⏳';
+            btn.innerHTML = 'Approving Entrance... ⏳';
 
             if (tg && tg.HapticFeedback) {
                 try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
@@ -628,124 +628,53 @@
 
             isApproving = true;
             let backendSuccess = false;
-            let workerApproved = false;
 
-            // ⚡ FAST-PATH 1: Instant Approval via Cloudflare Edge Worker (0ms cold start, ~100ms response)
-            try {
-                const workerCtrl = new AbortController();
-                const workerTimer = setTimeout(() => workerCtrl.abort(), 4000);
-                const workerRes = await fetch('https://ez-verify-worker.prathamesh-adhe508.workers.dev', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Telegram-Init-Data': initData
-                    },
-                    body: JSON.stringify({ user_id: userId }),
-                    signal: workerCtrl.signal
-                });
-                clearTimeout(workerTimer);
-                if (workerRes.ok) {
-                    const wData = await workerRes.json().catch(() => ({}));
-                    if (wData.status === 'success' || wData.ok === true) {
-                        workerApproved = true;
-                        backendSuccess = true;
-                    }
-                }
-            } catch (workerErr) {
-                console.warn("Worker fast-path bypassed, moving to backend sync:", workerErr);
-            }
-
-            // If worker already approved the join request in Telegram, let the student enter immediately!
-            if (workerApproved) {
-                btn.disabled = false;
-                btn.style.opacity = "1";
-                btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
-
-                // Asynchronously sync database on Render in background (never blocks the student)
-                fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Telegram-Init-Data': initData
-                    },
-                    body: JSON.stringify({
-                        user_id: userId,
-                        worker_approved: true
-                    })
-                }).then(async r => {
-                    if (r.ok) {
-                        const d = await r.json().catch(() => ({}));
-                        if (d && d.invite_link) directInviteLink = d.invite_link;
-                    }
-                }).catch(() => {});
-
-                isApproving = false;
-                return;
-            }
-
-            // 🛡️ FALLBACK PATH 2: Render Backend with Intelligent Cold-Start Polling
-            btn.innerHTML = 'Connecting to Gate... ⏳';
-            const maxAttempts = 15;
-            const startTime = Date.now();
-
-            for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+            // Direct, ultra-fast call to Render /api/approve_captcha
+            for (let attempt = 1; attempt <= 3; attempt++) {
                 try {
-                    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                    if (elapsed > 4) {
-                        btn.innerHTML = 'Waking up server... (' + elapsed + 's) ⏳';
-                    }
-
-                    const renderCtrl = new AbortController();
-                    const renderTimer = setTimeout(() => renderCtrl.abort(), 8000);
-
-                    const renderRes = await fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
+                    const ctrl = new AbortController();
+                    const timer = setTimeout(() => ctrl.abort(), 6000);
+                    const res = await fetch('https://ez-editorials-bot.onrender.com/api/approve_captcha', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'X-Telegram-Init-Data': initData
                         },
-                        body: JSON.stringify({
-                            user_id: userId,
-                            worker_approved: false
-                        }),
-                        signal: renderCtrl.signal
+                        body: JSON.stringify({ user_id: userId }),
+                        signal: ctrl.signal
                     });
-                    clearTimeout(renderTimer);
-
-                    if (renderRes.ok) {
-                        const data = await renderRes.json().catch(() => ({}));
+                    clearTimeout(timer);
+                    if (res.ok) {
+                        const data = await res.json().catch(() => ({}));
                         if (data.status === 'success' || data.approved) {
                             backendSuccess = true;
-                            if (data.invite_link) {
-                                directInviteLink = data.invite_link;
-                            }
+                            if (data.invite_link) directInviteLink = data.invite_link;
                             break;
                         }
-                    } else if (renderRes.status >= 500) {
-                        // 502/503/504 means Render is booting up
-                        console.warn(`Render boot-up in progress (status ${renderRes.status}), polling attempt ${attempt}/${maxAttempts}`);
                     }
-                } catch (fetchErr) {
-                    console.warn(`Approval attempt ${attempt} network/timeout, retrying:`, fetchErr);
+                } catch (e) {
+                    console.warn(`Approval attempt ${attempt} error:`, e);
                 }
-
-                if (attempt < maxAttempts) {
-                    await new Promise(r => setTimeout(r, 3000));
+                if (attempt < 3) {
+                    await new Promise(r => setTimeout(r, 800));
                 }
             }
 
             isApproving = false;
 
-            // Final verification
+            // Instant unlock & success transition
             if (backendSuccess) {
                 btn.disabled = false;
                 btn.style.opacity = "1";
                 btn.innerHTML = 'Continue to Group <span>&rarr;</span>';
+                if (tg && tg.HapticFeedback) {
+                    try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
+                }
             } else {
                 showErrorView(
                     "Approval Pending",
-                    "Your entrance score is saved! If the server is taking a moment to admit you, tap Retry or open the group directly.",
-                    "Retry Approval 🔄",
+                    "You solved the questions! Tap Complete to finalize entry or open the group directly.",
+                    "Complete Entrance 🔄",
                     () => finishQuiz()
                 );
             }

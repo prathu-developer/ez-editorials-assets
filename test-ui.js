@@ -853,14 +853,21 @@
                 return;
             }
 
-            document.getElementById('instructions-screen').style.display = 'none';
-            document.getElementById('live-test-container').style.display = 'flex';
-            document.getElementById('top-bar-controls').style.display = 'flex';
-            document.getElementById('live-bottom-bar').style.display = 'block';
+            const instScreen = document.getElementById('instructions-screen');
+            if (instScreen) instScreen.style.display = 'none';
+
+            const liveContainer = document.getElementById('live-test-container');
+            if (liveContainer) liveContainer.style.display = 'flex';
+
+            const topBarControls = document.getElementById('top-bar-controls');
+            if (topBarControls) topBarControls.style.display = 'flex';
+
+            const liveBottomBar = document.getElementById('live-bottom-bar');
+            if (liveBottomBar) liveBottomBar.style.display = 'block';
 
             buildPalette();
             loadQuestion(0);
-            loadingScreen.style.display = 'none';
+            if (loadingScreen) loadingScreen.style.display = 'none';
         } catch (err) {
             alert("Error: " + err.message);
             exitTestEarly();
