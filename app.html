@@ -3966,12 +3966,12 @@
         }
 
         @media (min-width: 1024px) {
-            body {
+            html.is-desktop body {
                 background-color: var(--bg-body);
             }
 
-            /* 1. Desktop Top Navigation Bar */
-            .desktop-navbar {
+            /* 1. Desktop Top Navigation Bar (Strictly Desktop Web) */
+            html.is-desktop .desktop-navbar {
                 display: block;
                 position: sticky;
                 top: 0;
@@ -4065,59 +4065,70 @@
                 color: #fca5a5;
             }
 
-            /* Hide Mobile Bottom Nav on Laptop/Desktop */
-            .bottom-nav {
+            /* Hide Mobile Top Header hamburger icon on Desktop */
+            html.is-desktop .top-header {
                 display: none !important;
             }
 
-            .view-container {
+            /* Hide Mobile Bottom Nav on Laptop/Desktop */
+            html.is-desktop .bottom-nav {
+                display: none !important;
+            }
+
+            html.is-desktop .view-container {
                 max-width: 1200px;
                 margin: 0 auto;
                 padding: 24px 24px 60px 24px !important;
             }
 
-            /* 2. Responsive Home Screen (2-Column Balanced Dashboard) */
-            #view-home.active {
+            /* 2. Responsive Home Screen (2-Column Balanced Dashboard on Desktop) */
+            html.is-desktop #view-home.active {
                 display: grid;
                 grid-template-columns: 1.15fr 0.85fr;
                 gap: 20px;
                 align-items: start;
             }
-            #view-home .top-header,
-            #view-home .greeting-wrapper {
+            html.is-desktop #view-home .top-header,
+            html.is-desktop #view-home .greeting-wrapper {
                 grid-column: 1 / -1;
             }
 
-            
             .cup-hero-dark-card {
                 padding: 24px;
                 border-radius: 20px;
             }
 
-            /* 4. Responsive Progress Dashboard */
-            #view-progress.active {
+            /* 4. Responsive Progress Dashboard on Desktop */
+            html.is-desktop #view-progress.active {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
                 gap: 20px;
                 align-items: start;
             }
-            #view-progress .progress-top-header,
-            #view-progress .recent-attempts-section,
-            #view-progress .progress-insight-banner {
+            html.is-desktop #view-progress .progress-top-header,
+            html.is-desktop #view-progress .recent-attempts-section,
+            html.is-desktop #view-progress .progress-insight-banner {
                 grid-column: 1 / -1;
             }
 
-            /* 5. Responsive Daily Digest (Editorial 2-Column Reader) */
-            #view-digest.active {
+            /* 5. Responsive Daily Digest on Desktop */
+            html.is-desktop #view-digest.active {
                 display: grid;
                 grid-template-columns: 1.25fr 0.75fr;
                 gap: 24px;
                 align-items: start;
             }
-            #view-digest .top-header,
-            #view-digest .digest-hero-banner,
-            #view-digest .digest-bottom-banner {
+            html.is-desktop #view-digest .top-header,
+            html.is-desktop #view-digest .digest-hero-banner,
+            html.is-desktop #view-digest .digest-bottom-banner {
                 grid-column: 1 / -1;
+            }
+
+            /* Clean centered container for Tablets / Mobile Landscape (Android / TMA) */
+            html:not(.is-desktop) .view-container {
+                max-width: 760px;
+                margin: 0 auto;
+                padding: 16px 20px 84px 20px !important;
             }
         }
 
@@ -4143,7 +4154,7 @@
         }
 
         @media (min-width: 1024px) {
-            .app-layout-root {
+            html.is-desktop .app-layout-root {
                 display: grid !important;
                 grid-template-columns: 240px minmax(0, 1fr) 340px !important;
                 gap: 24px !important;
@@ -4154,7 +4165,7 @@
                 box-sizing: border-box !important;
             }
 
-            .left-nav-rail {
+            html.is-desktop .left-nav-rail {
                 display: flex !important;
                 flex-direction: column !important;
                 width: 240px !important;
@@ -4169,17 +4180,9 @@
                 box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
             }
 
-            .left-nav-rail .brand-block {
-                display: flex !important;
-                align-items: center !important;
-                gap: 10px !important;
-                padding: 8px 12px 16px 12px !important;
-                border-bottom: 1px solid var(--border-light) !important;
-                margin-bottom: 12px !important;
-                font-weight: 800 !important;
-                font-size: 17px !important;
-                color: var(--text-main) !important;
-                cursor: pointer !important;
+            /* Hide duplicate brand logo in sidebar on Desktop (already present in top-navbar) */
+            html.is-desktop .left-nav-rail .brand-block {
+                display: none !important;
             }
 
             .nav-links-group {
@@ -4243,30 +4246,30 @@
                 background: #450a0a !important;
             }
 
-            .center-workspace-pane {
+            html.is-desktop .center-workspace-pane {
                 display: block !important;
                 min-width: 0 !important;
             }
 
-            .center-workspace-pane .view-container {
+            html.is-desktop .center-workspace-pane .view-container {
                 padding: 0 !important;
                 max-width: 100% !important;
                 margin: 0 !important;
             }
 
-            .center-workspace-pane #view-home {
+            html.is-desktop .center-workspace-pane #view-home {
                 max-width: var(--container-desktop, 960px) !important;
                 margin: 0 auto !important;
                 padding-bottom: 60px !important;
             }
 
-            .center-workspace-pane #view-day {
+            html.is-desktop .center-workspace-pane #view-day {
                 max-width: var(--max-reading-width, 680px) !important;
                 margin: 0 auto !important;
                 padding-bottom: 60px !important;
             }
 
-            .center-workspace-pane .home-stat-grid {
+            html.is-desktop .center-workspace-pane .home-stat-grid {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
                 gap: 16px !important;
@@ -4917,17 +4920,7 @@
 
         </div>
 
-        <!-- Continue Your Journey Section (Full width) -->
-        <div class="journey-section">
-            <div class="journey-header-row">
-                <h3 class="journey-title">Continue Your Journey</h3>
-                <button class="journey-view-all" onclick="switchView('view-day')">View All <span>›</span></button>
-            </div>
 
-            <div class="journey-scroll-container" id="journey-cards-container">
-                <!-- Dynamically rendered by updateJourneySection() -->
-            </div>
-        </div>
 
         <!-- Motivation & Live Percentile Banner -->
         <div class="motivation-banner">
@@ -5048,77 +5041,6 @@
             
         </div>
         
-        <!-- Progress Stat Grid (2-column on desktop) -->
-        <div class="progress-stat-grid">
-            <!-- 1. Hero Card: Score, Radial Accuracy, Rank -->
-            <div class="progress-hero-card">
-                <!-- Left: Your Score -->
-                <div class="prog-hero-col">
-                    <div class="prog-col-label">Your Score</div>
-                    <div class="prog-col-val" id="prog-hero-score">--</div>
-                    <div class="prog-hero-pill pill-purple-soft" id="prog-hero-pct-pill">Top --% of participants</div>
-                </div>
-
-                <!-- Center: Radial Accuracy Ring -->
-                <div class="prog-hero-col">
-                    <div class="prog-radial-wrap">
-                        <svg viewBox="0 0 100 100">
-                            <circle class="prog-radial-bg" cx="50" cy="50" r="38"></circle>
-                            <circle class="prog-radial-fill" id="prog-radial-fill" cx="50" cy="50" r="38"></circle>
-                        </svg>
-                        <div class="prog-radial-center">
-                            <div class="prog-radial-val" id="prog-radial-val">0%</div>
-                            <div class="prog-radial-sub">
-                                <span>🎯</span> Overall<br/>Accuracy
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right: Tests Completed -->
-                <div class="prog-hero-col">
-                    <div class="prog-col-label">Tests Attempted</div>
-                    <div class="prog-col-val" id="prog-hero-tests-count">0</div>
-                    <div class="prog-hero-pill pill-purple-soft" id="prog-hero-tests-pill">Consistency is key ⚡</div>
-                </div>
-            </div>
-
-            <!-- 2. Metrics Strip: Attempts, Correct Answers, Streak, Study Time -->
-            <div class="progress-metrics-card">
-                <!-- 1. Total Attempts -->
-                <div class="prog-metric-col">
-                    <div class="prog-icon-box pico-purple">📄</div>
-                    <div class="prog-stat-label">Total Attempts</div>
-                    <div class="prog-stat-num" id="prog-total-attempts">0</div>
-                    <div class="prog-stat-sub">Quizzes</div>
-                </div>
-
-                <!-- 2. Correct Answers -->
-                <div class="prog-metric-col">
-                    <div class="prog-icon-box pico-green">🎯</div>
-                    <div class="prog-stat-label">Correct Answers</div>
-                    <div class="prog-stat-num" id="prog-correct-answers">0</div>
-                    <div class="prog-stat-sub" id="prog-correct-pct">0%</div>
-                </div>
-
-                <!-- 3. Best Streak -->
-                <div class="prog-metric-col">
-                    <div class="prog-icon-box pico-orange">🔥</div>
-                    <div class="prog-stat-label">Best Streak</div>
-                    <div class="prog-stat-num" id="prog-best-streak">0</div>
-                    <div class="prog-stat-sub">Days</div>
-                </div>
-
-                <!-- 4. Study Time -->
-                <div class="prog-metric-col">
-                    <div class="prog-icon-box pico-blue">⏱</div>
-                    <div class="prog-stat-label">Study Time</div>
-                    <div class="prog-stat-num" id="prog-study-time">0m</div>
-                    <div class="prog-stat-sub">This Week</div>
-                </div>
-            </div>
-        </div>
-
         <!-- Recent Attempts Section -->
         <div class="recent-attempts-section">
             <!-- Header + Filter Dropdown -->
@@ -6268,8 +6190,9 @@
             updateAccurateStudyTimes();
         }
 
-        // 🟢 Dynamically Render "Continue Your Journey" Cards with All 8 Core Categories
+        // 🟢 Continue Your Journey removed per spec
         function updateJourneySection() {
+            return;
             const container = document.getElementById('journey-cards-container');
             if (!container) return;
 
@@ -6599,7 +6522,30 @@
         // --- MASTER SPEC: LOAD GROUPED QUIZZES ---
         async function loadQuizzes() {
             const container = document.getElementById('api-quiz-container');
+
+            // 1. Stale-While-Revalidate: Immediate display from local cache
+            try {
+                const cachedQuizzes = localStorage.getItem('ez_cached_quizzes');
+                if (cachedQuizzes && (!window.masterQuizData || !window.masterQuizData.Today)) {
+                    const parsed = JSON.parse(cachedQuizzes);
+                    if (parsed && (parsed.Today || parsed.Pending)) {
+                        window.masterQuizData = parsed;
+                        updateDynamicTracker();
+                        const ist = getIST();
+                        let dayIdx = ist.getDay() === 0 ? 6 : ist.getDay() - 1;
+                        if (dayIdx > 5) dayIdx = 5;
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const returnDay = urlParams.get('day');
+                        if (returnDay !== null) dayIdx = parseInt(returnDay);
+                        filterByDay(dayIdx);
+                        updateDailyGoalProgress();
+                        updateDailyOverviewStats();
+                    }
+                }
+            } catch(e) {}
+
             const onColdStartStatus = (status) => {
+                if (container && (!window.masterQuizData || !window.masterQuizData.Today)) {
                 if (container) {
                     container.innerHTML = `
                         <div class="card-main" style="text-align: center; padding: 26px 18px; margin-top: 12px; border: 1.5px dashed var(--brand, #5a32fa);">
@@ -6639,6 +6585,10 @@
                 }
                 
                 window.masterQuizData = data.quizzes; 
+                try {
+                    localStorage.setItem('ez_cached_quizzes', JSON.stringify(data.quizzes));
+                    localStorage.setItem('ez_cached_quizzes_full', JSON.stringify(data));
+                } catch(e) {}
                 updateDynamicTracker(); 
                 
                 let hasUnattemptedQuizzes = false; 
@@ -6679,25 +6629,20 @@
 
             } catch (error) {
                 console.error('[QuizLoad] Error loading quizzes:', error);
-                if (container) {
-                    container.innerHTML = `
-                        <div class="card-main" style="text-align: center; padding: 30px 20px; margin-top: 12px;">
-                            <span style="font-size: 32px;">⚠️</span>
-                            <h3 style="margin: 12px 0 6px 0; font-size: 16px;">Unable to Load Quizzes</h3>
-                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Please check your connection or tap below to retry.</p>
-                            <button onclick="loadQuizzes()" style="padding: 9px 20px; border-radius: 10px; background: var(--brand, #5a32fa); color: #fff; border: none; font-weight: 600; font-size: 13px; cursor: pointer;">
-                                🔄 Tap to Retry
-                            </button>
-                        </div>
-                    `;
+                if (!window.masterQuizData || !window.masterQuizData.Today) {
+                    if (container) {
+                        container.innerHTML = `
+                            <div class="card-main" style="text-align: center; padding: 30px 20px; margin-top: 12px;">
+                                <span style="font-size: 32px;">⚠️</span>
+                                <h3 style="margin: 12px 0 6px 0; font-size: 16px;">Unable to Load Quizzes</h3>
+                                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Please check your connection or tap below to retry.</p>
+                                <button onclick="loadQuizzes()" style="padding: 9px 20px; border-radius: 10px; background: var(--brand, #5a32fa); color: #fff; border: none; font-weight: 600; font-size: 13px; cursor: pointer;">
+                                    🔄 Tap to Retry
+                                </button>
+                            </div>
+                        `;
+                    }
                 }
-                const ist = getIST();
-                let currentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
-                if (currentDayIndex > 5) currentDayIndex = 5; 
-                filterByDay(currentDayIndex);
-                updateDailyGoalProgress();
-                updateDailyOverviewStats();
-                updateJourneySection();
             }
         }
 
@@ -6818,7 +6763,8 @@
 
         async function loadProgressHistory() {
             try {
-                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${appUserId}`, {
+                const currentUid = (typeof resolveAppUserId === 'function') ? resolveAppUserId() : (appUserId || 0);
+                const response = await fetch(`https://ez-editorials-bot.onrender.com/api/progress/me?user_id=${currentUid}`, {
                     headers: (typeof getAppAuthHeaders === "function" ? getAppAuthHeaders() : (typeof getAuthHeaders === "function" ? getAuthHeaders() : {}))
                 });
                 const data = await response.json();
@@ -6846,18 +6792,18 @@
 
                 const activeWeek = data.current_week || data.week_num || window.currentWeekNum;
 
-                // 🟢 2. Filter strictly for Current Week's attempts only
+                // 🟢 2. Filter for Current Week attempts (or fallback to recent attempts so view is never blank)
                 const currentWeekList = rawList.filter(item => {
-                    // Check by explicit week number if returned by the backend
                     const itemWeek = item.week_num !== undefined ? item.week_num : item.week;
                     if (itemWeek !== undefined && activeWeek !== undefined) {
                         return Number(itemWeek) === Number(activeWeek);
                     }
 
-                    // Fallback: check by timestamp or formatted date string in IST
                     let attemptTime = 0;
-                    if (item.created_at || item.timestamp || item.date_time) {
-                        attemptTime = new Date(item.created_at || item.timestamp || item.date_time).getTime();
+                    if (item.started_at || item.created_at || item.timestamp || item.date_time) {
+                        attemptTime = new Date(item.started_at || item.created_at || item.timestamp || item.date_time).getTime();
+                    } else if (item.quiz_day) {
+                        attemptTime = new Date(`${item.quiz_day}T12:00:00+05:30`).getTime();
                     } else if (item.date) {
                         let parsed = new Date(item.date);
                         if (isNaN(parsed.getTime())) {
@@ -6874,10 +6820,13 @@
                     return attemptTime >= startOfWeekIST && attemptTime <= endOfWeekIST;
                 });
 
+                // Resilient fallback: If current week filter yields 0 but user has attempts, show all recent attempts
+                const activeList = (currentWeekList.length > 0) ? currentWeekList : rawList;
+
                 // 🟢 3. Sort strictly newest-first (latest attempt on top)
-                window.rawProgressHistory = currentWeekList.sort((a, b) => {
-                    const timeA = new Date(a.created_at || a.timestamp || a.date_time || 0).getTime();
-                    const timeB = new Date(b.created_at || b.timestamp || b.date_time || 0).getTime();
+                window.rawProgressHistory = activeList.sort((a, b) => {
+                    const timeA = new Date(a.started_at || a.created_at || a.timestamp || a.date_time || 0).getTime();
+                    const timeB = new Date(b.started_at || b.created_at || b.timestamp || b.date_time || 0).getTime();
                     if (timeA && timeB && timeA !== timeB) return timeB - timeA;
 
                     const idA = Number(a.attempt_id || a.id || 0);

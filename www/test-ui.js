@@ -50,7 +50,8 @@
         escaped = escaped.replace(/&lt;(\/?(?:strong|em|b|i|u|mark|span|code)(?:\s+[^&>]*)?)&gt;/gi, '<$1>');
         escaped = escaped.replace(/\*\*\*([^*]+?)\*\*\*/g, '<strong><em>$1</em></strong>');
         escaped = escaped.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>');
-        escaped = escaped.replace(/__([^_]+?)__/g, '<strong>$1</strong>');
+        // Prevent multi-underscore blanks (e.g. `(1) ______`) from being matched as markdown bold
+        escaped = escaped.replace(/(?<![_\w])__([a-zA-Z0-9][^_]*?[a-zA-Z0-9])__(?![_\w])/g, '<strong>$1</strong>');
         escaped = escaped.replace(/`([^`]+?)`/g, '<code style="background:rgba(0,0,0,0.06);padding:2px 5px;border-radius:4px;font-family:monospace;font-size:0.9em;">$1</code>');
         return escaped;
     }
@@ -128,8 +129,14 @@
         const q = engine.questions[index];
         if (!q) return;
 
+        engine.currentIndex = index;
         const qId = q.question_id || q.id;
         document.getElementById('q-num').innerText = index + 1;
+
+        const secTitleEl = document.getElementById('review-section-title');
+        if (secTitleEl) {
+            secTitleEl.innerText = q.section || q.topic || 'English';
+        }
 
         // 1. Review Mode Headers & Stats
         if (isReviewMode) {
@@ -180,6 +187,8 @@
                     accPill.className = currentAcc < 50 ? 'stat-pill red-tint' : 'stat-pill green-tint';
                 }
             }
+
+            updateReviewNavButtons();
         }
 
         // 2. Parse Options, Passage, and Instruction
@@ -233,7 +242,7 @@
                     }
                 }
             }
-            currentPassage = currentPassage.replace(/(?<!class="[^"]*)(\([A-Za-z0-9]{1,3}\))\s*\[_{2,}\]/g, '<strong class="rc-blank">$1 [______]</strong>');
+            currentPassage = currentPassage.replace(/(?<!class="[^"]*)(\([A-Za-z0-9]{1,3}\))\s*(?:\[_{2,}\]|_{2,})/g, '<strong class="rc-blank">$1 [______]</strong>');
         }
 
         if (instruction || currentPassage) {
@@ -486,6 +495,34 @@
         return indices;
     }
 
+    function updateReviewNavButtons() {
+        const filtered = getFilteredQuestionIndices();
+        const currentPos = filtered.indexOf(engine.currentIndex);
+        const prevBtn = document.getElementById('btn-review-prev');
+        const nextBtn = document.getElementById('btn-review-next');
+
+        if (prevBtn) {
+            const canPrev = currentPos > 0;
+            prevBtn.disabled = !canPrev;
+            prevBtn.style.opacity = canPrev ? '1' : '0.4';
+            prevBtn.style.pointerEvents = canPrev ? 'auto' : 'none';
+        }
+
+        if (nextBtn) {
+            const canNext = currentPos !== -1 && currentPos < filtered.length - 1;
+            nextBtn.disabled = !canNext;
+            nextBtn.style.opacity = canNext ? '1' : '0.4';
+            nextBtn.style.pointerEvents = canNext ? 'auto' : 'none';
+        }
+
+        // Highlight active question in review palettes
+        document.querySelectorAll('.rev-pal-item').forEach(el => el.classList.remove('current'));
+        const revPalActive = document.getElementById(`rev-pal-${engine.currentIndex}`);
+        if (revPalActive) revPalActive.classList.add('current');
+        const cbtRevPalActive = document.getElementById(`cbt-rev-pal-${engine.currentIndex}`);
+        if (cbtRevPalActive) cbtRevPalActive.classList.add('current');
+    }
+
     // ==========================================
     // 5. USER ACTIONS & MODAL CONTROLLERS
     // ==========================================
@@ -542,7 +579,8 @@
             openReviewPalette();
         } else {
             updatePaletteColors();
-            document.getElementById('palette-modal').style.display = 'flex';
+            const m = document.getElementById('palette-modal');
+            if (m) m.style.display = 'flex';
         }
     }
 
@@ -551,7 +589,8 @@
         const menu = document.getElementById('filter-popover');
         if (menu) menu.style.display = 'none';
         buildReviewPalette();
-        document.getElementById('review-palette-modal').style.display = 'flex';
+        const m = document.getElementById('review-palette-modal');
+        if (m) m.style.display = 'flex';
     }
 
     function openSubmitModal() {
@@ -564,7 +603,8 @@
         const totEl = document.getElementById('summary-total');
         if (ansEl) ansEl.innerText = `${answeredCount}`;
         if (totEl) totEl.innerText = `${engine.questions.length}`;
-        document.getElementById('submit-modal').style.display = 'flex';
+        const m = document.getElementById('submit-modal');
+        if (m) m.style.display = 'flex';
     }
 
     function closeModal(id) {
@@ -575,7 +615,8 @@
 
     function openSettingsModal() {
         window.PlatformBridge?.haptic('medium');
-        document.getElementById('settings-modal').style.display = 'flex';
+        const m = document.getElementById('settings-modal');
+        if (m) m.style.display = 'flex';
     }
 
     function applyFontSize(size) {
@@ -641,7 +682,12 @@
         buildReviewPalette();
         const filtered = getFilteredQuestionIndices();
         if (filtered.length > 0) {
-            if (!filtered.includes(engine.currentIndex)) loadQuestion(filtered[0]);
+            if (!filtered.includes(engine.currentIndex)) {
+                engine.navigate(filtered[0]);
+                loadQuestion(filtered[0]);
+            } else {
+                updateReviewNavButtons();
+            }
         } else {
             alert("No questions match selected filter.");
         }
@@ -661,7 +707,9 @@
                 : filtered.slice().reverse().findIndex(idx => idx < engine.currentIndex);
         }
         if (targetPos >= 0 && targetPos < filtered.length) {
-            loadQuestion(filtered[targetPos]);
+            const nextIdx = filtered[targetPos];
+            engine.navigate(nextIdx);
+            loadQuestion(nextIdx);
         }
     }
 
@@ -753,14 +801,22 @@
 
         // Review Mode Initialization
         if (isReviewMode) {
-            document.getElementById('loading-screen').innerText = "Loading Analytics...";
-            document.getElementById('live-test-container').style.display = 'flex';
-            document.getElementById('live-nav').style.display = 'none';
-            document.getElementById('review-nav').style.display = 'flex';
-            document.getElementById('live-bottom-bar').style.display = 'none';
-            document.getElementById('review-bottom-bar').style.display = 'block';
-            document.getElementById('review-stats-bar').style.display = 'flex';
-            document.getElementById('review-section-strip').style.display = 'flex';
+            const ls = document.getElementById('loading-screen');
+            if (ls) ls.innerText = "Loading Analytics...";
+            const liveCont = document.getElementById('live-test-container');
+            if (liveCont) liveCont.style.display = 'flex';
+            const liveNav = document.getElementById('live-nav');
+            if (liveNav) liveNav.style.display = 'none';
+            const revNav = document.getElementById('review-nav');
+            if (revNav) revNav.style.display = 'flex';
+            const liveBottomBar = document.getElementById('live-bottom-bar');
+            if (liveBottomBar) liveBottomBar.style.display = 'none';
+            const revBottomBar = document.getElementById('review-bottom-bar');
+            if (revBottomBar) revBottomBar.style.display = 'block';
+            const revStatsBar = document.getElementById('review-stats-bar');
+            if (revStatsBar) revStatsBar.style.display = 'flex';
+            const revSecStrip = document.getElementById('review-section-strip');
+            if (revSecStrip) revSecStrip.style.display = 'flex';
 
             // Desktop Sidebar for Review
             const cbtPal = document.getElementById('cbt-palette-grid');
@@ -780,9 +836,10 @@
                 await engine.initReviewMode(attemptIdParam, isPractice);
                 buildReviewPalette();
                 loadQuestion(0);
-                document.getElementById('loading-screen').style.display = 'none';
+                if (ls) ls.style.display = 'none';
             } catch (err) {
-                alert("Failed to load review: " + err.message);
+                console.error('[QuizReview] Failed to load review:', err);
+                alert("Failed to load review: " + (err.message || 'Unknown error'));
                 exitTestEarly();
             }
             return;
@@ -816,10 +873,13 @@
                 setSafeText('inst-qcount-text', meta.question_count);
                 setSafeText('inst-marks', meta.question_count);
             }
-            document.getElementById('loading-screen').style.display = 'none';
-            document.getElementById('test-mode-modal').style.display = 'flex';
+            const ls = document.getElementById('loading-screen');
+            if (ls) ls.style.display = 'none';
+            const tmm = document.getElementById('test-mode-modal');
+            if (tmm) tmm.style.display = 'flex';
         } catch (err) {
-            alert("Failed to initialize quiz.");
+            console.error('[QuizInit] Failed to initialize quiz:', err);
+            alert("Failed to initialize quiz: " + (err.message || 'Please retry.'));
             exitTestEarly();
         }
     }
@@ -827,8 +887,10 @@
     async function beginTest() {
         window.PlatformBridge?.haptic('medium');
         const loadingScreen = document.getElementById('loading-screen');
-        loadingScreen.innerText = "Starting Timer...";
-        loadingScreen.style.display = 'flex';
+        if (loadingScreen) {
+            loadingScreen.innerText = "Starting Timer...";
+            loadingScreen.style.display = 'flex';
+        }
 
         const onColdStartStatus = (status) => {
             if (loadingScreen) {
@@ -844,7 +906,7 @@
 
         try {
             const startRes = await engine.startLiveAttempt(onColdStartStatus);
-            if (startRes.completed) {
+            if (startRes && startRes.completed) {
                 const returnUrl = urlParams.get('return_url');
                 const dayParam = urlParams.get('day');
                 const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
@@ -869,21 +931,25 @@
             loadQuestion(0);
             if (loadingScreen) loadingScreen.style.display = 'none';
         } catch (err) {
-            alert("Error: " + err.message);
+            console.error('[QuizBegin] Error starting attempt:', err);
+            alert("Error: " + (err.message || 'Unable to start test. Please retry.'));
             exitTestEarly();
         }
     }
 
     function proceedToInstructions() {
         window.PlatformBridge?.haptic('light');
-        document.getElementById('test-mode-modal').style.display = 'none';
-        document.getElementById('instructions-screen').style.display = 'flex';
+        const tmm = document.getElementById('test-mode-modal');
+        if (tmm) tmm.style.display = 'none';
+        const is = document.getElementById('instructions-screen');
+        if (is) is.style.display = 'flex';
     }
 
     function closeTestModeModal(e, force = false) {
-        if (force || e.target.id === 'test-mode-modal') {
+        if (force || e?.target?.id === 'test-mode-modal') {
             window.PlatformBridge?.haptic('soft');
-            document.getElementById('test-mode-modal').style.display = 'none';
+            const tmm = document.getElementById('test-mode-modal');
+            if (tmm) tmm.style.display = 'none';
             exitTestEarly();
         }
     }

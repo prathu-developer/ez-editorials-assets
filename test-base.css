@@ -260,28 +260,39 @@ body.font-xlarge .q-text { font-size: 20px; } body.font-xlarge .opt-text { font-
     color: inherit;
 }
 
-/* In-Passage Word/Phrase Highlights */
+/* In-Passage Word/Phrase Highlights (Clean Mock Test Style) */
 .passage-text strong,
-.passage-text b,
+.passage-text b {
+    font-weight: 700;
+    color: inherit;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border-bottom: none;
+}
+
 .passage-text mark {
     font-weight: 700;
-    color: #92400e;
-    background: #fef3c7;
-    padding: 1px 6px;
+    color: inherit;
+    background: rgba(37, 99, 235, 0.12);
+    padding: 1px 4px;
     margin: 0 1px;
-    border-radius: 4px;
-    border-bottom: 2px solid #f59e0b;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-    transition: all 0.2s ease;
+    border-radius: 3px;
+    border-bottom: 2px solid #2563eb;
 }
 
 .dark-mode .passage-text strong,
-.dark-mode .passage-text b,
+.dark-mode .passage-text b {
+    color: inherit;
+    background: transparent;
+    border-bottom: none;
+}
+
 .dark-mode .passage-text mark {
-    color: #fde68a;
-    background: rgba(245, 158, 11, 0.28);
-    border-bottom: 2px solid #fbbf24;
+    color: inherit;
+    background: rgba(96, 165, 250, 0.2);
+    border-bottom: 2px solid #60a5fa;
 }
 
 /* Active In-Passage Highlight for current Question */
@@ -304,40 +315,42 @@ body.font-xlarge .q-text { font-size: 20px; } body.font-xlarge .opt-text { font-
     box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35);
 }
 
-/* Blank Pill Styling in Passage */
+/* Blank Pill Styling in Passage - Normal Mock Test Exam Style */
 .passage-text .rc-blank {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: inherit;
     font-weight: 700;
     letter-spacing: 0.5px;
-    padding: 2px 8px;
+    padding: 1px 6px;
     margin: 0 2px;
-    border-radius: 6px;
-    color: #92400e;
-    background: #fef3c7;
-    border: 1.5px dashed #f59e0b;
+    border-radius: 4px;
+    color: inherit;
+    background: rgba(0, 0, 0, 0.04);
+    border-bottom: 2px solid var(--text-muted, #64748b);
     display: inline-block;
 }
 
 .dark-mode .passage-text .rc-blank {
-    color: #fde68a;
-    background: rgba(245, 158, 11, 0.2);
-    border: 1.5px dashed #fbbf24;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.06);
+    border-bottom: 2px solid #94a3b8;
 }
 
 .passage-text .rc-active-target.rc-blank,
 .passage-text strong.rc-active-target.rc-blank {
     color: #1e40af !important;
     background: #dbeafe !important;
-    border: 2px solid #2563eb !important;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25) !important;
+    border: none !important;
+    border-bottom: 2px solid #2563eb !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25) !important;
 }
 
 .dark-mode .passage-text .rc-active-target.rc-blank,
 .dark-mode .passage-text strong.rc-active-target.rc-blank {
     color: #bfdbfe !important;
     background: rgba(37, 99, 235, 0.4) !important;
-    border: 2px solid #60a5fa !important;
-    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.35) !important;
+    border: none !important;
+    border-bottom: 2px solid #60a5fa !important;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.35) !important;
 }
 
 /* Options */
