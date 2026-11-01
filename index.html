@@ -2314,6 +2314,287 @@
             color: var(--primary);
         }
 
+        
+        /* =============================================================
+           QUIETER TOPIC TRIALS FEED (IMPECCABLE QUIETER)
+           ============================================================= */
+        .quiz-triage-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+        }
+
+        .triage-status-group,
+        .triage-topic-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .triage-btn,
+        .topic-filter-btn {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .triage-btn:hover,
+        .topic-filter-btn:hover {
+            color: var(--text-main);
+            border-color: var(--text-subtle);
+        }
+
+        .triage-btn.is-active,
+        .topic-filter-btn.is-active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        /* Collapsible Date Accordion */
+        .forum-date-group {
+            margin-bottom: 18px;
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            overflow: hidden;
+            transition: border-color 0.15s ease;
+        }
+
+        .forum-date-group.today-group {
+            border-color: rgba(28, 100, 242, 0.35);
+        }
+
+        .forum-date-header-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: var(--bg-subtle);
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.15s ease;
+        }
+
+        .forum-date-header-btn:hover {
+            background: rgba(28, 100, 242, 0.04);
+        }
+
+        .forum-date-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .forum-date-badge {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 2.5px 8px;
+            border-radius: var(--radius-xs);
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .forum-date-badge.past {
+            background: var(--text-subtle);
+            color: #ffffff;
+        }
+
+        .forum-date-summary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .forum-date-count {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .accordion-chevron {
+            color: var(--text-subtle);
+            transition: transform 0.2s ease;
+        }
+
+        .forum-date-group.is-open .accordion-chevron {
+            transform: rotate(180deg);
+        }
+
+        .forum-quiz-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px;
+            border-top: 1px solid var(--border-line);
+        }
+
+        /* Quieter Quiz Card */
+        .forum-quiz-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            transition: border-color 0.15s ease, background 0.15s ease;
+        }
+
+        .forum-quiz-card:hover {
+            border-color: var(--primary);
+            background: var(--bg-subtle);
+        }
+
+        .forum-quiz-card.is-completed {
+            opacity: 0.88;
+            background: var(--bg-subtle);
+        }
+
+        .fq-left {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .fq-header-inline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .fq-title {
+            margin: 0;
+            font-size: 14.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .fq-category-chip {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 2px 7px;
+            border-radius: var(--radius-xs);
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .fq-category-chip.chip-vocab { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
+        .fq-category-chip.chip-grammar { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+        .fq-category-chip.chip-reading { background: #e0e7ff; color: #3730a3; border-color: #c7d2fe; }
+        .fq-category-chip.chip-cloze { background: #ecfdf5; color: #065f46; border-color: #a7f3d0; }
+
+        .fq-meta-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            line-height: 1.3;
+        }
+
+        .meta-dot {
+            color: var(--text-subtle);
+        }
+
+        .fq-attempts-quiet {
+            color: var(--text-subtle);
+        }
+
+        .fq-expiry-quiet {
+            color: var(--text-subtle);
+            font-weight: 500;
+        }
+
+        .fq-right {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Buttons in Quiz Cards */
+        .forum-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 12.5px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .forum-cta-btn.btn-start {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .forum-cta-btn.btn-start:hover {
+            background: var(--primary-hover);
+        }
+
+        .forum-cta-btn.btn-score {
+            background: var(--bg-card);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: var(--mastery-text);
+        }
+
+        .forum-cta-btn.btn-score:hover {
+            border-color: var(--mastery-emerald);
+            background: var(--mastery-wash);
+        }
+
+        .forum-cta-btn.btn-locked {
+            background: var(--bg-subtle);
+            border-color: var(--border-line);
+            color: var(--text-subtle);
+            cursor: not-allowed;
+            font-size: 11.5px;
+        }
+
+        .forum-cta-btn.btn-closed {
+            background: var(--bg-subtle);
+            color: var(--text-subtle);
+            border-color: var(--border-line);
+            cursor: not-allowed;
+            font-size: 11.5px;
+        }
+
         /* Masthead Nav Sign In Button */
         .btn-signin-nav {
             display: inline-flex;
@@ -2862,11 +3143,27 @@
         <div class="section-header-row" style="margin-bottom: 14px;">
             <div class="section-title-group">
                 <h2 id="quizSectionTitle" style="font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-                    <span>🎯</span> Topic Trials Feed
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" style="color: var(--primary);"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg> Topic Trials Feed
                 </h2>
                 <p id="quizSectionSub" style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">
                     Rolling 10-day active topic trials with live student attempts, marks, and CBT scoring.
                 </p>
+            </div>
+        </div>
+
+        <!-- TOPIC TRIALS FILTER & TRIAGE BAR (IMPECCABLE QUIETER) -->
+        <div class="quiz-triage-bar" id="quizTriageBar">
+            <div class="triage-status-group">
+                <button type="button" class="triage-btn is-active" data-status="all" onclick="applyFeedFilter('status', 'all', this)">All Active</button>
+                <button type="button" class="triage-btn" data-status="today" onclick="applyFeedFilter('status', 'today', this)">Today's Schedule</button>
+                <button type="button" class="triage-btn" data-status="pending" onclick="applyFeedFilter('status', 'pending', this)">Pending</button>
+                <button type="button" class="triage-btn" data-status="completed" onclick="applyFeedFilter('status', 'completed', this)">Completed</button>
+            </div>
+            <div class="triage-topic-group">
+                <button type="button" class="topic-filter-btn is-active" data-topic="all" onclick="applyFeedFilter('topic', 'all', this)">All Topics</button>
+                <button type="button" class="topic-filter-btn" data-topic="Vocab" onclick="applyFeedFilter('topic', 'Vocab', this)">Vocabulary</button>
+                <button type="button" class="topic-filter-btn" data-topic="Grammar" onclick="applyFeedFilter('topic', 'Grammar', this)">Grammar</button>
+                <button type="button" class="topic-filter-btn" data-topic="Comprehension" onclick="applyFeedFilter('topic', 'Comprehension', this)">Comprehension</button>
             </div>
         </div>
 
@@ -3352,6 +3649,40 @@
             renderDesktopQuizFeed();
         }
 
+        // --- QUIETER TOPIC TRIALS FEED & ACCORDION TRIAGE (IMPECCABLE QUIETER) ---
+        const feedFilter = {
+            status: 'all',
+            topic: 'all'
+        };
+
+        function applyFeedFilter(type, value, btnEl) {
+            feedFilter[type] = value;
+            if (btnEl) {
+                const group = btnEl.parentElement;
+                group.querySelectorAll('button').forEach(b => b.classList.remove('is-active'));
+                btnEl.classList.add('is-active');
+            }
+            renderDesktopQuizFeed();
+        }
+
+        function toggleDateGroup(dateStr) {
+            const groupEl = document.getElementById(`date-group-${dateStr}`);
+            if (!groupEl) return;
+            const isOpen = groupEl.classList.contains('is-open');
+            const grid = groupEl.querySelector('.forum-quiz-grid');
+            const btn = groupEl.querySelector('.forum-date-header-btn');
+
+            if (isOpen) {
+                groupEl.classList.remove('is-open');
+                if (grid) grid.style.display = 'none';
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            } else {
+                groupEl.classList.add('is-open');
+                if (grid) grid.style.display = 'flex';
+                if (btn) btn.setAttribute('aria-expanded', 'true');
+            }
+        }
+
         function renderDesktopQuizFeed() {
             const container = document.getElementById('quizzesGrid');
             if (!container) return;
@@ -3368,8 +3699,7 @@
             if (allQuizzes.length === 0) {
                 container.innerHTML = `
                     <div style="text-align: center; padding: 48px 20px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 14px;">
-                        <span style="font-size: 36px;">📭</span>
-                        <h3 style="margin: 12px 0 6px 0; font-size: 16px;">No Trials Available</h2>
+                        <h2 style="margin: 0 0 6px 0; font-size: 16px;">No Trials Scheduled</h2>
                         <p style="font-size: 13px; color: var(--text-muted);">Check back soon for upcoming trials.</p>
                     </div>
                 `;
@@ -3416,45 +3746,51 @@
             };
 
             let feedHtml = '';
-
-            // Slim Today status if no trials were scheduled today (e.g. Sunday Wrap-Up)
-            if (!groupedByDate[todayStr]) {
-                const todayHeaderMeta = formatDateHeader(todayStr);
-                feedHtml += `
-                    <div class="forum-date-group today-group">
-                        <div class="forum-date-header">
-                            <div class="forum-date-title">
-                                <span class="forum-date-badge">${todayHeaderMeta.badge}</span>
-                                <span>${todayHeaderMeta.label}</span>
-                            </div>
-                            <span class="forum-date-count">0 New Trials</span>
-                        </div>
-                        <div style="padding: 10px 14px; border-radius: 10px; background: rgba(28, 100, 242, 0.04); border: 1px dashed rgba(28, 100, 242, 0.22); margin-top: 6px; display: flex; align-items: center; gap: 8px;">
-                            <span style="font-size: 15px; flex-shrink: 0;">✨</span>
-                            <span style="font-size: 12.5px; color: var(--text-muted); line-height: 1.35;"><strong style="color: var(--text-main);">Sunday Wrap-Up:</strong> No new trials scheduled today. Catch up on active trials from the past 10 days below!</span>
-                        </div>
-                    </div>
-                `;
-            }
+            let matchedTotal = 0;
 
             sortedDates.forEach(dateStr => {
                 const dayQuizzes = groupedByDate[dateStr];
                 const meta = formatDateHeader(dateStr);
                 const isToday = meta.isToday;
 
+                // Apply Filters
+                const filteredQuizzes = dayQuizzes.filter(quiz => {
+                    // Status Filter
+                    if (feedFilter.status === 'today' && !isToday) return false;
+                    if (feedFilter.status === 'pending' && quiz.status === 'completed') return false;
+                    if (feedFilter.status === 'completed' && quiz.status !== 'completed') return false;
+
+                    // Topic Filter
+                    if (feedFilter.topic !== 'all') {
+                        const cat = getTopicCategory(quiz.topic);
+                        if (!cat.name.toLowerCase().includes(feedFilter.topic.toLowerCase())) return false;
+                    }
+                    return true;
+                });
+
+                if (filteredQuizzes.length === 0) return;
+                matchedTotal += filteredQuizzes.length;
+
+                const completedCount = filteredQuizzes.filter(q => q.status === 'completed').length;
+                // Today is open by default, past days are collapsed by default unless filtered
+                const shouldBeOpen = isToday || feedFilter.status !== 'all' || feedFilter.topic !== 'all';
+
                 feedHtml += `
-                    <div class="forum-date-group ${isToday ? 'today-group' : ''}">
-                        <div class="forum-date-header">
+                    <div class="forum-date-group ${isToday ? 'today-group' : ''} ${shouldBeOpen ? 'is-open' : ''}" id="date-group-${dateStr}">
+                        <button type="button" class="forum-date-header-btn" onclick="toggleDateGroup('${dateStr}')" aria-expanded="${shouldBeOpen ? 'true' : 'false'}">
                             <div class="forum-date-title">
                                 <span class="forum-date-badge ${isToday ? '' : 'past'}">${meta.badge}</span>
                                 <span>${meta.label}</span>
                             </div>
-                            <span class="forum-date-count">${dayQuizzes.length} Trials</span>
-                        </div>
-                        <div class="forum-quiz-grid">
+                            <div class="forum-date-summary">
+                                <span class="forum-date-count">${filteredQuizzes.length} Trials ${completedCount > 0 ? `(${completedCount} Done)` : ''}</span>
+                                <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                            </div>
+                        </button>
+                        <div class="forum-quiz-grid" ${shouldBeOpen ? '' : 'style="display: none;"'}>
                 `;
 
-                dayQuizzes.forEach(quiz => {
+                filteredQuizzes.forEach(quiz => {
                     const cat = getTopicCategory(quiz.topic);
                     const expiryStr = formatQuizExpiry(quiz.close_time);
                     const qCount = quiz.question_count || 10;
@@ -3464,34 +3800,36 @@
 
                     let ctaHtml = '';
                     const retUrl = encodeURIComponent(`index.html?quiz_id=${quiz.id}`);
+                    const isUserAuthed = (typeof isAuthenticated === 'function' && isAuthenticated());
+                    const authPromptClick = !isUserAuthed ? `event.preventDefault(); openAuthModal('Sign in with Telegram to submit answers, record your marks, and track your percentile rank.'); return false;` : `rememberQuizCard(${quiz.id});`;
 
                     if (quiz.status === 'completed') {
-                        ctaHtml = `<a href="result.html?attempt_id=${quiz.attempt_id}&return_url=${retUrl}" class="forum-cta-btn completed" onclick="rememberQuizCard(${quiz.id});">✅ Score: ${quiz.score}/${marks} 〉</a>`;
+                        ctaHtml = `<a href="result.html?attempt_id=${quiz.attempt_id}&return_url=${retUrl}" class="forum-cta-btn btn-score" onclick="rememberQuizCard(${quiz.id});"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Score: ${quiz.score}/${marks} 〉</a>`;
                     } else if (quiz.status === 'locked') {
                         const dropDate = new Date(quiz.drop_time);
                         const timeStr = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-                        ctaHtml = `<div class="forum-cta-btn locked">🔒 Drops at ${timeStr}</div>`;
+                        ctaHtml = `<span class="forum-cta-btn btn-locked">Drops at ${timeStr}</span>`;
                     } else if (quiz.status === 'closed') {
-                        ctaHtml = `<div class="forum-cta-btn closed">⏰ Expired</div>`;
+                        ctaHtml = `<span class="forum-cta-btn btn-closed">Archived</span>`;
                     } else {
-                        ctaHtml = `<a href="test.html?quiz_id=${quiz.id}&return_url=${retUrl}" class="forum-cta-btn start" onclick="rememberQuizCard(${quiz.id});">Start 〉</a>`;
+                        ctaHtml = `<a href="test.html?quiz_id=${quiz.id}&return_url=${retUrl}" class="forum-cta-btn btn-start" onclick="${authPromptClick}">Start Test 〉</a>`;
                     }
 
                     feedHtml += `
                         <div class="forum-quiz-card ${quiz.status === 'completed' ? 'is-completed' : ''}" id="quiz-card-${quiz.id}">
                             <div class="fq-left">
                                 <div class="fq-header-inline">
-                                    <h3 class="fq-title" title="${escapeHtml(quiz.topic)}">${escapeHtml(quiz.topic)}</h2>
+                                    <h3 class="fq-title" title="${escapeHtml(quiz.topic)}">${escapeHtml(quiz.topic)}</h3>
                                     <span class="fq-category-chip ${cat.cls}">${cat.name}</span>
                                 </div>
-                                <div class="fq-meta-inline">
-                                    <span class="fq-meta-pill">❓ ${qCount} Qs</span>
-                                    <span class="fq-meta-pill">⏱️ ${durationMins}m</span>
-                                    <span class="fq-meta-pill">🎯 ${marks} M</span>
-                                    <span class="fq-meta-pill fq-attempts">👥 ${attempts} Attempted</span>
-                                </div>
-                                <div class="fq-expiry-line">
-                                    <span>⏰ Exp: ${expiryStr}</span>
+                                <div class="fq-meta-text">
+                                    <span>${qCount} Questions</span>
+                                    <span class="meta-dot">·</span>
+                                    <span>${durationMins}m</span>
+                                    <span class="meta-dot">·</span>
+                                    <span>${marks} Marks</span>
+                                    ${attempts > 0 ? `<span class="meta-dot">·</span><span class="fq-attempts-quiet">${attempts} Attempts</span>` : ''}
+                                    ${quiz.status !== 'completed' && expiryStr ? `<span class="meta-dot">·</span><span class="fq-expiry-quiet">Closes ${expiryStr}</span>` : ''}
                                 </div>
                             </div>
                             <div class="fq-right">
@@ -3506,6 +3844,15 @@
                     </div>
                 `;
             });
+
+            if (matchedTotal === 0) {
+                feedHtml = `
+                    <div style="text-align: center; padding: 48px 20px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 12px;">
+                        <h2 style="font-size: 16px; margin-bottom: 6px;">No Matching Trials</h2>
+                        <p style="font-size: 13px; color: var(--text-muted);">Try selecting "All Active" or clearing your subject filter.</p>
+                    </div>
+                `;
+            }
 
             container.innerHTML = feedHtml;
 
