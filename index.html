@@ -2770,6 +2770,40 @@
             }
         }
 
+
+        /* =============================================================
+           HARDENED LAYOUT & TEXT BOUNDS (IMPECCABLE HARDEN)
+           ============================================================= */
+        .rd-prose {
+            max-width: 72ch;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .split-article-title {
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .fq-title {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .vcard-def,
+        .vocab-meaning,
+        .dv-def {
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .offline-recovery-banner button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
     </style>
 </head>
 <body>
@@ -3273,7 +3307,8 @@
         async function requestBotOtp() {
             const input = document.getElementById('usernameInput');
             const sendBtn = document.getElementById('sendOtpBtn');
-            const val = input.value.trim();
+            if (!input) return;
+            const val = input.value.trim().replace(/^@/, '');
 
             if (!val) {
                 setAuthMsg("Please enter your Telegram @username or User ID", "error");
@@ -3281,7 +3316,10 @@
                 return;
             }
 
-            if (sendBtn) sendBtn.innerText = "Sending...";
+            if (sendBtn) {
+                sendBtn.disabled = true;
+                sendBtn.innerText = "Sending...";
+            }
             setAuthMsg("Requesting code from @Ez_vocab_bot...", "success");
 
             try {
@@ -3293,7 +3331,7 @@
                 const data = await res.json();
 
                 if (res.ok && data.status === 'sent') {
-                    setAuthMsg("✅ Code sent! Check your Telegram messages from @Ez_vocab_bot.", "success");
+                    setAuthMsg("Code sent! Check your Telegram messages from @Ez_vocab_bot.", "success");
                     const otpInput = document.getElementById('otpCodeInput');
                     if (otpInput) {
                         otpInput.focus();
@@ -3305,7 +3343,10 @@
             } catch (err) {
                 setAuthMsg("Server unreachable. Tap 'Get Code via @Ez_vocab_bot' above to get your code directly!", "error");
             } finally {
-                if (sendBtn) sendBtn.innerText = "Send Code";
+                if (sendBtn) {
+                    sendBtn.disabled = false;
+                    sendBtn.innerText = "Send Code";
+                }
             }
         }
 
@@ -3489,17 +3530,63 @@
             renderDesktopQuizFeed();
         }
 
-        async function fetchWeeklyQuizzes() {
+        function buildFallbackQuizData() {
+            const today = [];
+            const pending = [];
+            (state.weekDays || []).forEach((d) => {
+                const quizzes = getStandardQuizzesForDay(d.dayNum, d);
+                quizzes.forEach(q => {
+                    q.quiz_day = d.dateStr;
+                    q.drop_time = d.dateStr + 'T08:00:00Z';
+                    q.close_time = d.dateStr + 'T23:59:59Z';
+                    if (d.isToday) {
+                        today.push(q);
+                    } else {
+                        pending.push(q);
+                    }
+                });
+            });
+            return { Today: today, Pending: pending, isFallback: true };
+        }
+
+        async function fetchWeeklyQuizzes(isManualRetry = false) {
+            const container = document.getElementById('quizzesGrid');
+            if (container && (!state.masterQuizData || isManualRetry)) {
+                container.innerHTML = `
+                    <div class="api-loading-state" style="text-align: center; padding: 48px 20px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-md);">
+                        <div class="mag-spinner" style="margin: 0 auto 16px;"></div>
+                        <div style="font-weight: 700; font-size: 15px; margin-bottom: 6px;">Loading Topic Trials Feed...</div>
+                        <div style="font-size: 13px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">Connecting to competitive examination syllabus server...</div>
+                    </div>
+                `;
+            }
+
             const userId = (typeof getActiveUserId === 'function') ? getActiveUserId() : 12345;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 9000);
+
             try {
                 const headers = (typeof getAuthHeaders === 'function') ? getAuthHeaders() : {};
-                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`, { headers });
-                const data = await res.json();
-                if (data && data.quizzes) {
-                    state.masterQuizData = data.quizzes;
+                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/quiz/today?user_id=${userId}`, {
+                    headers,
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.quizzes) {
+                        state.masterQuizData = data.quizzes;
+                        state.masterQuizData.isFallback = false;
+                    }
+                } else {
+                    throw new Error(`Server returned status ${res.status}`);
                 }
             } catch (err) {
-                console.warn('Quiz API offline, using weekly calibrated syllabus.');
+                clearTimeout(timeoutId);
+                console.warn('Quiz API offline or warming up, falling back to calibrated syllabus:', err);
+                if (!state.masterQuizData || state.masterQuizData.isFallback) {
+                    state.masterQuizData = buildFallbackQuizData();
+                }
             }
             renderDesktopQuizFeed();
         }
@@ -3606,6 +3693,20 @@
 
             let feedHtml = '';
             let matchedTotal = 0;
+
+            if (state.masterQuizData && state.masterQuizData.isFallback) {
+                feedHtml += `
+                    <div class="offline-recovery-banner" style="background: var(--bg-card); border: 1px solid var(--border-line); border-left: 4px solid var(--evidence-amber); border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-main);">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--evidence-amber); flex-shrink: 0;" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <span>Live syllabus server is waking up (~25s on free tier). Displaying <strong>calibrated offline trials</strong> so your practice is uninterrupted.</span>
+                        </div>
+                        <button type="button" class="btn-sub-action" onclick="fetchWeeklyQuizzes(true)" style="padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: var(--radius-sm); border: 1px solid var(--border-line); background: var(--bg-subtle);">
+                            Retry Live Sync
+                        </button>
+                    </div>
+                `;
+            }
 
             sortedDates.forEach(dateStr => {
                 const dayQuizzes = groupedByDate[dateStr];
@@ -3819,14 +3920,24 @@
 
         // --- DISTILLED CONTINUOUS SPLIT-VIEW READER (IMPECCABLE DISTILL) ---
         function highlightVocabCard(word) {
+            if (!word) return;
+            const cleanWord = String(word).toLowerCase().trim();
             const cards = document.querySelectorAll('.distilled-vcard');
             cards.forEach(c => c.classList.remove('is-active-pulse'));
-            const target = document.querySelector(`.distilled-vcard[data-word="${word.toLowerCase()}"]`);
+            const target = document.querySelector(`.distilled-vcard[data-word="${cleanWord}"]`);
             if (target) {
                 target.classList.add('is-active-pulse');
                 target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                setTimeout(() => target.classList.remove('is-active-pulse'), 2500);
             }
         }
+
+        // Hardened alias ensuring both focusVocabCard and highlightVocabCard resolve cleanly
+        function focusVocabCard(word) {
+            highlightVocabCard(word);
+        }
+        window.focusVocabCard = focusVocabCard;
+        window.highlightVocabCard = highlightVocabCard;
 
         function highlightPassageWord(word) {
             const spans = document.querySelectorAll('.vocab-hl');
@@ -3888,10 +3999,28 @@
             if (countEl) countEl.innerText = `${articles.length} Editorial Articles`;
 
             if (!articles || articles.length === 0) {
+                if (state.magFetchFailed) {
+                    container.innerHTML = `
+                        <div class="article-card" style="text-align: center; padding: 48px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base); width: 100%; max-width: 600px; margin: 0 auto;">
+                            <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--crimson-wash, #fde8e8); margin: 0 auto 14px auto;">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--crimson, #e73b50);" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            </span>
+                            <h2 style="font-size: 18px; margin-bottom: 6px;">Unable to Reach Editorial Server</h2>
+                            <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto 18px auto;">
+                                The backend service may be spinning up from sleep. Please check your connection or tap below to retry.
+                            </p>
+                            <button type="button" class="btn-hero-primary" onclick="state.magazineWeekData = null; state.magFetchFailed = false; renderMagazineForSelectedDay();" style="padding: 8px 18px; font-size: 13px;">
+                                Retry Loading Edition
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
                 const isFuture = dayObj && dayObj.isFuture;
                 container.innerHTML = `
                     <div class="article-card" style="text-align: center; padding: 48px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base); width: 100%; max-width: 600px; margin: 0 auto;">
-                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--bg-subtle); margin: 0 auto 14px auto;">${isFuture ? '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' : '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'}</span>
+                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--bg-subtle); margin: 0 auto 14px auto;">${isFuture ? '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' : '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'}</span>
                         <h2 style="font-size: 18px; margin-bottom: 6px;">${isFuture ? 'Edition Scheduled for ' + dayObj.fullDayName : 'No Edition Published for this Date'}</h2>
                         <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">
                             ${isFuture ? `The daily editorial publication for <strong>${dayObj.fullDayName} (${dayObj.dayNum} ${dayObj.monthShort})</strong> will be released on ${dayObj.fullDayName} morning.` : 'Editorials for this date have not been published yet. Please choose another day from the strip above.'}
@@ -4694,7 +4823,7 @@
 
                 vocabSpans.forEach(v => {
                     addTag(v.end, 1, '<sup class="v-idx">' + v.idx + '</sup></span>');
-                    addTag(v.start, 4, '<span class="vocab-hl" data-vword="' + escapeHtml(v.word) + '" onclick="focusVocabCard(\'' + escapeHtml(v.word) + '\')" title="Click to focus definition in Vocab Lab">');
+                    addTag(v.start, 4, '<span class="vocab-hl" data-vword="' + escapeHtml(v.word) + '" role="button" tabindex="0" aria-label="View definition for ' + escapeHtml(v.word) + '" onclick="focusVocabCard(\'' + escapeHtml(v.word) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){focusVocabCard(\'' + escapeHtml(v.word) + '\');event.preventDefault();}" title="Click or press Enter to focus definition in Vocab Lab">');
                 });
 
                 cleanEvidence.forEach(e => {
