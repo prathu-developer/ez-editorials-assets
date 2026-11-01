@@ -1067,8 +1067,8 @@
             const userScoreNum = parseFloat(s.score) || 0;
             const userScoreStr = userScoreNum.toFixed(1);
             
-            // Cutoff calculation (55% threshold)
-            const cutoffMarks = totalQuestions * 0.55;
+            // Standard Exam Sectional Cutoff (65% benchmark for SSC CGL / Banking English)
+            const cutoffMarks = Math.round(totalQuestions * 0.65 * 10) / 10;
 
             // 1. Top Red Hero Card
             document.getElementById('hero-score-val').innerText = `${userScoreStr}/${maxMarks}`;
@@ -1078,12 +1078,12 @@
             const cutoffDiff = cutoffMarks - userScoreNum;
 
             if (cutoffDiff > 0) {
-                statusTitle.innerText = userScoreNum <= 0 ? "Need More Hardwork!" : "Keep Pushing!";
-                cutoffMsg.innerText = `You still need ${cutoffDiff.toFixed(2)} marks to reach the cutoff marks (${cutoffMarks.toFixed(1)})`;
+                statusTitle.innerText = userScoreNum <= 0 ? "Need More Practice!" : "Keep Pushing!";
+                cutoffMsg.innerText = `You need ${cutoffDiff.toFixed(1)} more marks to reach the sectional cutoff (${cutoffMarks.toFixed(1)}/${maxMarks})`;
                 triggerHaptic('warning');
             } else {
                 statusTitle.innerText = "Cutoff Cleared! 🎉";
-                cutoffMsg.innerText = `Great job! You cleared the cutoff mark (${cutoffMarks.toFixed(1)}) by +${Math.abs(cutoffDiff).toFixed(2)} marks.`;
+                cutoffMsg.innerText = `Great job! You cleared the sectional cutoff (${cutoffMarks.toFixed(1)}/${maxMarks}) by +${Math.abs(cutoffDiff).toFixed(1)} marks.`;
                 triggerHaptic('success');
             }
 
