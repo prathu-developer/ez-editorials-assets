@@ -923,26 +923,393 @@
             align-items: center;
         }
 
-        #magazineArticles .page.inner-page {
-            width: 100% !important;
-            max-width: 1140px !important;
-            margin: 0 auto 32px auto !important;
-            box-shadow: 0 10px 36px rgba(0, 0, 0, 0.07) !important;
-            border: 1px solid var(--border-line) !important;
-            border-radius: 8px !important;
-            overflow: hidden !important;
-            background: #ffffff !important;
-            box-sizing: border-box !important;
-            position: relative !important;
-            min-height: auto !important;
-            transition: max-width 0.2s ease;
+        /* =============================================================
+           DISTILLED CONTINUOUS SPLIT-VIEW READER (IMPECCABLE DISTILL)
+           ============================================================= */
+        .split-reader-container {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            width: 100%;
         }
 
-        body.dark-theme #magazineArticles .page.inner-page,
-        html.dark-mode #magazineArticles .page.inner-page {
-            background: #0f172a !important;
-            border-color: #1e293b !important;
-            box-shadow: 0 12px 42px rgba(0, 0, 0, 0.55) !important;
+        .article-jump-strip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .article-jump-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-full);
+            padding: 6px 14px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+
+        .article-jump-pill:hover,
+        .article-jump-pill.is-active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--cobalt-wash);
+        }
+
+        .split-article-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-lg);
+            padding: 36px 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            width: 100%;
+            position: relative;
+            scroll-margin-top: 80px;
+        }
+
+        .split-article-header {
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .split-header-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .split-newspaper-badge {
+            background: var(--cobalt-wash);
+            color: var(--primary);
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(28, 100, 242, 0.2);
+        }
+
+        .split-topic-badge {
+            background: var(--bg-subtle);
+            color: var(--text-muted);
+            font-size: 11.5px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-line);
+        }
+
+        .split-time-badge {
+            font-size: 12px;
+            color: var(--text-subtle);
+            font-weight: 500;
+        }
+
+        .split-source-link {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            margin-left: auto;
+        }
+
+        .split-source-link:hover {
+            text-decoration: underline;
+        }
+
+        .split-article-title {
+            font-family: var(--font-serif), Georgia, serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.3;
+            letter-spacing: -0.015em;
+            margin-bottom: 10px;
+        }
+
+        .split-article-subtitle {
+            font-size: 14.5px;
+            font-style: italic;
+            color: var(--text-muted);
+            line-height: 1.5;
+            padding-left: 12px;
+            border-left: 2px solid var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .split-content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        @media (min-width: 1024px) {
+            .split-content-grid {
+                grid-template-columns: minmax(0, 1fr) 360px;
+            }
+        }
+
+        .split-prose-column {
+            min-width: 0;
+        }
+
+        .rd-prose {
+            font-family: var(--font-serif), Georgia, serif;
+            font-size: 16.5px;
+            line-height: 1.85;
+            color: var(--text-main);
+            max-width: 72ch;
+        }
+
+        .rd-prose p {
+            margin-bottom: 18px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .rd-prose p:first-of-type::first-letter {
+            font-size: 42px;
+            float: left;
+            line-height: 0.85;
+            margin-right: 8px;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: var(--font-serif), Georgia, serif;
+        }
+
+        .evidence-hl {
+            background: var(--evidence-wash);
+            border-bottom: 2px solid var(--evidence-border);
+            color: var(--text-main);
+            padding: 0 3px;
+            border-radius: 2px;
+            font-weight: 500;
+        }
+
+        .vocab-hl {
+            background: rgba(28, 100, 242, 0.08);
+            border-bottom: 1.5px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0 3px;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .vocab-hl:hover,
+        .vocab-hl.is-active-pulse {
+            background: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(28, 100, 242, 0.3);
+        }
+
+        .vocab-hl sup {
+            font-size: 10px;
+            font-weight: 700;
+            margin-left: 2px;
+        }
+
+        .split-article-footer {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-line);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .split-citation-text {
+            font-size: 12.5px;
+            color: var(--text-subtle);
+        }
+
+        .split-footer-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-goto-drill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--cobalt-wash);
+            color: var(--primary);
+            border: 1px solid rgba(28, 100, 242, 0.25);
+            border-radius: var(--radius-sm);
+            padding: 7px 14px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-goto-drill:hover {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .split-ext-link {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .split-ext-link:hover {
+            color: var(--primary);
+        }
+
+        .split-vocab-drawer {
+            position: sticky;
+            top: 76px;
+            max-height: calc(100vh - 96px);
+            overflow-y: auto;
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .split-drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-line);
+        }
+
+        .drawer-header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            color: var(--text-main);
+        }
+
+        .drawer-header-left svg {
+            color: var(--primary);
+        }
+
+        .drawer-count-chip {
+            font-size: 11px;
+            font-weight: 700;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            color: var(--text-muted);
+            padding: 2px 7px;
+            border-radius: var(--radius-full);
+        }
+
+        .split-vcard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        .distilled-vcard {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .distilled-vcard:hover,
+        .distilled-vcard.is-active-pulse {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(28, 100, 242, 0.12);
+            transform: translateX(-2px);
+        }
+
+        .dv-top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .dv-word-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .dv-idx {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-subtle);
+        }
+
+        .dv-word {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .dv-pos {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .dv-connotation {
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 1px 6px;
+            border-radius: var(--radius-xs);
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            color: var(--text-muted);
+        }
+
+        .dv-hindi {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .dv-def {
+            font-size: 12.5px;
+            color: var(--text-main);
+            line-height: 1.45;
+            margin-bottom: 6px;
+        }
+
+        .dv-hook {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            background: var(--bg-subtle);
+            padding: 4px 8px;
+            border-radius: var(--radius-xs);
+            border-left: 2px solid var(--evidence-amber);
+            line-height: 1.35;
         }
 
         /* ⛶ FOCUS MODE: FITS LAPTOP & DESKTOP SCREEN FLUIDLY */
@@ -3244,6 +3611,35 @@
             renderMagazineForSelectedDay();
         }
 
+        // --- DISTILLED CONTINUOUS SPLIT-VIEW READER (IMPECCABLE DISTILL) ---
+        function highlightVocabCard(word) {
+            const cards = document.querySelectorAll('.distilled-vcard');
+            cards.forEach(c => c.classList.remove('is-active-pulse'));
+            const target = document.querySelector(`.distilled-vcard[data-word="${word.toLowerCase()}"]`);
+            if (target) {
+                target.classList.add('is-active-pulse');
+                target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function highlightPassageWord(word) {
+            const spans = document.querySelectorAll('.vocab-hl');
+            spans.forEach(s => s.classList.remove('is-active-pulse'));
+            const target = document.querySelector(`.vocab-hl[data-vword="${word.toLowerCase()}"]`);
+            if (target) {
+                target.classList.add('is-active-pulse');
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function scrollToArticle(idx) {
+            const el = document.getElementById(`article-section-${idx}`);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+            document.querySelectorAll('.article-jump-pill').forEach((p, i) => {
+                p.classList.toggle('is-active', i === idx);
+            });
+        }
+
         async function renderMagazineForSelectedDay() {
             const container = document.getElementById('magazineArticles');
             const dateTitle = document.getElementById('magDateTitle');
@@ -3262,71 +3658,155 @@
                 readBadge.style.display = isRead ? 'inline-flex' : 'none';
             }
 
-            const isDark = document.documentElement.classList.contains('dark-mode') || document.body.classList.contains('dark-theme');
-            const mode = isDark ? 'dark' : 'light';
-
-            // Loading indicator
-            container.innerHTML = `
-                <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
-                    <div class="mag-spinner"></div>
-                    <div style="font-weight: 600; font-size: 15px;">Opening Publication Pages (${dateStr})...</div>
-                </div>
-            `;
-
-            let loadedFromHtml = false;
-
-            // 1. Try to fetch compiled HTML replica from platform
-            try {
-                const res = await fetch(`https://ez-editorials-bot.onrender.com/api/magazine/html/${dateStr}?mode=${mode}`);
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.has_html && data.html) {
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(data.html, 'text/html');
-                        const innerPages = doc.querySelectorAll('.page:not(.cover-page)');
-                        if (innerPages && innerPages.length > 0) {
-                            let combinedHtml = '';
-                            innerPages.forEach(p => {
-                                combinedHtml += p.outerHTML;
-                            });
-                            container.innerHTML = combinedHtml;
-                            loadedFromHtml = true;
-
-                            if (countEl) {
-                                const readerCount = doc.querySelectorAll('.reader-panel').length || Math.round(innerPages.length / 3);
-                                countEl.innerText = `${readerCount} Editorial Articles`;
-                            }
-                        }
+            // Ensure weekly magazine data is present
+            if (!state.magazineWeekData || !state.magazineWeekData[dateStr]) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+                        <div class="mag-spinner"></div>
+                        <div style="font-weight: 600; font-size: 15px;">Loading Today's Editorial Digest...</div>
+                    </div>
+                `;
+                try {
+                    const res = await fetch(`https://ez-editorials-bot.onrender.com/api/magazine/week?_t=${Date.now()}`);
+                    if (res.ok) {
+                        const data = await res.json();
+                        state.magazineWeekData = data.week || data;
                     }
+                } catch (e) {
+                    console.warn('Could not refresh magazine data:', e);
                 }
-            } catch (err) {
-                console.warn('Could not fetch precompiled HTML magazine, using client renderer:', err);
             }
 
-            // 2. Client-Side 1:1 PDF Replica Fallback
-            if (!loadedFromHtml) {
-                const articles = (state.magazineWeekData && state.magazineWeekData[dateStr]) ? state.magazineWeekData[dateStr] : [];
+            const articles = (state.magazineWeekData && state.magazineWeekData[dateStr]) ? state.magazineWeekData[dateStr] : [];
 
-                if (countEl) countEl.innerText = `${articles.length} Editorial Articles`;
+            if (countEl) countEl.innerText = `${articles.length} Editorial Articles`;
 
-                if (!articles || articles.length === 0) {
-                    const isFuture = dayObj && dayObj.isFuture;
-                    container.innerHTML = `
-                        <div class="article-card" style="text-align: center; padding: 48px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base); width: 100%; max-width: 600px; margin: 0 auto;">
-                            <span style="font-size: 40px; margin-bottom: 12px; display: block;">${isFuture ? '🔒' : '☕'}</span>
-                            <h3 style="font-size: 18px; margin-bottom: 6px;">${isFuture ? 'Edition Scheduled for ' + dayObj.fullDayName : 'No Edition Published for this Date'}</h2>
-                            <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">
-                                ${isFuture ? `The daily editorial publication for <strong>${dayObj.fullDayName} (${dayObj.dayNum} ${dayObj.monthShort})</strong> will be released on ${dayObj.fullDayName} morning.` : 'Editorials for this date have not been published yet. Please choose another day from the strip above.'}
-                            </p>
+            if (!articles || articles.length === 0) {
+                const isFuture = dayObj && dayObj.isFuture;
+                container.innerHTML = `
+                    <div class="article-card" style="text-align: center; padding: 48px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base); width: 100%; max-width: 600px; margin: 0 auto;">
+                        <span style="font-size: 40px; margin-bottom: 12px; display: block;">${isFuture ? '🔒' : '☕'}</span>
+                        <h2 style="font-size: 18px; margin-bottom: 6px;">${isFuture ? 'Edition Scheduled for ' + dayObj.fullDayName : 'No Edition Published for this Date'}</h2>
+                        <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">
+                            ${isFuture ? `The daily editorial publication for <strong>${dayObj.fullDayName} (${dayObj.dayNum} ${dayObj.monthShort})</strong> will be released on ${dayObj.fullDayName} morning.` : 'Editorials for this date have not been published yet. Please choose another day from the strip above.'}
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Build Distilled Split-View Reader
+            let htmlOut = '<div class="split-reader-container">';
+
+            // 1. Article Quick-Nav Jump Strip
+            if (articles.length > 1) {
+                htmlOut += '<div class="article-jump-strip">';
+                articles.forEach((a, idx) => {
+                    const np = escapeHtml(a.newspaper || 'Editorial');
+                    const t = escapeHtml(a.title || `Article ${idx+1}`);
+                    htmlOut += `<button type="button" class="article-jump-pill ${idx === 0 ? 'is-active' : ''}" onclick="scrollToArticle(${idx})">${idx + 1}. ${np}: ${t}</button>`;
+                });
+                htmlOut += '</div>';
+            }
+
+            // 2. Continuous Article Cards
+            articles.forEach((a, aIdx) => {
+                const newspaper = escapeHtml(a.newspaper || 'National Daily');
+                const topic = escapeHtml(a.topic || 'General Studies');
+                const title = escapeHtml(a.title || 'Editorial Analysis');
+                const subtitle = a.subtitle ? escapeHtml(a.subtitle) : '';
+                const readingTime = escapeHtml(a.reading_time || '4 min read');
+                const link = a.link || a.url || '';
+                const vocabItems = a.vocabulary || [];
+
+                // Render left passage
+                const passageHtml = a.passage_html || cleanAndHighlightPassageJs(a.passage || '', vocabItems);
+
+                // Render right vocab cards
+                let vocabCardsHtml = '';
+                if (vocabItems && vocabItems.length > 0) {
+                    vocabItems.forEach((v, vIdx) => {
+                        const num = v.order_index || (vIdx + 1);
+                        const word = escapeHtml(v.word_or_phrase || '');
+                        const pos = v.part_of_speech ? `(${escapeHtml(v.part_of_speech)})` : '';
+                        const def = escapeHtml(v.easy_synonym || v.concise_meaning || '');
+                        const hindi = v.hindi_meaning ? escapeHtml(v.hindi_meaning) : '';
+                        const hook = v.memory_hook ? escapeHtml(v.memory_hook) : '';
+                        const connotation = v.connotation ? escapeHtml(v.connotation) : '';
+
+                        vocabCardsHtml += `
+                            <div class="distilled-vcard" data-word="${word.toLowerCase()}" onclick="highlightPassageWord('${word.toLowerCase()}')">
+                                <div class="dv-top-row">
+                                    <div class="dv-word-wrap">
+                                        <span class="dv-idx">${num}.</span>
+                                        <span class="dv-word">${word}</span>
+                                        ${pos ? `<span class="dv-pos">${pos}</span>` : ''}
+                                    </div>
+                                    ${connotation ? `<span class="dv-connotation">${connotation}</span>` : ''}
+                                </div>
+                                ${hindi ? `<div class="dv-hindi devanagari">${hindi}</div>` : ''}
+                                <div class="dv-def">${def}</div>
+                                ${hook ? `<div class="dv-hook"><strong>Mnemonic:</strong> ${hook}</div>` : ''}
+                            </div>
+                        `;
+                    });
+                } else {
+                    vocabCardsHtml = '<div style="font-size: 13px; color: var(--text-muted); padding: 12px;">Core vocabulary analysis integrated into passage.</div>';
+                }
+
+                htmlOut += `
+                    <article class="split-article-card" id="article-section-${aIdx}">
+                        <header class="split-article-header">
+                            <div class="split-header-meta">
+                                <span class="split-newspaper-badge">${newspaper}</span>
+                                <span class="split-topic-badge">${topic}</span>
+                                <span class="split-time-badge">${readingTime}</span>
+                                ${link ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer" class="split-source-link">Original Source ↗</a>` : ''}
+                            </div>
+                            <h2 class="split-article-title">${title}</h2>
+                            ${subtitle ? `<p class="split-article-subtitle">“${subtitle}”</p>` : ''}
+                        </header>
+
+                        <div class="split-content-grid">
+                            <div class="split-prose-column">
+                                <div class="rd-prose" style="font-size: ${state.fontSize}px;">
+                                    ${passageHtml}
+                                </div>
+                                <footer class="split-article-footer">
+                                    <div class="split-citation-text">
+                                        Curated from <strong>${newspaper}</strong> for Civil Services &amp; Banking examination verbal prep.
+                                    </div>
+                                    <div class="split-footer-actions">
+                                        <button type="button" class="btn-goto-drill" onclick="switchView('quizzes')">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+                                            Practice Topic Drill for Today
+                                        </button>
+                                        ${link ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer" class="split-ext-link">Original Newspaper ↗</a>` : ''}
+                                    </div>
+                                </footer>
+                            </div>
+
+                            <aside class="split-vocab-drawer" id="vocab-drawer-${aIdx}">
+                                <div class="split-drawer-header">
+                                    <div class="drawer-header-left">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                                        <strong>Vocab Lab &amp; Evidence</strong>
+                                    </div>
+                                    <span class="drawer-count-chip">${vocabItems.length} Terms</span>
+                                </div>
+                                <div class="split-vcard-list">
+                                    ${vocabCardsHtml}
+                                </div>
+                            </aside>
                         </div>
-                    `;
-                    return;
-                }
+                    </article>
+                `;
+            });
 
-                container.innerHTML = renderPdfInnerPagesFromArticles(dateStr, articles, isDark);
-            }
+            htmlOut += '</div>';
+            container.innerHTML = htmlOut;
 
-            // Automatic read receipt sync on website read:
+            // Sync magazine read receipt
             syncMagazineReadReceipt(dateStr);
         }
 
