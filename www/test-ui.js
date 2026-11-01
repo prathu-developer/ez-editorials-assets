@@ -114,11 +114,34 @@
 
     function formatSolutionText(text) {
         if (!text) return "No detailed explanation available.";
+
         let escaped = String(text)
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
+
+        // 1. Headers: ### Header, ## Header
+        escaped = escaped.replace(/^### (.*$)/gim, '<h4 style="margin: 10px 0 4px 0; font-size: 13.5px; font-weight: 700; color: var(--text-dark, #111827); font-family: inherit;">$1</h4>');
+        escaped = escaped.replace(/^## (.*$)/gim, '<h3 style="margin: 12px 0 6px 0; font-size: 14.5px; font-weight: 800; color: var(--text-dark, #111827); font-family: inherit;">$1</h3>');
+
+        // 2. Bold: **text** or __text__
+        escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong style="color: var(--text-dark, #111827); font-weight: 700;">$1</strong>');
+        escaped = escaped.replace(/__(.*?)__/g, '<strong style="color: var(--text-dark, #111827); font-weight: 700;">$1</strong>');
+
+        // 3. Italic: *text* or _text_
+        escaped = escaped.replace(/(^|[^\*])\*([^\*\n]+)\*([^\*]|$)/g, '$1<em>$2</em>$3');
+
+        // 4. Inline code: `term`
+        escaped = escaped.replace(/`([^`\n]+)`/g, '<code style="background: rgba(90, 50, 250, 0.08); padding: 1.5px 5px; border-radius: 4px; font-family: monospace; font-size: 0.9em; color: #5a32fa;">$1</code>');
+
+        // 5. Bullet lines: •, -, or *
+        escaped = escaped.replace(/^[•\-\*]\s+(.*)$/gim, '<div style="display: flex; align-items: baseline; gap: 8px; margin: 4px 0; line-height: 1.55;"><span style="color: #5a32fa; font-weight: bold; font-size: 14px; flex-shrink: 0; line-height: 1;">•</span><span>$1</span></div>');
+
+        // 6. Multiple newlines -> spacing div, single newline -> <br/>
+        escaped = escaped.replace(/\n\n+/g, '<div style="height: 10px;"></div>');
+        escaped = escaped.replace(/<\/div><br\/>/g, '</div>');
         escaped = escaped.replace(/\n/g, '<br/>');
+
         return escaped;
     }
 
