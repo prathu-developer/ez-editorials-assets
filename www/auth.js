@@ -372,7 +372,14 @@ window.onTelegramAuth = async function(user) {
 
 // 10. Auto-Mount Login Screen if Unauthenticated
 window.addEventListener('DOMContentLoaded', () => {
-    if (!isAuthenticated()) {
+    if (isTelegramMiniApp()) {
+        const overlay = document.getElementById('externalLoginOverlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+            overlay.style.pointerEvents = 'none';
+        }
+        document.body.style.overflow = '';
+    } else if (!isAuthenticated()) {
         const overlay = document.getElementById('externalLoginOverlay');
         if (overlay) {
             overlay.style.display = 'flex';
