@@ -327,6 +327,14 @@
          */
         exitToHome(dayParam = null) {
             this.clearBack();
+            try {
+                const sp = new URLSearchParams(window.location.search);
+                const returnUrl = sp.get('return_url');
+                if (returnUrl) {
+                    window.location.href = returnUrl;
+                    return;
+                }
+            } catch (e) {}
             window.location.href = this.getHomeUrl(dayParam);
         },
 

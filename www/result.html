@@ -963,14 +963,14 @@
 
         function goBackToTopics() {
             triggerHaptic('light');
-            if (window.PlatformBridge && typeof window.PlatformBridge.exitToHome === 'function') {
-                const dayParam = urlParams.get('day');
-                window.PlatformBridge.exitToHome(dayParam);
-                return;
-            }
             const returnUrl = urlParams.get('return_url');
             if (returnUrl) {
                 window.location.href = returnUrl;
+                return;
+            }
+            if (window.PlatformBridge && typeof window.PlatformBridge.exitToHome === 'function') {
+                const dayParam = urlParams.get('day');
+                window.PlatformBridge.exitToHome(dayParam);
                 return;
             }
             const dayParam = urlParams.get('day');

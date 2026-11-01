@@ -4645,25 +4645,25 @@
         .forum-feed-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            padding: 0 4px;
+            gap: 14px;
+            padding: 0 2px;
         }
 
         .forum-date-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
         }
 
         .forum-date-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 14px;
-            border-radius: 12px;
+            padding: 6px 10px;
+            border-radius: 10px;
             background: var(--bg-card, #ffffff);
             border: 1px solid var(--border-light, #e5e7eb);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
         }
 
         .forum-date-group.today-group .forum-date-header {
@@ -4674,19 +4674,19 @@
         .forum-date-title {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
+            gap: 7px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text-main, #111827);
         }
 
         .forum-date-badge {
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 800;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
             text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 6px;
+            padding: 2.5px 7px;
+            border-radius: 5px;
             background: var(--brand, #5a32fa);
             color: #ffffff;
         }
@@ -4697,139 +4697,140 @@
         }
 
         .forum-date-count {
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 600;
             color: var(--text-muted, #6b7280);
             background: var(--bg-body, #f3f4f6);
-            padding: 3px 8px;
-            border-radius: 12px;
+            padding: 2px 7px;
+            border-radius: 10px;
         }
 
         .forum-quiz-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
         }
 
         @media (min-width: 768px) {
             .forum-quiz-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-                gap: 14px;
+                grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+                gap: 10px;
             }
         }
 
         .forum-quiz-card {
             background: var(--bg-card, #ffffff);
             border: 1px solid var(--border-light, #e5e7eb);
-            border-radius: 14px;
-            padding: 16px;
+            border-radius: 11px;
+            padding: 9px 12px;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-            transition: all 0.2s ease;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
             position: relative;
         }
 
         .forum-quiz-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.04);
             border-color: rgba(90, 50, 250, 0.3);
         }
 
         .forum-quiz-card.is-completed {
-            border-left: 4px solid #10b981;
+            border-left: 3.5px solid #10b981;
         }
 
-        .fq-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .fq-topic-info {
+        .fq-left {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3.5px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .fq-header-inline {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
         }
 
         .fq-title {
             margin: 0;
-            font-size: 15.5px;
+            font-size: 14px;
             font-weight: 700;
             color: var(--text-main, #111827);
-            line-height: 1.3;
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .fq-category-chip {
-            align-self: flex-start;
-            font-size: 11px;
+            font-size: 9.5px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-            padding: 2.5px 7px;
-            border-radius: 6px;
+            padding: 1.5px 5.5px;
+            border-radius: 4px;
             background: rgba(90, 50, 250, 0.1);
             color: var(--brand, #5a32fa);
+            white-space: nowrap;
         }
-
         .fq-category-chip.chip-vocab { background: #e0f2fe; color: #0284c7; }
         .fq-category-chip.chip-grammar { background: #fef3c7; color: #d97706; }
         .fq-category-chip.chip-reading { background: #f3e8ff; color: #7c3aed; }
         .fq-category-chip.chip-cloze { background: #ecfdf5; color: #059669; }
 
-        .fq-meta-row {
+        .fq-meta-inline {
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px 10px;
             align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
         }
 
-        .fq-meta-item {
-            font-size: 12px;
+        .fq-meta-pill {
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-muted, #4b5563);
-            background: var(--bg-body, #f8f9fa);
-            padding: 4px 8px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            background: var(--bg-body, #f4f4f5);
+            padding: 2px 5.5px;
+            border-radius: 5px;
+            white-space: nowrap;
+            line-height: 1.2;
         }
 
-        .fq-meta-item.fq-attempts {
+        .fq-meta-pill.fq-attempts {
             color: #2563eb;
             background: #eff6ff;
             font-weight: 700;
         }
 
-        .fq-bottom-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding-top: 10px;
-            border-top: 1px solid var(--border-light, #e5e7eb);
-            margin-top: 2px;
+        .fq-expiry-line {
+            font-size: 10.5px;
+            color: var(--text-muted, #9ca3af);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
         }
 
-        .fq-expiry {
-            font-size: 11.5px;
-            color: var(--text-muted, #6b7280);
-            display: inline-flex;
+        .fq-right {
+            flex-shrink: 0;
+            display: flex;
             align-items: center;
-            gap: 5px;
-            font-weight: 500;
         }
 
         .forum-cta-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 7px 16px;
+            padding: 6px 13px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             text-decoration: none;
             cursor: pointer;
@@ -4840,12 +4841,12 @@
         .forum-cta-btn.start {
             background: var(--brand, #5a32fa);
             color: #ffffff;
-            box-shadow: 0 2px 8px rgba(90, 50, 250, 0.25);
+            box-shadow: 0 2px 6px rgba(90, 50, 250, 0.22);
         }
 
         .forum-cta-btn.start:active {
-            opacity: 0.85;
-            transform: scale(0.98);
+            opacity: 0.88;
+            transform: scale(0.97);
         }
 
         .forum-cta-btn.completed {
@@ -4862,14 +4863,25 @@
             background: var(--bg-body, #f3f4f6);
             color: var(--text-muted, #9ca3af);
             cursor: not-allowed;
-            font-size: 12px;
+            font-size: 11.5px;
+            padding: 5px 10px;
         }
 
         .forum-cta-btn.closed {
             background: #fee2e2;
             color: #dc2626;
             cursor: not-allowed;
-            font-size: 12px;
+            font-size: 11.5px;
+            padding: 5px 10px;
+        }
+
+        @keyframes scrollPulse {
+            0% { box-shadow: 0 0 0 0 rgba(90, 50, 250, 0.5); transform: scale(1); }
+            50% { box-shadow: 0 0 0 7px rgba(90, 50, 250, 0.2); transform: scale(1.015); border-color: #5a32fa; }
+            100% { box-shadow: 0 0 0 0 rgba(90, 50, 250, 0); transform: scale(1); }
+        }
+        .scroll-target-pulse {
+            animation: scrollPulse 1.2s ease-in-out 2;
         }
 
         body.dark-mode .forum-date-header {
@@ -4884,11 +4896,11 @@
             background: var(--card-bg, #18181b);
             border-color: var(--border-color, #27272a);
         }
-        body.dark-mode .fq-meta-item {
+        body.dark-mode .fq-meta-pill {
             background: #27272a;
             color: #d4d4d8;
         }
-        body.dark-mode .fq-meta-item.fq-attempts {
+        body.dark-mode .fq-meta-pill.fq-attempts {
             background: rgba(37, 99, 235, 0.2);
             color: #93c5fd;
         }
@@ -4896,7 +4908,6 @@
             background: #27272a;
             color: #71717a;
         }
-
 </style>
 </head>
 <body>
@@ -6647,6 +6658,30 @@
             }
         }
 
+        function rememberQuizCard(quizId) {
+            try {
+                sessionStorage.setItem('ez_last_active_quiz_id', String(quizId));
+            } catch(e) {}
+        }
+
+        function restoreQuizScroll() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const targetId = urlParams.get('quiz_id') || sessionStorage.getItem('ez_last_active_quiz_id');
+                if (!targetId) return;
+
+                setTimeout(() => {
+                    const el = document.getElementById('quiz-card-' + targetId);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('scroll-target-pulse');
+                        setTimeout(() => el.classList.remove('scroll-target-pulse'), 3000);
+                        try { sessionStorage.removeItem('ez_last_active_quiz_id'); } catch(e) {}
+                    }
+                }, 220);
+            } catch(e) {}
+        }
+
         function renderQuizFeed() {
             const container = document.getElementById('api-quiz-container');
             if (!container) return;
@@ -6712,7 +6747,7 @@
             let totalCompleted = 0;
             let feedHtml = '';
 
-            // 🟢 Prominent Today status if no trials were scheduled today (e.g. Sunday Wrap-Up)
+            // 🟢 Slim Today status if no trials were scheduled today (e.g. Sunday Wrap-Up)
             if (!groupedByDate[todayStr]) {
                 const todayHeaderMeta = formatDateHeader(todayStr);
                 feedHtml += `
@@ -6724,9 +6759,9 @@
                             </div>
                             <span class="forum-date-count">0 New Trials</span>
                         </div>
-                        <div style="padding: 14px 16px; border-radius: 14px; background: rgba(90, 50, 250, 0.05); border: 1px dashed rgba(90, 50, 250, 0.22); margin-top: 8px; text-align: center;">
-                            <p style="margin: 0; font-size: 13.5px; font-weight: 600; color: var(--text-main);">✨ No new trials scheduled for today (Sunday Wrap-Up).</p>
-                            <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Catch up or review your active trials from the past 10 days below!</p>
+                        <div style="padding: 10px 14px; border-radius: 10px; background: rgba(90, 50, 250, 0.04); border: 1px dashed rgba(90, 50, 250, 0.22); margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 15px; flex-shrink: 0;">✨</span>
+                            <span style="font-size: 12px; color: var(--text-muted); line-height: 1.35;"><strong style="color: var(--text-main);">Sunday Wrap-Up:</strong> No new trials scheduled today. Catch up on active trials from the past 10 days below!</span>
                         </div>
                     </div>
                 `;
@@ -6758,11 +6793,11 @@
                     const attempts = quiz.attempt_count || 0;
 
                     let ctaHtml = '';
-                    const retUrl = encodeURIComponent('app.html?view=day');
+                    const retUrl = encodeURIComponent(`app.html?view=day&quiz_id=${quiz.id}`);
 
                     if (quiz.status === 'completed') {
                         totalCompleted++;
-                        ctaHtml = `<a href="result.html?attempt_id=${quiz.attempt_id}&return_url=${retUrl}" class="forum-cta-btn completed" onclick="triggerHaptic('light')">✅ Score: ${quiz.score}/${marks} 〉</a>`;
+                        ctaHtml = `<a href="result.html?attempt_id=${quiz.attempt_id}&return_url=${retUrl}" class="forum-cta-btn completed" onclick="rememberQuizCard(${quiz.id}); triggerHaptic('light');">✅ Score: ${quiz.score}/${marks} 〉</a>`;
                     } else if (quiz.status === 'locked') {
                         const dropDate = new Date(quiz.drop_time);
                         const timeStr = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
@@ -6770,30 +6805,27 @@
                     } else if (quiz.status === 'closed') {
                         ctaHtml = `<div class="forum-cta-btn closed">⏰ Expired</div>`;
                     } else {
-                        ctaHtml = `<a href="test.html?quiz_id=${quiz.id}&return_url=${retUrl}" class="forum-cta-btn start" onclick="triggerHaptic('medium')">Start 〉</a>`;
+                        ctaHtml = `<a href="test.html?quiz_id=${quiz.id}&return_url=${retUrl}" class="forum-cta-btn start" onclick="rememberQuizCard(${quiz.id}); triggerHaptic('medium');">Start 〉</a>`;
                     }
 
                     feedHtml += `
-                        <div class="forum-quiz-card ${quiz.status === 'completed' ? 'is-completed' : ''}">
-                            <div class="fq-top">
-                                <div class="fq-topic-info">
+                        <div class="forum-quiz-card ${quiz.status === 'completed' ? 'is-completed' : ''}" id="quiz-card-${quiz.id}">
+                            <div class="fq-left">
+                                <div class="fq-header-inline">
+                                    <h3 class="fq-title" title="${quiz.topic}">${quiz.topic}</h3>
                                     <span class="fq-category-chip ${cat.cls}">${cat.name}</span>
-                                    <h3 class="fq-title">${quiz.topic}</h3>
+                                </div>
+                                <div class="fq-meta-inline">
+                                    <span class="fq-meta-pill">❓ ${qCount} Qs</span>
+                                    <span class="fq-meta-pill">⏱️ ${durationMins}m</span>
+                                    <span class="fq-meta-pill">🎯 ${marks} M</span>
+                                    <span class="fq-meta-pill fq-attempts">👥 ${attempts} Attempted</span>
+                                </div>
+                                <div class="fq-expiry-line">
+                                    <span>⏰ Exp: ${expiryStr}</span>
                                 </div>
                             </div>
-
-                            <div class="fq-meta-row">
-                                <span class="fq-meta-item">❓ ${qCount} Questions</span>
-                                <span class="fq-meta-item">⏱️ ${durationMins} Mins</span>
-                                <span class="fq-meta-item">🎯 ${marks} Marks</span>
-                                <span class="fq-meta-item fq-attempts">👥 ${attempts} Attempted</span>
-                            </div>
-
-                            <div class="fq-bottom-row">
-                                <div class="fq-expiry" title="Expiry Deadline">
-                                    <span>⏰</span>
-                                    <span>Expires on ${expiryStr}</span>
-                                </div>
+                            <div class="fq-right">
                                 ${ctaHtml}
                             </div>
                         </div>
@@ -6815,6 +6847,9 @@
                 const pct = allQuizzes.length > 0 ? (totalCompleted / allQuizzes.length) * 100 : 0;
                 progressFill.style.width = `${pct}%`;
             }
+
+            // 🟢 Auto-scroll to last active quiz
+            restoreQuizScroll();
         }
 
         function filterByDay(dayIndex) {

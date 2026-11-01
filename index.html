@@ -1573,7 +1573,242 @@
         @media (max-width: 768px) {
             .masthead { padding: 0 16px; }
         }
-    </style>
+    
+        /* Forum Feed & Compact Quiz Cards (Desktop Web) */
+        .forum-feed-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .forum-date-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .forum-date-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 7px 12px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .forum-date-group.today-group .forum-date-header {
+            background: linear-gradient(135deg, rgba(28, 100, 242, 0.08) 0%, rgba(90, 50, 250, 0.05) 100%);
+            border-color: rgba(28, 100, 242, 0.25);
+        }
+
+        .forum-date-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .forum-date-badge {
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            padding: 2.5px 7px;
+            border-radius: 5px;
+            background: var(--primary, #1c64f2);
+            color: #ffffff;
+        }
+
+        .forum-date-badge.past {
+            background: var(--text-muted, #6b7280);
+            color: #ffffff;
+        }
+
+        .forum-date-count {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg-subtle, #f3f4f6);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .forum-quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 10px;
+        }
+
+        .forum-quiz-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: 11px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+            position: relative;
+        }
+
+        .forum-quiz-card:hover {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+            border-color: var(--primary, #1c64f2);
+        }
+
+        .forum-quiz-card.is-completed {
+            border-left: 3.5px solid #10b981;
+        }
+
+        .fq-left {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .fq-header-inline {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .fq-title {
+            margin: 0;
+            font-size: 14.5px;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .fq-category-chip {
+            font-size: 9.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            padding: 1.5px 5.5px;
+            border-radius: 4px;
+            background: rgba(28, 100, 242, 0.1);
+            color: var(--primary, #1c64f2);
+            white-space: nowrap;
+        }
+        .fq-category-chip.chip-vocab { background: #e0f2fe; color: #0284c7; }
+        .fq-category-chip.chip-grammar { background: #fef3c7; color: #d97706; }
+        .fq-category-chip.chip-reading { background: #f3e8ff; color: #7c3aed; }
+        .fq-category-chip.chip-cloze { background: #ecfdf5; color: #059669; }
+
+        .fq-meta-inline {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .fq-meta-pill {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg-subtle, #f4f4f5);
+            padding: 2px 6px;
+            border-radius: 5px;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+
+        .fq-meta-pill.fq-attempts {
+            color: #2563eb;
+            background: #eff6ff;
+            font-weight: 700;
+        }
+
+        .fq-expiry-line {
+            font-size: 10.5px;
+            color: var(--text-muted);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+        }
+
+        .fq-right {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .forum-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12.5px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .forum-cta-btn.start {
+            background: var(--primary, #1c64f2);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(28, 100, 242, 0.22);
+        }
+
+        .forum-cta-btn.start:active {
+            opacity: 0.88;
+            transform: scale(0.97);
+        }
+
+        .forum-cta-btn.completed {
+            background: rgba(16, 185, 129, 0.12);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .forum-cta-btn.completed:active {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .forum-cta-btn.locked {
+            background: var(--bg-subtle);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            font-size: 11.5px;
+            padding: 5px 10px;
+        }
+
+        .forum-cta-btn.closed {
+            background: #fee2e2;
+            color: #dc2626;
+            cursor: not-allowed;
+            font-size: 11.5px;
+            padding: 5px 10px;
+        }
+
+        @keyframes scrollPulse {
+            0% { box-shadow: 0 0 0 0 rgba(28, 100, 242, 0.5); transform: scale(1); }
+            50% { box-shadow: 0 0 0 7px rgba(28, 100, 242, 0.2); transform: scale(1.015); border-color: #1c64f2; }
+            100% { box-shadow: 0 0 0 0 rgba(28, 100, 242, 0); transform: scale(1); }
+        }
+        .scroll-target-pulse {
+            animation: scrollPulse 1.2s ease-in-out 2;
+        }
+</style>
 </head>
 <body>
 
@@ -1662,24 +1897,21 @@
          3. PILLAR 1: WEEKLY QUIZZES INTERFACE (AUTHENTICATED ONLY)
          ============================================================= -->
     <main class="page-container" id="quizzesView">
-        <!-- Mon - Sat Day Navigation Pills -->
-        <div class="week-nav-bar">
-            <div class="week-nav-pills" id="quizDayNav">
-                <!-- Injected via JavaScript -->
-            </div>
-        </div>
-
-        <div class="section-header-row">
+        <div class="section-header-row" style="margin-bottom: 14px;">
             <div class="section-title-group">
-                <h2 id="quizSectionTitle">Monday's Topic Quizzes</h2>
-                <p id="quizSectionSub">Exam-calibrated topic trials with negative marking (-0.25) and CBT timers.</p>
+                <h2 id="quizSectionTitle" style="font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                    <span>🎯</span> Topic Trials Feed
+                </h2>
+                <p id="quizSectionSub" style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">
+                    Rolling 10-day active topic trials with live student attempts, marks, and CBT scoring.
+                </p>
             </div>
         </div>
 
-        <!-- Quiz Cards Grid for Selected Date -->
-        <div class="quiz-cards-grid" id="quizzesGrid">
-            <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
-                Loading daily topic trials...
+        <!-- Date-Wise Forum Feed Container for Desktop -->
+        <div class="forum-feed-container" id="quizzesGrid">
+            <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                Loading topic trials feed...
             </div>
         </div>
     </main>
@@ -2000,27 +2232,61 @@
         // =============================================================
         // PILLAR 1: WEEKLY QUIZZES (BY DATE, RESULTS & REVIEW)
         // =============================================================
-        function renderQuizDayNav() {
-            const nav = document.getElementById('quizDayNav');
-            if (!nav) return;
+        function getTopicCategory(topic) {
+            const t = (topic || '').toLowerCase();
+            if (t.includes('vocab') || t.includes('word')) return { name: 'Vocabulary', cls: 'chip-vocab' };
+            if (t.includes('error') || t.includes('sentence')) return { name: 'Grammar', cls: 'chip-grammar' };
+            if (t.includes('cloze')) return { name: 'Cloze Test', cls: 'chip-cloze' };
+            if (t.includes('comprehension') || t.includes('reading') || t.includes('rc')) return { name: 'Reading', cls: 'chip-reading' };
+            if (t.includes('para') || t.includes('jumble')) return { name: 'Verbal', cls: 'chip-grammar' };
+            return { name: 'Topic Trial', cls: '' };
+        }
 
-            nav.innerHTML = state.weekDays.map(d => {
-                const isActive = d.index === state.selectedQuizDayIndex;
-                const isFuture = d.isFuture;
-                return `
-                    <div class="mag-day-pill ${isActive ? 'active' : ''} ${isFuture ? 'pill-future' : ''}" onclick="selectQuizDay(${d.index})">
-                        <span class="pill-dayname">${d.dayName}</span>
-                        <span class="pill-daynum">${d.dayNum}</span>
-                        ${d.isToday ? '<div class="pill-dot" title="Today"></div>' : (isFuture ? '<span class="pill-lock-dot" title="Locked · Future Date">🔒</span>' : '')}
-                    </div>
-                `;
-            }).join('');
+        function formatQuizExpiry(isoCloseTime) {
+            if (!isoCloseTime) return '10 Days Access';
+            try {
+                const expDate = new Date(isoCloseTime);
+                if (isNaN(expDate.getTime())) return '10 Days Access';
+                const dayNum = expDate.getDate();
+                const monthName = expDate.toLocaleDateString('en-US', { month: 'short' });
+                const timeStr = expDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                return `${dayNum} ${monthName}, ${timeStr}`;
+            } catch(e) {
+                return '10 Days Access';
+            }
+        }
+
+        function rememberQuizCard(quizId) {
+            try {
+                sessionStorage.setItem('ez_last_active_quiz_id', String(quizId));
+            } catch(e) {}
+        }
+
+        function restoreQuizScroll() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const targetId = urlParams.get('quiz_id') || sessionStorage.getItem('ez_last_active_quiz_id');
+                if (!targetId) return;
+
+                setTimeout(() => {
+                    const el = document.getElementById('quiz-card-' + targetId);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        el.classList.add('scroll-target-pulse');
+                        setTimeout(() => el.classList.remove('scroll-target-pulse'), 3000);
+                        try { sessionStorage.removeItem('ez_last_active_quiz_id'); } catch(e) {}
+                    }
+                }, 220);
+            } catch(e) {}
+        }
+
+        function renderQuizDayNav() {
+            // Replaced in favor of Unified Topic Trials Forum Feed
         }
 
         function selectQuizDay(idx) {
             state.selectedQuizDayIndex = idx;
-            renderQuizDayNav();
-            renderQuizzesForSelectedDay();
+            renderDesktopQuizFeed();
         }
 
         async function fetchWeeklyQuizzes() {
@@ -2035,104 +2301,172 @@
             } catch (err) {
                 console.warn('Quiz API offline, using weekly calibrated syllabus.');
             }
-            renderQuizzesForSelectedDay();
+            renderDesktopQuizFeed();
         }
 
         function renderQuizzesForSelectedDay() {
-            const container = document.getElementById('quizzesGrid');
-            const dayObj = state.weekDays[state.selectedQuizDayIndex];
-            const titleEl = document.getElementById('quizSectionTitle');
-            const subEl = document.getElementById('quizSectionSub');
+            renderDesktopQuizFeed();
+        }
 
-            if (titleEl && dayObj) {
-                titleEl.innerText = `${dayObj.fullDayName}'s Topic Quizzes (${dayObj.dayNum} ${dayObj.monthShort})`;
+        function renderDesktopQuizFeed() {
+            const container = document.getElementById('quizzesGrid');
+            if (!container) return;
+
+            if (!state.masterQuizData) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted);">Loading topic trials...</div>';
+                return;
             }
 
-            // 🟢 STRICT RULE: If the selected day is in the future, lock content and display locked state
-            if (dayObj && dayObj.isFuture) {
-                if (subEl) {
-                    subEl.innerText = `Content locked · Tests scheduled for ${dayObj.fullDayName}`;
-                }
+            const todayQuizzes = state.masterQuizData.Today || [];
+            const pendingQuizzes = state.masterQuizData.Pending || [];
+            const allQuizzes = [...todayQuizzes, ...pendingQuizzes];
+
+            if (allQuizzes.length === 0) {
                 container.innerHTML = `
-                    <div class="empty-locked-card" style="grid-column: 1/-1; text-align: center; padding: 64px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base); max-width: 640px; margin: 12px auto; width: 100%; box-sizing: border-box;">
-                        <div style="width: 58px; height: 58px; border-radius: 50%; background: var(--bg-subtle); display: inline-flex; align-items: center; justify-content: center; font-size: 26px; margin-bottom: 16px; border: 1px solid var(--border-line);">🔒</div>
-                        <h3 style="font-size: 19px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">Tests Locked · Yet to be Conducted</h3>
-                        <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; max-width: 480px; margin: 0 auto;">
-                            Topic tests for <strong>${dayObj.fullDayName} (${dayObj.dayNum} ${dayObj.monthShort})</strong> are scheduled for future dates and have not been conducted yet. Tests will unlock automatically on ${dayObj.fullDayName} morning at 06:00 AM IST.
-                        </p>
+                    <div style="text-align: center; padding: 48px 20px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 14px;">
+                        <span style="font-size: 36px;">📭</span>
+                        <h3 style="margin: 12px 0 6px 0; font-size: 16px;">No Trials Available</h3>
+                        <p style="font-size: 13px; color: var(--text-muted);">Check back soon for upcoming trials.</p>
                     </div>
                 `;
                 return;
             }
 
-            const targetDayNum = state.selectedQuizDayIndex + 1;
-            let quizzes = [];
+            const istNow = new Date(new Date().getTime() + (330 + new Date().getTimezoneOffset()) * 60000);
+            const todayStr = istNow.toISOString().split('T')[0];
 
-            if (state.masterQuizData) {
-                const all = [...(state.masterQuizData.Today || []), ...(state.masterQuizData.Pending || [])];
-                quizzes = all.filter(q => q.day_num === targetDayNum);
-            }
+            // Group quizzes by date (YYYY-MM-DD)
+            const groupedByDate = {};
+            allQuizzes.forEach(q => {
+                let qDateStr = q.quiz_day;
+                if (!qDateStr && q.drop_time) qDateStr = q.drop_time.split('T')[0];
+                if (!qDateStr) qDateStr = todayStr;
 
-            if (!quizzes || quizzes.length === 0) {
-                quizzes = getStandardQuizzesForDay(targetDayNum, dayObj);
-            }
+                if (!groupedByDate[qDateStr]) groupedByDate[qDateStr] = [];
+                groupedByDate[qDateStr].push(q);
+            });
 
-            if (subEl) {
-                const completedCount = quizzes.filter(q => q.status === 'completed').length;
-                subEl.innerText = `${quizzes.length} tests scheduled · ${completedCount} completed · CBT Scoring (+1 / -0.25)`;
-            }
+            const sortedDates = Object.keys(groupedByDate).sort((a, b) => b.localeCompare(a));
 
-            container.innerHTML = quizzes.map(q => {
-                const qCount = q.question_count || 5;
-                const durationMins = Math.round((q.duration_seconds || 300) / 60);
+            const formatDateHeader = (dateStr) => {
+                const parts = dateStr.split('-');
+                if (parts.length !== 3) return { isToday: false, badge: dateStr, label: '' };
+                const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+                const isToday = (dateStr === todayStr);
 
-                let actionsHtml = '';
-                if (q.status === 'completed') {
-                    const score = q.score !== null && q.score !== undefined ? q.score : '+4.25';
-                    const retUrl = encodeURIComponent(`index.html?day=${targetDayNum}`);
-                    actionsHtml = `
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <span class="score-pill">Score: ${score} pts</span>
-                            <a href="result.html?attempt_id=${q.attempt_id || 'latest'}&day=${targetDayNum}&return_url=${retUrl}" class="btn-result">
-                                📊 Results
-                            </a>
-                            <a href="test.html?attempt_id=${q.attempt_id || 'latest'}&mode=review&day=${targetDayNum}&return_url=${retUrl}" class="btn-review">
-                                🔍 Review
-                            </a>
-                        </div>
-                    `;
-                } else if (q.status === 'locked') {
-                    const dropStr = q.drop_time ? new Date(q.drop_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '5:00 PM';
-                    actionsHtml = `<span class="badge-locked">🔒 Drops at ${dropStr}</span>`;
+                const todayDate = new Date(istNow.getFullYear(), istNow.getMonth(), istNow.getDate());
+                const diffDays = Math.round((todayDate - d) / (1000 * 60 * 60 * 24));
+
+                const dayName = d.toLocaleDateString('en-US', { weekday: 'long' });
+                const dayNum = d.getDate();
+                const monthName = d.toLocaleDateString('en-US', { month: 'short' });
+                const year = d.getFullYear();
+
+                if (isToday || diffDays === 0) {
+                    return { isToday: true, badge: 'TODAY', label: `${dayName}, ${dayNum} ${monthName}` };
+                } else if (diffDays === 1) {
+                    return { isToday: false, badge: 'YESTERDAY', label: `${dayName}, ${dayNum} ${monthName}` };
                 } else {
-                    const retUrl = encodeURIComponent(`index.html?day=${targetDayNum}`);
-                    actionsHtml = `
-                        <a href="test.html?quiz_id=${q.id}&day=${targetDayNum}&return_url=${retUrl}" class="btn-start-test">
-                            Start Test 〉
-                        </a>
-                    `;
+                    return { isToday: false, badge: `${dayNum} ${monthName}`, label: `${dayName}, ${year}` };
                 }
+            };
 
-                return `
-                    <div class="quiz-card">
-                        <div class="quiz-card-top">
-                            <div class="quiz-meta-chips">
-                                <span class="chip ${q.categoryChip || 'chip-blue'}">${q.categoryLabel || 'TOPIC TEST'}</span>
-                                <span class="chip chip-muted">Day ${targetDayNum}</span>
+            let feedHtml = '';
+
+            // Slim Today status if no trials were scheduled today (e.g. Sunday Wrap-Up)
+            if (!groupedByDate[todayStr]) {
+                const todayHeaderMeta = formatDateHeader(todayStr);
+                feedHtml += `
+                    <div class="forum-date-group today-group">
+                        <div class="forum-date-header">
+                            <div class="forum-date-title">
+                                <span class="forum-date-badge">${todayHeaderMeta.badge}</span>
+                                <span>${todayHeaderMeta.label}</span>
                             </div>
-                            <h3 class="quiz-card-title">${escapeHtml(q.topic)}</h3>
-                            <div class="quiz-card-meta-text">
-                                <span>📋 ${qCount} Questions</span>
-                                <span>⏱ ${durationMins} mins</span>
-                                <span>🎯 Negative: -0.25</span>
-                            </div>
+                            <span class="forum-date-count">0 New Trials</span>
                         </div>
-                        <div class="quiz-card-bottom">
-                            ${actionsHtml}
+                        <div style="padding: 10px 14px; border-radius: 10px; background: rgba(28, 100, 242, 0.04); border: 1px dashed rgba(28, 100, 242, 0.22); margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 15px; flex-shrink: 0;">✨</span>
+                            <span style="font-size: 12.5px; color: var(--text-muted); line-height: 1.35;"><strong style="color: var(--text-main);">Sunday Wrap-Up:</strong> No new trials scheduled today. Catch up on active trials from the past 10 days below!</span>
                         </div>
                     </div>
                 `;
-            }).join('');
+            }
+
+            sortedDates.forEach(dateStr => {
+                const dayQuizzes = groupedByDate[dateStr];
+                const meta = formatDateHeader(dateStr);
+                const isToday = meta.isToday;
+
+                feedHtml += `
+                    <div class="forum-date-group ${isToday ? 'today-group' : ''}">
+                        <div class="forum-date-header">
+                            <div class="forum-date-title">
+                                <span class="forum-date-badge ${isToday ? '' : 'past'}">${meta.badge}</span>
+                                <span>${meta.label}</span>
+                            </div>
+                            <span class="forum-date-count">${dayQuizzes.length} Trials</span>
+                        </div>
+                        <div class="forum-quiz-grid">
+                `;
+
+                dayQuizzes.forEach(quiz => {
+                    const cat = getTopicCategory(quiz.topic);
+                    const expiryStr = formatQuizExpiry(quiz.close_time);
+                    const qCount = quiz.question_count || 10;
+                    const durationMins = Math.round((quiz.duration_seconds || 600) / 60);
+                    const marks = quiz.total_marks || qCount;
+                    const attempts = quiz.attempt_count || 0;
+
+                    let ctaHtml = '';
+                    const retUrl = encodeURIComponent(`index.html?quiz_id=${quiz.id}`);
+
+                    if (quiz.status === 'completed') {
+                        ctaHtml = `<a href="result.html?attempt_id=${quiz.attempt_id}&return_url=${retUrl}" class="forum-cta-btn completed" onclick="rememberQuizCard(${quiz.id});">✅ Score: ${quiz.score}/${marks} 〉</a>`;
+                    } else if (quiz.status === 'locked') {
+                        const dropDate = new Date(quiz.drop_time);
+                        const timeStr = dropDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                        ctaHtml = `<div class="forum-cta-btn locked">🔒 Drops at ${timeStr}</div>`;
+                    } else if (quiz.status === 'closed') {
+                        ctaHtml = `<div class="forum-cta-btn closed">⏰ Expired</div>`;
+                    } else {
+                        ctaHtml = `<a href="test.html?quiz_id=${quiz.id}&return_url=${retUrl}" class="forum-cta-btn start" onclick="rememberQuizCard(${quiz.id});">Start 〉</a>`;
+                    }
+
+                    feedHtml += `
+                        <div class="forum-quiz-card ${quiz.status === 'completed' ? 'is-completed' : ''}" id="quiz-card-${quiz.id}">
+                            <div class="fq-left">
+                                <div class="fq-header-inline">
+                                    <h3 class="fq-title" title="${escapeHtml(quiz.topic)}">${escapeHtml(quiz.topic)}</h3>
+                                    <span class="fq-category-chip ${cat.cls}">${cat.name}</span>
+                                </div>
+                                <div class="fq-meta-inline">
+                                    <span class="fq-meta-pill">❓ ${qCount} Qs</span>
+                                    <span class="fq-meta-pill">⏱️ ${durationMins}m</span>
+                                    <span class="fq-meta-pill">🎯 ${marks} M</span>
+                                    <span class="fq-meta-pill fq-attempts">👥 ${attempts} Attempted</span>
+                                </div>
+                                <div class="fq-expiry-line">
+                                    <span>⏰ Exp: ${expiryStr}</span>
+                                </div>
+                            </div>
+                            <div class="fq-right">
+                                ${ctaHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                feedHtml += `
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = feedHtml;
+
+            // Auto-scroll to last viewed quiz
+            restoreQuizScroll();
         }
 
         function getStandardQuizzesForDay(dayNum, dayObj) {

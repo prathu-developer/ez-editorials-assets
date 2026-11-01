@@ -721,6 +721,11 @@
 
     function exitTestEarly() {
         window.PlatformBridge?.haptic('medium');
+        const returnUrl = urlParams.get('return_url');
+        if (returnUrl) {
+            window.location.href = returnUrl;
+            return;
+        }
         const dayParam = urlParams.get('day');
         window.PlatformBridge?.exitToHome(dayParam);
     }
