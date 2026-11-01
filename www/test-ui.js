@@ -440,6 +440,12 @@
         if (palTotal) palTotal.innerText = filteredIndices.length;
         if (cbtTotal) cbtTotal.innerText = filteredIndices.length;
 
+        const revTabName = document.getElementById('review-tab-name');
+        if (revTabName && engine.questions && engine.questions[engine.currentIndex]) {
+            const currQ = engine.questions[engine.currentIndex];
+            revTabName.innerText = currQ.section || currQ.topic || 'English';
+        }
+
         let attemptedInFilter = 0;
 
         grids.forEach(({ el, prefix }) => {
@@ -970,6 +976,7 @@
     window.prevQuestion = prevQuestion;
     window.clearResponse = clearResponse;
     window.openPalette = openPalette;
+    window.openReviewPalette = openReviewPalette;
     window.closeModal = closeModal;
     window.openSettingsModal = openSettingsModal;
     window.applyFontSize = applyFontSize;

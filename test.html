@@ -123,17 +123,21 @@
         <div class="review-section-strip" id="review-section-strip" style="display: none;">
             <span class="review-section-title" id="review-section-title">English</span>
             <div class="review-strip-icons">
-                <svg onclick="openSettingsModal()" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
-                    <path d="M4 20l5-16 5 16"></path>
-                    <path d="M6 14h6"></path>
-                    <circle cx="18" cy="16" r="3"></circle>
-                    <path d="M21 13v7"></path>
-                </svg>
-                <svg onclick="openReviewPalette()" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="cursor:pointer;">
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
+                <button type="button" class="strip-icon-btn" onclick="openSettingsModal()" title="Text Size" aria-label="Text Size">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 20l5-16 5 16"></path>
+                        <path d="M6 14h6"></path>
+                        <circle cx="18" cy="16" r="3"></circle>
+                        <path d="M21 13v7"></path>
+                    </svg>
+                </button>
+                <button type="button" class="strip-icon-btn" onclick="openReviewPalette()" title="Question Navigation" aria-label="Question Navigation">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
             </div>
         </div>
 

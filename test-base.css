@@ -501,8 +501,29 @@ input:checked + .slider:before { transform: translateX(18px); }
 .review-strip-icons {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 8px;
     color: var(--text-dark);
+}
+.strip-icon-btn {
+    background: transparent;
+    border: none;
+    padding: 6px;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 6px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+.strip-icon-btn:active {
+    opacity: 0.6;
+    background: rgba(0, 0, 0, 0.05);
+}
+body.dark-mode .strip-icon-btn:active {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* Review Palette & Filter Popover */
