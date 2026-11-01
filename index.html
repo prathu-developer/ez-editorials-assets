@@ -55,17 +55,17 @@
             --mastery-emerald: #10b981;
             --mastery-wash: #def7ec;
             --mastery-text: #03543f;
-            --review-purple: #8b5cf6;
-            --review-wash: #f3e8ff;
-            --review-text: #6b21a8;
+            --review-indigo: #4338ca;
+            --review-wash: #e0e7ff;
+            --review-text: #312e81;
 
             /* Neutrals */
             --bg-canvas: #f5f6f8;
             --bg-card: #ffffff;
             --bg-subtle: #f8fafc;
             --text-main: #1a1a1a;
-            --text-muted: #6b7280;
-            --text-subtle: #94a3b8;
+            --text-muted: #4b5563;
+            --text-subtle: #64748b;
             --border-line: #e5e7eb;
             --border-hover: #cbd5e1;
 
@@ -98,16 +98,16 @@
             --mastery-emerald: #34d399;
             --mastery-wash: #0d281e;
             --mastery-text: #a7f3d0;
-            --review-purple: #a78bfa;
-            --review-wash: #281e3d;
-            --review-text: #ddd6fe;
+            --review-indigo: #818cf8;
+            --review-wash: #1e1b4b;
+            --review-text: #c7d2fe;
 
             --bg-canvas: #121212;
             --bg-card: #1e1e1e;
             --bg-subtle: #27272a;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --text-subtle: #6b7280;
+            --text-subtle: #94a3b8;
             --border-line: #2e2e38;
             --border-hover: #4b4b58;
         }
@@ -196,7 +196,7 @@
         .brand-title span { color: var(--primary); }
 
         .brand-pill {
-            font-size: 10px;
+            font-size: 11.5px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.06em;
@@ -282,8 +282,8 @@
         }
 
         .btn-logout:hover {
-            color: var(--crimson);
-            border-color: var(--crimson);
+            color: #991b1b;
+            border-color: #991b1b;
             background: var(--crimson-wash);
         }
 
@@ -525,7 +525,7 @@
             line-height: 1.4;
         }
 
-        .msg-error { color: var(--crimson); }
+        .msg-error { color: #991b1b; }
         .msg-success { color: var(--mastery-emerald); }
 
         /* -------------------------------------------------------------
@@ -613,12 +613,12 @@
             width: 4px;
             height: 4px;
             border-radius: 50%;
-            background: var(--mastery-emerald);
+            background: #047857;
             margin-top: 1px;
         }
 
         .pill-lock-dot {
-            font-size: 10px;
+            font-size: 11.5px;
             line-height: 1;
             margin-top: 1px;
             opacity: 0.65;
@@ -704,7 +704,7 @@
         }
 
         .chip-blue { background: var(--cobalt-wash); color: var(--primary); }
-        .chip-purple { background: var(--review-wash); color: var(--review-text); }
+        .chip-indigo { background: var(--review-wash); color: var(--review-text); }
         .chip-muted { background: var(--bg-subtle); color: var(--text-muted); border: 1px solid var(--border-line); }
 
         .quiz-card-title {
@@ -1625,7 +1625,7 @@
         }
 
         .forum-date-badge.past {
-            background: var(--text-muted, #6b7280);
+            background: var(--text-muted, #4b5563);
             color: #ffffff;
         }
 
@@ -1706,7 +1706,7 @@
         }
         .fq-category-chip.chip-vocab { background: #e0f2fe; color: #0284c7; }
         .fq-category-chip.chip-grammar { background: #fef3c7; color: #d97706; }
-        .fq-category-chip.chip-reading { background: #f3e8ff; color: #7c3aed; }
+        .fq-category-chip.chip-reading { background: #e0e7ff; color: #312e81; }
         .fq-category-chip.chip-cloze { background: #ecfdf5; color: #059669; }
 
         .fq-meta-inline {
@@ -1808,7 +1808,470 @@
         .scroll-target-pulse {
             animation: scrollPulse 1.2s ease-in-out 2;
         }
-</style>
+
+        /* =============================================================
+           ONBOARDING & GUEST HERO STYLING (IMPECCABLE ONBOARD)
+           ============================================================= */
+        .onboarding-hero {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--primary);
+            background: var(--cobalt-wash);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(28, 100, 242, 0.2);
+            margin-bottom: 14px;
+        }
+
+        .hero-badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .hero-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            margin-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 820px;
+            margin-bottom: 20px;
+        }
+
+        .hero-features-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .hero-feature-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            background: var(--bg-subtle);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-line);
+        }
+
+        .hero-feature-item svg {
+            color: var(--mastery-emerald);
+            flex-shrink: 0;
+        }
+
+        .hero-cta-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn-hero-primary {
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 13.5px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-hero-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-hero-secondary {
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-size: 13.5px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-line);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-hero-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--cobalt-wash);
+        }
+
+        .btn-hero-link {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 12px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .btn-hero-link:hover {
+            color: var(--primary);
+        }
+
+        /* Masthead Nav Sign In Button */
+        .btn-signin-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-signin-nav:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Demo 60-Second Drill Card */
+        .demo-drill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+        }
+
+        .demo-drill-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-line);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .demo-drill-badge-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-pill-live {
+            background: var(--evidence-wash);
+            color: var(--evidence-text);
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--evidence-border);
+        }
+
+        .demo-pill-meta {
+            font-size: 12.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .demo-drill-timer {
+            font-size: 12.5px;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            color: var(--primary);
+            background: var(--cobalt-wash);
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(28, 100, 242, 0.2);
+        }
+
+        .demo-questions-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .demo-q-block {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+        }
+
+        .demo-q-meta {
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-subtle);
+            margin-bottom: 6px;
+        }
+
+        .demo-q-text {
+            font-size: 14px;
+            color: var(--text-main);
+            line-height: 1.55;
+            margin-bottom: 14px;
+        }
+
+        .demo-options-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 640px) {
+            .demo-options-list {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .demo-opt-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-sm);
+            padding: 9px 12px;
+            font-size: 13px;
+            color: var(--text-main);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s ease;
+        }
+
+        .demo-opt-btn:hover {
+            border-color: var(--primary);
+            background: var(--cobalt-wash);
+        }
+
+        .demo-opt-btn.is-selected {
+            border-color: var(--primary);
+            background: var(--cobalt-wash);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .demo-opt-btn span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--bg-subtle);
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid var(--border-line);
+            flex-shrink: 0;
+        }
+
+        .demo-opt-btn.is-selected span {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+        }
+
+        .demo-submit-bar {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .btn-demo-submit {
+            background: #047857;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 22px;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-demo-submit:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .demo-result-card {
+            margin-top: 20px;
+            background: var(--cobalt-wash);
+            border: 1px solid rgba(28, 100, 242, 0.25);
+            border-radius: var(--radius-md);
+            padding: 22px;
+        }
+
+        .demo-score-chip {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--mastery-text);
+            background: var(--mastery-wash);
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
+            margin-bottom: 8px;
+        }
+
+        .demo-result-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .demo-result-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        /* Modern Accessible Auth Modal */
+        .auth-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+            animation: fadeIn 0.15s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .auth-modal-card {
+            width: 100%;
+            max-width: 440px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-lg);
+            padding: 30px 26px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+            position: relative;
+        }
+
+        .modal-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .modal-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-lock-svg {
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .btn-modal-close {
+            background: transparent;
+            border: none;
+            font-size: 22px;
+            line-height: 1;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .btn-modal-close:hover {
+            color: var(--text-main);
+            background: var(--bg-subtle);
+        }
+
+        /* Magazine Guest Banner */
+        .mag-guest-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--cobalt-wash);
+            border: 1px solid rgba(28, 100, 242, 0.2);
+            border-radius: var(--radius-md);
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .mag-gb-text strong {
+            display: block;
+            font-size: 13.5px;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .mag-gb-text span {
+            font-size: 12.5px;
+            color: var(--text-muted);
+        }
+
+        .btn-mag-signin {
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 7px 14px;
+            border-radius: var(--radius-sm);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-mag-signin:hover {
+            background: var(--primary-hover);
+        }
+
+    </style>
 </head>
 <body>
 
@@ -1824,50 +2287,66 @@
             <span class="brand-pill">Study Hub</span>
         </div>
 
-        <!-- The Two Main Pillars (Visible only when logged in) -->
-        <nav class="masthead-nav" id="mastheadNav" style="display: none;">
+        <!-- The Two Main Pillars (Visible for both guests and authenticated students) -->
+        <nav class="masthead-nav" id="mastheadNav">
             <button class="nav-tab-btn active" id="tabQuizzes" onclick="switchView('quizzes')">
-                <span>📝</span> Weekly Quizzes
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Weekly Quizzes
             </button>
             <button class="nav-tab-btn" id="tabMagazine" onclick="switchView('magazine')">
-                <span>📰</span> Weekly Magazine
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                Weekly Magazine
             </button>
         </nav>
 
         <div class="masthead-right">
+            <!-- Guest Sign In Action -->
+            <button class="btn-signin-nav" id="navSignInBtn" onclick="openAuthModal()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                Sign In
+            </button>
+
             <!-- User Profile & Log Out (Visible only when logged in) -->
             <div class="user-chip" id="userChip" style="display: none;">
-                <span>👤</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 <span id="userNameLabel">Student</span>
             </div>
             <button class="btn-logout" id="logoutBtn" style="display: none;" onclick="handleLogout()">
-                <span>🚪</span> Log Out
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                Log Out
             </button>
 
             <!-- Theme Toggle -->
-            <button class="btn-icon" id="themeToggle" title="Toggle Theme">🌓</button>
+            <button class="btn-icon" id="themeToggle" title="Toggle Theme" aria-label="Toggle Theme">🌓</button>
         </div>
     </header>
 
     <!-- =============================================================
-         2. AUTHENTICATION GATE (MANDATORY WALL WHEN NOT LOGGED IN)
+         2. ACCESSIBLE TELEGRAM AUTHENTICATION MODAL (NON-BLOCKING)
          ============================================================= -->
-    <section id="authGateView">
-        <div class="gate-card">
-            <div class="gate-icon">🔐</div>
-            <h2 class="gate-title">Sign in to Ez Editorials</h2>
-            <p class="gate-sub">Access your weekly topic tests and read multi-source editorial magazines.</p>
+    <div class="auth-modal-backdrop" id="authModalBackdrop" style="display: none;" onclick="handleModalBackdropClick(event)">
+        <div class="auth-modal-card" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+            <div class="modal-header-row">
+                <div class="modal-title-wrap">
+                    <svg class="modal-lock-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <h2 class="gate-title" id="authModalTitle" style="margin-bottom: 0;">Sign in to Ez Editorials</h2>
+                </div>
+                <button type="button" class="btn-modal-close" onclick="closeAuthModal()" aria-label="Close dialog">&times;</button>
+            </div>
+            <p class="gate-sub" id="authModalSub" style="margin-top: 6px;">Sign in via Telegram to save progress, track percentile rank, and unlock full tests.</p>
 
-            <!-- METHOD 1: 1-Tap Bot Shortcut (Fastest & Easiest) -->
+            <!-- METHOD 1: 1-Tap Bot Shortcut -->
             <a href="https://t.me/Ez_vocab_bot?start=login" target="_blank" rel="noopener noreferrer" class="btn-bot-direct" id="openBotBtn">
-                <span class="bot-icon">💬</span>
+                <span class="bot-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+                </span>
                 <span class="bot-btn-text">
                     <strong>Get Code via @Ez_vocab_bot</strong>
-                    <small>Tap to open bot — receive your 6-digit code instantly</small>
+                    <small style="color: #374151;">Tap to open bot — receive your 6-digit code instantly</small>
                 </span>
             </a>
 
-            <!-- METHOD 2: Or request bot to send code to your username / ID -->
+            <!-- METHOD 2: Or request bot to send code to username / ID -->
             <div class="auth-box-group">
                 <label class="auth-label" for="usernameInput">Or send code to Telegram Username / ID:</label>
                 <div class="auth-input-action-row">
@@ -1878,7 +2357,7 @@
                 </div>
             </div>
 
-            <!-- OTP VERIFICATION INPUT (ALWAYS ACCESSIBLE) -->
+            <!-- OTP VERIFICATION INPUT -->
             <div class="auth-box-group" style="margin-top: 14px;">
                 <label class="auth-label" for="otpCodeInput">Enter 6-Digit Verification Code:</label>
                 <input type="text" id="otpCodeInput" class="auth-input auth-otp-input tabular-nums" placeholder="••••••" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
@@ -1887,16 +2366,132 @@
                 </button>
             </div>
 
-            <p id="auth-status-msg"></p>
+            <p id="auth-status-msg" role="status" aria-live="polite"></p>
 
-            <p class="gate-footnote">🔒 Exclusive to registered members of the Ez Editorials study group.</p>
+            <p class="gate-footnote" style="color: var(--text-subtle);">Exclusive to registered members of the Ez Editorials study group.</p>
         </div>
-    </section>
+    </div>
 
     <!-- =============================================================
          3. PILLAR 1: WEEKLY QUIZZES INTERFACE (AUTHENTICATED ONLY)
          ============================================================= -->
     <main class="page-container" id="quizzesView">
+        <!-- GUEST ONBOARDING HERO BANNER (FIRST-TIME DESKTOP VISITORS) -->
+        <section class="onboarding-hero" id="guestOnboardingHero" style="display: none;">
+            <div class="hero-badge-pill">
+                <span class="hero-badge-dot"></span>
+                UPSC Civil Services & Banking Examination Suite
+            </div>
+            <h1 class="hero-title">National Editorial Analysis Meets Timed CBT Topic Drills</h1>
+            <p class="hero-subtitle">
+                Read daily broadsheet editorials with high-yield <strong>Evidence Lens</strong> highlights, master exam vocabulary with mnemonic memory hooks and Hindi transliterations, and simulate <strong>Computer-Based Testing</strong> with fractional negative marks.
+            </p>
+            <div class="hero-features-strip">
+                <div class="hero-feature-item">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Evidence Lens Highlights</span>
+                </div>
+                <div class="hero-feature-item">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Applied Vocab Lab (Hindi + Mnemonics)</span>
+                </div>
+                <div class="hero-feature-item">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Authentic CBT Scoring (+4.25 / -0.25)</span>
+                </div>
+            </div>
+            <div class="hero-cta-row">
+                <button type="button" class="btn-hero-primary" onclick="switchView('magazine')">
+                    Read Today's Editorial Digest →
+                </button>
+                <button type="button" class="btn-hero-secondary" onclick="document.getElementById('demoDrillCard').scrollIntoView({behavior:'smooth'})">
+                    Try 60-Second Demo CBT Drill ↓
+                </button>
+                <button type="button" class="btn-hero-link" onclick="openAuthModal()">
+                    Already a member? Sign In
+                </button>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE 60-SECOND DEMO DRILL CARD (FIRST SUCCESS / AHA MOMENT) -->
+        <div class="demo-drill-card" id="demoDrillCard" style="display: none;">
+            <div class="demo-drill-header">
+                <div class="demo-drill-badge-group">
+                    <span class="demo-pill-live">⚡ Diagnostic Drill</span>
+                    <span class="demo-pill-meta">Guest Demo · 3 Authentic Questions</span>
+                </div>
+                <div class="demo-drill-timer" id="demoTimer">Time Remaining: 02:45</div>
+            </div>
+
+            <div class="demo-questions-wrap" id="demoQuestionsWrap">
+                <!-- Question 1: Reading Comprehension / Tone -->
+                <div class="demo-q-block" data-qid="1">
+                    <div class="demo-q-meta">Question 1 of 3 · Editorial Tone & Critical Stance</div>
+                    <p class="demo-q-text">
+                        In today's lead editorial on monetary policy, the author notes: <em>"While short-term capital controls offer momentary liquidity buffers, they risk institutionalizing systemic moral hazard."</em> Which word best characterizes the author's primary editorial tone?
+                    </p>
+                    <div class="demo-options-list">
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(1, 'A', this)"><span>A</span> Unconditional laudatory praise</button>
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(1, 'B', this)"><span>B</span> Cautionary and analytical</button>
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(1, 'C', this)"><span>C</span> Dismissive and contemptuous</button>
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(1, 'D', this)"><span>D</span> Purely descriptive and neutral</button>
+                    </div>
+                </div>
+
+                <!-- Question 2: Fixed Preposition -->
+                <div class="demo-q-block" data-qid="2">
+                    <div class="demo-q-meta">Question 2 of 3 · Fixed Preposition (Banking & SSC Grammar)</div>
+                    <p class="demo-q-text">
+                        Identify the grammatically correct preposition: <br>
+                        <em>"The regulatory committee took serious exception ________ the delayed disclosure of non-performing assets."</em>
+                    </p>
+                    <div class="demo-options-list">
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(2, 'A', this)"><span>A</span> with</button>
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(2, 'B', this)"><span>B</span> to</button>
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(2, 'C', this)"><span>C</span> for</button>
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(2, 'D', this)"><span>D</span> against</button>
+                    </div>
+                </div>
+
+                <!-- Question 3: Vocabulary & Contextual Meaning -->
+                <div class="demo-q-block" data-qid="3">
+                    <div class="demo-q-meta">Question 3 of 3 · Contextual Vocabulary (UPSC CSAT)</div>
+                    <p class="demo-q-text">
+                        Choose the closest contextual synonym for the word <strong>"OBVIATE"</strong> as used in the phrase: <em>"Proactive regulatory frameworks obviate the necessity for post-hoc penal interventions."</em>
+                    </p>
+                    <div class="demo-options-list">
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(3, 'A', this)"><span>A</span> Preclude / Eliminate</button>
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(3, 'B', this)"><span>B</span> Intensify / Compound</button>
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(3, 'C', this)"><span>C</span> Replicate / Mimic</button>
+                        <button type="button" class="demo-opt-btn" onclick="selectDemoOption(3, 'D', this)"><span>D</span> Obscure / Confound</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-submit-bar" id="demoSubmitBar">
+                <button type="button" class="btn-demo-submit" onclick="submitDemoDrill()">
+                    Submit Diagnostic Drill & View Scorecard
+                </button>
+            </div>
+
+            <div class="demo-result-card" id="demoResultCard" style="display: none;">
+                <div class="demo-result-header">
+                    <div class="demo-score-chip" id="demoScoreDisplay">Score: +3.00 / 3.00 (100% Accuracy)</div>
+                    <h2 class="demo-result-title" style="font-size: 18px; margin-bottom: 6px;">Diagnostic Completed!</h2>
+                    <p class="demo-result-desc">
+                        Correct keys: <strong>1-B</strong> (Cautionary/Analytical), <strong>2-B</strong> (Take exception <em>to</em>), <strong>3-A</strong> (Obviate = Preclude).
+                    </p>
+                </div>
+                <div class="demo-result-cta-box" style="margin-top: 12px;">
+                    <p style="font-size: 13.5px; color: var(--text-main); margin-bottom: 10px;">
+                        Ready to benchmark against thousands of competitive aspirants across full 20-question mock exams?
+                    </p>
+                    <button type="button" class="btn-primary-action" onclick="openAuthModal('Sign in with Telegram to save your scores, view percentile rank, and unlock all 10-day tests.')">
+                        Sign in with Telegram for Full Test Series
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="section-header-row" style="margin-bottom: 14px;">
             <div class="section-title-group">
                 <h2 id="quizSectionTitle" style="font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
@@ -1920,6 +2515,16 @@
          4. PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING (AUTHENTICATED ONLY)
          ============================================================= -->
     <main class="page-container" id="magazineView">
+        <!-- GUEST PREVIEW BANNER FOR MAGAZINE -->
+        <div class="mag-guest-banner" id="magGuestBanner" style="display: none;">
+            <div class="mag-gb-text">
+                <strong>Today's National Editorial & Vocab Lab (Guest Preview)</strong>
+                <span>All daily articles, Evidence Lens highlights, and vocabulary mnemonics are unlocked for you.</span>
+            </div>
+            <button type="button" class="btn-mag-signin" onclick="openAuthModal('Sign in with Telegram to access full Mon-Sat editorial archives.')">
+                Sign In for Full Archives
+            </button>
+        </div>
         <!-- Mon - Sat Day Navigation Pills -->
         <div class="week-nav-bar">
             <div class="week-nav-pills" id="magDayNav">
@@ -2020,47 +2625,119 @@
             return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
         }
 
-        // --- AUTHENTICATION GATE & ACCESS CONTROL ---
+        // --- AUTHENTICATION GATE & ACCESS CONTROL (IMPECCABLE ONBOARD) ---
+        function openAuthModal(customSub) {
+            const modal = document.getElementById('authModalBackdrop');
+            if (!modal) return;
+            if (customSub) {
+                const subEl = document.getElementById('authModalSub');
+                if (subEl) subEl.innerText = customSub;
+            }
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            const firstInput = document.getElementById('usernameInput');
+            if (firstInput) setTimeout(() => firstInput.focus(), 100);
+        }
+
+        function closeAuthModal() {
+            const modal = document.getElementById('authModalBackdrop');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+
+        function handleModalBackdropClick(e) {
+            if (e.target.id === 'authModalBackdrop') {
+                closeAuthModal();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAuthModal();
+        });
+
+        // 60-Second Demo Drill Interactive State
+        const demoAnswers = {};
+        function selectDemoOption(qid, opt, btnEl) {
+            demoAnswers[qid] = opt;
+            const parent = btnEl.closest('.demo-options-list');
+            if (parent) {
+                parent.querySelectorAll('.demo-opt-btn').forEach(b => b.classList.remove('is-selected'));
+            }
+            btnEl.classList.add('is-selected');
+        }
+
+        function submitDemoDrill() {
+            let correct = 0;
+            if (demoAnswers[1] === 'B') correct++;
+            if (demoAnswers[2] === 'B') correct++;
+            if (demoAnswers[3] === 'A') correct++;
+
+            const scoreDisplay = document.getElementById('demoScoreDisplay');
+            if (scoreDisplay) {
+                scoreDisplay.innerText = `Score: +${correct}.00 / +3.00 (${Math.round((correct/3)*100)}% Accuracy)`;
+            }
+            const submitBar = document.getElementById('demoSubmitBar');
+            if (submitBar) submitBar.style.display = 'none';
+            const resultCard = document.getElementById('demoResultCard');
+            if (resultCard) {
+                resultCard.style.display = 'block';
+                resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
         function renderAuthState() {
-            // Strict security: Purge any legacy guest sessions
             const existingToken = localStorage.getItem('ez_session_token');
             if (existingToken && existingToken.startsWith('guest_')) {
                 localStorage.removeItem('ez_session_token');
                 localStorage.removeItem('ez_user_profile');
             }
 
-            const authGate = document.getElementById('authGateView');
             const quizzesView = document.getElementById('quizzesView');
             const magazineView = document.getElementById('magazineView');
             const nav = document.getElementById('mastheadNav');
+            const navSignInBtn = document.getElementById('navSignInBtn');
             const userChip = document.getElementById('userChip');
             const logoutBtn = document.getElementById('logoutBtn');
             const userNameLabel = document.getElementById('userNameLabel');
+            const guestHero = document.getElementById('guestOnboardingHero');
+            const demoDrill = document.getElementById('demoDrillCard');
+            const magGuestBanner = document.getElementById('magGuestBanner');
+
+            // Navigation is ALWAYS active so candidates can browse both pillars
+            if (nav) nav.style.display = 'flex';
 
             const isAuthed = (typeof isAuthenticated === 'function' && isAuthenticated());
 
             if (isAuthed) {
-                authGate.style.display = 'none';
-                nav.style.display = 'flex';
-                userChip.style.display = 'flex';
-                logoutBtn.style.display = 'flex';
+                if (navSignInBtn) navSignInBtn.style.display = 'none';
+                if (userChip) userChip.style.display = 'flex';
+                if (logoutBtn) logoutBtn.style.display = 'flex';
+                if (guestHero) guestHero.style.display = 'none';
+                if (demoDrill) demoDrill.style.display = 'none';
+                if (magGuestBanner) magGuestBanner.style.display = 'none';
 
                 const user = (typeof getSavedUser === 'function') ? getSavedUser() : null;
                 const name = user ? (user.first_name || user.username || 'Student') : 'Student';
-                userNameLabel.innerText = name;
+                if (userNameLabel) userNameLabel.innerText = name;
 
                 switchView(state.currentTab);
                 fetchWeeklyQuizzes();
                 fetchWeeklyMagazine();
                 fetchMagazineReadStatus();
             } else {
-                // STRICT LOCK: HIDE ALL CONTENT
-                authGate.style.display = 'flex';
-                quizzesView.style.display = 'none';
-                magazineView.style.display = 'none';
-                nav.style.display = 'none';
-                userChip.style.display = 'none';
-                logoutBtn.style.display = 'none';
+                // GUEST ONBOARDING & PREVIEW EXPERIENCE
+                if (navSignInBtn) navSignInBtn.style.display = 'inline-flex';
+                if (userChip) userChip.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+                if (guestHero) guestHero.style.display = 'block';
+                if (demoDrill) demoDrill.style.display = 'block';
+                if (magGuestBanner) magGuestBanner.style.display = 'flex';
+
+                switchView(state.currentTab);
+                fetchWeeklyQuizzes();
+                fetchWeeklyMagazine();
             }
         }
 
@@ -2325,7 +3002,7 @@
                 container.innerHTML = `
                     <div style="text-align: center; padding: 48px 20px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: 14px;">
                         <span style="font-size: 36px;">📭</span>
-                        <h3 style="margin: 12px 0 6px 0; font-size: 16px;">No Trials Available</h3>
+                        <h3 style="margin: 12px 0 6px 0; font-size: 16px;">No Trials Available</h2>
                         <p style="font-size: 13px; color: var(--text-muted);">Check back soon for upcoming trials.</p>
                     </div>
                 `;
@@ -2437,7 +3114,7 @@
                         <div class="forum-quiz-card ${quiz.status === 'completed' ? 'is-completed' : ''}" id="quiz-card-${quiz.id}">
                             <div class="fq-left">
                                 <div class="fq-header-inline">
-                                    <h3 class="fq-title" title="${escapeHtml(quiz.topic)}">${escapeHtml(quiz.topic)}</h3>
+                                    <h3 class="fq-title" title="${escapeHtml(quiz.topic)}">${escapeHtml(quiz.topic)}</h2>
                                     <span class="fq-category-chip ${cat.cls}">${cat.name}</span>
                                 </div>
                                 <div class="fq-meta-inline">
@@ -2495,7 +3172,7 @@
                     score: dayObj.isPast ? "+3.75" : null,
                     attempt_id: "att_" + dayNum + "_2",
                     day_num: dayNum,
-                    categoryChip: "chip-purple",
+                    categoryChip: "chip-indigo",
                     categoryLabel: "COMPREHENSION"
                 },
                 {
@@ -2637,7 +3314,7 @@
                     container.innerHTML = `
                         <div class="article-card" style="text-align: center; padding: 48px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base); width: 100%; max-width: 600px; margin: 0 auto;">
                             <span style="font-size: 40px; margin-bottom: 12px; display: block;">${isFuture ? '🔒' : '☕'}</span>
-                            <h3 style="font-size: 18px; margin-bottom: 6px;">${isFuture ? 'Edition Scheduled for ' + dayObj.fullDayName : 'No Edition Published for this Date'}</h3>
+                            <h3 style="font-size: 18px; margin-bottom: 6px;">${isFuture ? 'Edition Scheduled for ' + dayObj.fullDayName : 'No Edition Published for this Date'}</h2>
                             <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">
                                 ${isFuture ? `The daily editorial publication for <strong>${dayObj.fullDayName} (${dayObj.dayNum} ${dayObj.monthShort})</strong> will be released on ${dayObj.fullDayName} morning.` : 'Editorials for this date have not been published yet. Please choose another day from the strip above.'}
                             </p>
@@ -3080,7 +3757,7 @@
                                     </div>
                                     <div class="tone-bar-legend">
                                         <span><span class="dot" style="background: #10b981;"></span>${posCount} Positive</span>
-                                        <span><span class="dot" style="background: #94a3b8;"></span>${neuCount} Neutral</span>
+                                        <span><span class="dot" style="background: #64748b;"></span>${neuCount} Neutral</span>
                                         <span><span class="dot" style="background: #f43f5e;"></span>${negCount} Negative</span>
                                     </div>
                                 </div>

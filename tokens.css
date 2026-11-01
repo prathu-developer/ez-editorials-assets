@@ -35,15 +35,15 @@
     --color-info-text: #1e40af;
 
     --color-review: #8b5cf6;
-    --color-review-bg: #f3e8ff;
-    --color-review-border: #7c3aed;
+    --color-review-bg: #e0e7ff;
+    --color-review-border: #4338ca;
     --color-review-text: #6b21a8;
 
     /* --- TEXT COLORS --- */
     --text-main: #1a1a1a;
     --text-dark: #1a1a1a;
     --text-muted: #6b7280;
-    --text-subtle: #94a3b8;
+    --text-subtle: #64748b;
     --text-inverse: #ffffff;
 
     /* --- BACKGROUNDS & SURFACES --- */

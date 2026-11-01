@@ -4,55 +4,51 @@
 
 ## Platform
 
-web
+adaptive
 
 ## Users
-
-Primary users are Indian competitive examination aspirants (UPSC Civil Services, Banking & Insurance / RBI, SSC CGL, State PCS, and Defense exams). They study in structured daily exam-preparation routines: reading multi-source newspaper editorials every morning, extracting challenging vocabulary words, memorizing meanings with contextual usage, taking time-bound comprehension and grammar quizzes, and reviewing weekly compilations to maintain long-term retention and daily consistency streaks.
+Competitive examination aspirants (UPSC, Banking, SSC, State PSCs), university students, and working professionals balancing rigorous exam preparation with daily schedules under high cognitive load.
 
 ## Product Purpose
-
-Ez Editorials provides a complete, distraction-free study companion that bridges high-volume newspaper editorial analysis with active student engagement. It exists to turn passive newspaper reading into measurable exam mastery through automated editorial parsing, instant vocabulary definitions, structured daily quizzes, and downloadable/readable daily and weekly digital magazines. Success means an aspirant can complete their daily editorial reading, vocabulary learning, and quiz validation in under 20 minutes without ever leaving the ecosystem.
+Deliver high-yield daily editorial digests, vocabulary drills, and full-fidelity Computer-Based Testing (CBT) mock tests with seamless state continuity across mobile micro-sessions and extended desktop study.
 
 ## Positioning
-
-A Telegram-native study companion where community quizzes, daily editorial digests, and streak tracking seamlessly connect to a fast, interactive web reader. Unlike generic news apps or static PDF portals, Ez Editorials combines real-time Telegram distribution with a synchronized web interface, instant in-line vocabulary lookup, automated quiz scoring, and dedicated multi-source editorial magazines.
+An exam preparation and editorial reading suite engineered for multi-surface ergonomics: ultra-lightweight 5-minute drills in Telegram Mini App (TMA), offline-resilient sectional practice in Android (Capacitor), and deep, uncompromised 2-hour CBT simulation with dense analytical scorecards on Desktop Web—free of AI visual clutter and mobile-stretched compromises.
 
 ## Operating Context
-
-- **Access channels**: Primarily accessed via Telegram Mini App (TMA inside mobile and desktop Telegram apps) and modern desktop/mobile web browsers (`https://ezeditorials.pages.dev`), with an Android APK wrapper via Capacitor (`com.ezeditorials.app`).
-- **Daily schedule**: Editorial scraping triggers each morning (~11:00 AM IST), followed by schema generation, vocabulary analysis, and automated PDF magazine publication. Aspirants engage throughout the morning and evening study sessions.
-- **Network & Device diversity**: Runs across smartphones on 4G/5G/Wi-Fi and laptops/tablets during deep study hours. Must load instantly, avoid layout shift, work smoothly in both light and dark modes, and preserve state during intermittent connectivity.
+- **Telegram Mini App (TMA):** Low-friction onboarding, viral quiz links, rapid transit flash drills, and instant bot alerts. Must adapt to Telegram client theme variables and respect swipe-to-close safe zones.
+- **Android App (Capacitor):** Daily retention, push notifications, offline syncing, and 30-minute sectional mocks with strict 48x48dp touch targets and edge-to-edge system bars.
+- **Desktop Web:** Timed full-length CBT mock exams (multi-section navigation, question palettes, split-view reading comprehension), comprehensive percentile telemetry, and account management.
 
 ## Capabilities and Constraints
-
-- **Capabilities**:
-  - Daily multi-source editorial aggregator (The Hindu, Indian Express, etc.).
-  - Interactive reader with font scaling, themes (Light/Dark), and in-line word definitions.
-  - Daily and weekly magazine viewer with full-screen reading mode and PDF download options.
-  - Interactive multiple-choice daily quizzes with instant grading, explanations, and streak tracking.
-  - Multi-platform authentication supporting Telegram `initData` automatic login, session token persistence, and browser-based guest/student login.
-- **Constraints**:
-  - Telegram Desktop iframe constraint: Telegram Desktop webview renders in a narrow ~420px container, which must use mobile layout rules while browser desktop (`>=1024px`) uses full desktop layout rules.
-  - Cloudflare Pages static hosting constraint: Frontend is deployed statically to Cloudflare Pages; backend APIs run on Render and Telegram Webhook bots.
-  - Storage & Performance: Workflows and client assets must remain lean with zero unnecessary caching or artifact bloat.
+- Multi-surface routing via `platform-bridge.js`: automatically directs TMA and Capacitor Android to `app.html` while serving full desktop portal at `index.html`.
+- Strict TMA payload budget (< 250 KB initial assets) and dynamic theme variable bindings (`--tg-theme-*`).
+- Android edge-to-edge compliance (`WindowInsets` padding for status bar and gesture navigation).
+- Fluid responsive desktop layouts (1024px to 4K ultra-wide) with comprehensive keyboard controls (shortcuts, modal focus traps, Escape handling).
+- Offline and degraded-network resilience during active mock tests with local synchronization on reconnect.
 
 ## Brand Commitments
-
-- **Name**: Ez Editorials (app ID: `com.ezeditorials.app`).
-- **Brand Palette**: Core brand purple (`#5a32fa`), soft lavender tint (`#ece9ff`), crisp neutral cards (`#ffffff` / `#1e1e1e` in dark mode), high-contrast text (`#111827` / `#f3f4f6`), and emerald success indicators (`#10b981`).
-- **Voice**: Encouraging, disciplined, academic yet modern, distraction-free, and student-first.
+- **Name:** Ez Editorials
+- **Tone & Identity:** Rigorous, editorial, focused, high contrast, academic clarity.
+- **Typography:** Inter for UI/controls, Lora for long-form editorial reading, JetBrains Mono for data/counters/timers.
+- **Anti-Slop:** Strict prohibition of nested card clutter, gratuitous hero illustrations pushing content below fold, and blown-up mobile views on desktop.
 
 ## Evidence on Hand
-
-- Frontend codebase: `ez-editorials-assets/` (`app.html`, `auth.js`, `shell.js`, `tokens.css`, `shell.css`, `style.css`).
-- Production domain: `ezeditorials.pages.dev`.
-- Backend pipelines: `editorial-magazine-generator/` (Playwright-based PDF generator, schema generator), `exam-scraper-api/`, `ez-quiz-bot/`.
-- Capacitor configuration: `ez-editorials-assets/capacitor.config.json` with package `com.ezeditorials.app`.
+- Production codebases: `index.html` (desktop portal), `app.html` (mobile shell), `test.html` (CBT exam engine), `result.html` (performance telemetry), `magazine.html` (editorial reader).
+- Established tokens and design guidelines: `DESIGN.md`, `tokens.css`, `test-base.css`, `test-cbt.css`.
+- Android wrapper setup in `android/` and `capacitor.config.json`.
 
 ## Product Principles
+1. **Content First, Chrome Second:** The editorial text and examination questions are the absolute focal point; interface chrome must recede.
+2. **Native Ergonomics Per Surface:** Touch targets expand on mobile and touch devices; keyboard shortcuts and density lead on desktop.
+3. **Zero Visual Friction:** Fast load times, crisp typography, and restrained accent economy over decorative noise.
+4. **State & Continuity Parity:** Frictionless flow from transit micro-quizzes to deep, distraction-free desktop analytical reviews.
 
-1. **Zero Distraction, High Density**: Every element on screen must directly serve reading comprehension, vocabulary retention, or quiz practice. Eliminate phantom elements, unnecessary clutter, and repetitive sections.
-2. **Seamless Telegram-Web Continuity**: A student starting a quiz or reading an editorial from Telegram should feel an instantaneous, frictionless transition into the web reader, with authentication, streaks, and progress preserved.
-3. **Respect Student Time**: Pages must load instantly, navigation must be intuitive (easy access to previous days' quizzes and magazines), and readers must support comfortable full-screen deep reading.
-4. **Adaptive Presentation**: Honor the user's viewport and platform context—compact and thumb-friendly for Telegram mobile webviews, spacious, balanced, and keyboard-friendly for desktop and laptop browsers.
+## Accessibility & Inclusion
+- Strict WCAG AA contrast compliance across both dark and light color systems.
+- Complete keyboard accessibility for test navigation and question palette interactions.
+- Respect for system motion preferences (`prefers-reduced-motion`) and dynamic font scaling.
+
+## Deployment & Git Workflow
+After completing any /impeccable modification command (onboard, distill, quieter, polish, adapt, bolder, typeset, layout, harden) and verifying zero P0/P1 errors via npx impeccable detect, automatically run git add -A, git commit with a conventional commit message, and git push from inside the ez-editorials-assets directory.
+

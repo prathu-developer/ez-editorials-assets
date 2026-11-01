@@ -39,7 +39,7 @@
     background: rgba(255, 255, 255, 0.65);
     border: 1px solid rgba(255, 255, 255, 0.9);
     border-left: 4px solid #1e40af;
-    box-shadow: 0 6px 16px -6px rgba(30, 64, 175, 0.15);
+    box-shadow: 0 6px 16px -6px rgba(0, 0, 0, 0.15);
     padding: 4px 9px;
     border-radius: 0 8px 8px 0;
     margin-bottom: 6px;
@@ -58,7 +58,7 @@
     color: #ffffff;
     padding: 2px 8px;
     border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(30, 64, 175, 0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   }
 
   /* Sidebar styles unified under Section 3 (Phase 2 Frosted Glass Skin) */
@@ -105,7 +105,7 @@
     border-left: 5px solid #d97706;
     padding: 6px 14px;
     border-radius: 10px;
-    box-shadow: 0 10px 28px -10px rgba(15, 43, 72, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(0, 0, 0, 0.8);
     letter-spacing: 0.6px;
     text-transform: uppercase;
     display: flex;
@@ -127,7 +127,7 @@
     border: 1px solid rgba(253, 224, 71, 0.9);
     letter-spacing: 0.6px;
     text-transform: uppercase;
-    box-shadow: 0 4px 12px -4px rgba(217, 119, 6, 0.25);
+    box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.25);
   }
 
   /* Bottom Interactive Telegram Buttons */
@@ -149,7 +149,7 @@
     font-size: 9.5px;
     font-weight: 900;
     color: #ffffff;
-    background: linear-gradient(135deg, rgba(15, 43, 72, 0.92), rgba(30, 64, 175, 0.92));
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.92), rgba(30, 64, 175, 0.92));
     padding: 5px 16px;
     border-radius: 24px;
     border: 1px solid rgba(254, 240, 138, 0.7);
@@ -181,7 +181,7 @@
     border-left: 5px solid #d97706;
     padding: 6px 16px;
     border-radius: 10px;
-    box-shadow: 0 10px 24px -10px rgba(15, 43, 72, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(0, 0, 0, 0.8);
     letter-spacing: 0.5px;
     text-transform: uppercase;
     display: flex;
@@ -264,7 +264,7 @@
     padding: 2.5px 8px;
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.9);
-    box-shadow: 0 2px 4px rgba(15, 43, 72, 0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
 
   .toc-page-pill {
@@ -275,7 +275,7 @@
     padding: 2.5px 10px;
     border-radius: 12px;
     letter-spacing: 0.4px;
-    box-shadow: 0 3px 8px -2px rgba(30, 64, 175, 0.35);
+    box-shadow: 0 3px 8px -2px rgba(0, 0, 0, 0.35);
   }
 
   /* Centered in the dark navy bottom banner */
@@ -295,7 +295,7 @@
     font-size: 9.5px;
     font-weight: 900;
     color: #ffffff !important;
-    background: linear-gradient(135deg, rgba(15, 43, 72, 0.92), rgba(30, 64, 175, 0.92));
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.92), rgba(30, 64, 175, 0.92));
     padding: 5.5px 20px;
     border-radius: 24px;
     border: 1px solid rgba(254, 240, 138, 0.75);
@@ -367,7 +367,7 @@
     --glass-bg: rgba(255, 255, 255, 0.92);
     --glass-bg-strong: rgba(255, 255, 255, 0.98);
     --glass-border: rgba(255, 255, 255, 0.9);
-    --glass-shadow: 0 8px 16px -8px rgba(15, 43, 72, 0.2);
+    --glass-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.2);
     --text-hi: #0b1e36;
     --text-mid: #1e293b;
     --text-lo: #64748b;
@@ -460,7 +460,7 @@
     letter-spacing: 0.4px;
     text-transform: uppercase;
     text-decoration: none !important;
-    box-shadow: 0 4px 12px -3px rgba(180, 83, 9, 0.35);
+    box-shadow: 0 4px 12px -3px rgba(0, 0, 0, 0.35);
     white-space: nowrap;
   }
 
@@ -483,7 +483,7 @@
     background: var(--panel-bg);
     border-radius: 18px;
     padding: 16px 18px;
-    box-shadow: 0 10px 20px -10px rgba(15, 43, 72, 0.25);
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.25);
     position: relative;
     overflow: hidden;
     border: 1px solid color-mix(in srgb, var(--glass-border) 72%, transparent);
@@ -687,7 +687,7 @@
     color: #ffffff;
     border-radius: 6px;
     font-weight: 800;
-    box-shadow: 0 6px 16px -4px rgba(30, 64, 175, 0.4);
+    box-shadow: 0 6px 16px -4px rgba(0, 0, 0, 0.4);
   }
 
   /* 2) In-passage Vocabulary Highlights */
@@ -737,7 +737,7 @@
     padding: 3px 9px;
     border-radius: 16px;
     letter-spacing: 0.3px;
-    box-shadow: 0 2px 6px -2px rgba(15, 43, 72, 0.12);
+    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.12);
   }
 
   /* =========================================================
@@ -817,7 +817,7 @@
     justify-content: center;
     flex-shrink: 0;
     margin-top: 1px;
-    box-shadow: 0 2px 4px rgba(30, 64, 175, 0.25);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   }
 
   .rd-sb-details {
@@ -937,7 +937,7 @@
     border-radius: 8px;
     text-transform: uppercase;
     letter-spacing: 0.3px;
-    box-shadow: 0 4px 10px -2px rgba(180, 83, 9, 0.35);
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.35);
   }
 
   /* =========================================================
@@ -1060,23 +1060,10 @@
     justify-content: space-between;
   }
   .stance-blob-a {
-    position: absolute;
-    width: 130px;
-    height: 130px;
-    /* Figma-style fix: Native soft vector gradient instead of expensive blur mask */
-    background: radial-gradient(circle, color-mix(in srgb, var(--tone-a) 40%, transparent) 0%, color-mix(in srgb, var(--tone-a) 5%, transparent) 45%, transparent 70%);
-    border-radius: 50%;
-    top: -45px;
-    right: -35px;
+    display: none !important;
   }
   .stance-blob-b {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(circle, color-mix(in srgb, var(--tone-b) 30%, transparent) 0%, color-mix(in srgb, var(--tone-b) 5%, transparent) 45%, transparent 70%);
-    border-radius: 50%;
-    bottom: -30px;
-    left: -20px;
+    display: none !important;
   }
   .stance-watermark {
     position: absolute;
@@ -1119,7 +1106,7 @@
 
   /* Tone Shape Variations */
   .stance-card.shape-jagged .stance-blob-a {
-    clip-path: polygon(50% 0%, 70% 25%, 100% 20%, 80% 45%, 100% 70%, 65% 65%, 50% 100%, 40% 60%, 10% 75%, 25% 45%, 0% 25%, 35% 30%);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   }
   .stance-card.shape-wave .stance-blob-a {
     border-radius: 62% 38% 55% 45% / 45% 60% 40% 55%;
@@ -1147,14 +1134,7 @@
     justify-content: center;
   }
   .persp-blob-a {
-    position: absolute;
-    width: 130px;
-    height: 130px;
-    background: radial-gradient(circle, color-mix(in srgb, var(--tone-a) 30%, transparent) 0%, color-mix(in srgb, var(--tone-a) 5%, transparent) 45%, transparent 70%);
-    border-radius: 50%;
-    top: -45px;
-    right: -35px;
-    z-index: 0;
+    display: none !important;
   }
   .persp-quote-watermark {
     position: absolute;
@@ -1320,12 +1300,12 @@
     pointer-events: none;
   }
   /* Figma-style fix: Bake the blur directly into a soft vector radial-gradient */
-  .vlab-category.c1::after { background: radial-gradient(circle, #d97706 0%, rgba(217, 119, 6, 0) 70%); }
-  .vlab-category.c2::after { background: radial-gradient(circle, #0f766e 0%, rgba(15, 118, 110, 0) 70%); }
-  .vlab-category.c3::after { background: radial-gradient(circle, #1e40af 0%, rgba(30, 64, 175, 0) 70%); }
-  .vlab-category.c4::after { background: radial-gradient(circle, #6d28d9 0%, rgba(109, 40, 217, 0) 70%); }
-  .vlab-category.c5::after { background: radial-gradient(circle, #e11d48 0%, rgba(225, 29, 72, 0) 70%); }
-  .vlab-category.c6::after { background: radial-gradient(circle, #15803d 0%, rgba(21, 128, 61, 0) 70%); }
+  /* radial glow removed */
+  /* radial glow removed */
+  /* radial glow removed */
+  /* radial glow removed */
+  /* radial glow removed */
+  /* radial glow removed */
   .vlab-category > * { position: relative; z-index: 1; }
 
   /* Pill Headers for Categories */
@@ -1346,7 +1326,7 @@
   .vlab-cat-header.c1 { background: linear-gradient(135deg, #fde047, #d97706); color: #1e1206; }
   .vlab-cat-header.c2 { background: linear-gradient(135deg, #5eead4, #0f766e); color: #04241f; }
   .vlab-cat-header.c3 { background: linear-gradient(135deg, #93c5fd, #1e40af); color: #ffffff; }
-  .vlab-cat-header.c4 { background: linear-gradient(135deg, #c4b5fd, #6d28d9); color: #ffffff; }
+  .vlab-cat-header.c4 { background: linear-gradient(135deg, #c4b5fd, #4338ca); color: #ffffff; }
   .vlab-cat-header.c5 { background: linear-gradient(135deg, #f9a8d4, #e11d48); color: #ffffff; }
   .vlab-cat-header.c6 { background: linear-gradient(135deg, #86efac, #15803d); color: #ffffff; }
 
@@ -1517,7 +1497,7 @@
   .hdr-vocab + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #1e40af 0%, #0b1e36 100%) !important; }
   .hdr-ows + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%) !important; }
   .hdr-prep + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%) !important; }
-  .hdr-phr + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%) !important; }
+  .hdr-phr + .lex-ribbon-stack .ribbon-col-num { background: #4338ca !important; }
   .hdr-idm + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%) !important; }
   .hdr-foreign + .lex-ribbon-stack .ribbon-col-num { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important; }
 
@@ -1738,14 +1718,14 @@
   }
   .duo-verb {
     background: rgba(109, 40, 217, 0.14);
-    color: #6d28d9;
+    color: #4338ca;
   }
   .duo-particle {
     background: rgba(109, 40, 217, 0.25);
     color: #4c1d95;
   }
   .duo-arrow {
-    color: #6d28d9;
+    color: #4338ca;
     opacity: 0.7;
     display: inline-flex;
     align-items: center;
@@ -1899,7 +1879,7 @@
     justify-content: center;
     color: var(--accent-text-on);
     flex-shrink: 0;
-    box-shadow: 0 4px 10px -2px rgba(180, 83, 9, 0.35);
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.35);
   }
 
   .next-ed-end-state {
@@ -1974,13 +1954,13 @@
     font-size: 7.2px;
     font-weight: 900;
     color: #ffffff !important;
-    background: linear-gradient(135deg, rgba(15, 43, 72, 0.95), rgba(30, 64, 175, 0.95));
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(30, 64, 175, 0.95));
     padding: 2.5px 8.5px;
     border-radius: 14px;
     border: 1px solid rgba(254, 240, 138, 0.8);
     letter-spacing: 0.3px;
     text-transform: uppercase;
-    box-shadow: 0 4px 10px -2px rgba(11, 30, 54, 0.35);
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.35);
     white-space: nowrap;
   }
 
@@ -1994,7 +1974,7 @@
   .back-join-badge.badge-contact {
     background: linear-gradient(135deg, rgba(15, 118, 110, 0.95), rgba(13, 148, 136, 0.95));
     border-color: rgba(167, 243, 208, 0.85);
-    box-shadow: 0 4px 10px -2px rgba(15, 118, 110, 0.35);
+    box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.35);
   }
 
   .back-join-badge.badge-contact svg {
@@ -2043,7 +2023,7 @@
   body.dark-theme .toc-page-pill {
     background: linear-gradient(135deg, #1e40af 0%, #0b1e36 100%) !important;
     color: #ffffff !important;
-    box-shadow: 0 3px 8px -2px rgba(30, 64, 175, 0.35) !important;
+    box-shadow: 0 3px 8px -2px rgba(0, 0, 0, 0.35) !important;
   }
 
   /* ---------------------------------------------------------
@@ -2083,7 +2063,7 @@
   body.dark-theme .rd-body p:first-of-type::first-letter {
     background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
     color: #0b1220 !important;
-    box-shadow: 0 0 20px -2px rgba(251, 191, 36, 0.5) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   }
 
   /* In-passage Vocabulary Highlights (Dark Skin) */
@@ -2117,13 +2097,13 @@
   body.dark-theme .rd-sb-num {
     background: linear-gradient(135deg, #fde047 0%, #d97706 100%) !important;
     color: #1e1206 !important;
-    box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   }
   body.dark-theme .rd-sb-word {
     color: #ffffff !important;
   }
   body.dark-theme .rd-sb-pos {
-    color: #94a3b8 !important;
+    color: #64748b !important;
   }
   body.dark-theme .rd-sb-def {
     color: #fbbf24 !important;
@@ -2144,7 +2124,7 @@
   body.dark-theme .open-vocab-lab-btn {
     background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
     color: #1e1206 !important;
-    box-shadow: 0 0 16px -2px rgba(251, 191, 36, 0.4) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   }
 
   /* =========================================================
@@ -2160,7 +2140,7 @@
     color: #a5b4fc !important;
   }
   body.dark-theme .p2-header-breadcrumb {
-    color: #94a3b8 !important;
+    color: #64748b !important;
   }
   body.dark-theme .p2-bc-title {
     color: #cbd5e1 !important;
@@ -2179,13 +2159,13 @@
      DARK VOCAB LAB: STANCE & PERSPECTIVE ELEVATION
      ========================================================= */
   body.dark-theme .stance-card {
-    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(0, 0, 0, 0.08) !important;
   }
 
   body.dark-theme .persp-card {
     background: rgba(255, 255, 255, 0.06) !important;
     border-color: rgba(255, 255, 255, 0.14) !important;
-    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 16px 36px -16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(0, 0, 0, 0.08) !important;
   }
 
   /* Category Islands & Cards (Dark Skin) */
@@ -2206,7 +2186,7 @@
     color: #cbd5e1 !important;
   }
   body.dark-theme .vcard-pos {
-    color: #94a3b8 !important;
+    color: #64748b !important;
   }
   body.dark-theme .vcard-hi {
     color: var(--hindi-color) !important;
@@ -2275,14 +2255,14 @@
   body.dark-theme .next-ed-arrow {
     background: linear-gradient(135deg, var(--accent), var(--accent-2)) !important;
     color: var(--accent-text-on) !important;
-    box-shadow: 0 0 14px -2px rgba(251, 191, 36, 0.45) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12) !important;
   }
   body.dark-theme .next-ed-end-state {
     background: rgba(255, 255, 255, 0.05) !important;
     border-color: rgba(255, 255, 255, 0.16) !important;
   }
   body.dark-theme .next-ed-end-text {
-    color: #94a3b8 !important;
+    color: #64748b !important;
   }
   /* ============== THEME VARIABLES (DARK OVERRIDES) ============== */
   body.dark-theme {
@@ -2294,7 +2274,7 @@
     --glass-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.6);
     --text-hi: #ffffff;
     --text-mid: #cbd5e1;
-    --text-lo: #94a3b8;
+    --text-lo: #64748b;
     --accent: #fbbf24;
     --accent-2: #d97706;
     --accent-text-on: #1e1206;
@@ -2306,7 +2286,7 @@
   }
 
   body.dark-theme .footer-cta {
-    box-shadow: 0 0 16px -2px rgba(251, 191, 36, 0.45);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
 
   /* =========================================================
@@ -2323,11 +2303,11 @@
 
   /* 2. Restore 3D Shadows (Vector-Safe Threshold)
      Instead of removing shadows, we tighten them so Chromium draws native vectors instead of laggy raster masks */
-  .reader-panel { box-shadow: 0 6px 12px rgba(15, 43, 72, 0.12) !important; }
+  .reader-panel { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08) !important; }
   body.dark-theme .reader-panel { box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4) !important; }
 
   .vcard, .rd-sidebar, .footer-pill, .vlab-category {
-    box-shadow: 0 4px 6px rgba(15, 43, 72, 0.08) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06) !important;
   }
   body.dark-theme .vcard, body.dark-theme .rd-sidebar, body.dark-theme .footer-pill, body.dark-theme .vlab-category {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
@@ -2336,26 +2316,23 @@
   /* 3. Restore Glowing Blobs (Figma-Style Vector Gradients)
      Bakes the softness directly into a fading radial-gradient, bypassing the heavy filter: blur() */
   .stance-blob-a {
-    background: radial-gradient(circle, color-mix(in srgb, var(--tone-a) 40%, transparent) 0%, color-mix(in srgb, var(--tone-a) 5%, transparent) 45%, transparent 70%) !important;
-    display: block !important;
+    display: none !important;
   }
   .stance-blob-b {
-    background: radial-gradient(circle, color-mix(in srgb, var(--tone-b) 30%, transparent) 0%, color-mix(in srgb, var(--tone-b) 5%, transparent) 45%, transparent 70%) !important;
-    display: block !important;
+    display: none !important;
   }
   .persp-blob-a {
-    background: radial-gradient(circle, color-mix(in srgb, var(--tone-a) 30%, transparent) 0%, color-mix(in srgb, var(--tone-a) 5%, transparent) 45%, transparent 70%) !important;
-    display: block !important;
+    display: none !important;
   }
 
   /* 4. Restore Category Background Glows */
   .vlab-category::after { opacity: 0.25 !important; display: block !important; }
-  .vlab-category.c1::after { background: radial-gradient(circle, #d97706 0%, rgba(217, 119, 6, 0) 70%) !important; }
-  .vlab-category.c2::after { background: radial-gradient(circle, #0f766e 0%, rgba(15, 118, 110, 0) 70%) !important; }
-  .vlab-category.c3::after { background: radial-gradient(circle, #1e40af 0%, rgba(30, 64, 175, 0) 70%) !important; }
-  .vlab-category.c4::after { background: radial-gradient(circle, #6d28d9 0%, rgba(109, 40, 217, 0) 70%) !important; }
-  .vlab-category.c5::after { background: radial-gradient(circle, #e11d48 0%, rgba(225, 29, 72, 0) 70%) !important; }
-  .vlab-category.c6::after { background: radial-gradient(circle, #15803d 0%, rgba(21, 128, 61, 0) 70%) !important; }
+  /* radial glow removed */
+  /* radial glow removed */
+  /* radial glow removed */
+  /* radial glow removed */
+  /* radial glow removed */
+  /* radial glow removed */
 
   /* 5. Non-tiled watermark optimization (Keep this excellent fix from the dev audit) */
   .inner-page-watermark {
@@ -2588,14 +2565,10 @@
       margin-bottom: 6px;
     }
     .pfc-title-sub {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 24px;
-      font-weight: 800;
-      background: linear-gradient(90deg, #38bdf8 0%, #818cf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 14px;
-    }
+    color: #38bdf8;
+    font-size: 14px;
+    font-weight: 600;
+  }
     .pfc-desc {
       font-size: 12.5px;
       color: #94a3b8;
@@ -2768,7 +2741,7 @@
     .ptoc-item:hover {
       transform: translateY(-1px);
       border-color: #2563eb;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     .ptoc-num {
       font-family: 'Montserrat', sans-serif;
