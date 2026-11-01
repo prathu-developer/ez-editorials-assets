@@ -5112,9 +5112,9 @@
                 </div>
             </div>
 
-            <!-- Start Day Button -->
+            <!-- Start Trials Button -->
             <button class="btn-start-hero" id="btn-start-hero" onclick="switchView('view-day')">
-                Start Day 5 〉
+                Explore Topic Trials 〉
             </button>
         </div>
 
@@ -5159,20 +5159,7 @@
                 </div>
             </div>
 
-            <!-- 3. Days Timeline Card Section (Row 2 Col 1) -->
-            <div class="days-tracker-card">
-                <div class="days-header-row">
-                    <div class="days-title-group">
-                        <div class="days-icon-badge">📅</div>
-                        <h3 class="days-title">Weekly Schedule</h3>
-                    </div>
-                    <span class="days-sub-badge" id="days-summary-badge">Day --</span>
-                </div>
-                
-                <div class="days-row">
-                    <!-- Dynamically populated by updateDynamicTracker() -->
-                </div>
-            </div>
+            <!-- 3. Days Timeline Card Section removed in favor of Unified Topic Trials Forum Feed -->
 
 
         </div>
@@ -5250,10 +5237,13 @@
         <div class="top-header">
             <span style="width: 24px;"></span>
             <span class="font-bold" id="day-detail-header" style="font-size: 17px; letter-spacing: -0.2px;">Topic Trials Feed</span>
-            <!-- Calendar Icon with Notification Badge -->
-            <div style="position: relative; display: flex; align-items: center; cursor: pointer;" onclick="openSubModal('calendarModalOverlay')">
-                <svg class="icon-btn" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                <div id="calendar-badge" style="display:none; position:absolute; top:-2px; right:-2px; width:8px; height:8px; background:#e73b50; border-radius:50%; box-shadow: 0 0 0 1.5px var(--bg-card);"></div>
+            <!-- Refresh Action for Feed -->
+            <div style="display: flex; align-items: center; cursor: pointer; padding: 4px;" onclick="loadQuizzes()" title="Refresh Feed">
+                <svg class="icon-btn" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
             </div>
         </div>
 
@@ -5851,14 +5841,17 @@
 
 
 
-            <!-- 4. Persistent Weekly Schedule Widget -->
+            <!-- 4. Persistent Topic Trials Feed Widget -->
             <div class="rail-card calendar-rail-widget" id="rail-calendar-widget">
-                <div class="rail-card-header" style="cursor: pointer;" onclick="openSubModal('calendarModalOverlay')">
-                    <span class="rail-card-title">📅 Weekly Schedule</span>
-                    <span class="rail-link-btn">All Days ›</span>
+                <div class="rail-card-header" style="cursor: pointer;" onclick="switchView('view-day')">
+                    <span class="rail-card-title">🎯 Topic Trials Feed</span>
+                    <span class="rail-link-btn">View All ›</span>
                 </div>
-                <div class="rail-calendar-pills" id="rail-calendar-pills">
-                    <!-- Populated dynamically by updateDynamicTracker() -->
+                <div style="padding: 12px 14px; font-size: 13px;">
+                    <p style="margin: 0 0 10px 0; font-size: 12.5px; color: var(--text-muted); line-height: 1.4;">Rolling 10-day active topic trials with live attempts & cutoff insights.</p>
+                    <button onclick="switchView('view-day')" style="width: 100%; padding: 9px; border-radius: 10px; background: #5a32fa; color: #fff; border: none; font-weight: 700; font-size: 13px; cursor: pointer;">
+                        Explore Trials 〉
+                    </button>
                 </div>
             </div>
         </aside>
@@ -5973,6 +5966,13 @@
         <div class="nav-item active" onclick="switchView('view-home')" id="nav-home">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
             <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="switchView('view-day')" id="nav-day">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="10 8 16 12 10 16 10 8"></polygon>
+            </svg>
+            <span>Trials</span>
         </div>
         <div class="nav-item" onclick="switchView('view-digest')" id="nav-digest" style="position: relative;">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
@@ -6264,15 +6264,12 @@
             document.querySelectorAll('.badge-day').forEach(el => el.innerText = `Day ${dayNum}`);
             
             const detailHeader = document.getElementById('day-detail-header');
-            if (detailHeader) detailHeader.innerText = `Day ${dayNum}`;
+            if (detailHeader) detailHeader.innerText = `Topic Trials Feed`;
 
             const btn = document.getElementById('btn-start-hero');
-            if (btn && dayNum <= 6) {
-                btn.innerText = `Start Day ${dayNum} 〉`;
+            if (btn) {
+                btn.innerText = `Explore Topic Trials 〉`;
                 btn.style.background = '#5a32fa';
-            } else if (btn) {
-                btn.innerText = `Sunday Wrap-Up 〉`;
-                btn.style.background = 'var(--text-muted)';
             }
             
             updateGreeting();
@@ -6714,6 +6711,26 @@
 
             let totalCompleted = 0;
             let feedHtml = '';
+
+            // 🟢 Prominent Today status if no trials were scheduled today (e.g. Sunday Wrap-Up)
+            if (!groupedByDate[todayStr]) {
+                const todayHeaderMeta = formatDateHeader(todayStr);
+                feedHtml += `
+                    <div class="forum-date-group today-group">
+                        <div class="forum-date-header">
+                            <div class="forum-date-title">
+                                <span class="forum-date-badge">${todayHeaderMeta.badge}</span>
+                                <span>${todayHeaderMeta.label}</span>
+                            </div>
+                            <span class="forum-date-count">0 New Trials</span>
+                        </div>
+                        <div style="padding: 14px 16px; border-radius: 14px; background: rgba(90, 50, 250, 0.05); border: 1px dashed rgba(90, 50, 250, 0.22); margin-top: 8px; text-align: center;">
+                            <p style="margin: 0; font-size: 13.5px; font-weight: 600; color: var(--text-main);">✨ No new trials scheduled for today (Sunday Wrap-Up).</p>
+                            <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Catch up or review your active trials from the past 10 days below!</p>
+                        </div>
+                    </div>
+                `;
+            }
 
             sortedDates.forEach(dateStr => {
                 const dayQuizzes = groupedByDate[dateStr];
@@ -7914,6 +7931,10 @@
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             let navId = 'nav-home';
             
+            if(viewId === 'view-day') {
+                navId = 'nav-day';
+                renderQuizFeed();
+            }
             if(viewId === 'view-progress') {
                 navId = 'nav-progress';
                 if (Date.now() - lastFetchTimes.progress > 30000) {
