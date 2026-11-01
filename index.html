@@ -1941,232 +1941,7 @@
             .masthead { padding: 0 16px; }
         }
     
-        /* Forum Feed & Compact Quiz Cards (Desktop Web) */
-        .forum-feed-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .forum-date-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .forum-date-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 7px 12px;
-            border-radius: 10px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
-        }
-
-        .forum-date-group.today-group .forum-date-header {
-            background: linear-gradient(135deg, rgba(28, 100, 242, 0.08) 0%, rgba(90, 50, 250, 0.05) 100%);
-            border-color: rgba(28, 100, 242, 0.25);
-        }
-
-        .forum-date-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13.5px;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .forum-date-badge {
-            font-size: 10.5px;
-            font-weight: 800;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-            padding: 2.5px 7px;
-            border-radius: 5px;
-            background: var(--primary, #1c64f2);
-            color: #ffffff;
-        }
-
-        .forum-date-badge.past {
-            background: var(--text-muted, #4b5563);
-            color: #ffffff;
-        }
-
-        .forum-date-count {
-            font-size: 11.5px;
-            font-weight: 600;
-            color: var(--text-muted);
-            background: var(--bg-subtle, #f3f4f6);
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-
-        .forum-quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 10px;
-        }
-
-        .forum-quiz-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            border-radius: 11px;
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-            position: relative;
-        }
-
-        .forum-quiz-card:hover {
-            box-shadow: 0 3px 10px rgba(0,0,0,0.04);
-            border-color: var(--primary, #1c64f2);
-        }
-
-        .forum-quiz-card.is-completed {
-            border-left: 3.5px solid #10b981;
-        }
-
-        .fq-left {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            flex: 1;
-            min-width: 0;
-        }
-
-        .fq-header-inline {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        .fq-title {
-            margin: 0;
-            font-size: 14.5px;
-            font-weight: 700;
-            color: var(--text-main);
-            line-height: 1.25;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .fq-category-chip {
-            font-size: 9.5px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            padding: 1.5px 5.5px;
-            border-radius: 4px;
-            background: rgba(28, 100, 242, 0.1);
-            color: var(--primary, #1c64f2);
-            white-space: nowrap;
-        }
-        .fq-category-chip.chip-vocab { background: #e0f2fe; color: #0284c7; }
-        .fq-category-chip.chip-grammar { background: #fef3c7; color: #d97706; }
-        .fq-category-chip.chip-reading { background: #e0e7ff; color: #312e81; }
-        .fq-category-chip.chip-cloze { background: #ecfdf5; color: #059669; }
-
-        .fq-meta-inline {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            flex-wrap: wrap;
-        }
-
-        .fq-meta-pill {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            background: var(--bg-subtle, #f4f4f5);
-            padding: 2px 6px;
-            border-radius: 5px;
-            white-space: nowrap;
-            line-height: 1.2;
-        }
-
-        .fq-meta-pill.fq-attempts {
-            color: #2563eb;
-            background: #eff6ff;
-            font-weight: 700;
-        }
-
-        .fq-expiry-line {
-            font-size: 10.5px;
-            color: var(--text-muted);
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 1.2;
-        }
-
-        .fq-right {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        .forum-cta-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px 14px;
-            border-radius: 8px;
-            font-size: 12.5px;
-            font-weight: 700;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            white-space: nowrap;
-        }
-
-        .forum-cta-btn.start {
-            background: var(--primary, #1c64f2);
-            color: #ffffff;
-            box-shadow: 0 2px 6px rgba(28, 100, 242, 0.22);
-        }
-
-        .forum-cta-btn.start:active {
-            opacity: 0.88;
-            transform: scale(0.97);
-        }
-
-        .forum-cta-btn.completed {
-            background: rgba(16, 185, 129, 0.12);
-            color: #059669;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .forum-cta-btn.completed:active {
-            background: rgba(16, 185, 129, 0.2);
-        }
-
-        .forum-cta-btn.locked {
-            background: var(--bg-subtle);
-            color: var(--text-muted);
-            cursor: not-allowed;
-            font-size: 11.5px;
-            padding: 5px 10px;
-        }
-
-        .forum-cta-btn.closed {
-            background: #fee2e2;
-            color: #dc2626;
-            cursor: not-allowed;
-            font-size: 11.5px;
-            padding: 5px 10px;
-        }
-
+        /* (Obsolete legacy forum quiz styles removed during impeccable polish) */
         @keyframes scrollPulse {
             0% { box-shadow: 0 0 0 0 rgba(28, 100, 242, 0.5); transform: scale(1); }
             50% { box-shadow: 0 0 0 7px rgba(28, 100, 242, 0.2); transform: scale(1.015); border-color: #1c64f2; }
@@ -2919,6 +2694,82 @@
             background: var(--primary-hover);
         }
 
+
+        /* =============================================================
+           ACCESSIBLE FOCUS RINGS & KEYBOARD SYSTEM (IMPECCABLE POLISH)
+           ============================================================= */
+        :focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible,
+        [role="button"]:focus-visible,
+        [tabindex="0"]:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 640px) {
+            .masthead {
+                padding: 0 12px !important;
+            }
+            .brand-pill {
+                display: none;
+            }
+            .nav-tab-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+                gap: 5px;
+            }
+            .btn-signin-nav {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .split-vocab-drawer {
+                position: static !important;
+                max-height: none !important;
+                overflow-y: visible !important;
+            }
+        }
+
+        /* Clean Print Styles */
+        @media print {
+            .masthead,
+            .quiz-triage-bar,
+            .btn-tool,
+            .week-nav-bar,
+            .mag-guest-banner,
+            .auth-modal-backdrop,
+            .reader-tool-btns,
+            .split-footer-actions,
+            .btn-signin-nav,
+            .btn-logout,
+            .article-jump-nav {
+                display: none !important;
+            }
+            body, .page-container, .split-article-card {
+                background: #ffffff !important;
+                color: #000000 !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .split-content-grid {
+                display: block !important;
+            }
+            .split-vocab-drawer {
+                margin-top: 24px !important;
+                border: 1px solid #ccc !important;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -2936,12 +2787,12 @@
         </div>
 
         <!-- The Two Main Pillars (Visible for both guests and authenticated students) -->
-        <nav class="masthead-nav" id="mastheadNav">
-            <button class="nav-tab-btn active" id="tabQuizzes" onclick="switchView('quizzes')">
+        <nav class="masthead-nav" id="mastheadNav" role="tablist" aria-label="Main Sections">
+            <button class="nav-tab-btn active" id="tabQuizzes" role="tab" aria-selected="true" aria-controls="quizzesView" onclick="switchView('quizzes')">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
                 Weekly Quizzes
             </button>
-            <button class="nav-tab-btn" id="tabMagazine" onclick="switchView('magazine')">
+            <button class="nav-tab-btn" id="tabMagazine" role="tab" aria-selected="false" aria-controls="magazineView" onclick="switchView('magazine')">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 Weekly Magazine
             </button>
@@ -2965,7 +2816,9 @@
             </button>
 
             <!-- Theme Toggle -->
-            <button class="btn-icon" id="themeToggle" title="Toggle Theme" aria-label="Toggle Theme">🌓</button>
+            <button class="btn-icon" id="themeToggle" title="Switch to Dark Mode" aria-label="Toggle visual theme" aria-pressed="false">
+                <svg class="theme-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
         </div>
     </header>
 
@@ -3023,7 +2876,7 @@
     <!-- =============================================================
          3. PILLAR 1: WEEKLY QUIZZES INTERFACE (AUTHENTICATED ONLY)
          ============================================================= -->
-    <main class="page-container" id="quizzesView">
+    <main class="page-container" id="quizzesView" role="tabpanel" aria-labelledby="tabQuizzes">
         <!-- GUEST ONBOARDING HERO BANNER (FIRST-TIME DESKTOP VISITORS) -->
         <section class="onboarding-hero" id="guestOnboardingHero" style="display: none;">
             <div class="hero-badge-pill">
@@ -3065,7 +2918,7 @@
         <div class="demo-drill-card" id="demoDrillCard" style="display: none;">
             <div class="demo-drill-header">
                 <div class="demo-drill-badge-group">
-                    <span class="demo-pill-live">⚡ Diagnostic Drill</span>
+                    <span class="demo-pill-live"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Diagnostic Drill</span>
                     <span class="demo-pill-meta">Guest Demo · 3 Authentic Questions</span>
                 </div>
                 <div class="demo-drill-timer" id="demoTimer">Time Remaining: 02:45</div>
@@ -3178,7 +3031,7 @@
     <!-- =============================================================
          4. PILLAR 2: CURRENT WEEK ALL-DAY MAGAZINE READING (AUTHENTICATED ONLY)
          ============================================================= -->
-    <main class="page-container" id="magazineView">
+    <main class="page-container" id="magazineView" role="tabpanel" aria-labelledby="tabMagazine">
         <!-- GUEST PREVIEW BANNER FOR MAGAZINE -->
         <div class="mag-guest-banner" id="magGuestBanner" style="display: none;">
             <div class="mag-gb-text">
@@ -3195,7 +3048,8 @@
                 <!-- Injected via JavaScript -->
             </div>
             <button class="btn-tool" onclick="toggleFullscreen()" id="btnFullscreen" title="Full screen focus mode">
-                <span>⛶</span> Focus Mode
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                Focus Mode
             </button>
         </div>
 
@@ -3204,7 +3058,8 @@
                 <h2 class="mag-date-title" id="magDateTitle">Monday, September 21, 2026</h2>
                 <div class="mag-edition-meta">
                     <span class="sync-badge" id="magReadBadge" style="display: none;">
-                        <span>✅</span> Marked as Read · Synced to Telegram
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                        Marked as Read · Synced to Telegram
                     </span>
                     <span>Evidence Lens Active</span>
                     <span>·</span>
@@ -3555,14 +3410,18 @@
 
             if (tabName === 'quizzes') {
                 tabQuizzes.classList.add('active');
+                tabQuizzes.setAttribute('aria-selected', 'true');
                 tabMagazine.classList.remove('active');
+                tabMagazine.setAttribute('aria-selected', 'false');
                 quizzesView.style.display = 'block';
                 magazineView.style.display = 'none';
                 renderQuizDayNav();
                 renderQuizzesForSelectedDay();
             } else {
                 tabQuizzes.classList.remove('active');
+                tabQuizzes.setAttribute('aria-selected', 'false');
                 tabMagazine.classList.add('active');
+                tabMagazine.setAttribute('aria-selected', 'true');
                 quizzesView.style.display = 'none';
                 magazineView.style.display = 'block';
                 renderMagDayNav();
@@ -3919,15 +3778,15 @@
 
                 let indicator = '';
                 if (isRead) {
-                    indicator = '<span class="pill-read-chk" title="Marked as Read">✓</span>';
+                    indicator = '<span class="pill-read-chk" title="Marked as Read"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>';
                 } else if (hasArticles) {
                     indicator = '<div class="pill-dot" title="Edition Available"></div>';
                 } else if (isFuture) {
-                    indicator = '<span class="pill-lock-dot" title="Scheduled · Future Date">🔒</span>';
+                    indicator = '<span class="pill-lock-dot" title="Scheduled · Future Date"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>';
                 }
 
                 return `
-                    <div class="mag-day-pill ${isActive ? 'active' : ''} ${isFuture ? 'pill-future' : ''}" onclick="selectMagDay('${d.dateStr}')">
+                    <button type="button" class="mag-day-pill ${isActive ? 'active' : ''} ${isFuture ? 'pill-future' : ''}" role="tab" aria-selected="${isActive ? 'true' : 'false'}" onclick="selectMagDay('${d.dateStr}')">
                         <span class="pill-dayname">${d.dayName}</span>
                         <span class="pill-daynum">${d.dayNum}</span>
                         <div class="pill-indicators">
@@ -4032,7 +3891,7 @@
                 const isFuture = dayObj && dayObj.isFuture;
                 container.innerHTML = `
                     <div class="article-card" style="text-align: center; padding: 48px 24px; background: var(--bg-card); border: 1px solid var(--border-line); border-radius: var(--radius-base); width: 100%; max-width: 600px; margin: 0 auto;">
-                        <span style="font-size: 40px; margin-bottom: 12px; display: block;">${isFuture ? '🔒' : '☕'}</span>
+                        <span style="display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--bg-subtle); margin: 0 auto 14px auto;">${isFuture ? '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' : '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--text-muted);"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'}</span>
                         <h2 style="font-size: 18px; margin-bottom: 6px;">${isFuture ? 'Edition Scheduled for ' + dayObj.fullDayName : 'No Edition Published for this Date'}</h2>
                         <p style="font-size: 13.5px; color: var(--text-muted); max-width: 440px; margin: 0 auto;">
                             ${isFuture ? `The daily editorial publication for <strong>${dayObj.fullDayName} (${dayObj.dayNum} ${dayObj.monthShort})</strong> will be released on ${dayObj.fullDayName} morning.` : 'Editorials for this date have not been published yet. Please choose another day from the strip above.'}
@@ -4082,7 +3941,7 @@
                         const connotation = v.connotation ? escapeHtml(v.connotation) : '';
 
                         vocabCardsHtml += `
-                            <div class="distilled-vcard" data-word="${word.toLowerCase()}" onclick="highlightPassageWord('${word.toLowerCase()}')">
+                            <div class="distilled-vcard" data-word="${word.toLowerCase()}" role="button" tabindex="0" aria-label="Highlight ${word} in editorial text" onclick="highlightPassageWord('${word.toLowerCase()}')" onkeydown="if(event.key==='Enter'||event.key===' '){highlightPassageWord('${word.toLowerCase()}');event.preventDefault();}">
                                 <div class="dv-top-row">
                                     <div class="dv-word-wrap">
                                         <span class="dv-idx">${num}.</span>
@@ -4811,7 +4670,7 @@
                         }
                         if (!alreadyClaimed) {
                             for (let k = start; k < end; k++) claimed[k] = true;
-                            vocabSpans.push({ start, end, idx });
+                            vocabSpans.push({ start, end, idx, word: term.toLowerCase() });
                         }
                     }
                 });
@@ -4835,7 +4694,7 @@
 
                 vocabSpans.forEach(v => {
                     addTag(v.end, 1, '<sup class="v-idx">' + v.idx + '</sup></span>');
-                    addTag(v.start, 4, '<span class="vocab-hl">');
+                    addTag(v.start, 4, '<span class="vocab-hl" data-vword="' + escapeHtml(v.word) + '" onclick="focusVocabCard(\'' + escapeHtml(v.word) + '\')" title="Click to focus definition in Vocab Lab">');
                 });
 
                 cleanEvidence.forEach(e => {
@@ -4886,7 +4745,7 @@
             if (container) {
                 container.style.setProperty('--mag-body-size', state.fontSize + 'px');
             }
-            document.querySelectorAll('.rd-body, .article-body, .rd-body p').forEach(el => {
+            document.querySelectorAll('.rd-body, .article-body, .rd-body p, .rd-prose, .rd-prose p').forEach(el => {
                 el.style.fontSize = state.fontSize + 'px';
             });
             document.querySelectorAll('.persp-text').forEach(el => {
@@ -4921,7 +4780,7 @@
                 if (el) el.classList.add('is-focus-mode');
                 document.body.classList.add('mag-focus-active');
                 if (btn) {
-                    btn.innerHTML = '<span>🗕</span> Exit Focus';
+                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Exit Focus';
                     btn.classList.add('active');
                 }
                 if (el && el.requestFullscreen) {
@@ -4938,7 +4797,7 @@
                 if (el) el.classList.remove('is-focus-mode');
                 document.body.classList.remove('mag-focus-active');
                 if (btn) {
-                    btn.innerHTML = '<span>⛶</span> Focus Mode';
+                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Focus Mode';
                     btn.classList.remove('active');
                 }
             }
@@ -4956,14 +4815,14 @@
                 if (el) el.classList.remove('is-focus-mode');
                 document.body.classList.remove('mag-focus-active');
                 if (btn) {
-                    btn.innerHTML = '<span>⛶</span> Focus Mode';
+                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Focus Mode';
                     btn.classList.remove('active');
                 }
             } else {
                 if (el) el.classList.add('is-focus-mode');
                 document.body.classList.add('mag-focus-active');
                 if (btn) {
-                    btn.innerHTML = '<span>🗕</span> Exit Focus';
+                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Exit Focus';
                     btn.classList.add('active');
                 }
             }
@@ -4976,7 +4835,7 @@
             }[m]));
         }
 
-        // Theme management
+        // Theme management (Accessible Sun / Moon SVGs)
         const themeBtn = document.getElementById('themeToggle');
         function applyTheme(isDark) {
             if (isDark) {
@@ -4984,11 +4843,21 @@
                 document.documentElement.setAttribute('data-theme', 'dark');
                 document.body.classList.add('dark-mode');
                 document.body.classList.add('dark-theme');
+                if (themeBtn) {
+                    themeBtn.setAttribute('aria-pressed', 'true');
+                    themeBtn.setAttribute('title', 'Switch to Light Mode');
+                    themeBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+                }
             } else {
                 document.documentElement.classList.remove('dark-mode');
                 document.documentElement.setAttribute('data-theme', 'light');
                 document.body.classList.remove('dark-mode');
                 document.body.classList.remove('dark-theme');
+                if (themeBtn) {
+                    themeBtn.setAttribute('aria-pressed', 'false');
+                    themeBtn.setAttribute('title', 'Switch to Dark Mode');
+                    themeBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
+                }
             }
         }
 
@@ -5006,6 +4875,51 @@
             try { localStorage.setItem('app_dark_mode', next.toString()); } catch (e) {}
             if (state.currentTab === 'magazine') {
                 renderMagazineForSelectedDay();
+            }
+        });
+
+        
+        // Auth Input Enter Key Listeners
+        document.getElementById('usernameInput')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                requestBotOtp();
+            }
+        });
+        document.getElementById('otpCodeInput')?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                verifyBotOtp();
+            }
+        });
+
+        // Global Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            const isEditing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName);
+            if (isEditing) return;
+
+            // Alt+1 / Alt+2 to switch main tabs
+            if (e.altKey && e.key === '1') {
+                e.preventDefault();
+                switchView('quizzes');
+            } else if (e.altKey && e.key === '2') {
+                e.preventDefault();
+                switchView('magazine');
+            } else if (e.key === 'f' || e.key === 'F') {
+                if (state.currentTab === 'magazine') {
+                    e.preventDefault();
+                    toggleFullscreen();
+                }
+            } else if (e.key === '+' || e.key === '=') {
+                if (state.currentTab === 'magazine') {
+                    e.preventDefault();
+                    adjustFontSize(1);
+                }
+            } else if (e.key === '-' || e.key === '_') {
+                if (state.currentTab === 'magazine') {
+                    e.preventDefault();
+                    adjustFontSize(-1);
+                }
             }
         });
 
