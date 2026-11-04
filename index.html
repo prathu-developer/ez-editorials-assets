@@ -37,7 +37,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@500;600;700;800&family=Noto+Sans+Devanagari:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&family=Lora:ital,wght@0,500;0,600;0,700;1,400;1,500&family=Noto+Sans+Devanagari:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
@@ -78,6 +78,7 @@
             /* Typography & Layout */
             --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --font-serif: 'Lora', Georgia, serif;
+            --font-mono: 'JetBrains Mono', SF Mono, Menlo, monospace;
             --radius-xs: 4px;
             --radius-sm: 6px;
             --radius-md: 8px;
@@ -1094,6 +1095,8 @@
             margin-bottom: 18px;
             text-align: justify;
             text-justify: inter-word;
+            hyphens: auto;
+            text-wrap: pretty;
         }
 
         .rd-prose p:first-of-type::first-letter {
@@ -1428,9 +1431,9 @@
             background: var(--bg-card);
             border: 1px solid var(--border-line);
             border-radius: var(--radius-lg);
-            padding: 32px 28px;
+            padding: 26px 24px;
             margin-bottom: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
             text-align: left;
             position: relative;
             overflow: hidden;
@@ -1443,14 +1446,13 @@
             font-size: 11.5px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.05em;
             color: var(--cobalt-text);
             background: var(--cobalt-wash);
             border: 1px solid var(--cobalt-border);
-            padding: 4px 10px;
+            padding: 3px 10px;
             border-radius: var(--radius-full);
-            border: 1px solid rgba(28, 100, 242, 0.2);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .hero-badge-dot {
@@ -1461,38 +1463,38 @@
         }
 
         .hero-title {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 800;
             color: var(--text-main);
             letter-spacing: -0.02em;
             line-height: 1.25;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .hero-subtitle {
-            font-size: 14.5px;
+            font-size: 14px;
             color: var(--text-muted);
             line-height: 1.6;
-            max-width: 820px;
-            margin-bottom: 20px;
+            max-width: 800px;
+            margin-bottom: 18px;
         }
 
         .hero-features-strip {
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 24px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .hero-feature-item {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            font-size: 13px;
+            gap: 7px;
+            font-size: 12.5px;
             font-weight: 600;
             color: var(--text-main);
             background: var(--bg-subtle);
-            padding: 6px 12px;
+            padding: 5px 11px;
             border-radius: var(--radius-sm);
             border: 1px solid var(--border-line);
         }
@@ -1510,28 +1512,33 @@
         }
 
         .btn-hero-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             background: var(--primary);
             color: #ffffff;
             font-size: 13.5px;
             font-weight: 600;
-            padding: 10px 18px;
+            padding: 9px 18px;
             border-radius: var(--radius-md);
             border: none;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: background 0.15s ease, transform 0.1s ease;
         }
 
         .btn-hero-primary:hover {
             background: var(--primary-hover);
-            transform: translateY(-1px);
         }
 
         .btn-hero-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             background: var(--bg-card);
             color: var(--text-main);
             font-size: 13.5px;
             font-weight: 600;
-            padding: 10px 18px;
+            padding: 9px 16px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-line);
             cursor: pointer;
@@ -1548,10 +1555,10 @@
             background: transparent;
             border: none;
             color: var(--text-muted);
-            font-size: 13.5px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            padding: 8px 12px;
+            padding: 8px 10px;
             text-decoration: underline;
             text-underline-offset: 3px;
         }
@@ -1861,22 +1868,49 @@
             background: var(--primary-hover);
         }
 
-        /* Demo 60-Second Drill Card */
+        /* Demo 60-Second Drill Card (Progressive Disclosure) */
         .demo-drill-card {
             background: var(--bg-card);
             border: 1px solid var(--border-line);
             border-radius: var(--radius-lg);
-            padding: 28px 24px;
-            margin-bottom: 28px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+            padding: 24px 22px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            animation: fadeInDrill 0.2s ease-out;
+        }
+
+        @keyframes fadeInDrill {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-drill-collapse {
+            background: transparent;
+            border: 1px solid var(--border-line);
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-drill-collapse:hover {
+            color: var(--text-main);
+            background: var(--bg-subtle);
+            border-color: var(--border-hover);
         }
 
         .demo-drill-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            padding-bottom: 14px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
             border-bottom: 1px solid var(--border-line);
             flex-wrap: wrap;
             gap: 10px;
@@ -1897,6 +1931,9 @@
             padding: 3px 8px;
             border-radius: var(--radius-sm);
             border: 1px solid var(--evidence-border);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .demo-pill-meta {
@@ -1906,15 +1943,28 @@
         }
 
         .demo-drill-timer {
-            font-size: 12.5px;
+            font-family: var(--font-mono);
+            font-size: 12px;
             font-weight: 700;
             font-variant-numeric: tabular-nums;
             color: var(--cobalt-text);
             background: var(--cobalt-wash);
             border: 1px solid var(--cobalt-border);
-            padding: 4px 10px;
+            padding: 3px 9px;
             border-radius: var(--radius-full);
-            border: 1px solid rgba(28, 100, 242, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .demo-drill-timer.is-warning {
+            color: #92400e;
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+
+        [data-theme="dark"] .demo-drill-timer.is-warning {
+            color: #fde68a;
+            background: #451a03;
+            border-color: #92400e;
         }
 
         .demo-questions-wrap {
@@ -2391,43 +2441,50 @@
             </div>
             <h1 class="hero-title">National Editorial Analysis Meets Timed CBT Topic Drills</h1>
             <p class="hero-subtitle">
-                Read daily broadsheet editorials with high-yield <strong>Evidence Lens</strong> highlights, master exam vocabulary with mnemonic memory hooks and Hindi transliterations, and simulate <strong>Computer-Based Testing</strong> with fractional negative marks.
+                Master daily broadsheet journalism with high-yield <strong>Evidence Lens</strong> highlights, contextual <strong>Bilingual Vocab Lab</strong> with Hindi transliterations, and authentic <strong>Computer-Based Testing</strong> with fractional negative marks.
             </p>
             <div class="hero-features-strip">
                 <div class="hero-feature-item">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                     <span>Evidence Lens Highlights</span>
                 </div>
                 <div class="hero-feature-item">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                     <span>Applied Vocab Lab (Hindi + Mnemonics)</span>
                 </div>
                 <div class="hero-feature-item">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                     <span>Authentic CBT Scoring (+4.25 / -0.25)</span>
                 </div>
             </div>
             <div class="hero-cta-row">
                 <button type="button" class="btn-hero-primary" onclick="switchView('magazine')">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
                     Read Today's Editorial Digest →
                 </button>
-                <button type="button" class="btn-hero-secondary" onclick="document.getElementById('demoDrillCard').scrollIntoView({behavior:'smooth'})">
-                    Try 60-Second Demo CBT Drill ↓
+                <button type="button" class="btn-hero-secondary" id="btnToggleDemoDrill" onclick="toggleDemoDrill()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    Try 60-Second Diagnostic Drill <span class="drill-toggle-arrow">▾</span>
                 </button>
                 <button type="button" class="btn-hero-link" onclick="openAuthModal()">
-                    Already a member? Sign In
+                    Already enrolled? Sign In via Telegram
                 </button>
             </div>
         </section>
 
-        <!-- INTERACTIVE 60-SECOND DEMO DRILL CARD (FIRST SUCCESS / AHA MOMENT) -->
+        <!-- INTERACTIVE 60-SECOND DEMO DRILL CARD (PROGRESSIVE DISCLOSURE) -->
         <div class="demo-drill-card" id="demoDrillCard" style="display: none;">
             <div class="demo-drill-header">
                 <div class="demo-drill-badge-group">
                     <span class="demo-pill-live"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Diagnostic Drill</span>
                     <span class="demo-pill-meta">Guest Demo · 3 Authentic Questions</span>
                 </div>
-                <div class="demo-drill-timer" id="demoTimer">Time Remaining: 02:45</div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="demo-drill-timer" id="demoTimer">Time Remaining: 02:45</div>
+                    <button type="button" class="btn-drill-collapse" onclick="toggleDemoDrill(false)" title="Hide diagnostic drill">
+                        <span>Hide</span> ✕
+                    </button>
+                </div>
             </div>
 
             <div class="demo-questions-wrap" id="demoQuestionsWrap">
@@ -2490,12 +2547,18 @@
                     </p>
                 </div>
                 <div class="demo-result-cta-box" style="margin-top: 12px;">
-                    <p style="font-size: 13.5px; color: var(--text-main); margin-bottom: 10px;">
+                    <p style="font-size: 13.5px; color: var(--text-main); margin-bottom: 12px;">
                         Ready to benchmark against thousands of competitive aspirants across full 20-question mock exams?
                     </p>
-                    <button type="button" class="btn-primary-action" onclick="openAuthModal('Sign in with Telegram to save your scores, view percentile rank, and unlock all 10-day tests.')">
-                        Sign in with Telegram for Full Test Series
-                    </button>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" class="btn-primary-action" onclick="openAuthModal('Sign in with Telegram to save your scores, view percentile rank, and unlock all 10-day tests.')">
+                            Sign in with Telegram for Full Test Series
+                        </button>
+                        <button type="button" class="btn-hero-secondary" onclick="resetDemoDrill()">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                            Retake Diagnostic
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2682,8 +2745,88 @@
             if (e.key === 'Escape') closeAuthModal();
         });
 
-        // 60-Second Demo Drill Interactive State
+        // 60-Second Demo Drill Interactive State (Progressive Disclosure & Active Timer)
         const demoAnswers = {};
+        let demoTimerInterval = null;
+        let demoTimeRemaining = 165; // 02:45
+
+        function toggleDemoDrill(forceOpen) {
+            const drill = document.getElementById('demoDrillCard');
+            const btn = document.getElementById('btnToggleDemoDrill');
+            if (!drill) return;
+            const isVisible = drill.style.display !== 'none';
+            const shouldOpen = (forceOpen !== undefined) ? forceOpen : !isVisible;
+
+            if (shouldOpen) {
+                drill.style.display = 'block';
+                if (btn) {
+                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Hide Diagnostic Drill <span class="drill-toggle-arrow">▴</span>';
+                }
+                drill.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                startDemoTimer();
+            } else {
+                drill.style.display = 'none';
+                if (btn) {
+                    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Try 60-Second Diagnostic Drill <span class="drill-toggle-arrow">▾</span>';
+                }
+                stopDemoTimer();
+            }
+        }
+
+        function startDemoTimer() {
+            stopDemoTimer();
+            const timerEl = document.getElementById('demoTimer');
+            if (!timerEl) return;
+
+            function updateDisplay() {
+                const mins = Math.floor(demoTimeRemaining / 60);
+                const secs = demoTimeRemaining % 60;
+                timerEl.innerText = `Time Remaining: ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                if (demoTimeRemaining <= 30) {
+                    timerEl.classList.add('is-warning');
+                } else {
+                    timerEl.classList.remove('is-warning');
+                }
+            }
+
+            updateDisplay();
+            demoTimerInterval = setInterval(() => {
+                if (demoTimeRemaining > 0) {
+                    demoTimeRemaining--;
+                    updateDisplay();
+                } else {
+                    stopDemoTimer();
+                    timerEl.innerText = 'Time Expired · Please Submit';
+                }
+            }, 1000);
+        }
+
+        function stopDemoTimer() {
+            if (demoTimerInterval) {
+                clearInterval(demoTimerInterval);
+                demoTimerInterval = null;
+            }
+        }
+
+        function resetDemoDrill() {
+            stopDemoTimer();
+            demoTimeRemaining = 165;
+            for (const key in demoAnswers) {
+                delete demoAnswers[key];
+            }
+            document.querySelectorAll('.demo-opt-btn').forEach(b => b.classList.remove('is-selected'));
+            const submitBar = document.getElementById('demoSubmitBar');
+            if (submitBar) submitBar.style.display = 'block';
+            const resultCard = document.getElementById('demoResultCard');
+            if (resultCard) resultCard.style.display = 'none';
+            const timerEl = document.getElementById('demoTimer');
+            if (timerEl) {
+                timerEl.classList.remove('is-warning');
+                timerEl.innerText = 'Time Remaining: 02:45';
+            }
+            startDemoTimer();
+        }
+
         function selectDemoOption(qid, opt, btnEl) {
             demoAnswers[qid] = opt;
             const parent = btnEl.closest('.demo-options-list');
@@ -2694,6 +2837,7 @@
         }
 
         function submitDemoDrill() {
+            stopDemoTimer();
             let correct = 0;
             if (demoAnswers[1] === 'B') correct++;
             if (demoAnswers[2] === 'B') correct++;
@@ -2742,6 +2886,7 @@
                 if (guestHero) guestHero.style.display = 'none';
                 if (demoDrill) demoDrill.style.display = 'none';
                 if (magGuestBanner) magGuestBanner.style.display = 'none';
+                stopDemoTimer();
 
                 const user = (typeof getSavedUser === 'function') ? getSavedUser() : null;
                 const name = user ? (user.first_name || user.username || 'Student') : 'Student';
@@ -2752,12 +2897,12 @@
                 fetchWeeklyMagazine();
                 fetchMagazineReadStatus();
             } else {
-                // GUEST ONBOARDING & PREVIEW EXPERIENCE
+                // GUEST ONBOARDING & PREVIEW EXPERIENCE (IMPECCABLE QUIETER)
                 if (navSignInBtn) navSignInBtn.style.display = 'inline-flex';
                 if (userChip) userChip.style.display = 'none';
                 if (logoutBtn) logoutBtn.style.display = 'none';
                 if (guestHero) guestHero.style.display = 'block';
-                if (demoDrill) demoDrill.style.display = 'block';
+                if (demoDrill) demoDrill.style.display = 'none'; // Calmer default arrival; toggle on demand
                 if (magGuestBanner) magGuestBanner.style.display = 'flex';
 
                 switchView(state.currentTab);
