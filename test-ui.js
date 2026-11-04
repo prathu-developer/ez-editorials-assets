@@ -14,22 +14,20 @@
     const isReviewMode = urlParams.get('mode') === 'review';
 
     let isPassageExpanded = false;
+    let isSubmitting = false;
 
     // ==========================================
     // 1. ANTI-CHEAT LISTENERS
     // ==========================================
     function setupAntiCheat() {
         window.addEventListener('keydown', function (e) {
-            const isLive = document.getElementById('live-test-container')?.style.display !== 'none';
-            if (!isLive || isReviewMode) return;
-
-            // Allow Escape to dismiss active modal overlays
+            // Un-trap Escape key: dismiss active modal overlays cleanly across all test and review states
             if (e.key === 'Escape') {
-                const openModals = ['palette-modal', 'settings-modal', 'submit-modal', 'review-palette-modal'];
+                const openModals = ['palette-modal', 'settings-modal', 'submit-modal', 'review-palette-modal', 'submit-failure-modal'];
                 let closedAny = false;
                 for (const mId of openModals) {
                     const mEl = document.getElementById(mId);
-                    if (mEl && mEl.style.display === 'flex') {
+                    if (mEl && (mEl.style.display === 'flex' || window.getComputedStyle(mEl).display === 'flex')) {
                         closeModal(mId);
                         closedAny = true;
                     }
@@ -39,7 +37,12 @@
                     e.stopPropagation();
                     return false;
                 }
+                // If no modal was open, safely no-op without anti-cheat penalty
+                return;
             }
+
+            const isLive = document.getElementById('live-test-container')?.style.display !== 'none';
+            if (!isLive || isReviewMode) return;
 
             // Suppress F5, Ctrl+R
             if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R'))) {
@@ -51,7 +54,7 @@
 
         window.addEventListener('beforeunload', function (e) {
             const isLive = document.getElementById('live-test-container')?.style.display !== 'none';
-            if (isLive && !isReviewMode) {
+            if (isLive && !isReviewMode && !isSubmitting) {
                 e.preventDefault();
                 e.returnValue = 'You have an active examination session in progress. Leaving will forfeit your time and unsaved answers.';
                 return e.returnValue;
@@ -61,6 +64,114 @@
         window.addEventListener('contextmenu', function (e) {
             if (document.getElementById('live-test-container')?.style.display !== 'none' && !isReviewMode) {
                 e.preventDefault();
+            }
+        });
+    }
+
+    // ==========================================
+    // 1B. CBT DESKTOP KEYBOARD SHORTCUTS
+    // ==========================================
+    function setupKeyboardShortcuts() {
+        window.addEventListener('keydown', function (e) {
+            const isLive = document.getElementById('live-test-container')?.style.display !== 'none';
+            if (!isLive || isReviewMode) return;
+
+            // Ignore when focused inside form inputs or editable elements
+            const targetTag = e.target?.tagName?.toLowerCase();
+            if (targetTag === 'input' || targetTag === 'textarea' || targetTag === 'select' || e.target?.isContentEditable) {
+                return;
+            }
+
+            // Disallow if modifier keys are held
+            if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+            // Strictly guard: only fire when no modal overlay is visible
+            const modalIds = ['palette-modal', 'settings-modal', 'submit-modal', 'review-palette-modal', 'submit-failure-modal'];
+            const hasOpenModal = modalIds.some(id => {
+                const el = document.getElementById(id);
+                return el && (el.style.display === 'flex' || window.getComputedStyle(el).display === 'flex');
+            });
+            if (hasOpenModal) return;
+
+            const currentQ = engine.questions[engine.currentIndex];
+            const numOptions = currentQ?.options?.length || 0;
+
+            // 1-5 Number Keys: Select option
+            if (e.key >= '1' && e.key <= '5') {
+                const optIdx = parseInt(e.key, 10) - 1;
+                if (optIdx < numOptions) {
+                    e.preventDefault();
+                    window.PlatformBridge?.haptic('selection');
+                    engine.selectOption(optIdx);
+                    loadQuestion(engine.currentIndex);
+                    return;
+                }
+            }
+
+            // Alpha Keys A, B, D, E for options (C is dedicated to Clear Response)
+            const keyUpper = e.key.toUpperCase();
+            if (keyUpper === 'A' && numOptions > 0) {
+                e.preventDefault();
+                window.PlatformBridge?.haptic('selection');
+                engine.selectOption(0);
+                loadQuestion(engine.currentIndex);
+                return;
+            }
+            if (keyUpper === 'B' && numOptions > 1) {
+                e.preventDefault();
+                window.PlatformBridge?.haptic('selection');
+                engine.selectOption(1);
+                loadQuestion(engine.currentIndex);
+                return;
+            }
+            if (keyUpper === 'D' && numOptions > 3) {
+                e.preventDefault();
+                window.PlatformBridge?.haptic('selection');
+                engine.selectOption(3);
+                loadQuestion(engine.currentIndex);
+                return;
+            }
+            if (keyUpper === 'E' && numOptions > 4) {
+                e.preventDefault();
+                window.PlatformBridge?.haptic('selection');
+                engine.selectOption(4);
+                loadQuestion(engine.currentIndex);
+                return;
+            }
+
+            // Clear Response: C, c, Backspace, Delete
+            if (e.key === 'c' || e.key === 'C' || e.key === 'Backspace' || e.key === 'Delete') {
+                e.preventDefault();
+                clearResponse();
+                return;
+            }
+
+            // Save & Next: Enter
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveAndNext();
+                return;
+            }
+
+            // Mark for Review & Next: M, m
+            if (e.key === 'm' || e.key === 'M') {
+                e.preventDefault();
+                markAndNext();
+                return;
+            }
+
+            // Navigation: Left Arrow -> Prev Question
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevQuestion();
+                return;
+            }
+
+            // Navigation: Right Arrow -> Save & Next
+            if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                saveAndNext();
+                return;
             }
         });
     }
@@ -373,7 +484,7 @@
                     } else if (engine.responses[qId] === i) {
                         optDiv.classList.add('selected');
                     }
-                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div>${badge}`;
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div><kbd class="kbd-hint opt-kbd-hint">${i + 1}</kbd>${badge}`;
                     optDiv.onclick = () => {
                         window.PlatformBridge?.haptic('selection');
                         engine.selectOption(i);
@@ -381,7 +492,7 @@
                     };
                 } else {
                     if (engine.responses[qId] === i) optDiv.classList.add('selected');
-                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div>`;
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div><kbd class="kbd-hint opt-kbd-hint">${i + 1}</kbd>`;
                     optDiv.onclick = () => {
                         window.PlatformBridge?.haptic('selection');
                         engine.selectOption(i);
@@ -810,6 +921,7 @@
     }
 
     function exitTestEarly() {
+        isSubmitting = true;
         window.PlatformBridge?.haptic('medium');
         const returnUrl = urlParams.get('return_url');
         if (returnUrl) {
@@ -845,6 +957,11 @@
 
         try {
             const res = await engine.submit();
+            isSubmitting = true;
+            try {
+                localStorage.removeItem('ez_cbt_submission_backup');
+            } catch (e) {}
+
             const returnUrl = urlParams.get('return_url');
             const dayParam = urlParams.get('day');
             const dayQuery = dayParam !== null ? `&day=${dayParam}` : '';
@@ -856,8 +973,57 @@
                 window.location.href = `result.html?attempt_id=${res.attempt_id}${dayQuery}${retQuery}`;
             }
         } catch (err) {
-            alert("Failed to submit test. Please retry.");
+            console.error('[CBT Submission Failure]', err);
             if (loadingScreen) loadingScreen.style.display = 'none';
+
+            // Preserve full test state in localStorage
+            const backupPayload = {
+                quizId: engine.quizId || 'daily_cbt',
+                responses: engine.responses,
+                questionStates: engine.questionStates,
+                timeRemaining: engine.timeRemaining,
+                totalTimeSpent: engine.totalTimeSpent || 0,
+                savedAt: new Date().toISOString(),
+                errorMessage: err ? (err.message || String(err)) : 'Network timeout / Server disruption'
+            };
+            try {
+                localStorage.setItem('ez_cbt_submission_backup', JSON.stringify(backupPayload));
+            } catch (storageErr) {
+                console.warn('[CBT Resilience] Failed to save submission backup to localStorage', storageErr);
+            }
+
+            // Display in-app inline retry modal instead of generic alert()
+            const errEl = document.getElementById('failure-error-message');
+            if (errEl) {
+                errEl.innerText = err?.message || 'Server timeout or connection dropped. Answers safely cached.';
+            }
+            const failModal = document.getElementById('submit-failure-modal');
+            if (failModal) {
+                failModal.style.display = 'flex';
+            }
+        }
+    }
+
+    function retryQuizSubmission() {
+        closeModal('submit-failure-modal');
+        submitQuiz();
+    }
+
+    function copySubmissionBackup() {
+        try {
+            const backup = localStorage.getItem('ez_cbt_submission_backup');
+            if (backup && navigator.clipboard) {
+                navigator.clipboard.writeText(backup).then(() => {
+                    const btn = document.getElementById('btn-copy-backup');
+                    if (btn) {
+                        const originalText = btn.innerText;
+                        btn.innerText = '✓ Copied!';
+                        setTimeout(() => { btn.innerText = originalText; }, 2000);
+                    }
+                });
+            }
+        } catch (e) {
+            console.warn('[CBT Resilience] Clipboard copy failed', e);
         }
     }
 
@@ -866,6 +1032,7 @@
     // ==========================================
     async function init() {
         setupAntiCheat();
+        setupKeyboardShortcuts();
 
         // Bind Timer Tick Event
         engine.on('timerTick', (remaining, formatted, isWarning) => {
@@ -1088,6 +1255,8 @@
     window.handleFilterCheckboxChange = handleFilterCheckboxChange;
     window.applyReviewFilters = applyReviewFilters;
     window.reviewNavigate = reviewNavigate;
+    window.retryQuizSubmission = retryQuizSubmission;
+    window.copySubmissionBackup = copySubmissionBackup;
     window.exitTestEarly = exitTestEarly;
     window.goBackFromResult = goBackFromResult;
 

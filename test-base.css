@@ -959,3 +959,135 @@ body.dark-mode .review-legend-grid {
     color: #6ee7b7;
     border-color: rgba(16, 185, 129, 0.4);
 }
+
+/* Keyboard Shortcut Badges (Subtle Desktop Hotkey Hints) */
+.kbd-hint {
+    display: none;
+}
+
+@media (hover: hover) and (min-width: 768px) {
+    .kbd-hint {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mono, ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        min-width: 20px;
+        height: 20px;
+        padding: 0 5px;
+        border-radius: 4px;
+        background: var(--bg-card, #f3f4f6);
+        border: 1px solid var(--border-color, #d1d5db);
+        color: var(--text-dark, #111827);
+        margin-left: 6px;
+        vertical-align: middle;
+        pointer-events: none;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .dark-mode .kbd-hint {
+        background: #27272a;
+        border-color: #3f3f46;
+        color: #f4f4f5;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-save-next .kbd-hint {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.45);
+        color: #ffffff;
+    }
+
+    .btn-mark .kbd-hint {
+        background: #fde68a;
+        border-color: #d97706;
+        color: #78350f;
+    }
+
+    .dark-mode .btn-mark .kbd-hint {
+        background: #78350f;
+        border-color: #b45309;
+        color: #fef3c7;
+    }
+
+    .opt-kbd-hint {
+        margin-left: auto;
+        font-size: 12px;
+        padding: 0 5px;
+        background: var(--bg-main, #f9fafb);
+        color: var(--text-muted, #4b5563);
+    }
+
+    .dark-mode .opt-kbd-hint {
+        background: #18181b;
+        color: #a1a1aa;
+    }
+
+    .option:hover .opt-kbd-hint,
+    .option.selected .opt-kbd-hint {
+        background: #eff6ff;
+        border-color: #93c5fd;
+        color: var(--brand-blue, #2563eb);
+    }
+
+    .dark-mode .option:hover .opt-kbd-hint,
+    .dark-mode .option.selected .opt-kbd-hint {
+        background: #1e293b;
+        border-color: #3b82f6;
+        color: #93c5fd;
+    }
+}
+
+/* Submission Failure / Offline Resilience Sheet */
+.submit-failure-sheet {
+    max-width: 480px !important;
+    width: 100% !important;
+    padding: 24px 20px !important;
+}
+
+.failure-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fee2e2;
+    color: #991b1b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.dark-mode .failure-icon-wrap {
+    background: #7f1d1d !important;
+    color: #fecaca !important;
+}
+
+.failure-status-badge {
+    color: #047857;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.dark-mode .failure-status-badge {
+    color: #6ee7b7 !important;
+}
+
+.failure-error-message {
+    color: #991b1b;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 12.5px;
+    word-break: break-all;
+}
+
+.dark-mode .failure-error-message {
+    color: #fca5a5 !important;
+}
+
+.dark-mode #failure-diagnostic-box {
+    background: #18181b !important;
+    border-color: var(--border-color) !important;
+}
+
