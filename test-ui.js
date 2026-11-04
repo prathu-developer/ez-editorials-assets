@@ -803,7 +803,11 @@
         // Bind Timer Tick Event
         engine.on('timerTick', (remaining, formatted, isWarning) => {
             const timerDisplay = document.getElementById('timer-display');
-            if (timerDisplay) timerDisplay.innerText = formatted;
+            if (timerDisplay) {
+                timerDisplay.innerText = formatted;
+                if (isWarning) timerDisplay.classList.add('timer-warning');
+                else timerDisplay.classList.remove('timer-warning');
+            }
 
             const cbtClock = document.getElementById('cbt-timer-clock');
             if (cbtClock) {

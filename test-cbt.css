@@ -225,6 +225,19 @@ html.is-desktop .review-section-strip {
 
     html.is-desktop .cbt-left-pane #live-bottom-bar .btn-save-next {
         min-width: 160px !important;
+        background: #047857 !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    html.is-desktop .cbt-left-pane #live-bottom-bar .btn-save-next:hover {
+        background: #065f46 !important;
+    }
+    .dark-mode html.is-desktop .cbt-left-pane #live-bottom-bar .btn-save-next {
+        background: #059669 !important;
+        color: #ffffff !important;
+    }
+    .dark-mode html.is-desktop .cbt-left-pane #live-bottom-bar .btn-save-next:hover {
+        background: #047857 !important;
     }
 
     html.is-desktop .cbt-left-pane #review-bottom-bar {
@@ -300,17 +313,19 @@ html.is-desktop .review-section-strip {
     }
 
     html.is-desktop .cbt-timer-clock {
-        font-size: 30px;
-        font-weight: 900;
-        color: var(--brand-red);
+        font-size: 28px;
+        font-weight: 700;
+        font-family: var(--font-mono, 'JetBrains Mono', SF Mono, monospace);
+        color: var(--text-dark);
         text-align: center;
         font-variant-numeric: tabular-nums;
         letter-spacing: 1px;
         padding: 4px 0;
+        transition: color 0.3s ease;
     }
 
     html.is-desktop .cbt-timer-clock.timer-warning {
-        color: #dc2626;
+        color: var(--brand-red, #cc1f37);
         animation: timerPulse 1.2s infinite;
     }
 
