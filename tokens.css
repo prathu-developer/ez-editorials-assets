@@ -5,13 +5,21 @@
  */
 
 :root {
-    /* --- BRAND COLORS --- */
+    /* --- BRAND COLORS & ALIASES (DESIGN.md) --- */
+    --brand-primary: #1c64f2;
+    --brand-hover: #1952c4;
     --brand-red: #e73b50;
     --brand-red-hover: #cf2d41;
     --brand-blue: #1c64f2;
     --brand-blue-hover: #1952c4;
     --brand-light: #eff6ff;
     --brand-dark: #1e3a8a;
+    --cobalt-wash: #eff6ff;
+    --cobalt-text: #1e40af;
+    --cobalt-border: #bfdbfe;
+    --surface-canvas: #f5f6f8;
+    --surface-panel: #ffffff;
+    --surface-raised: #f8fafc;
 
     /* --- SEMANTIC COLORS --- */
     --color-success: #10b981;
@@ -115,7 +123,16 @@ body.dark-mode {
     --text-main: #f3f4f6;
     --text-dark: #f3f4f6;
     --text-muted: #9ca3af;
-    --text-subtle: #6b7280;
+    --text-subtle: #94a3b8;
+
+    --brand-primary: #3b82f6;
+    --brand-hover: #60a5fa;
+    --cobalt-wash: #172554;
+    --cobalt-text: #93c5fd;
+    --cobalt-border: #1e40af;
+    --surface-canvas: #121212;
+    --surface-panel: #1e1e1e;
+    --surface-raised: #27272a;
 
     --bg-body: #121212;
     --bg-main: #121212;
@@ -133,8 +150,9 @@ body.dark-mode {
     --color-warning-text: #fde68a;
     --color-danger-bg: #7f1d1d;
     --color-danger-text: #fecaca;
-    --color-info-bg: #1e3a8a;
-    --color-info-text: #bfdbfe;
+    --color-info-bg: #172554;
+    --color-info-text: #93c5fd;
+    --color-info-border: #1e40af;
     --color-review-bg: #4c1d95;
     --color-review-text: #ddd6fe;
 

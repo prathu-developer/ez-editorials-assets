@@ -11,7 +11,6 @@
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="tokens.css">
-    <link rel="stylesheet" href="magazine-pdf.css">
     <script src="auth.js"></script>
     <script src="platform-bridge.js"></script>
     <script>
@@ -42,10 +41,14 @@
 
     <style>
         :root {
-            /* Impeccable Design System Tokens (DESIGN.md) */
+            /* Impeccable Design System Tokens (DESIGN.md Alignment) */
+            --brand-primary: #1c64f2;
+            --brand-hover: #1952c4;
             --primary: #1c64f2;
             --primary-hover: #1952c4;
             --cobalt-wash: #eff6ff;
+            --cobalt-text: #1e40af; /* 7.2:1 contrast against #eff6ff */
+            --cobalt-border: #bfdbfe;
             --crimson: #e73b50;
             --crimson-wash: #fde8e8;
             --evidence-amber: #f59e0b;
@@ -58,6 +61,9 @@
             --review-indigo: #4338ca;
             --review-wash: #e0e7ff;
             --review-text: #312e81;
+            --surface-canvas: #f5f6f8;
+            --surface-panel: #ffffff;
+            --surface-raised: #f8fafc;
 
             /* Neutrals */
             --bg-canvas: #f5f6f8;
@@ -86,9 +92,13 @@
         html.dark-mode,
         html[data-theme="dark"],
         body.dark-mode {
+            --brand-primary: #3b82f6;
+            --brand-hover: #60a5fa;
             --primary: #3b82f6;
             --primary-hover: #60a5fa;
-            --cobalt-wash: #1e293b;
+            --cobalt-wash: #172554; /* Deep cobalt/navy wash */
+            --cobalt-text: #93c5fd; /* 8.15:1 contrast against #172554, 10.3:1 against #1e1e1e (WCAG AAA) */
+            --cobalt-border: #1e40af;
             --crimson: #f87171;
             --crimson-wash: #3b181e;
             --evidence-amber: #fbbf24;
@@ -102,6 +112,9 @@
             --review-wash: #1e1b4b;
             --review-text: #c7d2fe;
 
+            --surface-canvas: #121212;
+            --surface-panel: #1e1e1e;
+            --surface-raised: #27272a;
             --bg-canvas: #121212;
             --bg-card: #1e1e1e;
             --bg-subtle: #27272a;
@@ -703,7 +716,7 @@
             border-radius: var(--radius-xs);
         }
 
-        .chip-blue { background: var(--cobalt-wash); color: var(--primary); }
+        .chip-blue { background: var(--cobalt-wash); color: var(--cobalt-text); border: 1px solid var(--cobalt-border); }
         .chip-indigo { background: var(--review-wash); color: var(--review-text); }
         .chip-muted { background: var(--bg-subtle); color: var(--text-muted); border: 1px solid var(--border-line); }
 
@@ -993,7 +1006,8 @@
 
         .split-newspaper-badge {
             background: var(--cobalt-wash);
-            color: var(--primary);
+            color: var(--cobalt-text);
+            border: 1px solid var(--cobalt-border);
             font-size: 11.5px;
             font-weight: 700;
             text-transform: uppercase;
@@ -1152,7 +1166,8 @@
             align-items: center;
             gap: 6px;
             background: var(--cobalt-wash);
-            color: var(--primary);
+            color: var(--cobalt-text);
+            border: 1px solid var(--cobalt-border);
             border: 1px solid rgba(28, 100, 242, 0.25);
             border-radius: var(--radius-sm);
             padding: 7px 14px;
@@ -1351,21 +1366,7 @@
             background: #0b1329 !important;
         }
 
-        #magazineView:fullscreen #magazineArticles .page.inner-page,
-        #magazineView:-webkit-full-screen #magazineArticles .page.inner-page,
-        #magazineView.is-focus-mode #magazineArticles .page.inner-page {
-            width: 100% !important;
-            max-width: clamp(1000px, 94vw, 1440px) !important;
-            margin: 0 auto 36px auto !important;
-        }
-
-        #magazineView:fullscreen .rd-layout,
-        #magazineView:-webkit-full-screen .rd-layout,
-        #magazineView.is-focus-mode .rd-layout {
-            grid-template-columns: minmax(0, 1fr) clamp(280px, 22vw, 360px) !important;
-            gap: clamp(20px, 2.5vw, 36px) !important;
-        }
-
+        /* Modern Focus Mode Styles for Split-View Reader */
         #magazineView:fullscreen .mag-reader-toolbar,
         #magazineView:-webkit-full-screen .mag-reader-toolbar,
         #magazineView.is-focus-mode .mag-reader-toolbar {
@@ -1380,535 +1381,11 @@
             margin-bottom: 24px !important;
         }
 
-        .btn-tool.active {
-            background: var(--primary) !important;
-            color: #ffffff !important;
-            border-color: var(--primary) !important;
-        }
-
-        /* =========================================================
-           CALIBRATED WEB TYPOGRAPHY SCALE FOR MAGAZINE ARTICLES
-           ========================================================= */
-        #magazineArticles {
-            --mag-body-size: 16px;
-            --mag-body-lh: 1.78;
-            width: 100%;
-        }
-
-        /* 1. Article Reader Page (Headline, Quotes, Tags, Sources, Metadata) */
-        #magazineArticles .rd-top-row {
-            margin-bottom: 12px !important;
-        }
-
-        #magazineArticles .rd-tag {
-            font-size: 11.5px !important;
-            font-weight: 800 !important;
-            letter-spacing: 0.6px !important;
-            padding: 4px 10px !important;
-            border-radius: 6px !important;
-        }
-
-        #magazineArticles .rd-tag .icon-svg {
-            width: 13px !important;
-            height: 13px !important;
-        }
-
-        #magazineArticles .rd-source {
-            font-size: 12px !important;
-            font-weight: 700 !important;
-            letter-spacing: 0.2px !important;
-        }
-
-        #magazineArticles .rd-title {
-            font-size: 24px !important;
-            line-height: 1.3 !important;
-            letter-spacing: -0.3px !important;
-            margin-bottom: 10px !important;
-            color: var(--text-hi) !important;
-        }
-
-        #magazineArticles .rd-quote {
-            font-size: 15px !important;
-            line-height: 1.6 !important;
-            padding: 12px 18px !important;
-            margin-bottom: 14px !important;
-            border-left-width: 3.5px !important;
-        }
-
-        #magazineArticles .rd-meta {
-            font-size: 12px !important;
-            gap: 8px !important;
-            margin-bottom: 16px !important;
-        }
-
-        #magazineArticles .rd-meta .meta-item {
-            font-size: 12px !important;
-            font-weight: 600 !important;
-            gap: 5px !important;
-        }
-
-        #magazineArticles .rd-meta .icon-svg {
-            width: 13px !important;
-            height: 13px !important;
-        }
-
-        #magazineArticles .rd-meta .meta-sep {
-            font-size: 12px !important;
-            opacity: 0.6;
-        }
-
-        #magazineArticles .rd-citation {
-            font-size: 11.5px !important;
-            padding-top: 10px !important;
-            margin-top: 10px !important;
-        }
-
-        #magazineArticles .rd-citation-btn {
-            font-size: 11px !important;
-            font-weight: 800 !important;
-            padding: 4px 12px !important;
-        }
-
-        /* 2. Article Passage Body */
-        #magazineArticles .rd-body {
-            font-size: var(--mag-body-size, 16px) !important;
-            line-height: var(--mag-body-lh, 1.78) !important;
-            color: #1e293b !important;
-            letter-spacing: 0.012em !important;
-        }
-
-        body.dark-theme #magazineArticles .rd-body,
-        html.dark-mode #magazineArticles .rd-body {
-            color: #cbd5e1 !important;
-        }
-
-        #magazineArticles .rd-body p {
-            font-size: var(--mag-body-size, 16px) !important;
-            line-height: var(--mag-body-lh, 1.78) !important;
-            margin-bottom: 14px !important;
-        }
-
-        #magazineArticles .rd-body p:first-of-type::first-letter {
-            font-size: 42px !important;
-            line-height: 0.82 !important;
-            margin-top: 2px !important;
-            margin-right: 8px !important;
-        }
-
-        #magazineArticles .rd-body sup {
-            font-size: 11px !important;
-            font-weight: 700 !important;
-        }
-
-        /* 3. Sidebar Vocabulary 101 */
-        #magazineArticles .rd-sidebar {
-            width: 300px !important;
-            min-width: 270px !important;
-        }
-
-        #magazineArticles .rd-sb-title {
-            font-size: 12.5px !important;
-            letter-spacing: 0.8px !important;
-            font-weight: 800 !important;
-            margin-bottom: 8px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-        }
-
-        #magazineArticles .rd-sb-title .icon-svg {
-            width: 14px !important;
-            height: 14px !important;
-        }
-
-        #magazineArticles .rd-sb-row {
-            padding: 5px 0 6px 0 !important;
-            gap: 8px !important;
-        }
-
-        #magazineArticles .rd-sb-num {
-            width: 22px !important;
-            height: 22px !important;
-            font-size: 11px !important;
-            font-weight: 800 !important;
-        }
-
-        #magazineArticles .rd-sb-word {
-            font-size: 14px !important;
-            font-weight: 800 !important;
-            line-height: 1.25 !important;
-        }
-
-        #magazineArticles .rd-sb-pos {
-            font-size: 11px !important;
-            font-weight: 600 !important;
-        }
-
-        #magazineArticles .rd-sb-def {
-            font-size: 13px !important;
-            line-height: 1.45 !important;
-            font-weight: 600 !important;
-            margin-top: 2px !important;
-            color: #b45309 !important;
-        }
-
-        body.dark-theme #magazineArticles .rd-sb-def,
-        html.dark-mode #magazineArticles .rd-sb-def {
-            color: #fbbf24 !important;
-        }
-
-        #magazineArticles .rd-sb-hi {
-            font-size: 12.5px !important;
-            font-weight: 700 !important;
-        }
-
-        #magazineArticles .deep-analysis-card {
-            padding: 8px 10px !important;
-            margin-top: 10px !important;
-        }
-
-        #magazineArticles .deep-analysis-icon {
-            width: 26px !important;
-            height: 26px !important;
-        }
-
-        #magazineArticles .deep-analysis-text {
-            font-size: 11.5px !important;
-            line-height: 1.4 !important;
-        }
-
-        #magazineArticles .deep-analysis-text strong {
-            font-size: 12.5px !important;
-            font-weight: 800 !important;
-            margin-bottom: 2px !important;
-        }
-
-        #magazineArticles .open-vocab-lab-btn {
-            font-size: 12px !important;
-            font-weight: 800 !important;
-            padding: 7px 14px !important;
-            margin-top: 8px !important;
-        }
-
-        /* 4. Footer Bar Across All Pages */
-        #magazineArticles .footer-wrap {
-            margin-top: 18px !important;
-        }
-
-        #magazineArticles .footer-pill {
-            padding: 6px 16px !important;
-            min-height: 38px !important;
-        }
-
-        #magazineArticles .footer-brand {
-            font-size: 11.5px !important;
-            font-weight: 700 !important;
-        }
-
-        #magazineArticles .footer-cta {
-            font-size: 11.5px !important;
-            font-weight: 800 !important;
-            padding: 5.5px 16px !important;
-        }
-
-        #magazineArticles .footer-page {
-            font-size: 11.5px !important;
-            font-weight: 900 !important;
-            padding: 4px 12px !important;
-        }
-
-        /* 5. Vocab Lab Page Header */
-        #magazineArticles .vlab-page-header {
-            padding: 12px 16px !important;
-            margin-bottom: 14px !important;
-        }
-
-        #magazineArticles .vlab-page-header-icon {
-            width: 34px !important;
-            height: 34px !important;
-        }
-
-        #magazineArticles .vlab-page-header-title {
-            font-size: 15px !important;
-            font-weight: 900 !important;
-            letter-spacing: 0.2px !important;
-        }
-
-        #magazineArticles .vlab-page-header-article {
-            font-size: 12px !important;
-            margin-top: 2px !important;
-        }
-
-        #magazineArticles .topic-chip {
-            font-size: 11.5px !important;
-            font-weight: 700 !important;
-            padding: 4px 10px !important;
-        }
-
-        /* 6. Editorial Stance, Perspective & Word Tone Mix */
-        #magazineArticles .stance-row {
-            --tone-a: #f59e0b;
-            --tone-b: #d97706;
-            gap: 12px !important;
-            margin-bottom: 16px !important;
-        }
-
-        #magazineArticles .stance-card {
-            padding: 14px 18px !important;
-        }
-
-        #magazineArticles .stance-label,
-        #magazineArticles .persp-label,
-        #magazineArticles .tone-bar-label {
-            font-size: 11.5px !important;
-            letter-spacing: 0.8px !important;
-            font-weight: 800 !important;
-            margin-bottom: 6px !important;
-        }
-
-        #magazineArticles .stance-value {
-            font-size: 20px !important;
-            font-weight: 900 !important;
-            line-height: 1.2 !important;
-        }
-
-        #magazineArticles .stance-sub {
-            font-size: 13.5px !important;
-            line-height: 1.5 !important;
-            margin-top: 5px !important;
-        }
-
-        #magazineArticles .persp-card {
-            padding: 14px 18px !important;
-        }
-
-        #magazineArticles .persp-text {
-            font-size: 15px !important;
-            line-height: 1.72 !important;
-            color: #334155 !important;
-        }
-
-        body.dark-theme #magazineArticles .persp-text,
-        html.dark-mode #magazineArticles .persp-text {
-            color: #e2e8f0 !important;
-        }
-
-        #magazineArticles .persp-text::first-letter {
-            font-size: 26px !important;
-            margin-right: 4px !important;
-        }
-
-        #magazineArticles .tone-bar-card {
-            padding: 12px 16px !important;
-        }
-
-        #magazineArticles .tone-bar-track {
-            height: 10px !important;
-            border-radius: 6px !important;
-        }
-
-        #magazineArticles .tone-bar-legend {
-            font-size: 12px !important;
-            font-weight: 700 !important;
-            gap: 14px !important;
-        }
-
-        /* 7. Category Headers */
-        #magazineArticles .vlab-cat-header {
-            font-size: 13px !important;
-            font-weight: 800 !important;
-            letter-spacing: 0.6px !important;
-            padding: 7px 14px !important;
-            margin-bottom: 14px !important;
-        }
-
-        /* 8. Vocab Cards */
-        #magazineArticles .vcard {
-            padding: 14px 16px !important;
-            min-height: auto !important;
-        }
-
-        #magazineArticles .vcard-top {
-            margin-bottom: 6px !important;
-        }
-
-        #magazineArticles .vcard-num {
-            font-size: 11px !important;
-            font-weight: 800 !important;
-            padding: 2px 7px !important;
-        }
-
-        #magazineArticles .vcard-tag {
-            font-size: 10.5px !important;
-            font-weight: 800 !important;
-            padding: 2.5px 8px !important;
-            letter-spacing: 0.5px !important;
-        }
-
-        #magazineArticles .vcard-word {
-            font-size: 16px !important;
-            font-weight: 800 !important;
-            margin-bottom: 3px !important;
-        }
-
-        #magazineArticles .vcard-pos {
-            font-size: 12px !important;
-            font-weight: 700 !important;
-            margin-bottom: 6px !important;
-        }
-
-        #magazineArticles .vcard-hi {
-            font-size: 13px !important;
-            font-weight: 700 !important;
-        }
-
-        #magazineArticles .vcard-def {
-            font-size: 14px !important;
-            line-height: 1.55 !important;
-            margin-bottom: 10px !important;
-            color: #334155 !important;
-        }
-
-        body.dark-theme #magazineArticles .vcard-def,
-        html.dark-mode #magazineArticles .vcard-def {
-            color: #cbd5e1 !important;
-        }
-
-        #magazineArticles .vcard-example {
-            font-size: 12.5px !important;
-            line-height: 1.52 !important;
-            padding: 8px 12px !important;
-            margin-bottom: 10px !important;
-        }
-
-        /* 9. Memory Hook: CRITICAL ENHANCEMENT FOR FORMER 6.5px / 8px MICRO-FONT */
-        #magazineArticles .vcard-hook,
-        #magazineArticles .hook-box {
-            font-size: 13px !important;
-            line-height: 1.55 !important;
-            padding: 8px 12px !important;
-            margin-bottom: 10px !important;
-            border-left-width: 3px !important;
-            border-radius: 0 8px 8px 0 !important;
-            font-style: normal !important;
-        }
-
-        #magazineArticles .vcard-hook-label,
-        #magazineArticles .hook-label {
-            display: block !important;
-            font-size: 11px !important;
-            font-weight: 800 !important;
-            letter-spacing: 0.8px !important;
-            text-transform: uppercase !important;
-            margin-bottom: 3px !important;
-            opacity: 0.95 !important;
-        }
-
-        /* 10. Synonym & Antonym Chips */
-        #magazineArticles .vcard-chips {
-            gap: 6px !important;
-            margin-top: 8px !important;
-            flex-wrap: wrap !important;
-        }
-
-        #magazineArticles .chip-syn,
-        #magazineArticles .chip-ant,
-        #magazineArticles .tag-syn,
-        #magazineArticles .tag-ant {
-            font-size: 11.5px !important;
-            font-weight: 600 !important;
-            padding: 3.5px 9px !important;
-            border-radius: 5px !important;
-            line-height: 1.35 !important;
-        }
-
-        #magazineArticles .vcard-synonyms,
-        #magazineArticles .vcard-antonyms {
-            font-size: 11.5px !important;
-            gap: 6px !important;
-        }
-
-        /* 11. Page 2 Continued Bar & Preposition/Phrasal/Idiom Cards */
-        #magazineArticles .continued-bar {
-            font-size: 12px !important;
-            font-weight: 700 !important;
-            padding: 8px 16px !important;
-            margin-bottom: 14px !important;
-        }
-
-        #magazineArticles .continued-bar b {
-            font-size: 12.5px !important;
-            font-weight: 800 !important;
-        }
-
-        #magazineArticles .connector-base {
-            font-size: 15px !important;
-            font-weight: 800 !important;
-        }
-
-        #magazineArticles .connector-dot {
-            font-size: 13px !important;
-        }
-
-        #magazineArticles .connector-prep {
-            font-size: 14px !important;
-            font-weight: 800 !important;
-            padding: 3px 9px !important;
-        }
-
-        #magazineArticles .duo-chip {
-            font-size: 14px !important;
-            font-weight: 800 !important;
-            padding: 4px 10px !important;
-        }
-
-        #magazineArticles .duo-arrow {
-            width: 14px !important;
-            height: 14px !important;
-        }
-
-        #magazineArticles .vcard-idiom-inner .vcard-word {
-            font-size: 16px !important;
-        }
-
-        #magazineArticles .quote-mark-inline {
-            font-size: 18px !important;
-        }
-
-        #magazineArticles .next-editorial-banner {
-            padding: 12px 18px !important;
-        }
-
-        #magazineArticles .next-ed-label {
-            font-size: 11px !important;
-            font-weight: 800 !important;
-        }
-
-        #magazineArticles .next-ed-title {
-            font-size: 15px !important;
-            font-weight: 700 !important;
-        }
-
-        #magazineArticles .next-ed-end-text {
-            font-size: 11.5px !important;
-            font-weight: 800 !important;
-        }
-
-        @media (min-width: 1280px) {
-            #magazineView {
-                max-width: 1300px;
-            }
-            #magazineArticles .page.inner-page {
-                max-width: 1200px !important;
-            }
-            .rd-layout {
-                grid-template-columns: minmax(0, 1fr) 280px;
-                gap: 28px;
-            }
-        }
-
-        #magazineArticles a {
-            cursor: pointer;
+        #magazineView:fullscreen .split-reader-container,
+        #magazineView:-webkit-full-screen .split-reader-container,
+        #magazineView.is-focus-mode .split-reader-container {
+            max-width: 1280px !important;
+            margin: 0 auto !important;
         }
 
         .mag-spinner {
@@ -1928,13 +1405,6 @@
         @media (max-width: 860px) {
             #magazineView {
                 padding: 12px 6px 60px;
-            }
-            #magazineArticles .page.inner-page {
-                border-radius: 0 !important;
-                border-left: none !important;
-                border-right: none !important;
-                box-shadow: none !important;
-                margin-bottom: 20px !important;
             }
         }
         @media (max-width: 768px) {
@@ -1974,8 +1444,9 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.06em;
-            color: var(--primary);
+            color: var(--cobalt-text);
             background: var(--cobalt-wash);
+            border: 1px solid var(--cobalt-border);
             padding: 4px 10px;
             border-radius: var(--radius-full);
             border: 1px solid rgba(28, 100, 242, 0.2);
@@ -1986,7 +1457,7 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: var(--primary);
+            background: var(--cobalt-text);
         }
 
         .hero-title {
@@ -2068,8 +1539,8 @@
         }
 
         .btn-hero-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+            border-color: var(--cobalt-text);
+            color: var(--cobalt-text);
             background: var(--cobalt-wash);
         }
 
@@ -2438,8 +1909,9 @@
             font-size: 12.5px;
             font-weight: 700;
             font-variant-numeric: tabular-nums;
-            color: var(--primary);
+            color: var(--cobalt-text);
             background: var(--cobalt-wash);
+            border: 1px solid var(--cobalt-border);
             padding: 4px 10px;
             border-radius: var(--radius-full);
             border: 1px solid rgba(28, 100, 242, 0.2);
@@ -3140,12 +2612,12 @@
             monday.setDate(now.getDate() + mondayOffset);
             monday.setHours(0, 0, 0, 0);
 
-            const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            const fullDayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const fullDayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday (Revision & Mock)'];
             const todayStr = formatDate(now);
 
             state.weekDays = [];
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < 7; i++) {
                 const d = new Date(monday);
                 d.setDate(monday.getDate() + i);
                 const dateStr = formatDate(d);
@@ -3484,16 +2956,16 @@
         }
 
         function formatQuizExpiry(isoCloseTime) {
-            if (!isoCloseTime) return '10 Days Access';
+            if (!isoCloseTime) return '10 Days Rolling Access';
             try {
                 const expDate = new Date(isoCloseTime);
-                if (isNaN(expDate.getTime())) return '10 Days Access';
+                if (isNaN(expDate.getTime())) return '10 Days Rolling Access';
                 const dayNum = expDate.getDate();
                 const monthName = expDate.toLocaleDateString('en-US', { month: 'short' });
                 const timeStr = expDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-                return `${dayNum} ${monthName}, ${timeStr}`;
+                return `Closes ${dayNum} ${monthName}, ${timeStr}`;
             } catch(e) {
-                return '10 Days Access';
+                return '10 Days Rolling Access';
             }
         }
 
@@ -3687,7 +3159,7 @@
                 } else if (diffDays === 1) {
                     return { isToday: false, badge: 'YESTERDAY', label: `${dayName}, ${dayNum} ${monthName}` };
                 } else {
-                    return { isToday: false, badge: `${dayNum} ${monthName}`, label: `${dayName}, ${year}` };
+                    return { isToday: false, badge: `${dayNum} ${monthName.toUpperCase()}`, label: `${dayName}, ${dayNum} ${monthName}` };
                 }
             };
 
@@ -3823,6 +3295,50 @@
         function getStandardQuizzesForDay(dayNum, dayObj) {
             if (dayObj && dayObj.isFuture) {
                 return [];
+            }
+            // Sunday: Full-length Sectional Mock & Weekly Synthesis
+            if (dayObj && (dayObj.dayName === 'Sun' || dayNum === 6)) {
+                return [
+                    {
+                        id: 1000 + dayNum * 10 + 1,
+                        topic: `Weekly Editorial Synthesis & Mains Reading Comprehension Mock`,
+                        question_count: 20,
+                        duration_seconds: 1500,
+                        total_marks: 20,
+                        status: dayObj.isPast ? "completed" : "unlocked",
+                        score: dayObj.isPast ? "+16.50" : null,
+                        attempt_id: "att_" + dayNum + "_1",
+                        day_num: dayNum,
+                        categoryChip: "chip-indigo",
+                        categoryLabel: "COMPREHENSION"
+                    },
+                    {
+                        id: 1000 + dayNum * 10 + 2,
+                        topic: `Weekly High-Frequency Vocabulary Mastery & Contextual Synonyms`,
+                        question_count: 15,
+                        duration_seconds: 900,
+                        total_marks: 15,
+                        status: dayObj.isPast ? "completed" : "unlocked",
+                        score: dayObj.isPast ? "+13.75" : null,
+                        attempt_id: "att_" + dayNum + "_2",
+                        day_num: dayNum,
+                        categoryChip: "chip-blue",
+                        categoryLabel: "VOCABULARY"
+                    },
+                    {
+                        id: 1000 + dayNum * 10 + 3,
+                        topic: `Weekly Comprehensive Grammar Spotting & Cloze Test Sprint`,
+                        question_count: 15,
+                        duration_seconds: 900,
+                        total_marks: 15,
+                        status: dayObj.isToday ? "unlocked" : (dayObj.isPast ? "completed" : "locked"),
+                        score: dayObj.isPast ? "+12.00" : null,
+                        attempt_id: "att_" + dayNum + "_3",
+                        day_num: dayNum,
+                        categoryChip: "chip-muted",
+                        categoryLabel: "GRAMMAR"
+                    }
+                ];
             }
             return [
                 {
@@ -3967,7 +3483,7 @@
             const dateStr = state.selectedMagDateStr;
             const dayObj = state.weekDays.find(d => d.dateStr === dateStr);
             if (dateTitle && dayObj) {
-                dateTitle.innerText = `${dayObj.fullDayName}, ${dayObj.monthLong} ${dayObj.dayNum}, ${dayObj.year}`;
+                dateTitle.innerText = `${dayObj.fullDayName}, ${dayObj.dayNum} ${dayObj.monthLong} ${dayObj.year}`;
             }
 
             const isRead = state.readDates.has(dateStr);
@@ -4143,578 +3659,6 @@
 
             // Sync magazine read receipt
             syncMagazineReadReceipt(dateStr);
-        }
-
-        function categorizeVocabJs(vocabList) {
-            const cats = {
-                core_vocab: [],
-                one_word_subs: [],
-                fixed_prepositions: [],
-                phrasal_verbs: [],
-                idioms: []
-            };
-            (vocabList || []).forEach(item => {
-                const cat = String(item.category || '').toLowerCase();
-                if (cat.includes('one_word') || cat.includes('substitution') || cat === 'ows') {
-                    cats.one_word_subs.push(item);
-                } else if (cat.includes('fixed_prep') || cat.includes('preposition')) {
-                    cats.fixed_prepositions.push(item);
-                } else if (cat.includes('phrasal') || cat.includes('verb_phrase')) {
-                    cats.phrasal_verbs.push(item);
-                } else if (cat.includes('idiom') || cat.includes('phrase')) {
-                    cats.idioms.push(item);
-                } else {
-                    cats.core_vocab.push(item);
-                }
-            });
-            return cats;
-        }
-
-        function buildVocabCard(item, num, isOws, isFixedPrep, isPhrasal, isIdiom) {
-            const word = escapeHtml(item.word_or_phrase || '');
-            const pos = item.part_of_speech ? escapeHtml(item.part_of_speech) : '';
-            const meaning = escapeHtml(item.concise_meaning || item.easy_synonym || '');
-            const hindi = item.hindi_meaning ? escapeHtml(item.hindi_meaning) : '';
-            const hook = item.mnemonic_trick ? escapeHtml(item.mnemonic_trick) : '';
-            const numStr = String(num).padStart(2, '0');
-
-            let connotationTag = '';
-            if (item.connotation) {
-                const cLow = String(item.connotation).toLowerCase();
-                const tagClass = cLow.includes('pos') ? 'tag-pos' : (cLow.includes('neg') ? 'tag-neg' : 'tag-neu');
-                connotationTag = `<span class="vcard-tag ${tagClass}">${escapeHtml(item.connotation)}</span>`;
-            }
-
-            let chipsHtml = '';
-            const syns = Array.isArray(item.british_synonyms) ? item.british_synonyms : [];
-            const ants = Array.isArray(item.british_antonyms) ? item.british_antonyms : [];
-            if (syns.length > 0 || ants.length > 0) {
-                chipsHtml = '<div class="vcard-chips">' +
-                    syns.map(s => `<span class="chip-syn">${escapeHtml(s)}</span>`).join('') +
-                    ants.map(a => `<span class="chip-ant">${escapeHtml(a)}</span>`).join('') +
-                    '</div>';
-            }
-
-            if (isFixedPrep) {
-                const parts = (item.word_or_phrase || '').trim().split(/\s+/);
-                const base = parts.slice(0, -1).join(' ') || parts[0];
-                const prep = parts.length > 1 ? parts[parts.length - 1] : '';
-                return `
-                    <div class="vcard">
-                        <div>
-                            <div class="vcard-top">
-                                <span class="vcard-num">${numStr}</span>
-                                ${connotationTag}
-                            </div>
-                            <div class="connector-row">
-                                <span class="connector-base">${escapeHtml(base)}</span>
-                                ${prep ? `<span class="connector-dot">···</span><span class="connector-prep">${escapeHtml(prep)}</span>` : ''}
-                            </div>
-                            <div class="vcard-pos" style="text-align: center;">
-                                ${pos ? `${pos} · ` : ''}<span class="vcard-hi devanagari">${hindi}</span>
-                            </div>
-                            <div class="vcard-def">${meaning}</div>
-                            ${hook ? `<div class="vcard-hook"><span class="vcard-hook-label">Memory Hook</span>${hook}</div>` : ''}
-                        </div>
-                        ${chipsHtml}
-                    </div>
-                `;
-            }
-
-            if (isPhrasal) {
-                const parts = (item.word_or_phrase || '').trim().split(/\s+/);
-                const verb = parts.slice(0, -1).join(' ') || parts[0];
-                const particle = parts.length > 1 ? parts[parts.length - 1] : '';
-                return `
-                    <div class="vcard">
-                        <div>
-                            <div class="vcard-top">
-                                <span class="vcard-num">${numStr}</span>
-                                ${connotationTag}
-                            </div>
-                            <div class="duo-row">
-                                <span class="duo-chip duo-verb">${escapeHtml(verb)}</span>
-                                ${particle ? `
-                                <span class="duo-arrow">
-                                    <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-                                    </span>
-                                </span>
-                                <span class="duo-chip duo-particle">${escapeHtml(particle)}</span>` : ''}
-                            </div>
-                            <div class="vcard-pos" style="text-align: center;">
-                                ${pos ? `${pos} · ` : ''}<span class="vcard-hi devanagari">${hindi}</span>
-                            </div>
-                            <div class="vcard-def">${meaning}</div>
-                            ${hook ? `<div class="vcard-hook"><span class="vcard-hook-label">Memory Hook</span>${hook}</div>` : ''}
-                        </div>
-                        ${chipsHtml}
-                    </div>
-                `;
-            }
-
-            if (isIdiom) {
-                return `
-                    <div class="vcard-idiom">
-                        <div class="vcard-idiom-inner">
-                            <div>
-                                <div class="idiom-top">
-                                    <div class="idiom-mark-num">
-                                        <span class="quote-mark-inline">“</span>
-                                        <span class="vcard-num">${numStr}</span>
-                                    </div>
-                                    ${connotationTag}
-                                </div>
-                                <div class="vcard-word">${word}</div>
-                                ${pos ? `<div class="vcard-pos">${pos}</div>` : ''}
-                                <div class="vcard-def">${meaning}</div>
-                                ${hindi ? `<div class="vcard-hi devanagari">${hindi}</div>` : ''}
-                                ${hook ? `<div class="vcard-hook"><span class="vcard-hook-label">Memory Hook</span>${hook}</div>` : ''}
-                            </div>
-                            ${chipsHtml}
-                        </div>
-                    </div>
-                `;
-            }
-
-            const cardClass = isOws ? 'vcard vcard-ows' : 'vcard vcard-featured';
-            return `
-                <div class="${cardClass}">
-                    <div>
-                        <div class="vcard-top">
-                            <span class="vcard-num">${numStr}</span>
-                            ${connotationTag}
-                        </div>
-                        <div class="vcard-word">${word}</div>
-                        <div class="vcard-pos">
-                            ${pos ? `${pos} · ` : ''}<span class="vcard-hi devanagari">${hindi}</span>
-                        </div>
-                        <div class="vcard-def">${meaning}</div>
-                        ${hook ? `<div class="vcard-hook"><span class="vcard-hook-label">Memory Hook</span>${hook}</div>` : ''}
-                    </div>
-                    ${chipsHtml}
-                </div>
-            `;
-        }
-
-        function getStanceTheme(toneStr) {
-            const t = (toneStr || '').toLowerCase();
-            if (['critical', 'pessimistic', 'disapproving', 'sarcastic', 'cynical', 'hostile', 'admonitory'].some(k => t.includes(k))) {
-                return { tone_a: '#f43f5e', tone_b: '#e11d48', shape: 'shape-jagged' };
-            } else if (['cautious', 'concerned', 'cautionary', 'sceptical', 'skeptical'].some(k => t.includes(k))) {
-                return { tone_a: '#f59e0b', tone_b: '#d97706', shape: 'shape-wave' };
-            } else if (['optimistic', 'appreciative', 'empathetic', 'conciliatory'].some(k => t.includes(k))) {
-                return { tone_a: '#10b981', tone_b: '#059669', shape: 'shape-circle' };
-            } else {
-                return { tone_a: '#38bdf8', tone_b: '#0ea5e9', shape: 'shape-circle' };
-            }
-        }
-
-        function renderPdfInnerPagesFromArticles(dateStr, articles, isDark) {
-            const dayDate = new Date(dateStr + 'T00:00:00');
-            const optionsLong = { month: 'long', day: 'numeric', year: 'numeric' };
-            const formattedDateLong = isNaN(dayDate.getTime()) ? dateStr : dayDate.toLocaleDateString('en-US', optionsLong);
-
-            let pageCounter = 3;
-            const processed = (articles || []).map((art, idx) => {
-                const vocabList = art.vocabulary || art.editorial_vocabulary || [];
-                const cats = categorizeVocabJs(vocabList);
-                const readerPageNum = pageCounter++;
-                const labPage1Num = pageCounter++;
-                const hasPage2 = (cats.fixed_prepositions.length > 0 || cats.phrasal_verbs.length > 0 || cats.idioms.length > 0);
-                const labPage2Num = hasPage2 ? pageCounter++ : null;
-
-                return {
-                    art,
-                    vocabList,
-                    cats,
-                    readerPageNum,
-                    labPage1Num,
-                    labPage2Num,
-                    hasPage2,
-                    isLastArticle: idx === (articles.length - 1),
-                    nextArticleReaderId: `article-p${pageCounter}`
-                };
-            });
-
-            let pagesHtml = '';
-
-            processed.forEach((p, artIdx) => {
-                const a = p.art;
-                const newspaper = escapeHtml(a.newspaper || 'The Hindu');
-                const topic = escapeHtml(a.topic || 'General Studies');
-                const title = escapeHtml(a.title || 'Editorial Analysis');
-                const subtitle = a.subtitle ? escapeHtml(a.subtitle) : '';
-                const readingTime = escapeHtml(a.reading_time || '3 min read');
-                const link = a.link || a.url || '';
-                const watermarkUrl = 'https://ez-editorials-bot.onrender.com/api/magazine/assets/watermark.png';
-
-                const bodyContent = a.passage_html || cleanAndHighlightPassageJs(a.passage || '', p.vocabList);
-
-                const sidebarVocabHtml = (p.vocabList || []).slice(0, 14).map((item, vIdx) => {
-                    const num = item.order_index || (vIdx + 1);
-                    const word = escapeHtml(item.word_or_phrase || '');
-                    const pos = item.part_of_speech ? `(${escapeHtml(item.part_of_speech)})` : '';
-                    const def = escapeHtml(item.easy_synonym || item.concise_meaning || '');
-                    const hindi = item.hindi_meaning ? escapeHtml(item.hindi_meaning) : '';
-
-                    return `
-                        <div class="rd-sb-row">
-                            <div class="rd-sb-num">${num}</div>
-                            <div class="rd-sb-details">
-                                <div class="rd-sb-word-line">
-                                    <span class="rd-sb-word">${word}</span>
-                                    ${pos ? `<span class="rd-sb-pos">${pos}</span>` : ''}
-                                </div>
-                                <div class="rd-sb-def">${def}${hindi ? ` · <span class="rd-sb-hi devanagari">${hindi}</span>` : ''}</div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                // 1. READER PAGE
-                pagesHtml += `
-                    <div class="page inner-page">
-                        <div class="inner-page-watermark" style="background-image: url('${watermarkUrl}');"></div>
-                        <div class="inner-content-wrapper">
-                            <a id="article-p${p.readerPageNum}" name="article-p${p.readerPageNum}" style="position: absolute; top: -8mm; left: 0;"></a>
-                            <div class="reader-panel">
-                                <div class="rd-top-row">
-                                    <span class="rd-tag">
-                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="14" rx="1.2" width="13" x="3.5" y="5"></rect><path d="M16.5 8.5h4V17a2 2 0 0 1-2 2h-2"></path><path d="M6.5 8.5h7M6.5 11.5h7M6.5 14.5h4"></path></svg>
-                                        </span>
-                                        <span>${newspaper} · ${topic}</span>
-                                    </span>
-                                    ${link ? `<a class="rd-source" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Original Source ↗</a>` : ''}
-                                </div>
-
-                                <h1 class="rd-title">${title}</h1>
-
-                                ${subtitle ? `
-                                <div class="rd-quote">
-                                    <span class="rd-quote-mark">“</span>
-                                    <span>${subtitle}</span>
-                                </div>` : ''}
-
-                                <div class="rd-meta">
-                                    <span class="meta-item">
-                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="15" rx="1.8" width="17" x="3.5" y="5"></rect><path d="M7 3.5v4M17 3.5v4M3.5 9h17"></path></svg>
-                                        </span>
-                                        <span>${formattedDateLong}</span>
-                                    </span>
-                                    <span class="meta-sep">·</span>
-                                    <span class="meta-item">
-                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.3"></circle><path d="M5 20c.7-3.5 3-5.4 7-5.4s6.3 1.9 7 5.4"></path></svg>
-                                        </span>
-                                        <span>Daily Editorial Reader</span>
-                                    </span>
-                                    <span class="meta-sep">·</span>
-                                    <span class="meta-item">
-                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>
-                                        </span>
-                                        <span>${readingTime}</span>
-                                    </span>
-                                </div>
-
-                                <div class="rd-layout">
-                                    <div class="rd-body">
-                                        <div>${bodyContent}</div>
-                                        <div class="rd-citation">
-                                            <span>Source: ${newspaper} · Ez Editorials Curated Daily</span>
-                                            ${link ? `<a class="rd-citation-btn" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Original Source ↗</a>` : ''}
-                                        </div>
-                                    </div>
-
-                                    <div class="rd-sidebar">
-                                        <div>
-                                            <div class="rd-sb-title">
-                                                <span class="icon-svg" style="width: 12px; height: 12px; color: currentColor;">
-                                                    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5Z"></path><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5Z"></path></svg>
-                                                </span>
-                                                <span>Vocabulary 101</span>
-                                            </div>
-                                            <div class="rd-sb-list">
-                                                ${sidebarVocabHtml}
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <div class="deep-analysis-card">
-                                                <div class="deep-analysis-icon">
-                                                    <span class="icon-svg" style="width: 14px; height: 14px; color: currentColor;">
-                                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"></path><path d="M12 3a6 6 0 0 0-3.2 11.1c.6.4 1 1 1.1 1.7l.1.7h4l.1-.7c.1-.7.5-1.3 1.1-1.7A6 6 0 0 0 12 3Z"></path></svg>
-                                                    </span>
-                                                </div>
-                                                <div class="deep-analysis-text">
-                                                    <strong>Deep Analysis</strong>
-                                                    Mnemonics &amp; applied grammar rules in Vocab Lab.
-                                                </div>
-                                            </div>
-                                            <a href="#vocab-p${p.labPage1Num}" class="open-vocab-lab-btn">
-                                                <span>Open Vocab Lab</span>
-                                                <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="footer-wrap">
-                            <div class="footer-pill">
-                                <span class="footer-brand">Today's Editorials Series · ${formattedDateLong}</span>
-                                <a href="https://t.me/ezeditorialgroup/" target="_blank" class="footer-cta">
-                                    <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path></svg>
-                                    </span>
-                                    <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
-                                </a>
-                                <span class="footer-page">Page ${String(p.readerPageNum).padStart(2, '0')}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                // 2. VOCAB LAB PAGE 1
-                let posCount = 0, negCount = 0, neuCount = 0;
-                p.vocabList.forEach(item => {
-                    const c = (item.connotation || '').toLowerCase();
-                    if (c.includes('pos')) posCount++;
-                    else if (c.includes('neg')) negCount++;
-                    else neuCount++;
-                });
-                const totalVocab = p.vocabList.length || 1;
-                const posPct = Math.round((posCount / totalVocab) * 100);
-                const negPct = Math.round((negCount / totalVocab) * 100);
-                const neuPct = Math.max(0, 100 - posPct - negPct);
-
-                const tone = a.tone || 'Analytical';
-                const toneExp = a.tone_explanation || 'Critical and constructive evaluation of policy and public interest.';
-                const persp = a.analysis_summary || 'Provides key analytical perspectives for competitive examinations.';
-                const stanceTheme = getStanceTheme(tone);
-
-                const coreVocabCards = (p.cats.core_vocab || []).map((item, i) => buildVocabCard(item, i + 1, false, false, false, false)).join('');
-                const owsCards = (p.cats.one_word_subs || []).map((item, i) => buildVocabCard(item, i + 1, true, false, false, false)).join('');
-
-                pagesHtml += `
-                    <div class="page inner-page">
-                        <div class="inner-page-watermark" style="background-image: url('${watermarkUrl}');"></div>
-                        <div class="inner-content-wrapper">
-                            <a id="vocab-p${p.labPage1Num}" name="vocab-p${p.labPage1Num}" style="position: absolute; top: -8mm; left: 0;"></a>
-
-                            <div class="vlab-page-header">
-                                <div class="vlab-page-header-left">
-                                    <div class="vlab-page-header-icon">
-                                        <span class="icon-svg" style="width: 16px; height: 16px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5.5 9.5A1.5 1.5 0 0 0 5.8 21h12.4a1.5 1.5 0 0 0 1.3-2.5L14 9V3"></path><path d="M8 15h8"></path></svg>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <div class="vlab-page-header-title">Editorial Analysis &amp; Vocabulary Lab</div>
-                                        <div class="vlab-page-header-article">Article: ${title}</div>
-                                    </div>
-                                </div>
-                                <div class="vlab-page-header-tags">
-                                    <span class="rd-tag">
-                                        <span class="icon-svg" style="width: 11px; height: 11px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect height="14" rx="1.2" width="13" x="3.5" y="5"></rect><path d="M16.5 8.5h4V17a2 2 0 0 1-2 2h-2"></path><path d="M6.5 8.5h7M6.5 11.5h7M6.5 14.5h4"></path></svg>
-                                        </span>
-                                        <span>${newspaper}</span>
-                                    </span>
-                                    <span class="topic-chip">${topic}</span>
-                                </div>
-                            </div>
-
-                            <div class="stance-row" style="--tone-a: ${stanceTheme.tone_a}; --tone-b: ${stanceTheme.tone_b};">
-                                <div class="stance-card ${stanceTheme.shape}">
-                                    <div class="stance-blob-a"></div>
-                                    <div class="stance-blob-b"></div>
-                                    <div class="stance-watermark">
-                                        <span class="icon-svg" style="width: 74px; height: 74px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M20 20l-4.8-4.8"></path></svg>
-                                        </span>
-                                    </div>
-                                    <div class="stance-content">
-                                        <div class="stance-label">Editorial Stance</div>
-                                        <div class="stance-value">${escapeHtml(tone)}</div>
-                                        ${toneExp ? `<div class="stance-sub">“${escapeHtml(toneExp)}”</div>` : ''}
-                                    </div>
-                                </div>
-
-                                <div class="persp-card">
-                                    <div class="persp-blob-a"></div>
-                                    <div class="persp-quote-watermark">
-                                        <span class="icon-svg" style="width: 48px; height: 48px; color: currentColor;">
-                                            <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M4 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H8v4H4V8Z"></path><path d="M13 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H17v4h-4V8Z"></path></svg>
-                                        </span>
-                                    </div>
-                                    <div class="persp-icon-badge">
-                                        <span class="icon-svg" style="width: 14px; height: 14px; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-2 6-4 2 2-6 4-2Z"></path></svg>
-                                        </span>
-                                    </div>
-                                    <div class="persp-label">Editorial Perspective</div>
-                                    <div class="persp-text">${escapeHtml(persp)}</div>
-                                </div>
-
-                                <div class="tone-bar-card">
-                                    <div class="tone-bar-label">Word Tone Mix</div>
-                                    <div class="tone-bar-track">
-                                        ${posPct > 0 ? `<div class="tone-seg-pos" style="width: ${posPct}%;"></div>` : ''}
-                                        ${neuPct > 0 ? `<div class="tone-seg-neu" style="width: ${neuPct}%;"></div>` : ''}
-                                        ${negPct > 0 ? `<div class="tone-seg-neg" style="width: ${negPct}%;"></div>` : ''}
-                                    </div>
-                                    <div class="tone-bar-legend">
-                                        <span><span class="dot" style="background: #10b981;"></span>${posCount} Positive</span>
-                                        <span><span class="dot" style="background: #64748b;"></span>${neuCount} Neutral</span>
-                                        <span><span class="dot" style="background: #f43f5e;"></span>${negCount} Negative</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            ${coreVocabCards ? `
-                            <div class="vlab-category c1">
-                                <div class="vlab-cat-header c1">
-                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5Z"></path><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5Z"></path></svg>
-                                    </span>
-                                    <span>Vocabulary · ${p.cats.core_vocab.length} words</span>
-                                </div>
-                                <div class="vlab-grid">
-                                    ${coreVocabCards}
-                                </div>
-                            </div>` : ''}
-
-                            ${owsCards ? `
-                            <div class="vlab-category c2">
-                                <div class="vlab-cat-header c2">
-                                    <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 12.5 12.5 20 4 11.5V4h7.5L20 12.5Z"></path><circle cx="8" cy="8" fill="currentColor" r="1.4" stroke="none"></circle></svg>
-                                    </span>
-                                    <span>One-Word Substitutions · ${p.cats.one_word_subs.length} words</span>
-                                </div>
-                                <div class="vlab-grid">
-                                    ${owsCards}
-                                </div>
-                            </div>` : ''}
-                        </div>
-
-                        <div class="footer-wrap">
-                            <div class="footer-pill">
-                                <span class="footer-brand">Today's Editorials Series · ${formattedDateLong}</span>
-                                <a href="https://t.me/ezeditorialgroup/" target="_blank" class="footer-cta">
-                                    <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path></svg>
-                                    </span>
-                                    <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
-                                </a>
-                                <span class="footer-page">Page ${String(p.labPage1Num).padStart(2, '0')}</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                // 3. VOCAB LAB PAGE 2 (If article has fixed prepositions, phrasal verbs, idioms)
-                if (p.hasPage2) {
-                    const fixedCards = (p.cats.fixed_prepositions || []).map((item, i) => buildVocabCard(item, i + 1, false, true, false, false)).join('');
-                    const phrasalCards = (p.cats.phrasal_verbs || []).map((item, i) => buildVocabCard(item, i + 1, false, false, true, false)).join('');
-                    const idiomCards = (p.cats.idioms || []).map((item, i) => buildVocabCard(item, i + 1, false, false, false, true)).join('');
-
-                    const nextBanner = p.isLastArticle ? `
-                        <div class="next-editorial-banner next-ed-end-state">
-                            <span class="next-ed-end-text">🏁 You have reached the end of today's editorials</span>
-                        </div>
-                    ` : `
-                        <a href="#${p.nextArticleReaderId}" class="next-editorial-banner">
-                            <div>
-                                <div class="next-ed-label">Read Next Editorial</div>
-                                <div class="next-ed-title">${processed[artIdx + 1] ? escapeHtml(processed[artIdx + 1].art.title || '') : 'Next Editorial'}</div>
-                            </div>
-                            <div class="next-ed-arrow">
-                                <span class="icon-svg" style="width: 15px; height: 15px; color: currentColor;">
-                                    <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
-                                </span>
-                            </div>
-                        </a>
-                    `;
-
-                    pagesHtml += `
-                        <div class="page inner-page">
-                            <div class="inner-page-watermark" style="background-image: url('${watermarkUrl}');"></div>
-                            <div class="inner-content-wrapper">
-                                <div class="continued-bar">
-                                    <span class="icon-svg" style="width: 12px; height: 12px; color: currentColor;">
-                                        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 5c2-1 5-1 7 0v14c-2-1-5-1-7 0V5Z"></path><path d="M20 5c-2-1-5-1-7 0v14c2-1 5-1 7 0V5Z"></path></svg>
-                                    </span>
-                                    <span>Vocab Lab continued · <b>${title}</b> · Part 02</span>
-                                </div>
-
-                                ${fixedCards ? `
-                                <div class="vlab-category c3">
-                                    <div class="vlab-cat-header c3">
-                                        <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                            <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9.5 14.5 14.5 9.5"></path><path d="M11 6.5 13 4.5a3.5 3.5 0 0 1 5 5l-2 2"></path><path d="M13 17.5l-2 2a3.5 3.5 0 0 1-5-5l2-2"></path></svg>
-                                        </span>
-                                        <span>Fixed Prepositions · ${p.cats.fixed_prepositions.length} words</span>
-                                    </div>
-                                    <div class="vlab-grid">
-                                        ${fixedCards}
-                                    </div>
-                                </div>` : ''}
-
-                                ${phrasalCards ? `
-                                <div class="vlab-category c4">
-                                    <div class="vlab-cat-header c4">
-                                        <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                            <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"></path></svg>
-                                        </span>
-                                        <span>Phrasal Verbs · ${p.cats.phrasal_verbs.length} words</span>
-                                    </div>
-                                    <div class="vlab-grid">
-                                        ${phrasalCards}
-                                    </div>
-                                </div>` : ''}
-
-                                ${idiomCards ? `
-                                <div class="vlab-category c5">
-                                    <div class="vlab-cat-header c5">
-                                        <span class="icon-svg" style="width: 1em; height: 1em; color: currentColor;">
-                                            <svg fill="currentColor" stroke="none" viewBox="0 0 24 24"><path d="M4 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H8v4H4V8Z"></path><path d="M13 8c0-2.5 1.5-4 4-4v2.2c-1 .2-1.7 1-1.7 1.8H17v4h-4V8Z"></path></svg>
-                                        </span>
-                                        <span>Idioms &amp; Phrases · ${p.cats.idioms.length} words</span>
-                                    </div>
-                                    <div class="vlab-grid">
-                                        ${idiomCards}
-                                    </div>
-                                </div>` : ''}
-
-                                ${nextBanner}
-                            </div>
-
-                            <div class="footer-wrap">
-                                <div class="footer-pill">
-                                    <span class="footer-brand">Today's Editorials Series · ${formattedDateLong}</span>
-                                    <a href="https://t.me/ezeditorialgroup/" target="_blank" class="footer-cta">
-                                        <span class="icon-svg" style="width: 10px; height: 10px; color: currentColor;">
-                                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.15 3.35-1.35 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path></svg>
-                                        </span>
-                                        <span>SUBSCRIBE TO OUR EZ EDITORIALS CHANNEL</span>
-                                    </a>
-                                    <span class="footer-page">Page ${String(p.labPage2Num).padStart(2, '0')}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-
-            return pagesHtml;
         }
 
         // Evidence Lens & Vocab Highlight Engine

@@ -22,9 +22,11 @@
 * `--text-muted`: `#68707C` (Dark, 4.6:1 contrast) | `#7E8792` (Light, 4.8:1 contrast)
 
 ### Brand & Semantic Accents
-* `--brand-primary`: `#2563EB` (Accessible Royal Blue)
-* `--brand-hover`: `#1D4ED8`
-* `--brand-surface`: `rgba(37, 99, 235, 0.12)`
+* `--brand-primary`: `#1C64F2` (Light) | `#3B82F6` (Dark)
+* `--brand-hover`: `#1952C4` (Light) | `#60A5FA` (Dark)
+* `--cobalt-wash`: `#EFF6FF` (Light) | `#172554` (Dark, 8.15:1 AAA contrast)
+* `--cobalt-text`: `#1E40AF` (Light) | `#93C5FD` (Dark)
+* `--cobalt-border`: `#BFDBFE` (Light) | `#1E40AF` (Dark)
 * `--status-success`: `#10B981`
 * `--status-warning`: `#F59E0B`
 * `--status-danger`: `#EF4444`
