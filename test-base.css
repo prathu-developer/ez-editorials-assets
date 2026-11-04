@@ -874,3 +874,88 @@ body.dark-mode .speed-indicator-wrap,
 body.dark-mode .review-legend-grid {
     border-color: var(--border-color);
 }
+
+/* Submit Confirmation Modal (Expanded 5-State TCS iON Summary) */
+.submit-summary-sheet {
+    max-width: 520px !important;
+    width: 100% !important;
+    padding: 24px 22px !important;
+}
+
+.submit-summary-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+}
+
+.submit-stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13.5px;
+    color: var(--text-dark);
+    padding: 4px 0;
+}
+
+.submit-stat-row:not(:last-child) {
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 5px;
+}
+
+.submit-stat-row.stat-total {
+    border-top: 1.5px solid var(--border-color);
+    border-bottom: none;
+    padding-top: 8px;
+    font-size: 14px;
+}
+
+.stat-badge-col {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-val-col {
+    font-family: var(--font-mono, 'JetBrains Mono', SF Mono, monospace);
+    font-weight: 700;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+}
+
+.pal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.pal-dot.answered { background: #10b981; }
+.pal-dot.not-answered { background: var(--brand-red, #cc1f37); }
+.pal-dot.review { background: #8b5cf6; }
+.pal-dot.review-answered { background: #8b5cf6; border: 2px solid #10b981; box-sizing: border-box; }
+.pal-dot.not-visited { background: #e5e7eb; border: 1px solid #d1d5db; }
+.dark-mode .pal-dot.not-visited { background: #27272a; border-color: #3f3f46; }
+
+.submit-evaluation-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    background: var(--green-bg, #def7ec);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--green-text, #03543f);
+    line-height: 1.45;
+}
+
+.dark-mode .submit-evaluation-note {
+    background: #064e3b;
+    color: #6ee7b7;
+    border-color: rgba(16, 185, 129, 0.4);
+}

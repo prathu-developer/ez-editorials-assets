@@ -23,13 +23,40 @@
             const isLive = document.getElementById('live-test-container')?.style.display !== 'none';
             if (!isLive || isReviewMode) return;
 
-            // Suppress F5, Ctrl+R, Space, Tab, Backspace, Enter, Esc, Alt, Function keys
-            if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R')) || e.key === 'Escape') {
+            // Allow Escape to dismiss active modal overlays
+            if (e.key === 'Escape') {
+                const openModals = ['palette-modal', 'settings-modal', 'submit-modal', 'review-palette-modal'];
+                let closedAny = false;
+                for (const mId of openModals) {
+                    const mEl = document.getElementById(mId);
+                    if (mEl && mEl.style.display === 'flex') {
+                        closeModal(mId);
+                        closedAny = true;
+                    }
+                }
+                if (closedAny) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            }
+
+            // Suppress F5, Ctrl+R
+            if (e.key === 'F5' || (e.ctrlKey && (e.key === 'r' || e.key === 'R'))) {
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
             }
         }, { capture: true, passive: false });
+
+        window.addEventListener('beforeunload', function (e) {
+            const isLive = document.getElementById('live-test-container')?.style.display !== 'none';
+            if (isLive && !isReviewMode) {
+                e.preventDefault();
+                e.returnValue = 'You have an active examination session in progress. Leaving will forfeit your time and unsaved answers.';
+                return e.returnValue;
+            }
+        });
 
         window.addEventListener('contextmenu', function (e) {
             if (document.getElementById('live-test-container')?.style.display !== 'none' && !isReviewMode) {
@@ -266,6 +293,20 @@
                 }
             }
             currentPassage = currentPassage.replace(/(?<!class="[^"]*)(\([A-Za-z0-9]{1,3}\))\s*(?:\[_{2,}\]|_{2,})/g, '<strong class="rc-blank">$1 [______]</strong>');
+        }
+
+        // Desktop 50/50 Split-Pane Class Toggle
+        const workspace = document.getElementById('cbt-question-workspace');
+        const scrollArea = document.querySelector('.cbt-left-pane .scroll-area');
+        const hasPassage = Boolean(currentPassage && currentPassage.trim() !== "");
+        if (workspace) {
+            if (hasPassage) {
+                workspace.classList.add('has-passage');
+                if (scrollArea) scrollArea.classList.add('has-passage-active');
+            } else {
+                workspace.classList.remove('has-passage');
+                if (scrollArea) scrollArea.classList.remove('has-passage-active');
+            }
         }
 
         if (instruction || currentPassage) {
@@ -624,14 +665,40 @@
 
     function openSubmitModal() {
         window.PlatformBridge?.haptic('warning');
-        const answeredCount = Object.keys(engine.responses).length;
-        const topicEl = document.getElementById('summary-topic');
+        const counts = engine.getSummaryCounts();
+        const total = engine.questions.length;
+
         const dispTitle = document.getElementById('display-title');
-        if (topicEl && dispTitle && dispTitle.innerText) topicEl.innerText = dispTitle.innerText;
-        const ansEl = document.getElementById('summary-answered');
-        const totEl = document.getElementById('summary-total');
-        if (ansEl) ansEl.innerText = `${answeredCount}`;
-        if (totEl) totEl.innerText = `${engine.questions.length}`;
+        const examTitleEl = document.getElementById('summary-exam-title');
+        if (dispTitle && examTitleEl && dispTitle.innerText) {
+            examTitleEl.innerText = dispTitle.innerText;
+        }
+
+        const elAns = document.getElementById('sum-cnt-answered');
+        const elNotAns = document.getElementById('sum-cnt-not-answered');
+        const elRev = document.getElementById('sum-cnt-review');
+        const elRevAns = document.getElementById('sum-cnt-review-answered');
+        const elNotVis = document.getElementById('sum-cnt-not-visited');
+        const elTotal = document.getElementById('sum-cnt-total');
+
+        if (elAns) elAns.innerText = counts.answered;
+        if (elNotAns) elNotAns.innerText = counts.notAnswered;
+        if (elRev) elRev.innerText = counts.review;
+        if (elRevAns) elRevAns.innerText = counts.reviewAndAnswered;
+        if (elNotVis) elNotVis.innerText = counts.notVisited;
+        if (elTotal) elTotal.innerText = total;
+
+        // Unattempted Question Alert
+        const unattempted = counts.notAnswered + counts.notVisited;
+        const warnBox = document.getElementById('submit-unattempted-warning');
+        const warnText = document.getElementById('submit-unattempted-text');
+        if (warnBox && unattempted > 0) {
+            warnBox.style.display = 'flex';
+            if (warnText) warnText.innerText = `You have ${unattempted} unattempted question${unattempted > 1 ? 's' : ''}. Are you sure you want to end the test?`;
+        } else if (warnBox) {
+            warnBox.style.display = 'none';
+        }
+
         const m = document.getElementById('submit-modal');
         if (m) m.style.display = 'flex';
     }
@@ -913,8 +980,9 @@
             }
             const ls = document.getElementById('loading-screen');
             if (ls) ls.style.display = 'none';
-            const tmm = document.getElementById('test-mode-modal');
-            if (tmm) tmm.style.display = 'flex';
+            // Bypass casual quiz test-mode popup directly to Instructions screen
+            const is = document.getElementById('instructions-screen');
+            if (is) is.style.display = 'flex';
         } catch (err) {
             console.error('[QuizInit] Failed to initialize quiz:', err);
             alert("Failed to initialize quiz: " + (err.message || 'Please retry.'));

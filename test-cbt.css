@@ -388,4 +388,86 @@ html.is-desktop .review-section-strip {
     html.is-desktop .solution-accordion .acc-body {
         display: block !important;
     }
+
+    /* ==========================================================================
+       DESKTOP 50/50 DUAL-PANE READING COMPREHENSION (IMPECCABLE LAYOUT)
+       ========================================================================== */
+    html.is-desktop .cbt-left-pane .scroll-area.has-passage-active {
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 18px 28px 84px 28px !important;
+        height: 100% !important;
+    }
+
+    html.is-desktop .cbt-left-pane .scroll-area.has-passage-active .q-header-strip {
+        flex-shrink: 0;
+        margin-bottom: 12px !important;
+    }
+
+    html.is-desktop #cbt-question-workspace.has-passage {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+        gap: 24px !important;
+        flex: 1 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        overflow: hidden !important;
+    }
+
+    html.is-desktop #cbt-question-workspace.has-passage .passage-block {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        overflow-y: auto !important;
+        background: var(--bg-main) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
+        padding: 20px 22px !important;
+        box-sizing: border-box !important;
+    }
+
+    html.is-desktop #cbt-question-workspace.has-passage .inst-text {
+        flex-shrink: 0;
+        margin-bottom: 10px !important;
+        font-weight: 700 !important;
+        color: var(--text-muted) !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+    }
+
+    html.is-desktop #cbt-question-workspace.has-passage .passage-text {
+        font-family: var(--font-serif, 'Lora', Georgia, serif) !important;
+        font-size: 15px !important;
+        line-height: 1.82 !important;
+        color: var(--text-dark) !important;
+        max-height: none !important;
+        display: block !important;
+        -webkit-line-clamp: unset !important;
+        text-align: justify !important;
+        text-justify: inter-word !important;
+        hyphens: auto !important;
+        text-wrap: pretty !important;
+        padding-right: 6px !important;
+    }
+
+    html.is-desktop #cbt-question-workspace.has-passage #view-more-btn {
+        display: none !important;
+    }
+
+    html.is-desktop #cbt-question-workspace.has-passage #question-main-pane {
+        height: 100% !important;
+        max-height: 100% !important;
+        overflow-y: auto !important;
+        padding: 0 10px 40px 4px !important;
+        box-sizing: border-box !important;
+    }
+
+    .dark-mode html.is-desktop #cbt-question-workspace.has-passage .passage-block {
+        background: #18181b !important;
+        border-color: var(--border-color) !important;
+    }
+
 }
