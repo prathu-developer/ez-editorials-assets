@@ -4617,15 +4617,17 @@
             }
 
             .desk-avatar-btn {
-                width: 36px;
-                height: 36px;
+                width: 40px;
+                height: 40px;
+                padding: 6px;
+                box-sizing: border-box;
                 border-radius: 50%;
                 background: #eff6ff;
                 border: 1.5px solid #3b82f6;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 18px;
+                font-size: 16px;
                 cursor: pointer;
             }
 
@@ -5022,14 +5024,16 @@
         <main class="center-workspace-pane">
             <div id="view-home" class="view-container active">
         <div class="top-header">
-            <!-- Left icon (Coming Soon) -->
-            <svg class="icon-btn" onclick="alert('Menu features coming soon!')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <!-- Left icon (Hooked to Settings Modal) -->
+            <button class="hamburger-btn" onclick="openSubModal('settingsModalOverlay')" aria-label="Open Settings" style="background:none; border:none; padding:0; min-width:44px; min-height:44px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; color:inherit;">
+                <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
             
             <!-- Right Bell icon (Hooked to Notification Modal) -->
-            <div style="position: relative;" onclick="openSubModal('notificationModalOverlay')">
+            <button style="background:none; border:none; padding:0; position:relative; min-width:44px; min-height:44px; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; color:inherit;" onclick="openSubModal('notificationModalOverlay')" aria-label="Notifications">
                 <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                <div id="header-bell-badge" style="display:none; position:absolute; top:-2px; right:2px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
-            </div>
+                <div id="header-bell-badge" style="display:none; position:absolute; top:6px; right:6px; width:8px; height:8px; background:#e73b50; border-radius:50%;"></div>
+            </button>
         </div>
 
         <!-- Greeting & Streak Section -->
@@ -5297,7 +5301,7 @@
         <div class="recent-attempts-section">
             <!-- Header + Filter Dropdown -->
             <div class="recent-attempts-header">
-                <h3 class="recent-attempts-title">Recent Attempts</h3>
+                <h2 class="recent-attempts-title">Recent Attempts</h2>
                 
                 <div class="filter-dropdown-wrap">
                     <select class="filter-pill-select" id="progress-topic-filter" onchange="filterProgressHistory(this.value)">
@@ -5481,7 +5485,7 @@
                     </div>
 
                     <!-- 7. Bookmarks -->
-                    <div class="p-card-item" onclick="alert('Bookmarks feature coming soon!')">
+                    <div class="p-card-item" onclick="showToast('Bookmarks feature coming soon!')">
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-yellow">🔖</div>
                             <div class="p-item-text">
@@ -5546,7 +5550,7 @@
         <div style="background: var(--bg-body); width: 100%; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
             
             <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light);">
-                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'targetModalOverlay', true)">×</span>
+                <span role="button" tabindex="0" aria-label="Close Target Details" style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -10px; margin-right: -10px; min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center;" onclick="closeSubModal(null, 'targetModalOverlay', true)" onkeydown="if(event.key==='Enter'||event.key===' ')closeSubModal(null, 'targetModalOverlay', true)">×</span>
                 <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">🎯 Target Details</h3>
             </div>
             
@@ -5791,7 +5795,7 @@
     <div id="view-magazine" class="view-container">
         <!-- Top Header Bar -->
         <div class="top-header">
-            <button class="back-btn" onclick="switchView('view-home')" style="background:none; border:none; font-size:24px; color:var(--text-main); cursor:pointer; padding:0 8px;">‹</button>
+            <button class="back-btn" onclick="switchView('view-digest')" aria-label="Back to Digest" style="background:none; border:none; font-size:24px; color:var(--text-main); cursor:pointer; min-width:44px; min-height:44px; display:inline-flex; align-items:center; justify-content:center; padding:0;">‹</button>
             <span class="font-bold">Weekly Editorial Magazine</span>
             <span class="magazine-badge" id="mag-week-badge">Week --</span>
         </div>
@@ -5879,7 +5883,7 @@
     <div id="calendarModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'calendarModalOverlay')">
         <div style="background: var(--bg-body); width: 100%; max-height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
             <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light);">
-                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'calendarModalOverlay', true)">×</span>
+                <span role="button" tabindex="0" aria-label="Close Calendar Jump" style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -10px; margin-right: -10px; min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center;" onclick="closeSubModal(null, 'calendarModalOverlay', true)" onkeydown="if(event.key==='Enter'||event.key===' ')closeSubModal(null, 'calendarModalOverlay', true)">×</span>
                 <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">📅 Jump to Day</h3>
             </div>
             <div id="calendar-grid" style="padding: 20px 20px 40px 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
@@ -5892,7 +5896,7 @@
     <div id="notificationModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'notificationModalOverlay')">
         <div style="background: var(--bg-body); width: 100%; max-height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
             <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light);">
-                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'notificationModalOverlay', true)">×</span>
+                <span role="button" tabindex="0" aria-label="Close Notifications" style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -10px; margin-right: -10px; min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center;" onclick="closeSubModal(null, 'notificationModalOverlay', true)" onkeydown="if(event.key==='Enter'||event.key===' ')closeSubModal(null, 'notificationModalOverlay', true)">×</span>
                 <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">🔔 Notifications</h3>
             </div>
             <div id="notifications-list" style="flex: 1; overflow-y: auto; padding: 20px; display:flex; flex-direction:column; gap:12px;">
@@ -5911,7 +5915,7 @@
     <div id="examsModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'examsModalOverlay')">
         <div style="background: var(--bg-body); width: 100%; max-height: 85vh; min-height: 50vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column; overflow-y: auto;" onclick="event.stopPropagation()">
             <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; background: var(--bg-body); z-index: 10;">
-                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'examsModalOverlay', true)">×</span>
+                <span role="button" tabindex="0" aria-label="Close Upcoming Exams" style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -10px; margin-right: -10px; min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center;" onclick="closeSubModal(null, 'examsModalOverlay', true)" onkeydown="if(event.key==='Enter'||event.key===' ')closeSubModal(null, 'examsModalOverlay', true)">×</span>
                 <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">📅 Upcoming Exams</h3>
             </div>
             <div id="profile-exams-container" style="padding: 20px;"><p style="text-align:center; color:var(--text-muted); font-size: 13px;">Loading exams...</p></div>
@@ -5922,7 +5926,7 @@
     <div id="settingsModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 600; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'settingsModalOverlay')">
         <div style="background: var(--bg-body); width: 100%; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
             <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light);">
-                <span style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -4px;" onclick="closeSubModal(null, 'settingsModalOverlay', true)">×</span>
+                <span role="button" tabindex="0" aria-label="Close Settings" style="font-size: 24px; cursor: pointer; color: var(--text-muted); float: right; margin-top: -10px; margin-right: -10px; min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center;" onclick="closeSubModal(null, 'settingsModalOverlay', true)" onkeydown="if(event.key==='Enter'||event.key===' ')closeSubModal(null, 'settingsModalOverlay', true)">×</span>
                 <h3 style="margin: 0; font-size: 16px; color: var(--text-main);">⚙️ Settings</h3>
             </div>
             <div style="padding: 20px 24px 32px 24px;">
@@ -6013,7 +6017,15 @@
 
         // 1. Initialize User & Platform App from auth.js
         const tgApp = (typeof getTelegramApp === 'function' ? getTelegramApp() : null) || window.Telegram?.WebApp || null;
-        if (tgApp?.expand) tgApp.expand();
+        if (tgApp) {
+            try {
+                if (typeof tgApp.expand === 'function') tgApp.expand();
+                if (typeof tgApp.disableVerticalSwipes === 'function') tgApp.disableVerticalSwipes();
+                if (typeof tgApp.enableClosingConfirmation === 'function') tgApp.enableClosingConfirmation();
+            } catch (e) {
+                console.warn('TMA viewport protection warning:', e);
+            }
+        }
 
         // 🟢 Haptic Feedback & Platform Audio Engine
         function triggerHaptic(type = 'light') {
@@ -6197,12 +6209,56 @@
             `).join('');
         }
 
-        // 🟢 Bind the native back button
-        if (typeof setTelegramBackButton === 'function') {
-            setTelegramBackButton(false, () => {
-                switchView('view-home');
-            });
+        // 🟢 Toast Notification Helper (Accessible, non-blocking floating banner)
+        function showToast(message, duration = 3000) {
+            let toast = document.getElementById('app-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'app-toast';
+                toast.setAttribute('role', 'status');
+                toast.setAttribute('aria-live', 'polite');
+                toast.style.cssText = 'position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%); background: rgba(17, 24, 39, 0.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: #ffffff; padding: 10px 18px; border-radius: 9999px; font-size: 13px; font-weight: 500; z-index: 9999; box-shadow: 0 4px 14px rgba(0,0,0,0.25); pointer-events: none; opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease; max-width: 90vw; text-align: center;';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            if (window._toastTimeout) clearTimeout(window._toastTimeout);
+            window._toastTimeout = setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(6px)';
+            }, duration);
         }
+
+        // 🟢 Navigation State Tracker & Telegram Back Button Router
+        let currentViewId = 'view-home';
+        let previousViewId = 'view-home';
+
+        function updateTelegramBackButton(activeViewId) {
+            if (typeof setTelegramBackButton !== 'function') return;
+            // 1. If any sub-modal overlay is active, native back button closes the modal
+            const openModals = ['targetModalOverlay', 'calendarModalOverlay', 'notificationModalOverlay', 'examsModalOverlay', 'settingsModalOverlay'];
+            for (const mId of openModals) {
+                const el = document.getElementById(mId);
+                if (el && el.style.display !== 'none') {
+                    setTelegramBackButton(true, () => closeSubModal(null, mId, true));
+                    return;
+                }
+            }
+
+            // 2. View routing: home hides back button; magazine returns to digest; others return to home
+            const vId = activeViewId || currentViewId || 'view-home';
+            if (vId === 'view-home') {
+                setTelegramBackButton(false);
+            } else if (vId === 'view-magazine') {
+                setTelegramBackButton(true, () => switchView('view-digest'));
+            } else {
+                setTelegramBackButton(true, () => switchView('view-home'));
+            }
+        }
+
+        // Initialize native back button state on launch
+        updateTelegramBackButton('view-home');
         // Read profile from Android saved login OR Telegram Mini App wrapper
         const savedProfile = (typeof getSavedUser === 'function') ? getSavedUser() : null;
         const tgUser = tgApp?.initDataUnsafe?.user;
@@ -6573,7 +6629,7 @@
                 
                 // Clickable Day Column (Switches View to that Day)
                 daysRow.innerHTML += `
-                    <div class="day-item-col" onclick="${isLocked ? `alert('Day ${dayNum} is locked until it arrives!')` : `filterByDay(${i}); switchView('view-day');`}">
+                    <div class="day-item-col" onclick="${isLocked ? `showToast('Day ${dayNum} is locked until it arrives!')` : `filterByDay(${i}); switchView('view-day');`}">
                         <div class="day-circle ${cls.trim()}">${dayNum}</div>
                         <div class="day-check">${chk}</div>
                     </div>
@@ -6605,7 +6661,7 @@
                     let isActiveView = (i === window.currentViewingDayIndex);
                     let pillCls = `rail-day-pill ${isActiveView ? 'active' : ''} ${isLocked ? 'locked' : ''} ${cls.includes('done') ? 'done' : ''}`.trim();
                     railPills.innerHTML += `
-                        <button class="${pillCls}" data-day-index="${i}" ${isLocked ? `onclick="alert('Day ${dayNum} is locked until it arrives!')"` : `onclick="switchView('view-day'); filterByDay(${i});"`}>
+                        <button class="${pillCls}" data-day-index="${i}" ${isLocked ? `onclick="showToast('Day ${dayNum} is locked until it arrives!')"` : `onclick="switchView('view-day'); filterByDay(${i});"`}>
                             <span>Day ${dayNum}</span>
                             <span style="font-size: 11px; display:inline-flex; align-items:center;">${chk || (isLocked ? '🔒' : '•')}</span>
                         </button>
@@ -6619,7 +6675,7 @@
                 let isSunActive = (window.currentViewingDayIndex === 6);
                 let sunCls = `rail-day-pill ${isSunActive ? 'active' : ''} ${isSundayLocked ? 'locked' : ''}`.trim();
                 railPills.innerHTML += `
-                    <button class="${sunCls}" data-day-index="6" ${isSundayLocked ? `onclick="alert('Sunday Wrap-Up unlocks on Sunday!')"` : `onclick="switchView('view-day'); filterByDay(6);"`} style="grid-column: span 3;">
+                    <button class="${sunCls}" data-day-index="6" ${isSundayLocked ? `onclick="showToast('Sunday Wrap-Up unlocks on Sunday!')"` : `onclick="switchView('view-day'); filterByDay(6);"`} style="grid-column: span 3;">
                         <span>Sunday Wrap-Up</span>
                     </button>
                 `;
@@ -6877,7 +6933,7 @@
             let actualCurrentDayIndex = ist.getDay() === 0 ? 6 : ist.getDay() - 1; 
             
             if (dayIndex > actualCurrentDayIndex) {
-                alert("This day is locked until it arrives!");
+                showToast("This day is locked until it arrives!");
                 return;
             }
             triggerHaptic('light');
@@ -7486,27 +7542,36 @@
         // Function to open the hidden sub-menus (Archive & Exams)
         function openSubModal(modalId) {
             triggerHaptic('medium'); // Stronger vibration for popups
-            document.getElementById(modalId).style.display = 'flex';
+            const m = document.getElementById(modalId);
+            if (m) m.style.display = 'flex';
             document.body.style.overflow = 'hidden'; // Lock background scrolling
+            updateTelegramBackButton();
         }
 
         // Function to close the hidden sub-menus
         function closeSubModal(event, modalId, force=false) {
-            if (force || event.target.id === modalId) {
+            if (force || (event && event.target && event.target.id === modalId)) {
                 triggerHaptic('soft'); // Gentle vibration when closing
-                document.getElementById(modalId).style.display = 'none';
+                const m = document.getElementById(modalId);
+                if (m) m.style.display = 'none';
                 document.body.style.overflow = ''; // Unlock scrolling
+                updateTelegramBackButton();
             }
         }
 
-        // Function to close the hidden sub-menus
-        function closeSubModal(event, modalId, force=false) {
-            if (force || event.target.id === modalId) {
-                triggerHaptic('soft'); // Gentle vibration when closing
-                document.getElementById(modalId).style.display = 'none';
-                document.body.style.overflow = ''; // Unlock scrolling
+        // Un-trap Escape key to dismiss any active modal overlay without unexpected side effects
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const openModals = ['targetModalOverlay', 'calendarModalOverlay', 'notificationModalOverlay', 'examsModalOverlay', 'settingsModalOverlay'];
+                for (const mId of openModals) {
+                    const el = document.getElementById(mId);
+                    if (el && el.style.display !== 'none') {
+                        closeSubModal(null, mId, true);
+                        return;
+                    }
+                }
             }
-        }
+        });
 
         // 🟢 TARGET EXAM & STATE LOGIC
         function saveTargetInfo() {
@@ -7956,9 +8021,9 @@
             } catch(e) {}
 
             // 🟢 Toggle Native Telegram Back Button & Sync Layout Shell
-            if (typeof setTelegramBackButton === 'function') {
-                setTelegramBackButton(viewId !== 'view-home');
-            }
+            previousViewId = currentViewId;
+            currentViewId = viewId;
+            updateTelegramBackButton(viewId);
             if (typeof syncNavState === 'function') {
                 syncNavState(viewId);
             }
