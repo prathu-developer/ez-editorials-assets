@@ -247,10 +247,10 @@
         escaped = escaped.replace(/(^|[^\*])\*([^\*\n]+)\*([^\*]|$)/g, '$1<em>$2</em>$3');
 
         // 4. Inline code: `term`
-        escaped = escaped.replace(/`([^`\n]+)`/g, '<code style="background: rgba(90, 50, 250, 0.08); padding: 1.5px 5px; border-radius: 4px; font-family: monospace; font-size: 0.9em; color: #5a32fa;">$1</code>');
+        escaped = escaped.replace(/`([^`\n]+)`/g, '<code style="background: var(--cobalt-wash, #eff6ff); border: 1px solid var(--cobalt-border, #bfdbfe); padding: 1.5px 5px; border-radius: 4px; font-family: var(--font-mono, monospace); font-size: 0.9em; color: var(--cobalt-text, #1e40af);">$1</code>');
 
         // 5. Bullet lines: •, -, or *
-        escaped = escaped.replace(/^[•\-\*]\s+(.*)$/gim, '<div style="display: flex; align-items: baseline; gap: 8px; margin: 4px 0; line-height: 1.55;"><span style="color: #5a32fa; font-weight: bold; font-size: 14px; flex-shrink: 0; line-height: 1;">•</span><span>$1</span></div>');
+        escaped = escaped.replace(/^[•\-\*]\s+(.*)$/gim, '<div style="display: flex; align-items: baseline; gap: 8px; margin: 4px 0; line-height: 1.55;"><span style="color: var(--brand-primary, #1c64f2); font-weight: bold; font-size: 14px; flex-shrink: 0; line-height: 1;">•</span><span>$1</span></div>');
 
         // 6. Multiple newlines -> spacing div, single newline -> <br/>
         escaped = escaped.replace(/\n\n+/g, '<div style="height: 10px;"></div>');
@@ -481,7 +481,7 @@
                     } else if (engine.responses[qId] === i) {
                         optDiv.classList.add('selected');
                     }
-                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div><kbd class="kbd-hint opt-kbd-hint">${i + 1}</kbd>${badge}`;
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div><kbd class="kbd-hint opt-kbd-hint">${letters[i]}</kbd>${badge}`;
                     optDiv.onclick = () => {
                         window.PlatformBridge?.haptic('selection');
                         engine.selectOption(i);
@@ -489,7 +489,7 @@
                     };
                 } else {
                     if (engine.responses[qId] === i) optDiv.classList.add('selected');
-                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div><kbd class="kbd-hint opt-kbd-hint">${i + 1}</kbd>`;
+                    optDiv.innerHTML = `<div class="opt-letter">${letters[i]}</div><div class="opt-text">${formattedOpt}</div><kbd class="kbd-hint opt-kbd-hint">${letters[i]}</kbd>`;
                     optDiv.onclick = () => {
                         window.PlatformBridge?.haptic('selection');
                         engine.selectOption(i);
