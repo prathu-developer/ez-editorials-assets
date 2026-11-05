@@ -419,6 +419,26 @@
             passageBlock.style.display = 'none';
         }
 
+        // Auto-scroll passage pane to active highlighted target (.rc-active-target)
+        if (hasPassage) {
+            requestAnimationFrame(() => {
+                const passageBlockEl = document.getElementById('passage-block');
+                const activeEl = passageText ? passageText.querySelector('.rc-active-target') : null;
+                if (activeEl && passageBlockEl) {
+                    const isDesktop = document.documentElement.classList.contains('is-desktop') || window.innerWidth >= 1024;
+                    if (isDesktop) {
+                        const blockRect = passageBlockEl.getBoundingClientRect();
+                        const activeRect = activeEl.getBoundingClientRect();
+                        const relativeTop = activeRect.top - blockRect.top + passageBlockEl.scrollTop;
+                        const targetScrollTop = relativeTop - (blockRect.height / 2) + (activeRect.height / 2);
+                        passageBlockEl.scrollTo({ top: Math.max(0, targetScrollTop), behavior: 'smooth' });
+                    } else if (isPassageExpanded) {
+                        activeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+        }
+
         // 4. Question Text
         const qTextEl = document.getElementById('q-text');
         if (qTextEl) qTextEl.innerHTML = formatExamContent(rawQText);
