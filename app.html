@@ -22,23 +22,38 @@
     
     <style>
         :root {
-            --brand: #5a32fa;
-            --brand-light: #ece9ff;
+            --brand: #1c64f2;
+            --brand-hover: #1952c4;
+            --brand-light: #eff6ff;
+            --brand-primary: #1c64f2;
+            --cobalt-wash: #eff6ff;
+            --cobalt-text: #1e40af;
+            --cobalt-border: #bfdbfe;
+            --surface-canvas: #f5f6f8;
+            --surface-panel: #ffffff;
+            --surface-raised: #f8fafc;
             --bg-body: #ffffff;
             --bg-card: #ffffff;
             --text-main: #111827;
-            --text-muted: #6b7280;
-            --border-light: #f3f4f6;
-            --success: #10b981;
+            --text-muted: #4b5563;
+            --border-light: #e5e7eb;
+            --success: #059669;
         }
 
         /* 🟢 Dark Mode Variables */
         body.dark-mode {
-            --bg-body: #121212;
-            --bg-card: #1e1e1e;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-light: #374151;
+            --brand: #3b82f6;
+            --brand-hover: #60a5fa;
+            --brand-light: rgba(59, 130, 246, 0.15);
+            --cobalt-wash: rgba(59, 130, 246, 0.15);
+            --cobalt-text: #93c5fd;
+            --cobalt-border: #1e3a8a;
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-light: #334155;
+            --success: #059669;
         }
         body.dark-mode .card-main, body.dark-mode .bottom-nav, body.dark-mode .bottom-sheet, body.dark-mode .modal-content {
             background-color: var(--bg-card);
@@ -128,12 +143,12 @@
             font-weight: 500;
         }
         .badge-day {
-            background: #ede9fe;
-            color: #6366f1;
+            background: #eff6ff;
+            color: #1e40af;
             padding: 2px 8px;
             border-radius: 8px;
             font-weight: 700;
-            font-size: 10.5px;
+            font-size: 11px;
         }
         .streak-card {
             background: #fff7ed;
@@ -142,12 +157,12 @@
             padding: 5px 9px;
             text-align: center;
             flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(251, 146, 60, 0.08);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
         }
         .streak-val {
             font-size: 12px;
             font-weight: 800;
-            color: #ea580c;
+            color: #9a3412;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -155,7 +170,7 @@
             line-height: 1;
         }
         .streak-sub {
-            font-size: 8.5px;
+            font-size: 11px;
             color: #9a3412;
             font-weight: 800;
             background: #fed7aa;
@@ -172,9 +187,9 @@
             margin: 0 16px 14px 16px;
             padding: 14px 14px 12px 14px;
             border-radius: 20px;
-            border: 1px solid rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             background: #ffffff;
-            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.05);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
             position: relative;
             overflow: hidden;
         }
@@ -205,7 +220,7 @@
         .timer-digits-val {
             font-size: clamp(22px, 6vw, 28px);
             font-weight: 900;
-            color: #5a32fa;
+            color: #1c64f2;
             letter-spacing: 1.2px;
             line-height: 1;
             font-variant-numeric: tabular-nums;
@@ -214,7 +229,7 @@
         .timer-sub-labels {
             display: flex;
             gap: clamp(15px, 4.5vw, 24px);
-            font-size: 8.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 700;
             margin-top: 3px;
@@ -232,13 +247,13 @@
         }
         .daily-goal-fill {
             height: 100%;
-            background: #5a32fa;
+            background: #1c64f2;
             border-radius: 5px;
             width: 0%;
             transition: width 0.4s ease;
         }
         .daily-goal-text {
-            font-size: 10px;
+            font-size: 12px;
             color: var(--text-muted);
             font-weight: 600;
             margin-top: 4px;
@@ -258,7 +273,7 @@
             height: 100%;
         }
         .btn-start-hero {
-            background: #5a32fa;
+            background: #1c64f2;
             color: white;
             border: none;
             width: 100%;
@@ -271,7 +286,7 @@
             justify-content: center;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 3px 12px rgba(90, 50, 250, 0.22);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
             transition: transform 0.1s ease, opacity 0.2s ease;
         }
         .btn-start-hero:active {
@@ -308,18 +323,18 @@
             font-size: 15px;
         }
         .cup-live-pill {
-            background: #f3f0ff;
-            color: #5a32fa;
+            background: #eff6ff;
+            color: #1c64f2;
             border: none;
             padding: 5px 11px;
             border-radius: 16px;
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 700;
             cursor: pointer;
         }
         body.dark-mode .cup-live-pill {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
         }
 
         .cup-metrics-flex {
@@ -330,31 +345,31 @@
             margin-bottom: 10px;
         }
         .cup-rank-pill-box {
-            background: #f5f3ff;
-            border: 1px solid #ede9fe;
+            background: #eff6ff;
+            border: 1px solid #eff6ff;
             border-radius: 12px;
             padding: 6px 12px;
             text-align: center;
             min-width: 62px;
         }
         body.dark-mode .cup-rank-pill-box {
-            background: #1e1b4b;
+            background: #0f172a;
             border-color: #312e81;
         }
         .cup-rank-label {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
-            color: #6366f1;
+            color: #1e40af;
             margin-bottom: 2px;
         }
         body.dark-mode .cup-rank-label { color: #a5b4fc; }
         .cup-rank-number {
             font-size: clamp(15px, 4.2vw, 18px);
             font-weight: 800;
-            color: #5a32fa;
+            color: #1c64f2;
             line-height: 1.1;
         }
-        body.dark-mode .cup-rank-number { color: #c084fc; }
+        body.dark-mode .cup-rank-number { color: #93c5fd; }
 
         .cup-metric-divider {
             width: 1px;
@@ -366,7 +381,7 @@
             padding: 0 4px;
         }
         .cup-score-label {
-            font-size: 10px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
             margin-bottom: 2px;
@@ -383,11 +398,11 @@
         .cup-pct-number {
             font-size: clamp(14px, 4vw, 16px);
             font-weight: 800;
-            color: #10b981;
+            color: #059669;
             line-height: 1.1;
         }
         .cup-pct-subtext {
-            font-size: 10px;
+            font-size: 12px;
             color: var(--text-muted);
             font-weight: 500;
             margin-top: 2px;
@@ -404,7 +419,7 @@
         body.dark-mode .cup-progress-track { background: #27272a; }
         .cup-progress-fill {
             height: 100%;
-            background: #5a32fa;
+            background: #1c64f2;
             border-radius: 5px;
             width: 0%;
             transition: width 0.4s ease;
@@ -419,16 +434,16 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            font-size: clamp(10px, 3vw, 11px);
+            font-size: clamp(11px, 3vw, 12px);
             font-weight: 600;
         }
         .cup-view-link {
-            color: #5a32fa;
+            color: #1c64f2;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 2px;
-            font-size: clamp(10.5px, 3vw, 11.5px);
+            font-size: clamp(11px, 3vw, 12px);
             font-weight: 700;
         }
         body.dark-mode .cup-view-link { color: #a5b4fc; }
@@ -462,16 +477,16 @@
             width: 28px;
             height: 28px;
             border-radius: 8px;
-            background: #ede9fe;
-            color: #5a32fa;
+            background: #eff6ff;
+            color: #1c64f2;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 14px;
         }
         body.dark-mode .days-icon-badge {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
         }
         .days-title {
             font-size: 14px;
@@ -479,16 +494,16 @@
             color: var(--text-main);
         }
         .days-sub-badge {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
-            color: #5a32fa;
-            background: #f3f0ff;
+            color: #1c64f2;
+            background: #eff6ff;
             padding: 3px 8px;
             border-radius: 11px;
         }
         body.dark-mode .days-sub-badge {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
         }
 
         .days-row {
@@ -524,10 +539,10 @@
             border-color: #27272a;
         }
         .day-circle.active {
-            background: #5a32fa;
+            background: #1c64f2;
             color: #ffffff;
-            border-color: #5a32fa;
-            box-shadow: 0 3px 9px rgba(90, 50, 250, 0.3);
+            border-color: #1c64f2;
+            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.12);
         }
         .day-circle.done {
             background: #f0fdf4;
@@ -545,7 +560,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 10px;
+            font-size: 11px;
         }
 
         /* 5. 4-Metric Daily Activity Strip */
@@ -597,13 +612,13 @@
             margin-bottom: 3px;
             flex-shrink: 0;
         }
-        .stat-icon-purple { background: #f3e8ff; color: #7c3aed; }
-        .stat-icon-green  { background: #def7ec; color: #0e9f6e; }
+        .stat-icon-purple { background: #eff6ff; color: #1e40af; }
+        .stat-icon-green  { background: #d1fae5; color: #03543f; }
         .stat-icon-orange { background: #ffedd5; color: #ea580c; }
         .stat-icon-blue   { background: #e1effe; color: #1c64f2; }
 
         .stat-label-title {
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-muted);
             white-space: nowrap;
@@ -621,7 +636,7 @@
             white-space: nowrap;
         }
         .stat-sub-caption {
-            font-size: 8.5px;
+            font-size: 12px;
             color: var(--text-muted);
             font-weight: 500;
             line-height: 1;
@@ -645,13 +660,13 @@
         .journey-view-all {
             font-size: 12px;
             font-weight: 700;
-            color: #5a32fa;
+            color: #1c64f2;
             cursor: pointer;
             background: none;
             border: none;
             padding: 0;
         }
-        body.dark-mode .journey-view-all { color: #c084fc; }
+        body.dark-mode .journey-view-all { color: #93c5fd; }
 
         .journey-scroll-container {
             display: flex;
@@ -695,8 +710,8 @@
             font-size: 12.5px;
             font-weight: 700;
             color: var(--text-main);
-            line-height: 1.25;
-            height: 32px;
+            line-height: 1.4;
+            min-height: 35px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
@@ -748,20 +763,20 @@
         ========================================================= */
 
         /* 1. Purple (Vocab) */
-        .card-theme-purple { background: #faf8ff; border-color: #ede9fe; }
-        .icon-bg-purple    { background: #ede9fe; }
-        .fill-purple       { background: #7c3aed; }
-        .arrow-btn-purple  { background: #ffffff; color: #7c3aed; }
+        .card-theme-purple { background: #ffffff; border-color: #eff6ff; }
+        .icon-bg-purple    { background: #eff6ff; }
+        .fill-purple       { background: #1e40af; }
+        .arrow-btn-purple  { background: #ffffff; color: #1e40af; }
 
         body.dark-mode .card-theme-purple { background: #1b1738; border-color: #312e81; }
-        body.dark-mode .icon-bg-purple    { background: #2e1065; }
-        body.dark-mode .fill-purple       { background: #a855f7; }
-        body.dark-mode .arrow-btn-purple  { background: #ffffff; color: #1e1b4b; }
+        body.dark-mode .icon-bg-purple    { background: #1e293b; }
+        body.dark-mode .fill-purple       { background: #3b82f6; }
+        body.dark-mode .arrow-btn-purple  { background: #ffffff; color: #0f172a; }
 
         /* 2. Green (Error Detection) */
         .card-theme-green { background: #f6fcf8; border-color: #dcfce7; }
         .icon-bg-green    { background: #dcfce7; }
-        .fill-green       { background: #10b981; }
+        .fill-green       { background: #059669; }
         .arrow-btn-green  { background: #ffffff; color: #059669; }
 
         body.dark-mode .card-theme-green { background: #062818; border-color: #14532d; }
@@ -773,7 +788,7 @@
         .card-theme-orange { background: #fffaf5; border-color: #ffedd5; }
         .icon-bg-orange    { background: #ffedd5; }
         .fill-orange       { background: #f97316; }
-        .arrow-btn-orange  { background: #ffffff; color: #ea580c; }
+        .arrow-btn-orange  { background: #ffffff; color: #9a3412; }
 
         body.dark-mode .card-theme-orange { background: #2e1808; border-color: #7c2d12; }
         body.dark-mode .icon-bg-orange    { background: #431407; }
@@ -810,8 +825,8 @@
 
         body.dark-mode .card-theme-indigo { background: #171738; border-color: #3730a3; }
         body.dark-mode .icon-bg-indigo    { background: #312e81; }
-        body.dark-mode .fill-indigo       { background: #818cf8; }
-        body.dark-mode .arrow-btn-indigo  { background: #ffffff; color: #1e1b4b; }
+        body.dark-mode .fill-indigo       { background: #60a5fa; }
+        body.dark-mode .arrow-btn-indigo  { background: #ffffff; color: #0f172a; }
 
         /* 7. Amber (Para Jumbles) */
         .card-theme-amber { background: #fffbeb; border-color: #fef3c7; }
@@ -879,15 +894,15 @@
             font-size: 16px;
             flex-shrink: 0;
         }
-        .hl-purple { background: #f3e8ff; color: #7c3aed; }
-        .hl-green  { background: #def7ec; color: #0e9f6e; }
+        .hl-purple { background: #eff6ff; color: #1e40af; }
+        .hl-green  { background: #d1fae5; color: #03543f; }
 
         .highlight-text-content {
             min-width: 0;
             flex: 1;
         }
         .highlight-tag {
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-muted);
             display: flex;
@@ -909,7 +924,7 @@
             flex-shrink: 0;
         }
         .highlight-meaning {
-            font-size: clamp(10.5px, 3vw, 12px);
+            font-size: clamp(11px, 3vw, 12px);
             color: var(--text-muted);
             font-weight: 500;
             white-space: nowrap;
@@ -928,18 +943,18 @@
             margin: 0 16px 20px 16px;
             padding: 12px 14px;
             border-radius: 20px;
-            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
-            border: 1px solid rgba(99, 102, 241, 0.15);
+            background: linear-gradient(135deg, #eff6ff 0%, #eff6ff 100%);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            box-shadow: 0 3px 14px rgba(99, 102, 241, 0.05);
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.04);
             box-sizing: border-box;
         }
         body.dark-mode .motivation-banner {
-            background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
-            border-color: rgba(168, 85, 247, 0.2);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-color: rgba(0, 0, 0, 0.12);
         }
         .banner-left {
             display: flex;
@@ -961,14 +976,14 @@
             height: 100%;
         }
         .banner-quote {
-            font-size: clamp(10.5px, 3vw, 12px);
+            font-size: clamp(11px, 3vw, 12px);
             color: #4b5563;
             font-weight: 500;
             line-height: 1.3;
         }
         body.dark-mode .banner-quote { color: #cbd5e1; }
         .banner-quote strong {
-            color: #4338ca;
+            color: #1e40af;
             font-weight: 700;
             display: block;
         }
@@ -995,20 +1010,20 @@
             flex-direction: column;
         }
         .banner-pct-sub {
-            font-size: 9px;
-            color: #6b7280;
-            font-weight: 500;
-            line-height: 1;
+            font-size: 12px;
+            color: #374151;
+            font-weight: 600;
+            line-height: 1.2;
         }
         body.dark-mode .banner-pct-sub { color: #94a3b8; }
         .banner-pct-val {
             font-size: clamp(12.5px, 3.6vw, 14.5px);
             font-weight: 800;
-            color: #4338ca;
+            color: #1e40af;
             line-height: 1.2;
             white-space: nowrap;
         }
-        body.dark-mode .banner-pct-val { color: #c084fc; }
+        body.dark-mode .banner-pct-val { color: #93c5fd; }
 
         /* --- COMPACT & RESPONSIVE WEEKLY CUP STYLES --- */
         .cup-top-header {
@@ -1053,12 +1068,12 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-            color: #5a32fa;
+            color: #1c64f2;
         }
         body.dark-mode .cup-analytics-btn {
             background: var(--bg-card);
             border-color: var(--border-light);
-            color: #c084fc;
+            color: #93c5fd;
         }
 
         /* 1. Deep Violet Compact Hero Card */
@@ -1066,9 +1081,9 @@
             margin: 0 14px 14px 14px;
             padding: 14px 12px;
             border-radius: 20px;
-            background: linear-gradient(135deg, #1b0a4a 0%, #260d5b 55%, #18083e 100%);
-            border: 1px solid rgba(168, 85, 247, 0.28);
-            box-shadow: 0 8px 24px rgba(27, 10, 74, 0.3);
+            background: #111827;
+            border: 1px solid #1f2937;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
             color: #ffffff;
             box-sizing: border-box;
             position: relative;
@@ -1086,7 +1101,7 @@
             flex-direction: column;
         }
         .cup-hero-tag {
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.6px;
@@ -1094,7 +1109,7 @@
             margin-bottom: 2px;
         }
         .cup-hero-sub-label {
-            font-size: 10px;
+            font-size: 11px;
             color: #cbd5e1;
             font-weight: 500;
         }
@@ -1119,13 +1134,13 @@
             border: 1px solid rgba(192, 132, 252, 0.3);
             padding: 2px 6px;
             border-radius: 10px;
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 700;
             color: #e9d5ff;
             white-space: nowrap;
         }
         .cup-rank-vs-text {
-            font-size: 9.5px;
+            font-size: 11px;
             color: #94a3b8;
             font-weight: 500;
         }
@@ -1138,7 +1153,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 600;
             color: #f1f5f9;
             margin-bottom: 6px;
@@ -1158,7 +1173,7 @@
         }
         .cup-overtake-fill {
             height: 100%;
-            background: linear-gradient(90deg, #818cf8 0%, #c084fc 100%);
+            background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
             border-radius: 4px;
             width: 50%;
             position: relative;
@@ -1172,12 +1187,12 @@
             height: 8px;
             background: #ffffff;
             border-radius: 50%;
-            box-shadow: 0 0 6px #c084fc;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
         .cup-overtake-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 9px;
+            font-size: 12px;
             font-weight: 700;
             color: #94a3b8;
             line-height: 1;
@@ -1197,7 +1212,7 @@
             min-width: 0;
         }
         .cup-score-label {
-            font-size: 10px;
+            font-size: 11px;
             color: #cbd5e1;
             font-weight: 600;
             margin-bottom: 2px;
@@ -1213,10 +1228,10 @@
         .cup-hero-pct-pill {
             background: rgba(139, 92, 246, 0.28);
             border: 1px solid rgba(192, 132, 252, 0.35);
-            color: #ede9fe;
+            color: #eff6ff;
             padding: 3px 8px;
             border-radius: 10px;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             white-space: nowrap;
         }
@@ -1286,7 +1301,7 @@
             margin-bottom: 2px;
         }
         .battle-user-name {
-            font-size: clamp(10.5px, 2.8vw, 12px);
+            font-size: clamp(11px, 2.8vw, 12px);
             font-weight: 700;
             color: var(--text-main);
             line-height: 1.2;
@@ -1296,7 +1311,7 @@
             max-width: 90px;
         }
         .battle-user-pts {
-            font-size: 10.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
             white-space: nowrap;
@@ -1314,11 +1329,11 @@
         .battle-self-box .battle-rank-num,
         .battle-self-box .battle-user-name,
         .battle-self-box .battle-user-pts {
-            color: #5a32fa;
+            color: #1c64f2;
             font-weight: 800;
         }
         body.dark-mode .battle-self-box .battle-rank-num,
-        body.dark-mode .battle-self-box .battle-user-pts { color: #c084fc; }
+        body.dark-mode .battle-self-box .battle-user-pts { color: #93c5fd; }
         body.dark-mode .battle-self-box .battle-user-name { color: #ffffff; }
 
         .battle-dashed-line {
@@ -1332,7 +1347,7 @@
             padding: 0 4px;
         }
         .indicator-left { color: #ef4444; }
-        .indicator-right { color: #10b981; }
+        .indicator-right { color: #059669; }
 
         /* 3. Top 3 Podium Grid (Mobile Compact) */
         .cup-podium-grid {
@@ -1364,7 +1379,7 @@
             background: linear-gradient(180deg, #2d1806 0%, #1f1003 100%);
             border-color: rgba(249, 115, 22, 0.3);
         }
-        .podium-rank-3 { background: #faf8ff; border: 1px solid #ede9fe; }
+        .podium-rank-3 { background: #ffffff; border: 1px solid #eff6ff; }
         body.dark-mode .podium-rank-3 { background: #19142b; border-color: #312852; }
 
         .podium-medal-badge {
@@ -1406,8 +1421,8 @@
         .podium-avatar-fallback {
             width: 100%;
             height: 100%;
-            background: #ede9fe;
-            color: #5a32fa;
+            background: #eff6ff;
+            color: #1c64f2;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1416,7 +1431,7 @@
         }
 
         .podium-name {
-            font-size: clamp(10.5px, 2.9vw, 12px);
+            font-size: clamp(11px, 2.9vw, 12px);
             font-weight: 800;
             color: var(--text-main);
             line-height: 1.2;
@@ -1435,15 +1450,15 @@
         .podium-score {
             font-size: clamp(11.5px, 3.2vw, 13.5px);
             font-weight: 900;
-            color: #5a32fa;
+            color: #1c64f2;
             line-height: 1.1;
             margin-bottom: 2px;
         }
-        body.dark-mode .podium-score { color: #c084fc; }
+        body.dark-mode .podium-score { color: #93c5fd; }
         .podium-rank-1 .podium-score { color: #ea580c; }
         body.dark-mode .podium-rank-1 .podium-score { color: #fb923c; }
         .podium-meta-strip {
-            font-size: 9.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
         }
@@ -1505,8 +1520,8 @@
         .cup-row-avatar-fallback {
             width: 100%;
             height: 100%;
-            background: #ede9fe;
-            color: #5a32fa;
+            background: #eff6ff;
+            color: #1c64f2;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1540,7 +1555,7 @@
             margin-right: -12px;
         }
         .cup-row-submeta {
-            font-size: 9.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 500;
         }
@@ -1554,18 +1569,18 @@
         .cup-row-pts {
             font-size: clamp(12px, 3.4vw, 13.5px);
             font-weight: 800;
-            color: #5a32fa;
+            color: #1c64f2;
             white-space: nowrap;
         }
-        body.dark-mode .cup-row-pts { color: #c084fc; }
+        body.dark-mode .cup-row-pts { color: #93c5fd; }
 
         .cup-row-delta {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             min-width: 18px;
             text-align: right;
         }
-        .delta-up { color: #10b981; }
+        .delta-up { color: #059669; }
         .delta-down { color: #ef4444; }
         .delta-same { color: #94a3b8; }
 
@@ -1584,9 +1599,9 @@
             border-radius: 2px;
         }
         .demotion-badge {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
-            color: #dc2626;
+            color: #b91c1c;
             background: #fef2f2;
             border: 1px solid #fecaca;
             padding: 3px 8px;
@@ -1605,27 +1620,27 @@
             bottom: calc(78px + env(safe-area-inset-bottom, 0px));
             left: 14px;
             right: 14px;
-            background: linear-gradient(135deg, #f8f6ff 0%, #ede7ff 100%);
+            background: #eff6ff;
             border: 1.5px solid #dcd3ff;
             border-radius: 18px;
             padding: 8px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 6px 20px rgba(90, 50, 250, 0.22);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
             z-index: 99;
             cursor: pointer;
             box-sizing: border-box;
         }
         body.dark-mode .cup-sticky-self-bar {
-            background: linear-gradient(135deg, #241454 0%, #170d38 100%);
+            background: #1e293b;
             border-color: #553399;
         }
         .cup-sticky-jump-btn {
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            background: #5a32fa;
+            background: #1c64f2;
             color: white;
             display: flex;
             align-items: center;
@@ -1636,7 +1651,7 @@
             flex-shrink: 0;
         }
         body.dark-mode .cup-sticky-jump-btn {
-            background: #c084fc;
+            background: #93c5fd;
             color: #170d38;
         }
 
@@ -1664,13 +1679,13 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            color: #5a32fa;
+            color: #1c64f2;
             transition: transform 0.15s ease;
         }
         body.dark-mode .progress-chart-btn {
             background: var(--bg-card);
             border-color: var(--border-light);
-            color: #c084fc;
+            color: #93c5fd;
         }
         .progress-chart-btn:active {
             transform: scale(0.92);
@@ -1681,9 +1696,9 @@
             margin: 0 16px 16px 16px;
             padding: 20px 14px 18px 14px;
             border-radius: 24px;
-            background: linear-gradient(180deg, #faf8ff 0%, #f3eeff 100%);
-            border: 1px solid rgba(99, 102, 241, 0.16);
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.05);
+            background: #eff6ff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
             box-sizing: border-box;
             display: grid;
             grid-template-columns: 1.1fr 1.2fr 1.1fr;
@@ -1691,8 +1706,8 @@
             gap: 6px;
         }
         body.dark-mode .progress-hero-card {
-            background: linear-gradient(180deg, #1e1b4b 0%, #17153a 100%);
-            border-color: rgba(168, 85, 247, 0.2);
+            background: #1e293b;
+            border-color: rgba(0, 0, 0, 0.12);
         }
 
         .prog-hero-col {
@@ -1712,19 +1727,19 @@
         .prog-col-val {
             font-size: clamp(18px, 5.2vw, 24px);
             font-weight: 900;
-            color: #5a32fa;
+            color: #1c64f2;
             line-height: 1.15;
             margin-bottom: 8px;
             white-space: nowrap;
         }
         body.dark-mode .prog-col-val {
-            color: #c084fc;
+            color: #93c5fd;
         }
         .prog-hero-pill {
             display: inline-block;
             padding: 3px 8px;
             border-radius: 8px;
-            font-size: clamp(9px, 2.6vw, 10.5px);
+            font-size: clamp(11px, 2.6vw, 12px);
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
@@ -1732,12 +1747,12 @@
             max-width: 100%;
         }
         .pill-purple-soft {
-            background: #ede9fe;
-            color: #6366f1;
+            background: #eff6ff;
+            color: #1e40af;
         }
         body.dark-mode .pill-purple-soft {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
         }
 
         /* Center Radial Ring */
@@ -1757,15 +1772,15 @@
         }
         .prog-radial-bg {
             fill: none;
-            stroke: rgba(99, 102, 241, 0.15);
+            stroke: rgba(0, 0, 0, 0.08);
             stroke-width: 7;
         }
         body.dark-mode .prog-radial-bg {
-            stroke: rgba(168, 85, 247, 0.2);
+            stroke: rgba(0, 0, 0, 0.12);
         }
         .prog-radial-fill {
             fill: none;
-            stroke: #5a32fa;
+            stroke: #1c64f2;
             stroke-width: 7;
             stroke-linecap: round;
             stroke-dasharray: 238.76;
@@ -1773,7 +1788,7 @@
             transition: stroke-dashoffset 0.8s ease;
         }
         body.dark-mode .prog-radial-fill {
-            stroke: #c084fc;
+            stroke: #93c5fd;
         }
         .prog-radial-center {
             position: absolute;
@@ -1792,7 +1807,7 @@
             line-height: 1.1;
         }
         .prog-radial-sub {
-            font-size: clamp(8px, 2.3vw, 9.5px);
+            font-size: clamp(11px, 2.3vw, 11.5px);
             color: var(--text-muted);
             font-weight: 600;
             line-height: 1.15;
@@ -1851,13 +1866,13 @@
             margin-bottom: 4px;
             flex-shrink: 0;
         }
-        .pico-purple { background: #f3e8ff; color: #7c3aed; }
-        .pico-green  { background: #def7ec; color: #0e9f6e; }
+        .pico-purple { background: #eff6ff; color: #1e40af; }
+        .pico-green  { background: #d1fae5; color: #03543f; }
         .pico-orange { background: #ffedd5; color: #ea580c; }
         .pico-blue   { background: #e0f2fe; color: #0284c7; }
 
         .prog-stat-label {
-            font-size: clamp(9px, 2.5vw, 10px);
+            font-size: clamp(11px, 2.5vw, 12px);
             font-weight: 600;
             color: var(--text-muted);
             line-height: 1.15;
@@ -1876,7 +1891,7 @@
             white-space: nowrap;
         }
         .prog-stat-sub {
-            font-size: clamp(8.5px, 2.4vw, 9.5px);
+            font-size: clamp(11px, 2.4vw, 11.5px);
             color: var(--text-muted);
             font-weight: 500;
             line-height: 1;
@@ -1906,9 +1921,9 @@
         .filter-pill-select {
             appearance: none;
             -webkit-appearance: none;
-            background: #f3f0ff;
-            color: #5a32fa;
-            border: 1px solid rgba(90, 50, 250, 0.15);
+            background: #eff6ff;
+            color: #1c64f2;
+            border: 1px solid rgba(28, 100, 242, 0.15);
             padding: 6px 28px 6px 12px;
             border-radius: 18px;
             font-size: 12px;
@@ -1918,8 +1933,8 @@
             font-family: inherit;
         }
         body.dark-mode .filter-pill-select {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
             border-color: rgba(192, 132, 252, 0.2);
         }
         .filter-dropdown-arrow {
@@ -1928,12 +1943,12 @@
             top: 50%;
             transform: translateY(-50%);
             pointer-events: none;
-            font-size: 10px;
-            color: #5a32fa;
+            font-size: 11px;
+            color: #1c64f2;
             font-weight: bold;
         }
         body.dark-mode .filter-dropdown-arrow {
-            color: #c084fc;
+            color: #93c5fd;
         }
 
         /* Attempts Card List */
@@ -1984,12 +1999,12 @@
             font-size: 18px;
             flex-shrink: 0;
         }
-        .att-ico-purple { background: #f3e8ff; color: #7c3aed; }
-        .att-ico-green  { background: #def7ec; color: #0e9f6e; }
+        .att-ico-purple { background: #eff6ff; color: #1e40af; }
+        .att-ico-green  { background: #d1fae5; color: #03543f; }
         .att-ico-orange { background: #ffedd5; color: #ea580c; }
         .att-ico-blue   { background: #e0f2fe; color: #0284c7; }
         .att-ico-pink   { background: #fce7f3; color: #db2777; }
-        .att-ico-teal   { background: #ccfbf1; color: #0d9488; }
+        .att-ico-teal   { background: #ccfbf1; color: #03543f; }
         .att-ico-indigo { background: #e0e7ff; color: #4f46e5; }
         .att-ico-rose   { background: #ffe4e6; color: #e11d48; }
 
@@ -2001,14 +2016,14 @@
             font-size: clamp(13.5px, 3.8vw, 15px);
             font-weight: 700;
             color: var(--text-main);
-            line-height: 1.25;
+            line-height: 1.4;
             margin-bottom: 3px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .attempt-date-time {
-            font-size: clamp(10.5px, 2.9vw, 12px);
+            font-size: clamp(11px, 2.9vw, 12px);
             color: var(--text-muted);
             font-weight: 500;
             display: flex;
@@ -2036,23 +2051,23 @@
             line-height: 1.2;
             white-space: nowrap;
         }
-        .score-positive { color: #5a32fa; }
+        .score-positive { color: #1c64f2; }
         .score-negative { color: #ef4444; }
-        .score-zero     { color: #5a32fa; }
+        .score-zero     { color: #1c64f2; }
         body.dark-mode .score-positive, 
-        body.dark-mode .score-zero { color: #c084fc; }
+        body.dark-mode .score-zero { color: #93c5fd; }
 
         .attempt-status-pill {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             padding: 2px 7px;
             border-radius: 8px;
             line-height: 1.2;
             white-space: nowrap;
         }
-        .pill-status-purple { background: #f3f0ff; color: #5a32fa; }
+        .pill-status-purple { background: #eff6ff; color: #1c64f2; }
         .pill-status-red    { background: #fee2e2; color: #ef4444; }
-        body.dark-mode .pill-status-purple { background: #2e1065; color: #c084fc; }
+        body.dark-mode .pill-status-purple { background: #1e293b; color: #93c5fd; }
         body.dark-mode .pill-status-red    { background: #450a0a; color: #f87171; }
 
         .attempt-arrow-btn {
@@ -2070,7 +2085,7 @@
             flex-shrink: 0;
         }
         body.dark-mode .attempt-arrow-btn {
-            background: #1e1b4b;
+            background: #0f172a;
             border-color: #312e81;
             color: #cbd5e1;
         }
@@ -2080,9 +2095,9 @@
             margin: 10px 16px 24px 16px;
             padding: 14px 16px;
             border-radius: 22px;
-            background: linear-gradient(135deg, #faf8ff 0%, #f3eeff 100%);
-            border: 1px solid rgba(99, 102, 241, 0.15);
-            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.04);
+            background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -2090,16 +2105,16 @@
             box-sizing: border-box;
         }
         body.dark-mode .progress-insight-banner {
-            background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
-            border-color: rgba(168, 85, 247, 0.2);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-color: rgba(0, 0, 0, 0.12);
         }
 
         .pib-left-icon {
             width: 38px;
             height: 38px;
             border-radius: 12px;
-            background: #ede9fe;
-            color: #5a32fa;
+            background: #eff6ff;
+            color: #1c64f2;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -2107,8 +2122,8 @@
             flex-shrink: 0;
         }
         body.dark-mode .pib-left-icon {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
         }
 
         .pib-text-center {
@@ -2116,9 +2131,9 @@
             min-width: 0;
         }
         .pib-tag-label {
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 700;
-            color: #6366f1;
+            color: #1e40af;
             text-transform: uppercase;
             letter-spacing: 0.6px;
             margin-bottom: 2px;
@@ -2134,7 +2149,7 @@
             margin-bottom: 3px;
         }
         .pib-sub-desc {
-            font-size: clamp(10px, 2.8vw, 11px);
+            font-size: clamp(11px, 2.8vw, 12px);
             color: var(--text-muted);
             font-weight: 500;
             line-height: 1.35;
@@ -2162,9 +2177,9 @@
             margin: 0 16px 14px 16px;
             padding: 12px 14px;
             border-radius: 20px;
-            background: linear-gradient(135deg, #f7f3ff 0%, #ece4ff 100%);
-            border: 1px solid rgba(90, 50, 250, 0.15);
-            box-shadow: 0 4px 16px rgba(90, 50, 250, 0.04);
+            background: #eff6ff;
+            border: 1px solid rgba(28, 100, 242, 0.15);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -2174,8 +2189,8 @@
             overflow: hidden;
         }
         body.dark-mode .digest-hero-banner {
-            background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
-            border-color: rgba(168, 85, 247, 0.2);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-color: rgba(0, 0, 0, 0.12);
         }
 
         .digest-hero-left {
@@ -2186,14 +2201,14 @@
             gap: 2px;
         }
         .digest-hero-tag {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.6px;
-            color: #5a32fa;
+            color: #1c64f2;
         }
         body.dark-mode .digest-hero-tag {
-            color: #c084fc;
+            color: #93c5fd;
         }
         .digest-hero-date {
             font-size: clamp(15px, 4.2vw, 18px);
@@ -2204,10 +2219,10 @@
             margin-bottom: 1px;
         }
         .digest-hero-motto {
-            font-size: clamp(10px, 2.8vw, 11px);
+            font-size: clamp(11px, 2.8vw, 12px);
             color: #4b5563;
             font-weight: 500;
-            line-height: 1.25;
+            line-height: 1.4;
             margin-bottom: 4px;
         }
         body.dark-mode .digest-hero-motto {
@@ -2217,18 +2232,18 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            background: #ede9fe;
-            color: #5a32fa;
+            background: #eff6ff;
+            color: #1c64f2;
             padding: 3px 8px;
             border-radius: 9px;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             width: fit-content;
-            border: 1px solid rgba(90, 50, 250, 0.12);
+            border: 1px solid rgba(28, 100, 242, 0.12);
         }
         body.dark-mode .digest-insight-pill {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
             border-color: rgba(192, 132, 252, 0.2);
         }
 
@@ -2244,7 +2259,7 @@
         .digest-hero-illustration svg {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 4px 8px rgba(90, 50, 250, 0.1));
+            filter: drop-shadow(0 4px 8px rgba(28, 100, 242, 0.1));
         }
 
         /* 2. Today's Insights Section */
@@ -2268,14 +2283,14 @@
         .digest-insights-view-all {
             font-size: 11.5px;
             font-weight: 700;
-            color: #5a32fa;
+            color: #1c64f2;
             cursor: pointer;
             background: none;
             border: none;
             padding: 0;
         }
         body.dark-mode .digest-insights-view-all {
-            color: #c084fc;
+            color: #93c5fd;
         }
 
         /* 3. Detailed Insight Cards */
@@ -2301,11 +2316,11 @@
         }
 
         .card-theme-purple {
-            background: #faf8ff;
-            border-color: #ede9fe;
+            background: #ffffff;
+            border-color: #eff6ff;
         }
         body.dark-mode .card-theme-purple {
-            background: #1e1b4b;
+            background: #0f172a;
             border-color: #312e81;
         }
         .card-theme-green {
@@ -2328,9 +2343,9 @@
             position: relative;
         }
         .box-purple {
-            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            background: #dbeafe;
         }
-        body.dark-mode .box-purple { background: #2e1065; }
+        body.dark-mode .box-purple { background: #1e293b; }
         .box-green {
             background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
         }
@@ -2348,7 +2363,7 @@
             flex-direction: column;
         }
         .card-category-tag {
-            font-size: 9px;
+            font-size: 11px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -2357,8 +2372,8 @@
             width: fit-content;
             margin-bottom: 3px;
         }
-        .tag-purple { background: #ede9fe; color: #6366f1; }
-        body.dark-mode .tag-purple { background: #2e1065; color: #c084fc; }
+        .tag-purple { background: #eff6ff; color: #1e40af; }
+        body.dark-mode .tag-purple { background: #1e293b; color: #93c5fd; }
         .tag-green { background: #dcfce7; color: #059669; }
         body.dark-mode .tag-green { background: #14532d; color: #6ee7b7; }
 
@@ -2380,31 +2395,31 @@
             height: 20px;
             border-radius: 50%;
             background: rgba(99, 102, 241, 0.1);
-            color: #5a32fa;
+            color: #1c64f2;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 11px;
             border: none;
             cursor: pointer;
             flex-shrink: 0;
         }
         body.dark-mode .card-audio-btn {
             background: rgba(192, 132, 252, 0.15);
-            color: #c084fc;
+            color: #93c5fd;
         }
 
         .card-pos-pill {
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 700;
             padding: 1px 6px;
             border-radius: 5px;
             width: fit-content;
             margin-bottom: 4px;
         }
-        .pos-purple { background: #f3e8ff; color: #7c3aed; }
+        .pos-purple { background: #eff6ff; color: #1e40af; }
         body.dark-mode .pos-purple { background: #3b0764; color: #d8b4fe; }
-        .pos-green { background: #def7ec; color: #0d9488; }
+        .pos-green { background: #d1fae5; color: #03543f; }
         body.dark-mode .pos-green { background: #042f2e; color: #5eead4; }
 
         .card-short-def {
@@ -2425,7 +2440,7 @@
         body.dark-mode .card-inner-divider { background: rgba(255, 255, 255, 0.07); }
 
         .card-extra-row {
-            font-size: clamp(10px, 2.8vw, 11.5px);
+            font-size: clamp(11px, 2.8vw, 12px);
             color: var(--text-muted);
             font-weight: 500;
             line-height: 1.3;
@@ -2434,7 +2449,7 @@
             font-weight: 700;
             color: var(--text-main);
         }
-        .purple-accent { color: #6366f1; }
+        .purple-accent { color: #1e40af; }
         body.dark-mode .purple-accent { color: #a5b4fc; }
         .green-accent { color: #059669; }
         body.dark-mode .green-accent { color: #34d399; }
@@ -2451,8 +2466,8 @@
             flex-shrink: 0;
             border: none;
         }
-        .arrow-purple { background: #ede9fe; color: #5a32fa; }
-        body.dark-mode .arrow-purple { background: #2e1065; color: #c084fc; }
+        .arrow-purple { background: #eff6ff; color: #1c64f2; }
+        body.dark-mode .arrow-purple { background: #1e293b; color: #93c5fd; }
         .arrow-green { background: #dcfce7; color: #059669; }
         body.dark-mode .arrow-green { background: #14532d; color: #34d399; }
 
@@ -2463,7 +2478,7 @@
             border-radius: 18px;
             background: linear-gradient(135deg, #fffbf5 0%, #fff7ed 100%);
             border: 1px solid rgba(249, 115, 22, 0.16);
-            box-shadow: 0 3px 14px rgba(249, 115, 22, 0.03);
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.04);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -2509,10 +2524,10 @@
             gap: 1px;
         }
         .quote-headline {
-            font-size: clamp(10.5px, 3vw, 12px);
+            font-size: clamp(11px, 3vw, 12px);
             color: #374151;
             font-weight: 500;
-            line-height: 1.25;
+            line-height: 1.4;
         }
         body.dark-mode .quote-headline { color: #e5e7eb; }
         .quote-headline strong {
@@ -2522,7 +2537,7 @@
         }
         body.dark-mode .quote-headline strong { color: #f9fafb; }
         .quote-subline {
-            font-size: clamp(9px, 2.5vw, 10.5px);
+            font-size: clamp(11px, 2.5vw, 12px);
             color: #6b7280;
             font-weight: 500;
         }
@@ -2584,14 +2599,14 @@
             margin: 0 16px 20px 16px;
             padding: 16px 14px 14px 14px;
             border-radius: 22px;
-            background: linear-gradient(180deg, #faf8ff 0%, #f3eeff 100%);
-            border: 1px solid rgba(99, 102, 241, 0.16);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.05);
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             box-sizing: border-box;
         }
         body.dark-mode .profile-hero-card {
-            background: linear-gradient(180deg, #1e1b4b 0%, #17153a 100%);
-            border-color: rgba(168, 85, 247, 0.2);
+            background: #1e293b;
+            border-color: var(--border-light);
         }
 
         /* User Info Row */
@@ -2613,7 +2628,7 @@
             border-radius: 50%;
             padding: 2px;
             box-sizing: border-box;
-            border: 2.5px solid #818cf8;
+            border: 2.5px solid #60a5fa;
             background: #ffffff;
             display: flex;
             align-items: center;
@@ -2626,17 +2641,17 @@
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            background: #6366f1;
+            background: #1e40af;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             border: 2px solid #ffffff;
-            box-shadow: 0 2px 6px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
         body.dark-mode .avatar-edit-badge {
-            border-color: #1e1b4b;
+            border-color: #0f172a;
         }
 
         .profile-user-meta {
@@ -2682,13 +2697,13 @@
 
         /* 1. State Pill (Lavender / Purple) */
         .tag-state {
-            background: #ede9fe;
-            color: #5a32fa;
-            border: 1px solid rgba(90, 50, 250, 0.15);
+            background: #eff6ff;
+            color: #1c64f2;
+            border: 1px solid rgba(28, 100, 242, 0.15);
         }
         body.dark-mode .tag-state {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
             border-color: rgba(192, 132, 252, 0.2);
         }
 
@@ -2720,13 +2735,13 @@
 
         /* 1. State Pill (Lavender / Purple) */
         .tag-state {
-            background: #ede9fe;
-            color: #5a32fa;
-            border: 1px solid rgba(90, 50, 250, 0.15);
+            background: #eff6ff;
+            color: #1c64f2;
+            border: 1px solid rgba(28, 100, 242, 0.15);
         }
         body.dark-mode .tag-state {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
             border-color: rgba(192, 132, 252, 0.2);
         }
 
@@ -2755,7 +2770,7 @@
         }
 
         .profile-motto-text {
-            font-size: clamp(10px, 2.9vw, 11px);
+            font-size: clamp(11px, 2.9vw, 12px);
             color: var(--text-muted);
             font-weight: 500;
             display: flex;
@@ -2766,14 +2781,16 @@
 
         /* --- FULLY RESPONSIVE 3-COLUMN METRICS STRIP --- */
         .profile-nested-metrics {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 10px 8px;
+            background: transparent;
+            border-top: 1px solid var(--border-light);
+            border-radius: 0;
+            padding: 12px 8px 4px 8px;
+            margin-top: 10px;
             display: grid;
             grid-template-columns: 1fr auto 1fr auto 1fr;
             align-items: center;
             gap: 4px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            box-shadow: none;
         }
         body.dark-mode .profile-nested-metrics {
             background: var(--bg-card);
@@ -2806,8 +2823,8 @@
             font-size: 13px;
             flex-shrink: 0;
         }
-        .p-icon-purple { background: #f3e8ff; color: #7c3aed; }
-        .p-icon-green  { background: #def7ec; color: #0e9f6e; }
+        .p-icon-purple { background: #eff6ff; color: #1e40af; }
+        .p-icon-green  { background: #d1fae5; color: #03543f; }
         .p-icon-blue   { background: #e0f2fe; color: #0284c7; }
 
         .p-metric-text {
@@ -2815,7 +2832,7 @@
             text-align: left;
         }
         .p-metric-label {
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--text-muted);
             line-height: 1;
@@ -2828,14 +2845,14 @@
             line-height: 1.1;
             white-space: nowrap;
         }
-        .p-val-purple { color: #5a32fa; }
+        .p-val-purple { color: #1c64f2; }
 
         /* Subpill spans full column width below icon + value */
         .p-metric-subpill {
             display: inline-block;
             padding: 2px 6px;
             border-radius: 6px;
-            font-size: clamp(8.5px, 2.4vw, 10px);
+            font-size: clamp(11px, 2.4vw, 12px);
             font-weight: 700;
             line-height: 1.2;
             white-space: nowrap;
@@ -2843,9 +2860,9 @@
             margin-top: 4px;
             box-sizing: border-box;
         }
-        .subpill-purple { background: #f3e8ff; color: #7c3aed; }
-        .subpill-green  { background: #def7ec; color: #0e9f6e; }
-        .subpill-amber  { background: #ede9fe; color: #6366f1; }
+        .subpill-purple { background: #eff6ff; color: #1e40af; }
+        .subpill-green  { background: #d1fae5; color: #03543f; }
+        .subpill-amber  { background: #fef3c7; color: #92400e; }
 
         .p-metric-divider {
             width: 1px;
@@ -2910,14 +2927,14 @@
             flex-shrink: 0;
         }
         /* Pastel Icon Colors */
-        .ico-purple { background: #f3e8ff; color: #7c3aed; }
+        .ico-purple { background: #eff6ff; color: #1e40af; }
         .ico-amber  { background: #fef3c7; color: #d97706; }
-        .ico-green  { background: #def7ec; color: #0e9f6e; }
+        .ico-green  { background: #d1fae5; color: #03543f; }
         .ico-blue   { background: #e0f2fe; color: #0284c7; }
         .ico-indigo { background: #e0e7ff; color: #4f46e5; }
         .ico-rose   { background: #ffe4e6; color: #e11d48; }
         .ico-yellow { background: #fef9c3; color: #ca8a04; }
-        .ico-teal   { background: #ccfbf1; color: #0d9488; }
+        .ico-teal   { background: #ccfbf1; color: #03543f; }
         .ico-sky    { background: #e0f2fe; color: #0369a1; }
 
         .p-item-text {
@@ -2928,14 +2945,14 @@
             font-size: clamp(13.5px, 3.8vw, 15px);
             font-weight: 700;
             color: var(--text-main);
-            line-height: 1.25;
+            line-height: 1.4;
             margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
         .p-item-sub {
-            font-size: clamp(10.5px, 2.9vw, 12px);
+            font-size: clamp(11px, 2.9vw, 12px);
             color: var(--text-muted);
             font-weight: 500;
             line-height: 1.2;
@@ -2962,18 +2979,18 @@
             margin: 0 16px 24px 16px;
             padding: 14px 16px;
             border-radius: 20px;
-            background: linear-gradient(135deg, #faf8ff 0%, #f3eeff 100%);
-            border: 1px solid rgba(99, 102, 241, 0.16);
+            background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             display: flex;
             align-items: center;
             gap: 12px;
-            box-shadow: 0 4px 18px rgba(99, 102, 241, 0.04);
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
             box-sizing: border-box;
             cursor: pointer;
         }
         body.dark-mode .profile-bottom-banner {
-            background: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
-            border-color: rgba(168, 85, 247, 0.2);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-color: rgba(0, 0, 0, 0.12);
         }
 
         .pb-badge-icon {
@@ -2993,7 +3010,7 @@
         .pb-title {
             font-size: clamp(12px, 3.4vw, 14px);
             font-weight: 800;
-            color: #5a32fa;
+            color: #1c64f2;
             line-height: 1.2;
             margin-bottom: 2px;
             white-space: nowrap;
@@ -3001,7 +3018,7 @@
             text-overflow: ellipsis;
         }
         body.dark-mode .pb-title {
-            color: #c084fc;
+            color: #93c5fd;
         }
         .pb-sub {
             font-size: 11px;
@@ -3020,7 +3037,7 @@
         }
         .pb-progress-fill {
             height: 100%;
-            background: #6366f1;
+            background: #1e40af;
             border-radius: 6px;
             width: 0%;
             transition: width 0.4s ease;
@@ -3033,17 +3050,17 @@
             flex-shrink: 0;
         }
         .pb-pill-badge {
-            background: #ede9fe;
-            color: #6366f1;
+            background: #eff6ff;
+            color: #1e40af;
             padding: 3px 8px;
             border-radius: 10px;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             white-space: nowrap;
         }
         body.dark-mode .pb-pill-badge {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
         }
 
         /* -------------------------------------
@@ -3125,7 +3142,7 @@
         
         .digest-date-banner {
             background: linear-gradient(135deg, var(--brand-light), #f0edff);
-            border: 1px solid rgba(90, 50, 250, 0.15);
+            border: 1px solid rgba(28, 100, 242, 0.15);
             border-radius: 16px;
             padding: 14px 18px;
             margin: 10px 20px 20px 20px;
@@ -3177,7 +3194,7 @@
         }
         .badge-lang { background: #e0f2fe; color: #0369a1; }
         .badge-pos { background: #fef3c7; color: #92400e; }
-        .badge-connotation { background: #f3e8ff; color: #6b21a8; }
+        .badge-connotation { background: #eff6ff; color: #1e40af; }
         .badge-audio { 
             background: #f1f5f9; 
             color: #475569; 
@@ -3278,7 +3295,7 @@
             color: var(--text-main);
         }
         body.dark-mode .meaning-hindi {
-            color: #c084fc;
+            color: #93c5fd;
         }
         body.dark-mode .trick-box {
             background: #261603;
@@ -3303,8 +3320,8 @@
             color: #d8b4fe;
         }
         body.dark-mode .card-index-badge {
-            background: #2e1065;
-            color: #c084fc;
+            background: #1e293b;
+            color: #93c5fd;
         }
         body.dark-mode .tag-synonym {
             background: #064e3b;
@@ -3375,8 +3392,8 @@
 
         /* 1. Modal Top Profile Header */
         .perf-header-card {
-            background: linear-gradient(135deg, #f7f4ff 0%, #ede7ff 100%);
-            border: 1px solid rgba(90, 50, 250, 0.14);
+            background: #eff6ff;
+            border: 1px solid rgba(28, 100, 242, 0.14);
             border-radius: 20px;
             padding: 14px 16px;
             display: flex;
@@ -3386,7 +3403,7 @@
             box-sizing: border-box;
         }
         body.dark-mode .perf-header-card {
-            background: linear-gradient(135deg, #1e1b4b 0%, #241454 100%);
+            background: #1e293b;
             border-color: rgba(168, 85, 247, 0.22);
         }
 
@@ -3418,11 +3435,11 @@
         .perf-elo-val {
             font-size: clamp(17px, 4.6vw, 20px);
             font-weight: 900;
-            color: #5a32fa;
+            color: #1c64f2;
             line-height: 1.1;
         }
         body.dark-mode .perf-elo-val {
-            color: #c084fc;
+            color: #93c5fd;
         }
         .perf-elo-title {
             font-size: 11px;
@@ -3471,13 +3488,13 @@
             justify-content: center;
             font-size: 13px;
         }
-        .p-ico-purple { background: #ede9fe; color: #5a32fa; }
-        .p-ico-green  { background: #def7ec; color: #0e9f6e; }
+        .p-ico-purple { background: #eff6ff; color: #1c64f2; }
+        .p-ico-green  { background: #d1fae5; color: #03543f; }
         .p-ico-blue   { background: #e0f2fe; color: #0284c7; }
         .p-ico-amber  { background: #fef3c7; color: #d97706; }
 
         .perf-stat-label {
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--text-muted);
             text-transform: uppercase;
@@ -3489,11 +3506,11 @@
             line-height: 1.15;
             color: var(--text-main);
         }
-        .col-purple { color: #5a32fa; }
-        .col-green  { color: #10b981; }
+        .col-purple { color: #1c64f2; }
+        .col-green  { color: #059669; }
         .col-blue   { color: #0284c7; }
         .col-amber  { color: #ea580c; }
-        body.dark-mode .col-purple { color: #c084fc; }
+        body.dark-mode .col-purple { color: #93c5fd; }
         body.dark-mode .col-blue   { color: #38bdf8; }
 
         /* 3. Reusable Dashboard Card */
@@ -3548,7 +3565,7 @@
             gap: 2px;
         }
         .cs-label {
-            font-size: 9.5px;
+            font-size: 11px;
             color: var(--text-muted);
             font-weight: 600;
         }
@@ -3584,7 +3601,7 @@
         .perf-table th {
             color: var(--text-muted);
             font-weight: 700;
-            font-size: 10.5px;
+            font-size: 11px;
             padding-bottom: 6px;
             border-bottom: 1px solid var(--border-light);
         }
@@ -3767,7 +3784,7 @@
         }
 
         html.is-desktop .nav-item {
-            font-size: 10px;
+            font-size: 11px;
             width: 52px;
             gap: 2px;
         }
@@ -4055,7 +4072,7 @@
                 background: rgba(0, 0, 0, 0.04);
             }
             .desk-logout-btn {
-                color: #dc2626;
+                color: #b91c1c;
                 border-color: #fca5a5;
                 background: #fef2f2;
             }
@@ -4235,7 +4252,7 @@
             }
 
             .nav-rail-btn.text-danger {
-                color: #dc2626 !important;
+                color: #b91c1c !important;
             }
 
             .nav-rail-btn.text-danger:hover {
@@ -4421,7 +4438,7 @@
                 border-color: #2563eb !important;
                 color: #2563eb !important;
                 font-weight: 700 !important;
-                box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2) !important;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
             }
 
             .rail-day-pill.done {
@@ -4669,8 +4686,8 @@
         }
 
         .forum-date-group.today-group .forum-date-header {
-            background: linear-gradient(135deg, rgba(90, 50, 250, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
-            border-color: rgba(90, 50, 250, 0.25);
+            background: rgba(28, 100, 242, 0.08);
+            border-color: rgba(28, 100, 242, 0.25);
         }
 
         .forum-date-title {
@@ -4683,13 +4700,13 @@
         }
 
         .forum-date-badge {
-            font-size: 10.5px;
+            font-size: 11px;
             font-weight: 800;
             letter-spacing: 0.4px;
             text-transform: uppercase;
             padding: 2.5px 7px;
             border-radius: 5px;
-            background: var(--brand, #5a32fa);
+            background: var(--brand, #1c64f2);
             color: #ffffff;
         }
 
@@ -4737,11 +4754,11 @@
 
         .forum-quiz-card:hover {
             box-shadow: 0 3px 8px rgba(0,0,0,0.04);
-            border-color: rgba(90, 50, 250, 0.3);
+            border-color: rgba(0, 0, 0, 0.12);
         }
 
         .forum-quiz-card.is-completed {
-            border-left: 3.5px solid #10b981;
+            border-left: 3.5px solid #059669;
         }
 
         .fq-left {
@@ -4764,26 +4781,26 @@
             font-size: 14px;
             font-weight: 700;
             color: var(--text-main, #111827);
-            line-height: 1.25;
+            line-height: 1.4;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .fq-category-chip {
-            font-size: 9.5px;
+            font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.3px;
             padding: 1.5px 5.5px;
             border-radius: 4px;
-            background: rgba(90, 50, 250, 0.1);
-            color: var(--brand, #5a32fa);
+            background: rgba(28, 100, 242, 0.1);
+            color: var(--brand, #1c64f2);
             white-space: nowrap;
         }
         .fq-category-chip.chip-vocab { background: #e0f2fe; color: #0284c7; }
         .fq-category-chip.chip-grammar { background: #fef3c7; color: #d97706; }
-        .fq-category-chip.chip-reading { background: #f3e8ff; color: #7c3aed; }
+        .fq-category-chip.chip-reading { background: #eff6ff; color: #1e40af; }
         .fq-category-chip.chip-cloze { background: #ecfdf5; color: #059669; }
 
         .fq-meta-inline {
@@ -4811,7 +4828,7 @@
         }
 
         .fq-expiry-line {
-            font-size: 10.5px;
+            font-size: 11px;
             color: var(--text-muted, #9ca3af);
             font-weight: 500;
             white-space: nowrap;
@@ -4841,9 +4858,9 @@
         }
 
         .forum-cta-btn.start {
-            background: var(--brand, #5a32fa);
+            background: var(--brand, #1c64f2);
             color: #ffffff;
-            box-shadow: 0 2px 6px rgba(90, 50, 250, 0.22);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
         }
 
         .forum-cta-btn.start:active {
@@ -4871,16 +4888,16 @@
 
         .forum-cta-btn.closed {
             background: #fee2e2;
-            color: #dc2626;
+            color: #b91c1c;
             cursor: not-allowed;
             font-size: 11.5px;
             padding: 5px 10px;
         }
 
         @keyframes scrollPulse {
-            0% { box-shadow: 0 0 0 0 rgba(90, 50, 250, 0.5); transform: scale(1); }
-            50% { box-shadow: 0 0 0 7px rgba(90, 50, 250, 0.2); transform: scale(1.015); border-color: #5a32fa; }
-            100% { box-shadow: 0 0 0 0 rgba(90, 50, 250, 0); transform: scale(1); }
+            0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1); transform: scale(1.01); border-color: #1c64f2; }
+            100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); transform: scale(1); }
         }
         .scroll-target-pulse {
             animation: scrollPulse 1.2s ease-in-out 2;
@@ -4891,8 +4908,8 @@
             border-color: var(--border-color, #27272a);
         }
         body.dark-mode .forum-date-group.today-group .forum-date-header {
-            background: rgba(90, 50, 250, 0.15);
-            border-color: rgba(90, 50, 250, 0.4);
+            background: rgba(28, 100, 242, 0.15);
+            border-color: rgba(28, 100, 242, 0.4);
         }
         body.dark-mode .forum-quiz-card {
             background: var(--card-bg, #18181b);
@@ -4903,7 +4920,7 @@
             color: #d4d4d8;
         }
         body.dark-mode .fq-meta-pill.fq-attempts {
-            background: rgba(37, 99, 235, 0.2);
+            background: rgba(0, 0, 0, 0.08);
             color: #93c5fd;
         }
         body.dark-mode .forum-cta-btn.locked {
@@ -4937,7 +4954,7 @@
             </p>
 
             <!-- One-Tap Button for Mobile Browser & Android APK -->
-            <button type="button" onclick="startMobileTelegramLogin()" style="width:100%; padding:14px; border:none; border-radius:12px; background:#5a32fa; color:#ffffff; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 14px rgba(90,50,250,0.25);">
+            <button type="button" onclick="startMobileTelegramLogin()" style="width:100%; padding:14px; border:none; border-radius:12px; background:#1c64f2; color:#ffffff; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
                 Login via Telegram
             </button>
@@ -5084,11 +5101,11 @@
                     <div class="hourglass-glow-bg"></div>
                     <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(8deg);">
                         <!-- Sparkles -->
-                        <path d="M20 34L22 26L30 28L22 30L20 38L18 30L10 28L18 26L20 34Z" fill="#a855f7" opacity="0.6"/>
+                        <path d="M20 34L22 26L30 28L22 30L20 38L18 30L10 28L18 26L20 34Z" fill="#3b82f6" opacity="0.6"/>
                         <path d="M104 74L105.5 68L111.5 69.5L105.5 71L104 77L102.5 71L96.5 69.5L102.5 68L104 74Z" fill="#fbbf24" opacity="0.8"/>
-                        <circle cx="106" cy="34" r="2.5" fill="#c084fc" opacity="0.7"/>
+                        <circle cx="106" cy="34" r="2.5" fill="#93c5fd" opacity="0.7"/>
                         <!-- Pedestal Glow Shadow -->
-                        <ellipse cx="60" cy="104" rx="38" ry="9" fill="rgba(90, 50, 250, 0.12)"/>
+                        <ellipse cx="60" cy="104" rx="38" ry="9" fill="rgba(28, 100, 242, 0.12)"/>
                         <!-- Bottom Gold Base -->
                         <ellipse cx="60" cy="94" rx="26" ry="7" fill="#eab308"/>
                         <path d="M34 94C34 94 37 98 60 98C83 98 86 94 86 94V91C86 91 83 95 60 95C37 95 34 91 34 91V94Z" fill="#ca8a04"/>
@@ -5110,13 +5127,13 @@
                         <path d="M44 87C43 75 51 68 53 65" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
                         <defs>
                             <linearGradient id="glassGrad" x1="38" y1="24" x2="82" y2="92" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#c084fc"/>
-                                <stop offset="0.5" stop-color="#818cf8"/>
-                                <stop offset="1" stop-color="#a855f7"/>
+                                <stop stop-color="#93c5fd"/>
+                                <stop offset="0.5" stop-color="#60a5fa"/>
+                                <stop offset="1" stop-color="#3b82f6"/>
                             </linearGradient>
                             <linearGradient id="glassStroke" x1="38" y1="24" x2="82" y2="92" gradientUnits="userSpaceOnUse">
                                 <stop stop-color="#e9d5ff"/>
-                                <stop offset="1" stop-color="#a855f7"/>
+                                <stop offset="1" stop-color="#3b82f6"/>
                             </linearGradient>
                             <linearGradient id="sandGrad" x1="41" y1="32" x2="75" y2="89" gradientUnits="userSpaceOnUse">
                                 <stop stop-color="#f59e0b"/>
@@ -5191,12 +5208,12 @@
                         <path d="M40 60L24 76L30 82L46 66" fill="#f97316"/>
                         <path d="M72 18C52 20 40 40 38 58L62 62C64 44 80 28 72 18Z" fill="url(#rocketBody)"/>
                         <circle cx="56" cy="38" r="6" fill="#38bdf8" stroke="white" stroke-width="1.5"/>
-                        <path d="M38 58L22 62L34 74L46 66" fill="#6366f1"/>
-                        <path d="M62 34L76 22L74 38L62 46" fill="#6366f1"/>
+                        <path d="M38 58L22 62L34 74L46 66" fill="#1e40af"/>
+                        <path d="M62 34L76 22L74 38L62 46" fill="#1e40af"/>
                         <path d="M78 22L82 14L86 22L94 26L86 30L82 38L78 30L70 26L78 22Z" fill="#fbbf24" opacity="0.8"/>
                         <defs>
                             <linearGradient id="rocketBody" x1="72" y1="18" x2="38" y2="58" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#818cf8"/>
+                                <stop stop-color="#60a5fa"/>
                                 <stop offset="1" stop-color="#4f46e5"/>
                             </linearGradient>
                             <linearGradient id="flameGrad" x1="16" y1="75" x2="44" y2="75" gradientUnits="userSpaceOnUse">
@@ -5219,17 +5236,17 @@
                     <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <!-- Laurel Wreath -->
                         <path d="M22 68C14 54 18 36 28 26M78 68C86 54 82 36 72 26" stroke="#a5b4fc" stroke-width="3" stroke-linecap="round"/>
-                        <circle cx="18" cy="48" r="3" fill="#818cf8"/>
-                        <circle cx="22" cy="34" r="3" fill="#818cf8"/>
-                        <circle cx="82" cy="48" r="3" fill="#818cf8"/>
-                        <circle cx="78" cy="34" r="3" fill="#818cf8"/>
+                        <circle cx="18" cy="48" r="3" fill="#60a5fa"/>
+                        <circle cx="22" cy="34" r="3" fill="#60a5fa"/>
+                        <circle cx="82" cy="48" r="3" fill="#60a5fa"/>
+                        <circle cx="78" cy="34" r="3" fill="#60a5fa"/>
                         <!-- Shield -->
                         <path d="M50 20L30 30V52C30 68 44 80 50 84C56 80 70 68 70 52V30L50 20Z" fill="url(#shieldGrad)" stroke="#c7d2fe" stroke-width="2"/>
                         <!-- Gold Star inside shield -->
                         <path d="M50 36L53.5 44H62L55 49.5L57.5 58L50 52.5L42.5 58L45 49.5L38 44H46.5L50 36Z" fill="#fbbf24"/>
                         <defs>
                             <linearGradient id="shieldGrad" x1="30" y1="20" x2="70" y2="84" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#6366f1"/>
+                                <stop stop-color="#1e40af"/>
                                 <stop offset="1" stop-color="#4338ca"/>
                             </linearGradient>
                         </defs>
@@ -5343,17 +5360,17 @@
                     <!-- Glow Gradient Area Under Curve -->
                     <path d="M10 60 Q 40 55, 60 40 T 110 15 L 110 65 L 10 65 Z" fill="url(#growthAreaGrad)" opacity="0.3"/>
                     <!-- Growth Line -->
-                    <path d="M10 60 Q 40 55, 60 40 T 105 18" stroke="#8b5cf6" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M10 60 Q 40 55, 60 40 T 105 18" stroke="#2563eb" stroke-width="3.5" stroke-linecap="round"/>
                     <!-- Arrow Head -->
-                    <path d="M98 16L110 15L108 27" stroke="#7c3aed" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M98 16L110 15L108 27" stroke="#1e40af" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
                     <!-- Data Points -->
-                    <circle cx="28" cy="56" r="3.5" fill="#ffffff" stroke="#8b5cf6" stroke-width="2.5"/>
-                    <circle cx="60" cy="40" r="3.5" fill="#ffffff" stroke="#8b5cf6" stroke-width="2.5"/>
-                    <circle cx="90" cy="24" r="3.5" fill="#ffffff" stroke="#8b5cf6" stroke-width="2.5"/>
+                    <circle cx="28" cy="56" r="3.5" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+                    <circle cx="60" cy="40" r="3.5" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+                    <circle cx="90" cy="24" r="3.5" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
                     <defs>
                         <linearGradient id="growthAreaGrad" x1="60" y1="15" x2="60" y2="65" gradientUnits="userSpaceOnUse">
                             <stop stop-color="#a78bfa"/>
-                            <stop offset="1" stop-color="#ede9fe" stop-opacity="0"/>
+                            <stop offset="1" stop-color="#eff6ff" stop-opacity="0"/>
                         </linearGradient>
                     </defs>
                 </svg>
@@ -5523,13 +5540,13 @@
                     <!-- 10. Log Out -->
                     <div class="p-card-item" onclick="logOut()" style="border-top: 1px solid var(--border-light); margin-top: 4px;">
                         <div class="p-item-left">
-                            <div class="p-item-icon-box" style="background:#fee2e2; color:#dc2626;">🚪</div>
+                            <div class="p-item-icon-box" style="background:#fee2e2; color:#b91c1c;">🚪</div>
                             <div class="p-item-text">
-                                <div class="p-item-title" style="color: #dc2626;">Log Out</div>
+                                <div class="p-item-title" style="color: #b91c1c;">Log Out</div>
                                 <div class="p-item-sub">Switch account or end current session</div>
                             </div>
                         </div>
-                        <div class="p-item-right"><span class="p-item-arrow" style="color: #dc2626;">›</span></div>
+                        <div class="p-item-right"><span class="p-item-arrow" style="color: #b91c1c;">›</span></div>
                     </div>
                 </div>
             </div>
@@ -5648,9 +5665,9 @@
             <div class="digest-hero-illustration">
                 <svg viewBox="0 0 160 130" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <!-- Background Purple Leaves -->
-                    <path d="M136 28C142 42 135 60 126 68C124 54 128 38 136 28Z" fill="#a855f7" opacity="0.7"/>
-                    <path d="M145 40C152 52 148 66 140 72C138 60 140 48 145 40Z" fill="#c084fc" opacity="0.6"/>
-                    <path d="M124 45C130 55 126 66 118 72C116 62 118 52 124 45Z" fill="#818cf8" opacity="0.6"/>
+                    <path d="M136 28C142 42 135 60 126 68C124 54 128 38 136 28Z" fill="#3b82f6" opacity="0.7"/>
+                    <path d="M145 40C152 52 148 66 140 72C138 60 140 48 145 40Z" fill="#93c5fd" opacity="0.6"/>
+                    <path d="M124 45C130 55 126 66 118 72C116 62 118 52 124 45Z" fill="#60a5fa" opacity="0.6"/>
 
                     <!-- Background Newspaper Shadow / Pages -->
                     <path d="M38 28L126 36L122 104L34 96Z" fill="#e2e8f0" transform="rotate(3 80 66)"/>
@@ -5676,14 +5693,14 @@
 
                     <!-- Coffee Cup -->
                     <ellipse cx="132" cy="100" rx="15" ry="5" fill="rgba(0,0,0,0.1)"/>
-                    <path d="M142 84C148 84 150 92 144 95" stroke="#7c3aed" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M142 84C148 84 150 92 144 95" stroke="#1e40af" stroke-width="3" stroke-linecap="round"/>
                     <path d="M122 76H142V94C142 99 138 103 132 103C126 103 122 99 122 94V76Z" fill="url(#cupGrad)"/>
                     <ellipse cx="132" cy="76" rx="10" ry="3.5" fill="#451a03"/>
                     <ellipse cx="132" cy="76" rx="8" ry="2.5" fill="#78350f"/>
 
                     <defs>
                         <linearGradient id="cupGrad" x1="122" y1="76" x2="142" y2="103" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#8b5cf6"/>
+                            <stop stop-color="#2563eb"/>
                             <stop offset="1" stop-color="#6d28d9"/>
                         </linearGradient>
                     </defs>
@@ -5736,7 +5753,7 @@
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <ellipse cx="50" cy="85" rx="28" ry="6" fill="rgba(0,0,0,0.06)"/>
                     <rect x="34" y="74" width="32" height="12" rx="4" fill="#6d28d9"/>
-                    <rect x="38" y="70" width="24" height="6" rx="2" fill="#7c3aed"/>
+                    <rect x="38" y="70" width="24" height="6" rx="2" fill="#1e40af"/>
                     <path d="M46 60H54V70H46V60Z" fill="#ca8a04"/>
                     <!-- Trophy Cup Body -->
                     <path d="M30 24H70V42C70 54 60 62 50 62C40 62 30 54 30 42V24Z" fill="url(#goldCupGrad)"/>
@@ -5781,8 +5798,8 @@
                     <circle cx="48" cy="50" r="6" fill="#e11d48"/>
                     <!-- Arrow in Bullseye -->
                     <line x1="48" y1="50" x2="84" y2="20" stroke="#4338ca" stroke-width="3" stroke-linecap="round"/>
-                    <polygon points="48,50 56,47 52,55" fill="#1e1b4b"/>
-                    <polygon points="84,20 78,20 84,26" fill="#6366f1"/>
+                    <polygon points="48,50 56,47 52,55" fill="#0f172a"/>
+                    <polygon points="84,20 78,20 84,26" fill="#1e40af"/>
                 </svg>
             </div>
         </div>
@@ -5823,7 +5840,7 @@
                     <h2 style="font-size: var(--font-lg, 18px); font-weight: 800; color: var(--text-main); margin:0;" id="mag-active-date-heading">Today's Edition</h2>
                     <span style="font-size: var(--font-xs, 11px); color: var(--text-muted);" id="mag-articles-count">Loading articles...</span>
                 </div>
-                <div id="mag-read-badge" style="display:none; align-items:center; gap:4px; font-size:var(--font-xs, 11px); font-weight:700; color:var(--color-success); background:var(--color-success-bg); padding:3px 8px; border-radius:var(--radius-full, 9999px);">
+                <div id="mag-read-badge" style="display:none; align-items:center; gap:4px; font-size:var(--font-xs, 11px); font-weight:700; color:var(--color-success-text, #03543f); background:var(--color-success-bg); padding:3px 8px; border-radius:var(--radius-full, 9999px);">
                     ✓ Read
                 </div>
             </div>
@@ -5864,7 +5881,7 @@
                 </div>
                 <div style="padding: 12px 14px; font-size: 13px;">
                     <p style="margin: 0 0 10px 0; font-size: 12.5px; color: var(--text-muted); line-height: 1.4;">Rolling 10-day active topic trials with live attempts & cutoff insights.</p>
-                    <button onclick="switchView('view-day')" style="width: 100%; padding: 9px; border-radius: 10px; background: #5a32fa; color: #fff; border: none; font-weight: 700; font-size: 13px; cursor: pointer;">
+                    <button onclick="switchView('view-day')" style="width: 100%; padding: 9px; border-radius: 10px; background: #1c64f2; color: #fff; border: none; font-weight: 700; font-size: 13px; cursor: pointer;">
                         Explore Trials 〉
                     </button>
                 </div>
@@ -5965,10 +5982,10 @@
                 <!-- 🟢 GOOGLE PLAY COMPLIANCE: Account Deletion -->
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-light);">
                     <div>
-                        <div style="font-size: 15px; font-weight: 600; color: #dc2626;">⚠️ Delete Account & Wipe Data</div>
+                        <div style="font-size: 15px; font-weight: 600; color: #b91c1c;">⚠️ Delete Account & Wipe Data</div>
                         <div style="font-size: 12px; color: var(--text-muted);">Permanently remove account & all test history</div>
                     </div>
-                    <button onclick="deleteAccount()" style="padding: 7px 14px; border-radius: 8px; border: 1px solid #dc2626; background: #dc2626; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;">Delete Account</button>
+                    <button onclick="deleteAccount()" style="padding: 7px 14px; border-radius: 8px; border: 1px solid #b91c1c; background: #b91c1c; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;">Delete Account</button>
                 </div>
             </div>
         </div>
@@ -6336,7 +6353,7 @@
             const btn = document.getElementById('btn-start-hero');
             if (btn) {
                 btn.innerText = `Explore Topic Trials 〉`;
-                btn.style.background = '#5a32fa';
+                btn.style.background = '#1c64f2';
             }
             
             updateGreeting();
@@ -6577,7 +6594,7 @@
             if (!daysRow) return;
             daysRow.innerHTML = '';
             
-            const svgCheck = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+            const svgCheck = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
             const svgLock = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
             const svgPending = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`; 
 
@@ -6815,7 +6832,7 @@
                             </div>
                             <span class="forum-date-count">0 New Trials</span>
                         </div>
-                        <div style="padding: 10px 14px; border-radius: 10px; background: rgba(90, 50, 250, 0.04); border: 1px dashed rgba(90, 50, 250, 0.22); margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+                        <div style="padding: 10px 14px; border-radius: 10px; background: rgba(0, 0, 0, 0.04); border: 1px dashed rgba(0, 0, 0, 0.12); margin-top: 6px; display: flex; align-items: center; gap: 8px;">
                             <span style="font-size: 15px; flex-shrink: 0;">✨</span>
                             <span style="font-size: 12px; color: var(--text-muted); line-height: 1.35;"><strong style="color: var(--text-main);">Sunday Wrap-Up:</strong> No new trials scheduled today. Catch up on active trials from the past 10 days below!</span>
                         </div>
@@ -7018,11 +7035,11 @@
             const onColdStartStatus = (status) => {
                 if (container && (!window.masterQuizData || !window.masterQuizData.Today)) {
                     container.innerHTML = `
-                        <div class="card-main" style="text-align: center; padding: 26px 18px; margin-top: 12px; border: 1.5px dashed var(--brand, #5a32fa);">
+                        <div class="card-main" style="text-align: center; padding: 26px 18px; margin-top: 12px; border: 1.5px dashed var(--brand, #1c64f2);">
                             <span style="font-size: 28px; display: inline-block;">⚡</span>
                             <h3 style="margin: 10px 0 6px 0; font-size: 15px; font-weight: 700;">Waking Up Server...</h3>
                             <p style="font-size: 12.5px; color: var(--text-muted); margin: 0 0 10px 0;">First request after inactivity takes ~30–45s to spin up. Retrying automatically...</p>
-                            <span style="display:inline-block; font-size: 11.5px; font-weight: 600; padding: 4px 12px; border-radius: 12px; background: var(--brand-light, #ece9ff); color: var(--brand, #5a32fa);">
+                            <span style="display:inline-block; font-size: 11.5px; font-weight: 600; padding: 4px 12px; border-radius: 12px; background: var(--brand-light, #eff6ff); color: var(--brand, #1c64f2);">
                                 ${status.message}
                             </span>
                         </div>
@@ -7106,7 +7123,7 @@
                                 <span style="font-size: 32px;">⚠️</span>
                                 <h3 style="margin: 12px 0 6px 0; font-size: 16px;">Unable to Load Quizzes</h3>
                                 <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Please check your connection or tap below to retry.</p>
-                                <button onclick="loadQuizzes()" style="padding: 9px 20px; border-radius: 10px; background: var(--brand, #5a32fa); color: #fff; border: none; font-weight: 600; font-size: 13px; cursor: pointer;">
+                                <button onclick="loadQuizzes()" style="padding: 9px 20px; border-radius: 10px; background: var(--brand, #1c64f2); color: #fff; border: none; font-weight: 600; font-size: 13px; cursor: pointer;">
                                     🔄 Tap to Retry
                                 </button>
                             </div>
@@ -7741,7 +7758,7 @@
 
             if (todayArticles.length > 0) {
                 if (badgeEl) {
-                    badgeEl.style.background = '#10b981';
+                    badgeEl.style.background = '#059669';
                     badgeEl.style.color = '#ffffff';
                     badgeEl.innerText = `Today Ready (${todayArticles.length})`;
                 }
