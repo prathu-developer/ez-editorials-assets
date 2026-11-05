@@ -183,6 +183,75 @@
         }
 
         
+        
+        /* --- DESKTOP KEYBOARD SHORTCUTS & HINTS --- */
+        .kbd-hint {
+            margin-left: auto;
+            font-size: 11px;
+            font-family: inherit;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 6px;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 18px;
+            line-height: 1;
+        }
+        body.dark-mode .kbd-hint {
+            background: #1e293b;
+            border-color: #334155;
+            color: #94a3b8;
+            box-shadow: none;
+        }
+        .shortcut-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            padding: 16px;
+        }
+        .shortcut-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-radius: 10px;
+            background: var(--bg-card, #ffffff);
+            border: 1px solid var(--border-light, #e2e8f0);
+        }
+        body.dark-mode .shortcut-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+        .shortcut-action {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .shortcut-keys {
+            display: flex;
+            gap: 4px;
+        }
+        .shortcut-key {
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1;
+        }
+        body.dark-mode .shortcut-key {
+            background: #1e3a8a;
+            border-color: #3b82f6;
+            color: #bfdbfe;
+        }
+
         /* --- EDITORIAL BRIEFING HERO CARD (Distill & Anti-Slop) --- */
         .editorial-briefing-card {
             background: #ffffff;
@@ -5278,7 +5347,7 @@
             <!-- Word of the Day Capsule -->
             <div class="editorial-wotd-capsule">
                 <span class="wotd-capsule-label">Word of the Day:</span>
-                <span class="wotd-capsule-word" id="home-wotd">Loading word...</span>
+                <span class="wotd-capsule-word" id="home-wotd">Pragmatic — dealing with things sensibly and realistically</span>
             </div>
 
             <!-- Direct 1-Tap Actions -->
@@ -5625,7 +5694,7 @@
                         <div class="p-item-left">
                             <div class="p-item-icon-box ico-yellow">🔖</div>
                             <div class="p-item-text">
-                                <div class="p-item-title">Bookmarks</div>
+                                <div class="p-item-title" style="display:flex; align-items:center; gap:8px;">Bookmarks <span style="font-size:11px; padding:1px 6px; border-radius:6px; background:#eff6ff; color:#1e40af; font-weight:700;">Coming Soon</span></div>
                                 <div class="p-item-sub">Your saved words, articles & insights</div>
                             </div>
                         </div>
@@ -6016,6 +6085,61 @@
          ========================================== -->
 
     <!-- 📅 CALENDAR JUMP MODAL -->
+        <!-- Keyboard Shortcuts Modal Overlay (Desktop & Accessibility Hardening) -->
+    <div id="keyboardShortcutsModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 650; align-items: center; justify-content: center;" onclick="closeSubModal(event, 'keyboardShortcutsModalOverlay')">
+        <div style="background: var(--bg-body, #ffffff); width: 92%; max-width: 540px; border-radius: 16px; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.2); overflow: hidden;" onclick="event.stopPropagation()">
+            <div style="padding: 16px 20px; text-align: center; border-bottom: 1px solid var(--border-light, #e2e8f0); display: flex; align-items: center; justify-content: space-between;">
+                <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--text-main);">⌨️ Keyboard Shortcuts</h3>
+                <button type="button" aria-label="Close Shortcuts" style="font-size: 24px; cursor: pointer; color: var(--text-muted); min-width: 48px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center; background: none; border: none; border-radius: 8px;" onclick="closeSubModal(null, 'keyboardShortcutsModalOverlay', true)">×</button>
+            </div>
+            <div class="shortcut-grid">
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Home Dashboard</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">1</span></div>
+                </div>
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Topic Trials Feed</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">2</span></div>
+                </div>
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Daily Digest</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">3</span></div>
+                </div>
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Weekly Magazine</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">4</span></div>
+                </div>
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Progress & History</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">5</span></div>
+                </div>
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Profile Settings</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">6</span> <span style="font-size:11px; color:var(--text-muted);">or</span> <span class="shortcut-key">P</span></div>
+                </div>
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Prev / Next Day (Magazine)</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">←</span> <span class="shortcut-key">→</span></div>
+                </div>
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Toggle Dark Mode</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">D</span></div>
+                </div>
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Close Modals / Overlays</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">Esc</span></div>
+                </div>
+                <div class="shortcut-card">
+                    <span class="shortcut-action">Keyboard Help</span>
+                    <div class="shortcut-keys"><span class="shortcut-key">?</span></div>
+                </div>
+            </div>
+            <div style="padding: 12px 20px; background: var(--bg-card, #f8fafc); border-top: 1px solid var(--border-light, #e2e8f0); text-align: center; font-size: 12px; color: var(--text-muted);">
+                Shortcuts are active when typing focus is outside form fields.
+            </div>
+        </div>
+    </div>
+
     <div id="calendarModalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 500; align-items: flex-end; justify-content: center;" onclick="closeSubModal(event, 'calendarModalOverlay')">
         <div style="background: var(--bg-body); width: 100%; max-height: 85vh; border-radius: 20px 20px 0 0; display: flex; flex-direction: column;" onclick="event.stopPropagation()">
             <div style="padding: 20px; text-align: center; border-bottom: 1px solid var(--border-light);">
