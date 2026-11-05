@@ -96,9 +96,17 @@
             const currentQ = engine.questions[engine.currentIndex];
             const numOptions = currentQ?.options?.length || 0;
 
-            // 1-5 Number Keys: Select option
-            if (e.key >= '1' && e.key <= '5') {
-                const optIdx = parseInt(e.key, 10) - 1;
+            // 1-5 Number Keys & A-E Letter Keys: Select Option (C selects Option C)
+            const optMap = {
+                '1': 0, 'A': 0,
+                '2': 1, 'B': 1,
+                '3': 2, 'C': 2,
+                '4': 3, 'D': 3,
+                '5': 4, 'E': 4
+            };
+            const keyUpper = e.key.toUpperCase();
+            if (Object.prototype.hasOwnProperty.call(optMap, keyUpper)) {
+                const optIdx = optMap[keyUpper];
                 if (optIdx < numOptions) {
                     e.preventDefault();
                     window.PlatformBridge?.haptic('selection');
@@ -108,39 +116,8 @@
                 }
             }
 
-            // Alpha Keys A, B, D, E for options (C is dedicated to Clear Response)
-            const keyUpper = e.key.toUpperCase();
-            if (keyUpper === 'A' && numOptions > 0) {
-                e.preventDefault();
-                window.PlatformBridge?.haptic('selection');
-                engine.selectOption(0);
-                loadQuestion(engine.currentIndex);
-                return;
-            }
-            if (keyUpper === 'B' && numOptions > 1) {
-                e.preventDefault();
-                window.PlatformBridge?.haptic('selection');
-                engine.selectOption(1);
-                loadQuestion(engine.currentIndex);
-                return;
-            }
-            if (keyUpper === 'D' && numOptions > 3) {
-                e.preventDefault();
-                window.PlatformBridge?.haptic('selection');
-                engine.selectOption(3);
-                loadQuestion(engine.currentIndex);
-                return;
-            }
-            if (keyUpper === 'E' && numOptions > 4) {
-                e.preventDefault();
-                window.PlatformBridge?.haptic('selection');
-                engine.selectOption(4);
-                loadQuestion(engine.currentIndex);
-                return;
-            }
-
-            // Clear Response: C, c, Backspace, Delete
-            if (e.key === 'c' || e.key === 'C' || e.key === 'Backspace' || e.key === 'Delete') {
+            // Clear Response: Backspace, Delete
+            if (e.key === 'Backspace' || e.key === 'Delete') {
                 e.preventDefault();
                 clearResponse();
                 return;

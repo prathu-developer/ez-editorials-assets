@@ -439,7 +439,7 @@ body.font-xlarge .q-text { font-size: 20px; } body.font-xlarge .opt-text { font-
 /* Modals & Sheets */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: none; align-items: flex-end; justify-content: center; }
 .bottom-sheet { background: var(--card-bg); width: 100%; border-radius: 20px 20px 0 0; padding: 24px 20px 40px 20px; box-sizing: border-box; max-height: 85vh; overflow-y: auto; }
-.sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--brand-red); padding-bottom: 8px;}
+.sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
 .sheet-header h3 { margin: 0; font-size: 16px; color: var(--text-dark); }
 .close-icon { font-size: 24px; cursor: pointer; color: var(--text-muted); }
 

@@ -195,7 +195,7 @@
                 <div class="bottom-bar" id="live-bottom-bar">
                     <div class="action-row">
                         <button class="btn-half btn-prev" id="btn-prev" onclick="prevQuestion()" disabled>◀ Previous <kbd class="kbd-hint">←</kbd></button>
-                        <button class="btn-half" onclick="clearResponse()">Clear Response <kbd class="kbd-hint">C</kbd></button>
+                        <button class="btn-half" onclick="clearResponse()">Clear Response <kbd class="kbd-hint">⌫</kbd></button>
                     </div>
                     <div class="action-row" style="margin-bottom: 0;">
                         <button class="btn-half btn-mark" onclick="markAndNext()">Mark & Next <kbd class="kbd-hint">M</kbd></button>
@@ -219,7 +219,9 @@
             <!-- CBT Right Sidebar (Desktop & Laptop) -->
             <aside class="cbt-right-sidebar" id="cbt-right-sidebar">
                 <div class="cbt-sidebar-card candidate-info-card">
-                    <div class="cbt-avatar-box">👨‍🎓</div>
+                    <div class="cbt-avatar-box" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-blue, #2563eb);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
                     <div class="cbt-user-meta">
                         <div class="cbt-user-name" id="cbt-user-name">Candidate</div>
                         <div class="cbt-user-sub" id="cbt-user-sub">Ez Editorials Student</div>
