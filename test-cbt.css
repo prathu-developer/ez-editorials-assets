@@ -331,6 +331,23 @@ html.is-desktop .review-section-strip {
         color: var(--brand-red, #cc1f37);
         animation: timerPulse 1.2s infinite;
     }
+
+    @keyframes timerPulse {
+        0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 0.82;
+            transform: scale(1.02);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html.is-desktop .cbt-timer-clock.timer-critical {
+            animation: none !important;
+        }
+    }
     .dark-mode html.is-desktop .cbt-timer-clock.timer-warning {
         color: #f59e0b;
     }

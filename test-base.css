@@ -535,7 +535,7 @@ input:checked + .slider { background-color: var(--brand-red); }
 input:checked + .slider:before { transform: translateX(18px); }
 
 /* Summary Modal Specifics */
-.summary-tab { font-size: 15px; font-weight: 600; color: var(--brand-red); border-bottom: 2px solid var(--brand-red); padding-bottom: 8px; display: inline-block; margin-bottom: 16px; }
+.summary-tab { font-size: 15px; font-weight: 600; color: var(--brand-blue, #2563eb); border-bottom: 2px solid var(--brand-blue, #2563eb); padding-bottom: 8px; display: inline-block; margin-bottom: 16px; }
 .summary-meta { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-dark); margin-bottom: 16px; align-items: center; }
 .pal-btn.review-correct { background: #31c48d; color: white; border: none; }
 .pal-btn.review-wrong { background: #f98080; color: white; border: none; }
@@ -593,8 +593,8 @@ body.dark-mode .strip-icon-btn:active {
     display: inline-block;
     font-size: 15px;
     font-weight: 700;
-    color: var(--brand-red);
-    border-bottom: 2.5px solid var(--brand-red);
+    color: var(--brand-blue, #2563eb);
+    border-bottom: 2.5px solid var(--brand-blue, #2563eb);
     padding-bottom: 6px;
     margin-bottom: 14px;
 }

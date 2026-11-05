@@ -200,7 +200,8 @@
                 const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
                 const total = this.initialDuration || 300;
-                const isWarning = (total > 600) ? (this.timeRemaining <= 300) : (this.timeRemaining <= 60);
+                const warnThreshold = (total > 600) ? 300 : Math.min(120, Math.floor(total * 0.4));
+                const isWarning = (this.timeRemaining <= warnThreshold);
                 const isCritical = (this.timeRemaining <= 60);
                 this.emit('timerTick', this.timeRemaining, formatted, isWarning, isCritical);
 
