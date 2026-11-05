@@ -325,8 +325,17 @@ html.is-desktop .review-section-strip {
     }
 
     html.is-desktop .cbt-timer-clock.timer-warning {
+        color: #b45309;
+    }
+    html.is-desktop .cbt-timer-clock.timer-critical {
         color: var(--brand-red, #cc1f37);
         animation: timerPulse 1.2s infinite;
+    }
+    .dark-mode html.is-desktop .cbt-timer-clock.timer-warning {
+        color: #f59e0b;
+    }
+    .dark-mode html.is-desktop .cbt-timer-clock.timer-critical {
+        color: #f87171;
     }
 
     html.is-desktop .cbt-legend-stats-grid {

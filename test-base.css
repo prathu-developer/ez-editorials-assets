@@ -238,7 +238,16 @@ body.font-xlarge .q-text { font-size: 20px; } body.font-xlarge .opt-text { font-
     transition: color 0.3s ease;
 }
 .timer-countdown.timer-warning {
-    color: var(--brand-red);
+    color: #b45309;
+}
+.timer-countdown.timer-critical {
+    color: var(--brand-red, #cc1f37);
+}
+.dark-mode .timer-countdown.timer-warning {
+    color: #f59e0b;
+}
+.dark-mode .timer-countdown.timer-critical {
+    color: #f87171;
 }
 .header-icons { display: flex; align-items: center; gap: 16px; color: var(--text-muted); cursor: pointer; }
 

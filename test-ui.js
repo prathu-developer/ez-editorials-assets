@@ -1035,19 +1035,31 @@
         setupKeyboardShortcuts();
 
         // Bind Timer Tick Event
-        engine.on('timerTick', (remaining, formatted, isWarning) => {
+        engine.on('timerTick', (remaining, formatted, isWarning, isCritical) => {
             const timerDisplay = document.getElementById('timer-display');
             if (timerDisplay) {
                 timerDisplay.innerText = formatted;
-                if (isWarning) timerDisplay.classList.add('timer-warning');
-                else timerDisplay.classList.remove('timer-warning');
+                if (isCritical) {
+                    timerDisplay.classList.add('timer-critical', 'timer-warning');
+                } else if (isWarning) {
+                    timerDisplay.classList.remove('timer-critical');
+                    timerDisplay.classList.add('timer-warning');
+                } else {
+                    timerDisplay.classList.remove('timer-warning', 'timer-critical');
+                }
             }
 
             const cbtClock = document.getElementById('cbt-timer-clock');
             if (cbtClock) {
                 cbtClock.innerText = formatted;
-                if (isWarning) cbtClock.classList.add('timer-warning');
-                else cbtClock.classList.remove('timer-warning');
+                if (isCritical) {
+                    cbtClock.classList.add('timer-critical', 'timer-warning');
+                } else if (isWarning) {
+                    cbtClock.classList.remove('timer-critical');
+                    cbtClock.classList.add('timer-warning');
+                } else {
+                    cbtClock.classList.remove('timer-warning', 'timer-critical');
+                }
             }
         });
 

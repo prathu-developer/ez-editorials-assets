@@ -199,8 +199,10 @@
                 const seconds = this.timeRemaining % 60;
                 const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-                const isWarning = (this.totalDurationSeconds > 600) ? (this.timeRemaining <= 300) : (this.timeRemaining <= 60);
-                this.emit('timerTick', this.timeRemaining, formatted, isWarning);
+                const total = this.initialDuration || 300;
+                const isWarning = (total > 600) ? (this.timeRemaining <= 300) : (this.timeRemaining <= 60);
+                const isCritical = (this.timeRemaining <= 60);
+                this.emit('timerTick', this.timeRemaining, formatted, isWarning, isCritical);
 
                 if (this.timeRemaining <= 0) {
                     clearInterval(this.timerInterval);
